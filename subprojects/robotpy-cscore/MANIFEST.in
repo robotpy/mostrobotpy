@@ -1,0 +1,5 @@
+include LICENSE
+recursive-include src *.h *.hpp
+recursive-include cscore_src/src *.h *.inl
+recursive-include cscore_src/include *.h *.inl
+recursive-include ntcore_src/wpiutil/include *.h
