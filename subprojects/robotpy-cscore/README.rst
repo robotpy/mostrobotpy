@@ -13,6 +13,17 @@ with Python 2.7. We do not intend to support using Python 2.7.
           binaries and the like will be available at the end of January. Please
           try this out, file bugs, and make pull requests!
 
+Limitations
+===========
+
+The cscore library currently only supports USB cameras on Linux. On other
+platforms you will want to use OpenCV to open a VideoCamera object. You can
+check at runtime to see if cscore is compiled with USB camera support by
+checking for the presence of a 'UsbCamera' class. If it's not there, it's
+not supported.
+
+See the `cvstream.py` example for using OpenCV in this manner.
+
 RoboRIO usage
 =============
 

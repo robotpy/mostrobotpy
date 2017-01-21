@@ -66,6 +66,11 @@ class get_pybind_include(object):
         import pybind11
         return pybind11.get_include(self.user)
 
+class get_numpy_include(object):
+    def __str__(self):
+        import numpy as np
+        return np.get_include()
+
 # As of Python 3.6, CCompiler has a `has_flag` method.
 # cf http://bugs.python.org/issue26689
 def has_flag(compiler, flagname):
@@ -141,7 +146,8 @@ ext_modules = [
             get_pybind_include(),
             get_pybind_include(user=True),
             'cscore_src/include',
-            'ntcore_src/wpiutil/include'
+            'ntcore_src/wpiutil/include',
+            get_numpy_include(),
         ],
         libraries=[
             'opencv_core',

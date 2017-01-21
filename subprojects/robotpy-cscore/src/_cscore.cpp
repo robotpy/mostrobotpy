@@ -163,6 +163,7 @@ PYBIND11_PLUGIN(_cscore) {
       .value("kFixedFluorescent1", VideoCamera::WhiteBalance::kFixedFluorescent1)
       .value("kFixedFlourescent2", VideoCamera::WhiteBalance::kFixedFlourescent2);
     
+#ifdef __linux__
     py::class_<UsbCamera, VideoCamera> usbcamera(m, "UsbCamera");
     usbcamera
       .def(py::init<>())
@@ -170,7 +171,8 @@ PYBIND11_PLUGIN(_cscore) {
       .def(py::init<llvm::StringRef,llvm::StringRef>())
       .def_static("enumerateUsbCameras", &UsbCamera::EnumerateUsbCameras)
       .def("getPath", &UsbCamera::GetPath);
-    
+#endif
+
     py::class_<HttpCamera, VideoCamera> httpcamera(m, "HttpCamera");
     httpcamera
       .def(py::init<llvm::StringRef,llvm::StringRef,cs::HttpCamera::HttpCameraKind>())
