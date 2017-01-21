@@ -174,22 +174,26 @@ PYBIND11_PLUGIN(_cscore) {
 #endif
 
     py::class_<HttpCamera, VideoCamera> httpcamera(m, "HttpCamera");
-    httpcamera
-      .def(py::init<llvm::StringRef,llvm::StringRef,cs::HttpCamera::HttpCameraKind>())
-      .def(py::init<llvm::StringRef,const char *,cs::HttpCamera::HttpCameraKind>())
-      .def(py::init<llvm::StringRef,std::string,cs::HttpCamera::HttpCameraKind>())
-      .def(py::init<llvm::StringRef,llvm::ArrayRef<std::string>,cs::HttpCamera::HttpCameraKind>())
-      //.def(py::init<llvm::StringRef,std::initializer_list<T>,cs::HttpCamera::HttpCameraKind>())
-      .def("getHttpCameraKind", &HttpCamera::GetHttpCameraKind)
-      .def("setUrls", (void (HttpCamera::*)(llvm::ArrayRef<std::string>))&HttpCamera::SetUrls)
-      //.def("SetUrls", (void (HttpCamera::*)(std::initializer_list<T>))&HttpCamera::SetUrls)
-      .def("getUrls", &HttpCamera::GetUrls);
     
+    // this has to come before the constructor definition
     py::enum_<HttpCamera::HttpCameraKind>(httpcamera, "HttpCameraKind")
       .value("kUnknown", HttpCamera::HttpCameraKind::kUnknown)
       .value("kMJPGStreamer", HttpCamera::HttpCameraKind::kMJPGStreamer)
       .value("kCSCore", HttpCamera::HttpCameraKind::kCSCore)
       .value("kAxis", HttpCamera::HttpCameraKind::kAxis);
+    
+    httpcamera
+      //.def(py::init<llvm::StringRef,llvm::StringRef,HttpCamera::HttpCameraKind>())
+      //.def(py::init<llvm::StringRef,const char *,cs::HttpCamera::HttpCameraKind>())
+      .def(py::init<llvm::StringRef,std::string,cs::HttpCamera::HttpCameraKind>(),
+           py::arg("name"), py::arg("url"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown)
+      .def(py::init<llvm::StringRef,llvm::ArrayRef<std::string>,HttpCamera::HttpCameraKind>(),
+           py::arg("name"), py::arg("urls"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown)
+      //.def(py::init<llvm::StringRef,std::initializer_list<T>,cs::HttpCamera::HttpCameraKind>())
+      .def("getHttpCameraKind", &HttpCamera::GetHttpCameraKind)
+      .def("setUrls", (void (HttpCamera::*)(llvm::ArrayRef<std::string>))&HttpCamera::SetUrls)
+      //.def("SetUrls", (void (HttpCamera::*)(std::initializer_list<T>))&HttpCamera::SetUrls)
+      .def("getUrls", &HttpCamera::GetUrls);
     
     py::class_<AxisCamera, HttpCamera> axiscamera(m, "AxisCamera");
     axiscamera
