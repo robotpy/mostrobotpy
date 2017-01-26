@@ -12,6 +12,7 @@ import re
 import threading
 
 import cscore
+from cscore import VideoEvent, VideoProperty, VideoSink, VideoSource
 from networktables import NetworkTables
 
 class VideoException(Exception):
@@ -31,7 +32,7 @@ class CameraServer:
         try:
             return cls._server
         except AttributeError:
-            cls._server = CameraServer()
+            cls._server = cls()
             return cls._server
     
     @staticmethod
@@ -41,11 +42,11 @@ class CameraServer:
             return "usb:" + CameraServerJNI.getUsbCameraPath(source)
         
         elif kind == cscore.kHttp:
-                urls = CameraServerJNI.getHttpCameraUrls(source)
-                if urls:
-                    return "ip:" + urls[0]
-                else:
-                    return "ip:"
+            urls = CameraServerJNI.getHttpCameraUrls(source)
+            if urls:
+                return "ip:" + urls[0]
+            else:
+                return "ip:"
             
         elif kind == cscore.kCv:
             # FIXME: Should be "cv:", but LabVIEW dashboard requires "usb:".
@@ -89,7 +90,7 @@ class CameraServer:
     
             return values
     
-    def _getSourceStreamValues(source):
+    def _getSourceStreamValues(self, source):
         with self._mutex:
             # Ignore all but HttpCamera
             if VideoSource.getKindFromInt(CameraServerJNI.getSourceKind(source)) != VideoSource.Kind.kHttp:
@@ -189,14 +190,14 @@ class CameraServer:
     @classmethod
     def _videoModeFromString(cls, modeStr):
         '''Construct a video mode from a string description.'''
-        Matcher matcher = cls._reMode.matcher(modeStr)
-        if (!matcher.matches()):
-            return new VideoMode(PixelFormat.kUnknown, 0, 0, 0)
+        matcher = cls._reMode.match(modeStr)
+        if not matcher:
+            return cscore.VideoMode(cscore.PixelFormat.kUnknown, 0, 0, 0)
         
-        pixelFormat = CameraServer._pixelFormatFromString(matcher.group("format"))
+        pixelFormat = cls._pixelFormatFromString(matcher.group("format"))
         width = int(matcher.group("width"))
         height = int(matcher.group("height"))
-        fps = int(float(matcher.group("fps"))
+        fps = int(float(matcher.group("fps")))
         return cscore.VideoMode(pixelFormat, width, height, fps)
     
 
@@ -205,8 +206,8 @@ class CameraServer:
         """/// Provide string description of video mode.
         /// The returned string is "{widthx{height:format:fpsfps".
         """
-        return mode.width + "x" + mode.height + " " + cls._pixelFormatToString(mode.pixelFormat)
-                + " " + mode.fps + " fps"
+        return (mode.width + "x" + mode.height + " " + cls._pixelFormatToString(mode.pixelFormat)
+                + " " + mode.fps + " fps")
     
     @classmethod
     def _getSourceModeValues(cls, sourceHandle):
@@ -252,10 +253,10 @@ class CameraServer:
     
     def __init__(self):
         self._mutex = threading.RLock()
-        self._sources = new HashMap<String, VideoSource>()
-        self._sinks = new HashMap<String, VideoSink>()
-        self._tables = new HashMap<Integer, ITable>()
-        self._publishTable = NetworkTables.getTable(kPublishName)
+        self._sources = {}  # type: Dict[str, VideoSource]
+        self._sinks = {}  # type: Dict[str, VideoSink]
+        self._tables = {}  # type: Dict[int, networktables.NetworkTable]
+        self._publishTable = NetworkTables.getTable(self.kPublishName)
         self._nextPort = self.kBasePort
         self._addresses = []
 
@@ -271,157 +272,119 @@ class CameraServer:
         # - "PropertyInfo/{Property" - Property supporting information
 
         # Listener for video events
-        self._videoListener = new VideoListener(event ->:
-            switch (event.kind):
-                case kSourceCreated::
-                    # Create subtable for the camera
-                    ITable table = self._publishTable.getSubTable(event.name)
-                    with self._mutex:
-                        self._tables.put(event.sourceHandle, table)
-                    
-                    table.putString("source", CameraServer._makeSourceValue(event.sourceHandle))
-                    table.putString("description",
-                            CameraServerJNI.getSourceDescription(event.sourceHandle))
-                    table.putBoolean("connected", CameraServerJNI.isSourceConnected(event.sourceHandle))
-                    table.putStringArray("streams", self._getSourceStreamValues(event.sourceHandle))
-                    VideoMode mode = CameraServerJNI.getSourceVideoMode(event.sourceHandle)
-                    table.setDefaultString("mode", CameraServer._videoModeToString(mode))
-                    table.putStringArray("modes", CameraServer._getSourceModeValues(event.sourceHandle))
-                    break
-                
-                case kSourceDestroyed::
-                    ITable table = self._getSourceTable(event.sourceHandle)
-                    if (table != null):
-                        table.putString("source", "")
-                        table.putStringArray("streams", new String[0])
-                        table.putStringArray("modes", new String[0])
-                    
-                    break
-                
-                case kSourceConnected::
-                    ITable table = self._getSourceTable(event.sourceHandle)
-                    if (table != null):
-                        # update the description too (as it may have changed)
-                        table.putString("description",
-                                CameraServerJNI.getSourceDescription(event.sourceHandle))
-                        table.putBoolean("connected", true)
-                    
-                    break
-                
-                case kSourceDisconnected::
-                    ITable table = self._getSourceTable(event.sourceHandle)
-                    if (table != null):
-                        table.putBoolean("connected", false)
-                    
-                    break
-                
-                case kSourceVideoModesUpdated::
-                    ITable table = self._getSourceTable(event.sourceHandle)
-                    if (table != null):
-                        table.putStringArray("modes", CameraServer._getSourceModeValues(event.sourceHandle))
-                    
-                    break
-                
-                case kSourceVideoModeChanged::
-                    ITable table = self._getSourceTable(event.sourceHandle)
-                    if (table != null):
-                        table.putString("mode", CameraServer._videoModeToString(event.mode))
-                    
-                    break
-                
-                case kSourcePropertyCreated::
-                    ITable table = self._getSourceTable(event.sourceHandle)
-                    if (table != null):
-                        CameraServer._putSourcePropertyValue(table, event, true)
-                    
-                    break
-                
-                case kSourcePropertyValueUpdated::
-                    ITable table = self._getSourceTable(event.sourceHandle)
-                    if (table != null):
-                        CameraServer._putSourcePropertyValue(table, event, false)
-                    
-                    break
-                
-                case kSourcePropertyChoicesUpdated::
-                    ITable table = self._getSourceTable(event.sourceHandle)
-                    if (table != null):
-                        String[] choices = CameraServerJNI.getEnumPropertyChoices(event.propertyHandle)
-                        table.putStringArray("PropertyInfo/" + event.name + "/choices", choices)
-                    
-                    break
-                
-                case kSinkSourceChanged:
-                case kSinkCreated:
-                case kSinkDestroyed::
-                    self._updateStreamValues()
-                    break
-                
-                case kNetworkInterfacesChanged::
-                    self._addresses = CameraServerJNI.getNetworkInterfaces()
-                    break
-                
-                default:
-                    break
-            
-        , 0x4fff, true)
+        self._videoListener = cscore.VideoListener(self.onVideoEvent, 0x4fff, True)
 
         # Listener for NetworkTable events
-        self._tableListener = NetworkTablesJNI.addEntryListener(kPublishName + "/",
-            (uid, key, value, flags) ->:
-                String relativeKey = key.substring(kPublishName.length() + 1)
+        self._tableListener = NetworkTablesJNI.addEntryListener(self.kPublishName + "/", self.onTableChange, ITable.NOTIFY_IMMEDIATE | ITable.NOTIFY_UPDATE)
 
-                # get source (sourceName/...)
-                int subKeyIndex = relativeKey.indexOf('/')
-                if (subKeyIndex == -1):
-                    return
-                
-                String sourceName = relativeKey.substring(0, subKeyIndex)
-                VideoSource source = self._sources.get(sourceName)
-                if (source == null):
-                    return
-                
+    def onVideoEvent(self, event):
+        if event.kind == VideoEvent.Kind.kSourceCreated:
+            # Create subtable for the camera
+            table = self._publishTable.getSubTable(event.name)
+            with self._mutex:
+                self._tables.put(event.sourceHandle, table)
 
-                # get subkey
-                relativeKey = relativeKey.substring(subKeyIndex + 1)
+            table.putString("source", CameraServer._makeSourceValue(event.sourceHandle))
+            table.putString("description",
+                    CameraServerJNI.getSourceDescription(event.sourceHandle))
+            table.putBoolean("connected", CameraServerJNI.isSourceConnected(event.sourceHandle))
+            table.putStringArray("streams", self._getSourceStreamValues(event.sourceHandle))
+            mode = CameraServerJNI.getSourceVideoMode(event.sourceHandle)  # type: cscore.VideoMode
+            table.setDefaultString("mode", CameraServer._videoModeToString(mode))
+            table.putStringArray("modes", CameraServer._getSourceModeValues(event.sourceHandle))
 
-                # handle standard names
-                String propName
-                if (relativeKey.equals("mode")):
-                    VideoMode mode = CameraServer._videoModeFromString((String) value)
-                    if (mode.pixelFormat == PixelFormat.kUnknown || !source.setVideoMode(mode)):
-                        # reset to current mode
-                        NetworkTablesJNI.putString(key, CameraServer._videoModeToString(source.getVideoMode()))
-                    
-                    return
-                else if (relativeKey.startsWith("Property/")):
-                    propName = relativeKey.substring(9)
-                else if (relativeKey.startsWith("RawProperty/")):
-                    propName = "raw_" + relativeKey.substring(12)
-                else:
-                    return    # ignore
-                
+        elif event.kind == VideoEvent.Kind.kSourceDestroyed:
+            table = self._getSourceTable(event.sourceHandle)
+            if table is not None:
+                table.putString("source", "")
+                table.putStringArray("streams", [])
+                table.putStringArray("modes", [])
 
-                # everything else is a property
-                VideoProperty property = source.getProperty(propName)
-                switch (property.getKind()):
-                    case kNone:
-                        return
-                    case kBoolean:
-                        property.set(((Boolean) value).booleanValue() ? 1 : 0)
-                        return
-                    case kInteger:
-                    case kEnum:
-                        property.set(((Double) value).intValue())
-                        return
-                    case kString:
-                        property.setString((String) value)
-                        return
-                    default:
-                        return
-                
-            , ITable.NOTIFY_IMMEDIATE | ITable.NOTIFY_UPDATE)
-    
+        elif event.kind == VideoEvent.Kind.kSourceConnected:
+            table = self._getSourceTable(event.sourceHandle)
+            if table is not None:
+                # update the description too (as it may have changed)
+                table.putString("description",
+                        CameraServerJNI.getSourceDescription(event.sourceHandle))
+                table.putBoolean("connected", True)
+
+        elif event.kind == VideoEvent.Kind.kSourceDisconnected:
+            table = self._getSourceTable(event.sourceHandle)
+            if table is not None:
+                table.putBoolean("connected", False)
+
+        elif event.kind == VideoEvent.Kind.kSourceVideoModesUpdated:
+            table = self._getSourceTable(event.sourceHandle)
+            if table is not None:
+                table.putStringArray("modes", CameraServer._getSourceModeValues(event.sourceHandle))
+
+        elif event.kind == VideoEvent.Kind.kSourceVideoModeChanged:
+            table = self._getSourceTable(event.sourceHandle)
+            if table is not None:
+                table.putString("mode", CameraServer._videoModeToString(event.mode))
+
+        elif event.kind == VideoEvent.Kind.kSourcePropertyCreated:
+            table = self._getSourceTable(event.sourceHandle)
+            if table is not None:
+                CameraServer._putSourcePropertyValue(table, event, True)
+
+        elif event.kind == VideoEvent.Kind.kSourcePropertyValueUpdated:
+            table = self._getSourceTable(event.sourceHandle)
+            if table is not None:
+                CameraServer._putSourcePropertyValue(table, event, False)
+
+        elif event.kind == VideoEvent.Kind.kSourcePropertyChoicesUpdated:
+            table = self._getSourceTable(event.sourceHandle)
+            if table is not None:
+                choices = CameraServerJNI.getEnumPropertyChoices(event.propertyHandle)  # type: List[str]
+                table.putStringArray("PropertyInfo/" + event.name + "/choices", choices)
+
+        elif event.kind in (VideoEvent.Kind.kSinkSourceChanged, VideoEvent.Kind.kSinkCreated, VideoEvent.Kind.kSinkDestroyed):
+            self._updateStreamValues()
+
+        elif event.kind == VideoEvent.Kind.kNetworkInterfacesChanged:
+            self._addresses = CameraServerJNI.getNetworkInterfaces()
+
+    def onTableChange(self, uid, key, value, flags):
+        relativeKey = key[len(self.kPublishName) + 1:]  # type: str
+
+        # get source (sourceName/...)
+        subKeyIndex = relativeKey.find('/')
+        if subKeyIndex == -1:
+            return
+
+        sourceName = relativeKey[0:subKeyIndex]
+        source = self._sources.get(sourceName)  # type: VideoSource
+        if source is None:
+            return
+
+        # get subkey
+        relativeKey = relativeKey[subKeyIndex + 1:]
+
+        # handle standard names
+        if relativeKey == "mode":
+            mode = CameraServer._videoModeFromString(value)  # type: cscore.VideoMode
+            if mode.pixelFormat == cscore.PixelFormat.kUnknown or not source.setVideoMode(mode):
+                # reset to current mode
+                NetworkTablesJNI.putString(key, CameraServer._videoModeToString(source.getVideoMode()))
+            return
+        elif relativeKey.startswith("Property/"):
+            propName = relativeKey[9:]
+        elif relativeKey.startswith("RawProperty/"):
+            propName = "raw_" + relativeKey[12:]
+        else:
+            return    # ignore
+
+        # everything else is a property
+        property = source.getProperty(propName)  # type: VideoProperty
+        if not property.isValid():
+            return
+        elif property.isBoolean():
+            property.set(1 if value.booleanValue() else 0)
+        elif property.isInteger() or property.isEnum():
+            property.set(value.intValue())
+        elif property.isString():
+            property.setString(value)
 
     def startAutomaticCapture(self):
         """Start automatically capturing images to send to the dashboard.
@@ -443,9 +406,10 @@ class CameraServer:
         a name of "USB Camera:dev".
         
         :param dev: The device number of the camera interface
+        :type dev: int
         """
-        camera = cscore.UsbCamera("USB Camera " + dev, dev)
-        startAutomaticCapture(camera)
+        camera = cscore.UsbCamera("USB Camera %d" % dev, dev)
+        self.startAutomaticCapture(camera)
         return camera
     
 
@@ -490,7 +454,7 @@ class CameraServer:
         
         :param host: Camera host IP or DNS name (e.g. "10.x.y.11")
         """
-        return addAxisCamera("Axis Camera", host)
+        return self.addAxisCamera("Axis Camera", host)
     
 
     def addAxisCamera(self, hosts):
@@ -501,7 +465,7 @@ class CameraServer:
         
         :param hosts: Array of Camera host IPs/DNS names
         """
-        return addAxisCamera("Axis Camera", hosts)
+        return self.addAxisCamera("Axis Camera", hosts)
     
 
     def addAxisCamera(self, name, host):
@@ -512,7 +476,7 @@ class CameraServer:
         """
         camera = cscore.AxisCamera(name, host)
         # Create a passthrough MJPEG server for USB access
-        startAutomaticCapture(camera)
+        self.startAutomaticCapture(camera)
         return camera
     
 
@@ -522,9 +486,9 @@ class CameraServer:
         :param name: The name to give the camera
         :param hosts: Array of Camera host IPs/DNS names
         """
-        AxisCamera camera = new AxisCamera(name, hosts)
+        camera = cscore.AxisCamera(name, hosts)
         # Create a passthrough MJPEG server for USB access
-        startAutomaticCapture(camera)
+        self.startAutomaticCapture(camera)
         return camera
     
 
@@ -553,10 +517,10 @@ class CameraServer:
         
         :param camera: Camera (e.g. as returned by startAutomaticCapture).
         """
-        String name = "opencv_" + camera.getName()
+        name = "opencv_" + camera.getName()
 
         with self._mutex:
-            VideoSink sink = self._sinks.get(name)
+            sink = self._sinks.get(name)  # type: cscore.VideoSink
             if sink is not None:
                 kind = sink.getKind()
                 if kind != cscore.VideoSink.Kind.kCv:
@@ -566,7 +530,7 @@ class CameraServer:
         
         newsink = cscore.CvSink(name)
         newsink.setSource(camera)
-        addServer(newsink)
+        self.addServer(newsink)
         return newsink
     
 
@@ -576,7 +540,6 @@ class CameraServer:
         
         :param name: Camera name
         """
-        VideoSource source
         with self._mutex:
             source = self._sources.get(name)
             if source is None:
@@ -639,7 +602,7 @@ class CameraServer:
         """
         name = camera.getName()
         with self._mutex:
-            if (self._primarySourceName == null):
+            if self._primarySourceName is None:
                 self._primarySourceName = name
             
             self._sources.put(name, camera)
