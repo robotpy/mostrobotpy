@@ -151,8 +151,9 @@ ext_modules = [
         ],
         libraries=[
             'opencv_core',
+            'opencv_highgui',
             'opencv_imgproc',
-            'opencv_highgui'
+            'opencv_imgcodecs',
         ],
         language='c++',
     ),
@@ -169,7 +170,8 @@ setup(
     packages=find_packages(),
     ext_modules=ext_modules,
     install_requires=None,
-    cmdclass={'build_ext': BuildExt},
     license="BSD",
     zip_safe=False,
+    cmdclass={'build_ext': BuildExt},
+    entry_points={'robotpylib': ['info = cscore._info:Info']}
 )
