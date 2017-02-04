@@ -134,7 +134,7 @@ def recursive_glob(d):
 
 ext_modules = [
     Extension(
-        'cscore/_cscore',
+        'cscore._cscore',
         [
             'src/_cscore.cpp',
             'src/ndarray_converter.cpp',
