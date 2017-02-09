@@ -116,29 +116,47 @@ PYBIND11_PLUGIN(_cscore) {
       .def("getHandle", &VideoSource::GetHandle)
       .def(py::self == py::self)
       .def(py::self != py::self)
-      .def("getKind", &VideoSource::GetKind)
-      .def("getName", &VideoSource::GetName)
-      .def("getDescription", &VideoSource::GetDescription)
-      .def("getLastFrameTime", &VideoSource::GetLastFrameTime)
-      .def("isConnected", &VideoSource::IsConnected)
-      .def("getProperty", py::release_gil(&VideoSource::GetProperty))
-      .def("enumerateProperties", py::release_gil(&VideoSource::EnumerateProperties))
-      .def("getVideoMode", py::release_gil(&VideoSource::GetVideoMode))
+      .def("getKind", &VideoSource::GetKind, "Get the kind of the source")
+      .def("getName", &VideoSource::GetName, "Get teh name of the source. The name is an arbitrary identifier" \
+          " provided when the source is created, and should be unique.")
+      .def("getDescription", &VideoSource::GetDescriptionk, "Get the source description.  This is source-kind specific.")
+      .def("getLastFrameTime", &VideoSource::GetLastFrameTime, "Get the last time a frame was captured.")
+      .def("isConnected", &VideoSource::IsConnected, "Is the source currently connected to whatever is providing the images?")
+      .def("getProperty", py::release_gil(&VideoSource::GetProperty), "Get a property.\n"  \
+          "@param name Property name\n"\
+          "@return Property contents (of kind Property::kNone if no property with the given name exists")
+      .def("enumerateProperties", py::release_gil(&VideoSource::EnumerateProperties), "Enumerate all properties of this source")
+      .def("getVideoMode", py::release_gil(&VideoSource::GetVideoMode), "Get the current video mode.")
       .def("setVideoMode", [](VideoSource &__inst, VideoMode mode) {
         py::gil_scoped_release __release;
         return __inst.SetVideoMode(mode);
-      })
+      }, "Set the video mode.\n"\
+          "@param mode Video mode")
       .def("setVideoMode", [](VideoSource &__inst, VideoMode::PixelFormat pixelFormat, int width, int height, int fps) {
         py::gil_scoped_release __release;
         return __inst.SetVideoMode(pixelFormat, width, height, fps);
-      })
-      .def("setPixelFormat", py::release_gil(&VideoSource::SetPixelFormat))
-      .def("setResolution", py::release_gil(&VideoSource::SetResolution))
-      .def("setFPS", py::release_gil(&VideoSource::SetFPS))
-      .def("enumerateVideoModes", py::release_gil(&VideoSource::EnumerateVideoModes))
+      }, "Set the video mode.\n"\
+          "@param pixelFormat desired pixel format\n"\
+          "@param width desired width\n"\
+          "@param height desired height\n"\
+          "@param fps desired FPS\n"\
+          "@return True if set successfully")
+      .def("setPixelFormat", py::release_gil(&VideoSource::SetPixelFormat), "Set the pixel format.\n"\
+          "@param pixelFormat desired pixel format\n"\
+          "@return True if set successfully")
+      .def("setResolution", py::release_gil(&VideoSource::SetResolution), "Set the resolution.\n"\
+          "@param width desired width\n"\
+          "@param height desired height\n"\
+          "@return True if set successfully")
+      .def("setFPS", py::release_gil(&VideoSource::SetFPS), "Set the frames per second (FPS).\n"\
+          "@param fps desired FPS\n"\
+          "@return True if set successfully")
+      .def("enumerateVideoModes", py::release_gil(&VideoSource::EnumerateVideoModes), "Enumerate all known video modes for this source.")
       .def("getLastStatus", py::release_gil(&VideoSource::GetLastStatus))
-      .def("enumerateSinks", py::release_gil(&VideoSource::EnumerateSinks))
-      .def_static("enumerateSources", py::release_gil(&VideoSource::EnumerateSources));
+      .def("enumerateSinks", py::release_gil(&VideoSource::EnumerateSinks), "Enumerate all sinks connected to this source.\n"\
+          "@return Vector of sinks.")
+      .def_static("enumerateSources", py::release_gil(&VideoSource::EnumerateSources), "Enumerate all existing sources.\n"\
+                 "@return Vector of sources.");
       //.def("__repr__", [](VideoSource &__inst){
       //  std::stringstream id;
       //  id << (void const *)&__inst;
@@ -154,14 +172,14 @@ PYBIND11_PLUGIN(_cscore) {
     py::class_<VideoCamera, VideoSource> videocamera(m, "VideoCamera");
     videocamera
       .def(py::init<>())
-      .def("setBrightness", py::release_gil(&VideoCamera::SetBrightness))
-      .def("getBrightness", py::release_gil(&VideoCamera::GetBrightness))
-      .def("setWhiteBalanceAuto", py::release_gil(&VideoCamera::SetWhiteBalanceAuto))
-      .def("setWhiteBalanceHoldCurrent", py::release_gil(&VideoCamera::SetWhiteBalanceHoldCurrent))
-      .def("setWhiteBalanceManual", py::release_gil(&VideoCamera::SetWhiteBalanceManual))
-      .def("setExposureAuto", py::release_gil(&VideoCamera::SetExposureAuto))
-      .def("setExposureHoldCurrent", py::release_gil(&VideoCamera::SetExposureHoldCurrent))
-      .def("setExposureManual", py::release_gil(&VideoCamera::SetExposureManual));
+      .def("setBrightness", py::release_gil(&VideoCamera::SetBrightness), "Set the brightness, as a percentage (0-100).")
+      .def("getBrightness", py::release_gil(&VideoCamera::GetBrightness), "Get the brightness, as a percentage (0-100).")
+      .def("setWhiteBalanceAuto", py::release_gil(&VideoCamera::SetWhiteBalanceAuto), "Set the white balance to auto.")
+      .def("setWhiteBalanceHoldCurrent", py::release_gil(&VideoCamera::SetWhiteBalanceHoldCurrent), "Set the white balance to hold current.")
+      .def("setWhiteBalanceManual", py::release_gil(&VideoCamera::SetWhiteBalanceManual), "Set the white balance to manual, with specified color temperature.")
+      .def("setExposureAuto", py::release_gil(&VideoCamera::SetExposureAuto), "Set the exposure to auto aperature.")
+      .def("setExposureHoldCurrent", py::release_gil(&VideoCamera::SetExposureHoldCurrent), "Set the exposure to hold current.")
+      .def("setExposureManual", py::release_gil(&VideoCamera::SetExposureManual), "Set the exposure to manual, as a percentage (0-100).");
     
     py::enum_<VideoCamera::WhiteBalance>(videocamera, "WhiteBalance")
       .value("kFixedIndoor", VideoCamera::WhiteBalance::kFixedIndoor)
@@ -174,10 +192,15 @@ PYBIND11_PLUGIN(_cscore) {
     py::class_<UsbCamera, VideoCamera> usbcamera(m, "UsbCamera");
     usbcamera
       .def(py::init<>())
-      .def(py::init<llvm::StringRef,int>())
-      .def(py::init<llvm::StringRef,llvm::StringRef>())
-      .def_static("enumerateUsbCameras", py::release_gil(&UsbCamera::EnumerateUsbCameras))
-      .def("getPath", &UsbCamera::GetPath);
+      .def(py::init<llvm::StringRef,int>(), "Create a source for a USB camera based on device number.\n"\ 
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param dev Device number (e.g. 0 for /dev/video0)")
+      .def(py::init<llvm::StringRef,llvm::StringRef>(), "Create a source for a USB camera based on device path."\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param path Path to device (e.g. /dev/video0 on Linux)")
+      .def_static("enumerateUsbCameras", py::release_gil(&UsbCamera::EnumerateUsbCameras), "Enumerate USB cameras on the local system.\n"\
+                 "@return Vector of USB camera information (one for each camera)")
+      .def("getPath", &UsbCamera::GetPath, "Get the path to the device.");
 #endif
 
     py::class_<HttpCamera, VideoCamera> httpcamera(m, "HttpCamera");
@@ -193,37 +216,81 @@ PYBIND11_PLUGIN(_cscore) {
       //.def(py::init<llvm::StringRef,llvm::StringRef,HttpCamera::HttpCameraKind>())
       //.def(py::init<llvm::StringRef,const char *,cs::HttpCamera::HttpCameraKind>())
       .def(py::init<llvm::StringRef,std::string,cs::HttpCamera::HttpCameraKind>(),
-           py::arg("name"), py::arg("url"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown)
+           py::arg("name"), py::arg("url"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown, "Create a source for a MJPEG-over-HTTP (IP) camera.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param urls Array of Camera URLs\n"\
+          "@param kind Camera kind (e.g. kAxis)")
       .def(py::init<llvm::StringRef,llvm::ArrayRef<std::string>,HttpCamera::HttpCameraKind>(),
-           py::arg("name"), py::arg("urls"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown)
+           py::arg("name"), py::arg("urls"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown,  "Create a source for a MJPEG-over-HTTP (IP) camera.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param urls Array of Camera URLs\n"\
+          "@param kind Camera kind (e.g. kAxis)")
       //.def(py::init<llvm::StringRef,std::initializer_list<T>,cs::HttpCamera::HttpCameraKind>())
-      .def("getHttpCameraKind", py::release_gil(&HttpCamera::GetHttpCameraKind))
-      .def("setUrls", py::release_gil((void (HttpCamera::*)(llvm::ArrayRef<std::string>))&HttpCamera::SetUrls))
+      .def("getHttpCameraKind", py::release_gil(&HttpCamera::GetHttpCameraKind), "Get the kind of HTTP camera.\n"\
+          "Autodetection can result in returning a different value than the camera was created with.")
+      .def("setUrls", py::release_gil((void (HttpCamera::*)(llvm::ArrayRef<std::string>))&HttpCamera::SetUrls), "Change the URLs used to connect to the camera.")
       //.def("SetUrls", (void (HttpCamera::*)(std::initializer_list<T>))&HttpCamera::SetUrls)
-      .def("getUrls", py::release_gil(&HttpCamera::GetUrls));
+      .def("getUrls", py::release_gil(&HttpCamera::GetUrls), "Get the URLs used to connect to the camera.");
     
     py::class_<AxisCamera, HttpCamera> axiscamera(m, "AxisCamera");
     axiscamera
-      .def(py::init<llvm::StringRef,llvm::StringRef>())
-      .def(py::init<llvm::StringRef,const char *>())
-      .def(py::init<llvm::StringRef,std::string>())
-      .def(py::init<llvm::StringRef,llvm::ArrayRef<std::string>>());
+      .def(py::init<llvm::StringRef,llvm::StringRef>(),  "Create a source for a MJPEG-over-HTTP (IP) camera.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param urls Array of Camera URLs\n"\
+          "@param kind Camera kind (e.g. kAxis)")
+      .def(py::init<llvm::StringRef,const char *>(),  "Create a source for a MJPEG-over-HTTP (IP) camera.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param urls Array of Camera URLs\n"\
+          "@param kind Camera kind (e.g. kAxis)")
+      .def(py::init<llvm::StringRef,std::string>(),  "Create a source for a MJPEG-over-HTTP (IP) camera.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param urls Array of Camera URLs\n"\
+          "@param kind Camera kind (e.g. kAxis)")
+      .def(py::init<llvm::StringRef,llvm::ArrayRef<std::string>>(),  "Create a source for a MJPEG-over-HTTP (IP) camera.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param urls Array of Camera URLs\n"\
+          "@param kind Camera kind (e.g. kAxis)");
       //.def(py::init<llvm::StringRef,std::initializer_list<T>>());
     
     py::class_<CvSource, VideoSource> cvsource(m, "CvSource");
     cvsource
       .def(py::init<>())
-      .def(py::init<llvm::StringRef,VideoMode>())
-      .def(py::init<llvm::StringRef,VideoMode::PixelFormat,int,int,int>())
+      .def(py::init<llvm::StringRef,VideoMode>(), "Create an OpenCV source.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param mode Video mode being generated")
+      .def(py::init<llvm::StringRef,VideoMode::PixelFormat,int,int,int>(), "Create an OpenCV source.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param pixelFormat Pixel format\n"\
+          "@param width width\n"\
+          "@param height height\n"\
+          "@param fps fps")
       .def("putFrame", [](CvSource &__inst, cv::Mat &image) {
         py::gil_scoped_release release;
         __inst.PutFrame(image);
-      })
-      .def("notifyError", &CvSource::NotifyError)
-      .def("setConnected", &CvSource::SetConnected)
-      .def("setDescription", &CvSource::SetDescription)
-      .def("createProperty", py::release_gil(&CvSource::CreateProperty))
-      .def("setEnumPropertyChoices", py::release_gil((void (CvSource::*)(const VideoProperty &property, llvm::ArrayRef<std::string> choices))&CvSource::SetEnumPropertyChoices));
+      }, "Put an OpenCV image and notify sinks.\n"\
+          "Only 8-bit single-channel or 3-channel (with BGR channel order) images\n"\
+          "are supported. If the format, depth or channel order is different, use\n"\
+          "cv::Mat::convertTo() and/or cv::cvtColor() to convert it first.\n"\
+          "@param image OpenCV image")
+      .def("notifyError", &CvSource::NotifyError, "Signal sinks that an error has occurred.  This should be called instead"\
+          "of NotifyFrame when an error occurs.")
+      .def("setConnected", &CvSource::SetConnected, "Set source connection status.  Defaults to true.\n"\
+          "@param connected True for connected, false for disconnected")
+      .def("setDescription", &CvSource::SetDescription, "Set source description.\n"\
+          "@param description Description")
+      .def("createProperty", py::release_gil(&CvSource::CreateProperty), "Create a property.\n"\
+          "@param name Property name\n"\
+          "@param kind Property kind\n"\
+          "@param minimum Minimum value\n"\
+          "@param maximum Maximum value\n"\
+          "@param step Step value\n"\
+          "@param defaultValue Default value\n"\
+          "@param value Current value\n"\
+          "@return Property\n")
+      .def("setEnumPropertyChoices", py::release_gil((void (CvSource::*)(const VideoProperty &property, llvm::ArrayRef<std::string> choices))&CvSource::SetEnumPropertyChoices),
+          "Configure enum property choices.\n"\
+          "@param property Property\n"\
+          "@param choices Choices");
       /*.def("SetEnumPropertyChoices", [](CvSource &__inst, std::initializer_list<T> choices) {
         cs::VideoProperty property;
         auto __ret = __inst.SetEnumPropertyChoices(property, choices);
@@ -238,14 +305,22 @@ PYBIND11_PLUGIN(_cscore) {
       .def("getHandle", &VideoSink::GetHandle)
       .def(py::self == py::self)
       .def(py::self != py::self)
-      .def("getKind", &VideoSink::GetKind)
-      .def("getName", &VideoSink::GetName)
-      .def("getDescription", &VideoSink::GetDescription)
-      .def("setSource", py::release_gil(&VideoSink::SetSource))
-      .def("getSource", py::release_gil(&VideoSink::GetSource))
-      .def("getSourceProperty", py::release_gil(&VideoSink::GetSourceProperty))
+      .def("getKind", &VideoSink::GetKind, "Get the kind of the sink.")
+      .def("getName", &VideoSink::GetName, "Get the name of the sink.  The name is an arbitrary identifier"\
+          " provided when the sink is created, and should be unique.")
+      .def("getDescription", &VideoSink::GetDescription, "Get the sink description.  This is sink-kind specific.")
+      .def("setSource", py::release_gil(&VideoSink::SetSource), "Configure which source should provide frames to this sink.  Each sink"\
+          "can accept frames from only a single source, but a single source can"\
+          "provide frames to multiple clients.\n"\
+          "@param source Source")
+      .def("getSource", py::release_gil(&VideoSink::GetSource), "Get the connected source.\n"\
+          "@return Connected source (empty if none connected).")
+      .def("getSourceProperty", py::release_gil(&VideoSink::GetSourceProperty), "Get a property of the associated source.\n"\
+          "@param name Property name\n"\
+          "@return Property (kind Property::kNone if no property with the given name exists or no source connected)")
       .def("getLastStatus", &VideoSink::GetLastStatus)
-      .def_static("enumerateSinks", py::release_gil(&VideoSink::EnumerateSinks));
+      .def_static("enumerateSinks", py::release_gil(&VideoSink::EnumerateSinks), "Enumerate all existing sinks.\n"\
+                 "@return Vector of sinks.");
     
     py::enum_<VideoSink::Kind>(videosink, "Kind")
       .value("kUnknown", VideoSink::Kind::kUnknown)
@@ -255,24 +330,44 @@ PYBIND11_PLUGIN(_cscore) {
     py::class_<MjpegServer, VideoSink> mjpegserver(m, "MjpegServer");
     mjpegserver
       .def(py::init<>())
-      .def(py::init<llvm::StringRef,llvm::StringRef,int>())
-      .def(py::init<llvm::StringRef,int>())
-      .def("getListenAddress", &MjpegServer::GetListenAddress)
-      .def("getPort", &MjpegServer::GetPort);
+      .def(py::init<llvm::StringRef,llvm::StringRef,int>(), "Create a MJPEG-over-HTTP server sink.\n"\
+          "@param name Sink name (arbitrary unique identifier)\n"\
+          "@param listenAddress TCP listen address (empty string for all addresses)\n"\
+          "@param port TCP port number")
+      .def(py::init<llvm::StringRef,int>(), "Create a MJPEG-over-HTTP server sink.\n"\
+          "@param name Sink name (arbitrary unique identifier)\n"\
+          "@param port TCP port number")
+      .def("getListenAddress", &MjpegServer::GetListenAddress, "Get the listen address of the server.")
+      .def("getPort", &MjpegServer::GetPort, "Get the port number of the server.");
     
     py::class_<CvSink, VideoSink> cvsink(m, "CvSink");
     cvsink
       .def(py::init<>())
-      .def(py::init<llvm::StringRef>())
-      .def(py::init<llvm::StringRef,std::function<void(uint64_t)>>())
-      .def("setDescription", &CvSink::SetDescription)
+      .def(py::init<llvm::StringRef>(), "Create a sink for accepting OpenCV images.\n"\
+          "WaitForFrame() must be called on the created sink to get each new image\n"\
+          "@param name Source name (arbitrary unique identifier)")
+      .def(py::init<llvm::StringRef,std::function<void(uint64_t)>>(), "Create a sink for accepting OpenCV images in a separate thread."\
+          "A thread will be created that calls WaitForFrame() and calls the"\
+          " processFrame() callback each time a new frame arrives.\n"\
+          "@param name Source name (arbitrary unique identifier)\n"\
+          "@param processFrame Frame processing function; will be called with a"\
+          " time=0 if an error occurred.  processFrame should call GetImage()"\
+          "or GetError() as needed, but should not call (except in very"\
+          "unusual circumstances) WaitForImage().")
+      .def("setDescription", &CvSink::SetDescription, "Set sink description.\n"\
+          "@param description Description")
       .def("grabFrame", [](CvSink &__inst, cv::Mat &image) {
         py::gil_scoped_release release;
         auto __ret = __inst.GrabFrame(image);
         return std::make_tuple(__ret, image);
-      })
-      .def("getError", &CvSink::GetError)
-      .def("setEnabled", &CvSink::SetEnabled);
+      }, "Wait for the next frame and get the image.\n"\
+          "The provided image will have three 8-bit channels stored in BGR order.\n"\
+          "@return Frame time, or 0 on error (call GetError() to obtain the error message);")
+      .def("getError", &CvSink::GetError, "Get error string.  Call this if WaitForFrame() returns 0 to determine what the error is.")
+      .def("setEnabled", &CvSink::SetEnabled, "Enable or disable getting new frames.\n"\
+          "Disabling will cause processFrame (for callback-based CvSinks) to not"\
+          " be called and WaitForFrame() to not return.  This can be used to save"\
+          " processor resources when frames are not needed.");
     
     py::class_<RawEvent> rawevent(m, "RawEvent");
     rawevent
@@ -310,7 +405,11 @@ PYBIND11_PLUGIN(_cscore) {
     
     py::class_<VideoListener> videolistener(m, "VideoListener");
     videolistener
-      .def(py::init<std::function<void(const VideoEvent&)>,int,bool>());
+      .def(py::init<std::function<void(const VideoEvent&)>,int,bool>(), "Create an event listener.\n"\
+          "@param callback Callback function\n"\
+          "@param eventMask Bitmask of VideoEvent::Kind values\n"\
+          "@param immediateNotify Whether callback should be immediately called with"\
+          " a representative set of events for the current library state.");
 
     return m.ptr();
 }
