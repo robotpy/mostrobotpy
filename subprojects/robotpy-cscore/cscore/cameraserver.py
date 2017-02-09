@@ -402,7 +402,7 @@ class CameraServer:
         # .. reset to current setting
         prop = source.getProperty(propName)  # type: VideoProperty
         if prop.isBoolean():
-            self._nt.putBoolean(key, 1 if value.get() else 0)
+            self._nt.putBoolean(key, prop.get() != 0)
         elif prop.isInteger() or prop.isEnum():
             self._nt.putNumber(key, prop.get())
         elif prop.isString():
