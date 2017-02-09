@@ -16,7 +16,7 @@ import cscore
 from cscore import VideoEvent, VideoProperty, VideoSink, VideoSource
 
 import logging
-logger = logging.getLogger('cserver')
+logger = logging.getLogger('cscore.cserver')
 
 from networktables import NetworkTables
 
@@ -577,7 +577,12 @@ class CameraServer:
                     
                 server = cscore.MjpegServer(name, port)
             
-            self._sinks[server.getName()] = server
+            sname = server.getName()
+            sport = server.getPort()
+            
+            logger.info("CameraServer '%s' listening on port %s", sname, sport)
+            
+            self._sinks[sname] = server
             return server
     
     def removeServer(self, name):
