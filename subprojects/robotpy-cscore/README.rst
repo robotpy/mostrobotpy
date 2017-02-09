@@ -24,6 +24,14 @@ not supported.
 
 See the `cvstream.py` example for using OpenCV in this manner.
 
+Quick usage
+===========
+
+The following will launch a USB Webcam server locally that can be queried via
+NetworkTables::
+
+    python3 -m cscore
+
 RoboRIO usage
 =============
 

@@ -173,7 +173,7 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     ext_modules=ext_modules,
-    install_requires=None,
+    install_requires=['pynetworktables'],
     license="BSD",
     zip_safe=False,
     cmdclass={'build_ext': BuildExt},
