@@ -116,8 +116,12 @@ class BuildExt(build_ext):
         opts = self.c_opts.get(ct, [])
         if ct == 'unix':
             opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
-            opts.append('-s') # strip
-            opts.append('-g0') # remove debug symbols
+            # TODO: this feels like a hack
+            if not os.environ.get('RPY_DEBUG'):
+                opts.append('-s') # strip
+                opts.append('-g0') # remove debug symbols
+            else:
+                opts.append('-O0')
             opts.append(cpp_flag(self.compiler))
             if has_flag(self.compiler, '-fvisibility=hidden'):
                 opts.append('-fvisibility=hidden')

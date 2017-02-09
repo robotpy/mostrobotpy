@@ -1,6 +1,6 @@
 [submodule "cscore_src"]
 	path = cscore_src
-	url = https://github.com/wpilibsuite/cscore.git
+	url = https://github.com/robotpy/cscore.git
 [submodule "ntcore_src"]
 	path = ntcore_src
-	url = https://github.com/wpilibsuite/ntcore
+	url = https://github.com/wpilibsuite/ntcore.git

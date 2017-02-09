@@ -1,6 +1,9 @@
 *.pyc
 *.egg-info
 __pycache__
+*.so
+*.dll
+
 dist
 build
 version.py
