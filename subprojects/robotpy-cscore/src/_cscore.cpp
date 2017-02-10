@@ -129,7 +129,7 @@ PYBIND11_PLUGIN(_cscore) {
       .def("getProperty", py::release_gil(&VideoSource::GetProperty), py::arg("name"),
           "Get a property.\n\n"
           ":param name: Property name\n"
-          ":returns: Property contents (of kind Property::kNone if no property with the given name exists")
+          ":returns: Property contents (VideoSource.Kind.kNone if no property with the given name exists)")
       .def("enumerateProperties", py::release_gil(&VideoSource::EnumerateProperties), "Enumerate all properties of this source")
       .def("getVideoMode", py::release_gil(&VideoSource::GetVideoMode), "Get the current video mode.")
       .def("setVideoMode", [](VideoSource &__inst, VideoMode mode) {
@@ -166,10 +166,10 @@ PYBIND11_PLUGIN(_cscore) {
       .def("getLastStatus", py::release_gil(&VideoSource::GetLastStatus))
       .def("enumerateSinks", py::release_gil(&VideoSource::EnumerateSinks),
           "Enumerate all sinks connected to this source.\n\n"
-          ":returns: Vector of sinks.")
+          ":returns: list of sinks.")
       .def_static("enumerateSources", py::release_gil(&VideoSource::EnumerateSources),
           "Enumerate all existing sources.\n\n"
-          ":returns: Vector of sources.");
+          ":returns: list of sources.");
       //.def("__repr__", [](VideoSource &__inst){
       //  std::stringstream id;
       //  id << (void const *)&__inst;
@@ -220,15 +220,15 @@ PYBIND11_PLUGIN(_cscore) {
           py::arg("name"), py::arg("dev"),
           "Create a source for a USB camera based on device number.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
-          ":param dev: Device number (e.g. 0 for /dev/video0)")
+          ":param dev: Device number (e.g. 0 for ``/dev/video0``)")
       .def(py::init<llvm::StringRef,llvm::StringRef>(),
           py::arg("name"), py::arg("path"),
           "Create a source for a USB camera based on device path.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
-          ":param path: Path to device (e.g. /dev/video0 on Linux)")
+          ":param path: Path to device (e.g. ``/dev/video0`` on Linux)")
       .def_static("enumerateUsbCameras", py::release_gil(&UsbCamera::EnumerateUsbCameras),
           "Enumerate USB cameras on the local system.\n\n"
-          ":returns: Vector of USB camera information (one for each camera)")
+          ":returns: list of USB camera information (one for each camera)")
       .def("getPath", &UsbCamera::GetPath, "Get the path to the device.");
 #endif
 
@@ -317,12 +317,12 @@ PYBIND11_PLUGIN(_cscore) {
       }, "Put an OpenCV image and notify sinks.\n\n"
           "Only 8-bit single-channel or 3-channel (with BGR channel order) images "
           "are supported. If the format, depth or channel order is different, use "
-          "cv2.convertTo() and/or cv2.cvtColor() to convert it first.\n\n"
+          "``cv2.convertTo()`` and/or ``cv2.cvtColor()`` to convert it first.\n\n"
           ":param image: OpenCV image")
       .def("notifyError", &CvSource::NotifyError,
           py::arg("msg"),
           "Signal sinks that an error has occurred.  This should be called instead "
-          "of NotifyFrame when an error occurs.")
+          "of :meth:`putFrame` when an error occurs.")
       .def("setConnected", &CvSource::SetConnected,
           py::arg("connected"),
           "Set source connection status.  Defaults to true.\n\n"
@@ -379,11 +379,11 @@ PYBIND11_PLUGIN(_cscore) {
       .def("getSourceProperty", py::release_gil(&VideoSink::GetSourceProperty),
           "Get a property of the associated source.\n\n"
           ":param name: Property name\n"
-          ":returns: Property (kind Property::kNone if no property with the given name exists or no source connected)")
+          ":returns: Property (VideoSink.Kind.kNone if no property with the given name exists or no source connected)")
       .def("getLastStatus", &VideoSink::GetLastStatus)
       .def_static("enumerateSinks", py::release_gil(&VideoSink::EnumerateSinks),
           "Enumerate all existing sinks.\n\n"
-          ":returns: Vector of sinks.");
+          ":returns: list of sinks.");
     
     py::enum_<VideoSink::Kind>(videosink, "Kind")
       .value("kUnknown", VideoSink::Kind::kUnknown)
@@ -413,18 +413,17 @@ PYBIND11_PLUGIN(_cscore) {
       .def(py::init<llvm::StringRef>(),
           py::arg("name"),
           "Create a sink for accepting OpenCV images. "
-          "WaitForFrame() must be called on the created sink to get each new image\n\n"
+          ":meth:`grabFrame` must be called on the created sink to get each new image\n\n"
           ":param name: Source name (arbitrary unique identifier)")
-      .def(py::init<llvm::StringRef,std::function<void(uint64_t)>>(),
+      /*.def(py::init<llvm::StringRef,std::function<void(uint64_t)>>(),
           py::arg("name"), py::arg("processFrame"),
           "Create a sink for accepting OpenCV images in a separate thread. "
-          "A thread will be created that calls WaitForFrame() and calls the "
-          "processFrame() callback each time a new frame arrives.\n\n"
+          "A thread will be created that calls the "
+          "``processFrame`` callback each time a new frame arrives.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param processFrame: Frame processing function; will be called with a "
-          "time=0 if an error occurred.  processFrame should call GetImage() "
-          "or GetError() as needed, but should not call (except in very "
-          "unusual circumstances) WaitForImage().")
+          "time=0 if an error occurred.  processFrame should call :meth:`grabFrame`"
+          "or :meth:`getError` as needed.")*/
       .def("setDescription", &CvSink::SetDescription,
           py::arg("description"),
           "Set sink description.\n\n"
@@ -435,14 +434,14 @@ PYBIND11_PLUGIN(_cscore) {
         return std::make_tuple(__ret, image);
       }, "Wait for the next frame and get the image.\n"
           "The provided image will have three 8-bit channels stored in BGR order.\n\n"
-          ":returns: Frame time, or 0 on error (call GetError() to obtain the error message), returned image")
+          ":returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image")
       .def("getError", &CvSink::GetError,
-           "Get error string.  Call this if WaitForFrame() returns 0 to determine what the error is.")
+           "Get error string.  Call this if :meth:`grabFrame` returns 0 to determine what the error is.")
       .def("setEnabled", &CvSink::SetEnabled,
           py::arg("enabled"),
           "Enable or disable getting new frames.\n"
           "Disabling will cause processFrame (for callback-based CvSinks) to not"
-          " be called and WaitForFrame() to not return.  This can be used to save"
+          " be called and :meth:`grabFrame` to not return.  This can be used to save"
           " processor resources when frames are not needed.");
     
     py::class_<RawEvent> rawevent(m, "RawEvent");
@@ -485,7 +484,7 @@ PYBIND11_PLUGIN(_cscore) {
           py::arg("callback"), py::arg("eventMask"), py::arg("immediateNotify"),
           "Create an event listener.\n\n"
           ":param callback: Callback function\n"
-          ":param eventMask: Bitmask of VideoEvent::Kind values\n"
+          ":param eventMask: Bitmask of VideoEvent.Kind values\n"
           ":param immediateNotify: Whether callback should be immediately called with"
           " a representative set of events for the current library state.");
 

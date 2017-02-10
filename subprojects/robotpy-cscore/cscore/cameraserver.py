@@ -27,7 +27,10 @@ class VideoException(Exception):
 
 class CameraServer:
     """Singleton class for creating and keeping camera servers.
-    Also publishes camera information to NetworkTables.
+    
+    This is a higher level wrapper around the cscore functionality, and also
+    publishes camera information to NetworkTables so that dashboards can easily
+    find and display the camera streams.
     """
     
     kBasePort = 1181
@@ -413,14 +416,15 @@ class CameraServer:
         
         You should call this method to see a camera feed on the dashboard.
         If you also want to perform vision processing on the roboRIO, use
-        getVideo() to get access to the camera images.
+        :meth:`getVideo` to get access to the camera images.
         
         :param dev: If specified, the device number to use
         :param name: If specified, the name to use for the camera (dev must be specified)
         :param path: If specified, device path (e.g. "/dev/video0") of the camera
         :param camera: If specified, an existing camera object to use
         
-        :returns: camera object
+        :returns: USB Camera object, or the camera argument
+        :rtype: :class:`cscore.VideoSource` object
         
         The following argument combinations are accepted -- all argument must be specified
         as keyword arguments:
@@ -433,8 +437,8 @@ class CameraServer:
         
         If no arguments are specified, a USB Camera from device 0 is created.
         
-        .. node:: USB Cameras are not available on all platforms. If it is not
-                  available on your platform, VideoException is thrown
+        .. note:: USB Cameras are not available on all platforms. If it is not
+                  available on your platform, :exc:`.VideoException` is thrown
         
         """
         
@@ -475,7 +479,8 @@ class CameraServer:
         :param host: String or list of camera host IPs/DNS names
         :param name: optional name of camera
         
-        :returns: camera object
+        :returns: Axis camera object
+        :rtype: :class:`cscore.AxisCamera`
         """
         camera = cscore.AxisCamera(name, host)
         # Create a passthrough MJPEG server
@@ -541,6 +546,9 @@ class CameraServer:
         :param name: Name to give the stream
         :param width: Width of the image being sent
         :param height: Height of the image being sent
+        
+        :returns: CvSource object that you can publish images to
+        :rtype: :class:`cscore.CvSource`
         """
         source = cscore.CvSource(name, cscore.VideoMode.PixelFormat.kMJPEG, width, height, 30)
         self.startAutomaticCapture(camera=source)
@@ -554,6 +562,7 @@ class CameraServer:
         :param server: 
         
         :returns: server object
+        :rtype: :class:`cscore.VideoSink`
         
         All arguments must be specified as keyword arguments. The following
         combinations are accepted:
@@ -598,6 +607,10 @@ class CameraServer:
         
         This is only valid to call after a camera feed has been added
         with :meth:`startAutomaticCapture` or :meth:`addServer`
+        
+        :param name: Name of server or None
+        
+        :returns: server object
         """
         with self._mutex:
             if name is None:
@@ -614,7 +627,8 @@ class CameraServer:
     def addCamera(self, camera):
         """Adds an already created camera.
         
-        :param camera: Camera
+        :param camera: Camera object
+        :type camera: :class:`cscore.VideoSource`
         """
         name = camera.getName()
         with self._mutex:
@@ -632,6 +646,7 @@ class CameraServer:
             self._sources.pop(name, None)
 
     def waitForever(self):
+        """Infinitely loops until the process dies"""
         import time
         while True:
             time.sleep(1)
