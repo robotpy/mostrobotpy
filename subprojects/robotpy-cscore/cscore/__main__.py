@@ -39,7 +39,9 @@ def main():
     parser.add_argument('-v', '--verbose', action='store_true', default=False,
                         help="Enable debug logging")
     parser.add_argument('--robot', help="Robot's IP address", default='127.0.0.1')
-    parser.add_argument('vision_py', nargs='?')
+    parser.add_argument('vision_py', nargs='?',
+                        help='A string indicating the filename and object/function to call'
+                             ' (ex: vision.py:main)')
     
     args = parser.parse_args()
     
@@ -83,7 +85,6 @@ def main():
             
             vision_pymod = splitext(basename(vision_py))[0]
             
-            
             logger.info("Loading %s (%s)", vision_py, vision_fn)
             
             sys.path.insert(0, dirname(vision_py))
@@ -92,7 +93,20 @@ def main():
             vision_module = loader.load_module(vision_pymod)
             
             try:
-                getattr(vision_module, vision_fn)()
+                obj = getattr(vision_module, vision_fn)
+                
+                # If the object has a 'process' function, then we assume
+                # that it is a GRIP-generated pipeline, so launch it via the
+                # GRIP shim
+                if hasattr(obj, 'process'):
+                    logger.info("-> Detected GRIP-compatible object")
+                
+                    from . import grip
+                    grip.run(obj)
+                else:
+                    # otherwise just call it
+                    obj()
+                
             except Exception:
                 logger.exception("%s exited unexpectedly", vision_py)
             finally:
