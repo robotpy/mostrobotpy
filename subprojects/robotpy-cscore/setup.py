@@ -3,6 +3,11 @@
 # Much of this copied from https://github.com/pybind/python_example.git
 #
 
+import sys
+if sys.version_info[0] < 3:
+    sys.stderr.write("ERROR: robotpy-cscore requires python 3!")
+    exit(1)
+
 import fnmatch
 import os
 from os.path import dirname, exists, join
