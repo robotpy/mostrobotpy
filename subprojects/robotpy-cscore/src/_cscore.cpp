@@ -428,11 +428,20 @@ PYBIND11_PLUGIN(_cscore) {
           py::arg("description"),
           "Set sink description.\n\n"
           ":param description: Description")
-      .def("grabFrame", [](CvSink &__inst, cv::Mat &image) {
+      .def("grabFrame", [](CvSink &__inst, cv::Mat &image, double timeout) {
         py::gil_scoped_release release;
-        auto __ret = __inst.GrabFrame(image);
+        auto __ret = __inst.GrabFrame(image, timeout);
         return std::make_tuple(__ret, image);
-      }, "Wait for the next frame and get the image.\n"
+      }, py::arg("image"), py::arg("timeout") = 0.225,
+          "Wait for the next frame and get the image. Times out (returning 0) after timeout seconds.\n"
+          "The provided image will have three 8-bit channels stored in BGR order.\n\n"
+          ":returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image")
+      .def("grabFrameNoTimeout", [](CvSink &__inst, cv::Mat &image) {
+          py::gil_scoped_release release;
+          auto __ret = __inst.GrabFrameNoTimeout(image);
+          return std::make_tuple(__ret, image);
+        }, py::arg("image"),
+          "Wait for the next frame and get the image. May block forever.\n"
           "The provided image will have three 8-bit channels stored in BGR order.\n\n"
           ":returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image")
       .def("getError", &CvSink::GetError,

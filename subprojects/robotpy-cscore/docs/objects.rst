@@ -68,10 +68,19 @@ Create a sink for accepting OpenCV images. :meth:`grabFrame` must be called on t
 Get error string.  Call this if :meth:`grabFrame` returns 0 to determine what the error is.
 
 
-.. py:method:: CvSink.grabFrame(self: cscore.CvSink, arg0: numpy.ndarray) -> Tuple[int, numpy.ndarray]
+.. py:method:: CvSink.grabFrame(self: cscore.CvSink, image: numpy.ndarray, timeout: float=0.225) -> Tuple[int, numpy.ndarray]
    :module: cscore
 
-Wait for the next frame and get the image.
+Wait for the next frame and get the image. Times out (returning 0) after timeout seconds.
+The provided image will have three 8-bit channels stored in BGR order.
+
+:returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image
+
+
+.. py:method:: CvSink.grabFrameNoTimeout(self: cscore.CvSink, image: numpy.ndarray) -> Tuple[int, numpy.ndarray]
+   :module: cscore
+
+Wait for the next frame and get the image. May block forever.
 The provided image will have three 8-bit channels stored in BGR order.
 
 :returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image
