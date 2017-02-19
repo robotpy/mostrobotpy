@@ -635,6 +635,9 @@ class CameraServer:
             if self._primarySourceName is None:
                 self._primarySourceName = name
             
+            if name in self._sources:
+                raise KeyError("Camera with name '%s' already exists" % name)
+            
             self._sources[name] = camera
     
     def removeCamera(self, name):
