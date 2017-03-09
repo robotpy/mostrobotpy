@@ -37,6 +37,8 @@ if os.environ.get('GENERATING_CPP') is None:
     #sys.meta_path.append(Importer())
     
     sys.modules['cscore._cscore'] = Mock()
+    sys.modules['cv2'] = Mock()
+    sys.modules['numpy'] = Mock()
     sys.modules['networktables'] = Mock()
 
 import cscore

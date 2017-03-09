@@ -8,3 +8,4 @@ RobotPy CSCore
     
     cameraserver
     objects
+    utilities
