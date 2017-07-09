@@ -484,7 +484,7 @@ class CameraServer:
         """
         camera = cscore.AxisCamera(name, host)
         # Create a passthrough MJPEG server
-        return self.startAutomaticCapture(camera)
+        return self.startAutomaticCapture(camera=camera)
 
     def getVideo(self, *, name=None, camera=None):
         """Get OpenCV access to specified camera. This allows you to
