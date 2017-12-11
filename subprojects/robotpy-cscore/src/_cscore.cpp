@@ -343,6 +343,29 @@ PYBIND11_MODULE(_cscore, m) {
           ":param defaultValue: Default value\n"
           ":param value: Current value\n\n"
           ":returns: Property\n")
+      .def("createIntegerProperty", &CvSource::CreateIntegerProperty, release_gil(),
+          py::arg("name"), py::arg("minimum"), py::arg("maximum"), py::arg("step"), py::arg("defaultValue"), py::arg("value"),
+          "Create a property.\n\n"
+          ":param name: Property name\n"
+          ":param minimum: Minimum value\n"
+          ":param maximum: Maximum value\n"
+          ":param step: Step value\n"
+          ":param defaultValue: Default value\n"
+          ":param value: Current value\n\n"
+          ":returns: Property\n")
+      .def("createBooleanProperty", &CvSource::CreateBooleanProperty, release_gil(),
+          py::arg("name"), py::arg("defaultValue"), py::arg("value"),
+          "Create a property.\n\n"
+          ":param name: Property name\n"
+          ":param defaultValue: Default value\n"
+          ":param value: Current value\n\n"
+          ":returns: Property\n")
+      .def("createStringProperty", &CvSource::CreateStringProperty, release_gil(),
+          py::arg("name"), py::arg("value"),
+          "Create a property.\n\n"
+          ":param name: Property name\n"
+          ":param value: Current value\n\n"
+          ":returns: Property\n")
       .def("setEnumPropertyChoices", (void (CvSource::*)(const VideoProperty &property, llvm::ArrayRef<std::string> choices))&CvSource::SetEnumPropertyChoices, release_gil(),
           py::arg("property"), py::arg("choices"),
           "Configure enum property choices.\n\n"
@@ -436,7 +459,9 @@ PYBIND11_MODULE(_cscore, m) {
       }, py::arg("image"), py::arg("timeout") = 0.225,
           "Wait for the next frame and get the image. Times out (returning 0) after timeout seconds.\n"
           "The provided image will have three 8-bit channels stored in BGR order.\n\n"
-          ":returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image")
+          ":returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image\n"
+          "          The frame time is in 1us increments"
+      )
       .def("grabFrameNoTimeout", [](CvSink &__inst, cv::Mat &image) {
           py::gil_scoped_release release;
           auto __ret = __inst.GrabFrameNoTimeout(image);
@@ -444,7 +469,9 @@ PYBIND11_MODULE(_cscore, m) {
         }, py::arg("image"),
           "Wait for the next frame and get the image. May block forever.\n"
           "The provided image will have three 8-bit channels stored in BGR order.\n\n"
-          ":returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image")
+          ":returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image\n"
+          "          The frame time is in 1us increments"
+      )
       .def("getError", &CvSink::GetError,
            "Get error string.  Call this if :meth:`grabFrame` returns 0 to determine what the error is.")
       .def("setEnabled", &CvSink::SetEnabled,
