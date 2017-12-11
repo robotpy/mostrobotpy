@@ -3,7 +3,6 @@
 #include <pybind11/functional.h>
 #include <pybind11/operators.h>
 #include <pybind11/stl.h>
-#include "release_gil.hpp"
 namespace py = pybind11;
 
 #include "cscore_oo.h"
@@ -15,14 +14,16 @@ using namespace cs;
 #include "wpiutil_converters.hpp"
 
 
-PYBIND11_PLUGIN(_cscore) {
+// Use this to release the gil
+typedef py::call_guard<py::gil_scoped_release> release_gil;
+
+
+PYBIND11_MODULE(_cscore, m) {
 
     NDArrayConverter::init_numpy();
 
-    py::module m("_cscore");
-    
     static int unused; // the capsule needs something to reference
-    py::capsule cleanup(&unused, [](PyObject *) {
+    py::capsule cleanup(&unused, [](void *) {
         // don't release gil until after calling this
         SetDefaultLogger(20 /* WPI_LOG_INFO */);
         
@@ -79,27 +80,27 @@ PYBIND11_PLUGIN(_cscore) {
     py::class_<VideoProperty> videoproperty(m, "VideoProperty");
     videoproperty
       .def(py::init<>())
-      .def("getName", py::release_gil(&VideoProperty::GetName))
-      .def("getKind", py::release_gil(&VideoProperty::GetKind))
-      .def("isBoolean", py::release_gil(&VideoProperty::IsBoolean))
-      .def("isInteger", py::release_gil(&VideoProperty::IsInteger))
-      .def("isString", py::release_gil(&VideoProperty::IsString))
-      .def("isEnum", py::release_gil(&VideoProperty::IsEnum))
-      .def("get", py::release_gil(&VideoProperty::Get))
-      .def("set", py::release_gil(&VideoProperty::Set), py::arg("value"))
-      .def("getMin", py::release_gil(&VideoProperty::GetMin))
-      .def("getMax", py::release_gil(&VideoProperty::GetMax))
-      .def("getStep", py::release_gil(&VideoProperty::GetStep))
-      .def("getDefault", py::release_gil(&VideoProperty::GetDefault))
-      .def("getString", py::release_gil((std::string (VideoProperty::*)() const)&VideoProperty::GetString))
+      .def("getName", &VideoProperty::GetName, release_gil())
+      .def("getKind", &VideoProperty::GetKind, release_gil())
+      .def("isBoolean", &VideoProperty::IsBoolean, release_gil())
+      .def("isInteger", &VideoProperty::IsInteger, release_gil())
+      .def("isString", &VideoProperty::IsString, release_gil())
+      .def("isEnum", &VideoProperty::IsEnum, release_gil())
+      .def("get", &VideoProperty::Get, release_gil())
+      .def("set", &VideoProperty::Set, py::arg("value"), release_gil())
+      .def("getMin", &VideoProperty::GetMin, release_gil())
+      .def("getMax", &VideoProperty::GetMax, release_gil())
+      .def("getStep", &VideoProperty::GetStep, release_gil())
+      .def("getDefault", &VideoProperty::GetDefault, release_gil())
+      .def("getString", (std::string (VideoProperty::*)() const)&VideoProperty::GetString, release_gil())
       /*.def("GetString", [](VideoProperty &__inst) {
         llvm::SmallVectorImpl<char> buf;
         auto __ret = __inst.GetString(buf);
         return std::make_tuple(__ret, buf);
       })*/
-      .def("setString", py::release_gil(&VideoProperty::SetString), py::arg("value"))
-      .def("getChoices", py::release_gil(&VideoProperty::GetChoices))
-      .def("getLastStatus", py::release_gil(&VideoProperty::GetLastStatus));
+      .def("setString", &VideoProperty::SetString, py::arg("value"), release_gil())
+      .def("getChoices", &VideoProperty::GetChoices, release_gil())
+      .def("getLastStatus", &VideoProperty::GetLastStatus, release_gil());
     
     py::enum_<VideoProperty::Kind>(videoproperty, "Kind")
       .value("kNone", VideoProperty::Kind::kNone)
@@ -126,12 +127,12 @@ PYBIND11_PLUGIN(_cscore) {
           "Get the last time a frame was captured.")
       .def("isConnected", &VideoSource::IsConnected,
           "Is the source currently connected to whatever is providing the images?")
-      .def("getProperty", py::release_gil(&VideoSource::GetProperty), py::arg("name"),
+      .def("getProperty", &VideoSource::GetProperty, py::arg("name"), release_gil(),
           "Get a property.\n\n"
           ":param name: Property name\n"
           ":returns: Property contents (VideoSource.Kind.kNone if no property with the given name exists)")
-      .def("enumerateProperties", py::release_gil(&VideoSource::EnumerateProperties), "Enumerate all properties of this source")
-      .def("getVideoMode", py::release_gil(&VideoSource::GetVideoMode), "Get the current video mode.")
+      .def("enumerateProperties", &VideoSource::EnumerateProperties, release_gil(), "Enumerate all properties of this source")
+      .def("getVideoMode", &VideoSource::GetVideoMode, release_gil(), "Get the current video mode.")
       .def("setVideoMode", [](VideoSource &__inst, VideoMode mode) {
         py::gil_scoped_release __release;
         return __inst.SetVideoMode(mode);
@@ -148,26 +149,26 @@ PYBIND11_PLUGIN(_cscore) {
           ":param height: desired height\n"
           ":param fps: desired FPS\n"
           ":returns: True if set successfully")
-      .def("setPixelFormat", py::release_gil(&VideoSource::SetPixelFormat), py::arg("pixelFormat"),
+      .def("setPixelFormat", &VideoSource::SetPixelFormat, py::arg("pixelFormat"), release_gil(),
           "Set the pixel format.\n\n"
           ":param pixelFormat: desired pixel format\n"
           ":returns: True if set successfully")
-      .def("setResolution", py::release_gil(&VideoSource::SetResolution), py::arg("width"), py::arg("height"),
+      .def("setResolution", &VideoSource::SetResolution, py::arg("width"), py::arg("height"), release_gil(),
           "Set the resolution.\n\n"
           ":param width: desired width\n"
           ":param height: desired height\n"
           ":returns: True if set successfully")
-      .def("setFPS", py::release_gil(&VideoSource::SetFPS), py::arg("fps"),
+      .def("setFPS", &VideoSource::SetFPS, py::arg("fps"), release_gil(),
           "Set the frames per second (FPS).\n\n"
           ":param fps: desired FPS\n"
           ":returns: True if set successfully")
-      .def("enumerateVideoModes", py::release_gil(&VideoSource::EnumerateVideoModes),
+      .def("enumerateVideoModes", &VideoSource::EnumerateVideoModes, release_gil(),
           "Enumerate all known video modes for this source.")
-      .def("getLastStatus", py::release_gil(&VideoSource::GetLastStatus))
-      .def("enumerateSinks", py::release_gil(&VideoSource::EnumerateSinks),
+      .def("getLastStatus", &VideoSource::GetLastStatus, release_gil())
+      .def("enumerateSinks", &VideoSource::EnumerateSinks, release_gil(),
           "Enumerate all sinks connected to this source.\n\n"
           ":returns: list of sinks.")
-      .def_static("enumerateSources", py::release_gil(&VideoSource::EnumerateSources),
+      .def_static("enumerateSources", &VideoSource::EnumerateSources, release_gil(),
           "Enumerate all existing sources.\n\n"
           ":returns: list of sources.");
       //.def("__repr__", [](VideoSource &__inst){
@@ -185,23 +186,23 @@ PYBIND11_PLUGIN(_cscore) {
     py::class_<VideoCamera, VideoSource> videocamera(m, "VideoCamera");
     videocamera
       .def(py::init<>())
-      .def("setBrightness", py::release_gil(&VideoCamera::SetBrightness),
+      .def("setBrightness", &VideoCamera::SetBrightness, release_gil(),
            py::arg("brightness"),
            "Set the brightness, as a percentage (0-100).")
-      .def("getBrightness", py::release_gil(&VideoCamera::GetBrightness),
+      .def("getBrightness", &VideoCamera::GetBrightness, release_gil(),
            "Get the brightness, as a percentage (0-100).")
-      .def("setWhiteBalanceAuto", py::release_gil(&VideoCamera::SetWhiteBalanceAuto),
+      .def("setWhiteBalanceAuto", &VideoCamera::SetWhiteBalanceAuto, release_gil(),
            "Set the white balance to auto.")
-      .def("setWhiteBalanceHoldCurrent", py::release_gil(&VideoCamera::SetWhiteBalanceHoldCurrent),
+      .def("setWhiteBalanceHoldCurrent", &VideoCamera::SetWhiteBalanceHoldCurrent, release_gil(),
            "Set the white balance to hold current.")
-      .def("setWhiteBalanceManual", py::release_gil(&VideoCamera::SetWhiteBalanceManual),
+      .def("setWhiteBalanceManual", &VideoCamera::SetWhiteBalanceManual, release_gil(),
            py::arg("value"),
            "Set the white balance to manual, with specified color temperature.")
-      .def("setExposureAuto", py::release_gil(&VideoCamera::SetExposureAuto),
+      .def("setExposureAuto", &VideoCamera::SetExposureAuto, release_gil(),
            "Set the exposure to auto aperature.")
-      .def("setExposureHoldCurrent", py::release_gil(&VideoCamera::SetExposureHoldCurrent),
+      .def("setExposureHoldCurrent", &VideoCamera::SetExposureHoldCurrent, release_gil(),
            "Set the exposure to hold current.")
-      .def("setExposureManual", py::release_gil(&VideoCamera::SetExposureManual),
+      .def("setExposureManual", &VideoCamera::SetExposureManual, release_gil(),
            py::arg("value"),
            "Set the exposure to manual, as a percentage (0-100).");
     
@@ -226,7 +227,7 @@ PYBIND11_PLUGIN(_cscore) {
           "Create a source for a USB camera based on device path.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param path: Path to device (e.g. ``/dev/video0`` on Linux)")
-      .def_static("enumerateUsbCameras", py::release_gil(&UsbCamera::EnumerateUsbCameras),
+      .def_static("enumerateUsbCameras", &UsbCamera::EnumerateUsbCameras, release_gil(),
           "Enumerate USB cameras on the local system.\n\n"
           ":returns: list of USB camera information (one for each camera)")
       .def("getPath", &UsbCamera::GetPath, "Get the path to the device.");
@@ -257,14 +258,14 @@ PYBIND11_PLUGIN(_cscore) {
           ":param urls: Array of Camera URLs\n"
           ":param kind: Camera kind (e.g. kAxis)")
       //.def(py::init<llvm::StringRef,std::initializer_list<T>,cs::HttpCamera::HttpCameraKind>())
-      .def("getHttpCameraKind", py::release_gil(&HttpCamera::GetHttpCameraKind),
+      .def("getHttpCameraKind", &HttpCamera::GetHttpCameraKind, release_gil(),
           "Get the kind of HTTP camera. "
           "Autodetection can result in returning a different value than the camera was created with.")
-      .def("setUrls", py::release_gil((void (HttpCamera::*)(llvm::ArrayRef<std::string>))&HttpCamera::SetUrls),
+      .def("setUrls", (void (HttpCamera::*)(llvm::ArrayRef<std::string>))&HttpCamera::SetUrls, release_gil(),
            py::arg("urls"),
            "Change the URLs used to connect to the camera.")
       //.def("SetUrls", (void (HttpCamera::*)(std::initializer_list<T>))&HttpCamera::SetUrls)
-      .def("getUrls", py::release_gil(&HttpCamera::GetUrls),
+      .def("getUrls", &HttpCamera::GetUrls, release_gil(),
            "Get the URLs used to connect to the camera.");
     
     py::class_<AxisCamera, HttpCamera> axiscamera(m, "AxisCamera");
@@ -331,7 +332,7 @@ PYBIND11_PLUGIN(_cscore) {
           py::arg("description"),
           "Set source description.\n\n"
           ":param description: Description")
-      .def("createProperty", py::release_gil(&CvSource::CreateProperty),
+      .def("createProperty", &CvSource::CreateProperty, release_gil(),
           py::arg("name"), py::arg("kind"), py::arg("minimum"), py::arg("maximum"), py::arg("step"), py::arg("defaultValue"), py::arg("value"),
           "Create a property.\n\n"
           ":param name: Property name\n"
@@ -342,7 +343,7 @@ PYBIND11_PLUGIN(_cscore) {
           ":param defaultValue: Default value\n"
           ":param value: Current value\n\n"
           ":returns: Property\n")
-      .def("setEnumPropertyChoices", py::release_gil((void (CvSource::*)(const VideoProperty &property, llvm::ArrayRef<std::string> choices))&CvSource::SetEnumPropertyChoices),
+      .def("setEnumPropertyChoices", (void (CvSource::*)(const VideoProperty &property, llvm::ArrayRef<std::string> choices))&CvSource::SetEnumPropertyChoices, release_gil(),
           py::arg("property"), py::arg("choices"),
           "Configure enum property choices.\n\n"
           ":param property: Property\n"
@@ -367,21 +368,21 @@ PYBIND11_PLUGIN(_cscore) {
           "provided when the sink is created, and should be unique.")
       .def("getDescription", &VideoSink::GetDescription,
           "Get the sink description.  This is sink-kind specific.")
-      .def("setSource", py::release_gil(&VideoSink::SetSource),
+      .def("setSource", &VideoSink::SetSource, release_gil(),
           py::arg("source"),
           "Configure which source should provide frames to this sink.  Each sink "
           "can accept frames from only a single source, but a single source can "
           "provide frames to multiple clients.\n\n"
           ":param source: Source")
-      .def("getSource", py::release_gil(&VideoSink::GetSource),
+      .def("getSource", &VideoSink::GetSource, release_gil(),
           "Get the connected source.\n\n"
           ":returns: Connected source (empty if none connected).")
-      .def("getSourceProperty", py::release_gil(&VideoSink::GetSourceProperty),
+      .def("getSourceProperty", &VideoSink::GetSourceProperty, release_gil(),
           "Get a property of the associated source.\n\n"
           ":param name: Property name\n"
           ":returns: Property (VideoSink.Kind.kNone if no property with the given name exists or no source connected)")
       .def("getLastStatus", &VideoSink::GetLastStatus)
-      .def_static("enumerateSinks", py::release_gil(&VideoSink::EnumerateSinks),
+      .def_static("enumerateSinks", &VideoSink::EnumerateSinks, release_gil(),
           "Enumerate all existing sinks.\n\n"
           ":returns: list of sinks.");
     
@@ -496,6 +497,4 @@ PYBIND11_PLUGIN(_cscore) {
           ":param eventMask: Bitmask of VideoEvent.Kind values\n"
           ":param immediateNotify: Whether callback should be immediately called with"
           " a representative set of events for the current library state.");
-
-    return m.ptr();
 }
