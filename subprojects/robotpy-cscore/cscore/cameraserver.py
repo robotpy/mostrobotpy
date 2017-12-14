@@ -1,14 +1,14 @@
-#*----------------------------------------------------------------------------*/
-#* Copyright (c) FIRST 2016-2017. All Rights Reserved.                        */
-#* Open Source Software - may be modified and shared by FRC teams. The code   */
-#* must be accompanied by the FIRST BSD license file in the root directory of */
-#* the project.                                                               */
-#*----------------------------------------------------------------------------*/
+# validated: 2017-12-14 DV f151892db572 edu/wpi/first/wpilibj/CameraServer.java
+#----------------------------------------------------------------------------
+# Copyright (c) 2016-2017 FIRST. All Rights Reserved.
+# Open Source Software - may be modified and shared by FRC teams. The code
+# must be accompanied by the FIRST BSD license file in the root directory of
+# the project.
+#----------------------------------------------------------------------------
 
 # TODO: should this be distributed here, or with WPILib? My gut says here, 
 # because it's useful here too.
 
-import re
 import socket
 import threading
 
@@ -168,48 +168,6 @@ class CameraServer:
     @classmethod
     def _pixelFormatToString(cls, pixelFormat):
         return cls._pixelFormats.get(pixelFormat, "Unknown")
-    
-    _pixelFmtStrings = {
-        "MJPEG": cscore.VideoMode.PixelFormat.kMJPEG,
-        "mjpeg": cscore.VideoMode.PixelFormat.kMJPEG,
-        "JPEG": cscore.VideoMode.PixelFormat.kMJPEG,
-        "jpeg": cscore.VideoMode.PixelFormat.kMJPEG,
-        
-        "YUYV": cscore.VideoMode.PixelFormat.kYUYV,
-        "yuyv": cscore.VideoMode.PixelFormat.kYUYV,
-        
-        "RGB565": cscore.VideoMode.PixelFormat.kRGB565,
-        "rgb565": cscore.VideoMode.PixelFormat.kRGB565,
-        
-        "BGR": cscore.VideoMode.PixelFormat.kBGR,
-        "bgr": cscore.VideoMode.PixelFormat.kBGR,
-        
-        "GRAY": cscore.VideoMode.PixelFormat.kGray,
-        "Gray": cscore.VideoMode.PixelFormat.kGray,
-        "gray": cscore.VideoMode.PixelFormat.kGray,
-    }
-        
-    @classmethod
-    def _pixelFormatFromString(cls, pixelFormatStr):
-        return cls._pixelFmtStrings.get(pixelFormatStr, cscore.VideoMode.PixelFormat.kUnknown)
-    
-    
-    _reMode = re.compile("(?P<width>[0-9]+)\\s*x\\s*(?P<height>[0-9]+)\\s+(?P<format>.*?)\\s+"
-                         "(?P<fps>[0-9.]+)\\s*fps")
-
-    @classmethod
-    def _videoModeFromString(cls, modeStr):
-        '''Construct a video mode from a string description.'''
-        matcher = cls._reMode.match(modeStr)
-        if not matcher:
-            return cscore.VideoMode(cscore.VideoMode.PixelFormat.kUnknown, 0, 0, 0)
-        
-        pixelFormat = cls._pixelFormatFromString(matcher.group("format"))
-        width = int(matcher.group("width"))
-        height = int(matcher.group("height"))
-        fps = int(float(matcher.group("fps")))
-        return cscore.VideoMode(pixelFormat, width, height, fps)
-    
 
     @classmethod
     def _videoModeToString(cls, mode):
@@ -229,8 +187,8 @@ class CameraServer:
     @staticmethod
     def _putSourcePropertyValue(table, event, isNew):
         if event.name.startswith("raw_"):
-            name = "RawProperty/" + event.name[4:]
-            infoName = "RawPropertyInfo/" + event.name[4:]
+            name = "RawProperty/" + event.name
+            infoName = "RawPropertyInfo/" + event.name
         else:
             name = "Property/" + event.name
             infoName = "PropertyInfo/" + event.name
@@ -263,8 +221,8 @@ class CameraServer:
     def __init__(self):
         self._mutex = threading.RLock()
         
-        self._defaultUsbDevice = 0 # type: AtomicInteger
-        self._primarySourceName = None # type: String
+        self._defaultUsbDevice = 0  # note: atomic upstream, keep accesses thread-safe
+        self._primarySourceName = None  # type: str
         
         self._sources = {}  # type: Dict[str, VideoSource]
         self._sinks = {}  # type: Dict[str, VideoSink]
@@ -305,8 +263,7 @@ class CameraServer:
         if event.kind == VideoEvent.Kind.kSourceCreated:
             # Create subtable for the camera
             table = self._publishTable.getSubTable(event.name)
-            with self._mutex:
-                self._tables[source.getHandle()] = table
+            self._tables[source.getHandle()] = table
 
             table.putString("source", self._makeSourceValue(source))
             table.putString("description", source.getDescription())
@@ -367,13 +324,11 @@ class CameraServer:
                 choices = prop.getChoices()  # type: List[str]
                 table.putStringArray("PropertyInfo/" + event.name + "/choices", choices)
 
-        elif event.kind in (VideoEvent.Kind.kSinkSourceChanged, VideoEvent.Kind.kSinkCreated, VideoEvent.Kind.kSinkDestroyed):
+        elif event.kind in (VideoEvent.Kind.kSinkSourceChanged, VideoEvent.Kind.kSinkCreated, VideoEvent.Kind.kSinkDestroyed, VideoEvent.Kind.kNetworkInterfacesChanged):
+            self._addresses = cscore.getNetworkInterfaces()
             self._updateStreamValues()
 
-        elif event.kind == VideoEvent.Kind.kNetworkInterfacesChanged:
-            self._addresses = cscore.getNetworkInterfaces()
-
-    def _onTableChange(self, key, value, flags):
+    def _onTableChange(self, key, eventValue, flags):
         relativeKey = key[len(self.kPublishName) + 1:]  # type: str
 
         # get source (sourceName/...)
@@ -435,33 +390,33 @@ class CameraServer:
         * name, path
         * camera
         
-        If no arguments are specified, a USB Camera from device 0 is created.
-        
+        The first time this is called with no arguments, a USB Camera from
+        device 0 is created.  Subsequent calls increment the device number
+        (e.g. 1, 2, etc).
+
         .. note:: USB Cameras are not available on all platforms. If it is not
                   available on your platform, :exc:`.VideoException` is thrown
-        
         """
-        
         if camera is not None:
             assert dev is None and name is None and path is None
         else:
             if not hasattr(cscore, 'UsbCamera'):
                 raise VideoException("USB Camera support not available on this platform!")
-            
+
             if dev is not None:
-                assert camera is None
                 assert path is None
                 arg = dev
-                
+
             elif path is not None:
-                assert camera is None
-                assert dev is None
                 assert name is not None
                 arg = path
-            
+
             else:
-                arg = 0
-            
+                # Note: this get-and-increment should be atomic.
+                with self._mutex:
+                    arg = self._defaultUsbDevice
+                    self._defaultUsbDevice += 1
+
             if name is None:
                 name = 'USB Camera %d' % arg
             
