@@ -75,6 +75,7 @@ Wait for the next frame and get the image. Times out (returning 0) after timeout
 The provided image will have three 8-bit channels stored in BGR order.
 
 :returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image
+          The frame time is in 1us increments
 
 
 .. py:method:: CvSink.grabFrameNoTimeout(self: cscore.CvSink, image: numpy.ndarray) -> Tuple[int, numpy.ndarray]
@@ -84,6 +85,7 @@ Wait for the next frame and get the image. May block forever.
 The provided image will have three 8-bit channels stored in BGR order.
 
 :returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image
+          The frame time is in 1us increments
 
 
 .. py:method:: CvSink.setDescription(self: cscore.CvSink, description: llvm::StringRef) -> None
@@ -129,6 +131,33 @@ Create an OpenCV source.
 :param fps: fps
 
 
+.. py:method:: CvSource.createBooleanProperty(self: cscore.CvSource, name: llvm::StringRef, defaultValue: bool, value: bool) -> cscore.VideoProperty
+   :module: cscore
+
+Create a property.
+
+:param name: Property name
+:param defaultValue: Default value
+:param value: Current value
+
+:returns: Property
+
+
+.. py:method:: CvSource.createIntegerProperty(self: cscore.CvSource, name: llvm::StringRef, minimum: int, maximum: int, step: int, defaultValue: int, value: int) -> cscore.VideoProperty
+   :module: cscore
+
+Create a property.
+
+:param name: Property name
+:param minimum: Minimum value
+:param maximum: Maximum value
+:param step: Step value
+:param defaultValue: Default value
+:param value: Current value
+
+:returns: Property
+
+
 .. py:method:: CvSource.createProperty(self: cscore.CvSource, name: llvm::StringRef, kind: cscore.Kind, minimum: int, maximum: int, step: int, defaultValue: int, value: int) -> cscore.VideoProperty
    :module: cscore
 
@@ -140,6 +169,17 @@ Create a property.
 :param maximum: Maximum value
 :param step: Step value
 :param defaultValue: Default value
+:param value: Current value
+
+:returns: Property
+
+
+.. py:method:: CvSource.createStringProperty(self: cscore.CvSource, name: llvm::StringRef, value: llvm::StringRef) -> cscore.VideoProperty
+   :module: cscore
+
+Create a property.
+
+:param name: Property name
 :param value: Current value
 
 :returns: Property
@@ -211,14 +251,8 @@ Create a source for a MJPEG-over-HTTP (IP) camera.
 :param kind: Camera kind (e.g. kAxis)
 
 
-.. py:class:: HttpCamera.HttpCameraKind(*args, **kwargs)
+.. py:class:: HttpCamera.HttpCameraKind(self: cscore.HttpCameraKind, arg0: int) -> None
    :module: cscore
-
-Overloaded function.
-
-1. __init__(self: cscore.HttpCameraKind, arg0: int) -> None
-
-2. __init__(self: cscore.HttpCameraKind, arg0: int) -> None
 
 
 .. py:attribute:: HttpCamera.HttpCameraKind.kAxis
@@ -304,14 +338,8 @@ RawEvent
    :module: cscore
 
 
-.. py:class:: RawEvent.Kind(*args, **kwargs)
+.. py:class:: RawEvent.Kind(self: cscore.Kind, arg0: int) -> None
    :module: cscore
-
-Overloaded function.
-
-1. __init__(self: cscore.Kind, arg0: int) -> None
-
-2. __init__(self: cscore.Kind, arg0: int) -> None
 
 
 .. py:attribute:: RawEvent.Kind.kNetworkInterfacesChanged
@@ -482,14 +510,8 @@ VideoCamera
    :module: cscore
 
 
-.. py:class:: VideoCamera.WhiteBalance(*args, **kwargs)
+.. py:class:: VideoCamera.WhiteBalance(self: cscore.WhiteBalance, arg0: int) -> None
    :module: cscore
-
-Overloaded function.
-
-1. __init__(self: cscore.WhiteBalance, arg0: int) -> None
-
-2. __init__(self: cscore.WhiteBalance, arg0: int) -> None
 
 
 .. py:attribute:: VideoCamera.WhiteBalance.kFixedFlourescent2
@@ -610,14 +632,8 @@ Overloaded function.
 2. __init__(self: cscore.VideoMode, arg0: cs::VideoMode::PixelFormat, arg1: int, arg2: int, arg3: int) -> None
 
 
-.. py:class:: VideoMode.PixelFormat(*args, **kwargs)
+.. py:class:: VideoMode.PixelFormat(self: cscore.PixelFormat, arg0: int) -> None
    :module: cscore
-
-Overloaded function.
-
-1. __init__(self: cscore.PixelFormat, arg0: int) -> None
-
-2. __init__(self: cscore.PixelFormat, arg0: int) -> None
 
 
 .. py:attribute:: VideoMode.PixelFormat.kBGR
@@ -673,14 +689,8 @@ VideoProperty
    :module: cscore
 
 
-.. py:class:: VideoProperty.Kind(*args, **kwargs)
+.. py:class:: VideoProperty.Kind(self: cscore.Kind, arg0: int) -> None
    :module: cscore
-
-Overloaded function.
-
-1. __init__(self: cscore.Kind, arg0: int) -> None
-
-2. __init__(self: cscore.Kind, arg0: int) -> None
 
 
 .. py:attribute:: VideoProperty.Kind.kBoolean
@@ -785,14 +795,8 @@ Overloaded function.
 2. __init__(self: cscore.VideoSink, sink: cscore.VideoSink) -> None
 
 
-.. py:class:: VideoSink.Kind(*args, **kwargs)
+.. py:class:: VideoSink.Kind(self: cscore.Kind, arg0: int) -> None
    :module: cscore
-
-Overloaded function.
-
-1. __init__(self: cscore.Kind, arg0: int) -> None
-
-2. __init__(self: cscore.Kind, arg0: int) -> None
 
 
 .. py:attribute:: VideoSink.Kind.kCv
@@ -882,14 +886,8 @@ Overloaded function.
 2. __init__(self: cscore.VideoSource, source: cscore.VideoSource) -> None
 
 
-.. py:class:: VideoSource.Kind(*args, **kwargs)
+.. py:class:: VideoSource.Kind(self: cscore.Kind, arg0: int) -> None
    :module: cscore
-
-Overloaded function.
-
-1. __init__(self: cscore.Kind, arg0: int) -> None
-
-2. __init__(self: cscore.Kind, arg0: int) -> None
 
 
 .. py:attribute:: VideoSource.Kind.kCv

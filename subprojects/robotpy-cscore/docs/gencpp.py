@@ -64,27 +64,31 @@ def add_line(self, line, source, *lineno):
     rst.append(line)
     self.directive.result.append(self.indent + line, source, *lineno)
 sphinx.ext.autodoc.Documenter.add_line = add_line
+
+os.environ['GENERATING_CPP'] = '1'
 try:
-    os.environ['GENERATING_CPP'] = '1'
     sphinx.main(['sphinx-build', '-b', 'html', '-d', '_build/doctrees', '.', '_build/html', 'index.rst'])
 except SystemExit:
-    with open(join(root, 'objects.rst'), 'w') as fp:
-        _writeheader(fp)
-        
-        # Format the output a bit..
-        for l in rst:
-            l = l.replace('cscore._cscore', 'cscore')
-            if l.startswith('.. py:class:: '):
-                e = l.find('(') 
-                if e == -1:
-                    e = len(l)
-                name = l[14:e]
-                if '.' not in name:
-                    print(name, file=fp)
-                    print('-'*len(name), file=fp)
-                    print('', file=fp)
-            
-            print(l, file=fp)
+    pass
+
+with open(join(root, 'objects.rst'), 'w') as fp:
+    _writeheader(fp)
+
+    # Format the output a bit..
+    for l in rst:
+        l = l.replace('cscore._cscore', 'cscore')
+        if l.startswith('.. py:class:: '):
+            e = l.find('(')
+            if e == -1:
+                e = len(l)
+            name = l[14:e]
+            if '.' not in name:
+                print(name, file=fp)
+                print('-'*len(name), file=fp)
+                print('', file=fp)
+
+        print(l, file=fp)
 
 if exists(gendir):
     shutil.rmtree(gendir)
+print('Done.')
