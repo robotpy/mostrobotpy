@@ -1,6 +1,6 @@
 include LICENSE
 recursive-include src *.h *.hpp
 include cscore_src/src/main/native/cpp/*.h
-recursive-include cscore_src/src/main/native/include *.h *.inl
-recursive-include wpiutil_src/src/main/native/cpp *.h
+recursive-include cscore_src/src/main/native/include *.h *.inl *.inc
+recursive-include wpiutil_src/src/main/native/cpp *.h *.inc
 recursive-include wpiutil_src/src/main/native/include *.h *.inl *.inc
