@@ -74,6 +74,7 @@ except SystemExit:
 
 with open(join(root, 'objects.rst'), 'w') as fp:
     _writeheader(fp)
+    no_funcs_yet = True
 
     # Format the output a bit..
     for l in rst:
@@ -87,6 +88,11 @@ with open(join(root, 'objects.rst'), 'w') as fp:
                 print(name, file=fp)
                 print('-'*len(name), file=fp)
                 print('', file=fp)
+        elif l.startswith('.. py:function:: ') and no_funcs_yet:
+            no_funcs_yet = False
+            heading = 'Utility functions'
+            print(heading, file=fp)
+            print('-' * len(heading), end='\n\n', file=fp)
 
         print(l, file=fp)
 

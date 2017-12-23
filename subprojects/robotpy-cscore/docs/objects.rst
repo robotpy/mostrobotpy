@@ -1041,6 +1041,9 @@ VideoSource
       :returns: True if set successfully
       
 
+Utility functions
+-----------------
+
 .. py:function:: getHttpCameraUrls(arg0: int) -> List[str]
    :module: cscore
 
