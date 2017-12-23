@@ -61,8 +61,9 @@ import sphinx.ext.autodoc
 rst = []
 def add_line(self, line, source, *lineno):
     """Append one line of generated reST to the output."""
+    line = self.indent + line
     rst.append(line)
-    self.directive.result.append(self.indent + line, source, *lineno)
+    self.directive.result.append(line, source, *lineno)
 sphinx.ext.autodoc.Documenter.add_line = add_line
 
 os.environ['GENERATING_CPP'] = '1'
