@@ -38,7 +38,9 @@ def main():
     
     parser.add_argument('-v', '--verbose', action='store_true', default=False,
                         help="Enable debug logging")
-    parser.add_argument('--robot', help="Robot's IP address", default='127.0.0.1')
+    nt_server_group = parser.add_mutually_exclusive_group()
+    nt_server_group.add_argument('--robot', help="Robot's IP address", default='127.0.0.1')
+    nt_server_group.add_argument('--team', help='Team number to specify robot', type=int)
     parser.add_argument('vision_py', nargs='?',
                         help='A string indicating the filename and object/function to call'
                              ' (ex: vision.py:main)')
@@ -58,7 +60,10 @@ def main():
     logger = logging.getLogger('cscore')
     
     # Initialize NetworkTables next
-    NetworkTables.initialize(server=args.robot)
+    if args.team:
+        NetworkTables.startClientTeam(args.team)
+    else:
+        NetworkTables.initialize(server=args.robot)
     
     # If stdin is a pipe, then die when the pipe goes away
     # -> this allows us to detect if a parent process exits
