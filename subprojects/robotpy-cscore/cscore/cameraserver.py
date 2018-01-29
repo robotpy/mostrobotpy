@@ -1,6 +1,9 @@
-# validated: 2017-12-14 DV f151892db572 edu/wpi/first/wpilibj/CameraServer.java
+# validated: 2018-01-29 DV 91529cc43513 edu/wpi/first/wpilibj/CameraServer.java
+
+# validation note: 2018-01-29: Still using putValue() where it's more efficient
+
 #----------------------------------------------------------------------------
-# Copyright (c) 2016-2017 FIRST. All Rights Reserved.
+# Copyright (c) 2016-2018 FIRST. All Rights Reserved.
 # Open Source Software - may be modified and shared by FRC teams. The code
 # must be accompanied by the FIRST BSD license file in the root directory of
 # the project.
@@ -253,7 +256,6 @@ class CameraServer:
 
         # Listener for NetworkTable events
         # .. figures this uses the one API we don't really support
-        self._nt = NetworkTables.getGlobalTable()
         NetworkTables._api.addEntryListener(self.kPublishName + "/", self._onTableChange,
                                             NetworkTables.NotifyFlags.IMMEDIATE | NetworkTables.NotifyFlags.UPDATE)
 
@@ -328,8 +330,8 @@ class CameraServer:
             self._addresses = cscore.getNetworkInterfaces()
             self._updateStreamValues()
 
-    def _onTableChange(self, key, eventValue, flags):
-        relativeKey = key[len(self.kPublishName) + 1:]  # type: str
+    def _onTableChange(self, event):
+        relativeKey = event.name[len(self.kPublishName) + 1:]  # type: str
 
         # get source (sourceName/...)
         subKeyIndex = relativeKey.find('/')
@@ -347,7 +349,7 @@ class CameraServer:
         # handle standard names
         if relativeKey == "mode":
             # Reset to current mode
-            self._nt.putString(key, self._videoModeToString(source.getVideoMode()))
+            event.getEntry().setString(self._videoModeToString(source.getVideoMode()))
             return
         elif relativeKey.startswith("Property/"):
             propName = relativeKey[9:]
@@ -360,11 +362,11 @@ class CameraServer:
         # .. reset to current setting
         prop = source.getProperty(propName)  # type: VideoProperty
         if prop.isBoolean():
-            self._nt.putBoolean(key, prop.get() != 0)
+            event.getEntry().setBoolean(prop.get() != 0)
         elif prop.isInteger() or prop.isEnum():
-            self._nt.putNumber(key, prop.get())
+            event.getEntry().setNumber(prop.get())
         elif prop.isString():
-            self._nt.putString(key, prop.getString())
+            event.getEntry().setString(prop.getString())
 
     def startAutomaticCapture(self, *, dev=None, name=None, path=None, camera=None):
         """Start automatically capturing images to send to the dashboard.
