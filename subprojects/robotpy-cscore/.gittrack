@@ -2,5 +2,5 @@
 validation_root = cscore
 exclude_commits_file = .gittrackexclude
 upstream_root = ../allwpilib/wpilibj/src/main/java
-upstream_commit = 166d9e01bf756b1e72309e5a0de9dc0177d26e81
+upstream_commit = 02336fc47874fb0810e49b0a2087368aee48d83b
 
