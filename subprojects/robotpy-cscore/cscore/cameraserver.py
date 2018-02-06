@@ -328,8 +328,9 @@ class CameraServer:
             self._addresses = cscore.getNetworkInterfaces()
             self._updateStreamValues()
 
-    def _onTableChange(self, key, eventValue, flags):
-        relativeKey = key[len(self.kPublishName) + 1:]  # type: str
+    def _onTableChange(self, event):
+        key = event.name
+        relativeKey = event.name[len(self.kPublishName) + 1:]  # type: str
 
         # get source (sourceName/...)
         subKeyIndex = relativeKey.find('/')
