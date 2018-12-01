@@ -1,4 +1,3 @@
 [submodule "cscore_src"]
 	path = cscore_src
 	url = https://github.com/robotpy/cscore.git
-

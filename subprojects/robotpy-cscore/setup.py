@@ -131,6 +131,8 @@ class BuildExt(build_ext):
             opts.append(cpp_flag(self.compiler))
             if has_flag(self.compiler, '-fvisibility=hidden'):
                 opts.append('-fvisibility=hidden')
+            if sys.platform != 'darwin':
+                opts.append('-D_GNU_SOURCE')
         elif ct == 'msvc':
             opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
         for ext in self.extensions:
@@ -142,6 +144,63 @@ def recursive_glob(d):
         for fname in fnmatch.filter(filenames, '*.cpp'):
             yield join(root, fname)
 
+def get_cscore_sources(d):
+    l = list(glob.glob(d + '/cpp/*.cpp'))
+    if sys.platform == 'win32':
+        l.extend(glob.glob(d + '/windows/*.cpp'))
+    elif sys.platform == 'darwin':
+        l.extend(glob.glob(d + '/osx/*.cpp'))
+    else:
+        l.extend(glob.glob(d + '/linux/*.cpp'))
+    print(l)
+    return l
+
+def get_libuv_sources(d):
+    l = list(glob.glob(d + '/*.cpp'))
+    if sys.platform == 'win32':
+        l.extend(glob.glob(d + '/win/*.cpp'))
+    else:
+        l.extend(d + '/unix/' + f for f in [
+            'async.cpp',
+            'core.cpp',
+            'dl.cpp',
+            'fs.cpp',
+            'getaddrinfo.cpp',
+            'getnameinfo.cpp',
+            'loop-watcher.cpp',
+            'loop.cpp',
+            'pipe.cpp',
+            'poll.cpp',
+            'process.cpp',
+            'signal.cpp',
+            'stream.cpp',
+            'tcp.cpp',
+            'thread.cpp',
+            'timer.cpp',
+            'tty.cpp',
+            'udp.cpp',
+            ])
+        if sys.platform == 'darwin':
+            l.extend(d + '/unix/' + f for f in [
+                'bsd-ifaddrs.cpp',
+                'darwin.cpp',
+                'darwin-proctitle.cpp',
+                'fsevents.cpp',
+                'kqueue.cpp',
+                'proctitle.cpp',
+                ])
+        else:
+            l.extend(d + '/unix/' + f for f in [
+                'linux-core.cpp',
+                'linux-inotify.cpp',
+                'linux-syscalls.cpp',
+                'procfs-exepath.cpp',
+                'proctitle.cpp',
+                'sysinfo-loadavg.cpp',
+                'sysinfo-memory.cpp',
+                ])
+    return l
+
 ext_modules = [
     Extension(
         'cscore._cscore',
@@ -149,14 +208,18 @@ ext_modules = [
             'src/_cscore.cpp',
             'src/ndarray_converter.cpp',
         ] + \
-            list(glob.glob('cscore_src/src/main/native/cpp/*.cpp')) + \
-            list(recursive_glob('wpiutil_src/src/main/native/cpp')),
+            get_cscore_sources('cscore_src/cscore/src/main/native') +
+            list(recursive_glob('cscore_src/wpiutil/src/main/native/cpp')) +
+            get_libuv_sources('cscore_src/wpiutil/src/main/native/libuv'),
         include_dirs=[
             # Path to pybind11 headers
             get_pybind_include(),
             get_pybind_include(user=True),
-            'cscore_src/src/main/native/include',
-            'wpiutil_src/src/main/native/include',
+            'cscore_src/cscore/src/main/native/include',
+            'cscore_src/cscore/src/main/native/cpp',
+            'cscore_src/wpiutil/src/main/native/include',
+            'cscore_src/wpiutil/src/main/native/include/uv-private',
+            'cscore_src/wpiutil/src/main/native/libuv',
             get_numpy_include(),
         ],
         libraries=[

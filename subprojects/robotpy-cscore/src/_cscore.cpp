@@ -29,7 +29,7 @@ PYBIND11_MODULE(_cscore, m) {
         
         // but this MUST release the gil, or deadlock may occur
         py::gil_scoped_release __release;
-        CS_Destroy();
+        CS_Shutdown();
     });
     m.add_object("_cleanup", cleanup);
     
@@ -94,7 +94,7 @@ PYBIND11_MODULE(_cscore, m) {
       .def("getDefault", &VideoProperty::GetDefault, release_gil())
       .def("getString", (std::string (VideoProperty::*)() const)&VideoProperty::GetString, release_gil())
       /*.def("GetString", [](VideoProperty &__inst) {
-        llvm::SmallVectorImpl<char> buf;
+        wpi::SmallVectorImpl<char> buf;
         auto __ret = __inst.GetString(buf);
         return std::make_tuple(__ret, buf);
       })*/
@@ -125,6 +125,10 @@ PYBIND11_MODULE(_cscore, m) {
           "Get the source description.  This is source-kind specific.")
       .def("getLastFrameTime", &VideoSource::GetLastFrameTime,
           "Get the last time a frame was captured.")
+      .def("setConnectionStrategy", &VideoSource::SetConnectionStrategy, py::arg("strategy"), release_gil(),
+          "Set the connection strategy.  By default, the source will automatically "
+          "connect or disconnect based on whether any sinks are connected.\n\n"
+          ":param strategy: connection strategy (see ConnectionStrategy)")
       .def("isConnected", &VideoSource::IsConnected,
           "Is the source currently connected to whatever is providing the images?")
       .def("getProperty", &VideoSource::GetProperty, py::arg("name"), release_gil(),
@@ -162,6 +166,16 @@ PYBIND11_MODULE(_cscore, m) {
           "Set the frames per second (FPS).\n\n"
           ":param fps: desired FPS\n"
           ":returns: True if set successfully")
+      .def("setConfigJson", [](VideoSource &__inst, wpi::StringRef config) {
+        py::gil_scoped_release __release;
+        return __inst.SetConfigJson(config);
+      }, py::arg("config"),
+        "Set video mode and properties from a JSON configuration string.\n\n"
+        ":param config: Configuration\n"
+        ":returns: True if set successfully")
+      .def("getConfigJson", &VideoSource::GetConfigJson, release_gil(),
+           "Get a JSON configuration string.\n\n"
+           ":returns: JSON string")
       .def("enumerateVideoModes", &VideoSource::EnumerateVideoModes, release_gil(),
           "Enumerate all known video modes for this source.")
       .def("getLastStatus", &VideoSource::GetLastStatus, release_gil())
@@ -182,6 +196,11 @@ PYBIND11_MODULE(_cscore, m) {
       .value("kUsb", VideoSource::Kind::kUsb)
       .value("kHttp", VideoSource::Kind::kHttp)
       .value("kCv", VideoSource::Kind::kCv);
+    
+    py::enum_<VideoSource::ConnectionStrategy>(videosource, "ConnectionStrategy")
+      .value("kAutoManage", VideoSource::kConnectionAutoManage)
+      .value("kKeepOpen", VideoSource::kConnectionKeepOpen)
+      .value("kForceClose", VideoSource::kConnectionForceClose);
     
     py::class_<VideoCamera, VideoSource> videocamera(m, "VideoCamera");
     videocamera
@@ -213,16 +232,15 @@ PYBIND11_MODULE(_cscore, m) {
       .value("kFixedFluorescent1", VideoCamera::WhiteBalance::kFixedFluorescent1)
       .value("kFixedFlourescent2", VideoCamera::WhiteBalance::kFixedFlourescent2);
     
-#ifdef __linux__
     py::class_<UsbCamera, VideoCamera> usbcamera(m, "UsbCamera");
     usbcamera
       .def(py::init<>())
-      .def(py::init<llvm::StringRef,int>(),
+      .def(py::init<wpi::StringRef,int>(),
           py::arg("name"), py::arg("dev"),
           "Create a source for a USB camera based on device number.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param dev: Device number (e.g. 0 for ``/dev/video0``)")
-      .def(py::init<llvm::StringRef,llvm::StringRef>(),
+      .def(py::init<wpi::StringRef,wpi::StringRef>(),
           py::arg("name"), py::arg("path"),
           "Create a source for a USB camera based on device path.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
@@ -230,8 +248,10 @@ PYBIND11_MODULE(_cscore, m) {
       .def_static("enumerateUsbCameras", &UsbCamera::EnumerateUsbCameras, release_gil(),
           "Enumerate USB cameras on the local system.\n\n"
           ":returns: list of USB camera information (one for each camera)")
-      .def("getPath", &UsbCamera::GetPath, "Get the path to the device.");
-#endif
+      .def("getPath", &UsbCamera::GetPath, "Get the path to the device.")
+      .def("setConnectVerbose", &UsbCamera::SetConnectVerbose, py::arg("level"),
+           "Set how verbose the camera connection messages are.\n\n"
+           ":param level: 0=don't display Connecting message, 1=do display message");
 
     py::class_<HttpCamera, VideoCamera> httpcamera(m, "HttpCamera");
     
@@ -243,25 +263,25 @@ PYBIND11_MODULE(_cscore, m) {
       .value("kAxis", HttpCamera::HttpCameraKind::kAxis);
     
     httpcamera
-      //.def(py::init<llvm::StringRef,llvm::StringRef,HttpCamera::HttpCameraKind>())
-      //.def(py::init<llvm::StringRef,const char *,cs::HttpCamera::HttpCameraKind>())
-      .def(py::init<llvm::StringRef,std::string,cs::HttpCamera::HttpCameraKind>(),
+      //.def(py::init<wpi::StringRef,wpi::StringRef,HttpCamera::HttpCameraKind>())
+      //.def(py::init<wpi::StringRef,const char *,cs::HttpCamera::HttpCameraKind>())
+      .def(py::init<wpi::StringRef,std::string,cs::HttpCamera::HttpCameraKind>(),
            py::arg("name"), py::arg("url"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown,
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param urls: Array of Camera URLs\n"
           ":param kind: Camera kind (e.g. kAxis)")
-      .def(py::init<llvm::StringRef,llvm::ArrayRef<std::string>,HttpCamera::HttpCameraKind>(),
+      .def(py::init<wpi::StringRef,wpi::ArrayRef<std::string>,HttpCamera::HttpCameraKind>(),
            py::arg("name"), py::arg("urls"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown,
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param urls: Array of Camera URLs\n"
           ":param kind: Camera kind (e.g. kAxis)")
-      //.def(py::init<llvm::StringRef,std::initializer_list<T>,cs::HttpCamera::HttpCameraKind>())
+      //.def(py::init<wpi::StringRef,std::initializer_list<T>,cs::HttpCamera::HttpCameraKind>())
       .def("getHttpCameraKind", &HttpCamera::GetHttpCameraKind, release_gil(),
           "Get the kind of HTTP camera. "
           "Autodetection can result in returning a different value than the camera was created with.")
-      .def("setUrls", (void (HttpCamera::*)(llvm::ArrayRef<std::string>))&HttpCamera::SetUrls, release_gil(),
+      .def("setUrls", (void (HttpCamera::*)(wpi::ArrayRef<std::string>))&HttpCamera::SetUrls, release_gil(),
            py::arg("urls"),
            "Change the URLs used to connect to the camera.")
       //.def("SetUrls", (void (HttpCamera::*)(std::initializer_list<T>))&HttpCamera::SetUrls)
@@ -270,41 +290,41 @@ PYBIND11_MODULE(_cscore, m) {
     
     py::class_<AxisCamera, HttpCamera> axiscamera(m, "AxisCamera");
     axiscamera
-      .def(py::init<llvm::StringRef,llvm::StringRef>(),
+      .def(py::init<wpi::StringRef,wpi::StringRef>(),
           py::arg("name"), py::arg("host"),
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param urls: Array of Camera URLs\n"
           ":param kind: Camera kind (e.g. kAxis)")
-      .def(py::init<llvm::StringRef,const char *>(),
+      .def(py::init<wpi::StringRef,const char *>(),
           py::arg("name"), py::arg("host"),
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param urls: Array of Camera URLs\n"
           ":param kind: Camera kind (e.g. kAxis)")
-      .def(py::init<llvm::StringRef,std::string>(),
+      .def(py::init<wpi::StringRef,std::string>(),
           py::arg("name"), py::arg("host"),
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param urls: Array of Camera URLs\n"
           ":param kind: Camera kind (e.g. kAxis)")
-      .def(py::init<llvm::StringRef,llvm::ArrayRef<std::string>>(),
+      .def(py::init<wpi::StringRef,wpi::ArrayRef<std::string>>(),
           py::arg("name"), py::arg("host"),
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param urls: Array of Camera URLs\n"
           ":param kind: Camera kind (e.g. kAxis)");
-      //.def(py::init<llvm::StringRef,std::initializer_list<T>>());
+      //.def(py::init<wpi::StringRef,std::initializer_list<T>>());
     
     py::class_<CvSource, VideoSource> cvsource(m, "CvSource");
     cvsource
       .def(py::init<>())
-      .def(py::init<llvm::StringRef,VideoMode>(),
+      .def(py::init<wpi::StringRef,VideoMode>(),
           py::arg("name"), py::arg("mode"),
           "Create an OpenCV source.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param mode: Video mode being generated")
-      .def(py::init<llvm::StringRef,VideoMode::PixelFormat,int,int,int>(),
+      .def(py::init<wpi::StringRef,VideoMode::PixelFormat,int,int,int>(),
           py::arg("name"), py::arg("pixelFormat"), py::arg("width"), py::arg("height"), py::arg("fps"),
           "Create an OpenCV source.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
@@ -366,7 +386,7 @@ PYBIND11_MODULE(_cscore, m) {
           ":param name: Property name\n"
           ":param value: Current value\n\n"
           ":returns: Property\n")
-      .def("setEnumPropertyChoices", (void (CvSource::*)(const VideoProperty &property, llvm::ArrayRef<std::string> choices))&CvSource::SetEnumPropertyChoices, release_gil(),
+      .def("setEnumPropertyChoices", (void (CvSource::*)(const VideoProperty &property, wpi::ArrayRef<std::string> choices))&CvSource::SetEnumPropertyChoices, release_gil(),
           py::arg("property"), py::arg("choices"),
           "Configure enum property choices.\n\n"
           ":param property: Property\n"
@@ -391,6 +411,11 @@ PYBIND11_MODULE(_cscore, m) {
           "provided when the sink is created, and should be unique.")
       .def("getDescription", &VideoSink::GetDescription,
           "Get the sink description.  This is sink-kind specific.")
+      .def("getProperty", &VideoSink::GetProperty, py::arg("name"), release_gil(),
+          "Get a property.\n\n"
+          ":param name: Property name\n"
+          ":returns: Property contents (VideoSource.Kind.kNone if no property with the given name exists)")
+      .def("enumerateProperties", &VideoSink::EnumerateProperties, release_gil(), "Enumerate all properties of this sink")
       .def("setSource", &VideoSink::SetSource, release_gil(),
           py::arg("source"),
           "Configure which source should provide frames to this sink.  Each sink "
@@ -417,29 +442,46 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<MjpegServer, VideoSink> mjpegserver(m, "MjpegServer");
     mjpegserver
       .def(py::init<>())
-      .def(py::init<llvm::StringRef,llvm::StringRef,int>(),
+      .def(py::init<wpi::StringRef,wpi::StringRef,int>(),
           py::arg("name"), py::arg("listenAddress"), py::arg("port"),
           "Create a MJPEG-over-HTTP server sink.\n\n"
           ":param name: Sink name (arbitrary unique identifier)\n"
           ":param listenAddress: TCP listen address (empty string for all addresses)\n"
           ":param port: TCP port number")
-      .def(py::init<llvm::StringRef,int>(),
+      .def(py::init<wpi::StringRef,int>(),
           py::arg("name"), py::arg("port"),
           "Create a MJPEG-over-HTTP server sink.\n\n"
           ":param name: Sink name (arbitrary unique identifier)\n"
           ":param port: TCP port number")
       .def("getListenAddress", &MjpegServer::GetListenAddress, "Get the listen address of the server.")
-      .def("getPort", &MjpegServer::GetPort, "Get the port number of the server.");
+      .def("getPort", &MjpegServer::GetPort, "Get the port number of the server.")
+      .def("setResolution", &MjpegServer::SetResolution, py::arg("width"), py::arg("height"), release_gil(),
+          "Set the stream resolution for clients that don't specify it.\n\n"
+          ":param width: width, 0 for unspecified\n"
+          ":param height: height, 0 for unspecified")
+      .def("setFPS", &MjpegServer::SetFPS, py::arg("fps"), release_gil(),
+          "Set the frames per second (FPS) for clients that don't specify it.\n\n"
+          ":param fps: desired FPS")
+      .def("setCompression", &MjpegServer::SetCompression, py::arg("quality"), release_gil(),
+          "Set the compression for clients that don't specify it.  Setting this will "
+          "increase CPU usage for MJPEG source cameras as it will decompress and "
+          "recompress the image instead of using the camera's MJPEG image directly.\n\n"
+          ":param quality: JPEG compression quality (0-100), -1 for unspecified")
+      .def("setDefaultCompression", &MjpegServer::SetDefaultCompression, py::arg("quality"), release_gil(),
+          "Set the default compression used for non-MJPEG cameras.  If not set, "
+          "80 is used.  This function has no effect on MJPEG source cameras; use "
+          "setCompression() instead to force recompression of MJPEG source images.\n\n"
+          ":param quality: JPEG compression quality (0-100)");
     
     py::class_<CvSink, VideoSink> cvsink(m, "CvSink");
     cvsink
       .def(py::init<>())
-      .def(py::init<llvm::StringRef>(),
+      .def(py::init<wpi::StringRef>(),
           py::arg("name"),
           "Create a sink for accepting OpenCV images. "
           ":meth:`grabFrame` must be called on the created sink to get each new image\n\n"
           ":param name: Source name (arbitrary unique identifier)")
-      /*.def(py::init<llvm::StringRef,std::function<void(uint64_t)>>(),
+      /*.def(py::init<wpi::StringRef,std::function<void(uint64_t)>>(),
           py::arg("name"), py::arg("processFrame"),
           "Create a sink for accepting OpenCV images in a separate thread. "
           "A thread will be created that calls the "
