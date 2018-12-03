@@ -4,10 +4,10 @@
 
 namespace pybind11 { namespace detail {
     
-    template <> struct type_caster<llvm::StringRef> {
+    template <> struct type_caster<wpi::StringRef> {
     public:
         
-        PYBIND11_TYPE_CASTER(llvm::StringRef, _("llvm::StringRef"));
+        PYBIND11_TYPE_CASTER(wpi::StringRef, _("wpi::StringRef"));
         
         bool load(handle src, bool) {
             if (!src || !PyUnicode_Check(src.ptr())) {
@@ -21,11 +21,11 @@ namespace pybind11 { namespace detail {
             }
             
             // this assumes that the stringref won't be retained after the function call
-            value = llvm::StringRef(data, size);
+            value = wpi::StringRef(data, size);
             return true;
         }
         
-        static handle cast(const llvm::StringRef &s, return_value_policy, handle) {
+        static handle cast(const wpi::StringRef &s, return_value_policy, handle) {
             return PyUnicode_FromStringAndSize(s.data(), s.size());
         }
     };
