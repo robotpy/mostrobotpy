@@ -1,7 +1,8 @@
 include LICENSE
 include pyproject.toml
 recursive-include src *.h *.hpp
-include cscore_src/src/main/native/cpp/*.h
-recursive-include cscore_src/src/main/native/include *.h *.inl *.inc
-recursive-include wpiutil_src/src/main/native/cpp *.h *.inc
-recursive-include wpiutil_src/src/main/native/include *.h *.inl *.inc
+recursive-include cscore_src/cscore/src/main/native *.cpp *.h
+include cscore_src/cscore/src/main/native/include/*.inl
+recursive-include cscore_src/wpiutil/src/main/native/cpp *.h *.inc
+recursive-include cscore_src/wpiutil/src/main/native/include *.h *.inl *.inc
+recursive-include cscore_src/wpiutil/src/main/native/libuv *.h
