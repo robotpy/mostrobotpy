@@ -1,11 +1,21 @@
 ---
 language: python
+services:
+- docker
 
 python:
 - "3.6"
 
+env:
+- OPENCV_VERSION=3.4.1
+
+before_install:
+- export IMAGE=jjanzic/docker-python3-opencv:opencv-$OPENCV_VERSION
+- docker pull $IMAGE
+
 script:
-- /bin/true
+- python setup.py sdist
+- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE pip wheel /$(echo dist/*.tar.gz)
 
 deploy:
 - provider: pypi
