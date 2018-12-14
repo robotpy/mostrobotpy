@@ -15,7 +15,8 @@ before_install:
 
 script:
 - python setup.py sdist
-- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE pip wheel /$(echo dist/*.tar.gz)
+- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE pip install /$(echo dist/*.tar.gz)
+- docker run $IMAGE python -c 'import cscore'
 
 deploy:
 - provider: pypi
