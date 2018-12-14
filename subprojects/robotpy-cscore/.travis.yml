@@ -14,13 +14,9 @@ before_install:
 - docker pull $IMAGE
 - docker run $IMAGE pip --version
 
-install:
-- docker run $IMAGE pip install pybind11
-
 script:
 - python setup.py sdist
-- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE pip install /$(echo dist/*.tar.gz)
-- docker run $IMAGE python -c 'import cscore'
+- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE /bin/sh -c "pip install pybind11 && pip install /$(echo dist/*.tar.gz) && python -c 'import cscore'"
 
 deploy:
 - provider: pypi
