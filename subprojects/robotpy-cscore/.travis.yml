@@ -12,6 +12,10 @@ env:
 before_install:
 - export IMAGE=jjanzic/docker-python3-opencv:opencv-$OPENCV_VERSION
 - docker pull $IMAGE
+- docker run $IMAGE pip --version
+
+install:
+- docker run $IMAGE pip install pybind11
 
 script:
 - python setup.py sdist
