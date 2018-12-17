@@ -10,13 +10,13 @@ env:
 - OPENCV_VERSION=3.4.1
 
 before_install:
-- export IMAGE=jjanzic/docker-python3-opencv:opencv-$OPENCV_VERSION
+- export IMAGE=robotpy/cscore-ci:latest
 - docker pull $IMAGE
 - docker run $IMAGE pip --version
 
 script:
 - python setup.py sdist
-- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE /bin/sh -c "pip install pybind11 && pip install /$(echo dist/*.tar.gz) && python -c 'import cscore'"
+- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE /bin/sh -c "pip install setuptools pybind11 && pip install --no-build-isolation -v /$(echo dist/*.tar.gz) && python3 -m cscore --help"
 
 deploy:
 - provider: pypi
