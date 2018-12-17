@@ -1,11 +1,22 @@
 ---
 language: python
+services:
+- docker
 
 python:
 - "3.6"
 
+env:
+- OPENCV_VERSION=3.4.1
+
+before_install:
+- export IMAGE=robotpy/cscore-ci:latest
+- docker pull $IMAGE
+- docker run $IMAGE pip --version
+
 script:
-- /bin/true
+- python setup.py sdist
+- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE /bin/sh -c "pip install setuptools pybind11 && pip install --no-build-isolation -v /$(echo dist/*.tar.gz) && python3 -m cscore --help"
 
 deploy:
 - provider: pypi
