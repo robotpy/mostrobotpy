@@ -1,12 +1,12 @@
 # validated: 2017-12-14 DV f151892db572 edu/wpi/first/wpilibj/CameraServer.java
-#----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Copyright (c) 2016-2017 FIRST. All Rights Reserved.
 # Open Source Software - may be modified and shared by FRC teams. The code
 # must be accompanied by the FIRST BSD license file in the root directory of
 # the project.
-#----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
-# TODO: should this be distributed here, or with WPILib? My gut says here, 
+# TODO: should this be distributed here, or with WPILib? My gut says here,
 # because it's useful here too.
 
 import socket
@@ -16,14 +16,17 @@ import cscore
 from cscore import VideoEvent, VideoProperty, VideoSink, VideoSource
 
 import logging
-logger = logging.getLogger('cscore.cserver')
+
+logger = logging.getLogger("cscore.cserver")
 
 from networktables import NetworkTables
 
-__all__ = ['CameraServer', 'VideoException']
+__all__ = ["CameraServer", "VideoException"]
+
 
 class VideoException(Exception):
     pass
+
 
 class CameraServer:
     """Singleton class for creating and keeping camera servers.
@@ -32,7 +35,7 @@ class CameraServer:
     publishes camera information to NetworkTables so that dashboards can easily
     find and display the camera streams.
     """
-    
+
     kBasePort = 1181
     kPublishName = "/CameraPublisher"
 
@@ -44,48 +47,48 @@ class CameraServer:
         except AttributeError:
             cls._server = cls()
             return cls._server
-        
+
     @staticmethod
     def enableLogging(level=logging.INFO):
         cscore.enableLogging(level=level)
-        
+
     def _getSourceTable(self, source):
         return self._tables.get(source.getHandle())
-    
+
     @staticmethod
     def _makeSourceValue(source):
         kind = source.getKind()
         if kind == VideoSource.Kind.kUsb:
             return "usb:" + cscore.getUsbCameraPath(source.getHandle())
-        
+
         elif kind == VideoSource.Kind.kHttp:
             urls = cscore.getHttpCameraUrls(source.getHandle())
             if urls:
                 return "ip:" + urls[0]
             else:
                 return "ip:"
-            
+
         elif kind == VideoSource.Kind.kCv:
             # FIXME: Should be "cv:", but LabVIEW dashboard requires "usb:".
             # https://github.com/wpilibsuite/allwpilib/issues/407
             return "usb:"
-        
+
         else:
             return "unknown:"
-    
+
     @staticmethod
     def _makeStreamValue(address, port):
         return "mjpg:http://%s:%s/?action=stream" % (address, port)
-    
+
     def _getSinkStreamValues(self, sink):
         with self._mutex:
             # Ignore all but MjpegServer
             if sink.getKind() != VideoSink.Kind.kMjpeg:
                 return []
-            
+
             # Get port
             port = sink.getPort()
-    
+
             # Generate values
             values = []
             listenAddress = sink.getListenAddress()
@@ -94,59 +97,63 @@ class CameraServer:
                 values.append(self._makeStreamValue(listenAddress, port))
             else:
                 # Otherwise generate for hostname and all interface addresses
-                values.append(self._makeStreamValue(socket.gethostname() + ".local", port))
+                values.append(
+                    self._makeStreamValue(socket.gethostname() + ".local", port)
+                )
                 for addr in self._addresses:
                     if addr == "127.0.0.1":
-                        continue    # ignore localhost
-                    
+                        continue  # ignore localhost
+
                     values.append(self._makeStreamValue(addr, port))
-    
+
             return values
-    
+
     def _getSourceStreamValues(self, source):
         with self._mutex:
             # Ignore all but HttpCamera
             if source.getKind() != VideoSource.Kind.kHttp:
                 return []
-            
+
             # Generate values
-            values = ['mjpg:%s' % v for v in source.getUrls()]
-            
+            values = ["mjpg:%s" % v for v in source.getUrls()]
+
             # Look to see if we have a passthrough server for this source
             sourceHandle = source.getHandle()
             for sink in self._sinks.values():
                 sinkSourceHandle = sink.getSource().getHandle()
-                if sourceHandle == sinkSourceHandle \
-                    and sink.getKind() == VideoSink.Kind.kMjpeg:
+                if (
+                    sourceHandle == sinkSourceHandle
+                    and sink.getKind() == VideoSink.Kind.kMjpeg
+                ):
                     # Add USB-only passthrough
                     port = sink.getPort()
                     values.append(self._makeStreamValue("172.22.11.2", port))
                     break
-            
+
             return values
-    
+
     def _updateStreamValues(self):
         with self._mutex:
             # Over all the sinks...
             for sink in self._sinks.values():
-    
+
                 # Get the source's subtable (if none exists, we're done)
                 source = sink.getSource()
                 sourceHandle = source.getHandle()
                 if not sourceHandle:
                     continue
-                
+
                 table = self._getSourceTable(source)
                 if table is not None:
                     # Don't set stream values if this is a HttpCamera passthrough
                     if source.getKind() == VideoSource.Kind.kHttp:
                         continue
-                    
+
                     # Set table value
                     values = self._getSinkStreamValues(sink)
                     if values:
                         table.putStringArray("streams", values)
-            
+
             # Over all the sources...
             for source in self._sources.values():
                 # Get the source's subtable (if none exists, we're done)
@@ -156,7 +163,7 @@ class CameraServer:
                     values = self._getSourceStreamValues(source)
                     if values:
                         table.putStringArray("streams", values)
-    
+
     _pixelFormats = {
         cscore.VideoMode.PixelFormat.kMJPEG: "MJPEG",
         cscore.VideoMode.PixelFormat.kYUYV: "YUYV",
@@ -164,7 +171,7 @@ class CameraServer:
         cscore.VideoMode.PixelFormat.kBGR: "BGR",
         cscore.VideoMode.PixelFormat.kGray: "Gray",
     }
-    
+
     @classmethod
     def _pixelFormatToString(cls, pixelFormat):
         return cls._pixelFormats.get(pixelFormat, "Unknown")
@@ -174,11 +181,13 @@ class CameraServer:
         """Provide string description of video mode.
            The returned string is "{widthx{height:format:fpsfps".
         """
-        return '%sx%s %s %s fps' % (
-            mode.width, mode.height,
+        return "%sx%s %s %s fps" % (
+            mode.width,
+            mode.height,
             cls._pixelFormatToString(mode.pixelFormat),
-            mode.fps)
-    
+            mode.fps,
+        )
+
     @classmethod
     def _getSourceModeValues(cls, source):
         modes = source.enumerateVideoModes()
@@ -192,7 +201,7 @@ class CameraServer:
         else:
             name = "Property/" + event.name
             infoName = "PropertyInfo/" + event.name
-        
+
         prop = event.getProperty()
         propertyKind = prop.getKind()
 
@@ -201,7 +210,7 @@ class CameraServer:
                 table.setDefaultBoolean(name, event.value != 0)
             else:
                 table.putBoolean(name, event.value != 0)
-                
+
         elif propertyKind in [VideoProperty.Kind.kInteger, VideoProperty.Kind.kEnum]:
             if isNew:
                 table.setDefaultNumber(name, event.value)
@@ -211,19 +220,19 @@ class CameraServer:
                 table.putNumber(infoName + "/default", prop.getDefault())
             else:
                 table.putNumber(name, event.value)
-            
+
         elif propertyKind == VideoProperty.Kind.kString:
             if isNew:
                 table.setDefaultString(name, event.valueStr)
             else:
                 table.putString(name, event.valueStr)
-    
+
     def __init__(self):
         self._mutex = threading.RLock()
-        
+
         self._defaultUsbDevice = 0  # note: atomic upstream, keep accesses thread-safe
         self._primarySourceName = None  # type: str
-        
+
         self._sources = {}  # type: Dict[str, VideoSource]
         self._sinks = {}  # type: Dict[str, VideoSink]
         self._tables = {}  # type: Dict[int, networktables.NetworkTable]
@@ -248,18 +257,21 @@ class CameraServer:
                 self._onVideoEvent(e)
             except Exception:
                 logger.exception("Unhandled exception in _onVideoEvent")
-        
-        self._videoListener = cscore.VideoListener(_ve, 0x4fff, True)
+
+        self._videoListener = cscore.VideoListener(_ve, 0x4FFF, True)
 
         # Listener for NetworkTable events
         # .. figures this uses the one API we don't really support
         self._nt = NetworkTables.getGlobalTable()
-        NetworkTables._api.addEntryListener(self.kPublishName + "/", self._onTableChange,
-                                            NetworkTables.NotifyFlags.IMMEDIATE | NetworkTables.NotifyFlags.UPDATE)
+        NetworkTables._api.addEntryListener(
+            self.kPublishName + "/",
+            self._onTableChange,
+            NetworkTables.NotifyFlags.IMMEDIATE | NetworkTables.NotifyFlags.UPDATE,
+        )
 
     def _onVideoEvent(self, event):
         source = event.getSource()
-        
+
         if event.kind == VideoEvent.Kind.kSourceCreated:
             # Create subtable for the camera
             table = self._publishTable.getSubTable(event.name)
@@ -269,9 +281,9 @@ class CameraServer:
             table.putString("description", source.getDescription())
             table.putBoolean("connected", source.isConnected())
             table.putStringArray("streams", self._getSourceStreamValues(source))
-            
+
             try:
-                mode = source.getVideoMode() # type: cscore.VideoMode
+                mode = source.getVideoMode()  # type: cscore.VideoMode
                 table.setDefaultString("mode", self._videoModeToString(mode))
                 table.putStringArray("modes", self._getSourceModeValues(source))
             except VideoException:
@@ -324,16 +336,21 @@ class CameraServer:
                 choices = prop.getChoices()  # type: List[str]
                 table.putStringArray("PropertyInfo/" + event.name + "/choices", choices)
 
-        elif event.kind in (VideoEvent.Kind.kSinkSourceChanged, VideoEvent.Kind.kSinkCreated, VideoEvent.Kind.kSinkDestroyed, VideoEvent.Kind.kNetworkInterfacesChanged):
+        elif event.kind in (
+            VideoEvent.Kind.kSinkSourceChanged,
+            VideoEvent.Kind.kSinkCreated,
+            VideoEvent.Kind.kSinkDestroyed,
+            VideoEvent.Kind.kNetworkInterfacesChanged,
+        ):
             self._addresses = cscore.getNetworkInterfaces()
             self._updateStreamValues()
 
     def _onTableChange(self, event):
         key = event.name
-        relativeKey = event.name[len(self.kPublishName) + 1:]  # type: str
+        relativeKey = event.name[len(self.kPublishName) + 1 :]  # type: str
 
         # get source (sourceName/...)
-        subKeyIndex = relativeKey.find('/')
+        subKeyIndex = relativeKey.find("/")
         if subKeyIndex == -1:
             return
 
@@ -343,7 +360,7 @@ class CameraServer:
             return
 
         # get subkey
-        relativeKey = relativeKey[subKeyIndex + 1:]
+        relativeKey = relativeKey[subKeyIndex + 1 :]
 
         # handle standard names
         if relativeKey == "mode":
@@ -355,7 +372,7 @@ class CameraServer:
         elif relativeKey.startswith("RawProperty/"):
             propName = relativeKey[12:]
         else:
-            return    # ignore
+            return  # ignore
 
         # everything else is a property
         # .. reset to current setting
@@ -401,8 +418,10 @@ class CameraServer:
         if camera is not None:
             assert dev is None and name is None and path is None
         else:
-            if not hasattr(cscore, 'UsbCamera'):
-                raise VideoException("USB Camera support not available on this platform!")
+            if not hasattr(cscore, "UsbCamera"):
+                raise VideoException(
+                    "USB Camera support not available on this platform!"
+                )
 
             if dev is not None:
                 assert path is None
@@ -419,16 +438,16 @@ class CameraServer:
                     self._defaultUsbDevice += 1
 
             if name is None:
-                name = 'USB Camera %d' % arg
-            
+                name = "USB Camera %d" % arg
+
             camera = cscore.UsbCamera(name, arg)
-        
+
         self.addCamera(camera)
         server = self.addServer(name="serve_" + camera.getName())
         server.setSource(camera)
-        
+
         return camera
-    
+
     def addAxisCamera(self, host, name="Axis Camera"):
         """Adds an Axis IP camera.
         
@@ -467,34 +486,36 @@ class CameraServer:
         with self._mutex:
             if camera is not None:
                 assert name is None
-                
+
             else:
                 if name is None:
                     name = self._primarySourceName
-                
+
                 camera = self._sources.get(name)
-        
+
             if camera is None:
                 raise VideoException("no camera available")
-            
+
             name = "opencv_" + camera.getName()
-            
+
             sink = self._sinks.get(name)  # type: cscore.VideoSink
             if sink is not None:
                 kind = sink.getKind()
                 if kind != VideoSink.Kind.kCv:
-                    raise VideoException("expected OpenCV sink, but got %s (name: %s)" % (kind, name))
-                
+                    raise VideoException(
+                        "expected OpenCV sink, but got %s (name: %s)" % (kind, name)
+                    )
+
                 return sink
-        
+
         newsink = cscore.CvSink(name)
         newsink.setSource(camera)
-        
+
         with self._mutex:
             self._sinks[name] = newsink
-        
+
         return newsink
-    
+
     def putVideo(self, name, width, height):
         """Create a MJPEG stream with OpenCV input. This can be called to pass custom
         annotated images to the dashboard.
@@ -506,10 +527,12 @@ class CameraServer:
         :returns: CvSource object that you can publish images to
         :rtype: :class:`cscore.CvSource`
         """
-        source = cscore.CvSource(name, cscore.VideoMode.PixelFormat.kMJPEG, width, height, 30)
+        source = cscore.CvSource(
+            name, cscore.VideoMode.PixelFormat.kMJPEG, width, height, 30
+        )
         self.startAutomaticCapture(camera=source)
         return source
-    
+
     def addServer(self, *, name=None, port=None, server=None):
         """Adds a MJPEG server
         
@@ -528,28 +551,28 @@ class CameraServer:
         * server
         
         """
-        
+
         with self._mutex:
             if server is not None:
                 assert name is None and port is None
-                
+
             else:
                 assert name is not None
-                
+
                 if port is None:
                     port = self._nextPort
                     self._nextPort += 1
-                    
+
                 server = cscore.MjpegServer(name, port)
-            
+
             sname = server.getName()
             sport = server.getPort()
-            
+
             logger.info("CameraServer '%s' listening on port %s", sname, sport)
-            
+
             self._sinks[sname] = server
             return server
-    
+
     def removeServer(self, name):
         """Removes a server by name.
         
@@ -557,7 +580,7 @@ class CameraServer:
         """
         with self._mutex:
             self._sinks.pop(name, None)
-            
+
     def getServer(self, name=None):
         """Get server for the primary camera feed
         
@@ -572,14 +595,14 @@ class CameraServer:
             if name is None:
                 if self._primarySourceName is None:
                     raise VideoException("No primary video source defined")
-                name = 'serve_' + self._primarySourceName 
-                
+                name = "serve_" + self._primarySourceName
+
             server = self._sources.get(name)
             if server is None:
                 raise VideoException("server %s is not available" % server)
-            
+
             return server
-    
+
     def addCamera(self, camera):
         """Adds an already created camera.
         
@@ -590,12 +613,12 @@ class CameraServer:
         with self._mutex:
             if self._primarySourceName is None:
                 self._primarySourceName = name
-            
+
             if name in self._sources:
                 raise KeyError("Camera with name '%s' already exists" % name)
-            
+
             self._sources[name] = camera
-    
+
     def removeCamera(self, name):
         """Removes a camera by name.
         
@@ -607,5 +630,6 @@ class CameraServer:
     def waitForever(self):
         """Infinitely loops until the process dies"""
         import time
+
         while True:
             time.sleep(1)

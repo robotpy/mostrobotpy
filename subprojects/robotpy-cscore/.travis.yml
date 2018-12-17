@@ -6,17 +6,24 @@ services:
 python:
 - "3.6"
 
-env:
-- OPENCV_VERSION=3.4.1
+jobs:
+  include:
+  - stage: build
+    before_install:
+    - export IMAGE=robotpy/cscore-ci:latest
+    - docker pull $IMAGE
+    - docker run $IMAGE pip --version
+    script:
+    - python setup.py sdist
+    - docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE /bin/sh -c "pip install setuptools pybind11 && pip install --no-build-isolation -v /$(echo dist/*.tar.gz) && python3 -m cscore --help"
 
-before_install:
-- export IMAGE=robotpy/cscore-ci:latest
-- docker pull $IMAGE
-- docker run $IMAGE pip --version
-
-script:
-- python setup.py sdist
-- docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE /bin/sh -c "pip install setuptools pybind11 && pip install --no-build-isolation -v /$(echo dist/*.tar.gz) && python3 -m cscore --help"
+  - stage: format-check
+    python:
+    - "3.6"
+    install:
+    - pip install black
+    script:
+    - black --check --diff .
 
 deploy:
 - provider: pypi
