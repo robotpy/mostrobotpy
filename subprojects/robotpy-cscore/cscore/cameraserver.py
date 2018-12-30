@@ -1,13 +1,10 @@
-# validated: 2017-12-14 DV f151892db572 edu/wpi/first/wpilibj/CameraServer.java
+# validated: 2018-12-30 DS 0d7d880261b6 edu/wpi/first/cameraserver/CameraServer.java
 # ----------------------------------------------------------------------------
-# Copyright (c) 2016-2017 FIRST. All Rights Reserved.
+# Copyright (c) 2016-2018 FIRST. All Rights Reserved.
 # Open Source Software - may be modified and shared by FRC teams. The code
 # must be accompanied by the FIRST BSD license file in the root directory of
 # the project.
 # ----------------------------------------------------------------------------
-
-# TODO: should this be distributed here, or with WPILib? My gut says here,
-# because it's useful here too.
 
 import socket
 import threading
@@ -52,6 +49,7 @@ class CameraServer:
     def enableLogging(level=logging.INFO):
         cscore.enableLogging(level=level)
 
+    # python-specific helper
     def _getSourceTable(self, source):
         return self._tables.get(source.getHandle())
 
@@ -69,9 +67,7 @@ class CameraServer:
                 return "ip:"
 
         elif kind == VideoSource.Kind.kCv:
-            # FIXME: Should be "cv:", but LabVIEW dashboard requires "usb:".
-            # https://github.com/wpilibsuite/allwpilib/issues/407
-            return "usb:"
+            return "cv:"
 
         else:
             return "unknown:"
@@ -152,7 +148,7 @@ class CameraServer:
                     # Set table value
                     values = self._getSinkStreamValues(sink)
                     if values:
-                        table.putStringArray("streams", values)
+                        table.getEntry("streams").setStringArray(values)
 
             # Over all the sources...
             for source in self._sources.values():
@@ -162,7 +158,7 @@ class CameraServer:
                     # Set table value
                     values = self._getSourceStreamValues(source)
                     if values:
-                        table.putStringArray("streams", values)
+                        table.getEntry("streams").setStringArray(values)
 
     _pixelFormats = {
         cscore.VideoMode.PixelFormat.kMJPEG: "MJPEG",
@@ -179,7 +175,7 @@ class CameraServer:
     @classmethod
     def _videoModeToString(cls, mode):
         """Provide string description of video mode.
-           The returned string is "{widthx{height:format:fpsfps".
+           The returned string is "{width}x{height} {format} {fps} fps".
         """
         return "%sx%s %s %s fps" % (
             mode.width,
@@ -202,30 +198,31 @@ class CameraServer:
             name = "Property/" + event.name
             infoName = "PropertyInfo/" + event.name
 
+        entry = table.getEntry(name)
         prop = event.getProperty()
         propertyKind = prop.getKind()
 
         if propertyKind == VideoProperty.Kind.kBoolean:
             if isNew:
-                table.setDefaultBoolean(name, event.value != 0)
+                entry.setDefaultBoolean(event.value != 0)
             else:
-                table.putBoolean(name, event.value != 0)
+                entry.setBoolean(event.value != 0)
 
         elif propertyKind in [VideoProperty.Kind.kInteger, VideoProperty.Kind.kEnum]:
             if isNew:
-                table.setDefaultNumber(name, event.value)
-                table.putNumber(infoName + "/min", prop.getMin())
-                table.putNumber(infoName + "/max", prop.getMax())
-                table.putNumber(infoName + "/step", prop.getStep())
-                table.putNumber(infoName + "/default", prop.getDefault())
+                entry.setDefaultNumber(event.value)
+                table.getEntry(infoName + "/min").setDouble(prop.getMin())
+                table.getEntry(infoName + "/max").setDouble(prop.getMax())
+                table.getEntry(infoName + "/step").setDouble(prop.getStep())
+                table.getEntry(infoName + "/default").setDouble(prop.getDefault())
             else:
-                table.putNumber(name, event.value)
+                entry.setDouble(event.value)
 
         elif propertyKind == VideoProperty.Kind.kString:
             if isNew:
-                table.setDefaultString(name, event.valueStr)
+                entry.setDefaultString(name, event.valueStr)
             else:
-                table.putString(name, event.valueStr)
+                entry.setString(event.valueStr)
 
     def __init__(self):
         self._mutex = threading.RLock()
@@ -248,8 +245,8 @@ class CameraServer:
         # - "connected" (boolean): Whether source is connected
         # - "mode" (string): Current video mode
         # - "modes" (string array): Available video modes
-        # - "Property/{Property" - Property values
-        # - "PropertyInfo/{Property" - Property supporting information
+        # - "Property/{Property}" - Property values
+        # - "PropertyInfo/{Property}" - Property supporting information
 
         # Listener for video events
         def _ve(e):
@@ -277,15 +274,19 @@ class CameraServer:
             table = self._publishTable.getSubTable(event.name)
             self._tables[source.getHandle()] = table
 
-            table.putString("source", self._makeSourceValue(source))
-            table.putString("description", source.getDescription())
-            table.putBoolean("connected", source.isConnected())
-            table.putStringArray("streams", self._getSourceStreamValues(source))
+            table.getEntry("source").setString(self._makeSourceValue(source))
+            table.getEntry("description").setString(source.getDescription())
+            table.getEntry("connected").setBoolean(source.isConnected())
+            table.getEntry("streams").setStringArray(
+                self._getSourceStreamValues(source)
+            )
 
             try:
                 mode = source.getVideoMode()  # type: cscore.VideoMode
-                table.setDefaultString("mode", self._videoModeToString(mode))
-                table.putStringArray("modes", self._getSourceModeValues(source))
+                table.getEntry("mode").setDefaultString(self._videoModeToString(mode))
+                table.getEntry("modes").setStringArray(
+                    self._getSourceModeValues(source)
+                )
             except VideoException:
                 # Do nothing. Let the other event handlers update this if there is an error.
                 pass
@@ -293,31 +294,33 @@ class CameraServer:
         elif event.kind == VideoEvent.Kind.kSourceDestroyed:
             table = self._getSourceTable(source)
             if table is not None:
-                table.putString("source", "")
-                table.putStringArray("streams", [])
-                table.putStringArray("modes", [])
+                table.getEntry("source").setString("")
+                table.getEntry("streams").setStringArray([])
+                table.getEntry("modes").setStringArray([])
 
         elif event.kind == VideoEvent.Kind.kSourceConnected:
             table = self._getSourceTable(source)
             if table is not None:
                 # update the description too (as it may have changed)
-                table.putString("description", source.getDescription())
-                table.putBoolean("connected", True)
+                table.getEntry("description").setString(source.getDescription())
+                table.getEntry("connected").setBoolean(True)
 
         elif event.kind == VideoEvent.Kind.kSourceDisconnected:
             table = self._getSourceTable(source)
             if table is not None:
-                table.putBoolean("connected", False)
+                table.getEntry("connected").setBoolean(False)
 
         elif event.kind == VideoEvent.Kind.kSourceVideoModesUpdated:
             table = self._getSourceTable(source)
             if table is not None:
-                table.putStringArray("modes", self._getSourceModeValues(source))
+                table.getEntry("modes").setStringArray(
+                    self._getSourceModeValues(source)
+                )
 
         elif event.kind == VideoEvent.Kind.kSourceVideoModeChanged:
             table = self._getSourceTable(source)
             if table is not None:
-                table.putString("mode", self._videoModeToString(event.mode))
+                table.getEntry("mode").setString(self._videoModeToString(event.mode))
 
         elif event.kind == VideoEvent.Kind.kSourcePropertyCreated:
             table = self._getSourceTable(source)
@@ -334,7 +337,9 @@ class CameraServer:
             if table is not None:
                 prop = event.getProperty()
                 choices = prop.getChoices()  # type: List[str]
-                table.putStringArray("PropertyInfo/" + event.name + "/choices", choices)
+                table.getEntry(
+                    "PropertyInfo/" + event.name + "/choices"
+                ).setStringArray(choices)
 
         elif event.kind in (
             VideoEvent.Kind.kSinkSourceChanged,
