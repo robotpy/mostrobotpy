@@ -179,6 +179,14 @@ PYBIND11_MODULE(_cscore, m) {
       .def("getConfigJson", &VideoSource::GetConfigJson, release_gil(),
            "Get a JSON configuration string.\n\n"
            ":returns: JSON string")
+      .def("getActualFPS", &VideoSource::GetActualFPS, release_gil(),
+           "Get the actual FPS.\n\n"
+           "SetTelemetryPeriod() must be called for this to be valid.\n\n"
+           ":returns: Actual FPS averaged over the telemetry period.")
+      .def("getActualDataRate", &VideoSource::GetActualDataRate, release_gil(),
+           "Get the data rate (in bytes per second).\n\n"
+           "SetTelemetryPeriod() must be called for this to be valid.\n\n"
+           ":returns: Data rate averaged over the telemetry period.")
       .def("enumerateVideoModes", &VideoSource::EnumerateVideoModes, release_gil(),
           "Enumerate all known video modes for this source.")
       .def("getLastStatus", &VideoSource::GetLastStatus, release_gil())

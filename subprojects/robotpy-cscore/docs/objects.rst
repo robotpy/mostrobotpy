@@ -1048,6 +1048,26 @@ VideoSource
       Enumerate all known video modes for this source.
       
    
+   .. py:method:: VideoSource.getActualDataRate() -> float
+      :module: cscore
+   
+      Get the data rate (in bytes per second).
+      
+      SetTelemetryPeriod() must be called for this to be valid.
+      
+      :returns: Data rate averaged over the telemetry period.
+      
+   
+   .. py:method:: VideoSource.getActualFPS() -> float
+      :module: cscore
+   
+      Get the actual FPS.
+      
+      SetTelemetryPeriod() must be called for this to be valid.
+      
+      :returns: Actual FPS averaged over the telemetry period.
+      
+   
    .. py:method:: VideoSource.getConfigJson() -> str
       :module: cscore
    
