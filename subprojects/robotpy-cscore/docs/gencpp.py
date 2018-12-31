@@ -9,6 +9,7 @@
 
 import inspect
 import os
+import re
 from os.path import abspath, exists, dirname, join
 import shutil
 
@@ -97,6 +98,16 @@ with open(join(root, "objects.rst"), "w") as fp:
     # Format the output a bit..
     for l in rst:
         l = l.replace("cscore._cscore", "cscore")
+        l = l.replace("wpi::StringRef", "str")
+        l = l.replace("wpi::Twine", "str")
+        l = l.replace(
+            "wpi::ArrayRef<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >",
+            "List[str]",
+        )
+        l = re.sub(r"self: \S+\)", ")", l)
+        l = re.sub(r"self: \S+, ", "", l)
+        l = re.sub(r"cs::(\S+)::(\S+)", "cscore.\\1.\\2", l)
+        l = l.replace("cs::", "cscore.")
         if l.startswith(".. py:class:: "):
             e = l.find("(")
             if e == -1:
