@@ -22,23 +22,7 @@ AxisCamera
    :param urls: Array of Camera URLs
    :param kind: Camera kind (e.g. kAxis)
    
-   2. __init__(name: str, host: str) -> None
-   
-   Create a source for a MJPEG-over-HTTP (IP) camera.
-   
-   :param name: Source name (arbitrary unique identifier)
-   :param urls: Array of Camera URLs
-   :param kind: Camera kind (e.g. kAxis)
-   
-   3. __init__(name: str, host: str) -> None
-   
-   Create a source for a MJPEG-over-HTTP (IP) camera.
-   
-   :param name: Source name (arbitrary unique identifier)
-   :param urls: Array of Camera URLs
-   :param kind: Camera kind (e.g. kAxis)
-   
-   4. __init__(name: str, host: List[str]) -> None
+   2. __init__(name: str, host: List[str]) -> None
    
    Create a source for a MJPEG-over-HTTP (IP) camera.
    
@@ -344,7 +328,9 @@ MjpegServer
    .. py:method:: MjpegServer.setCompression(quality: int) -> None
       :module: cscore
    
-      Set the compression for clients that don't specify it.  Setting this will increase CPU usage for MJPEG source cameras as it will decompress and recompress the image instead of using the camera's MJPEG image directly.
+      Set the compression for clients that don't specify it.
+      
+      Setting this will result in increased CPU usage for MJPEG source cameras as it will decompress and recompress the image instead of using the camera's MJPEG image directly.
       
       :param quality: JPEG compression quality (0-100), -1 for unspecified
       
@@ -352,7 +338,7 @@ MjpegServer
    .. py:method:: MjpegServer.setDefaultCompression(quality: int) -> None
       :module: cscore
    
-      Set the default compression used for non-MJPEG cameras.  If not set, 80 is used.  This function has no effect on MJPEG source cameras; use setCompression() instead to force recompression of MJPEG source images.
+      Set the default compression used for non-MJPEG sources.  If not set, 80 is used.  This function has no effect on MJPEG source cameras; use setCompression() instead to force recompression of MJPEG source images.
       
       :param quality: JPEG compression quality (0-100)
       
@@ -360,9 +346,11 @@ MjpegServer
    .. py:method:: MjpegServer.setFPS(fps: int) -> None
       :module: cscore
    
-      Set the frames per second (FPS) for clients that don't specify it.
+      Set the stream frames per second (FPS) for clients that don't specify it.
       
-      :param fps: desired FPS
+      It is not necessary to set this if it is the same as the source FPS.
+      
+      :param fps: FPS, 0 for unspecified
       
    
    .. py:method:: MjpegServer.setResolution(width: int, height: int) -> None
@@ -370,7 +358,11 @@ MjpegServer
    
       Set the stream resolution for clients that don't specify it.
       
-      :param width: width, 0 for unspecified
+      It is not necessary to set this if it is the same as the source resolution.
+      
+      Setting this different than the source resolution will result in increased CPU usage, particularly for MJPEG source cameras, as it will decompress, resize, and recompress the image, instead of using the camera's MJPEG image directly.
+      
+      :param width:  width, 0 for unspecified
       :param height: height, 0 for unspecified
       
 
