@@ -6,6 +6,10 @@ import cscore as cs
 def main():
     for caminfo in cs.UsbCamera.enumerateUsbCameras():
         print("%s: %s (%s)" % (caminfo.dev, caminfo.path, caminfo.name))
+        if caminfo.otherPaths:
+            print("Other device paths:")
+            for path in caminfo.otherPaths:
+                print(" ", path)
 
         camera = cs.UsbCamera("usbcam", caminfo.dev)
 

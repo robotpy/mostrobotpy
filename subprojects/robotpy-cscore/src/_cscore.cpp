@@ -40,6 +40,7 @@ PYBIND11_MODULE(_cscore, m) {
       .def_readwrite("dev", &UsbCameraInfo::dev)
       .def_readwrite("path", &UsbCameraInfo::path)
       .def_readwrite("name", &UsbCameraInfo::name)
+      .def_readwrite("otherPaths", &UsbCameraInfo::otherPaths)
       .def("__repr__", [](UsbCameraInfo &__inst){
          return std::string("<UsbCameraInfo dev=") + std::to_string(__inst.dev) + " path=" + __inst.path + " name=" + __inst.name + ">";
        });
@@ -249,6 +250,8 @@ PYBIND11_MODULE(_cscore, m) {
           "Enumerate USB cameras on the local system.\n\n"
           ":returns: list of USB camera information (one for each camera)")
       .def("getPath", &UsbCamera::GetPath, "Get the path to the device.")
+      .def("getInfo", &UsbCamera::GetInfo, release_gil(),
+          "Get the full camera information for the device.")
       .def("setConnectVerbose", &UsbCamera::SetConnectVerbose, py::arg("level"),
            "Set how verbose the camera connection messages are.\n\n"
            ":param level: 0=don't display Connecting message, 1=do display message");
