@@ -68,15 +68,18 @@ PYBIND11_MODULE(_cscore, m) {
       .value("kBGR", VideoMode::PixelFormat::kBGR)
       .value("kGray", VideoMode::PixelFormat::kGray);
     
+    // cscore_cpp.h
+
     #define def_status_fn(n, N, T) def(n, [](T t) { py::gil_scoped_release __r; CS_Status s = 0; return N(t, &s); })
     
-    m.def("getNetworkInterfaces", &GetNetworkInterfaces)
+    m.def("getNetworkInterfaces", &GetNetworkInterfaces, release_gil())
      .def_status_fn("getHttpCameraUrls", GetHttpCameraUrls, CS_Source)
-     .def_status_fn("getMjpegServerPort", GetHttpCameraUrls, CS_Sink)
-     .def("getMjpegServerListenAddress", &GetMjpegServerListenAddress)
      .def_status_fn("getUsbCameraPath", GetUsbCameraPath, CS_Source)
+     .def("getTelemetryElapsedTime", &GetTelemetryElapsedTime, release_gil())
+     .def("setTelemetryPeriod", &SetTelemetryPeriod, release_gil(),
+          py::arg("seconds"))
      .def("setLogger", &SetLogger);
-     
+
     // cscore_oo.h
 
     py::class_<VideoProperty> videoproperty(m, "VideoProperty");
