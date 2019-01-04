@@ -15,7 +15,7 @@ jobs:
     - docker run $IMAGE pip --version
     script:
     - python setup.py sdist
-    - docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE /bin/sh -c "pip install setuptools pybind11 && pip install --no-build-isolation -v /$(echo dist/*.tar.gz) && python3 -m cscore --help"
+    - docker run --mount type=bind,source="$(pwd)"/dist,target=/dist $IMAGE /bin/sh -c "pip install -v /$(echo dist/*.tar.gz) && python3 -m cscore --help"
 
   - stage: format-check
     python:
