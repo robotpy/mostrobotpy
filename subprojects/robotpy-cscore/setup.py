@@ -61,22 +61,6 @@ with open(join(setup_dir, "README.rst"), "r") as readme_file:
 #
 
 
-class get_pybind_include(object):
-    """Helper class to determine the pybind11 include path
-
-    The purpose of this class is to postpone importing pybind11
-    until it is actually installed, so that the ``get_include()``
-    method can be invoked. """
-
-    def __init__(self, user=False):
-        self.user = user
-
-    def __str__(self):
-        import pybind11
-
-        return pybind11.get_include(self.user)
-
-
 class get_numpy_include(object):
     def __str__(self):
         import numpy as np
@@ -229,9 +213,7 @@ ext_modules = [
         + list(recursive_glob("cscore_src/wpiutil/src/main/native/cpp"))
         + get_libuv_sources("cscore_src/wpiutil/src/main/native/libuv"),
         include_dirs=[
-            # Path to pybind11 headers
-            get_pybind_include(),
-            get_pybind_include(user=True),
+            "pybind11/include",
             "cscore_src/cscore/src/main/native/include",
             "cscore_src/cscore/src/main/native/cpp",
             "cscore_src/wpiutil/src/main/native/include",
@@ -259,7 +241,7 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     ext_modules=ext_modules,
-    setup_requires=["numpy", "pybind11>=2.2"],
+    setup_requires=["numpy"],
     install_requires=["numpy", "pynetworktables"],
     license="BSD",
     zip_safe=False,
