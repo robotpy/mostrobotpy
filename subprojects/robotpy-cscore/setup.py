@@ -241,7 +241,6 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     ext_modules=ext_modules,
-    setup_requires=["numpy"],
     install_requires=["numpy", "pynetworktables"],
     license="BSD",
     zip_safe=False,
