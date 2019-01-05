@@ -19,15 +19,15 @@ AxisCamera
    Create a source for a MJPEG-over-HTTP (IP) camera.
    
    :param name: Source name (arbitrary unique identifier)
-   :param urls: Array of Camera URLs
+   :param host: Camera host IP or DNS name (e.g. "10.x.x.11")
    :param kind: Camera kind (e.g. kAxis)
    
-   2. __init__(name: str, host: List[str]) -> None
+   2. __init__(name: str, hosts: List[str]) -> None
    
    Create a source for a MJPEG-over-HTTP (IP) camera.
    
    :param name: Source name (arbitrary unique identifier)
-   :param urls: Array of Camera URLs
+   :param hosts: Array of Camera host IPs/DNS names
    :param kind: Camera kind (e.g. kAxis)
    
 
@@ -181,7 +181,7 @@ CvSource
       Signal sinks that an error has occurred.  This should be called instead of :meth:`putFrame` when an error occurs.
       
    
-   .. py:method:: CvSource.putFrame(arg0: numpy.ndarray) -> None
+   .. py:method:: CvSource.putFrame(image: numpy.ndarray) -> None
       :module: cscore
    
       Put an OpenCV image and notify sinks.
@@ -231,7 +231,7 @@ HttpCamera
    Create a source for a MJPEG-over-HTTP (IP) camera.
    
    :param name: Source name (arbitrary unique identifier)
-   :param urls: Array of Camera URLs
+   :param url: Camera URL (e.g. "http://10.x.y.11/video/stream.mjpg")
    :param kind: Camera kind (e.g. kAxis)
    
    2. __init__(name: str, urls: List[str], kind: cscore.HttpCamera.HttpCameraKind=HttpCameraKind.kUnknown) -> None
@@ -372,6 +372,8 @@ RawEvent
 .. py:class:: RawEvent
    :module: cscore
 
+   Listener event
+   
    
    .. py:class:: RawEvent.Kind(arg0: int) -> None
       :module: cscore
@@ -541,6 +543,8 @@ UsbCameraInfo
 .. py:class:: UsbCameraInfo
    :module: cscore
 
+   USB camera information
+   
    
    .. py:attribute:: UsbCameraInfo.dev
       :module: cscore
@@ -687,11 +691,13 @@ VideoMode
 .. py:class:: VideoMode(*args, **kwargs)
    :module: cscore
 
+   Video mode
+   
    Overloaded function.
    
    1. __init__() -> None
    
-   2. __init__(arg0: cscore.VideoMode.PixelFormat, arg1: int, arg2: int, arg3: int) -> None
+   2. __init__(pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int) -> None
    
    
    .. py:class:: VideoMode.PixelFormat(arg0: int) -> None
@@ -750,7 +756,7 @@ VideoProperty
 .. py:class:: VideoProperty() -> None
    :module: cscore
 
-   A source or sink property
+   A source or sink property.
    
    
    .. py:class:: VideoProperty.Kind(arg0: int) -> None
@@ -937,7 +943,7 @@ VideoSink
       :returns: Connected source (empty if none connected).
       
    
-   .. py:method:: VideoSink.getSourceProperty(arg0: str) -> cscore.VideoProperty
+   .. py:method:: VideoSink.getSourceProperty(name: str) -> cscore.VideoProperty
       :module: cscore
    
       Get a property of the associated source.
@@ -1045,7 +1051,7 @@ VideoSource
    
       Get the data rate (in bytes per second).
       
-      SetTelemetryPeriod() must be called for this to be valid.
+      :func:`.setTelemetryPeriod` must be called for this to be valid.
       
       :returns: Data rate averaged over the telemetry period.
       
@@ -1055,7 +1061,7 @@ VideoSource
    
       Get the actual FPS.
       
-      SetTelemetryPeriod() must be called for this to be valid.
+      :func:`.setTelemetryPeriod` must be called for this to be valid.
       
       :returns: Actual FPS averaged over the telemetry period.
       
@@ -1191,26 +1197,18 @@ VideoSource
 Utility functions
 -----------------
 
-.. py:function:: getHttpCameraUrls(arg0: int) -> List[str]
-   :module: cscore
-
-
-.. py:function:: getMjpegServerListenAddress(arg0: int, arg1: int) -> str
-   :module: cscore
-
-
-.. py:function:: getMjpegServerPort(arg0: int) -> List[str]
-   :module: cscore
-
-
 .. py:function:: getNetworkInterfaces() -> List[str]
    :module: cscore
 
 
-.. py:function:: getUsbCameraPath(arg0: int) -> str
+.. py:function:: getTelemetryElapsedTime() -> float
    :module: cscore
 
 
-.. py:function:: setLogger(arg0: Callable[[int, str, int, str], None], arg1: int) -> None
+.. py:function:: setLogger(func: Callable[[int, str, int, str], None], min_level: int) -> None
+   :module: cscore
+
+
+.. py:function:: setTelemetryPeriod(seconds: float) -> None
    :module: cscore
 
