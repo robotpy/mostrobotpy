@@ -54,6 +54,7 @@ PYBIND11_MODULE(_cscore, m) {
     // cscore_cpp.h
     
     py::class_<UsbCameraInfo> usbcamerainfo(m, "UsbCameraInfo");
+    usbcamerainfo.doc() = "USB camera information";
     usbcamerainfo
       .def_readwrite("dev", &UsbCameraInfo::dev)
       .def_readwrite("path", &UsbCameraInfo::path)
@@ -66,9 +67,11 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<CS_VideoMode> cs_videomode(m, "_CS_VideoMode");
     
     py::class_<VideoMode, CS_VideoMode> videomode(m, "VideoMode");
+    videomode.doc() = "Video mode";
     videomode
       .def(py::init<>())
-      .def(py::init<cs::VideoMode::PixelFormat,int,int,int>())
+      .def(py::init<cs::VideoMode::PixelFormat, int, int, int>(),
+           py::arg("pixelFormat"), py::arg("width"), py::arg("height"), py::arg("fps"))
       .def_property("pixelFormat",
             [](VideoMode &__inst) { return (cs::VideoMode::PixelFormat)__inst.pixelFormat; },
             [](VideoMode &__inst, cs::VideoMode::PixelFormat v) { __inst.pixelFormat = v; })
@@ -87,20 +90,22 @@ PYBIND11_MODULE(_cscore, m) {
     
     // cscore_cpp.h
 
-    #define def_status_fn(n, N, T) def(n, [](T t) { py::gil_scoped_release __r; CS_Status s = 0; return N(t, &s); })
+    #define def_status_fn(n, N, T) def(n, [](T t) { \
+        py::gil_scoped_release __r; \
+        CS_Status s = 0; \
+        return N(t, &s); \
+    })
     
     m.def("getNetworkInterfaces", &GetNetworkInterfaces, release_gil())
-     .def_status_fn("getHttpCameraUrls", GetHttpCameraUrls, CS_Source)
-     .def_status_fn("getUsbCameraPath", GetUsbCameraPath, CS_Source)
      .def("getTelemetryElapsedTime", &GetTelemetryElapsedTime, release_gil())
      .def("setTelemetryPeriod", &SetTelemetryPeriod, release_gil(),
           py::arg("seconds"))
-     .def("setLogger", &SetLogger);
+     .def("setLogger", &SetLogger, py::arg("func"), py::arg("min_level"));
 
     // cscore_oo.h
 
     py::class_<VideoProperty> videoproperty(m, "VideoProperty");
-    videoproperty.doc() = "A source or sink property";
+    videoproperty.doc() = "A source or sink property.";
     videoproperty
       .def(py::init<>())
       .def("getName", &VideoProperty::GetName, release_gil())
@@ -123,7 +128,7 @@ PYBIND11_MODULE(_cscore, m) {
       })*/
       .def("setString", &VideoProperty::SetString, py::arg("value"), release_gil())
       .def("getChoices", &VideoProperty::GetChoices, release_gil())
-      .def("getLastStatus", &VideoProperty::GetLastStatus, release_gil());
+      .def("getLastStatus", &VideoProperty::GetLastStatus);
     
     py::enum_<VideoProperty::Kind>(videoproperty, "Kind")
       .value("kNone", VideoProperty::Kind::kNone)
@@ -202,15 +207,15 @@ PYBIND11_MODULE(_cscore, m) {
            ":returns: JSON string")
       .def("getActualFPS", &VideoSource::GetActualFPS, release_gil(),
            "Get the actual FPS.\n\n"
-           "SetTelemetryPeriod() must be called for this to be valid.\n\n"
+           ":func:`.setTelemetryPeriod` must be called for this to be valid.\n\n"
            ":returns: Actual FPS averaged over the telemetry period.")
       .def("getActualDataRate", &VideoSource::GetActualDataRate, release_gil(),
            "Get the data rate (in bytes per second).\n\n"
-           "SetTelemetryPeriod() must be called for this to be valid.\n\n"
+           ":func:`.setTelemetryPeriod` must be called for this to be valid.\n\n"
            ":returns: Data rate averaged over the telemetry period.")
       .def("enumerateVideoModes", &VideoSource::EnumerateVideoModes, release_gil(),
           "Enumerate all known video modes for this source.")
-      .def("getLastStatus", &VideoSource::GetLastStatus, release_gil())
+      .def("getLastStatus", &VideoSource::GetLastStatus)
       .def("enumerateSinks", &VideoSource::EnumerateSinks, release_gil(),
           "Enumerate all sinks connected to this source.\n\n"
           ":returns: list of sinks.")
@@ -306,7 +311,7 @@ PYBIND11_MODULE(_cscore, m) {
            py::arg("name"), py::arg("url"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown,
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
-          ":param urls: Array of Camera URLs\n"
+          ":param url: Camera URL (e.g. \"http://10.x.y.11/video/stream.mjpg\")\n"
           ":param kind: Camera kind (e.g. kAxis)")
       .def(py::init<const wpi::Twine&, wpi::ArrayRef<std::string>, HttpCamera::HttpCameraKind>(),
            py::arg("name"), py::arg("urls"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown,
@@ -332,15 +337,15 @@ PYBIND11_MODULE(_cscore, m) {
           py::arg("name"), py::arg("host"),
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
-          ":param urls: Array of Camera URLs\n"
+          ":param host: Camera host IP or DNS name (e.g. \"10.x.x.11\")\n"
           ":param kind: Camera kind (e.g. kAxis)")
       //.def(py::init<wpi::StringRef,const char *>(),
       //.def(py::init<wpi::StringRef,std::string>(),
       .def(py::init<const wpi::Twine&, wpi::ArrayRef<std::string>>(),
-          py::arg("name"), py::arg("host"),
+          py::arg("name"), py::arg("hosts"),
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
-          ":param urls: Array of Camera URLs\n"
+          ":param hosts: Array of Camera host IPs/DNS names\n"
           ":param kind: Camera kind (e.g. kAxis)");
       //.def(py::init<wpi::StringRef,std::initializer_list<T>>());
     
@@ -361,10 +366,9 @@ PYBIND11_MODULE(_cscore, m) {
           ":param width: width\n"
           ":param height: height\n"
           ":param fps: fps")
-      .def("putFrame", [](CvSource &__inst, cv::Mat &image) {
-        py::gil_scoped_release release;
-        __inst.PutFrame(image);
-      }, "Put an OpenCV image and notify sinks.\n\n"
+      .def("putFrame", &CvSource::PutFrame, release_gil(),
+          py::arg("image"),
+          "Put an OpenCV image and notify sinks.\n\n"
           "Only 8-bit single-channel or 3-channel (with BGR channel order) images "
           "are supported. If the format, depth or channel order is different, use "
           "``cv2.convertTo()`` and/or ``cv2.cvtColor()`` to convert it first.\n\n"
@@ -457,6 +461,7 @@ PYBIND11_MODULE(_cscore, m) {
           "Get the connected source.\n\n"
           ":returns: Connected source (empty if none connected).")
       .def("getSourceProperty", &VideoSink::GetSourceProperty, release_gil(),
+          py::arg("name"),
           "Get a property of the associated source.\n\n"
           ":param name: Property name\n"
           ":returns: Property (VideoSink.Kind.kNone if no property with the given name exists or no source connected)")
@@ -565,6 +570,7 @@ PYBIND11_MODULE(_cscore, m) {
           " processor resources when frames are not needed.");
     
     py::class_<RawEvent> rawevent(m, "RawEvent");
+    rawevent.doc() = "Listener event";
     rawevent
       .def_readonly("kind", &RawEvent::kind)
       .def_readonly("mode", &RawEvent::mode)
