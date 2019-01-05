@@ -35,6 +35,8 @@ jobs:
       user: $PYPI_USERNAME
       password: $PYPI_PASSWORD
       distributions: sdist
+      on:
+        tags: true
 
 notifications:
   webhooks:
