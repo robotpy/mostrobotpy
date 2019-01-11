@@ -97,6 +97,8 @@ PYBIND11_MODULE(_cscore, m) {
     })
     
     m.def("getNetworkInterfaces", &GetNetworkInterfaces, release_gil())
+     .def_status_fn("getHttpCameraUrls", GetHttpCameraUrls, CS_Source)
+     .def_status_fn("getUsbCameraPath", GetUsbCameraPath, CS_Source)
      .def("getTelemetryElapsedTime", &GetTelemetryElapsedTime, release_gil())
      .def("setTelemetryPeriod", &SetTelemetryPeriod, release_gil(),
           py::arg("seconds"))
