@@ -453,6 +453,25 @@ PYBIND11_MODULE(_cscore, m) {
           ":returns: Property contents (VideoSource.Kind.kNone if no property with the given name exists)")
       .def("enumerateProperties", &VideoSink::EnumerateProperties, release_gil(),
           "Enumerate all properties of this sink")
+      .def("setConfigJson", [](VideoSink &__inst, wpi::StringRef config) {
+        py::gil_scoped_release __release;
+        return __inst.SetConfigJson(config);
+      }, py::arg("config"),
+        "Set properties from a JSON configuration string.\n\n"
+        "The format of the JSON input is::\n\n"
+        "    {\n"
+        "      \"properties\": [\n"
+        "        {\n"
+        "          \"name\": \"property name\",\n"
+        "          \"value\": \"property value\"\n"
+        "         }\n"
+        "      ]\n"
+        "    }\n\n"
+        ":param config: configuration\n"
+        ":returns: True if set successfully")
+      .def("getConfigJson", &VideoSink::GetConfigJson, release_gil(),
+          "Get a JSON configuration string.\n\n"
+          ":returns: JSON configuration string\n")
       .def("setSource", &VideoSink::SetSource, release_gil(),
           py::arg("source"),
           "Configure which source should provide frames to this sink.  Each sink "
