@@ -1,4 +1,4 @@
-# validated: 2018-12-30 DS 0d7d880261b6 edu/wpi/first/cameraserver/CameraServer.java
+# validated: 2019-01-12 DS fdf298b17243 edu/wpi/first/cameraserver/CameraServer.java
 # ----------------------------------------------------------------------------
 # Copyright (c) 2016-2018 FIRST. All Rights Reserved.
 # Open Source Software - may be modified and shared by FRC teams. The code
@@ -389,7 +389,9 @@ class CameraServer:
         elif prop.isString():
             self._nt.putString(key, prop.getString())
 
-    def startAutomaticCapture(self, *, dev=None, name=None, path=None, camera=None):
+    def startAutomaticCapture(
+        self, *, dev=None, name=None, path=None, camera=None, return_server=False
+    ):
         """Start automatically capturing images to send to the dashboard.
         
         You should call this method to see a camera feed on the dashboard.
@@ -400,9 +402,10 @@ class CameraServer:
         :param name: If specified, the name to use for the camera (dev must be specified)
         :param path: If specified, device path (e.g. "/dev/video0") of the camera
         :param camera: If specified, an existing camera object to use
+        :param return_server: If specified, return the server instead of the camera
         
-        :returns: USB Camera object, or the camera argument
-        :rtype: :class:`cscore.VideoSource` object
+        :returns: USB Camera object, or the camera argument, or the created server
+        :rtype: :class:`cscore.VideoSource` or :class:`cscore.VideoSink`
         
         The following argument combinations are accepted -- all argument must be specified
         as keyword arguments:
@@ -451,7 +454,10 @@ class CameraServer:
         server = self.addServer(name="serve_" + camera.getName())
         server.setSource(camera)
 
-        return camera
+        if return_server:
+            return server
+        else:
+            return camera
 
     def addAxisCamera(self, host, name="Axis Camera"):
         """Adds an Axis IP camera.

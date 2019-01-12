@@ -900,6 +900,14 @@ VideoSink
       :returns: list of sinks.
       
    
+   .. py:method:: VideoSink.getConfigJson() -> str
+      :module: cscore
+   
+      Get a JSON configuration string.
+      
+      :returns: JSON configuration string
+      
+   
    .. py:method:: VideoSink.getDescription() -> str
       :module: cscore
    
@@ -950,6 +958,26 @@ VideoSink
       
       :param name: Property name
       :returns: Property (VideoSink.Kind.kNone if no property with the given name exists or no source connected)
+      
+   
+   .. py:method:: VideoSink.setConfigJson(config: str) -> bool
+      :module: cscore
+   
+      Set properties from a JSON configuration string.
+      
+      The format of the JSON input is::
+      
+          {
+            "properties": [
+              {
+                "name": "property name",
+                "value": "property value"
+               }
+            ]
+          }
+      
+      :param config: configuration
+      :returns: True if set successfully
       
    
    .. py:method:: VideoSink.setSource(source: cscore.VideoSource) -> None
@@ -1197,11 +1225,19 @@ VideoSource
 Utility functions
 -----------------
 
+.. py:function:: getHttpCameraUrls(arg0: int) -> List[str]
+   :module: cscore
+
+
 .. py:function:: getNetworkInterfaces() -> List[str]
    :module: cscore
 
 
 .. py:function:: getTelemetryElapsedTime() -> float
+   :module: cscore
+
+
+.. py:function:: getUsbCameraPath(arg0: int) -> str
    :module: cscore
 
 

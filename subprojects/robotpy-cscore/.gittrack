@@ -2,5 +2,5 @@
 validation_root = cscore
 exclude_commits_file = .gittrackexclude
 upstream_root = ../allwpilib/cameraserver/src/main/java
-upstream_commit = 6105873cbea6dadf3c7f6a3339a682d913a736dc
+upstream_commit = 05d6660a6be0d37064a9fab44232b8379884ccab
 
