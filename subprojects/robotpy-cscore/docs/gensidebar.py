@@ -81,6 +81,7 @@ def generate_sidebar(conf, conf_api):
     write_api("pyfrc", "PyFRC")
     write_api("ctre", "CTRE Libraries")
     write_api("navx", "NavX Library")
+    write_api("rev", "SPARK MAX Library")
     endl()
 
     toctree("Additional Info")
