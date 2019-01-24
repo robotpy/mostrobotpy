@@ -68,6 +68,15 @@ class get_numpy_include(object):
         return np.get_include()
 
 
+def get_opencv_lib(name):
+    lib = "opencv_" + name
+    if sys.platform == "win32":
+        import cv2
+
+        lib += cv2.__version__.replace(".", "")
+    return lib
+
+
 # As of Python 3.6, CCompiler has a `has_flag` method.
 # cf http://bugs.python.org/issue26689
 def has_flag(compiler, flagname):
@@ -103,7 +112,7 @@ def cpp_flag(compiler):
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
 
-    c_opts = {"msvc": ["/EHsc"], "unix": []}
+    c_opts = {"msvc": ["/EHsc", "/DNOMINMAX"], "unix": []}
 
     if sys.platform == "darwin":
         c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
@@ -222,10 +231,7 @@ ext_modules = [
             get_numpy_include(),
         ],
         libraries=[
-            "opencv_core",
-            "opencv_highgui",
-            "opencv_imgproc",
-            "opencv_imgcodecs",
+            get_opencv_lib(name) for name in ("core", "highgui", "imgproc", "imgcodecs")
         ],
         language="c++",
     )
