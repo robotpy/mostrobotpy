@@ -55,6 +55,9 @@ with open(join(gendir, "index.rst"), "w") as fp:
         print(".. autoclass:: cscore.%s" % cls, file=fp)
         print("   :members:", file=fp)
         print("   :undoc-members:", file=fp)
+        bases = getattr(_cscore, cls).__bases__
+        if bases != (object,) and bases[0].__module__ != "pybind11_builtins":
+            print("   :show-inheritance:", file=fp)
         fp.write("\n")
 
     for fn in sorted(fns):
