@@ -5,5 +5,5 @@ recursive-include cscore_src/cscore/src/main/native *.cpp *.h
 include cscore_src/cscore/src/main/native/include/*.inl
 recursive-include cscore_src/wpiutil/src/main/native/cpp *.h *.inc
 recursive-include cscore_src/wpiutil/src/main/native/include *.h *.inl *.inc
-recursive-include cscore_src/wpiutil/src/main/native/libuv *.h
+recursive-include cscore_src/wpiutil/src/main/native/libuv *.cpp *.h
 recursive-include pybind11/include *.h
