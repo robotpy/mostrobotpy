@@ -69,7 +69,6 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<VideoMode, CS_VideoMode> videomode(m, "VideoMode");
     videomode.doc() = "Video mode";
     videomode
-      .def(py::init<>())
       .def(py::init<cs::VideoMode::PixelFormat, int, int, int>(),
            py::arg("pixelFormat"), py::arg("width"), py::arg("height"), py::arg("fps"))
       .def_property("pixelFormat",
@@ -109,7 +108,6 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<VideoProperty> videoproperty(m, "VideoProperty");
     videoproperty.doc() = "A source or sink property.";
     videoproperty
-      .def(py::init<>())
       .def("getName", &VideoProperty::GetName, release_gil())
       .def("getKind", &VideoProperty::GetKind)
       .def("isBoolean", &VideoProperty::IsBoolean)
@@ -142,7 +140,6 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<VideoSource> videosource(m, "VideoSource");
     videosource.doc() = "A source for video that provides a sequence of frames.";
     videosource
-      .def(py::init<>())
       .def(py::init<cs::VideoSource>(), py::arg("source"))
       .def("getHandle", &VideoSource::GetHandle)
       .def(py::self == py::self)
@@ -244,7 +241,6 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<VideoCamera, VideoSource> videocamera(m, "VideoCamera");
     videocamera.doc() = "A source that represents a video camera.";
     videocamera
-      .def(py::init<>())
       .def("setBrightness", &VideoCamera::SetBrightness, release_gil(),
            py::arg("brightness"),
            "Set the brightness, as a percentage (0-100).")
@@ -275,8 +271,7 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<UsbCamera, VideoCamera> usbcamera(m, "UsbCamera");
     usbcamera.doc() = "A source that represents a USB camera.";
     usbcamera
-      .def(py::init<>())
-      .def(py::init<const wpi::Twine&,int>(),
+      .def(py::init<const wpi::Twine&, int>(),
           py::arg("name"), py::arg("dev"),
           "Create a source for a USB camera based on device number.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
@@ -354,7 +349,6 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<CvSource, VideoSource> cvsource(m, "CvSource");
     cvsource.doc() = "A source for user code to provide OpenCV images as video frames.";
     cvsource
-      .def(py::init<>())
       .def(py::init<const wpi::Twine&, VideoMode>(),
           py::arg("name"), py::arg("mode"),
           "Create an OpenCV source.\n\n"
@@ -435,7 +429,6 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<VideoSink> videosink(m, "VideoSink");
     videosink.doc() = "A sink for video that accepts a sequence of frames.";
     videosink
-      .def(py::init<>())
       .def(py::init<cs::VideoSink>(), py::arg("sink"))
       .def("getHandle", &VideoSink::GetHandle)
       .def(py::self == py::self)
@@ -499,7 +492,6 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<MjpegServer, VideoSink> mjpegserver(m, "MjpegServer");
     mjpegserver.doc() = "A sink that acts as a MJPEG-over-HTTP network server.";
     mjpegserver
-      .def(py::init<>())
       .def(py::init<const wpi::Twine&, const wpi::Twine&, int>(),
           py::arg("name"), py::arg("listenAddress"), py::arg("port"),
           "Create a MJPEG-over-HTTP server sink.\n\n"
@@ -542,7 +534,6 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<CvSink, VideoSink> cvsink(m, "CvSink");
     cvsink.doc() = "A sink for user code to accept video frames as OpenCV images.";
     cvsink
-      .def(py::init<>())
       .def(py::init<const wpi::Twine&>(),
           py::arg("name"),
           "Create a sink for accepting OpenCV images. "

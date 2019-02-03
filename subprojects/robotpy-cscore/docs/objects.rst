@@ -36,18 +36,12 @@ AxisCamera
 CvSink
 ------
 
-.. py:class:: CvSink(*args, **kwargs)
+.. py:class:: CvSink(name: str) -> None
    :module: cscore
 
    Bases: :class:`cscore.VideoSink`
 
    A sink for user code to accept video frames as OpenCV images.
-   
-   Overloaded function.
-   
-   1. __init__() -> None
-   
-   2. __init__(name: str) -> None
    
    Create a sink for accepting OpenCV images. :meth:`grabFrame` must be called on the created sink to get each new image
    
@@ -107,16 +101,14 @@ CvSource
    
    Overloaded function.
    
-   1. __init__() -> None
-   
-   2. __init__(name: str, mode: cscore.VideoMode) -> None
+   1. __init__(name: str, mode: cscore.VideoMode) -> None
    
    Create an OpenCV source.
    
    :param name: Source name (arbitrary unique identifier)
    :param mode: Video mode being generated
    
-   3. __init__(name: str, pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int) -> None
+   2. __init__(name: str, pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int) -> None
    
    Create an OpenCV source.
    
@@ -307,9 +299,7 @@ MjpegServer
    
    Overloaded function.
    
-   1. __init__() -> None
-   
-   2. __init__(name: str, listenAddress: str, port: int) -> None
+   1. __init__(name: str, listenAddress: str, port: int) -> None
    
    Create a MJPEG-over-HTTP server sink.
    
@@ -317,7 +307,7 @@ MjpegServer
    :param listenAddress: TCP listen address (empty string for all addresses)
    :param port: TCP port number
    
-   3. __init__(name: str, port: int) -> None
+   2. __init__(name: str, port: int) -> None
    
    Create a MJPEG-over-HTTP server sink.
    
@@ -506,16 +496,14 @@ UsbCamera
    
    Overloaded function.
    
-   1. __init__() -> None
-   
-   2. __init__(name: str, dev: int) -> None
+   1. __init__(name: str, dev: int) -> None
    
    Create a source for a USB camera based on device number.
    
    :param name: Source name (arbitrary unique identifier)
    :param dev: Device number (e.g. 0 for ``/dev/video0``)
    
-   3. __init__(name: str, path: str) -> None
+   2. __init__(name: str, path: str) -> None
    
    Create a source for a USB camera based on device path.
    
@@ -579,7 +567,7 @@ UsbCameraInfo
 VideoCamera
 -----------
 
-.. py:class:: VideoCamera() -> None
+.. py:class:: VideoCamera
    :module: cscore
 
    Bases: :class:`cscore.VideoSource`
@@ -708,18 +696,12 @@ VideoListener
 VideoMode
 ---------
 
-.. py:class:: VideoMode(*args, **kwargs)
+.. py:class:: VideoMode(pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int) -> None
    :module: cscore
 
    Bases: :class:`cscore._CS_VideoMode`
 
    Video mode
-   
-   Overloaded function.
-   
-   1. __init__() -> None
-   
-   2. __init__(pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int) -> None
    
    
    .. py:class:: VideoMode.PixelFormat(arg0: int) -> None
@@ -777,7 +759,7 @@ VideoMode
 VideoProperty
 -------------
 
-.. py:class:: VideoProperty() -> None
+.. py:class:: VideoProperty
    :module: cscore
 
    A source or sink property.
@@ -879,16 +861,10 @@ VideoProperty
 VideoSink
 ---------
 
-.. py:class:: VideoSink(*args, **kwargs)
+.. py:class:: VideoSink(sink: cscore.VideoSink) -> None
    :module: cscore
 
    A sink for video that accepts a sequence of frames.
-   
-   Overloaded function.
-   
-   1. __init__() -> None
-   
-   2. __init__(sink: cscore.VideoSink) -> None
    
    
    .. py:class:: VideoSink.Kind(arg0: int) -> None
@@ -1015,16 +991,10 @@ VideoSink
 VideoSource
 -----------
 
-.. py:class:: VideoSource(*args, **kwargs)
+.. py:class:: VideoSource(source: cscore.VideoSource) -> None
    :module: cscore
 
    A source for video that provides a sequence of frames.
-   
-   Overloaded function.
-   
-   1. __init__() -> None
-   
-   2. __init__(source: cscore.VideoSource) -> None
    
    
    .. py:class:: VideoSource.ConnectionStrategy(arg0: int) -> None
