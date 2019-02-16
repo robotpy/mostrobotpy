@@ -110,11 +110,12 @@ class CameraServer:
             if source.getKind() != VideoSource.Kind.kHttp:
                 return []
 
+            sourceHandle = source.getHandle()
+
             # Generate values
-            values = ["mjpg:%s" % v for v in source.getUrls()]
+            values = ["mjpg:%s" % v for v in cscore.getHttpCameraUrls(sourceHandle)]
 
             # Look to see if we have a passthrough server for this source
-            sourceHandle = source.getHandle()
             for sink in self._sinks.values():
                 sinkSourceHandle = sink.getSource().getHandle()
                 if (
