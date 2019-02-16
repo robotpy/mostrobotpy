@@ -1,4 +1,4 @@
-# validated: 2019-01-12 DS fdf298b17243 edu/wpi/first/cameraserver/CameraServer.java
+# validated: 2019-02-15 DS d55ca191b848 edu/wpi/first/cameraserver/CameraServer.java
 # ----------------------------------------------------------------------------
 # Copyright (c) 2016-2018 FIRST. All Rights Reserved.
 # Open Source Software - may be modified and shared by FRC teams. The code
@@ -10,7 +10,7 @@ import socket
 import threading
 
 import cscore
-from cscore import VideoEvent, VideoProperty, VideoSink, VideoSource
+from cscore import VideoEvent, VideoMode, VideoProperty, VideoSink, VideoSource
 
 import logging
 
@@ -135,7 +135,11 @@ class CameraServer:
             for sink in self._sinks.values():
 
                 # Get the source's subtable (if none exists, we're done)
-                source = sink.getSource()
+                fixedSource = self._fixedSources.get(sink.getHandle())
+                if fixedSource:
+                    source = fixedSource
+                else:
+                    source = sink.getSource()
                 sourceHandle = source.getHandle()
                 if not sourceHandle:
                     continue
@@ -234,6 +238,8 @@ class CameraServer:
         self._sources = {}  # type: Dict[str, VideoSource]
         self._sinks = {}  # type: Dict[str, VideoSink]
         self._tables = {}  # type: Dict[int, networktables.NetworkTable]
+        # source handle indexed by sink handle
+        self._fixedSources = {}  # type: Dict[int, int]
         self._publishTable = NetworkTables.getTable(self.kPublishName)
         self._nextPort = self.kBasePort
         self._addresses = []
@@ -472,6 +478,22 @@ class CameraServer:
         camera = cscore.AxisCamera(name, host)
         # Create a passthrough MJPEG server
         return self.startAutomaticCapture(camera=camera)
+
+    def addSwitchedCamera(self, name):
+        """Adds a virtual camera for switching between two streams.  Unlike the
+        other addCamera methods, this returns a VideoSink rather than a
+        VideoSource.  Calling setSource() on the returned object can be used
+        to switch the actual source of the stream.
+
+        :param name: Name of camera
+
+        :returns: Server object
+        :rtype: :class:`cscore.MjpegServer`
+        """
+        source = cscore.CvSource(name, VideoMode.PixelFormat.kMJPEG, 160, 120, 30)
+        server = self.startAutomaticCapture(camera=source, return_server=True)
+        self._fixedSources[server.getHandle()] = source
+        return server
 
     def getVideo(self, *, name=None, camera=None):
         """Get OpenCV access to specified camera. This allows you to
