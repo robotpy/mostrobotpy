@@ -24,7 +24,7 @@ shutil.copy("gensidebar.py", gendir)
 
 os.chdir(gendir)
 
-from cscore import _cscore
+import _cscore
 
 fns = []
 clss = []
@@ -100,7 +100,7 @@ with open(join(root, "objects.rst"), "w") as fp:
 
     # Format the output a bit..
     for l in rst:
-        l = l.replace("cscore._cscore", "cscore")
+        l = l.replace("_cscore", "cscore")
         l = l.replace("wpi::StringRef", "str")
         l = l.replace("wpi::Twine", "str")
         l = l.replace(

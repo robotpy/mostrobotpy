@@ -1,4 +1,4 @@
-from ._cscore import *
+from _cscore import *
 from ._logging import enableLogging
 
 from .cameraserver import CameraServer, VideoException

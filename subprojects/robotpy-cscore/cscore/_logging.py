@@ -1,6 +1,6 @@
 import logging
 
-from ._cscore import setLogger as _setLogger
+from _cscore import setLogger as _setLogger
 
 
 def enableLogging(level=logging.DEBUG):
