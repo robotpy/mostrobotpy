@@ -11,22 +11,32 @@ sys.path.insert(0, abspath(dirname(__file__)))
 sys.path.insert(0, abspath(join(dirname(__file__), "..")))
 
 if os.environ.get("GENERATING_CPP") is None:
-    from unittest.mock import MagicMock
+    from unittest.mock import Mock
 
-    class Mock(MagicMock):
-
-        __all__ = [
-            "VideoEvent",
-            "VideoProperty",
-            "VideoSink",
-            "VideoSource",
-            "VideoMode",
-        ]
-
-        @classmethod
+    class FakeType(type):
         def __getattr__(cls, name):
-            if not name.startswith("_"):
-                return Mock()
+            if name.startswith("_"):
+                raise AttributeError(name)
+            return FakeType(
+                name,
+                (),
+                {
+                    "__module__": cls.__module__,
+                    "__qualname__": "%s.%s" % (cls.__name__, name),
+                },
+            )
+
+    class FakeModule:
+        def __init__(self, name):
+            self.__name__ = name
+
+        def __getattr__(self, name):
+            if name.startswith("_"):
+                raise AttributeError(name)
+            if name[0].isupper():
+                return FakeType(name, (), {"__module__": self.__name__})
+            else:
+                return Mock(name=name)
 
     class Importer:
         def find_module(self, module_name, package_path):
@@ -38,7 +48,7 @@ if os.environ.get("GENERATING_CPP") is None:
     # print("WT")
     # sys.meta_path.append(Importer())
 
-    sys.modules["cscore._cscore"] = Mock()
+    sys.modules["_cscore"] = FakeModule(name="cscore")
     sys.modules["cv2"] = Mock()
     sys.modules["numpy"] = Mock()
     sys.modules["networktables"] = Mock()

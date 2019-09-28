@@ -9,8 +9,9 @@
 import socket
 import threading
 
-import cscore
-from cscore import VideoEvent, VideoMode, VideoProperty, VideoSink, VideoSource
+import _cscore as cscore
+from _cscore import VideoEvent, VideoMode, VideoProperty, VideoSink, VideoSource
+from ._logging import enableLogging
 
 import logging
 
@@ -47,7 +48,7 @@ class CameraServer:
 
     @staticmethod
     def enableLogging(level=logging.INFO):
-        cscore.enableLogging(level=level)
+        enableLogging(level=level)
 
     # python-specific helper
     def _getSourceTable(self, source):

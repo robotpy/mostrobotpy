@@ -216,7 +216,7 @@ def get_libuv_sources(d):
 
 ext_modules = [
     Extension(
-        "cscore._cscore",
+        "_cscore",
         ["src/_cscore.cpp", "src/ndarray_converter.cpp"]
         + get_cscore_sources("cscore_src/cscore/src/main/native")
         + list(recursive_glob("cscore_src/wpiutil/src/main/native/cpp"))
