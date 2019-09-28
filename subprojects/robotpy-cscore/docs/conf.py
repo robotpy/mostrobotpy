@@ -50,8 +50,6 @@ if os.environ.get("GENERATING_CPP") is None:
 
     sys.modules["_cscore"] = FakeModule(name="cscore")
     sys.modules["cv2"] = Mock()
-    sys.modules["numpy"] = Mock()
-    sys.modules["networktables"] = Mock()
 
 import cscore
 
@@ -70,7 +68,12 @@ if rtd_version not in ["stable", "latest"]:
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.viewcode", "sphinx.ext.intersphinx"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.intersphinx",
+    "sphinx_autodoc_typehints",
+]
 
 # The suffix of source filenames.
 source_suffix = ".rst"
