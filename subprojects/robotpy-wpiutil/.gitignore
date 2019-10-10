@@ -1,0 +1,7 @@
+*.pyc
+*.egg-info
+
+__pycache__
+/wpiutil/_impl
+/dist
+/build
