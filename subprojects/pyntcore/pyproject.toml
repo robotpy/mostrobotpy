@@ -5,7 +5,7 @@ requires = [
 ]
 
 [tool.robotpy-build]
-base-package = "ntcore"
+base_package = "ntcore"
 
 [tool.robotpy-build.wrappers."ntcore._impl"]
 
@@ -37,3 +37,6 @@ author = "RobotPy Development Team"
 author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/pyntcore"
 license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil"
+]
