@@ -2,251 +2,252 @@
 extra_includes:
 - "wpiutil_converters.hpp"
 
-NetworkTable:
-  methods:
-    BasenameKey:
-    NormalizeKey:
-      overloads:
-        "wpi::Twine&, bool":
-        "wpi::Twine&, wpi::SmallVectorImpl<char>&, bool":
-          ignore: true
-    GetHierarchy:
-    NetworkTable:
-      ignore: true
-    GetInstance:
-      ignore: true # pybind11 error
-    Initialize:
-      ignore: true
-    Shutdown:
-      ignore: true
-    SetClientMode:
-      ignore: true
-    SetServerMode:
-      ignore: true
-    SetTeam:
-      ignore: true
-    SetIPAddress:
-      ignore: true
-    SetPort:
-      ignore: true
-    SetDSClientEnabled:
-      ignore: true
-    SetPersistentFilename:
-      ignore: true
-    SetNetworkIdentity:
-      ignore: true
-    GlobalDeleteAll:
-      ignore: true
-    Flush:
-      ignore: true
-    SetUpdateRate:
-      ignore: true
-    SavePersistent:
-      ignore: true
-    LoadPersistent:
-      ignore: true
-    GetTable:
-      ignore: true
-    GetEntry:
-    AddEntryListener:
-      overloads:
-        "TableEntryListener, unsigned int":
-          param_override:
-            listener:
-              x_type: "nt::TableEntryListener"
-        "wpi::Twine&, TableEntryListener, unsigned int":
-          param_override:
-            listener:
-              x_type: "nt::TableEntryListener"
-    RemoveEntryListener:
-    AddSubTableListener:
-    RemoveTableListener:
-      overloads:
-        "NT_EntryListener":
-        "ITableListener*":
-          ignore: true
-    AddTableListener:
-      ignore: true
-    AddTableListenerEx:
-      ignore: true
-    AddSubTableListener:
-      ignore: true
-    GetSubTable:
-    ContainsKey:
-    ContainsSubTable:
-    GetKeys:
-    GetSubTables:
-    SetPersistent:
-    ClearPersistent:
-    IsPersistent:
-    SetFlags:
-    ClearFlags:
-    GetFlags:
-    Delete:
-    PutNumber:
-    SetDefaultNumber:
-    GetNumber:
-    PutString:
-    SetDefaultString:
-    GetString:
-    PutBoolean:
-    SetDefaultBoolean:
-    GetBoolean:
-    PutBooleanArray:
-    SetDefaultBooleanArray:
-    GetBooleanArray:
-    PutNumberArray:
-    SetDefaultNumberArray:
-    GetNumberArray:
-    PutStringArray:
-    SetDefaultStringArray:
-    GetStringArray:
-    PutRaw:
-    SetDefaultRaw:
-    GetRaw:
-    PutValue:
-    SetDefaultValue:
-    GetValue:
-    GetPath:
-    SaveEntries:
-    LoadEntries:
+classes:
+  NetworkTable:
+    methods:
+      BasenameKey:
+      NormalizeKey:
+        overloads:
+          "wpi::Twine&, bool":
+          "wpi::Twine&, wpi::SmallVectorImpl<char>&, bool":
+            ignore: true
+      GetHierarchy:
+      NetworkTable:
+        ignore: true
+      GetInstance:
+        ignore: true # pybind11 error
+      Initialize:
+        ignore: true
+      Shutdown:
+        ignore: true
+      SetClientMode:
+        ignore: true
+      SetServerMode:
+        ignore: true
+      SetTeam:
+        ignore: true
+      SetIPAddress:
+        ignore: true
+      SetPort:
+        ignore: true
+      SetDSClientEnabled:
+        ignore: true
+      SetPersistentFilename:
+        ignore: true
+      SetNetworkIdentity:
+        ignore: true
+      GlobalDeleteAll:
+        ignore: true
+      Flush:
+        ignore: true
+      SetUpdateRate:
+        ignore: true
+      SavePersistent:
+        ignore: true
+      LoadPersistent:
+        ignore: true
+      GetTable:
+        ignore: true
+      GetEntry:
+      AddEntryListener:
+        overloads:
+          "TableEntryListener, unsigned int":
+            param_override:
+              listener:
+                x_type: "nt::TableEntryListener"
+          "wpi::Twine&, TableEntryListener, unsigned int":
+            param_override:
+              listener:
+                x_type: "nt::TableEntryListener"
+      RemoveEntryListener:
+      AddSubTableListener:
+      RemoveTableListener:
+        overloads:
+          "NT_EntryListener":
+          "ITableListener*":
+            ignore: true
+      AddTableListener:
+        ignore: true
+      AddTableListenerEx:
+        ignore: true
+      AddSubTableListener:
+        ignore: true
+      GetSubTable:
+      ContainsKey:
+      ContainsSubTable:
+      GetKeys:
+      GetSubTables:
+      SetPersistent:
+      ClearPersistent:
+      IsPersistent:
+      SetFlags:
+      ClearFlags:
+      GetFlags:
+      Delete:
+      PutNumber:
+      SetDefaultNumber:
+      GetNumber:
+      PutString:
+      SetDefaultString:
+      GetString:
+      PutBoolean:
+      SetDefaultBoolean:
+      GetBoolean:
+      PutBooleanArray:
+      SetDefaultBooleanArray:
+      GetBooleanArray:
+      PutNumberArray:
+      SetDefaultNumberArray:
+      GetNumberArray:
+      PutStringArray:
+      SetDefaultStringArray:
+      GetStringArray:
+      PutRaw:
+      SetDefaultRaw:
+      GetRaw:
+      PutValue:
+      SetDefaultValue:
+      GetValue:
+      GetPath:
+      SaveEntries:
+      LoadEntries:
 
-private_init:
-  ignored: true
+  private_init:
+    ignore: true
 
-NetworkTableEntry:
-  methods:
-    NetworkTableEntry:
-      overloads:
-        "":
-        "NT_Entry":
-    operatorbool:
-    GetHandle:
-    GetInstance:
-      ignore: true # pybind11 error
-    Exists:
-    GetName:
-    GetType:
-    GetFlags:
-    GetLastChange:
-    GetInfo:
-    GetValue:
-    GetBoolean:
-    GetDouble:
-    GetString:
-    GetRaw:
-    GetBooleanArray:
-    GetDoubleArray:
-    GetStringArray:
-    SetDefaultValue:
-    SetDefaultBoolean:
-    SetDefaultDouble:
-    SetDefaultString:
-    SetDefaultRaw:
-    SetDefaultBooleanArray:
-    SetDefaultDoubleArray:
-    SetDefaultStringArray:
-    SetValue:
-    SetBoolean:
-    SetDouble:
-    SetString:
-    SetRaw:
-    SetBooleanArray:
-    SetDoubleArray:
-    SetStringArray:
-    ForceSetValue:
-    ForceSetBoolean:
-    ForceSetDouble:
-    ForceSetString:
-    ForceSetRaw:
-    ForceSetBooleanArray:
-    ForceSetDoubleArray:
-    ForceSetStringArray:
-    SetFlags:
-    ClearFlags:
-    SetPersistent:
-    ClearPersistent:
-    IsPersistent:
-    Delete:
-    CreateRpc:
-    CreatePolledRpc:
-      ignore: true
-    CallRpc:
-    AddListener:
-    RemoveListener:
+  NetworkTableEntry:
+    methods:
+      NetworkTableEntry:
+        overloads:
+          "":
+          "NT_Entry":
+      operatorbool:
+      GetHandle:
+      GetInstance:
+        ignore: true # pybind11 error
+      Exists:
+      GetName:
+      GetType:
+      GetFlags:
+      GetLastChange:
+      GetInfo:
+      GetValue:
+      GetBoolean:
+      GetDouble:
+      GetString:
+      GetRaw:
+      GetBooleanArray:
+      GetDoubleArray:
+      GetStringArray:
+      SetDefaultValue:
+      SetDefaultBoolean:
+      SetDefaultDouble:
+      SetDefaultString:
+      SetDefaultRaw:
+      SetDefaultBooleanArray:
+      SetDefaultDoubleArray:
+      SetDefaultStringArray:
+      SetValue:
+      SetBoolean:
+      SetDouble:
+      SetString:
+      SetRaw:
+      SetBooleanArray:
+      SetDoubleArray:
+      SetStringArray:
+      ForceSetValue:
+      ForceSetBoolean:
+      ForceSetDouble:
+      ForceSetString:
+      ForceSetRaw:
+      ForceSetBooleanArray:
+      ForceSetDoubleArray:
+      ForceSetStringArray:
+      SetFlags:
+      ClearFlags:
+      SetPersistent:
+      ClearPersistent:
+      IsPersistent:
+      Delete:
+      CreateRpc:
+      CreatePolledRpc:
+        ignore: true
+      CallRpc:
+      AddListener:
+      RemoveListener:
 
-NetworkTableInstance:
-  methods:
-    NetworkTableInstance:
-      ignore: true
-    GetDefault:
-    Create:
-    Destroy:
-    GetHandle:
-    GetEntry:
-    GetEntries:
-    GetEntryInfo:
-    GetTable:
-    DeleteAllEntries:
-    AddEntryListener:
-    RemoveEntryListener:
-    WaitForEntryListenerQueue:
-    AddConnectionListener:
-    RemoveConnectionListener:
-    WaitForConnectionListenerQueue:
-    WaitForRpcCallQueue:
-    SetNetworkIdentity:
-    GetNetworkMode:
-    StartServer:
-      param_override:
-        port:
-          default: "NT_DEFAULT_PORT"
-    StopServer:
-    StartClient:
-      overloads:
-        "":
-        "char*, unsigned int":
-          param_override:
-            port:
-              default: "NT_DEFAULT_PORT"
-        "ArrayRef<std::pair<StringRef, unsigned int> >":
-        "ArrayRef<StringRef>, unsigned int":
-          param_override:
-            port:
-              default: "NT_DEFAULT_PORT"
-    StartClientTeam:
-      param_override:
-        port:
-          default: "NT_DEFAULT_PORT"
-    StopClient:
-    SetServer:
-      overloads:
-        "char*, unsigned int":
-          param_override:
-            port:
-              default: "NT_DEFAULT_PORT"
-        "ArrayRef<std::pair<StringRef, unsigned int> >":
-        "ArrayRef<StringRef>, unsigned int":
-          param_override:
-            port:
-              default: "NT_DEFAULT_PORT"
-    SetServerTeam:
-      param_override:
-        port:
-          default: "NT_DEFAULT_PORT"
-    StartDSClient:
-      param_override:
-        port:
-          default: "NT_DEFAULT_PORT"
-    StopDSClient:
-    SetUpdateRate:
-    Flush:
-    GetConnections:
-    IsConnected:
-    SavePersistent:
-    LoadPersistent:
-    SaveEntries:
-    LoadEntries:
-    AddLogger:
-    RemoveLogger:
-    WaitForLoggerQueue:
+  NetworkTableInstance:
+    methods:
+      NetworkTableInstance:
+        ignore: true
+      GetDefault:
+      Create:
+      Destroy:
+      GetHandle:
+      GetEntry:
+      GetEntries:
+      GetEntryInfo:
+      GetTable:
+      DeleteAllEntries:
+      AddEntryListener:
+      RemoveEntryListener:
+      WaitForEntryListenerQueue:
+      AddConnectionListener:
+      RemoveConnectionListener:
+      WaitForConnectionListenerQueue:
+      WaitForRpcCallQueue:
+      SetNetworkIdentity:
+      GetNetworkMode:
+      StartServer:
+        param_override:
+          port:
+            default: "NT_DEFAULT_PORT"
+      StopServer:
+      StartClient:
+        overloads:
+          "":
+          "char*, unsigned int":
+            param_override:
+              port:
+                default: "NT_DEFAULT_PORT"
+          "ArrayRef<std::pair<StringRef, unsigned int> >":
+          "ArrayRef<StringRef>, unsigned int":
+            param_override:
+              port:
+                default: "NT_DEFAULT_PORT"
+      StartClientTeam:
+        param_override:
+          port:
+            default: "NT_DEFAULT_PORT"
+      StopClient:
+      SetServer:
+        overloads:
+          "char*, unsigned int":
+            param_override:
+              port:
+                default: "NT_DEFAULT_PORT"
+          "ArrayRef<std::pair<StringRef, unsigned int> >":
+          "ArrayRef<StringRef>, unsigned int":
+            param_override:
+              port:
+                default: "NT_DEFAULT_PORT"
+      SetServerTeam:
+        param_override:
+          port:
+            default: "NT_DEFAULT_PORT"
+      StartDSClient:
+        param_override:
+          port:
+            default: "NT_DEFAULT_PORT"
+      StopDSClient:
+      SetUpdateRate:
+      Flush:
+      GetConnections:
+      IsConnected:
+      SavePersistent:
+      LoadPersistent:
+      SaveEntries:
+      LoadEntries:
+      AddLogger:
+      RemoveLogger:
+      WaitForLoggerQueue:
