@@ -6,7 +6,7 @@ base_package = "wpiutil"
 
 [tool.robotpy-build.wrappers."wpiutil._impl"]
 
-libname = "wpiutil"
+name = "wpiutil"
 artname = "wpiutil-cpp"
 baseurl = "http://first.wpi.edu/FRC/roborio/maven/release/edu/wpi/first/wpiutil"
 version = "2019.4.1"
