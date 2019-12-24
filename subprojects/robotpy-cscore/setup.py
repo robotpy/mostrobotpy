@@ -107,7 +107,7 @@ def cpp_flag(compiler):
     #     return "-std=c++11"
     else:
         raise RuntimeError(
-            "Unsupported compiler -- at least C++17 support " "is needed!"
+            "Unsupported compiler -- at least C++17 support is needed!"
         )
 
 

@@ -11,6 +11,12 @@
     #define PyInt_AsLong PyLong_AsLong
 #endif
 
+#if CV_VERSION_MAJOR < 4
+    #define UMAT_ACCESSFLAG int
+#else
+    #define UMAT_ACCESSFLAG AccessFlag
+#endif
+
 struct Tmp {
     const char * name;
 
@@ -102,7 +108,7 @@ public:
         return u;
     }
 
-    UMatData* allocate(int dims0, const int* sizes, int type, void* data, size_t* step, int flags, UMatUsageFlags usageFlags) const
+    UMatData* allocate(int dims0, const int* sizes, int type, void* data, size_t* step, UMAT_ACCESSFLAG flags, UMatUsageFlags usageFlags) const
     {
         if( data != 0 )
         {
@@ -131,7 +137,7 @@ public:
         return allocate(o, dims0, sizes, type, step);
     }
 
-    bool allocate(UMatData* u, int accessFlags, UMatUsageFlags usageFlags) const
+    bool allocate(UMatData* u, UMAT_ACCESSFLAG accessFlags, UMatUsageFlags usageFlags) const
     {
         return stdAllocator->allocate(u, accessFlags, usageFlags);
     }
