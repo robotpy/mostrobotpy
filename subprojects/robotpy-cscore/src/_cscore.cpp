@@ -6,6 +6,7 @@
 namespace py = pybind11;
 
 #include "cscore_oo.h"
+#include "cscore_cv.h"
 using namespace cs;
 
 #include <opencv2/opencv.hpp>

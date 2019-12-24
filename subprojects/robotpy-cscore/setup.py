@@ -95,17 +95,19 @@ def has_flag(compiler, flagname):
 
 
 def cpp_flag(compiler):
-    """Return the -std=c++[11/14] compiler flag.
+    """Return the -std=c++[11/14/17] compiler flag.
 
-    The c++14 is preferred over c++11 (when it is available).
+    The highest version available is preferred.
     """
-    if has_flag(compiler, "-std=c++14"):
-        return "-std=c++14"
-    elif has_flag(compiler, "-std=c++11"):
-        return "-std=c++11"
+    if has_flag(compiler, "-std=c++17"):
+        return "-std=c++17"
+    # elif has_flag(compiler, "-std=c++14"):
+    #     return "-std=c++14"
+    # elif has_flag(compiler, "-std=c++11"):
+    #     return "-std=c++11"
     else:
         raise RuntimeError(
-            "Unsupported compiler -- at least C++11 support " "is needed!"
+            "Unsupported compiler -- at least C++17 support " "is needed!"
         )
 
 
@@ -158,6 +160,12 @@ def get_cscore_sources(d):
     return l
 
 
+def get_wpiutil_sources(d):
+    jnifiles = list(glob.glob(d + "/jni/*.cpp"))
+    l = [f for f in recursive_glob(d) if f not in jnifiles]
+    return l
+
+
 def get_libuv_sources(d):
     l = list(glob.glob(d + "/*.cpp"))
     if sys.platform == "win32":
@@ -181,7 +189,6 @@ def get_libuv_sources(d):
                 "stream.cpp",
                 "tcp.cpp",
                 "thread.cpp",
-                "timer.cpp",
                 "tty.cpp",
                 "udp.cpp",
             ]
@@ -208,7 +215,7 @@ def get_libuv_sources(d):
                     "procfs-exepath.cpp",
                     "proctitle.cpp",
                     "sysinfo-loadavg.cpp",
-                    "sysinfo-memory.cpp",
+                    # "sysinfo-memory.cpp",
                 ]
             )
     return l
@@ -219,15 +226,15 @@ ext_modules = [
         "_cscore",
         ["src/_cscore.cpp", "src/ndarray_converter.cpp"]
         + get_cscore_sources("cscore_src/cscore/src/main/native")
-        + list(recursive_glob("cscore_src/wpiutil/src/main/native/cpp"))
-        + get_libuv_sources("cscore_src/wpiutil/src/main/native/libuv"),
+        + get_wpiutil_sources("cscore_src/wpiutil/src/main/native/cpp")
+        + get_libuv_sources("cscore_src/wpiutil/src/main/native/libuv/src"),
         include_dirs=[
             "pybind11/include",
             "cscore_src/cscore/src/main/native/include",
             "cscore_src/cscore/src/main/native/cpp",
             "cscore_src/wpiutil/src/main/native/include",
-            "cscore_src/wpiutil/src/main/native/include/uv-private",
-            "cscore_src/wpiutil/src/main/native/libuv",
+            "cscore_src/wpiutil/src/main/native/libuv/src",
+            "cscore_src/wpiutil/src/main/native/libuv/include",
             get_numpy_include(),
         ],
         libraries=[
