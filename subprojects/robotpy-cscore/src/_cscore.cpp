@@ -61,6 +61,8 @@ PYBIND11_MODULE(_cscore, m) {
       .def_readwrite("path", &UsbCameraInfo::path)
       .def_readwrite("name", &UsbCameraInfo::name)
       .def_readwrite("otherPaths", &UsbCameraInfo::otherPaths)
+      .def_readwrite("vendorId", &UsbCameraInfo::vendorId)
+      .def_readwrite("productId", &UsbCameraInfo::productId)
       .def("__repr__", [](UsbCameraInfo &__inst){
          return std::string("<UsbCameraInfo dev=") + std::to_string(__inst.dev) + " path=" + __inst.path + " name=" + __inst.name + ">";
        });
@@ -88,8 +90,6 @@ PYBIND11_MODULE(_cscore, m) {
       .value("kBGR", VideoMode::PixelFormat::kBGR)
       .value("kGray", VideoMode::PixelFormat::kGray);
     
-    // cscore_cpp.h
-
     #define def_status_fn(n, N, T) def(n, [](T t) { \
         py::gil_scoped_release __r; \
         CS_Status s = 0; \
@@ -347,42 +347,22 @@ PYBIND11_MODULE(_cscore, m) {
           ":param kind: Camera kind (e.g. kAxis)");
       //.def(py::init<wpi::StringRef,std::initializer_list<T>>());
     
-    py::class_<CvSource, VideoSource> cvsource(m, "CvSource");
-    cvsource.doc() = "A source for user code to provide OpenCV images as video frames.";
-    cvsource
-      .def(py::init<const wpi::Twine&, VideoMode>(),
-          py::arg("name"), py::arg("mode"),
-          "Create an OpenCV source.\n\n"
-          ":param name: Source name (arbitrary unique identifier)\n"
-          ":param mode: Video mode being generated")
-      .def(py::init<const wpi::Twine&, VideoMode::PixelFormat, int, int, int>(),
-          py::arg("name"), py::arg("pixelFormat"), py::arg("width"), py::arg("height"), py::arg("fps"),
-          "Create an OpenCV source.\n\n"
-          ":param name: Source name (arbitrary unique identifier)\n"
-          ":param pixelFormat: Pixel format\n"
-          ":param width: width\n"
-          ":param height: height\n"
-          ":param fps: fps")
-      .def("putFrame", &CvSource::PutFrame, release_gil(),
-          py::arg("image"),
-          "Put an OpenCV image and notify sinks.\n\n"
-          "Only 8-bit single-channel or 3-channel (with BGR channel order) images "
-          "are supported. If the format, depth or channel order is different, use "
-          "``cv2.convertTo()`` and/or ``cv2.cvtColor()`` to convert it first.\n\n"
-          ":param image: OpenCV image")
-      .def("notifyError", &CvSource::NotifyError, release_gil(),
+    py::class_<ImageSource, VideoSource> imagesource(m, "ImageSource");
+    imagesource.doc() = "A base class for single image providing sources.";
+    imagesource
+      .def("notifyError", &ImageSource::NotifyError, release_gil(),
           py::arg("msg"),
           "Signal sinks that an error has occurred.  This should be called instead "
-          "of :meth:`putFrame` when an error occurs.")
-      .def("setConnected", &CvSource::SetConnected, release_gil(),
+          "of :meth:`notifyFrame` when an error occurs.")
+      .def("setConnected", &ImageSource::SetConnected, release_gil(),
           py::arg("connected"),
           "Set source connection status.  Defaults to true.\n\n"
           ":param connected: True for connected, false for disconnected")
-      .def("setDescription", &CvSource::SetDescription, release_gil(),
+      .def("setDescription", &ImageSource::SetDescription, release_gil(),
           py::arg("description"),
           "Set source description.\n\n"
           ":param description: Description")
-      .def("createProperty", &CvSource::CreateProperty, release_gil(),
+      .def("createProperty", &ImageSource::CreateProperty, release_gil(),
           py::arg("name"), py::arg("kind"), py::arg("minimum"), py::arg("maximum"), py::arg("step"), py::arg("defaultValue"), py::arg("value"),
           "Create a property.\n\n"
           ":param name: Property name\n"
@@ -393,7 +373,7 @@ PYBIND11_MODULE(_cscore, m) {
           ":param defaultValue: Default value\n"
           ":param value: Current value\n\n"
           ":returns: Property\n")
-      .def("createIntegerProperty", &CvSource::CreateIntegerProperty, release_gil(),
+      .def("createIntegerProperty", &ImageSource::CreateIntegerProperty, release_gil(),
           py::arg("name"), py::arg("minimum"), py::arg("maximum"), py::arg("step"), py::arg("defaultValue"), py::arg("value"),
           "Create a property.\n\n"
           ":param name: Property name\n"
@@ -403,30 +383,30 @@ PYBIND11_MODULE(_cscore, m) {
           ":param defaultValue: Default value\n"
           ":param value: Current value\n\n"
           ":returns: Property\n")
-      .def("createBooleanProperty", &CvSource::CreateBooleanProperty, release_gil(),
+      .def("createBooleanProperty", &ImageSource::CreateBooleanProperty, release_gil(),
           py::arg("name"), py::arg("defaultValue"), py::arg("value"),
           "Create a property.\n\n"
           ":param name: Property name\n"
           ":param defaultValue: Default value\n"
           ":param value: Current value\n\n"
           ":returns: Property\n")
-      .def("createStringProperty", &CvSource::CreateStringProperty, release_gil(),
+      .def("createStringProperty", &ImageSource::CreateStringProperty, release_gil(),
           py::arg("name"), py::arg("value"),
           "Create a property.\n\n"
           ":param name: Property name\n"
           ":param value: Current value\n\n"
           ":returns: Property\n")
-      .def("setEnumPropertyChoices", (void (CvSource::*)(const VideoProperty &property, wpi::ArrayRef<std::string> choices))&CvSource::SetEnumPropertyChoices, release_gil(),
+      .def("setEnumPropertyChoices", (void (ImageSource::*)(const VideoProperty &property, wpi::ArrayRef<std::string> choices))&ImageSource::SetEnumPropertyChoices, release_gil(),
           py::arg("property"), py::arg("choices"),
           "Configure enum property choices.\n\n"
           ":param property: Property\n"
           ":param choices: Choices");
-      /*.def("SetEnumPropertyChoices", [](CvSource &__inst, std::initializer_list<T> choices) {
+      /*.def("SetEnumPropertyChoices", [](ImageSource &__inst, std::initializer_list<T> choices) {
         cs::VideoProperty property;
         auto __ret = __inst.SetEnumPropertyChoices(property, choices);
         return std::make_tuple(__ret, property);
     });*/
-    
+
     py::class_<VideoSink> videosink(m, "VideoSink");
     videosink.doc() = "A sink for video that accepts a sequence of frames.";
     videosink
@@ -532,7 +512,102 @@ PYBIND11_MODULE(_cscore, m) {
            "setCompression() instead to force recompression of MJPEG source images.\n\n"
            ":param quality: JPEG compression quality (0-100)");
     
-    py::class_<CvSink, VideoSink> cvsink(m, "CvSink");
+    py::class_<ImageSink, VideoSink> imagesink(m, "ImageSink");
+    imagesink.doc() = "A base class for single image reading sinks.";
+    imagesink
+      .def("setDescription", &ImageSink::SetDescription,
+          py::arg("description"),
+          "Set sink description.\n\n"
+          ":param description: Description")
+      .def("getError", &ImageSink::GetError,
+           "Get error string.  Call this if :meth:`waitForFrame` returns 0 to determine what the error is.")
+      .def("setEnabled", &ImageSink::SetEnabled,
+          py::arg("enabled"),
+          "Enable or disable getting new frames.\n"
+          "Disabling will cause processFrame (for callback-based ImageSinks) to not"
+          " be called and :meth:`waitForFrame` to not return.  This can be used to save"
+          " processor resources when frames are not needed.");
+    
+    py::class_<RawEvent> rawevent(m, "RawEvent");
+    rawevent.doc() = "Listener event";
+    rawevent
+      .def_readonly("kind", &RawEvent::kind)
+      .def_readonly("mode", &RawEvent::mode)
+      .def_readonly("name", &RawEvent::name)
+      .def_readonly("value", &RawEvent::value)
+      .def_readonly("valueStr", &RawEvent::valueStr)
+      .def_readonly("sourceHandle", &RawEvent::sourceHandle)
+      .def_readonly("sinkHandle", &RawEvent::sinkHandle);
+    
+    py::enum_<RawEvent::Kind>(rawevent, "Kind")
+      .value("kSourceCreated", RawEvent::Kind::kSourceCreated)
+      .value("kSourceDestroyed", RawEvent::Kind::kSourceDestroyed)
+      .value("kSourceConnected", RawEvent::Kind::kSourceConnected)
+      .value("kSourceDisconnected", RawEvent::Kind::kSourceDisconnected)
+      .value("kSourceVideoModesUpdated", RawEvent::Kind::kSourceVideoModesUpdated)
+      .value("kSourceVideoModeChanged", RawEvent::Kind::kSourceVideoModeChanged)
+      .value("kSourcePropertyCreated", RawEvent::Kind::kSourcePropertyCreated)
+      .value("kSourcePropertyValueUpdated", RawEvent::Kind::kSourcePropertyValueUpdated)
+      .value("kSourcePropertyChoicesUpdated", RawEvent::Kind::kSourcePropertyChoicesUpdated)
+      .value("kSinkSourceChanged", RawEvent::Kind::kSinkSourceChanged)
+      .value("kSinkCreated", RawEvent::Kind::kSinkCreated)
+      .value("kSinkDestroyed", RawEvent::Kind::kSinkDestroyed)
+      .value("kSinkEnabled", RawEvent::Kind::kSinkEnabled)
+      .value("kSinkDisabled", RawEvent::Kind::kSinkDisabled)
+      .value("kNetworkInterfacesChanged", RawEvent::Kind::kNetworkInterfacesChanged)
+      .value("kTelemetryUpdated", RawEvent::Kind::kTelemetryUpdated)
+      .value("kSinkPropertyCreated", RawEvent::Kind::kSinkPropertyCreated)
+      .value("kSinkPropertyValueUpdated", RawEvent::Kind::kSinkPropertyValueUpdated)
+      .value("kSinkPropertyChoicesUpdated", RawEvent::Kind::kSinkPropertyChoicesUpdated);
+    
+    py::class_<VideoEvent, RawEvent> videoevent(m, "VideoEvent");
+    videoevent.doc() = "An event generated by the library and provided to event listeners.";
+    videoevent
+      .def("getSource", &VideoEvent::GetSource)
+      .def("getSink", &VideoEvent::GetSink)
+      .def("getProperty", &VideoEvent::GetProperty);
+      
+    
+    py::class_<VideoListenerWrapper> videolistener(m, "VideoListener");
+    videolistener.doc() = 
+        "An event listener.  This calls back to a desigated callback function when\n"
+        "an event matching the specified mask is generated by the library.";
+    videolistener
+      .def(py::init<std::function<void(const VideoEvent&)>,int,bool>(),
+          py::arg("callback"), py::arg("eventMask"), py::arg("immediateNotify"),
+          "Create an event listener.\n\n"
+          ":param callback: Callback function\n"
+          ":param eventMask: Bitmask of VideoEvent.Kind values\n"
+          ":param immediateNotify: Whether callback should be immediately called with"
+          " a representative set of events for the current library state.");
+
+    // now in cscore_cv.h
+
+    py::class_<CvSource, ImageSource> cvsource(m, "CvSource");
+    cvsource.doc() = "A source for user code to provide OpenCV images as video frames.";
+    cvsource
+      .def(py::init<const wpi::Twine&, VideoMode>(),
+          py::arg("name"), py::arg("mode"),
+          "Create an OpenCV source.\n\n"
+          ":param name: Source name (arbitrary unique identifier)\n"
+          ":param mode: Video mode being generated")
+      .def(py::init<const wpi::Twine&, VideoMode::PixelFormat, int, int, int>(),
+          py::arg("name"), py::arg("pixelFormat"), py::arg("width"), py::arg("height"), py::arg("fps"),
+          "Create an OpenCV source.\n\n"
+          ":param name: Source name (arbitrary unique identifier)\n"
+          ":param pixelFormat: Pixel format\n"
+          ":param width: width\n"
+          ":param height: height\n"
+          ":param fps: fps")
+      .def("putFrame", &CvSource::PutFrame, release_gil(),
+          py::arg("image"),
+          "Put an OpenCV image and notify sinks.\n\n"
+          "Only 8-bit single-channel or 3-channel (with BGR channel order) images "
+          "are supported. If the format, depth or channel order is different, use "
+          "``cv2.convertTo()`` and/or ``cv2.cvtColor()`` to convert it first.\n\n"
+          ":param image: OpenCV image");
+
+    py::class_<CvSink, ImageSink> cvsink(m, "CvSink");
     cvsink.doc() = "A sink for user code to accept video frames as OpenCV images.";
     cvsink
       .def(py::init<const wpi::Twine&>(),
@@ -572,62 +647,5 @@ PYBIND11_MODULE(_cscore, m) {
           "The provided image will have three 8-bit channels stored in BGR order.\n\n"
           ":returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image\n"
           "          The frame time is in 1us increments"
-      )
-      .def("getError", &CvSink::GetError,
-           "Get error string.  Call this if :meth:`grabFrame` returns 0 to determine what the error is.")
-      .def("setEnabled", &CvSink::SetEnabled,
-          py::arg("enabled"),
-          "Enable or disable getting new frames.\n"
-          "Disabling will cause processFrame (for callback-based CvSinks) to not"
-          " be called and :meth:`grabFrame` to not return.  This can be used to save"
-          " processor resources when frames are not needed.");
-    
-    py::class_<RawEvent> rawevent(m, "RawEvent");
-    rawevent.doc() = "Listener event";
-    rawevent
-      .def_readonly("kind", &RawEvent::kind)
-      .def_readonly("mode", &RawEvent::mode)
-      .def_readonly("name", &RawEvent::name)
-      .def_readonly("value", &RawEvent::value)
-      .def_readonly("valueStr", &RawEvent::valueStr)
-      .def_readonly("sourceHandle", &RawEvent::sourceHandle)
-      .def_readonly("sinkHandle", &RawEvent::sinkHandle);
-    
-    py::enum_<RawEvent::Kind>(rawevent, "Kind")
-      .value("kSourceCreated", RawEvent::Kind::kSourceCreated)
-      .value("kSourceDestroyed", RawEvent::Kind::kSourceDestroyed)
-      .value("kSourceConnected", RawEvent::Kind::kSourceConnected)
-      .value("kSourceDisconnected", RawEvent::Kind::kSourceDisconnected)
-      .value("kSourceVideoModesUpdated", RawEvent::Kind::kSourceVideoModesUpdated)
-      .value("kSourceVideoModeChanged", RawEvent::Kind::kSourceVideoModeChanged)
-      .value("kSourcePropertyCreated", RawEvent::Kind::kSourcePropertyCreated)
-      .value("kSourcePropertyValueUpdated", RawEvent::Kind::kSourcePropertyValueUpdated)
-      .value("kSourcePropertyChoicesUpdated", RawEvent::Kind::kSourcePropertyChoicesUpdated)
-      .value("kSinkSourceChanged", RawEvent::Kind::kSinkSourceChanged)
-      .value("kSinkCreated", RawEvent::Kind::kSinkCreated)
-      .value("kSinkDestroyed", RawEvent::Kind::kSinkDestroyed)
-      .value("kSinkEnabled", RawEvent::Kind::kSinkEnabled)
-      .value("kSinkDisabled", RawEvent::Kind::kSinkDisabled)
-      .value("kNetworkInterfacesChanged", RawEvent::Kind::kNetworkInterfacesChanged);
-    
-    py::class_<VideoEvent, RawEvent> videoevent(m, "VideoEvent");
-    videoevent.doc() = "An event generated by the library and provided to event listeners.";
-    videoevent
-      .def("getSource", &VideoEvent::GetSource)
-      .def("getSink", &VideoEvent::GetSink)
-      .def("getProperty", &VideoEvent::GetProperty);
-      
-    
-    py::class_<VideoListenerWrapper> videolistener(m, "VideoListener");
-    videolistener.doc() = 
-        "An event listener.  This calls back to a desigated callback function when\n"
-        "an event matching the specified mask is generated by the library.";
-    videolistener
-      .def(py::init<std::function<void(const VideoEvent&)>,int,bool>(),
-          py::arg("callback"), py::arg("eventMask"), py::arg("immediateNotify"),
-          "Create an event listener.\n\n"
-          ":param callback: Callback function\n"
-          ":param eventMask: Bitmask of VideoEvent.Kind values\n"
-          ":param immediateNotify: Whether callback should be immediately called with"
-          " a representative set of events for the current library state.");
+        );
 }
