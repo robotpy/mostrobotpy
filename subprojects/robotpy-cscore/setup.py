@@ -59,8 +59,7 @@ with open(join(setup_dir, "README.rst"), "r") as readme_file:
 # try to use pkgconfig to find compile parameters for OpenCV
 # Note: pkg-config is available for Windows, so try it on all platforms
 # default: no additional directories needed
-opencv_pkg = {"include_dirs": [],
-              "library_dirs": []}
+opencv_pkg = {"include_dirs": [], "library_dirs": []}
 try:
     import pkgconfig
 
@@ -69,8 +68,12 @@ try:
     elif pkgconfig.exists("opencv"):
         opencv_pkg = pkgconfig.parse("opencv")
     else:
-        sys.stderr.write("ERROR: unable to find suitable OpenCV library with pkg-config")
-        sys.stderr.write("  If you compiled OpenCV, be sure to include CMake flag '-D OPENCV_GENERATE_PKGCONFIG=ON'")
+        sys.stderr.write(
+            "ERROR: unable to find suitable OpenCV library with pkg-config"
+        )
+        sys.stderr.write(
+            "  If you compiled OpenCV, be sure to include CMake flag '-D OPENCV_GENERATE_PKGCONFIG=ON'"
+        )
         exit(3)
 except ModuleNotFoundError:
     pass
