@@ -56,6 +56,26 @@ with open(join(setup_dir, "README.rst"), "r") as readme_file:
     long_description = readme_file.read()
 
 
+# try to use pkgconfig to find compile parameters for OpenCV
+# Note: pkg-config is available for Windows, so try it on all platforms
+# default: no additional directories needed
+opencv_pkg = {"include_dirs": [""],
+              "library_dirs": [""]}
+try:
+    import pkgconfig
+
+    if pkgconfig.exists("opencv4"):
+        opencv_pkg = pkgconfig.parse("opencv4")
+    elif pkgconfig.exists("opencv"):
+        opencv_pkg = pkgconfig.parse("opencv")
+    else:
+        sys.stderr.write("ERROR: unable to find suitable OpenCV library with pkg-config")
+        sys.stderr.write("  If you compiled OpenCV, be sure to include CMake flag '-D OPENCV_GENERATE_PKGCONFIG=ON'")
+        exit(3)
+except ModuleNotFoundError:
+    pass
+
+
 #
 # pybind-specific compilation stuff
 #
@@ -101,10 +121,6 @@ def cpp_flag(compiler):
     """
     if has_flag(compiler, "-std=c++17"):
         return "-std=c++17"
-    # elif has_flag(compiler, "-std=c++14"):
-    #     return "-std=c++14"
-    # elif has_flag(compiler, "-std=c++11"):
-    #     return "-std=c++11"
     else:
         raise RuntimeError("Unsupported compiler -- at least C++17 support is needed!")
 
@@ -234,7 +250,9 @@ ext_modules = [
             "cscore_src/wpiutil/src/main/native/libuv/src",
             "cscore_src/wpiutil/src/main/native/libuv/include",
             get_numpy_include(),
-        ],
+        ]
+        + opencv_pkg["include_dirs"],
+        library_dirs=opencv_pkg["library_dirs"],
         libraries=[
             get_opencv_lib(name) for name in ("core", "highgui", "imgproc", "imgcodecs")
         ],
