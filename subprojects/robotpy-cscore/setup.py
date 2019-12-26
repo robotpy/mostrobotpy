@@ -59,8 +59,8 @@ with open(join(setup_dir, "README.rst"), "r") as readme_file:
 # try to use pkgconfig to find compile parameters for OpenCV
 # Note: pkg-config is available for Windows, so try it on all platforms
 # default: no additional directories needed
-opencv_pkg = {"include_dirs": [""],
-              "library_dirs": [""]}
+opencv_pkg = {"include_dirs": [],
+              "library_dirs": []}
 try:
     import pkgconfig
 
