@@ -74,7 +74,6 @@ try:
         sys.stderr.write(
             "  If you compiled OpenCV, be sure to include CMake flag '-D OPENCV_GENERATE_PKGCONFIG=ON'"
         )
-        exit(3)
 except ModuleNotFoundError:
     pass
 
