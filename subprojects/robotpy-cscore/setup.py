@@ -177,7 +177,7 @@ def get_cscore_sources(d):
 
 
 def get_wpiutil_sources(d):
-    jni = re.compile(r'[\/]jni[\/]')
+    jni = re.compile(r"[\/]jni[\/]")
     l = [f for f in recursive_glob(d) if not jni.search(f)]
     return l
 
