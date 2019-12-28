@@ -15,8 +15,8 @@ from os.path import dirname, exists, join
 from setuptools import find_packages, setup, Extension
 from setuptools.command.build_ext import build_ext
 import subprocess
-import sys
 import setuptools
+import re
 
 setup_dir = dirname(__file__)
 git_dir = join(setup_dir, ".git")
@@ -177,8 +177,8 @@ def get_cscore_sources(d):
 
 
 def get_wpiutil_sources(d):
-    jnifiles = list(glob.glob(d + "/jni/*.cpp"))
-    l = [f for f in recursive_glob(d) if f not in jnifiles]
+    jni = re.compile(r'[\/]jni[\/]')
+    l = [f for f in recursive_glob(d) if not jni.search(f)]
     return l
 
 
