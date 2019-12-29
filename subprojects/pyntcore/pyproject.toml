@@ -25,6 +25,7 @@ generate = [
     { NetworkTableEntry = "networktables/NetworkTableEntry.h"},
     { NetworkTableInstance = "networktables/NetworkTableInstance.h"},
     { NetworkTableType = "networktables/NetworkTableType.h"},
+    { Value = "networktables/NetworkTableValue.h"},
 ]
 
 generation_data = "gen/data.yml"
