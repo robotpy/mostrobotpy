@@ -61,8 +61,8 @@ classes:
       GetEntry:
       AddEntryListener:
         overloads:
-          TableEntryListener, unsigned int:
-          wpi::Twine&, TableEntryListener, unsigned int:
+          TableEntryListener, unsigned int [const]:
+          wpi::Twine&, TableEntryListener, unsigned int [const]:
       RemoveEntryListener:
       AddSubTableListener:
         overloads:
