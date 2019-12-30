@@ -1,3 +1,4 @@
 # TODO: autogenerate this?
 
-include wpiutil/include/*.hpp
+recursive-include wpiutil/_impl/include *
+include wpiutil/_impl/lib/*
