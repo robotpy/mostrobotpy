@@ -1,6 +1,6 @@
 
 #include <rpygen_wrapper.hpp>
 
-PYBIND11_MODULE(ntcore, m) {
+RPYBUILD_PYBIND11_MODULE(m) {
     initWrapper(m);
 }
