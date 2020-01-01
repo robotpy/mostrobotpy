@@ -1,8 +1,8 @@
 
-import wpiutil_test
+from wpiutil_test import module
 
 def test_stringref_load():
-    assert wpiutil_test.load_stringref("something") == "something"
+    assert module.load_stringref("something") == "something"
 
 def test_stringref_cast():
-    assert wpiutil_test.cast_stringref() == "casted"
+    assert module.cast_stringref() == "casted"
