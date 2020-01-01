@@ -38,6 +38,23 @@ wpi::ArrayRef<int> cast_arrayref() {
     return vec;
 }
 
+/*
+SmallSet tests
+*/
+
+wpi::SmallSet<int, 4> load_smallset_int(wpi::SmallSet<int, 4> ref) {
+    return ref;
+}
+
+wpi::SmallSet<int, 4> cast_smallset() {
+    static wpi::SmallSet<int, 4> set;
+    set.insert(1);
+    set.insert(2);
+    set.insert(3);
+    set.insert(4);
+    return set;
+}
+
 RPYBUILD_PYBIND11_MODULE(m) {
 
     // stringref
@@ -48,4 +65,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
     m.def("load_arrayref_bool", &load_arrayref_bool);
     m.def("load_arrayref_string", &load_arrayref_string);
     m.def("load_arrayref_vector", &load_arrayref_vector);
+    // SmallSet
+    m.def("load_smallset_int", &load_smallset_int);
+    m.def("cast_smallset", &cast_smallset);
 };
