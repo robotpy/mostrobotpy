@@ -154,32 +154,88 @@ classes:
       GetString:
       GetRaw:
       GetBooleanArray:
+        overloads:
+          ArrayRef<int> [const]:
+          std::initializer_list<int> [const]:
+            ignore: true
       GetDoubleArray:
+        overloads:
+          ArrayRef<double> [const]:
+          std::initializer_list<double> [const]:
+            ignore: true
       GetStringArray:
+        overloads:
+          ArrayRef<std::string> [const]:
+          std::initializer_list<std::string> [const]:
+            ignore: true
       SetDefaultValue:
       SetDefaultBoolean:
       SetDefaultDouble:
       SetDefaultString:
       SetDefaultRaw:
       SetDefaultBooleanArray:
+        overloads:
+          ArrayRef<int>:
+          std::initializer_list<int>:
+            ignore: true
       SetDefaultDoubleArray:
+        overloads:
+          ArrayRef<double>:
+          std::initializer_list<double>:
+            ignore: true
       SetDefaultStringArray:
+        overloads:
+          ArrayRef<std::string>:
+          std::initializer_list<std::string>:
+            ignore: true
       SetValue:
       SetBoolean:
       SetDouble:
       SetString:
       SetRaw:
       SetBooleanArray:
+        overloads:
+          ArrayRef<bool>:
+          std::initializer_list<bool>:
+            ignore: true
+          ArrayRef<int>:
+            ignore: true
+          std::initializer_list<int>:
+            ignore: true
       SetDoubleArray:
+        overloads:
+          ArrayRef<double>:
+          std::initializer_list<double>:
+            ignore: true
       SetStringArray:
+        overloads:
+          ArrayRef<std::string>:
+          std::initializer_list<std::string>:
+            ignore: true
       ForceSetValue:
       ForceSetBoolean:
       ForceSetDouble:
       ForceSetString:
       ForceSetRaw:
       ForceSetBooleanArray:
+        overloads:
+          ArrayRef<bool>:
+          std::initializer_list<bool>:
+            ignore: true
+          ArrayRef<int>:
+            ignore: true
+          std::initializer_list<int>:
+            ignore: true
       ForceSetDoubleArray:
+        overloads:
+          ArrayRef<double>:
+          std::initializer_list<double>:
+            ignore: true
       ForceSetStringArray:
+        overloads:
+          ArrayRef<std::string>:
+          std::initializer_list<std::string>:
+            ignore: true
       SetFlags:
       ClearFlags:
       SetPersistent:
@@ -220,6 +276,8 @@ classes:
       WaitForRpcCallQueue:
       SetNetworkIdentity:
       GetNetworkMode:
+      StartLocal:
+      StopLocal:
       StartServer:
         param_override:
           port:
@@ -279,7 +337,7 @@ classes:
       Value:
         overloads:
           "":
-          NT_Type, uint64_t, private_init:
+          NT_Type, uint64_t, Value::private_init:
             ignore: true
       type:
         cpp_code: |
@@ -375,9 +433,19 @@ classes:
           ArrayRef<bool>, uint64_t:
           ArrayRef<int>, uint64_t:
             ignore: true
+          std::initializer_list<bool>, uint64_t:
+            ignore: true
+          std::initializer_list<int>, uint64_t:
+            ignore: true
       MakeDoubleArray:
+        overloads:
+          ArrayRef<double>, uint64_t:
+          std::initializer_list<double>, uint64_t:
+            ignore: true
       MakeStringArray:
         overloads:
           ArrayRef<std::string>, uint64_t:
             ignore: true
           std::vector<std::string>&&, uint64_t:
+          std::initializer_list<std::string>, uint64_t:
+            ignore: true

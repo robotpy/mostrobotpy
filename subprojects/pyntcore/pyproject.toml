@@ -11,8 +11,8 @@ base_package = "ntcore"
 
 name = "ntcore"
 artname = "ntcore-cpp"
-baseurl = "http://first.wpi.edu/FRC/roborio/maven/release/edu/wpi/first/ntcore"
-version = "2019.4.1"
+baseurl = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ntcore"
+version = "2020.1.1"
 
 sources = [
     "ntcore/_impl/ntcore.cpp"
