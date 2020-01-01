@@ -10,6 +10,9 @@ def test_stringref_cast():
 def test_arrayref_load_int():
     assert module.load_arrayref_int([1, 2, 3]) == [1, 2, 3]
 
+def test_arrayref_load_bool():
+    assert module.load_arrayref_bool([True, False, True]) == [True, False, True]
+
 def test_arrayref_load_string():
     assert module.load_arrayref_string(['a', 'b', 'c']) == ['a', 'b', 'c']
 

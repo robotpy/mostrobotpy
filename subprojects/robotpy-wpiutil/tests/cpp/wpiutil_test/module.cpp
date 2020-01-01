@@ -21,6 +21,10 @@ wpi::ArrayRef<int> load_arrayref_int(wpi::ArrayRef<int> ref) {
     return ref;
 }
 
+wpi::ArrayRef<bool> load_arrayref_bool(wpi::ArrayRef<bool> ref) {
+    return ref;
+}
+
 wpi::ArrayRef<std::string> load_arrayref_string(wpi::ArrayRef<std::string> ref) {
     return ref;
 }
@@ -41,6 +45,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
     m.def("cast_stringref", &cast_stringref);
     // ArrayRef
     m.def("load_arrayref_int", &load_arrayref_int);
+    m.def("load_arrayref_bool", &load_arrayref_bool);
     m.def("load_arrayref_string", &load_arrayref_string);
     m.def("load_arrayref_vector", &load_arrayref_vector);
 };

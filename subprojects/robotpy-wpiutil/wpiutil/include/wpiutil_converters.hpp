@@ -84,7 +84,7 @@ template <typename Type> struct type_caster<wpi::ArrayRef<Type>> {
     using value_conv = make_caster<Type>;
     PYBIND11_TYPE_CASTER(wpi::ArrayRef<Type>, _("List[") + value_conv::name + _("]"));
 
-    std::vector<Type> vec;
+    wpi::SmallVector<Type, 32> vec;
     bool load(handle src, bool convert) {
         if (!isinstance<sequence>(src) || isinstance<str>(src))
             return false;
