@@ -8,8 +8,8 @@ base_package = "wpiutil"
 
 name = "wpiutil"
 artname = "wpiutil-cpp"
-baseurl = "http://first.wpi.edu/FRC/roborio/maven/release/edu/wpi/first/wpiutil"
-version = "2019.4.1"
+baseurl = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/wpiutil"
+version = "2020.1.1"
 
 sources = []
 extra_headers = [
