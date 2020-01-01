@@ -131,7 +131,6 @@ template <typename Type, unsigned Size> struct type_caster<wpi::SmallSet<Type, S
         if (!isinstance<pybind11::set>(src))
             return false;
         auto s = reinterpret_borrow<pybind11::set>(src);
-        value.clear();
         for (auto entry : s) {
             value_conv conv;
             if (!conv.load(entry, convert))
