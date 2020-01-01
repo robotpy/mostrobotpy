@@ -1,7 +1,17 @@
 *.pyc
 *.egg-info
 
+*.so
+*.dll
+*.dylib
+
+.vscode
+
 __pycache__
 /wpiutil/_impl
+/wpiutil/version.py
 /dist
 /build
+
+/tests/cpp/build
+/tests/cpp/wpiutil_test/version.py
