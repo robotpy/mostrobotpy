@@ -4,6 +4,7 @@
 #include <pybind11/stl.h>
 
 #include <wpi/StringRef.h>
+#include <wpi/ArrayRef.h>
 #include <wpi/Twine.h>
 
 namespace pybind11
