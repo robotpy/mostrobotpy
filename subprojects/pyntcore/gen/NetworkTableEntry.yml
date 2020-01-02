@@ -1,0 +1,125 @@
+---
+extra_includes:
+- wpiutil_converters.hpp
+- networktables/NetworkTableInstance.h
+
+classes:
+  NetworkTableEntry:
+    shared_ptr: false
+    enums:
+      Flags:
+    methods:
+      NetworkTableEntry:
+        overloads:
+          "":
+          NT_Entry:
+      GetHandle:
+      GetInstance:
+      Exists:
+      GetName:
+      GetType:
+      GetFlags:
+      GetLastChange:
+      GetInfo:
+      GetValue:
+      GetBoolean:
+      GetDouble:
+      GetString:
+      GetRaw:
+      GetBooleanArray:
+        overloads:
+          ArrayRef<int> [const]:
+          std::initializer_list<int> [const]:
+            ignore: true
+      GetDoubleArray:
+        overloads:
+          ArrayRef<double> [const]:
+          std::initializer_list<double> [const]:
+            ignore: true
+      GetStringArray:
+        overloads:
+          ArrayRef<std::string> [const]:
+          std::initializer_list<std::string> [const]:
+            ignore: true
+      SetDefaultValue:
+      SetDefaultBoolean:
+      SetDefaultDouble:
+      SetDefaultString:
+      SetDefaultRaw:
+      SetDefaultBooleanArray:
+        overloads:
+          ArrayRef<int>:
+          std::initializer_list<int>:
+            ignore: true
+      SetDefaultDoubleArray:
+        overloads:
+          ArrayRef<double>:
+          std::initializer_list<double>:
+            ignore: true
+      SetDefaultStringArray:
+        overloads:
+          ArrayRef<std::string>:
+          std::initializer_list<std::string>:
+            ignore: true
+      SetValue:
+      SetBoolean:
+      SetDouble:
+      SetString:
+      SetRaw:
+      SetBooleanArray:
+        overloads:
+          ArrayRef<bool>:
+          std::initializer_list<bool>:
+            ignore: true
+          ArrayRef<int>:
+            ignore: true
+          std::initializer_list<int>:
+            ignore: true
+      SetDoubleArray:
+        overloads:
+          ArrayRef<double>:
+          std::initializer_list<double>:
+            ignore: true
+      SetStringArray:
+        overloads:
+          ArrayRef<std::string>:
+          std::initializer_list<std::string>:
+            ignore: true
+      ForceSetValue:
+      ForceSetBoolean:
+      ForceSetDouble:
+      ForceSetString:
+      ForceSetRaw:
+      ForceSetBooleanArray:
+        overloads:
+          ArrayRef<bool>:
+          std::initializer_list<bool>:
+            ignore: true
+          ArrayRef<int>:
+            ignore: true
+          std::initializer_list<int>:
+            ignore: true
+      ForceSetDoubleArray:
+        overloads:
+          ArrayRef<double>:
+          std::initializer_list<double>:
+            ignore: true
+      ForceSetStringArray:
+        overloads:
+          ArrayRef<std::string>:
+          std::initializer_list<std::string>:
+            ignore: true
+      SetFlags:
+      ClearFlags:
+      SetPersistent:
+      ClearPersistent:
+      IsPersistent:
+      Delete:
+      CreateRpc:
+        ignore: true
+      CreatePolledRpc:
+        ignore: true
+      CallRpc:
+        ignore: true
+      AddListener:
+      RemoveListener:

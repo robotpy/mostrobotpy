@@ -1,0 +1,373 @@
+functions:
+  GetDefaultInstance:
+    ignore: true
+  CreateInstance:
+    ignore: true
+  DestroyInstance:
+    ignore: true
+  GetInstanceFromHandle:
+    ignore: true
+  GetEntry:
+    ignore: true
+  GetEntries:
+    ignore: true
+  GetEntryName:
+    ignore: true
+  GetEntryType:
+    ignore: true
+  GetEntryLastChange:
+    ignore: true
+  GetEntryValue:
+    overloads:
+      wpi::StringRef:
+        ignore: true
+      NT_Entry:
+        ignore: true
+  SetDefaultEntryValue:
+    overloads:
+      wpi::StringRef, std::shared_ptr<Value>:
+        ignore: true
+      NT_Entry, std::shared_ptr<Value>:
+        ignore: true
+  SetEntryValue:
+    overloads:
+      wpi::StringRef, std::shared_ptr<Value>:
+        ignore: true
+      NT_Entry, std::shared_ptr<Value>:
+        ignore: true
+  SetEntryTypeValue:
+    overloads:
+      wpi::StringRef, std::shared_ptr<Value>:
+        ignore: true
+      NT_Entry, std::shared_ptr<Value>:
+        ignore: true
+  SetEntryFlags:
+    overloads:
+      wpi::StringRef, unsigned int:
+        ignore: true
+      NT_Entry, unsigned int:
+        ignore: true
+  GetEntryFlags:
+    overloads:
+      wpi::StringRef:
+        ignore: true
+      NT_Entry:
+        ignore: true
+  DeleteEntry:
+    overloads:
+      wpi::StringRef:
+        ignore: true
+      NT_Entry:
+        ignore: true
+  DeleteAllEntries:
+    overloads:
+      "":
+        ignore: true
+      NT_Inst:
+        ignore: true
+  GetEntryInfo:
+    overloads:
+      wpi::StringRef, unsigned int:
+        ignore: true
+      NT_Inst, wpi::Twine&, unsigned int:
+        ignore: true
+      NT_Entry:
+        ignore: true
+  AddEntryListener:
+    overloads:
+      wpi::StringRef, nt::EntryListenerCallback, unsigned int:
+        ignore: true
+      NT_Inst, wpi::Twine&, std::function<void ( EntryNotification event )>, unsigned int:
+        ignore: true
+      NT_Entry, std::function<void ( EntryNotification event )>, unsigned int:
+        ignore: true
+  CreateEntryListenerPoller:
+    ignore: true
+  DestroyEntryListenerPoller:
+    ignore: true
+  AddPolledEntryListener:
+    overloads:
+      NT_EntryListenerPoller, wpi::Twine&, unsigned int:
+        ignore: true
+      NT_EntryListenerPoller, NT_Entry, unsigned int:
+        ignore: true
+  PollEntryListener:
+    overloads:
+      NT_EntryListenerPoller:
+        ignore: true
+      NT_EntryListenerPoller, double, bool*:
+        ignore: true
+  CancelPollEntryListener:
+    ignore: true
+  RemoveEntryListener:
+    ignore: true
+  WaitForEntryListenerQueue:
+    ignore: true
+  AddConnectionListener:
+    overloads:
+      nt::ConnectionListenerCallback, bool:
+        ignore: true
+      NT_Inst, std::function<void ( ConnectionNotification event )>, bool:
+        ignore: true
+  CreateConnectionListenerPoller:
+    ignore: true
+  DestroyConnectionListenerPoller:
+    ignore: true
+  AddPolledConnectionListener:
+    ignore: true
+  PollConnectionListener:
+    overloads:
+      NT_ConnectionListenerPoller:
+        ignore: true
+      NT_ConnectionListenerPoller, double, bool*:
+        ignore: true
+  CancelPollConnectionListener:
+    ignore: true
+  RemoveConnectionListener:
+    ignore: true
+  WaitForConnectionListenerQueue:
+    ignore: true
+  CreateRpc:
+    ignore: true
+  CreateRpcCallPoller:
+    ignore: true
+  DestroyRpcCallPoller:
+    ignore: true
+  CreatePolledRpc:
+    ignore: true
+  PollRpc:
+    overloads:
+      NT_RpcCallPoller:
+        ignore: true
+      NT_RpcCallPoller, double, bool*:
+        ignore: true
+  CancelPollRpc:
+    ignore: true
+  WaitForRpcCallQueue:
+    ignore: true
+  PostRpcResponse:
+    ignore: true
+  CallRpc:
+    ignore: true
+  GetRpcResult:
+    overloads:
+      NT_Entry, NT_RpcCall, std::string*:
+        ignore: true
+      NT_Entry, NT_RpcCall, std::string*, double, bool*:
+        ignore: true
+  CancelRpcResult:
+    ignore: true
+  PackRpcDefinition:
+    ignore: true
+  UnpackRpcDefinition:
+    ignore: true
+  PackRpcValues:
+    ignore: true
+  UnpackRpcValues:
+    ignore: true
+  SetNetworkIdentity:
+    overloads:
+      wpi::StringRef:
+        ignore: true
+      NT_Inst, wpi::Twine&:
+        ignore: true
+  GetNetworkMode:
+    overloads:
+      "":
+        ignore: true
+      NT_Inst:
+        ignore: true
+  StartLocal:
+    ignore: true
+  StopLocal:
+    ignore: true
+  StartServer:
+    overloads:
+      wpi::StringRef, char*, unsigned int:
+        ignore: true
+      NT_Inst, wpi::Twine&, char*, unsigned int:
+        ignore: true
+  StopServer:
+    overloads:
+      "":
+        ignore: true
+      NT_Inst:
+        ignore: true
+  StartClient:
+    overloads:
+      "":
+        ignore: true
+      char*, unsigned int:
+        ignore: true
+      ArrayRef<std::pair<StringRef, unsigned int>>:
+        ignore: true
+      NT_Inst:
+        ignore: true
+      NT_Inst, char*, unsigned int:
+        ignore: true
+      NT_Inst, ArrayRef<std::pair<StringRef, unsigned int>>:
+        ignore: true
+  StartClientTeam:
+    ignore: true
+  StopClient:
+    overloads:
+      "":
+        ignore: true
+      NT_Inst:
+        ignore: true
+  SetServer:
+    overloads:
+      char*, unsigned int:
+        ignore: true
+      ArrayRef<std::pair<StringRef, unsigned int>>:
+        ignore: true
+      NT_Inst, char*, unsigned int:
+        ignore: true
+      NT_Inst, ArrayRef<std::pair<StringRef, unsigned int>>:
+        ignore: true
+  SetServerTeam:
+  StartDSClient:
+    overloads:
+      unsigned int:
+        ignore: true
+      NT_Inst, unsigned int:
+        ignore: true
+  StopDSClient:
+    overloads:
+      "":
+        ignore: true
+      NT_Inst:
+        ignore: true
+  StopRpcServer:
+    ignore: true
+  SetUpdateRate:
+    overloads:
+      double:
+        ignore: true
+      NT_Inst, double:
+        ignore: true
+  Flush:
+    overloads:
+      "":
+        ignore: true
+      NT_Inst:
+        ignore: true
+  GetConnections:
+    overloads:
+      "":
+        ignore: true
+      NT_Inst:
+        ignore: true
+  IsConnected:
+    ignore: true
+  SavePersistent:
+    overloads:
+      wpi::StringRef:
+        ignore: true
+      NT_Inst, wpi::Twine&:
+        ignore: true
+  LoadPersistent:
+    overloads:
+      wpi::StringRef, std::function<void ( size_t line, char msg )>:
+        ignore: true
+      NT_Inst, wpi::Twine&, std::function<void ( size_t line, char msg )>:
+        ignore: true
+  SaveEntries:
+    ignore: true
+  LoadEntries:
+    ignore: true
+  Now:
+    ignore: true
+  SetLogger:
+    ignore: true
+  AddLogger:
+    ignore: true
+  CreateLoggerPoller:
+    ignore: true
+  DestroyLoggerPoller:
+    ignore: true
+  AddPolledLogger:
+    ignore: true
+  PollLogger:
+    overloads:
+      NT_LoggerPoller:
+        ignore: true
+      NT_LoggerPoller, double, bool*:
+        ignore: true
+  CancelPollLogger:
+    ignore: true
+  RemoveLogger:
+    ignore: true
+  WaitForLoggerQueue:
+    ignore: true
+classes:
+  EntryInfo:
+    shared_ptr: true
+    attributes:
+      entry:
+      name:
+      type:
+      flags:
+      last_change:
+    methods:
+      swap:
+        ignore: true
+  ConnectionInfo:
+    shared_ptr: true
+    attributes:
+      remote_id:
+      remote_ip:
+    methods:
+      swap:
+        ignore: true
+  RpcParamDef:
+    ignore: true
+  RpcResultDef:
+    ignore: true
+  RpcDefinition:
+    ignore: true
+  RpcAnswer:
+    ignore: true
+  EntryNotification:
+    shared_ptr: true
+    attributes:
+      listener:
+      entry:
+      name:
+      value:
+      flags:
+    methods:
+      EntryNotification:
+        overloads:
+          "":
+          NT_EntryListener, NT_Entry, wpi::StringRef, std::shared_ptr<Value>, unsigned int:
+      swap:
+        ignore: true
+  ConnectionNotification:
+    shared_ptr: true
+    attributes:
+      listener:
+      connected:
+      conn:
+    methods:
+      ConnectionNotification:
+        overloads:
+          "":
+          NT_ConnectionListener, bool, nt::ConnectionInfo&:
+      swap:
+        ignore: true
+  LogMessage:
+    shared_ptr: true
+    attributes:
+      logger:
+      level:
+      filename:
+      line:
+      message:
+    methods:
+      LogMessage:
+        overloads:
+          "":
+          NT_Logger, unsigned int, char*, unsigned int, wpi::StringRef:
+      swap:
+        ignore: true

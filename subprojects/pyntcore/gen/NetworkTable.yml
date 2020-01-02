@@ -1,0 +1,130 @@
+---
+extra_includes:
+- wpiutil_converters.hpp
+- networktables/NetworkTableInstance.h
+
+classes:
+  NetworkTable:
+    shared_ptr: true
+    ignored_bases:
+    - ITable
+    attributes:
+      PATH_SEPARATOR_CHAR:
+    methods:
+      BasenameKey:
+      NormalizeKey:
+        overloads:
+          wpi::Twine&, bool:
+          wpi::Twine&, wpi::SmallVectorImpl<char>&, bool:
+            ignore: true
+      GetHierarchy:
+      NetworkTable:
+        ignore: true
+      GetInstance:
+      Initialize:
+        ignore: true
+      Shutdown:
+        ignore: true
+      SetClientMode:
+        ignore: true
+      SetServerMode:
+        ignore: true
+      SetTeam:
+        ignore: true
+      SetIPAddress:
+        overloads:
+          wpi::StringRef:
+            ignore: true
+          ArrayRef<std::string>:
+            ignore: true
+      SetPort:
+        ignore: true
+      SetDSClientEnabled:
+        ignore: true
+      SetPersistentFilename:
+        ignore: true
+      SetNetworkIdentity:
+        ignore: true
+      GlobalDeleteAll:
+        ignore: true
+      Flush:
+        ignore: true
+      SetUpdateRate:
+        ignore: true
+      SavePersistent:
+        ignore: true
+      LoadPersistent:
+        ignore: true
+      GetTable:
+        ignore: true
+      GetEntry:
+      AddEntryListener:
+        overloads:
+          TableEntryListener, unsigned int [const]:
+          wpi::Twine&, TableEntryListener, unsigned int [const]:
+      RemoveEntryListener:
+      AddSubTableListener:
+        overloads:
+          TableListener, bool:
+          ITableListener*:
+            ignore: true
+          ITableListener*, bool:
+            ignore: true
+      RemoveTableListener:
+        overloads:
+          NT_EntryListener:
+          ITableListener*:
+            ignore: true
+      AddTableListener:
+        overloads:
+          ITableListener*:
+            ignore: true
+          ITableListener*, bool:
+            ignore: true
+          wpi::StringRef, ITableListener*, bool:
+            ignore: true
+      AddTableListenerEx:
+        overloads:
+          ITableListener*, unsigned int:
+            ignore: true
+          wpi::StringRef, ITableListener*, unsigned int:
+            ignore: true
+      GetSubTable:
+      ContainsKey:
+      ContainsSubTable:
+      GetKeys:
+      GetSubTables:
+      SetPersistent:
+      ClearPersistent:
+      IsPersistent:
+      SetFlags:
+      ClearFlags:
+      GetFlags:
+      Delete:
+      PutNumber:
+      SetDefaultNumber:
+      GetNumber:
+      PutString:
+      SetDefaultString:
+      GetString:
+      PutBoolean:
+      SetDefaultBoolean:
+      GetBoolean:
+      PutBooleanArray:
+      SetDefaultBooleanArray:
+      GetBooleanArray:
+      PutNumberArray:
+      SetDefaultNumberArray:
+      GetNumberArray:
+      PutStringArray:
+      SetDefaultStringArray:
+      GetStringArray:
+      PutRaw:
+      SetDefaultRaw:
+      GetRaw:
+      PutValue:
+      SetDefaultValue:
+      GetValue:
+      GetPath:
+      SaveEntries:
+      LoadEntries:

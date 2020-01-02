@@ -1,0 +1,90 @@
+---
+extra_includes:
+- wpiutil_converters.hpp
+
+classes:
+  NetworkTableInstance:
+    shared_ptr: false
+    enums:
+      NetworkMode:
+      LogLevel:
+    methods:
+      NetworkTableInstance:
+        overloads:
+          "":
+            ignore: true
+          NT_Inst:
+            ignore: true
+      GetDefault:
+      Create:
+      Destroy:
+      GetHandle:
+      GetEntry:
+      GetEntries:
+      GetEntryInfo:
+      GetTable:
+      DeleteAllEntries:
+      AddEntryListener:
+      RemoveEntryListener:
+      WaitForEntryListenerQueue:
+      AddConnectionListener:
+      RemoveConnectionListener:
+      WaitForConnectionListenerQueue:
+      WaitForRpcCallQueue:
+      SetNetworkIdentity:
+      GetNetworkMode:
+      StartLocal:
+      StopLocal:
+      StartServer:
+        param_override:
+          port:
+            default: "NT_DEFAULT_PORT"
+      StopServer:
+      StartClient:
+        overloads:
+          "":
+          char*, unsigned int:
+            param_override:
+              port:
+                default: "NT_DEFAULT_PORT"
+          ArrayRef<std::pair<StringRef, unsigned int>>:
+          ArrayRef<StringRef>, unsigned int:
+            param_override:
+              port:
+                default: "NT_DEFAULT_PORT"
+      StartClientTeam:
+        param_override:
+          port:
+            default: "NT_DEFAULT_PORT"
+      StopClient:
+      SetServer:
+        overloads:
+          char*, unsigned int:
+            param_override:
+              port:
+                default: "NT_DEFAULT_PORT"
+          ArrayRef<std::pair<StringRef, unsigned int>>:
+          ArrayRef<StringRef>, unsigned int:
+            param_override:
+              port:
+                default: "NT_DEFAULT_PORT"
+      SetServerTeam:
+        param_override:
+          port:
+            default: "NT_DEFAULT_PORT"
+      StartDSClient:
+        param_override:
+          port:
+            default: "NT_DEFAULT_PORT"
+      StopDSClient:
+      SetUpdateRate:
+      Flush:
+      GetConnections:
+      IsConnected:
+      SavePersistent:
+      LoadPersistent:
+      SaveEntries:
+      LoadEntries:
+      AddLogger:
+      RemoveLogger:
+      WaitForLoggerQueue:

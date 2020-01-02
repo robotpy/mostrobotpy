@@ -12,7 +12,7 @@ base_package = "ntcore"
 name = "ntcore"
 artname = "ntcore-cpp"
 baseurl = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ntcore"
-version = "2020.1.1"
+version = "2020.1.2"
 
 sources = [
     "ntcore/_impl/ntcore.cpp"
@@ -25,10 +25,11 @@ generate = [
     { NetworkTableEntry = "networktables/NetworkTableEntry.h"},
     { NetworkTableInstance = "networktables/NetworkTableInstance.h"},
     { NetworkTableType = "networktables/NetworkTableType.h"},
-    { Value = "networktables/NetworkTableValue.h"},
+    { NetworkTableValue = "networktables/NetworkTableValue.h"},
+    { CppApi = "ntcore_cpp.h"},
 ]
 
-generation_data = "gen/data.yml"
+generation_data = "gen"
 
 
 [tool.robotpy-build.metadata]
