@@ -120,40 +120,13 @@ public:
 
 // SmallSet
 
-template <typename Type, unsigned Size> struct type_caster<wpi::SmallSet<Type, Size>> {
-    using type = Type;
-    using value_conv = make_caster<Type>;
-    typedef wpi::SmallSet<Type, Size> SmallSet_Type;
+template <typename Type, unsigned Size> struct type_caster<wpi::SmallSet<Type, Size>>
+ : set_caster<wpi::SmallSet<Type, Size>, Type> { };
 
-    PYBIND11_TYPE_CASTER(SmallSet_Type, _("Set[") + value_conv::name + _("]"));
+// SmallVector
 
-    bool load(handle src, bool convert) {
-        if (!isinstance<pybind11::set>(src))
-            return false;
-        auto s = reinterpret_borrow<pybind11::set>(src);
-        for (auto entry : s) {
-            value_conv conv;
-            if (!conv.load(entry, convert))
-                return false;
-            value.insert(cast_op<Type &&>(std::move(conv)));
-        }
-        return true;
-    }
-
-    template <typename T>
-    static handle cast(T &&src, return_value_policy policy, handle parent) {
-        if (!std::is_lvalue_reference<T>::value)
-            policy = return_value_policy_override<Type>::policy(policy);
-        pybind11::set s;
-        for (auto &&value : src) {
-            auto value_ = reinterpret_steal<object>(value_conv::cast(forward_like<T>(value), policy, parent));
-            if (!value_ || !s.add(value_))
-                return handle();
-        }
-        return s.release();
-    }
-
-};
+template <typename Type, unsigned Size> struct type_caster<wpi::SmallVector<Type, Size>>
+ : list_caster<wpi::SmallVector<Type, Size>, Type> { };
 
 } // namespace detail
 } // namespace pybind11

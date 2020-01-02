@@ -55,6 +55,20 @@ wpi::SmallSet<int, 4> cast_smallset() {
     return set;
 }
 
+/*
+SmallVector tests
+*/
+
+wpi::SmallVector<int, 4> load_smallvec_int(wpi::SmallVector<int, 4> ref) {
+    return ref;
+}
+
+wpi::SmallVector<int, 4> cast_smallvec() {
+    static wpi::SmallVector<int, 4> set;
+    set.append({1, 2, 3, 4});
+    return set;
+}
+
 RPYBUILD_PYBIND11_MODULE(m) {
 
     // stringref
@@ -68,4 +82,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
     // SmallSet
     m.def("load_smallset_int", &load_smallset_int);
     m.def("cast_smallset", &cast_smallset);
+    // SmallVector
+    m.def("load_smallvec_int", &load_smallvec_int);
+    m.def("cast_smallvec", &cast_smallvec);
 };
