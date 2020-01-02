@@ -15,8 +15,8 @@ from os.path import dirname, exists, join
 from setuptools import find_packages, setup, Extension
 from setuptools.command.build_ext import build_ext
 import subprocess
-import sys
 import setuptools
+import re
 
 setup_dir = dirname(__file__)
 git_dir = join(setup_dir, ".git")
@@ -54,6 +54,28 @@ else:
 
 with open(join(setup_dir, "README.rst"), "r") as readme_file:
     long_description = readme_file.read()
+
+
+# try to use pkgconfig to find compile parameters for OpenCV
+# Note: pkg-config is available for Windows, so try it on all platforms
+# default: no additional directories needed
+opencv_pkg = {"include_dirs": [], "library_dirs": []}
+try:
+    import pkgconfig
+
+    if pkgconfig.exists("opencv4"):
+        opencv_pkg = pkgconfig.parse("opencv4")
+    elif pkgconfig.exists("opencv"):
+        opencv_pkg = pkgconfig.parse("opencv")
+    else:
+        sys.stderr.write(
+            "ERROR: unable to find suitable OpenCV library with pkg-config"
+        )
+        sys.stderr.write(
+            "  If you compiled OpenCV, be sure to include CMake flag '-D OPENCV_GENERATE_PKGCONFIG=ON'"
+        )
+except ModuleNotFoundError:
+    pass
 
 
 #
@@ -95,18 +117,14 @@ def has_flag(compiler, flagname):
 
 
 def cpp_flag(compiler):
-    """Return the -std=c++[11/14] compiler flag.
+    """Return the -std=c++[11/14/17] compiler flag.
 
-    The c++14 is preferred over c++11 (when it is available).
+    The highest version available is preferred.
     """
-    if has_flag(compiler, "-std=c++14"):
-        return "-std=c++14"
-    elif has_flag(compiler, "-std=c++11"):
-        return "-std=c++11"
+    if has_flag(compiler, "-std=c++17"):
+        return "-std=c++17"
     else:
-        raise RuntimeError(
-            "Unsupported compiler -- at least C++11 support " "is needed!"
-        )
+        raise RuntimeError("Unsupported compiler -- at least C++17 support is needed!")
 
 
 class BuildExt(build_ext):
@@ -158,6 +176,12 @@ def get_cscore_sources(d):
     return l
 
 
+def get_wpiutil_sources(d):
+    jni = re.compile(r"[\/]jni[\/]")
+    l = [f for f in recursive_glob(d) if not jni.search(f)]
+    return l
+
+
 def get_libuv_sources(d):
     l = list(glob.glob(d + "/*.cpp"))
     if sys.platform == "win32":
@@ -181,7 +205,6 @@ def get_libuv_sources(d):
                 "stream.cpp",
                 "tcp.cpp",
                 "thread.cpp",
-                "timer.cpp",
                 "tty.cpp",
                 "udp.cpp",
             ]
@@ -208,7 +231,7 @@ def get_libuv_sources(d):
                     "procfs-exepath.cpp",
                     "proctitle.cpp",
                     "sysinfo-loadavg.cpp",
-                    "sysinfo-memory.cpp",
+                    # "sysinfo-memory.cpp",
                 ]
             )
     return l
@@ -219,17 +242,19 @@ ext_modules = [
         "_cscore",
         ["src/_cscore.cpp", "src/ndarray_converter.cpp"]
         + get_cscore_sources("cscore_src/cscore/src/main/native")
-        + list(recursive_glob("cscore_src/wpiutil/src/main/native/cpp"))
-        + get_libuv_sources("cscore_src/wpiutil/src/main/native/libuv"),
+        + get_wpiutil_sources("cscore_src/wpiutil/src/main/native/cpp")
+        + get_libuv_sources("cscore_src/wpiutil/src/main/native/libuv/src"),
         include_dirs=[
             "pybind11/include",
             "cscore_src/cscore/src/main/native/include",
             "cscore_src/cscore/src/main/native/cpp",
             "cscore_src/wpiutil/src/main/native/include",
-            "cscore_src/wpiutil/src/main/native/include/uv-private",
-            "cscore_src/wpiutil/src/main/native/libuv",
+            "cscore_src/wpiutil/src/main/native/libuv/src",
+            "cscore_src/wpiutil/src/main/native/libuv/include",
             get_numpy_include(),
-        ],
+        ]
+        + opencv_pkg["include_dirs"],
+        library_dirs=opencv_pkg["library_dirs"],
         libraries=[
             get_opencv_lib(name) for name in ("core", "highgui", "imgproc", "imgcodecs")
         ],
