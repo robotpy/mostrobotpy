@@ -81,6 +81,16 @@ classes:
       GetRaw:
       GetRpc:
       GetBooleanArray:
+          cpp_code: |
+              [](Value *t) -> py::object {
+                auto v = t->value();
+                py::list l(v.data.arr_boolean.size);
+                for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
+                  auto b = py::bool_(v.data.arr_boolean.arr[i]);
+                  PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
+                }
+                return l;
+              }
       GetDoubleArray:
       GetStringArray:
       MakeBoolean:
