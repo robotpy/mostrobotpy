@@ -8,8 +8,10 @@
 .vscode
 
 __pycache__
-/wpiutil/include
-/wpiutil/lib
+/wpiutil/_impl/include
+/wpiutil/_impl/lib
+/wpiutil/_impl/__init__.py
+/wpiutil/_impl/pkgcfg.py
 /wpiutil/version.py
 /dist
 /build

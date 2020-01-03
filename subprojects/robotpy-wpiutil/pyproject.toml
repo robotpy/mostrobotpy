@@ -4,22 +4,22 @@ requires = ["robotpy-build"]
 [tool.robotpy-build]
 base_package = "wpiutil"
 
-[tool.robotpy-build.wrappers."wpiutil"]
+[tool.robotpy-build.wrappers."wpiutil._impl"]
 
 name = "wpiutil"
 artname = "wpiutil-cpp"
 baseurl = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/wpiutil"
 version = "2020.1.1"
 
-sources = ["wpiutil/main.cpp"]
-extra_includes = ["wpiutil/type_casters"]
+sources = ["wpiutil/_impl/main.cpp"]
+extra_includes = ["wpiutil/_impl/type_casters"]
 
 generate = [
     { PortForwarder = "wpi/PortForwarder.h" }
 ]
 generation_data = "gen"
 
-[tool.robotpy-build.wrappers."wpiutil".type_casters]
+[tool.robotpy-build.wrappers."wpiutil._impl".type_casters]
 "wpi_arrayref_type_caster.h" =    ["wpi::ArrayRef"]
 "wpi_smallset_type_caster.h" =    ["wpi::SmallSet"]
 "wpi_smallvector_type_caster.h" = ["wpi::SmallVector"]

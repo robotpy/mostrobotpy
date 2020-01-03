@@ -2,7 +2,7 @@
 
 import argparse
 import time
-from wpiutil.wpiutil import PortForwarder
+import wpiutil
 
 if __name__ == "__main__":
 
@@ -12,7 +12,7 @@ if __name__ == "__main__":
     parser.add_argument("remotePort", type=int, help="remote port number")
     args = parser.parse_args()
 
-    PortForwarder.getInstance().add(args.port, args.remoteHost, args.remotePort)
+    wpiutil.PortForwarder.getInstance().add(args.port, args.remoteHost, args.remotePort)
 
     while True:
         time.sleep(1)
