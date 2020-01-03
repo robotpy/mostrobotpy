@@ -1,7 +1,11 @@
 
 #include <robotpy_build.h>
 
-#include <wpiutil_converters.hpp>
+#include <wpi_arrayref_type_caster.h>
+#include <wpi_smallset_type_caster.h>
+#include <wpi_smallvector_type_caster.h>
+#include <wpi_stringref_type_caster.h>
+#include <wpi_twine_type_caster.h>
 
 
 std::string load_stringref(wpi::StringRef ref) {

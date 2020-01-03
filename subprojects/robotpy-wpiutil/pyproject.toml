@@ -16,6 +16,13 @@ extra_headers = [
     "wpiutil/include"
 ]
 
+[tool.robotpy-build.wrappers."wpiutil._impl".type_casters]
+"wpi_arrayref_type_caster.h" =    ["wpi::ArrayRef"]
+"wpi_smallset_type_caster.h" =    ["wpi::SmallSet"]
+"wpi_smallvector_type_caster.h" = ["wpi::SmallVector"]
+"wpi_stringref_type_caster.h" =   ["wpi::StringRef"]
+"wpi_twine_type_caster.h" =       ["wpi::Twine"]
+
 [tool.robotpy-build.metadata]
 name = "robotpy-wpiutil"
 description = "Binary wrapper for FRC WPIUtil library"
