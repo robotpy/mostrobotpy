@@ -23,18 +23,43 @@ classes:
       GetInfo:
       GetValue:
       GetBoolean:
+        cpp_code: |
+            [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
+                auto value = GetEntryValue(entry->GetHandle());
+                if (!value || value->type() != NT_BOOLEAN) return defaultValue;
+                return py::cast(value->GetBoolean());
+            }
       GetDouble:
+        cpp_code: |
+            [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
+                auto value = GetEntryValue(entry->GetHandle());
+                if (!value || value->type() != NT_DOUBLE) return defaultValue;
+                return py::cast(value->GetDouble());
+            }
       GetString:
+        cpp_code: |
+            [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
+                auto value = GetEntryValue(entry->GetHandle());
+                if (!value || value->type() != NT_STRING) return defaultValue;
+                return py::cast(value->GetString());
+            }
       GetRaw:
+        cpp_code: |
+            [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
+                auto value = GetEntryValue(entry->GetHandle());
+                if (!value || value->type() != NT_RAW) return defaultValue;
+                return py::cast(value->GetString());
+            }
       GetBooleanArray:
         overloads:
           ArrayRef<int> [const]:
           std::initializer_list<int> [const]:
             ignore: true
         cpp_code: |
-            [](NetworkTableEntry * nt, py::object defaultValue) -> py::object {
-              auto value = GetEntryValue(nt->GetHandle());
+            [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
+              auto value = GetEntryValue(entry->GetHandle());
               if (!value || value->type() != NT_BOOLEAN_ARRAY) return defaultValue;
+              // ntcore will return bit vector by default. Convert to List[bool]
               auto v = value->value();
               py::list l(v.data.arr_boolean.size);
               for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
@@ -48,11 +73,23 @@ classes:
           ArrayRef<double> [const]:
           std::initializer_list<double> [const]:
             ignore: true
+        cpp_code: |
+            [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
+                auto value = GetEntryValue(entry->GetHandle());
+                if (!value || value->type() != NT_DOUBLE_ARRAY) return defaultValue;
+                return py::cast(value->GetDoubleArray());
+            }
       GetStringArray:
         overloads:
           ArrayRef<std::string> [const]:
           std::initializer_list<std::string> [const]:
             ignore: true
+        cpp_code: |
+            [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
+                auto value = GetEntryValue(entry->GetHandle());
+                if (!value || value->type() != NT_STRING_ARRAY) return defaultValue;
+                return py::cast(value->GetStringArray());
+            }
       SetDefaultValue:
       SetDefaultBoolean:
       SetDefaultDouble:
