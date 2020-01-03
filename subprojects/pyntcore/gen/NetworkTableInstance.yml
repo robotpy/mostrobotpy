@@ -1,7 +1,4 @@
 ---
-extra_includes:
-- wpiutil_converters.hpp
-
 classes:
   NetworkTableInstance:
     shared_ptr: false
