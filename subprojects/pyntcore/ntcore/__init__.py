@@ -33,5 +33,5 @@ __all__ = [
     "setServerTeam",
 ]
 
-NetworkTables = NetworkTableInstance.getDefault()
+NetworkTables : NetworkTableInstance = NetworkTableInstance.getDefault()
 __all__ += ["NetworkTables"]
