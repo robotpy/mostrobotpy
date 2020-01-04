@@ -7,6 +7,7 @@
 #include <wpi_stringref_type_caster.h>
 #include <wpi_twine_type_caster.h>
 
+#include <units_unit_t_type_caster.h>
 
 std::string load_stringref(wpi::StringRef ref) {
     return ref.str();
@@ -89,4 +90,8 @@ RPYBUILD_PYBIND11_MODULE(m) {
     // SmallVector
     m.def("load_smallvec_int", &load_smallvec_int);
     m.def("cast_smallvec", &cast_smallvec);
+
+    m.def("m2ft", [](units::meter_t m) -> units::foot_t {
+        return m;
+    });
 };
