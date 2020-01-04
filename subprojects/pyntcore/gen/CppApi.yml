@@ -77,9 +77,9 @@ functions:
     overloads:
       wpi::StringRef, nt::EntryListenerCallback, unsigned int:
         ignore: true
-      NT_Inst, wpi::Twine&, std::function<void ( EntryNotification event )>, unsigned int:
+      NT_Inst, wpi::Twine&, std::function<void ( const EntryNotification & event )>, unsigned int:
         ignore: true
-      NT_Entry, std::function<void ( EntryNotification event )>, unsigned int:
+      NT_Entry, std::function<void ( const EntryNotification & event )>, unsigned int:
         ignore: true
   CreateEntryListenerPoller:
     ignore: true
@@ -107,7 +107,7 @@ functions:
     overloads:
       nt::ConnectionListenerCallback, bool:
         ignore: true
-      NT_Inst, std::function<void ( ConnectionNotification event )>, bool:
+      NT_Inst, std::function<void ( const ConnectionNotification & event )>, bool:
         ignore: true
   CreateConnectionListenerPoller:
     ignore: true
@@ -226,6 +226,7 @@ functions:
       NT_Inst, ArrayRef<std::pair<StringRef, unsigned int>>:
         ignore: true
   SetServerTeam:
+    ignore: true
   StartDSClient:
     overloads:
       unsigned int:
@@ -268,9 +269,9 @@ functions:
         ignore: true
   LoadPersistent:
     overloads:
-      wpi::StringRef, std::function<void ( size_t line, char msg )>:
+      wpi::StringRef, std::function<void ( size_t line, const char * msg )>:
         ignore: true
-      NT_Inst, wpi::Twine&, std::function<void ( size_t line, char msg )>:
+      NT_Inst, wpi::Twine&, std::function<void ( size_t line, const char * msg )>:
         ignore: true
   SaveEntries:
     ignore: true
