@@ -26,6 +26,17 @@ generation_data = "gen"
 "wpi_stringref_type_caster.h" =   ["wpi::StringRef"]
 "wpi_twine_type_caster.h" =       ["wpi::Twine"]
 
+# TODO: add types as wpilib uses them
+"units_unit_t_type_caster.h" =    [
+    "units::unit_t", "units::compound_unit",
+    "units::second_t", "units::nanosecond_t",
+    "units::meter_t", "units::meters_per_second_t",
+    "units::degree_t",
+    "units::radian_t", "units::radians_per_second_t",
+    "units::volt_t",
+    "units::turn_t",
+]
+
 [tool.robotpy-build.metadata]
 name = "robotpy-wpiutil"
 description = "Binary wrapper for FRC WPIUtil library"
