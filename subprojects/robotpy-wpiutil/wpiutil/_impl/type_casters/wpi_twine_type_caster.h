@@ -19,7 +19,7 @@ public:
     // which we use to store the data
     type_caster() : value(ref) {}
 
-    PYBIND11_TYPE_CASTER(wpi::Twine, _("wpi::Twine"));
+    PYBIND11_TYPE_CASTER(wpi::Twine, _("str"));
 
     wpi::StringRef ref;
 

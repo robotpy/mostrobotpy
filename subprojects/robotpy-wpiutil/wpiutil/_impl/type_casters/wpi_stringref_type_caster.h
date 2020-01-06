@@ -14,7 +14,7 @@ template <>
 struct type_caster<wpi::StringRef>
 {
 public:
-    PYBIND11_TYPE_CASTER(wpi::StringRef, _("wpi::StringRef"));
+    PYBIND11_TYPE_CASTER(wpi::StringRef, _("str"));
 
     bool load(handle src, bool)
     {
