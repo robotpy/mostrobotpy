@@ -1,0 +1,17 @@
+*.pyc
+*.egg-info
+__pycache__
+.vscode
+
+*.so
+*.dylib
+*.dll
+
+/build
+/dist
+
+/_pyntcore/include
+/_pyntcore/lib
+/_pyntcore/_init_ntcore.py
+/_pyntcore/pkgcfg.py
+/_pyntcore/version.py
