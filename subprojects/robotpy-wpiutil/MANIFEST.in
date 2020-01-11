@@ -1,4 +1,0 @@
-# TODO: autogenerate this?
-
-recursive-include wpiutil/_impl/include *
-include wpiutil/_impl/lib/*
