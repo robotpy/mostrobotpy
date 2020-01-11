@@ -1,7 +1,15 @@
 ---
+
+extra_includes:
+- src/py2value.h
+
+inline_code: |
+  #include <src/NetworkTableInstance.cpp.inl>
+
 classes:
   NetworkTableInstance:
     shared_ptr: false
+    rename: NetworkTablesInstance
     enums:
       NetworkMode:
       LogLevel:
@@ -85,3 +93,5 @@ classes:
       AddLogger:
       RemoveLogger:
       WaitForLoggerQueue:
+
+      

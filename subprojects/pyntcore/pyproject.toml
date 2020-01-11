@@ -5,17 +5,21 @@ requires = [
 ]
 
 [tool.robotpy-build]
-base_package = "ntcore"
+base_package = "_pyntcore"
 
-[tool.robotpy-build.wrappers."ntcore._impl"]
-
-name = "ntcore"
-artname = "ntcore-cpp"
-baseurl = "https://frcmaven.wpi.edu/artifactory/release/edu/wpi/first/ntcore"
+[tool.robotpy-build.wrappers."_pyntcore".maven_lib_download]
+artifact_id = "ntcore-cpp"
+group_id = "edu.wpi.first.ntcore"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2020.1.2"
 
+libs = ["ntcore"]
+
+[tool.robotpy-build.wrappers."_pyntcore"]
+name = "ntcore"
 sources = [
-    "ntcore/_impl/ntcore.cpp"
+    "_pyntcore/src/ntcore.cpp",
+    "_pyntcore/src/py2value.cpp",
 ]
 
 depends = ["wpiutil"]
@@ -40,5 +44,6 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/pyntcore"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil"
+    "robotpy-wpiutil",
+    #"pynetworktables" # > 2020
 ]

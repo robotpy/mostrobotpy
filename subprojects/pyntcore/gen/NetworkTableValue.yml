@@ -1,6 +1,10 @@
 ---
 extra_includes:
 - networktables/NetworkTableType.h
+- src/py2value.h
+
+inline_code: |
+  #include <src/NetworkTableValue.cpp.inl>
 
 classes:
   Value:
@@ -18,50 +22,7 @@ classes:
       value:
         cpp_code: |
           [](Value * t) -> py::object {
-            auto v = t->value();
-            switch (v.type) {
-            case NT_BOOLEAN:
-              return py::bool_(v.data.v_boolean);
-
-            case NT_DOUBLE:
-              return py::float_(v.data.v_double);
-
-            case NT_STRING:
-              return py::str(v.data.v_string.str, v.data.v_string.len);
-
-            case NT_RAW:
-              return py::bytes(v.data.v_string.str, v.data.v_string.len);
-
-            case NT_BOOLEAN_ARRAY: {
-              py::list l(v.data.arr_boolean.size);
-              for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
-                auto b = py::bool_(v.data.arr_boolean.arr[i]);
-                PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
-              }
-              return l;
-            }
-
-            case NT_DOUBLE_ARRAY: {
-              py::list l(v.data.arr_double.size);
-              for (size_t i = 0; i < v.data.arr_double.size; i++) {
-                auto d = py::float_(v.data.arr_double.arr[i]);
-                PyList_SET_ITEM(l.ptr(), i, d.release().ptr());
-              }
-              return l;
-            }
-            
-            case NT_STRING_ARRAY: {
-              py::list l(v.data.arr_string.size);
-              for (size_t i = 0; i < v.data.arr_string.size; i++) {
-                auto s = py::str(v.data.arr_string.arr[i].str, v.data.arr_string.arr[i].len);
-                PyList_SET_ITEM(l.ptr(), i, s.release().ptr());
-              }
-              return l;
-            }
-
-            default:
-              return py::none();
-            }
+            return pyntcore::ntvalue2py(t);
           }
       last_change:
       time:
