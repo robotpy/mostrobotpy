@@ -1,7 +1,7 @@
 [build-system]
 requires = [
-    "robotpy-build",
-    "robotpy-wpiutil"
+    "robotpy-build>=2020.0.0,<2021.0.0",
+    "robotpy-wpiutil>=2020.1.2.0,<2021.0.0",
 ]
 
 [tool.robotpy-build]
@@ -44,6 +44,6 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/pyntcore"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil",
-    #"pynetworktables" # > 2020
+    "robotpy-wpiutil>=2020.1.2.0,<2021.0.0",
+    "pynetworktables>=2020.0.0,<2021.0.0",
 ]
