@@ -1,0 +1,52 @@
+---
+name: CI
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - run: pip install black
+      - run: black --check --diff .
+
+  test:
+    runs-on: ubuntu-18.04
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - name: Add OpenCV 3.4 PPA
+        run: sudo add-apt-repository -y ppa:~timsc/opencv-3.4
+      - name: Install dependencies
+        run: |
+          sudo apt-get install --no-install-recommends -y \
+            libopencv-dev python3-opencv
+      - run: python3 -m pip install setuptools wheel
+      - run: python3 setup.py sdist
+      - run: python3 -m pip install dist/*.tar.gz
+      - run: python3 -m cscore --help
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [check, test]
+    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          submodules: true
+      - uses: actions/setup-python@v1
+        with:
+          python-version: 3.8
+      - run: python setup.py sdist
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.0.0a0
+        with:
+          user: __token__
+          password: ${{ secrets.pypi_password }}
