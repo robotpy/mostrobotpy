@@ -850,4 +850,3 @@ __all__ = [
     "writeSPI",
     "writeSerial",
 ]
-
