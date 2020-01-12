@@ -1,0 +1,9 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_LoadOneExtension:
+  HAL_LoadExtensions:
+  HAL_SetShowExtensionsNotFoundMessages:

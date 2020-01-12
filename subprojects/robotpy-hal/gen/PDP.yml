@@ -1,0 +1,19 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_InitializePDP:
+  HAL_CleanPDP:
+  HAL_CheckPDPChannel:
+  HAL_CheckPDPModule:
+  HAL_GetPDPTemperature:
+  HAL_GetPDPVoltage:
+  HAL_GetPDPChannelCurrent:
+  HAL_GetPDPAllChannelCurrents:
+  HAL_GetPDPTotalCurrent:
+  HAL_GetPDPTotalPower:
+  HAL_GetPDPTotalEnergy:
+  HAL_ResetPDPTotalEnergy:
+  HAL_ClearPDPStickyFaults:

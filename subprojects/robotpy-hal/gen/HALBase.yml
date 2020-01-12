@@ -1,0 +1,20 @@
+---
+
+strip_prefixes:
+- HAL_
+
+enums:
+  HAL_RuntimeType:
+functions:
+  HAL_GetErrorMessage:
+  HAL_GetFPGAVersion:
+  HAL_GetFPGARevision:
+  HAL_GetRuntimeType:
+  HAL_GetFPGAButton:
+  HAL_GetSystemActive:
+  HAL_GetBrownedOut:
+  HAL_GetPort:
+  HAL_GetPortWithModule:
+  HAL_GetFPGATime:
+  HAL_ExpandFPGATime:
+  HAL_Initialize:

@@ -1,0 +1,20 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_InitializeSolenoidPort:
+  HAL_FreeSolenoidPort:
+  HAL_CheckSolenoidModule:
+  HAL_CheckSolenoidChannel:
+  HAL_GetSolenoid:
+  HAL_GetAllSolenoids:
+  HAL_SetSolenoid:
+  HAL_SetAllSolenoids:
+  HAL_GetPCMSolenoidBlackList:
+  HAL_GetPCMSolenoidVoltageStickyFault:
+  HAL_GetPCMSolenoidVoltageFault:
+  HAL_ClearAllPCMStickyFaults:
+  HAL_SetOneShotDuration:
+  HAL_FireOneShot:

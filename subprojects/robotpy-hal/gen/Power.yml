@@ -1,0 +1,20 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_GetVinVoltage:
+  HAL_GetVinCurrent:
+  HAL_GetUserVoltage6V:
+  HAL_GetUserCurrent6V:
+  HAL_GetUserActive6V:
+  HAL_GetUserCurrentFaults6V:
+  HAL_GetUserVoltage5V:
+  HAL_GetUserCurrent5V:
+  HAL_GetUserActive5V:
+  HAL_GetUserCurrentFaults5V:
+  HAL_GetUserVoltage3V3:
+  HAL_GetUserCurrent3V3:
+  HAL_GetUserActive3V3:
+  HAL_GetUserCurrentFaults3V3:

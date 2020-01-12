@@ -1,0 +1,87 @@
+[build-system]
+requires = [
+    "robotpy-build>=2020.0.7,<2021.0.0",
+    "robotpy-wpiutil>=2020.1.2.1,<2021.0.0"
+]
+
+[tool.robotpy-build]
+base_package = "hal"
+
+
+[tool.robotpy-build.wrappers."hal".maven_lib_download]
+artifact_id = "hal-cpp"
+group_id = "edu.wpi.first.hal"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2020.1.2"
+
+libs = ["wpiHal"]
+
+[tool.robotpy-build.wrappers."hal"]
+
+name = "wpiHal"
+sources = [
+    "hal/src/hal.cpp"
+]
+
+generate = [
+    { Accelerometer = "hal/Accelerometer.h" },
+    { AddressableLED = "hal/AddressableLED.h" },
+    { AddressableLEDTypes = "hal/AddressableLEDTypes.h" },
+    { AnalogAccumulator = "hal/AnalogAccumulator.h" },
+    { AnalogGyro = "hal/AnalogGyro.h" },
+    { AnalogInput = "hal/AnalogInput.h" },
+    { AnalogOutput = "hal/AnalogOutput.h" },
+    { AnalogTrigger = "hal/AnalogTrigger.h" },
+    { CAN = "hal/CAN.h" },
+    { CANAPI = "hal/CANAPI.h" },
+    { CANAPITypes = "hal/CANAPITypes.h" },
+    #{ ChipObject = "hal/ChipObject.h" },
+    { Compressor = "hal/Compressor.h" },
+    { Constants = "hal/Constants.h" },
+    { Counter = "hal/Counter.h" },
+    { DIO = "hal/DIO.h" },
+    # { DMA = "hal/DMA.h" },
+    { DriverStation = "hal/DriverStation.h" },
+    { DriverStationTypes = "hal/DriverStationTypes.h" },
+    { DutyCycle = "hal/DutyCycle.h" },
+    { Encoder = "hal/Encoder.h" },
+    # { Errors = "hal/Errors.h" },
+    { Extensions = "hal/Extensions.h" },
+    { FRCUsageReporting = "hal/FRCUsageReporting.h" },
+    # { HAL = "hal/HAL.h" },
+    { HALBase = "hal/HALBase.h" },
+    { I2C = "hal/I2C.h" },
+    { I2CTypes = "hal/I2CTypes.h" },
+    { Interrupts = "hal/Interrupts.h" },
+    { Main = "hal/Main.h" },
+    { Notifier = "hal/Notifier.h" },
+    { PDP = "hal/PDP.h" },
+    { PWM = "hal/PWM.h" },
+    { Ports = "hal/Ports.h" },
+    { Power = "hal/Power.h" },
+    { Relay = "hal/Relay.h" },
+    { SPI = "hal/SPI.h" },
+    { SPITypes = "hal/SPITypes.h" },
+    { SerialPort = "hal/SerialPort.h" },
+    { SimDevice = "hal/SimDevice.h" },
+    { Solenoid = "hal/Solenoid.h" },
+    { Threads = "hal/Threads.h" },
+    # { Types = "hal/Types.h" },
+    # { Value = "hal/Value.h" },
+
+    { HandlesInternal = "hal/handles/HandlesInternal.h" },
+]
+
+generation_data = "gen"
+depends = ["wpiutil"]
+
+[tool.robotpy-build.metadata]
+name = "robotpy-hal"
+description = "Binary wrapper for FRC HAL"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-hal"
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil>=2020.1.2.1,<2021.0.0",
+]

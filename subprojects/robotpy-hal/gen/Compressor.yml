@@ -1,0 +1,19 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_InitializeCompressor:
+  HAL_CheckCompressorModule:
+  HAL_GetCompressor:
+  HAL_SetCompressorClosedLoopControl:
+  HAL_GetCompressorClosedLoopControl:
+  HAL_GetCompressorPressureSwitch:
+  HAL_GetCompressorCurrent:
+  HAL_GetCompressorCurrentTooHighFault:
+  HAL_GetCompressorCurrentTooHighStickyFault:
+  HAL_GetCompressorShortedStickyFault:
+  HAL_GetCompressorShortedFault:
+  HAL_GetCompressorNotConnectedStickyFault:
+  HAL_GetCompressorNotConnectedFault:

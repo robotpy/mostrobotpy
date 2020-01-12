@@ -1,0 +1,19 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_InitializeInterrupts:
+  HAL_CleanInterrupts:
+  HAL_WaitForInterrupt:
+  HAL_EnableInterrupts:
+  HAL_DisableInterrupts:
+  HAL_ReadInterruptRisingTimestamp:
+  HAL_ReadInterruptFallingTimestamp:
+  HAL_RequestInterrupts:
+  HAL_AttachInterruptHandler:
+    ignore: true
+  HAL_AttachInterruptHandlerThreaded:
+    ignore: true
+  HAL_SetInterruptUpSourceEdge:

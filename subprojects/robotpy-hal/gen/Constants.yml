@@ -1,0 +1,7 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_GetSystemClockTicksPerMicrosecond:

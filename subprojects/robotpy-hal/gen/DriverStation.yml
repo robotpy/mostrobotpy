@@ -1,0 +1,45 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_SendError:
+  HAL_GetControlWord:
+  HAL_GetAllianceStation:
+  HAL_GetJoystickAxes:
+  HAL_GetJoystickPOVs:
+  HAL_GetJoystickButtons:
+  HAL_GetJoystickDescriptor:
+  HAL_GetJoystickIsXbox:
+  HAL_GetJoystickType:
+  HAL_GetJoystickName:
+    cpp_code: |
+      [](int32_t joystickNum) {
+        auto name = HAL_GetJoystickName(joystickNum);
+        std::string sname(name);
+        HAL_FreeJoystickName(name);
+        return sname;
+      }
+  HAL_FreeJoystickName:
+    ignore: true
+  HAL_GetJoystickAxisType:
+  HAL_SetJoystickOutputs:
+  HAL_GetMatchTime:
+  HAL_GetMatchInfo:
+  HAL_ReleaseDSMutex:
+  HAL_WaitForCachedControlData:
+    cpp_code: |
+      []() {
+        HAL_WaitForCachedControlDataTimeout(0);
+      }
+  HAL_WaitForCachedControlDataTimeout:
+  HAL_IsNewControlData:
+  HAL_WaitForDSData:
+  HAL_WaitForDSDataTimeout:
+  HAL_InitializeDriverStation:
+  HAL_ObserveUserProgramStarting:
+  HAL_ObserveUserProgramDisabled:
+  HAL_ObserveUserProgramAutonomous:
+  HAL_ObserveUserProgramTeleop:
+  HAL_ObserveUserProgramTest:

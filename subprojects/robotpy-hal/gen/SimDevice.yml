@@ -1,0 +1,97 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_CreateSimDevice:
+  HAL_FreeSimDevice:
+  HAL_CreateSimValue:
+    overloads:
+      HAL_SimDeviceHandle, char*, HAL_Bool, struct HAL_Value*:
+      HAL_SimDeviceHandle, char*, HAL_Bool, HAL_Value&:
+  HAL_CreateSimValueDouble:
+  HAL_CreateSimValueEnum:
+    cpp_code: |
+      [](HAL_SimDeviceHandle device, const char* name, bool readonly,
+         wpi::ArrayRef<const char*> options, int32_t initialValue) {
+        return HAL_CreateSimValueEnum(device, name, readonly, options.size(),
+                                      const_cast<const char**>(options.data()),
+                                      initialValue);
+      }
+    param_override:
+      numOptions:
+        ignore: true
+  HAL_CreateSimValueBoolean:
+  HAL_GetSimValue:
+    overloads:
+      HAL_SimValueHandle, struct HAL_Value*:
+      HAL_SimValueHandle:
+  HAL_GetSimValueDouble:
+  HAL_GetSimValueEnum:
+  HAL_GetSimValueBoolean:
+  HAL_SetSimValue:
+    overloads:
+      HAL_SimValueHandle, struct HAL_Value*:
+      HAL_SimValueHandle, HAL_Value&:
+  HAL_SetSimValueDouble:
+  HAL_SetSimValueEnum:
+  HAL_SetSimValueBoolean:
+classes:
+  SimValue:
+    shared_ptr: true
+    methods:
+      SimValue:
+        overloads:
+          "":
+          HAL_SimValueHandle:
+      GetValue:
+      SetValue:
+  SimDouble:
+    shared_ptr: true
+    force_no_trampoline: true
+    methods:
+      SimDouble:
+        overloads:
+          "":
+          HAL_SimValueHandle:
+      Get:
+      Set:
+  SimEnum:
+    shared_ptr: true
+    force_no_trampoline: true
+    methods:
+      SimEnum:
+        overloads:
+          "":
+          HAL_SimValueHandle:
+      Get:
+      Set:
+  SimBoolean:
+    shared_ptr: true
+    force_no_trampoline: true
+    methods:
+      SimBoolean:
+        overloads:
+          "":
+          HAL_SimValueHandle:
+      Get:
+      Set:
+  SimDevice:
+    shared_ptr: true
+    methods:
+      SimDevice:
+        overloads:
+          "":
+          char*:
+          char*, int:
+          char*, int, int:
+          HAL_SimDeviceHandle:
+      CreateValue:
+      CreateDouble:
+      CreateEnum:
+        overloads:
+          char*, bool, std::initializer_list<const char *>, int32_t:
+            ignore: true
+          char*, bool, wpi::ArrayRef<const char *>, int32_t:
+      CreateBoolean:

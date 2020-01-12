@@ -1,0 +1,13 @@
+---
+
+strip_prefixes:
+- HAL_
+
+enums:
+  HAL_AccelerometerRange:
+functions:
+  HAL_SetAccelerometerActive:
+  HAL_SetAccelerometerRange:
+  HAL_GetAccelerometerX:
+  HAL_GetAccelerometerY:
+  HAL_GetAccelerometerZ:

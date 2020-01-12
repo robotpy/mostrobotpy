@@ -1,0 +1,13 @@
+---
+
+strip_prefixes:
+- HAL_
+
+classes:
+  HAL_AddressableLEDData:
+    shared_ptr: true
+    attributes:
+      b:
+      g:
+      r:
+      padding:
