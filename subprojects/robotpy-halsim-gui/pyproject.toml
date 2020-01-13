@@ -1,5 +1,7 @@
 [build-system]
-requires = ["robotpy-build"]
+requires = [
+    "robotpy-build>=2020.0.9,<2021.0.0",
+]
 
 [tool.robotpy-build]
 base_package = "halsim_gui"
