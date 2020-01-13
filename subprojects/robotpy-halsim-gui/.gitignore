@@ -1,0 +1,17 @@
+
+*.pyc
+
+*.dll
+*.so
+*.dylib
+
+.vscode
+
+/build
+/dist
+
+/halsim_gui/_init_halsim_gui.py
+/halsim_gui/pkgcfg.py
+/halsim_gui/version.py
+/halsim_gui/include
+/halsim_gui/lib
