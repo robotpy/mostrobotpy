@@ -1,9 +1,9 @@
-
 import logging
 import os
 from os.path import abspath, dirname, join
 
 logger = logging.getLogger("halsim_gui")
+
 
 class HalSimGuiMain:
     """
@@ -22,9 +22,10 @@ class HalSimGuiMain:
             raise ImportError("you must install robotpy-hal!")
 
         from .version import version
+
         logger.info("WPILib HAL Simulation %s", version)
 
-        root = join(abspath(dirname(__file__)), 'lib')
+        root = join(abspath(dirname(__file__)), "lib")
         ext = join(root, os.listdir(root)[0])
         retval = hal.loadOneExtension(ext)
         if retval != 0:
