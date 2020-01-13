@@ -24,6 +24,7 @@ author = "RobotPy Development Team"
 author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-halsim-gui"
 license = "BSD-3-Clause"
+install_requires = []
 
 [tool.robotpy-build.metadata.entry_points]
 robotpy = ["sim = halsim_gui.main:HalSimGuiMain"]
