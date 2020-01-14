@@ -1,0 +1,26 @@
+---
+
+classes:
+  PWMSim:
+    shared_ptr: true
+    methods:
+      PWMSim:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterRawValueCallback:
+      GetRawValue:
+      SetRawValue:
+      RegisterSpeedCallback:
+      GetSpeed:
+      SetSpeed:
+      RegisterPositionCallback:
+      GetPosition:
+      SetPosition:
+      RegisterPeriodScaleCallback:
+      GetPeriodScale:
+      SetPeriodScale:
+      RegisterZeroLatchCallback:
+      GetZeroLatch:
+      SetZeroLatch:
+      ResetData:

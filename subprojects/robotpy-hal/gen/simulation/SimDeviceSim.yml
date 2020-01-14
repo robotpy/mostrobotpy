@@ -1,0 +1,17 @@
+---
+
+classes:
+  SimDeviceSim:
+    shared_ptr: true
+    methods:
+      SimDeviceSim:
+      GetValue:
+      GetDouble:
+      GetEnum:
+      GetBoolean:
+      GetEnumOptions:
+      EnumerateValues:
+        ignore: true # TODO
+      EnumerateDevices:
+        ignore: true # TODO
+      ResetData:

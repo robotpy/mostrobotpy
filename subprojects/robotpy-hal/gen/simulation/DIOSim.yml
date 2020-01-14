@@ -1,0 +1,23 @@
+---
+
+classes:
+  DIOSim:
+    shared_ptr: true
+    methods:
+      DIOSim:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterValueCallback:
+      GetValue:
+      SetValue:
+      RegisterPulseLengthCallback:
+      GetPulseLength:
+      SetPulseLength:
+      RegisterIsInputCallback:
+      GetIsInput:
+      SetIsInput:
+      RegisterFilterIndexCallback:
+      GetFilterIndex:
+      SetFilterIndex:
+      ResetData:

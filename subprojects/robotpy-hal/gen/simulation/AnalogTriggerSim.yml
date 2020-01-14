@@ -1,0 +1,17 @@
+---
+
+classes:
+  AnalogTriggerSim:
+    shared_ptr: true
+    methods:
+      AnalogTriggerSim:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterTriggerLowerBoundCallback:
+      GetTriggerLowerBound:
+      SetTriggerLowerBound:
+      RegisterTriggerUpperBoundCallback:
+      GetTriggerUpperBound:
+      SetTriggerUpperBound:
+      ResetData:

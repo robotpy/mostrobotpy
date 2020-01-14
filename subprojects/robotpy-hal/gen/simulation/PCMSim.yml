@@ -1,0 +1,31 @@
+---
+
+classes:
+  PCMSim:
+    shared_ptr: true
+    methods:
+      PCMSim:
+      RegisterSolenoidInitializedCallback:
+      GetSolenoidInitialized:
+      SetSolenoidInitialized:
+      RegisterSolenoidOutputCallback:
+      GetSolenoidOutput:
+      SetSolenoidOutput:
+      RegisterCompressorInitializedCallback:
+      GetCompressorInitialized:
+      SetCompressorInitialized:
+      RegisterCompressorOnCallback:
+      GetCompressorOn:
+      SetCompressorOn:
+      RegisterClosedLoopEnabledCallback:
+      GetClosedLoopEnabled:
+      SetClosedLoopEnabled:
+      RegisterPressureSwitchCallback:
+      GetPressureSwitch:
+      SetPressureSwitch:
+      RegisterCompressorCurrentCallback:
+      GetCompressorCurrent:
+      SetCompressorCurrent:
+      GetAllSolenoidOutputs:
+      SetAllSolenoidOutputs:
+      ResetData:

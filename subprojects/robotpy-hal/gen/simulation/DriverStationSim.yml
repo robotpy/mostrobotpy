@@ -1,0 +1,26 @@
+---
+
+classes:
+  DriverStationSim:
+    shared_ptr: true
+    methods:
+      RegisterEnabledCallback:
+      GetEnabled:
+      SetEnabled:
+      RegisterAutonomousCallback:
+      GetAutonomous:
+      SetAutonomous:
+      RegisterTestCallback:
+      GetTest:
+      SetTest:
+      RegisterEStopCallback:
+      GetEStop:
+      SetEStop:
+      RegisterFmsAttachedCallback:
+      GetFmsAttached:
+      SetFmsAttached:
+      RegisterDsAttachedCallback:
+      GetDsAttached:
+      SetDsAttached:
+      NotifyNewData:
+      ResetData:

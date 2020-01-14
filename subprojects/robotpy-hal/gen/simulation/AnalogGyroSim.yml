@@ -1,0 +1,17 @@
+---
+
+classes:
+  AnalogGyroSim:
+    shared_ptr: true
+    methods:
+      AnalogGyroSim:
+      RegisterAngleCallback:
+      GetAngle:
+      SetAngle:
+      RegisterRateCallback:
+      GetRate:
+      SetRate:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      ResetData:

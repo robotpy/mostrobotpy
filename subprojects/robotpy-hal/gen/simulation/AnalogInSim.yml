@@ -1,0 +1,35 @@
+---
+
+classes:
+  AnalogInSim:
+    shared_ptr: true
+    methods:
+      AnalogInSim:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterAverageBitsCallback:
+      GetAverageBits:
+      SetAverageBits:
+      RegisterOversampleBitsCallback:
+      GetOversampleBits:
+      SetOversampleBits:
+      RegisterVoltageCallback:
+      GetVoltage:
+      SetVoltage:
+      RegisterAccumulatorInitializedCallback:
+      GetAccumulatorInitialized:
+      SetAccumulatorInitialized:
+      RegisterAccumulatorValueCallback:
+      GetAccumulatorValue:
+      SetAccumulatorValue:
+      RegisterAccumulatorCountCallback:
+      GetAccumulatorCount:
+      SetAccumulatorCount:
+      RegisterAccumulatorCenterCallback:
+      GetAccumulatorCenter:
+      SetAccumulatorCenter:
+      RegisterAccumulatorDeadbandCallback:
+      GetAccumulatorDeadband:
+      SetAccumulatorDeadband:
+      ResetData:

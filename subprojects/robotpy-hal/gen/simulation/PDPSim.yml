@@ -1,0 +1,22 @@
+---
+
+classes:
+  PDPSim:
+    shared_ptr: true
+    methods:
+      PDPSim:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterTemperatureCallback:
+      GetTemperature:
+      SetTemperature:
+      RegisterVoltageCallback:
+      GetVoltage:
+      SetVoltage:
+      RegisterCurrentCallback:
+      GetCurrent:
+      SetCurrent:
+      GetAllCurrents:
+      SetAllCurrents:
+      ResetData:

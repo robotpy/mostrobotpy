@@ -1,0 +1,17 @@
+---
+
+classes:
+  DutyCycleSim:
+    shared_ptr: true
+    methods:
+      DutyCycleSim:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterFrequencyCallback:
+      GetFrequency:
+      SetFrequency:
+      RegisterOutputCallback:
+      GetOutput:
+      SetOutput:
+      ResetData:
