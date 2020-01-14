@@ -286,8 +286,6 @@ from ._wpiHal import (
     isNewControlData,
     isPulsing,
     latchPWMZero,
-    loadExtensions,
-    loadOneExtension,
     observeUserProgramAutonomous,
     observeUserProgramDisabled,
     observeUserProgramStarting,
@@ -356,7 +354,6 @@ from ._wpiHal import (
     setDigitalPWMDutyCycle,
     setDigitalPWMOutputChannel,
     setDigitalPWMRate,
-    setDutyCycleSimDevice,
     setEncoderDistancePerPulse,
     setEncoderIndexSource,
     setEncoderMaxPeriod,
@@ -394,7 +391,6 @@ from ._wpiHal import (
     setSerialTimeout,
     setSerialWriteBufferSize,
     setSerialWriteMode,
-    setShowExtensionsNotFoundMessages,
     setSimValue,
     setSimValueBoolean,
     setSimValueDouble,
@@ -426,6 +422,8 @@ from ._wpiHal import (
     writeI2C,
     writeSPI,
     writeSerial,
+    __halplatform__,
+    __hal_simulation__,
 )
 
 __all__ = [
@@ -709,8 +707,6 @@ __all__ = [
     "isNewControlData",
     "isPulsing",
     "latchPWMZero",
-    "loadExtensions",
-    "loadOneExtension",
     "observeUserProgramAutonomous",
     "observeUserProgramDisabled",
     "observeUserProgramStarting",
@@ -779,7 +775,6 @@ __all__ = [
     "setDigitalPWMDutyCycle",
     "setDigitalPWMOutputChannel",
     "setDigitalPWMRate",
-    "setDutyCycleSimDevice",
     "setEncoderDistancePerPulse",
     "setEncoderIndexSource",
     "setEncoderMaxPeriod",
@@ -850,3 +845,20 @@ __all__ = [
     "writeSPI",
     "writeSerial",
 ]
+
+if __hal_simulation__:
+    from ._wpiHal import (
+        loadExtensions,
+        loadOneExtension,
+        setDutyCycleSimDevice,
+        setShowExtensionsNotFoundMessages,
+    )
+
+    __all__.extend(
+        [
+            "loadExtensions",
+            "loadOneExtension",
+            "setDutyCycleSimDevice",
+            "setShowExtensionsNotFoundMessages",
+        ]
+    )
