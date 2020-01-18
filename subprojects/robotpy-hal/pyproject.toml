@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "robotpy-build>=2020.0.11,<2021.0.0",
+    "robotpy-build>=2020.0.17,<2021.0.0",
     "robotpy-wpiutil>=2020.1.2.1,<2021.0.0"
 ]
 
@@ -83,5 +83,5 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-hal"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil>=2020.1.2.1,<2021.0.0",
+    "robotpy-wpiutil>=2020.1.2.2,<2021.0.0",
 ]
