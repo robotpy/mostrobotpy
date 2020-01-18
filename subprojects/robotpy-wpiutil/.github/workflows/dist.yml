@@ -70,7 +70,7 @@ jobs:
     
     - uses: actions/download-artifact@v1
       with:
-        name: dist-py3.6-osx-latest-x64
+        name: dist-py3.6-macos-latest-x64
         path: dist/
 
     - uses: actions/download-artifact@v1
@@ -85,7 +85,7 @@ jobs:
     
     - uses: actions/download-artifact@v1
       with:
-        name: dist-py3.7-osx-latest-x64
+        name: dist-py3.7-macos-latest-x64
         path: dist/
     
     - uses: actions/download-artifact@v1
@@ -100,7 +100,7 @@ jobs:
       
     - uses: actions/download-artifact@v1
       with:
-        name: dist-py3.8-osx-latest-x64
+        name: dist-py3.8-macos-latest-x64
         path: dist/
 
     - uses: actions/setup-python@v1
