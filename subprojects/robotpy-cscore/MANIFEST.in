@@ -1,5 +1,5 @@
 include LICENSE
-include pyproject.toml
+exclude pyproject.toml
 recursive-include src *.h *.hpp
 recursive-include cscore_src/cscore/src/main/native *.cpp *.h
 include cscore_src/cscore/src/main/native/include/*.inl
