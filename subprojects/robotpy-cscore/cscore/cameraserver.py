@@ -219,7 +219,7 @@ class CameraServer:
 
         elif propertyKind in (VideoProperty.Kind.kInteger, VideoProperty.Kind.kEnum):
             if isNew:
-                entry.setDefaultNumber(event.value)
+                entry.setDefaultDouble(event.value)
                 table.getEntry(infoName + "/min").setDouble(prop.getMin())
                 table.getEntry(infoName + "/max").setDouble(prop.getMax())
                 table.getEntry(infoName + "/step").setDouble(prop.getStep())
@@ -271,7 +271,8 @@ class CameraServer:
         # Listener for NetworkTable events
         # .. figures this uses the one API we don't really support
         self._nt = NetworkTables.getGlobalTable()
-        NetworkTables._api.addEntryListener(
+        ntapi = getattr(NetworkTables, "_api", NetworkTables)
+        ntapi.addEntryListener(
             self.kPublishName + "/",
             self._onTableChange,
             NetworkTables.NotifyFlags.IMMEDIATE | NetworkTables.NotifyFlags.UPDATE,
@@ -280,9 +281,10 @@ class CameraServer:
     def _onVideoEvent(self, event: VideoEvent) -> None:
         source = event.getSource()
 
-        if event.kind is VideoEvent.Kind.kSourceCreated:
+        if event.kind == VideoEvent.Kind.kSourceCreated:
             # Create subtable for the camera
             table = self._publishTable.getSubTable(event.name)
+
             self._tables[source.getHandle()] = table
 
             table.getEntry("source").setString(self._makeSourceValue(source))
@@ -302,48 +304,48 @@ class CameraServer:
                 # Do nothing. Let the other event handlers update this if there is an error.
                 pass
 
-        elif event.kind is VideoEvent.Kind.kSourceDestroyed:
+        elif event.kind == VideoEvent.Kind.kSourceDestroyed:
             table = self._getSourceTable(source)
             if table is not None:
                 table.getEntry("source").setString("")
                 table.getEntry("streams").setStringArray([])
                 table.getEntry("modes").setStringArray([])
 
-        elif event.kind is VideoEvent.Kind.kSourceConnected:
+        elif event.kind == VideoEvent.Kind.kSourceConnected:
             table = self._getSourceTable(source)
             if table is not None:
                 # update the description too (as it may have changed)
                 table.getEntry("description").setString(source.getDescription())
                 table.getEntry("connected").setBoolean(True)
 
-        elif event.kind is VideoEvent.Kind.kSourceDisconnected:
+        elif event.kind == VideoEvent.Kind.kSourceDisconnected:
             table = self._getSourceTable(source)
             if table is not None:
                 table.getEntry("connected").setBoolean(False)
 
-        elif event.kind is VideoEvent.Kind.kSourceVideoModesUpdated:
+        elif event.kind == VideoEvent.Kind.kSourceVideoModesUpdated:
             table = self._getSourceTable(source)
             if table is not None:
                 table.getEntry("modes").setStringArray(
                     self._getSourceModeValues(source)
                 )
 
-        elif event.kind is VideoEvent.Kind.kSourceVideoModeChanged:
+        elif event.kind == VideoEvent.Kind.kSourceVideoModeChanged:
             table = self._getSourceTable(source)
             if table is not None:
                 table.getEntry("mode").setString(self._videoModeToString(event.mode))
 
-        elif event.kind is VideoEvent.Kind.kSourcePropertyCreated:
+        elif event.kind == VideoEvent.Kind.kSourcePropertyCreated:
             table = self._getSourceTable(source)
             if table is not None:
                 self._putSourcePropertyValue(table, event, True)
 
-        elif event.kind is VideoEvent.Kind.kSourcePropertyValueUpdated:
+        elif event.kind == VideoEvent.Kind.kSourcePropertyValueUpdated:
             table = self._getSourceTable(source)
             if table is not None:
                 self._putSourcePropertyValue(table, event, False)
 
-        elif event.kind is VideoEvent.Kind.kSourcePropertyChoicesUpdated:
+        elif event.kind == VideoEvent.Kind.kSourcePropertyChoicesUpdated:
             table = self._getSourceTable(source)
             if table is not None:
                 prop = event.getProperty()
