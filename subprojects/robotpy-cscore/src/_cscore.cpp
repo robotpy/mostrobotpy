@@ -90,15 +90,15 @@ PYBIND11_MODULE(_cscore, m) {
       .value("kBGR", VideoMode::PixelFormat::kBGR)
       .value("kGray", VideoMode::PixelFormat::kGray);
     
-    #define def_status_fn(n, N, T) def(n, [](T t) { \
+    #define def_status_fn(n, N, T, ...) def(n, [](T t) { \
         py::gil_scoped_release __r; \
         CS_Status s = 0; \
         return N(t, &s); \
-    })
+    }, __VA_ARGS__)
     
     m.def("getNetworkInterfaces", &GetNetworkInterfaces, release_gil())
-     .def_status_fn("getHttpCameraUrls", GetHttpCameraUrls, CS_Source)
-     .def_status_fn("getUsbCameraPath", GetUsbCameraPath, CS_Source)
+     .def_status_fn("getHttpCameraUrls", GetHttpCameraUrls, CS_Source, py::arg("source"))
+     .def_status_fn("getUsbCameraPath", GetUsbCameraPath, CS_Source, py::arg("source"))
      .def("getTelemetryElapsedTime", &GetTelemetryElapsedTime, release_gil())
      .def("setTelemetryPeriod", &SetTelemetryPeriod, release_gil(),
           py::arg("seconds"))
