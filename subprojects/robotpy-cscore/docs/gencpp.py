@@ -101,8 +101,6 @@ with open(join(root, "objects.rst"), "w") as fp:
     # Format the output a bit..
     for l in rst:
         l = l.replace("_cscore", "cscore")
-        l = l.replace("wpi::StringRef", "str")
-        l = l.replace("wpi::Twine", "str")
         l = l.replace(
             "wpi::ArrayRef<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >",
             "List[str]",
