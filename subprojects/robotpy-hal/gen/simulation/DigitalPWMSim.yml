@@ -1,0 +1,17 @@
+---
+
+classes:
+  DigitalPWMSim:
+    shared_ptr: true
+    methods:
+      DigitalPWMSim:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterDutyCycleCallback:
+      GetDutyCycle:
+      SetDutyCycle:
+      RegisterPinCallback:
+      GetPin:
+      SetPin:
+      ResetData:

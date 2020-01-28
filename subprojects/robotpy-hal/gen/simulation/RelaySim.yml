@@ -1,0 +1,20 @@
+---
+
+classes:
+  RelaySim:
+    shared_ptr: true
+    methods:
+      RelaySim:
+      RegisterInitializedForwardCallback:
+      GetInitializedForward:
+      SetInitializedForward:
+      RegisterInitializedReverseCallback:
+      GetInitializedReverse:
+      SetInitializedReverse:
+      RegisterForwardCallback:
+      GetForward:
+      SetForward:
+      RegisterReverseCallback:
+      GetReverse:
+      SetReverse:
+      ResetData:

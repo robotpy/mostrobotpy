@@ -75,6 +75,41 @@ generate = [
 generation_data = "gen"
 depends = ["wpiutil"]
 
+
+[tool.robotpy-build.wrappers."hal.simulation"]
+
+name = "hal_simulation"
+extension = "_simulation"
+sources = [
+    "hal/simulation/simulation.cpp"
+]
+
+generate = [
+    # simulation
+    { AccelerometerSim = "simulation/AccelerometerSim.h" },
+    { AnalogGyroSim = "simulation/AnalogGyroSim.h" },
+    { AnalogInSim = "simulation/AnalogInSim.h" },
+    { AnalogOutSim = "simulation/AnalogOutSim.h" },
+    { AnalogTriggerSim = "simulation/AnalogTriggerSim.h" },
+    { CallbackStore = "simulation/CallbackStore.h" },
+    { DIOSim = "simulation/DIOSim.h" },
+    { DigitalPWMSim = "simulation/DigitalPWMSim.h" },
+    { DriverStationSim = "simulation/DriverStationSim.h" },
+    { DutyCycleSim = "simulation/DutyCycleSim.h" },
+    { EncoderSim = "simulation/EncoderSim.h" },
+    { PCMSim = "simulation/PCMSim.h" },
+    { PDPSim = "simulation/PDPSim.h" },
+    { PWMSim = "simulation/PWMSim.h" },
+    { RelaySim = "simulation/RelaySim.h" },
+    { RoboRioSim = "simulation/RoboRioSim.h" },
+    { SPIAccelerometerSim = "simulation/SPIAccelerometerSim.h" },
+    { SimDeviceSim = "simulation/SimDeviceSim.h" },
+    { SimHooks = "simulation/SimHooks.h" },
+]
+
+generation_data = "gen/simulation"
+depends = ["wpiutil", "wpiHal"]
+
 [tool.robotpy-build.metadata]
 name = "robotpy-hal"
 description = "Binary wrapper for FRC HAL"

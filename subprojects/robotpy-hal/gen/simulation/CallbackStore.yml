@@ -1,0 +1,17 @@
+---
+
+functions:
+  CallbackStoreThunk:
+    ignore: true
+classes:
+  CallbackStore:
+    shared_ptr: true
+    methods:
+      CallbackStore:
+        overloads:
+          int32_t, std::function<void ( wpi::StringRef, const HAL_Value * )>, CancelCallbackNoIndexFunc:
+          int32_t, int32_t, std::function<void ( wpi::StringRef, const HAL_Value * )>, CancelCallbackFunc:
+          int32_t, int32_t, int32_t, std::function<void ( wpi::StringRef, const HAL_Value * )>, CancelCallbackChannelFunc:
+      SetUid:
+      CallbackStoreThunk:
+        ignore: true

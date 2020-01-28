@@ -1,0 +1,14 @@
+---
+
+classes:
+  AnalogOutSim:
+    shared_ptr: true
+    methods:
+      AnalogOutSim:
+      RegisterVoltageCallback:
+      GetVoltage:
+      SetVoltage:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      ResetData:
