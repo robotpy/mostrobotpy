@@ -81,11 +81,7 @@ std::shared_ptr<nt::NetworkTableValue> py2ntvalue(py::handle h) {
   // check the first item
   auto i1 = seq[0];
   if (py::isinstance<py::bool_>(i1)) {
-    std::vector<int> v;
-    v.reserve(seq.size());
-    for (size_t i = 0; i < seq.size(); i++) {
-      v.push_back(seq[i].cast<int>());
-    }
+    auto v = h.cast<std::vector<int>>();
     return nt::NetworkTableValue::MakeBooleanArray(v);
   } else if (py::isinstance<py::float_>(i1) || py::isinstance<py::int_>(i1)) {
     auto v = h.cast<std::vector<double>>();
