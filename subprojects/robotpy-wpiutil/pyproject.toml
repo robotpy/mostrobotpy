@@ -38,6 +38,7 @@ libs = ["wpiutil"]
     "units::radian_t", "units::radians_per_second_t",
     "units::volt_t",
     "units::turn_t",
+    "units::scalar_t",
 ]
 
 [tool.robotpy-build.metadata]
