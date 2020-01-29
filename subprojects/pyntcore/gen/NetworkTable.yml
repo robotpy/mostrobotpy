@@ -1,6 +1,10 @@
 ---
 extra_includes:
 - networktables/NetworkTableInstance.h
+- src/py2value.h
+
+inline_code: |
+  #include <src/NetworkTable.cpp.inl>
 
 classes:
   NetworkTable:
