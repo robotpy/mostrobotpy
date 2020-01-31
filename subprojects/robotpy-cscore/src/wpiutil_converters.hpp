@@ -7,7 +7,7 @@ namespace pybind11 { namespace detail {
     template <> struct type_caster<wpi::StringRef> {
     public:
         
-        PYBIND11_TYPE_CASTER(wpi::StringRef, _("wpi::StringRef"));
+        PYBIND11_TYPE_CASTER(wpi::StringRef, _("str"));
         
         bool load(handle src, bool) {
             if (!src || !PyUnicode_Check(src.ptr())) {
@@ -36,7 +36,7 @@ namespace pybind11 { namespace detail {
         // which we use to store the data
         type_caster() : value(ref) {}
 
-        PYBIND11_TYPE_CASTER(wpi::Twine, _("wpi::Twine"));
+        PYBIND11_TYPE_CASTER(wpi::Twine, _("str"));
 
         wpi::StringRef ref;
         
