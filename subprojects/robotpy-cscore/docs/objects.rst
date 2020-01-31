@@ -1219,7 +1219,7 @@ VideoSource
 Utility functions
 -----------------
 
-.. py:function:: getHttpCameraUrls(arg0: int) -> List[str]
+.. py:function:: getHttpCameraUrls(source: int) -> List[str]
    :module: cscore
 
 
@@ -1231,7 +1231,7 @@ Utility functions
    :module: cscore
 
 
-.. py:function:: getUsbCameraPath(arg0: int) -> str
+.. py:function:: getUsbCameraPath(source: int) -> str
    :module: cscore
 
 
