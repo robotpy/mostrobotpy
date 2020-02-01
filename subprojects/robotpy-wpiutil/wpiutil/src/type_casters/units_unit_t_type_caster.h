@@ -14,6 +14,7 @@ template <> struct handle_type_name<units::unit_name##_t>  \
 
 PYBIND_UNIT_NAME(second, seconds);
 PYBIND_UNIT_NAME(millisecond, milliseconds);
+PYBIND_UNIT_NAME(microsecond, microseconds);
 PYBIND_UNIT_NAME(nanosecond, nanoseconds);
 PYBIND_UNIT_NAME(meter, meters);
 PYBIND_UNIT_NAME(foot, feet);

@@ -32,7 +32,8 @@ libs = ["wpiutil"]
 # TODO: add types as wpilib uses them
 "units_unit_t_type_caster.h" =    [
     "units::unit_t", "units::compound_unit",
-    "units::second_t", "units::nanosecond_t",
+    "units::second_t", "units::mullisecond_t",
+    "units::microsecond_t", "units::nanosecond_t",
     "units::meter_t", "units::meters_per_second_t",
     "units::degree_t",
     "units::radian_t", "units::radians_per_second_t",
