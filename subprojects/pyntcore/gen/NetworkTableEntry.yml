@@ -69,7 +69,7 @@ classes:
                 auto b = py::bool_(v.data.arr_boolean.arr[i]);
                   PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
               }
-              return l;
+              return std::move(l);
             }
       GetDoubleArray:
         overloads:
