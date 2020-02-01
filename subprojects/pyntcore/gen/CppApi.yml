@@ -284,21 +284,21 @@ functions:
   AddLogger:
     ignore: true
   CreateLoggerPoller:
-    ignore: true
+    internal: true
   DestroyLoggerPoller:
-    ignore: true
+    internal: true
   AddPolledLogger:
-    ignore: true
+    internal: true
   PollLogger:
     overloads:
       NT_LoggerPoller:
-        ignore: true
+        internal: true
       NT_LoggerPoller, double, bool*:
         ignore: true
   CancelPollLogger:
-    ignore: true
+    internal: true
   RemoveLogger:
-    ignore: true
+    internal: true
   WaitForLoggerQueue:
     ignore: true
 classes:
