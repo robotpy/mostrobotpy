@@ -35,7 +35,7 @@ py::object ntvalue2py(nt::Value * ntvalue) {
       auto b = py::bool_(v.data.arr_boolean.arr[i]);
       PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
     }
-    return l;
+    return std::move(l);
   }
 
   case NT_DOUBLE_ARRAY: {
@@ -44,7 +44,7 @@ py::object ntvalue2py(nt::Value * ntvalue) {
       auto d = py::float_(v.data.arr_double.arr[i]);
       PyList_SET_ITEM(l.ptr(), i, d.release().ptr());
     }
-    return l;
+    return std::move(l);
   }
   
   case NT_STRING_ARRAY: {
@@ -53,7 +53,7 @@ py::object ntvalue2py(nt::Value * ntvalue) {
       auto s = py::str(v.data.arr_string.arr[i].str, v.data.arr_string.arr[i].len);
       PyList_SET_ITEM(l.ptr(), i, s.release().ptr());
     }
-    return l;
+    return std::move(l);
   }
 
   default:
