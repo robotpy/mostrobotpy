@@ -33,6 +33,10 @@ classes:
       RemoveEntryListener:
       WaitForEntryListenerQueue:
       AddConnectionListener:
+        param_override:
+          immediate_notify:
+            # pynetworktables compat
+            name: immediateNotify
       RemoveConnectionListener:
       WaitForConnectionListenerQueue:
       WaitForRpcCallQueue:
@@ -93,5 +97,3 @@ classes:
       AddLogger:
       RemoveLogger:
       WaitForLoggerQueue:
-
-      
