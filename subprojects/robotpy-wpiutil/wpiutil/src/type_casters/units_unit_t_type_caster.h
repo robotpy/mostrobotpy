@@ -26,7 +26,7 @@ PYBIND_UNIT_NAME(radians_per_second, radians_per_second);
 PYBIND_UNIT_NAME(volt, volts);
 PYBIND_UNIT_NAME(turn, turns);
 
-PYBIND_UNIT_NAME(scalar, float);
+PYBIND_UNIT_NAME(dimensionless::scalar, float);
 
 #undef PYBIND_UNIT_NAME
 
