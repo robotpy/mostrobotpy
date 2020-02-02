@@ -38,11 +38,7 @@ jobs:
 
     - name: Install build dependencies
       run: |
-<<<<<<< HEAD
-        python -m pip install 'robotpy-build>=2020.0.17'
-=======
         python -m pip install 'robotpy-build>=2020.1.1'
->>>>>>> Update to 2020.2.2
         python -m robotpy_build build-dep --install
 
     - name: Build wheel
@@ -112,11 +108,7 @@ jobs:
         python-version: 3.8
 
     - name: Install build dependencies
-<<<<<<< HEAD
-      run: python -m pip install 'robotpy-build>=2020.0.17'
-=======
       run: python -m pip install 'robotpy-build>=2020.1.1'
->>>>>>> Update to 2020.2.2
 
     - name: Build sdist
       run: python setup.py sdist
