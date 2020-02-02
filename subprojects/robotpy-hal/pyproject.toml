@@ -12,7 +12,7 @@ base_package = "hal"
 artifact_id = "hal-cpp"
 group_id = "edu.wpi.first.hal"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2020.1.2"
+version = "2020.2.2"
 
 libs = ["wpiHal"]
 
