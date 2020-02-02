@@ -175,3 +175,5 @@ classes:
         ignore: true
       AddListener:
       RemoveListener:
+      operator==:
+      operator!=:

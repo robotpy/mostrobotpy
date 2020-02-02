@@ -91,6 +91,7 @@ classes:
           std::vector<std::string>&&, uint64_t:
           std::initializer_list<std::string>, uint64_t:
             ignore: true
+      operator==:
 
   private_init:
     ignore: true

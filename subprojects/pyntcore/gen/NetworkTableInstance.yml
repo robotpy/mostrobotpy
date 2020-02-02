@@ -97,3 +97,5 @@ classes:
       AddLogger:
       RemoveLogger:
       WaitForLoggerQueue:
+      operator==:
+      operator!=:
