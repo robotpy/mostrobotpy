@@ -62,6 +62,7 @@ class NtLogForwarder:
         with self.lock:
             if self.poller:
                 _ntcore._destroyLoggerPoller(self.poller)
+                self.thread.join(timeout=1)
             self.poller = None
 
 
