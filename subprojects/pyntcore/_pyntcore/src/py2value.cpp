@@ -48,12 +48,7 @@ py::object ntvalue2py(nt::Value * ntvalue) {
   }
   
   case NT_STRING_ARRAY: {
-    py::list l(v.data.arr_string.size);
-    for (size_t i = 0; i < v.data.arr_string.size; i++) {
-      auto s = py::str(v.data.arr_string.arr[i].str, v.data.arr_string.arr[i].len);
-      PyList_SET_ITEM(l.ptr(), i, s.release().ptr());
-    }
-    return std::move(l);
+    return std::move(py::cast(ntvalue->GetStringArray()));
   }
 
   default:
