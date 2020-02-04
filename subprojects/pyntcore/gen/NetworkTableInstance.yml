@@ -47,6 +47,14 @@ classes:
           immediate_notify:
             # pynetworktables compat
             name: immediateNotify
+        cpp_code: |
+          [](NetworkTableInstance * that,
+             std::function<void(bool, const ConnectionInfo &)> listener,
+             bool immediateNotify) {
+            that->AddConnectionListener([listener](const ConnectionNotification& event){
+              listener(event.connected, event.conn);
+            }, immediateNotify);
+          }
       RemoveConnectionListener:
       WaitForConnectionListenerQueue:
       WaitForRpcCallQueue:

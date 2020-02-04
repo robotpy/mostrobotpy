@@ -25,7 +25,40 @@ cls_NetworkTableInstance
             entry.SetDefaultValue(dv);
         }
         return entry;
-    });
+    })
+    .def("addEntryListener", [](NetworkTableInstance * that,
+        std::function<void(std::string, py::object, int)> listener,
+        bool immediateNotify, bool localNotify, bool paramIsNew) {
+
+        unsigned int flags = NT_NOTIFY_NEW | NT_NOTIFY_UPDATE;
+        if (immediateNotify) {
+            flags |= NT_NOTIFY_IMMEDIATE;
+        }
+        if (localNotify) {
+            flags |= NT_NOTIFY_LOCAL;
+        }
+
+        // TODO: replace this with a polling thread
+
+        return that->AddEntryListener("/",
+            [listener, paramIsNew](const EntryNotification &event) {
+                py::gil_scoped_acquire acquire;
+                if (paramIsNew) {
+                    listener(event.name, pyntcore::ntvalue2py(event.value.get()),
+                             event.flags | NT_NOTIFY_NEW ? 1 : 0);
+                } else {
+                    listener(event.name, pyntcore::ntvalue2py(event.value.get()),
+                             event.flags);
+                }
+            },
+            flags);
+    },
+        py::arg("listener"),
+        py::arg("immediateNotify")=true,
+        py::arg("localNotify")=true,
+        py::arg("paramIsNew")=true,
+        release_gil()
+    );
 
 
 auto nf = m.def_submodule("NotifyFlags");
