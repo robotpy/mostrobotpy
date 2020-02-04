@@ -36,11 +36,7 @@ classes:
       GetTable:
       DeleteAllEntries:
       AddEntryListener:
-        # pynetworktables compat
-        ignore: true
       RemoveEntryListener:
-        # pynetworktables compat
-        ignore: true
       WaitForEntryListenerQueue:
       AddConnectionListener:
         param_override:
