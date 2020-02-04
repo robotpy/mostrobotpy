@@ -1,6 +1,7 @@
 
 cls_NetworkTableInstance
     .def("initialize", [](NetworkTableInstance * that, const std::string& server) {
+            pyntcore::attachLogging(that->GetHandle());
             if (server.length() > 0) {
                 that->StartClient(server.c_str());
             } else {

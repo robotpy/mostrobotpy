@@ -19,6 +19,7 @@ libs = ["ntcore"]
 name = "ntcore"
 sources = [
     "_pyntcore/src/ntcore.cpp",
+    "_pyntcore/src/nt_logging.cpp",
     "_pyntcore/src/py2value.cpp",
 ]
 

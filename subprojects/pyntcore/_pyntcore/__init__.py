@@ -27,8 +27,6 @@ __all__ = [
     "Value",
 ]
 
-from . import logutil
-
 NetworkTables: NetworkTablesInstance = NetworkTablesInstance.getDefault()
 __all__ += ["NetworkTables"]
 

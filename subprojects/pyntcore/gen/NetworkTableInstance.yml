@@ -2,6 +2,7 @@
 
 extra_includes:
 - src/py2value.h
+- src/nt_logging.h
 
 inline_code: |
   #include <src/NetworkTableInstance.cpp.inl>
@@ -23,6 +24,11 @@ classes:
       GetDefault:
       Create:
       Destroy:
+        cpp_code: |
+          [](NetworkTableInstance * that) {
+            pyntcore::detachLogging(that->GetHandle());
+            NetworkTableInstance::Destroy(*that);
+          }
       GetHandle:
       GetEntry:
       GetEntries:
@@ -30,7 +36,11 @@ classes:
       GetTable:
       DeleteAllEntries:
       AddEntryListener:
+        # pynetworktables compat
+        ignore: true
       RemoveEntryListener:
+        # pynetworktables compat
+        ignore: true
       WaitForEntryListenerQueue:
       AddConnectionListener:
         param_override:
@@ -43,28 +53,70 @@ classes:
       SetNetworkIdentity:
       GetNetworkMode:
       StartLocal:
+        cpp_code: |
+          [](NetworkTableInstance * that) {
+            pyntcore::attachLogging(that->GetHandle());
+            that->StartLocal();
+          }
       StopLocal:
       StartServer:
         param_override:
           port:
             default: "NT_DEFAULT_PORT"
+        cpp_code: |
+          [](NetworkTableInstance * that,
+             const Twine& persist_filename,
+             const char* listen_address,
+             unsigned int port) {
+            pyntcore::attachLogging(that->GetHandle());
+            that->StartServer(persist_filename, listen_address, port);
+          }
       StopServer:
       StartClient:
         overloads:
           "":
+            cpp_code: |
+              [](NetworkTableInstance * that) {
+                pyntcore::attachLogging(that->GetHandle());
+                that->StartClient();
+              }
           char*, unsigned int:
             param_override:
               port:
                 default: "NT_DEFAULT_PORT"
+            cpp_code: |
+              [](NetworkTableInstance * that,
+                 const char* server_name, unsigned int port) {
+                pyntcore::attachLogging(that->GetHandle());
+                that->StartClient(server_name, port);
+              }
           ArrayRef<std::pair<StringRef, unsigned int>>:
+            cpp_code: |
+              [](NetworkTableInstance * that,
+                 ArrayRef<std::pair<StringRef, unsigned int>> servers) {
+                pyntcore::attachLogging(that->GetHandle());
+                that->StartClient(servers);
+              }
           ArrayRef<StringRef>, unsigned int:
             param_override:
               port:
                 default: "NT_DEFAULT_PORT"
+            cpp_code: |
+              [](NetworkTableInstance * that,
+                 ArrayRef<StringRef> servers, unsigned int port) {
+                pyntcore::attachLogging(that->GetHandle());
+                that->StartClient(servers, port);
+              }
       StartClientTeam:
         param_override:
           port:
             default: "NT_DEFAULT_PORT"
+        cpp_code: |
+          [](NetworkTableInstance * that,
+             unsigned int team, unsigned int port) {
+            pyntcore::attachLogging(that->GetHandle());
+            that->StartClientTeam(team, port);
+          }
       StopClient:
       SetServer:
         overloads:
@@ -85,6 +137,11 @@ classes:
         param_override:
           port:
             default: "NT_DEFAULT_PORT"
+        cpp_code: |
+          [](NetworkTableInstance * that, unsigned int port) {
+            pyntcore::attachLogging(that->GetHandle());
+            that->StartDSClient(port);
+          }
       StopDSClient:
       SetUpdateRate:
       Flush:
