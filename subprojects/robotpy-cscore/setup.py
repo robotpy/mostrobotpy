@@ -62,20 +62,29 @@ with open(join(setup_dir, "README.rst"), "r") as readme_file:
 opencv_pkg = {"include_dirs": [], "library_dirs": []}
 try:
     import pkgconfig
-
-    if pkgconfig.exists("opencv4"):
-        opencv_pkg = pkgconfig.parse("opencv4")
-    elif pkgconfig.exists("opencv"):
-        opencv_pkg = pkgconfig.parse("opencv")
-    else:
-        sys.stderr.write(
-            "ERROR: unable to find suitable OpenCV library with pkg-config"
-        )
-        sys.stderr.write(
-            "  If you compiled OpenCV, be sure to include CMake flag '-D OPENCV_GENERATE_PKGCONFIG=ON'"
-        )
 except ModuleNotFoundError:
-    pass
+    print(
+        "WARNING: could not import pkgconfig, build will fail with opencv4",
+        file=sys.stderr,
+    )
+else:
+    try:
+        if pkgconfig.exists("opencv4"):
+            opencv_pkg = pkgconfig.parse("opencv4")
+        elif pkgconfig.exists("opencv"):
+            opencv_pkg = pkgconfig.parse("opencv")
+        else:
+            print(
+                "WARNING: pkg-config could not find OpenCV. Continuing anyway.",
+                file=sys.stderr,
+            )
+            print(
+                "  If you compiled OpenCV, build with -DOPENCV_GENERATE_PKGCONFIG=ON",
+                file=sys.stderr,
+            )
+    except EnvironmentError as ex:
+        # failed to run pkg-config
+        print("WARNING:", ex, "- continuing anyway", file=sys.stderr)
 
 
 #
