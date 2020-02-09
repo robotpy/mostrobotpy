@@ -367,6 +367,9 @@ class CameraServer:
         key = event.name  # type: str
         relativeKey = key[len(self.kPublishName) + 1 :]
 
+        # remove leading '/'
+        key = event.name[1:]
+
         # get source (sourceName/...)
         subKeyIndex = relativeKey.find("/")
         if subKeyIndex == -1:
