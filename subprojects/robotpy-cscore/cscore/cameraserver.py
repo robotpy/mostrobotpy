@@ -59,17 +59,17 @@ class CameraServer:
     @staticmethod
     def _makeSourceValue(source: VideoSource) -> str:
         kind = source.getKind()
-        if kind is VideoSource.Kind.kUsb:
+        if kind == VideoSource.Kind.kUsb:
             return "usb:" + cscore.getUsbCameraPath(source.getHandle())
 
-        elif kind is VideoSource.Kind.kHttp:
+        elif kind == VideoSource.Kind.kHttp:
             urls = cscore.getHttpCameraUrls(source.getHandle())
             if urls:
                 return "ip:" + urls[0]
             else:
                 return "ip:"
 
-        elif kind is VideoSource.Kind.kCv:
+        elif kind == VideoSource.Kind.kCv:
             return "cv:"
 
         else:
@@ -123,7 +123,7 @@ class CameraServer:
                 sinkSourceHandle = sink.getSource().getHandle()
                 if (
                     sourceHandle == sinkSourceHandle
-                    and sink.getKind() is VideoSink.Kind.kMjpeg
+                    and sink.getKind() == VideoSink.Kind.kMjpeg
                 ):
                     # Add USB-only passthrough
                     port = sink.getPort()
@@ -150,7 +150,7 @@ class CameraServer:
                 table = self._getSourceTable(source)
                 if table is not None:
                     # Don't set stream values if this is a HttpCamera passthrough
-                    if source.getKind() is VideoSource.Kind.kHttp:
+                    if source.getKind() == VideoSource.Kind.kHttp:
                         continue
 
                     # Set table value
@@ -211,7 +211,7 @@ class CameraServer:
         prop = event.getProperty()
         propertyKind = prop.getKind()
 
-        if propertyKind is VideoProperty.Kind.kBoolean:
+        if propertyKind == VideoProperty.Kind.kBoolean:
             if isNew:
                 entry.setDefaultBoolean(event.value != 0)
             else:
@@ -227,7 +227,7 @@ class CameraServer:
             else:
                 entry.setDouble(event.value)
 
-        elif propertyKind is VideoProperty.Kind.kString:
+        elif propertyKind == VideoProperty.Kind.kString:
             if isNew:
                 entry.setDefaultString(name, event.valueStr)
             else:
