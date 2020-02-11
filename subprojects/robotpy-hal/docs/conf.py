@@ -33,8 +33,7 @@ extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
-
-    'robotpy_sphinx.all',
+    "robotpy_sphinx.all",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -134,11 +133,12 @@ from robotpy_sphinx.regen import gen_package
 from robotpy_sphinx.sidebar import generate_sidebar
 
 generate_sidebar(
-    globals(), "hal", 
-    "https://raw.githubusercontent.com/robotpy/docs-sidebar/master/sidebar.toml"
+    globals(),
+    "hal",
+    "https://raw.githubusercontent.com/robotpy/docs-sidebar/master/sidebar.toml",
 )
 
 root = abspath(dirname(__file__))
 
-gen_package(root, 'hal', include=['Sim*'])
-gen_package(root, 'hal.simulation')
+gen_package(root, "hal", include=["Sim*"])
+gen_package(root, "hal.simulation")
