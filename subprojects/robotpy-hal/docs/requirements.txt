@@ -3,4 +3,4 @@
 sphinx
 sphinx-rtd-theme
 robotpy-sphinx-plugin
--e .
+-e docs
