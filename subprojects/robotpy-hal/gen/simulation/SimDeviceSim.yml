@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- pybind11/stl.h
+
 classes:
   SimDeviceSim:
     shared_ptr: true
@@ -15,3 +18,24 @@ classes:
       EnumerateDevices:
         ignore: true # TODO
       ResetData:
+
+inline_code: |
+  cls_SimDeviceSim
+    .def("enumerateValues", [](frc::sim::SimDeviceSim * that) {
+      std::vector<std::pair<std::string, bool>> values;
+      that->EnumerateValues([&values](const char * name, HAL_SimValueHandle handle,
+                               HAL_Bool readonly, const struct HAL_Value * value){
+        values.push_back(std::pair<std::string, bool>(name, readonly));
+      });
+      return values;
+    }, release_gil(),
+    "Returns a list of (name, readonly) tuples of available values for this device")
+    .def_static("enumerateDevices", [](const char * prefix) {
+      std::vector<std::string> devices;
+      frc::sim::SimDeviceSim::EnumerateDevices(prefix, [&devices](const char * name, HAL_SimDeviceHandle handle) {
+        devices.push_back(std::string(name));
+      });
+      return devices;
+    }, release_gil(),
+    py::arg("prefix")="",
+    "Returns a list of available device names\n");
