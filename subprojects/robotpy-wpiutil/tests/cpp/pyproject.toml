@@ -4,8 +4,9 @@ requires = ["robotpy-build"]
 [tool.robotpy-build]
 base_package = "wpiutil_test"
 
-[tool.robotpy-build.ext."wpiutil_test"]
-name = "module"
+[tool.robotpy-build.wrappers."wpiutil_test"]
+name = "wpiutil_test"
+extension = "module"
 depends = ["wpiutil"]
 sources = [
     "wpiutil_test/module.cpp",

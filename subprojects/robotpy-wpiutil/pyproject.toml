@@ -1,5 +1,5 @@
 [build-system]
-requires = ["robotpy-build>=2020.1.5,<2021.0.0"]
+requires = ["robotpy-build>=2020.1.8,<2021.0.0"]
 
 [tool.robotpy-build]
 base_package = "wpiutil"

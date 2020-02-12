@@ -1,1 +1,1 @@
-import wpiutil._impl
+from . import _initmodule

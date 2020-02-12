@@ -17,4 +17,6 @@ __pycache__
 /build
 
 /tests/cpp/build
+/tests/cpp/wpiutil_test/_initmodule.py
+/tests/cpp/wpiutil_test/pkgcfg.py
 /tests/cpp/wpiutil_test/version.py
