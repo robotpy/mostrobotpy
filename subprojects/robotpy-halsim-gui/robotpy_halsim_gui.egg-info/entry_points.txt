@@ -1,6 +1,0 @@
-[robotpy]
-sim = halsim_gui.main:HalSimGuiMain
-
-[robotpybuild]
-halsim_gui = halsim_gui.pkgcfg
-

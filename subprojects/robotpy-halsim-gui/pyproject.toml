@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "robotpy-build>=2020.1.1,<2021.0.0",
+    "robotpy-build>=2020.1.8,<2021.0.0",
     "robotpy-wpiutil>=2020.2.2.0,<2021.0.0",
     "robotpy-hal>=2020.2.2.0,<2021.0.0",
 ]
@@ -12,8 +12,8 @@ base_package = "halsim_gui"
 [tool.robotpy-build.wrappers."halsim_gui".maven_lib_download]
 artifact_id = "halsim_gui"
 group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2020.2.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2020.2.2-29-g5b3facc"
 
 dlopenlibs = ["halsim_gui"]
 
