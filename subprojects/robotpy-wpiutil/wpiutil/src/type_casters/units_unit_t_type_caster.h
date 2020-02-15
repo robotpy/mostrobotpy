@@ -19,6 +19,7 @@ PYBIND_UNIT_NAME(nanosecond, nanoseconds);
 PYBIND_UNIT_NAME(meter, meters);
 PYBIND_UNIT_NAME(foot, feet);
 PYBIND_UNIT_NAME(meters_per_second, meters_per_second);
+PYBIND_UNIT_NAME(meters_per_second_squared, meters_per_second_squared);
 PYBIND_UNIT_NAME(feet_per_second, feet_per_second);
 PYBIND_UNIT_NAME(degree, degrees);
 PYBIND_UNIT_NAME(radian, radians);
