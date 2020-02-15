@@ -31,6 +31,17 @@ PYBIND_UNIT_NAME(dimensionless::scalar, float);
 
 #undef PYBIND_UNIT_NAME
 
+template <>
+struct handle_type_name<units::unit_t<units::inverse<units::seconds>>> {
+    static constexpr auto name = _("units_per_second");
+};
+
+template <>
+struct handle_type_name<
+    units::unit_t<units::inverse<units::squared<units::seconds>>>
+> {
+    static constexpr auto name = _("units_per_second_squared");
+};
 
 template<class U, typename T, template<typename> class S>
 struct type_caster<units::unit_t<U, T, S>> {
