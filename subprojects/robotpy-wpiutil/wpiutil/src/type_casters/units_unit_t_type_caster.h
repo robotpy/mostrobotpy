@@ -43,6 +43,38 @@ struct handle_type_name<
     static constexpr auto name = _("units_per_second_squared");
 };
 
+template <>
+struct handle_type_name<units::unit_t<units::compound_unit<
+    units::radians_per_second,
+    units::inverse<units::seconds>
+>>> {
+    static constexpr auto name = _("radians_per_second_squared");
+};
+
+using volt_seconds = units::compound_unit<units::volts, units::seconds>;
+using volt_seconds_squared = units::compound_unit<volt_seconds, units::seconds>;
+
+template <>
+struct handle_type_name<units::unit_t<volt_seconds>> {
+    static constexpr auto name = _("volt_seconds");
+};
+
+template <>
+struct handle_type_name<units::unit_t<volt_seconds_squared>> {
+    static constexpr auto name = _("volt_seconds_squared");
+};
+
+#define PYBIND_FF_UNITS(unit_name)  \
+template <> struct handle_type_name<units::unit_t<units::compound_unit<volt_seconds, units::inverse<units::unit_name>>>> \
+{ static constexpr auto name = _("volt_seconds_per_" #unit_name); }; \
+template <> struct handle_type_name<units::unit_t<units::compound_unit<volt_seconds_squared, units::inverse<units::unit_name>>>> \
+{ static constexpr auto name = _("volt_seconds_squared_per_" #unit_name); }
+
+PYBIND_FF_UNITS(meter);
+PYBIND_FF_UNITS(radian);
+
+#undef PYBIND_FF_UNITS
+
 template<class U, typename T, template<typename> class S>
 struct type_caster<units::unit_t<U, T, S>> {
     using value_type = units::unit_t<U, T, S>;
