@@ -21,6 +21,7 @@ sources = [
     "_pyntcore/src/ntcore.cpp",
     "_pyntcore/src/nt_logging.cpp",
     "_pyntcore/src/py2value.cpp",
+    "_pyntcore/src/pyentry.cpp",
 ]
 
 depends = ["wpiutil"]

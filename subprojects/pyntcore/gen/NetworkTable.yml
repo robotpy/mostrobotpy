@@ -2,6 +2,7 @@
 extra_includes:
 - networktables/NetworkTableInstance.h
 - src/py2value.h
+- src/pyentry.h
 
 inline_code: |
   #include <src/NetworkTable.cpp.inl>
@@ -107,27 +108,91 @@ classes:
       PutNumber:
       SetDefaultNumber:
       GetNumber:
+        cpp_code: |
+          [](NetworkTable * table, wpi::StringRef key, py::object defaultValue) -> py::object {
+            nt::NetworkTableEntry entry;
+            {
+              py::gil_scoped_release release;
+              entry = table->GetEntry(key);
+            }
+            return pyntcore::GetDoubleEntry(entry, defaultValue);
+          }
       PutString:
       SetDefaultString:
       GetString:
+        cpp_code: |
+          [](NetworkTable * table, wpi::StringRef key, py::object defaultValue) -> py::object {
+            nt::NetworkTableEntry entry;
+            {
+              py::gil_scoped_release release;
+              entry = table->GetEntry(key);
+            }
+            return pyntcore::GetStringEntry(entry, defaultValue);
+          }
       PutBoolean:
       SetDefaultBoolean:
       GetBoolean:
+        cpp_code: |
+          [](NetworkTable * table, wpi::StringRef key, py::object defaultValue) -> py::object {
+            nt::NetworkTableEntry entry;
+            {
+              py::gil_scoped_release release;
+              entry = table->GetEntry(key);
+            }
+            return pyntcore::GetBooleanEntry(entry, defaultValue);
+          }
       PutBooleanArray:
       SetDefaultBooleanArray:
       GetBooleanArray:
+        cpp_code: |
+          [](NetworkTable * table, wpi::StringRef key, py::object defaultValue) -> py::object {
+            nt::NetworkTableEntry entry;
+            {
+              py::gil_scoped_release release;
+              entry = table->GetEntry(key);
+            }
+            return pyntcore::GetBooleanArrayEntry(entry, defaultValue);
+          }
       PutNumberArray:
       SetDefaultNumberArray:
       GetNumberArray:
+        cpp_code: |
+          [](NetworkTable * table, wpi::StringRef key, py::object defaultValue) -> py::object {
+            nt::NetworkTableEntry entry;
+            {
+              py::gil_scoped_release release;
+              entry = table->GetEntry(key);
+            }
+            return pyntcore::GetDoubleArrayEntry(entry, defaultValue);
+          }
       PutStringArray:
       SetDefaultStringArray:
       GetStringArray:
+        cpp_code: |
+          [](NetworkTable * table, wpi::StringRef key, py::object defaultValue) -> py::object {
+            nt::NetworkTableEntry entry;
+            {
+              py::gil_scoped_release release;
+              entry = table->GetEntry(key);
+            }
+            return pyntcore::GetStringArrayEntry(entry, defaultValue);
+          }
       PutRaw:
       SetDefaultRaw:
       GetRaw:
+        cpp_code: |
+          [](NetworkTable * table, wpi::StringRef key, py::object defaultValue) -> py::object {
+            nt::NetworkTableEntry entry;
+            {
+              py::gil_scoped_release release;
+              entry = table->GetEntry(key);
+            }
+            return pyntcore::GetRawEntry(entry, defaultValue);
+          }
       PutValue:
       SetDefaultValue:
       GetValue:
+        ignore: true
       GetPath:
       SaveEntries:
       LoadEntries:
