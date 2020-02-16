@@ -14,4 +14,20 @@ cls_NetworkTable
     .def("putValue", [](nt::NetworkTable *self, const wpi::Twine &key, py::sequence value) {
         return self->PutValue(key, pyntcore::py2ntvalue(value));
     }, py::arg("key"), py::arg("value"))
+
+    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, bool value) {
+        return self->SetDefaultValue(key, nt::Value::MakeBoolean(value));
+    }, py::arg("key"), py::arg("value"), release_gil())
+    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, double value) {
+        return self->SetDefaultValue(key, nt::Value::MakeDouble(value));
+    }, py::arg("key"), py::arg("value"), release_gil())
+    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, py::bytes value) {
+        return self->SetDefaultValue(key, nt::Value::MakeRaw(value.cast<std::string>()));
+    }, py::arg("key"), py::arg("value"))
+    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, std::string value) {
+        return self->SetDefaultValue(key, nt::Value::MakeString(value));
+    }, py::arg("key"), py::arg("value"), release_gil())
+    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, py::sequence value) {
+        return self->SetDefaultValue(key, pyntcore::py2ntvalue(value));
+    }, py::arg("key"), py::arg("value"))
 ;
