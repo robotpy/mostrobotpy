@@ -65,6 +65,10 @@ classes:
       StopLocal:
       StartServer:
         param_override:
+          persist_filename:
+            name: persistFilename
+          listen_address:
+            name: listenAddress
           port:
             default: "NT_DEFAULT_PORT"
         cpp_code: |
