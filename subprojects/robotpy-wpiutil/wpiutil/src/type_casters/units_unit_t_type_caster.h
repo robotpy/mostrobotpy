@@ -75,6 +75,14 @@ PYBIND_FF_UNITS(radian);
 
 #undef PYBIND_FF_UNITS
 
+template <>
+struct handle_type_name<units::unit_t<units::compound_unit<
+    units::radian,
+    units::inverse<units::meter>
+>>> {
+    static constexpr auto name = _("radians_per_meter");
+};
+
 template<class U, typename T, template<typename> class S>
 struct type_caster<units::unit_t<U, T, S>> {
     using value_type = units::unit_t<U, T, S>;
