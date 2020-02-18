@@ -95,3 +95,9 @@ classes:
             ignore: true
           char*, bool, wpi::ArrayRef<const char *>, int32_t:
       CreateBoolean:
+
+inline_code: |
+  cls_SimDevice
+    .def("__bool__", [](const hal::SimDevice &that) -> bool {
+      return (bool)that;
+    });
