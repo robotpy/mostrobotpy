@@ -32,6 +32,9 @@ public:
 
         // this assumes that the stringref won't be retained after the function call
         value = wpi::StringRef(data, size);
+
+        // src must be valid as long as this loader is valid
+        loader_life_support::add_patient(src);
         return true;
     }
 
