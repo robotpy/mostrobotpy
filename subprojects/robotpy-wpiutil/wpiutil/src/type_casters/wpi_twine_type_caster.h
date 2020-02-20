@@ -34,6 +34,7 @@ public:
         const char *data = PyUnicode_AsUTF8AndSize(src.ptr(), &size);
         if (data == NULL)
         {
+            PyErr_Clear();
             return false;
         }
 

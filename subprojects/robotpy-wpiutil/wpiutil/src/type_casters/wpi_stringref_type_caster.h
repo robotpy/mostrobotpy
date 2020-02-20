@@ -27,6 +27,7 @@ public:
         const char *data = PyUnicode_AsUTF8AndSize(src.ptr(), &size);
         if (data == NULL)
         {
+            PyErr_Clear();
             return false;
         }
 
@@ -40,7 +41,9 @@ public:
 
     static handle cast(const wpi::StringRef &s, return_value_policy, handle)
     {
-        return PyUnicode_FromStringAndSize(s.data(), s.size());
+        handle s = PyUnicode_FromStringAndSize(s.data(), s.size());
+        if (!s) throw error_already_set();
+        return s;
     }
 };
 
