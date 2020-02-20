@@ -41,9 +41,9 @@ public:
 
     static handle cast(const wpi::StringRef &s, return_value_policy, handle)
     {
-        handle s = PyUnicode_FromStringAndSize(s.data(), s.size());
-        if (!s) throw error_already_set();
-        return s;
+        handle h = PyUnicode_FromStringAndSize(s.data(), s.size());
+        if (!h) throw error_already_set();
+        return h;
     }
 };
 
