@@ -17,3 +17,4 @@ functions:
   HAL_AttachInterruptHandlerThreaded:
     ignore: true
   HAL_SetInterruptUpSourceEdge:
+  HAL_ReleaseWaitingInterrupt:

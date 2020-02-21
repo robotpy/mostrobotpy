@@ -5,6 +5,7 @@ strip_prefixes:
 
 functions:
   HAL_SendError:
+  HAL_SendConsoleLine:
   HAL_GetControlWord:
   HAL_GetAllianceStation:
   HAL_GetJoystickAxes:
