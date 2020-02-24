@@ -33,6 +33,3 @@ install_requires = [
     "robotpy-wpiutil>=2020.3.2.0,<2021.0.0",
     "robotpy-hal>=2020.3.2.0,<2021.0.0",
 ]
-
-[tool.robotpy-build.metadata.entry_points]
-robotpy = ["sim = halsim_gui.main:HalSimGuiMain"]
