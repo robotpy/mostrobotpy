@@ -173,9 +173,9 @@ inline_code: |
         switch (value.type) {
         case HAL_BOOLEAN:
           if (value.data.v_boolean) {
-            return "<SimDevice (bool) True>";
+            return "<SimValue (bool) True>";
           } else {
-            return "<SimDevice (bool) False>";
+            return "<SimValue (bool) False>";
           }
         case HAL_DOUBLE:
           return "<SimValue (double) " + std::to_string(value.data.v_double) + ">";
