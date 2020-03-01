@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- "mockdata/SimDeviceData.h"
+
 strip_prefixes:
 - HAL_
 
@@ -39,65 +42,214 @@ functions:
   HAL_SetSimValueBoolean:
 classes:
   SimValue:
-    shared_ptr: true
+    shared_ptr: false
     methods:
       SimValue:
         overloads:
           "":
+            ignore: true
           HAL_SimValueHandle:
+            param_override:
+              val:
+                name: handle
       GetValue:
+        ignore: true
       SetValue:
+        ignore: true
   SimDouble:
-    shared_ptr: true
+    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimDouble:
         overloads:
           "":
+            ignore: true
           HAL_SimValueHandle:
+            param_override:
+              val:
+                name: handle
       Get:
       Set:
   SimEnum:
-    shared_ptr: true
+    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimEnum:
         overloads:
           "":
+            ignore: true
           HAL_SimValueHandle:
+            param_override:
+              val:
+                name: handle
       Get:
       Set:
   SimBoolean:
-    shared_ptr: true
+    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimBoolean:
         overloads:
           "":
+            ignore: true
           HAL_SimValueHandle:
+            param_override:
+              val:
+                name: handle
       Get:
       Set:
   SimDevice:
-    shared_ptr: true
+    shared_ptr: false
+    force_type_casters:
+    - wpi::SmallVector
     methods:
       SimDevice:
         overloads:
           "":
+            ignore: true
           char*:
           char*, int:
           char*, int, int:
           HAL_SimDeviceHandle:
       CreateValue:
+        ignore: true
       CreateDouble:
       CreateEnum:
         overloads:
           char*, bool, std::initializer_list<const char *>, int32_t:
             ignore: true
           char*, bool, wpi::ArrayRef<const char *>, int32_t:
+            cpp_code: |
+              [](SimDevice * self, const char * name, bool readonly, const wpi::SmallVector<std::string, 8> &options, int32_t initialValue) {
+                wpi::SmallVector<const char *, 8> coptions;
+                coptions.reserve(options.size());
+                for (auto s: options) {
+                  coptions.push_back(s.c_str());
+                }
+                return self->CreateEnum(name, readonly, coptions, initialValue);
+              }
+
       CreateBoolean:
 
 inline_code: |
-  cls_SimDevice
-    .def("__bool__", [](const hal::SimDevice &that) -> bool {
-      return (bool)that;
+
+  cls_SimValue
+    .def_property_readonly("value", [](const hal::SimValue &self) -> py::object {
+        HAL_Value value;
+        {
+          py::gil_scoped_release release;
+          value = self.GetValue();
+        }
+        switch (value.type) {
+        case HAL_BOOLEAN:
+          return py::bool_(value.data.v_boolean);
+        case HAL_DOUBLE:
+          return py::float_(value.data.v_double);
+        case HAL_ENUM:
+          return py::int_(value.data.v_enum);
+        case HAL_INT:
+          return py::int_(value.data.v_int);
+        case HAL_LONG:
+          return py::int_(value.data.v_long);
+        default: 
+          return py::none();
+        }
+    })
+    .def("__bool__", [](const hal::SimValue &self) -> bool {
+      return (bool)self;
+    })
+    .def("__repr__", [](const hal::SimValue &self) -> py::str {
+        if (!self) {
+          return "SimValue(<invalid>)";
+        }
+        HAL_Value value;
+        {
+          py::gil_scoped_release release;
+          value = self.GetValue();
+        }
+        switch (value.type) {
+        case HAL_BOOLEAN:
+          return std::string("SimValue(type=bool, value=") + (value.data.v_boolean ? "True" : "False") + ")";
+        case HAL_DOUBLE:
+          return "SimValue(type=double, value=" + std::to_string(value.data.v_double) + ")";
+        case HAL_ENUM:
+          return "SimValue(type=enum, value=" + std::to_string(value.data.v_enum) + ")";
+        case HAL_INT:
+          return "SimValue(type=int, value=" + std::to_string(value.data.v_int) + ")";
+        case HAL_LONG:
+          return "SimValue(type=long, value=" + std::to_string(value.data.v_long) + ")";
+        default: 
+          return "SimValue(<invalid>)";
+        }
     });
+  
+  cls_SimBoolean
+    .def_property("value", &SimBoolean::Get, &SimBoolean::Set, release_gil())
+    .def("__repr__", [](const SimBoolean &self) -> py::str {
+      if (self) {
+        py::gil_scoped_release release;
+        return std::string("SimBoolean(value=") + (self.Get() ? "True" : "False") + ")";
+      } else {
+        return "SimBoolean(<invalid>)";
+      }
+    });
+
+  cls_SimDevice
+    .def("__bool__", [](const hal::SimDevice &self) -> bool {
+      return (bool)self;
+    })
+    .def_property_readonly("name", [](const hal::SimDevice &self) -> py::str {
+      if (!self) {
+        return "<invalid>";
+      } else {
+        py::gil_scoped_release release;
+        return HALSIM_GetSimDeviceName(self);
+      }
+    })
+    .def("__repr__", [](const hal::SimDevice &self) -> py::str {
+      if (!self) {
+        return "SimDevice(<invalid>)";
+      } else {
+        py::gil_scoped_release release;
+        auto name = HALSIM_GetSimDeviceName(self);
+        return std::string("SimDevice(name=") + name + ")";
+      }
+    });
+  
+  cls_SimDouble
+    .def_property("value", &SimDouble::Get, &SimDouble::Set, release_gil())
+    .def("__repr__", [](const SimDouble &self) -> py::str {
+      if (self) {
+        py::gil_scoped_release release;
+        return "SimDouble(value=" + std::to_string(self.Get()) + ")";
+      } else {
+        return "SimDouble(<invalid>)";
+      }
+    });
+  
+  cls_SimEnum
+    .def_property("value", &SimEnum::Get, &SimEnum::Set)
+    .def("__repr__", [](const SimEnum &self) -> py::str {
+      if (self) {
+        int32_t value;
+        int32_t numOptions;
+        const char ** options;
+        const char * option = "<unknown>";
+        {
+          py::gil_scoped_release release;
+          value = self.Get();
+          options = HALSIM_GetSimValueEnumOptions(self, &numOptions);
+        }
+
+        if (options && value >= 0 && value < numOptions) {
+          option = options[value];
+        }
+
+        return "SimEnum(name=" + std::string(option) + ", " +
+                       "value=" + std::to_string(value) + ")";
+      } else {
+        return "SimEnum(<invalid>)";
+      }
+    });
+  
+  
