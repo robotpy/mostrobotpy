@@ -12,6 +12,7 @@ functions:
   HAL_CreateSimValue:
     overloads:
       HAL_SimDeviceHandle, char*, HAL_Bool, struct HAL_Value*:
+        ignore: true
       HAL_SimDeviceHandle, char*, HAL_Bool, HAL_Value&:
   HAL_CreateSimValueDouble:
   HAL_CreateSimValueEnum:
@@ -29,6 +30,7 @@ functions:
   HAL_GetSimValue:
     overloads:
       HAL_SimValueHandle, struct HAL_Value*:
+        ignore: true  # out param
       HAL_SimValueHandle:
   HAL_GetSimValueDouble:
   HAL_GetSimValueEnum:
@@ -36,6 +38,7 @@ functions:
   HAL_SetSimValue:
     overloads:
       HAL_SimValueHandle, struct HAL_Value*:
+        ignore: true
       HAL_SimValueHandle, HAL_Value&:
   HAL_SetSimValueDouble:
   HAL_SetSimValueEnum:
@@ -160,7 +163,7 @@ inline_code: |
     })
     .def("__repr__", [](const hal::SimValue &self) -> py::str {
         if (!self) {
-          return "SimValue(<invalid>)";
+          return "<SimValue (invalid)>";
         }
         HAL_Value value;
         {
@@ -169,17 +172,21 @@ inline_code: |
         }
         switch (value.type) {
         case HAL_BOOLEAN:
-          return std::string("SimValue(type=bool, value=") + (value.data.v_boolean ? "True" : "False") + ")";
+          if (value.data.v_boolean) {
+            return "<SimDevice (bool) True>";
+          } else {
+            return "<SimDevice (bool) False>";
+          }
         case HAL_DOUBLE:
-          return "SimValue(type=double, value=" + std::to_string(value.data.v_double) + ")";
+          return "<SimValue (double) " + std::to_string(value.data.v_double) + ">";
         case HAL_ENUM:
-          return "SimValue(type=enum, value=" + std::to_string(value.data.v_enum) + ")";
+          return "<SimValue (enum) " + std::to_string(value.data.v_enum) + ">";
         case HAL_INT:
-          return "SimValue(type=int, value=" + std::to_string(value.data.v_int) + ")";
+          return "<SimValue (int) " + std::to_string(value.data.v_int) + ">";
         case HAL_LONG:
-          return "SimValue(type=long, value=" + std::to_string(value.data.v_long) + ")";
-        default: 
-          return "SimValue(<invalid>)";
+          return "<SimValue (long) " + std::to_string(value.data.v_long) + ">";
+        default:
+          return "<SimValue (unknown)>";
         }
     });
   
@@ -188,9 +195,9 @@ inline_code: |
     .def("__repr__", [](const SimBoolean &self) -> py::str {
       if (self) {
         py::gil_scoped_release release;
-        return std::string("SimBoolean(value=") + (self.Get() ? "True" : "False") + ")";
+        return std::string("<SimBoolean value=") + (self.Get() ? "True" : "False") + ">";
       } else {
-        return "SimBoolean(<invalid>)";
+        return "<SimBoolean (invalid)>";
       }
     });
 
@@ -208,12 +215,14 @@ inline_code: |
     })
     .def("__repr__", [](const hal::SimDevice &self) -> py::str {
       if (!self) {
-        return "SimDevice(<invalid>)";
-      } else {
-        py::gil_scoped_release release;
-        auto name = HALSIM_GetSimDeviceName(self);
-        return std::string("SimDevice(name=") + name + ")";
+        return "<SimDevice (invalid)>";
       }
+      const char *name;
+      {
+        py::gil_scoped_release release;
+        name = HALSIM_GetSimDeviceName(self);
+      }
+      return py::str("SimDevice(name={!r})").format(py::str(name));
     });
   
   cls_SimDouble
@@ -221,9 +230,9 @@ inline_code: |
     .def("__repr__", [](const SimDouble &self) -> py::str {
       if (self) {
         py::gil_scoped_release release;
-        return "SimDouble(value=" + std::to_string(self.Get()) + ")";
+        return "<SimDouble value=" + std::to_string(self.Get()) + ">";
       } else {
-        return "SimDouble(<invalid>)";
+        return "<SimDouble (invalid)>";
       }
     });
   
@@ -245,11 +254,9 @@ inline_code: |
           option = options[value];
         }
 
-        return "SimEnum(name=" + std::string(option) + ", " +
-                       "value=" + std::to_string(value) + ")";
+        return "<SimEnum name=" + std::string(option) +
+                       " value=" + std::to_string(value) + ">";
       } else {
-        return "SimEnum(<invalid>)";
+        return "<SimEnum (invalid)>";
       }
     });
-  
-  
