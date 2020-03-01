@@ -177,4 +177,4 @@ jobs:
         token: ${{ secrets.REPO_ACCESS_TOKEN }}
         repository: robotpy/pyfrc
         event-type: tag
-        client-payload: '{"package_name": "wpilib", "package_version": "${{ steps.currtag.outputs.tag }}"}'
+        client-payload: '{"package_name": "robotpy-wpiutil", "package_version": "${{ steps.currtag.outputs.tag }}"}'
