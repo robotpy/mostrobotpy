@@ -247,24 +247,28 @@ inline_code: |
   cls_SimEnum
     .def_property("value", &SimEnum::Get, &SimEnum::Set)
     .def("__repr__", [](const SimEnum &self) -> py::str {
-      if (self) {
-        int32_t value;
-        int32_t numOptions;
-        const char ** options;
-        const char * option = "<unknown>";
-        {
-          py::gil_scoped_release release;
-          value = self.Get();
-          options = HALSIM_GetSimValueEnumOptions(self, &numOptions);
-        }
-
-        if (options && value >= 0 && value < numOptions) {
-          option = options[value];
-        }
-
-        return "<SimEnum name=" + std::string(option) +
-                       " value=" + std::to_string(value) + ">";
-      } else {
+      #ifdef __FRC_ROBORIO__
         return "<SimEnum (invalid)>";
-      }
+      #else
+        if (self) {
+          int32_t value;
+          int32_t numOptions;
+          const char ** options;
+          const char * option = "<unknown>";
+          {
+            py::gil_scoped_release release;
+            value = self.Get();
+            options = HALSIM_GetSimValueEnumOptions(self, &numOptions);
+          }
+
+          if (options && value >= 0 && value < numOptions) {
+            option = options[value];
+          }
+
+          return "<SimEnum name=" + std::string(option) +
+                        " value=" + std::to_string(value) + ">";
+        } else {
+          return "<SimEnum (invalid)>";
+        }
+      #endif
     });
