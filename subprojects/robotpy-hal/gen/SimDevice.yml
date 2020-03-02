@@ -206,23 +206,31 @@ inline_code: |
       return (bool)self;
     })
     .def_property_readonly("name", [](const hal::SimDevice &self) -> py::str {
-      if (!self) {
+      #ifdef __FRC_ROBORIO__
         return "<invalid>";
-      } else {
-        py::gil_scoped_release release;
-        return HALSIM_GetSimDeviceName(self);
-      }
+      #else
+        if (!self) {
+          return "<invalid>";
+        } else {
+          py::gil_scoped_release release;
+          return HALSIM_GetSimDeviceName(self);
+        }
+      #endif
     })
     .def("__repr__", [](const hal::SimDevice &self) -> py::str {
-      if (!self) {
+      #ifdef __FRC_ROBORIO__
         return "<SimDevice (invalid)>";
-      }
-      const char *name;
-      {
-        py::gil_scoped_release release;
-        name = HALSIM_GetSimDeviceName(self);
-      }
-      return py::str("SimDevice(name={!r})").format(py::str(name));
+      #else
+        if (!self) {
+          return "<SimDevice (invalid)>";
+        }
+        const char *name;
+        {
+          py::gil_scoped_release release;
+          name = HALSIM_GetSimDeviceName(self);
+        }
+        return py::str("SimDevice(name={!r})").format(py::str(name));
+      #endif
     });
   
   cls_SimDouble
