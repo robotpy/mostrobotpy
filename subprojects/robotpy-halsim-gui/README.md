@@ -7,7 +7,7 @@ simulation from a RobotPy program.
 Usage
 -----
 
-Just run your robot with the 'sim' argument:
+First, install pyfrc. Then run your robot with the 'sim' argument:
 
     # Windows
     py -3 ./robot.py sim
