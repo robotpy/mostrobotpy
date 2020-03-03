@@ -5,13 +5,43 @@ extra_includes:
 
 classes:
   SimDeviceSim:
-    shared_ptr: true
+    doc: |
+      Interact with a generic simulated device
+
+      Any devices that support simulation but don't have a dedicated sim
+      object associated with it can be interacted with via this object.
+      You just need to know the name of the associated object.
+
+      Here are two ways to find the names of available devices:
+
+      * The static function :meth:`.enumerateDevices` can give you a list of
+        all available devices -- note that the device must be created first
+        before this will return any results!
+      * When running the WPILib simulation GUI, the names of the 'Other Devices'
+        panel are names of devices that you can interact with via this class.
+
+      Once you've created a simulated device, you can use the :meth:`.enumerateValues`
+      method to determine what values you can interact with.
+
+
+      .. note:: WPILib has simulation support for all of its devices. Some
+                vendors may only have limited support for simulation -- read
+                the vendor's documentation or contact them for more information.
+    shared_ptr: false
     methods:
       SimDeviceSim:
       GetValue:
+        doc: |
+          Provides a readonly mechanism to retrieve all types of device values
       GetDouble:
+        doc: |
+          Retrieves an object that allows you to interact with simulated values
+          represented as a double.
       GetEnum:
       GetBoolean:
+        doc: |
+          Retrieves an object that allows you to interact with simulated values
+          represented as a boolean.
       GetEnumOptions:
       EnumerateValues:
         ignore: true # TODO

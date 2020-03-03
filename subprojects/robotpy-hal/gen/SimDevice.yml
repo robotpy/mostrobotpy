@@ -45,6 +45,11 @@ functions:
   HAL_SetSimValueBoolean:
 classes:
   SimValue:
+    doc: |
+      Readonly wrapper around a HAL simulator value.
+      
+      It is not useful to construct these directly -- they are returned from
+      :meth:`.SimDeviceSim.getValue` or :meth:`.SimDevice.createValue`.
     shared_ptr: false
     methods:
       SimValue:
@@ -60,6 +65,11 @@ classes:
       SetValue:
         ignore: true
   SimDouble:
+    doc: |
+      Wrapper around a HAL simulator double value.
+      
+      It is not useful to construct these directly -- they are returned from
+      :meth:`.SimDeviceSim.getDouble` or :meth:`.SimDevice.createDouble`.
     shared_ptr: false
     force_no_trampoline: true
     methods:
@@ -74,6 +84,11 @@ classes:
       Get:
       Set:
   SimEnum:
+    doc: |
+      Wrapper around a HAL simulator enum value.
+      
+      It is not useful to construct these directly -- they are returned from
+      :meth:`.SimDeviceSim.getEnum` or :meth:`.SimDevice.createEnum`.
     shared_ptr: false
     force_no_trampoline: true
     methods:
@@ -88,6 +103,11 @@ classes:
       Get:
       Set:
   SimBoolean:
+    doc: |
+      Wrapper around a HAL simulator boolean value.
+      
+      It is not useful to construct these directly -- they are returned from
+      :meth:`.SimDeviceSim.getBoolean` or :meth:`.SimDevice.createBoolean`.
     shared_ptr: false
     force_no_trampoline: true
     methods:
@@ -102,6 +122,14 @@ classes:
       Get:
       Set:
   SimDevice:
+    doc: |
+      Wrapper around a HAL simulation 'device'
+
+      This creates a simulated 'device' object that can be interacted with
+      from user SimDeviceSim objects or via the Simulation GUI.
+
+      .. note:: To interact with an existing device use
+                :class:`hal.simulation.SimDeviceSim` instead.
     shared_ptr: false
     force_type_casters:
     - wpi::SmallVector

@@ -49,6 +49,18 @@ master_doc = "index"
 project = "RobotPy HAL"
 copyright = "2020, RobotPy development team"
 
+intersphinx_mapping = {
+    "robotpy": ("https://robotpy.readthedocs.io/en/%s/" % rtd_version, None,),
+    "pyfrc": (
+        "https://robotpy.readthedocs.io/projects/pyfrc/en/%s/" % rtd_version,
+        None,
+    ),
+    "wpilib": (
+        "https://robotpy.readthedocs.io/projects/wpilib/en/%s/" % rtd_version,
+        None,
+    ),
+}
+
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
