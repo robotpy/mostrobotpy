@@ -58,7 +58,18 @@ cls_NetworkTableInstance
         py::arg("localNotify")=true,
         py::arg("paramIsNew")=true,
         release_gil()
-    );
+    )
+    .def("isServer", [](NetworkTableInstance * self) -> bool {
+        return self->GetNetworkMode() & NT_NET_MODE_SERVER;
+    })
+    .def("getRemoteAddress", [](NetworkTableInstance * self) -> py::object {
+        if (!(self->GetNetworkMode() & NT_NET_MODE_SERVER)) {
+            for (auto conn: self->GetConnections()) {
+                return py::str(conn.remote_ip);
+            }
+        }
+        return py::none();
+    });
 
 
 auto nf = m.def_submodule("NotifyFlags");
