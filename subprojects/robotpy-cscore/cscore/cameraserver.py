@@ -466,7 +466,7 @@ class CameraServer:
                   available on your platform, :exc:`.VideoException` is thrown
         """
         if return_server is None:
-            return_server = camera is None
+            return_server = camera is not None
         else:
             warnings.warn(
                 "startAutomaticCapture(return_server=True) is deprecated (default if passed a camera object)",
