@@ -94,6 +94,11 @@ jobs:
         privateKey: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
 
+    - name: Ping readthedocs
+      uses: wei/curl@v1
+      with:
+        args: -X POST -d "token=${{ secrets.RTD_TOKEN }}" ${{ secrets.RTD_WEBHOOK }}
+
 
   publish-pypi:
     runs-on: ubuntu-latest
