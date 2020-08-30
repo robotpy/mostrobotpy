@@ -50,7 +50,10 @@ project = "RobotPy HAL"
 copyright = "2020, RobotPy development team"
 
 intersphinx_mapping = {
-    "robotpy": ("https://robotpy.readthedocs.io/en/%s/" % rtd_version, None,),
+    "robotpy": (
+        "https://robotpy.readthedocs.io/en/%s/" % rtd_version,
+        None,
+    ),
     "pyfrc": (
         "https://robotpy.readthedocs.io/projects/pyfrc/en/%s/" % rtd_version,
         None,

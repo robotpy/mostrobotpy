@@ -28,6 +28,9 @@ classes:
                 vendors may only have limited support for simulation -- read
                 the vendor's documentation or contact them for more information.
     shared_ptr: false
+    force_type_casters:
+    - std::function
+    - wpi::StringRef
     methods:
       SimDeviceSim:
       GetValue:

@@ -3,6 +3,9 @@
 classes:
   EncoderSim:
     shared_ptr: true
+    force_type_casters:
+    - std::function
+    - wpi::StringRef
     methods:
       EncoderSim:
       RegisterInitializedCallback:
