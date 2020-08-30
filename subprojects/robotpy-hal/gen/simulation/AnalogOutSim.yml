@@ -3,6 +3,9 @@
 classes:
   AnalogOutSim:
     shared_ptr: true
+    force_type_casters:
+    - std::function
+    - wpi::StringRef
     methods:
       AnalogOutSim:
       RegisterVoltageCallback:

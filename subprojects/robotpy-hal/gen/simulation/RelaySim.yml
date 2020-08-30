@@ -3,6 +3,9 @@
 classes:
   RelaySim:
     shared_ptr: true
+    force_type_casters:
+    - std::function
+    - wpi::StringRef
     methods:
       RelaySim:
       RegisterInitializedForwardCallback:
