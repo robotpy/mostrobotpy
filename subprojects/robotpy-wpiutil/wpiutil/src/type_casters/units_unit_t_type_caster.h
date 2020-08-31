@@ -21,6 +21,7 @@ PYBIND_UNIT_NAME(foot, feet);
 PYBIND_UNIT_NAME(meters_per_second, meters_per_second);
 PYBIND_UNIT_NAME(meters_per_second_squared, meters_per_second_squared);
 PYBIND_UNIT_NAME(feet_per_second, feet_per_second);
+PYBIND_UNIT_NAME(feet_per_second_squared, feet_per_second_squared);
 PYBIND_UNIT_NAME(degree, degrees);
 PYBIND_UNIT_NAME(radian, radians);
 PYBIND_UNIT_NAME(radians_per_second, radians_per_second);
@@ -71,6 +72,7 @@ template <> struct handle_type_name<units::unit_t<units::compound_unit<volt_seco
 { static constexpr auto name = _("volt_seconds_squared_per_" #unit_name); }
 
 PYBIND_FF_UNITS(meter);
+PYBIND_FF_UNITS(feet);
 PYBIND_FF_UNITS(radian);
 
 #undef PYBIND_FF_UNITS
