@@ -26,6 +26,7 @@ libs = ["wpiutil"]
 "wpi_arrayref_type_caster.h" =    ["wpi::ArrayRef"]
 "wpi_smallset_type_caster.h" =    ["wpi::SmallSet"]
 "wpi_smallvector_type_caster.h" = ["wpi::SmallVector"]
+"wpi_smallvectorimpl_type_caster.h" = ["wpi::SmallVectorImpl"]
 "wpi_stringref_type_caster.h" =   ["wpi::StringRef"]
 "wpi_twine_type_caster.h" =       ["wpi::Twine"]
 

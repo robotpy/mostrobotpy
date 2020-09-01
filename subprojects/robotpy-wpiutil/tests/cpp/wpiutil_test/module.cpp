@@ -4,6 +4,7 @@
 #include <wpi_arrayref_type_caster.h>
 #include <wpi_smallset_type_caster.h>
 #include <wpi_smallvector_type_caster.h>
+#include <wpi_smallvectorimpl_type_caster.h>
 #include <wpi_stringref_type_caster.h>
 #include <wpi_twine_type_caster.h>
 
@@ -74,6 +75,17 @@ wpi::SmallVector<int, 4> cast_smallvec() {
     return set;
 }
 
+/*
+SmallVectorImpl tests
+
+.. seems like references are the only useful things to do with them
+*/
+
+wpi::SmallVectorImpl<int>&  load_smallvecimpl_int(wpi::SmallVectorImpl<int>& ref) {
+    static wpi::SmallVector<int, 4> set(ref.begin(), ref.end());
+    return set;
+}
+
 RPYBUILD_PYBIND11_MODULE(m) {
 
     // stringref
@@ -90,6 +102,8 @@ RPYBUILD_PYBIND11_MODULE(m) {
     // SmallVector
     m.def("load_smallvec_int", &load_smallvec_int);
     m.def("cast_smallvec", &cast_smallvec);
+    // SmallVectorImpl
+    m.def("load_smallvecimpl_int", &load_smallvecimpl_int);
 
     m.def("m2ft", [](units::meter_t m) -> units::foot_t {
         return m;
