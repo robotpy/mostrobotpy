@@ -16,3 +16,7 @@ def test_smallvecbool_load():
 
 def test_smallvec_cast():
     assert module.cast_smallvec() == [1, 2, 3, 4]
+
+
+def test_smallvecimpl_load():
+    assert module.load_smallvecimpl_int([1, 2, 3, 4]) == [1, 2, 3, 4]
