@@ -1,4 +1,4 @@
-*.pyc
+*.py[ciod]
 *.egg-info
 
 *.so
