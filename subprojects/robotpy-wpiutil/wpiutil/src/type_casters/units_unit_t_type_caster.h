@@ -23,6 +23,7 @@ PYBIND_UNIT_NAME(meters_per_second_squared, meters_per_second_squared);
 PYBIND_UNIT_NAME(feet_per_second, feet_per_second);
 PYBIND_UNIT_NAME(feet_per_second_squared, feet_per_second_squared);
 PYBIND_UNIT_NAME(degree, degrees);
+PYBIND_UNIT_NAME(degrees_per_second, degrees_per_second);
 PYBIND_UNIT_NAME(radian, radians);
 PYBIND_UNIT_NAME(radians_per_second, radians_per_second);
 PYBIND_UNIT_NAME(volt, volts);
