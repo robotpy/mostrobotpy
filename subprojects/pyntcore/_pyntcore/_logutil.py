@@ -7,7 +7,7 @@ from . import _ntcore
 
 class NtLogForwarder:
     """
-        Forwards ntcore's logger to python's logging system
+    Forwards ntcore's logger to python's logging system
     """
 
     _instlock = threading.Lock()
