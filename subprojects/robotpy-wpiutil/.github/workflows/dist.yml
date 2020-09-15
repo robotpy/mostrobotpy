@@ -194,7 +194,7 @@ jobs:
       uses: pypa/gh-action-pypi-publish@v1.3.1
       with:
         user: __token__
-        password: ${{ secrets.pypi_password }}
+        password: ${{ secrets.PYPI_PASSWORD }}
 
   ping:
     runs-on: ubuntu-latest
