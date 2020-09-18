@@ -12,9 +12,13 @@ classes:
     methods:
       CallbackStore:
         overloads:
+          # All are ignored because pybind11 can't use raw function pointers
           int32_t, std::function<void ( wpi::StringRef, const HAL_Value * )>, CancelCallbackNoIndexFunc:
+            ignore: true
           int32_t, int32_t, std::function<void ( wpi::StringRef, const HAL_Value * )>, CancelCallbackFunc:
+            ignore: true
           int32_t, int32_t, int32_t, std::function<void ( wpi::StringRef, const HAL_Value * )>, CancelCallbackChannelFunc:
+            ignore: true
       SetUid:
       CallbackStoreThunk:
         ignore: true
