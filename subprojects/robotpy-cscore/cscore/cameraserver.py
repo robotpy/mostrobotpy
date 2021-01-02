@@ -243,7 +243,7 @@ class CameraServer:
         self._sinks = {}  # type: Dict[str, VideoSink]
         self._tables = {}  # type: Dict[int, networktables.NetworkTable]
         # source handle indexed by sink handle
-        self._fixedSources = {}  # type: Dict[int, int]
+        self._fixedSources = {}  # type: Dict[int, cscore.CvSource]
         self._publishTable = NetworkTables.getTable(self.kPublishName)
         self._nextPort = self.kBasePort
         self._addresses = []
@@ -376,7 +376,7 @@ class CameraServer:
             return
 
         sourceName = relativeKey[:subKeyIndex]
-        source = self._sources.get(sourceName)  # type: VideoSource
+        source = self._sources.get(sourceName)  # type: Optional[VideoSource]
         if source is None:
             return
 
@@ -588,7 +588,7 @@ class CameraServer:
 
             name = "opencv_" + camera.getName()
 
-            sink = self._sinks.get(name)  # type: cscore.VideoSink
+            sink = self._sinks.get(name)  # type: Optional[VideoSink]
             if sink is not None:
                 kind = sink.getKind()
                 if kind != VideoSink.Kind.kCv:
@@ -679,7 +679,7 @@ class CameraServer:
         with self._mutex:
             self._sinks.pop(name, None)
 
-    def getServer(self, name: Optional[str] = None) -> VideoSink:
+    def getServer(self, name: Optional[str] = None) -> VideoSource:
         """Get server by name, or for the primary camera feed if no name is specified.
 
         This is only valid to call after a camera feed has been added
