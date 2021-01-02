@@ -30,7 +30,7 @@ class VideoException(Exception):
 
 class CameraServer:
     """Singleton class for creating and keeping camera servers.
-    
+
     This is a higher level wrapper around the cscore functionality, and also
     publishes camera information to NetworkTables so that dashboards can easily
     find and display the camera streams.
@@ -435,29 +435,29 @@ class CameraServer:
         self, *, dev=None, name=None, path=None, camera=None, return_server=None
     ):
         """Start automatically capturing images to send to the dashboard.
-        
+
         You should call this method to see a camera feed on the dashboard.
         If you also want to perform vision processing on the roboRIO, use
         :meth:`getVideo` to get access to the camera images.
-        
+
         :param dev: If specified, the device number to use
         :param name: If specified, the name to use for the camera (dev must be specified)
         :param path: If specified, device path (e.g. "/dev/video0") of the camera
         :param camera: If specified, an existing camera object to use
         :param return_server: If specified, return the server instead of the camera
-        
+
         :returns: USB Camera object, or the camera argument, or the created server
         :rtype: VideoSource or MjpegServer
 
         The following argument combinations are accepted -- all arguments must be specified
         as keyword arguments:
-        
+
         * (no args)
         * dev
         * dev, name
         * name, path
         * camera
-        
+
         The first time this is called with no arguments, a USB Camera from
         device 0 is created.  Subsequent calls increment the device number
         (e.g. 1, 2, etc).
@@ -555,23 +555,23 @@ class CameraServer:
     def getVideo(self, *, name=None, camera=None) -> cscore.CvSink:
         """Get OpenCV access to specified camera. This allows you to
         get images from the camera for image processing.
-        
+
         :param name: Name of camera to retrieve video for
         :param camera: Camera object
-        
+
         :returns: CvSink object corresponding to camera
 
         All arguments must be specified as keyword arguments. The following
         combinations are permitted:
-        
+
         * (no args)
         * name
         * camera
-        
+
         If there are no arguments, then this will retrieve access to the
         primary camera. No arguments will fail if a camera feed has not already
         been added via :meth:`startAutomaticCapture` or :meth:`addCamera`
-        
+
         """
         with self._mutex:
             if camera is not None:
@@ -609,11 +609,11 @@ class CameraServer:
     def putVideo(self, name: str, width: int, height: int) -> cscore.CvSource:
         """Create a MJPEG stream with OpenCV input. This can be called to pass custom
         annotated images to the dashboard.
-        
+
         :param name: Name to give the stream
         :param width: Width of the image being sent
         :param height: Height of the image being sent
-        
+
         :returns: CvSource object that you can publish images to
         """
         source = cscore.CvSource(
@@ -634,7 +634,7 @@ class CameraServer:
         self, *, name=None, port: Optional[int] = None, server=None
     ) -> cscore.MjpegServer:
         """Adds a MJPEG server
-        
+
         :param name: Server name
         :param port: Port of server (if None, use next available port)
         :param server: Server
@@ -643,11 +643,11 @@ class CameraServer:
 
         All arguments must be specified as keyword arguments. The following
         combinations are accepted:
-        
+
         * name
         * name, port
         * server
-        
+
         """
 
         with self._mutex:
@@ -673,7 +673,7 @@ class CameraServer:
 
     def removeServer(self, name: str) -> None:
         """Removes a server by name.
-        
+
         :param name: Server name
         """
         with self._mutex:
@@ -703,7 +703,7 @@ class CameraServer:
 
     def addCamera(self, camera: VideoSource) -> None:
         """Adds an already created camera.
-        
+
         :param camera: Camera object
         """
         name = camera.getName()
@@ -718,7 +718,7 @@ class CameraServer:
 
     def removeCamera(self, name: str) -> None:
         """Removes a camera by name.
-        
+
         :param name: Camera name
         """
         with self._mutex:

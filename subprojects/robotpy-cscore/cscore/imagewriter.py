@@ -12,33 +12,33 @@ logger = logging.getLogger("cscore.storage")
 
 class ImageWriter:
     """
-        Creates a thread that periodically writes images to a specified
-        directory. Useful for looking at images after a match has 
-        completed.
-        
-        The default location is ``/media/sda1/camera``. The folder
-        ``/media/sda1`` is the default location that USB drives inserted into
-        the RoboRIO are mounted at. The USB drive must have a directory in it
-        named ``camera``.
-        
-        .. note:: It is recommended to only write images when something useful
-                  (such as targeting) is happening, otherwise you'll end up
-                  with a lot of images written to disk that you probably aren't
-                  interested in. 
-        
-        Intended usage is::
-        
-            self.image_writer = ImageWriter()
-            
-            ..
-            
-            while True:
-            
-                img = .. 
-                
-                if self.logging_enabled:
-                    self.image_writer.setImage(img)
-    
+    Creates a thread that periodically writes images to a specified
+    directory. Useful for looking at images after a match has
+    completed.
+
+    The default location is ``/media/sda1/camera``. The folder
+    ``/media/sda1`` is the default location that USB drives inserted into
+    the RoboRIO are mounted at. The USB drive must have a directory in it
+    named ``camera``.
+
+    .. note:: It is recommended to only write images when something useful
+              (such as targeting) is happening, otherwise you'll end up
+              with a lot of images written to disk that you probably aren't
+              interested in.
+
+    Intended usage is::
+
+        self.image_writer = ImageWriter()
+
+        ..
+
+        while True:
+
+            img = ..
+
+            if self.logging_enabled:
+                self.image_writer.setImage(img)
+
     """
 
     def __init__(
@@ -49,12 +49,12 @@ class ImageWriter:
         image_format="jpg"
     ):
         """
-            :param location_root: Directory to write images to. A subdirectory
-                                  with the current time will be created, and
-                                  timestamped images will be written to the
-                                  subdirectory.
-            :param capture_period: How often to write images to disk
-            :param image_format: File extension of files to write
+        :param location_root: Directory to write images to. A subdirectory
+                              with the current time will be created, and
+                              timestamped images will be written to the
+                              subdirectory.
+        :param capture_period: How often to write images to disk
+        :param image_format: File extension of files to write
         """
 
         self.location_root = os.path.abspath(location_root)
@@ -72,10 +72,10 @@ class ImageWriter:
 
     def setImage(self, img):
         """
-            Call this function when you wish to write the image to disk. Not
-            every image is written to disk. Makes a copy of the image.
-        
-            :param img: A numpy array representing an OpenCV image
+        Call this function when you wish to write the image to disk. Not
+        every image is written to disk. Makes a copy of the image.
+
+        :param img: A numpy array representing an OpenCV image
         """
 
         if not self.active:
