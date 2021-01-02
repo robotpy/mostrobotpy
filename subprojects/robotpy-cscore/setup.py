@@ -125,24 +125,13 @@ def has_flag(compiler, flagname):
     return True
 
 
-def cpp_flag(compiler):
-    """Return the -std=c++[11/14/17] compiler flag.
-
-    The highest version available is preferred.
-    """
-    if has_flag(compiler, "-std=c++17"):
-        return "-std=c++17"
-    else:
-        raise RuntimeError("Unsupported compiler -- at least C++17 support is needed!")
-
-
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
 
-    c_opts = {"msvc": ["/EHsc", "/DNOMINMAX"], "unix": []}
+    c_opts = {"msvc": ["/EHsc", "/DNOMINMAX", "/std:c++17"], "unix": ["-std=c++17"]}
 
     if sys.platform == "darwin":
-        c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
+        c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.14"]
 
     def build_extensions(self):
         ct = self.compiler.compiler_type
@@ -155,7 +144,6 @@ class BuildExt(build_ext):
                 opts.append("-g0")  # remove debug symbols
             else:
                 opts.append("-O0")
-            opts.append(cpp_flag(self.compiler))
             if has_flag(self.compiler, "-fvisibility=hidden"):
                 opts.append("-fvisibility=hidden")
             if sys.platform != "darwin":
