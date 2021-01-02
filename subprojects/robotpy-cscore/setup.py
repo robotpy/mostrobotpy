@@ -131,7 +131,7 @@ class BuildExt(build_ext):
     c_opts = {"msvc": ["/EHsc", "/DNOMINMAX", "/std:c++17"], "unix": ["-std=c++17"]}
 
     if sys.platform == "darwin":
-        c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
+        c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.14"]
 
     def build_extensions(self):
         ct = self.compiler.compiler_type
