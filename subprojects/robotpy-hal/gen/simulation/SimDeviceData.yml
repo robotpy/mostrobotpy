@@ -30,5 +30,7 @@ functions:
   HALSIM_EnumerateSimValues:
     ignore: true
   HALSIM_GetSimValueEnumOptions:
+    ignore: true
   HALSIM_GetSimValueEnumDoubleValues:
+    ignore: true
   HALSIM_ResetSimDeviceData:
