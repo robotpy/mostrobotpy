@@ -1,0 +1,22 @@
+---
+
+classes:
+  TrajectoryParameterizer:
+    subpackage: trajectory
+    shared_ptr: true
+    force_type_casters:
+    - units::unit_t
+    - units::curvature_t
+    methods:
+      TimeParameterizeTrajectory:
+        cpp_code: |
+          [](
+            const std::vector<TrajectoryParameterizer::PoseWithCurvature>& points,
+            const std::vector<std::shared_ptr<TrajectoryConstraint>>& constraints,
+            units::meters_per_second_t startVelocity,
+            units::meters_per_second_t endVelocity,
+            units::meters_per_second_t maxVelocity,
+            units::meters_per_second_squared_t maxAcceleration, bool reversed
+          ){
+
+          }

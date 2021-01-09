@@ -1,0 +1,11 @@
+---
+
+classes:
+  TrajectoryUtil:
+    subpackage: trajectory
+    shared_ptr: true
+    methods:
+      ToPathweaverJson:
+      FromPathweaverJson:
+      SerializeTrajectory:
+      DeserializeTrajectory:

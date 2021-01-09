@@ -1,0 +1,45 @@
+---
+
+extra_includes:
+- units/dimensionless.h
+
+classes:
+  SimpleMotorFeedforward:
+    shared_ptr: true
+    force_type_casters:
+    - units::meters_per_second
+    - units::meters_per_second_squared
+    typealias:
+    - typename frc::SimpleMotorFeedforward<Distance>::Acceleration
+    - typename frc::SimpleMotorFeedforward<Distance>::kv_unit
+    - typename frc::SimpleMotorFeedforward<Distance>::ka_unit
+    template_params:
+    - Distance
+    methods:
+      SimpleMotorFeedforward:
+        overloads:
+          "":
+          units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit>:
+      Calculate:
+      MaxAchievableVelocity:
+      MinAchievableVelocity:
+      MaxAchievableAcceleration:
+      MinAchievableAcceleration:
+    template_inline_code: |
+      cls_SimpleMotorFeedforward
+        .def_readwrite("kS", &SimpleMotorFeedforward<Distance>::kS)
+        .def_readwrite("kV", &SimpleMotorFeedforward<Distance>::kV)
+        .def_readwrite("kA", &SimpleMotorFeedforward<Distance>::kA);
+
+templates:
+  SimpleMotorFeedforward:
+    subpackage: controller
+    qualname: frc::SimpleMotorFeedforward
+    params:
+      - units::dimensionless::scalar
+  
+  SimpleMotorFeedforwardMeters:
+    subpackage: controller
+    qualname: frc::SimpleMotorFeedforward
+    params:
+      - units::meter
