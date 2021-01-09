@@ -52,12 +52,22 @@ jobs:
         path: dist
 
   #
-  # Build roboRIO wheel
+  # Build roboRIO/raspbian wheels
   #
 
   cross-build:
     runs-on: ubuntu-latest
-    container: robotpy/roborio-cross-ubuntu:2021.3
+    strategy:
+      matrix:
+        os:
+        - container: robotpy/roborio-cross-ubuntu:2021.3
+          name:  roborio
+        - container: robotpy/raspbian-cross-ubuntu:2021.3
+          name:  raspbian
+
+    container:
+      image: "${{ matrix.os.container }}"
+
     steps:
     - uses: actions/checkout@v2
 
@@ -67,7 +77,7 @@ jobs:
     - uses: robotpy/build-actions/install-build-deps@v2021
       with:
         python: /build/venv/bin/cross-python
-        wheeldir: roborio
+        wheeldir: ${{ matrix.os.name }}
     - uses: robotpy/build-actions/build-wheel@v2021
       with:
         python: /build/venv/bin/cross-python
@@ -75,7 +85,7 @@ jobs:
     - uses: actions/upload-artifact@v2
       if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       with:
-        name: dist-roborio
+        name: dist-${{ matrix.os.name }}
         path: dist
 
   #
@@ -103,7 +113,7 @@ jobs:
         name: dist-py3.8-ubuntu-18.04-x64
         path: dist/
 
-    - uses: garygrossgarten/github-action-scp@v0.6.0
+    - uses: robotpy/github-action-scp@atomic
       with:
         local: dist
         remote: public_html/2021/linux_x86_64
@@ -111,6 +121,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         privateKey: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        atomicPut: true
 
     - name: Ping readthedocs
       uses: robotpy/build-actions/ping-rtd@v2021
@@ -127,7 +138,7 @@ jobs:
         name: dist-roborio
         path: dist-roborio/
 
-    - uses: garygrossgarten/github-action-scp@v0.6.0
+    - uses: robotpy/github-action-scp@atomic
       with:
         local: dist-roborio
         remote: public_html/2021/roborio
@@ -135,6 +146,26 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         privateKey: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        atomicPut: true
+
+    #
+    # Raspbian wheel
+    #
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: dist-raspbian
+        path: dist-raspbian/
+
+    - uses: robotpy/github-action-scp@atomic
+      with:
+        local: dist-raspbian
+        remote: public_html/2021/raspbian
+        host: narya.tortall.net
+        username: ${{ secrets.SSH_USER }}
+        privateKey: ${{ secrets.SSH_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        atomicPut: true
 
 
   publish-pypi:
