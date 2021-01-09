@@ -88,7 +88,7 @@ jobs:
 
   publish-rpyrepo:
     runs-on: ubuntu-latest
-    needs: [check, build]
+    needs: [check, build, cross-build]
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
@@ -115,7 +115,7 @@ jobs:
     - uses: robotpy/github-action-scp@atomic
       with:
         local: dist
-        remote: public_html/2020/linux_x86_64
+        remote: public_html/2021/linux_x86_64
         host: narya.tortall.net
         username: ${{ secrets.SSH_USER }}
         privateKey: ${{ secrets.SSH_KEY }}
@@ -140,7 +140,7 @@ jobs:
     - uses: robotpy/github-action-scp@atomic
       with:
         local: dist-roborio
-        remote: public_html/2020/roborio
+        remote: public_html/2021/roborio
         host: narya.tortall.net
         username: ${{ secrets.SSH_USER }}
         privateKey: ${{ secrets.SSH_KEY }}
