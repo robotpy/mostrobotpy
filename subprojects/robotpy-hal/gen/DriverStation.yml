@@ -29,12 +29,6 @@ functions:
   HAL_GetMatchTime:
   HAL_GetMatchInfo:
   HAL_ReleaseDSMutex:
-  HAL_WaitForCachedControlData:
-    cpp_code: |
-      []() {
-        HAL_WaitForCachedControlDataTimeout(0);
-      }
-  HAL_WaitForCachedControlDataTimeout:
   HAL_IsNewControlData:
   HAL_WaitForDSData:
   HAL_WaitForDSDataTimeout:
