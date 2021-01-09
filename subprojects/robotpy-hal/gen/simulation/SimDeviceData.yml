@@ -17,6 +17,7 @@ functions:
   HALSIM_GetSimDeviceName:
   HALSIM_GetSimValueDeviceHandle:
   HALSIM_EnumerateSimDevices:
+    ignore: true
   HALSIM_RegisterSimValueCreatedCallback:
     ignore: true
   HALSIM_CancelSimDeviceCreatedCallback:
@@ -27,6 +28,7 @@ functions:
   HALSIM_CancelSimValueChangedCallback:
   HALSIM_GetSimValueHandle:
   HALSIM_EnumerateSimValues:
+    ignore: true
   HALSIM_GetSimValueEnumOptions:
   HALSIM_GetSimValueEnumDoubleValues:
   HALSIM_ResetSimDeviceData:
