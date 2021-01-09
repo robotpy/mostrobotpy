@@ -1,0 +1,31 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetPDPData:
+  HALSIM_RegisterPDPInitializedCallback:
+    ignore: true
+  HALSIM_CancelPDPInitializedCallback:
+  HALSIM_GetPDPInitialized:
+  HALSIM_SetPDPInitialized:
+  HALSIM_RegisterPDPTemperatureCallback:
+    ignore: true
+  HALSIM_CancelPDPTemperatureCallback:
+  HALSIM_GetPDPTemperature:
+  HALSIM_SetPDPTemperature:
+  HALSIM_RegisterPDPVoltageCallback:
+    ignore: true
+  HALSIM_CancelPDPVoltageCallback:
+  HALSIM_GetPDPVoltage:
+  HALSIM_SetPDPVoltage:
+  HALSIM_RegisterPDPCurrentCallback:
+    ignore: true
+  HALSIM_CancelPDPCurrentCallback:
+  HALSIM_GetPDPCurrent:
+  HALSIM_SetPDPCurrent:
+  HALSIM_GetPDPAllCurrents:
+  HALSIM_SetPDPAllCurrents:
+  HALSIM_RegisterPDPAllNonCurrentCallbacks:
+    ignore: true

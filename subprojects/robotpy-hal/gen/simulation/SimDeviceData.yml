@@ -1,0 +1,32 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_SetSimDeviceEnabled:
+  HALSIM_IsSimDeviceEnabled:
+  HALSIM_RegisterSimDeviceCreatedCallback:
+    ignore: true
+  HALSIM_CancelSimDeviceCreatedCallback:
+  HALSIM_RegisterSimDeviceFreedCallback:
+    ignore: true
+  HALSIM_CancelSimDeviceCreatedCallback:
+  HALSIM_CancelSimDeviceFreedCallback:
+  HALSIM_GetSimDeviceHandle:
+  HALSIM_GetSimDeviceName:
+  HALSIM_GetSimValueDeviceHandle:
+  HALSIM_EnumerateSimDevices:
+  HALSIM_RegisterSimValueCreatedCallback:
+    ignore: true
+  HALSIM_CancelSimDeviceCreatedCallback:
+  HALSIM_CancelSimValueCreatedCallback:
+  HALSIM_RegisterSimValueChangedCallback:
+    ignore: true
+  HALSIM_CancelSimDeviceCreatedCallback:
+  HALSIM_CancelSimValueChangedCallback:
+  HALSIM_GetSimValueHandle:
+  HALSIM_EnumerateSimValues:
+  HALSIM_GetSimValueEnumOptions:
+  HALSIM_GetSimValueEnumDoubleValues:
+  HALSIM_ResetSimDeviceData:

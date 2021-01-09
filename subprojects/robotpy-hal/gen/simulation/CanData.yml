@@ -1,0 +1,25 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetCanData:
+  HALSIM_RegisterCanSendMessageCallback:
+    ignore: true
+  HALSIM_CancelCanSendMessageCallback:
+  HALSIM_RegisterCanReceiveMessageCallback:
+    ignore: true
+  HALSIM_CancelCanReceiveMessageCallback:
+  HALSIM_RegisterCanOpenStreamCallback:
+    ignore: true
+  HALSIM_CancelCanOpenStreamCallback:
+  HALSIM_RegisterCanCloseStreamCallback:
+    ignore: true
+  HALSIM_CancelCanCloseStreamCallback:
+  HALSIM_RegisterCanReadStreamCallback:
+    ignore: true
+  HALSIM_CancelCanReadStreamCallback:
+  HALSIM_RegisterCanGetCANStatusCallback:
+    ignore: true
+  HALSIM_CancelCanGetCANStatusCallback:

@@ -1,0 +1,39 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetPWMData:
+  HALSIM_RegisterPWMInitializedCallback:
+    ignore: true
+  HALSIM_CancelPWMInitializedCallback:
+  HALSIM_GetPWMInitialized:
+  HALSIM_SetPWMInitialized:
+  HALSIM_RegisterPWMRawValueCallback:
+    ignore: true
+  HALSIM_CancelPWMRawValueCallback:
+  HALSIM_GetPWMRawValue:
+  HALSIM_SetPWMRawValue:
+  HALSIM_RegisterPWMSpeedCallback:
+    ignore: true
+  HALSIM_CancelPWMSpeedCallback:
+  HALSIM_GetPWMSpeed:
+  HALSIM_SetPWMSpeed:
+  HALSIM_RegisterPWMPositionCallback:
+    ignore: true
+  HALSIM_CancelPWMPositionCallback:
+  HALSIM_GetPWMPosition:
+  HALSIM_SetPWMPosition:
+  HALSIM_RegisterPWMPeriodScaleCallback:
+    ignore: true
+  HALSIM_CancelPWMPeriodScaleCallback:
+  HALSIM_GetPWMPeriodScale:
+  HALSIM_SetPWMPeriodScale:
+  HALSIM_RegisterPWMZeroLatchCallback:
+    ignore: true
+  HALSIM_CancelPWMZeroLatchCallback:
+  HALSIM_GetPWMZeroLatch:
+  HALSIM_SetPWMZeroLatch:
+  HALSIM_RegisterPWMAllCallbacks:
+    ignore: true

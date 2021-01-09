@@ -1,0 +1,35 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_FindAddressableLEDForChannel:
+  HALSIM_ResetAddressableLEDData:
+  HALSIM_RegisterAddressableLEDInitializedCallback:
+    ignore: true
+  HALSIM_CancelAddressableLEDInitializedCallback:
+  HALSIM_GetAddressableLEDInitialized:
+  HALSIM_SetAddressableLEDInitialized:
+  HALSIM_RegisterAddressableLEDOutputPortCallback:
+    ignore: true
+  HALSIM_CancelAddressableLEDOutputPortCallback:
+  HALSIM_GetAddressableLEDOutputPort:
+  HALSIM_SetAddressableLEDOutputPort:
+  HALSIM_RegisterAddressableLEDLengthCallback:
+    ignore: true
+  HALSIM_CancelAddressableLEDLengthCallback:
+  HALSIM_GetAddressableLEDLength:
+  HALSIM_SetAddressableLEDLength:
+  HALSIM_RegisterAddressableLEDRunningCallback:
+    ignore: true
+  HALSIM_CancelAddressableLEDRunningCallback:
+  HALSIM_GetAddressableLEDRunning:
+  HALSIM_SetAddressableLEDRunning:
+  HALSIM_RegisterAddressableLEDDataCallback:
+    ignore: true
+  HALSIM_CancelAddressableLEDDataCallback:
+  HALSIM_GetAddressableLEDData:
+  HALSIM_SetAddressableLEDData:
+  HALSIM_RegisterAddressableLEDAllCallbacks:
+    ignore: true
