@@ -17,6 +17,27 @@ jobs:
     - uses: psf/black@stable
 
   #
+  # Check documentation
+  #
+
+  check-doc:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+    - name: Sphinx
+      run: |
+        pip --disable-pip-version-check install -e .
+        pip --disable-pip-version-check install -r docs/requirements.txt
+        cd docs && make clean html SPHINXOPTS="-W --keep-going"
+
+  #
   # Build native wheels
   #
 
@@ -94,7 +115,7 @@ jobs:
 
   publish-rpyrepo:
     runs-on: ubuntu-latest
-    needs: [check, build, cross-build]
+    needs: [check, check-doc, build, cross-build]
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
