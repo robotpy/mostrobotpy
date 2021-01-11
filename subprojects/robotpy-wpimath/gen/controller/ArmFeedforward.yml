@@ -2,7 +2,6 @@
 
 classes:
   ArmFeedforward:
-    subpackage: controller
     shared_ptr: true
     typealias:
     - frc::ArmFeedforward::Acceleration

@@ -64,7 +64,6 @@ classes:
 
 templates:
   TrapezoidProfile:
-    subpackage: trajectory
     qualname: frc::TrapezoidProfile
     params:
       - units::dimensionless::scalar

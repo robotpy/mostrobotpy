@@ -2,7 +2,6 @@
 
 classes:
   TrajectoryParameterizer:
-    subpackage: trajectory
     shared_ptr: true
     force_type_casters:
     - units::unit_t

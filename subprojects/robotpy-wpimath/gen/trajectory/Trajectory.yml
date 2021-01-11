@@ -9,7 +9,6 @@ functions:
     ignore: true
 classes:
   Trajectory:
-    subpackage: trajectory
     shared_ptr: true
     force_type_casters:
     - units::curvature_t

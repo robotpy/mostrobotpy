@@ -31,7 +31,6 @@ classes:
 
 templates:
   ElevatorFeedforward:
-    subpackage: controller
     qualname: frc::ElevatorFeedforward
     params:
       - units::dimensionless::scalar
