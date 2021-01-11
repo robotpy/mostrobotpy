@@ -49,9 +49,8 @@ jobs:
       if: ${{ matrix.python_version == '3.7' && matrix.os == 'ubuntu-18.04' }}
 
     - uses: actions/upload-artifact@v2
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
       with:
-        name: "dist-py${{ matrix.python_version }}-${{ matrix.os }}-${{ matrix.architecture }}"
+        name: "dist-${{ matrix.os }}"
         path: dist
 
   #
@@ -103,22 +102,7 @@ jobs:
     steps:
     - uses: actions/download-artifact@v2
       with:
-        name: dist-py3.6-ubuntu-18.04-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.7-ubuntu-18.04-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.8-ubuntu-18.04-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.9-ubuntu-18.04-x64
+        name: dist-ubuntu-18.04
         path: dist/
 
     - uses: robotpy/github-action-scp@atomic
@@ -186,62 +170,12 @@ jobs:
 
     - uses: actions/download-artifact@v2
       with:
-        name: dist-py3.6-windows-latest-x86
+        name: dist-windows-latest
         path: dist/
 
     - uses: actions/download-artifact@v2
       with:
-        name: dist-py3.6-windows-latest-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.6-macos-latest-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.7-windows-latest-x86
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.7-windows-latest-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.7-macos-latest-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.8-windows-latest-x86
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.8-windows-latest-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.8-macos-latest-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.9-windows-latest-x86
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.9-windows-latest-x64
-        path: dist/
-
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-py3.9-macos-latest-x64
+        name: dist-macos-latest
         path: dist/
 
     - uses: actions/setup-python@v2
@@ -263,7 +197,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: action/checkout@v2
 
     - name: Get Current Tag
       uses: robotpy/build-actions/get-git-tag@v2021
