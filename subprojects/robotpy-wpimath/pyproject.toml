@@ -1,5 +1,8 @@
 [build-system]
-requires = ["robotpy-build>=2020.3.1,<2021.0.0"]
+requires = [
+  "robotpy-build>=2020.3.1,<2021.0.0",
+  "robotpy-wpiutil>=2021.1.2.0,<2022.0.0",
+]
 
 [tool.robotpy-build]
 base_package = "wpimath"
@@ -14,7 +17,7 @@ libs = ["wpimath"]
 
 [tool.robotpy-build.wrappers."wpimath._impl"]
 depends = ["wpiutil"]
-extra_includes = ["wpimath/_impl/src/type_casters"]
+extra_includes = ["wpimath/_impl/src/eigen", "wpimath/_impl/src/type_casters"]
 name = "wpimath_cpp"
 
 [tool.robotpy-build.wrappers."wpimath._impl".type_casters]
@@ -956,47 +959,28 @@ name = "wpimath_cpp"
 ]
 
 [tool.robotpy-build.wrappers."wpimath"]
-depends = ["wpimath_cpp", "wpiutil"]
+depends = ["wpimath_cpp"]
 name = "wpimath"
 extension = "_wpimath"
 sources = ["wpimath/src/wpimath.cpp"]
 generation_data = "gen"
-generate = [{ MathUtil = "frc/MathUtil.h" }]
+generate = [
+  { LinearFilter = "frc/LinearFilter.h" },
+  { MathUtil = "frc/MathUtil.h" },
+  { MedianFilter = "frc/MedianFilter.h" },
+]
 
 [tool.robotpy-build.wrappers."wpimath.controller"]
-# This is a combination of controller + trajectory because of 
-# circular dependencies
-
 name = "wpimath_controller"
 extension = "_controller"
 sources = ["wpimath/controller/controller.cpp"]
-depends = [
-  "wpimath_cpp",
-  "wpimath_geometry",
-  "wpimath_kinematics",
-  "wpimath_spline",
-  "wpiutil",
-]
+depends = ["wpimath_cpp"]
 generation_data = "gen/controller"
 generate = [
   # frc/controller
   { ArmFeedforward = "frc/controller/ArmFeedforward.h" },
   { ElevatorFeedforward = "frc/controller/ElevatorFeedforward.h" },
   { SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h" },
-  # frc/trajectory
-  { Trajectory = "frc/trajectory/Trajectory.h" },
-  { TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h" },
-  { TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h" },
-  { TrajectoryParameterizer = "frc/trajectory/TrajectoryParameterizer.h" },
-  { TrajectoryUtil = "frc/trajectory/TrajectoryUtil.h" },
-  { TrapezoidProfile = "frc/trajectory/TrapezoidProfile.h" },
-  # frc/trajectory/constraint
-  { CentripetalAccelerationConstraint = "frc/trajectory/constraint/CentripetalAccelerationConstraint.h" },
-  { DifferentialDriveKinematicsConstraint = "frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h" },
-  { DifferentialDriveVoltageConstraint = "frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h" },
-  { MecanumDriveKinematicsConstraint = "frc/trajectory/constraint/MecanumDriveKinematicsConstraint.h" },
-  { SwerveDriveKinematicsConstraint = "frc/trajectory/constraint/SwerveDriveKinematicsConstraint.h" },
-  { TrajectoryConstraint = "frc/trajectory/constraint/TrajectoryConstraint.h" },
 ]
 
 [tool.robotpy-build.wrappers."wpimath.geometry"]
@@ -1005,7 +989,7 @@ name = "wpimath_geometry"
 extension = "_geometry"
 extra_includes = ["wpimath/geometry/include"]
 sources = ["wpimath/geometry/geometry.cpp"]
-depends = ["wpimath_cpp", "wpiutil"]
+depends = ["wpimath_cpp"]
 generation_data = "gen/geometry"
 generate = [
   # frc/geometry
@@ -1022,7 +1006,7 @@ generate = [
 name = "wpimath_kinematics"
 extension = "_kinematics"
 sources = ["wpimath/kinematics/kinematics.cpp"]
-depends = ["wpimath_cpp", "wpimath_geometry", "wpiutil"]
+depends = ["wpimath_cpp", "wpimath_geometry"]
 generation_data = "gen/kinematics"
 generate = [
   # frc/kinematics
@@ -1043,7 +1027,7 @@ generate = [
 name = "wpimath_spline"
 extension = "_spline"
 sources = ["wpimath/spline/spline.cpp"]
-depends = ["wpimath_cpp", "wpimath_geometry", "wpiutil"]
+depends = ["wpimath_cpp", "wpimath_geometry"]
 generation_data = "gen/spline"
 generate = [
   # frc/spline
@@ -1052,6 +1036,35 @@ generate = [
   { Spline = "frc/spline/Spline.h" },
   { SplineHelper = "frc/spline/SplineHelper.h" },
   { SplineParameterizer = "frc/spline/SplineParameterizer.h" },
+]
+
+[tool.robotpy-build.wrappers."wpimath.trajectory"]
+name = "wpimath_trajectory"
+extension = "_trajectory"
+sources = ["wpimath/trajectory/trajectory.cpp"]
+depends = [
+  "wpimath_cpp",
+  "wpimath_controller",
+  "wpimath_geometry",
+  "wpimath_kinematics",
+  "wpimath_spline",
+]
+generation_data = "gen/trajectory"
+generate = [
+  # frc/trajectory
+  { Trajectory = "frc/trajectory/Trajectory.h" },
+  { TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h" },
+  { TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h" },
+  { TrajectoryParameterizer = "frc/trajectory/TrajectoryParameterizer.h" },
+  { TrajectoryUtil = "frc/trajectory/TrajectoryUtil.h" },
+  { TrapezoidProfile = "frc/trajectory/TrapezoidProfile.h" },
+  # frc/trajectory/constraint
+  { CentripetalAccelerationConstraint = "frc/trajectory/constraint/CentripetalAccelerationConstraint.h" },
+  { DifferentialDriveKinematicsConstraint = "frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h" },
+  { DifferentialDriveVoltageConstraint = "frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h" },
+  { MecanumDriveKinematicsConstraint = "frc/trajectory/constraint/MecanumDriveKinematicsConstraint.h" },
+  { SwerveDriveKinematicsConstraint = "frc/trajectory/constraint/SwerveDriveKinematicsConstraint.h" },
+  { TrajectoryConstraint = "frc/trajectory/constraint/TrajectoryConstraint.h" },
 ]
 
 
