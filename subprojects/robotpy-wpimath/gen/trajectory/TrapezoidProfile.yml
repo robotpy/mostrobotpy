@@ -5,6 +5,7 @@ classes:
     shared_ptr: false
     force_type_casters:
     - units::second_t
+    - units::radians_per_second
     typealias:
     - Distance_t = units::unit_t<Distance>
     - Velocity = units::compound_unit<Distance, units::inverse<units::seconds>>
@@ -67,3 +68,9 @@ templates:
     qualname: frc::TrapezoidProfile
     params:
       - units::dimensionless::scalar
+
+  # needed for HolonomicDriveController
+  TrapezoidProfileRadians:
+    qualname: frc::TrapezoidProfile
+    params:
+      - units::radian
