@@ -970,17 +970,40 @@ generate = [
   { MedianFilter = "frc/MedianFilter.h" },
 ]
 
-[tool.robotpy-build.wrappers."wpimath.controller"]
-name = "wpimath_controller"
-extension = "_controller"
-sources = ["wpimath/controller/controller.cpp"]
-depends = ["wpimath_cpp"]
-generation_data = "gen/controller"
+[tool.robotpy-build.wrappers."wpimath._controls"]
+name = "wpimath_controls"
+extension = "_controls"
+sources = ["wpimath/_controls/controls.cpp"]
+depends = ["wpimath_cpp", "wpimath_geometry", "wpimath_kinematics"]
+generation_data = "gen/controls"
 generate = [
   # frc/controller
   { ArmFeedforward = "frc/controller/ArmFeedforward.h" },
+  { ControlAffinePlantInversionFeedforward = "frc/controller/ControlAffinePlantInversionFeedforward.h" },
   { ElevatorFeedforward = "frc/controller/ElevatorFeedforward.h" },
+  { LinearPlantInversionFeedforward = "frc/controller/LinearPlantInversionFeedforward.h" },
+  { LinearQuadraticRegulator = "frc/controller/LinearQuadraticRegulator.h" },
   { SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h" },
+  # frc/estimator
+  # { AngleStatistics = "frc/estimator/AngleStatistics.h" },
+  { DifferentialDrivePoseEstimator = "frc/estimator/DifferentialDrivePoseEstimator.h" },
+  { ExtendedKalmanFilter = "frc/estimator/ExtendedKalmanFilter.h" },
+  { KalmanFilter = "frc/estimator/KalmanFilter.h" },
+  # { KalmanFilterLatencyCompensator = "frc/estimator/KalmanFilterLatencyCompensator.h" },
+  { MecanumDrivePoseEstimator = "frc/estimator/MecanumDrivePoseEstimator.h" },
+  # { MerweScaledSigmaPoints = "frc/estimator/MerweScaledSigmaPoints.h" },
+  { SwerveDrivePoseEstimator = "frc/estimator/SwerveDrivePoseEstimator.h" },
+  # { UnscentedKalmanFilter = "frc/estimator/UnscentedKalmanFilter.h" },
+  # { UnscentedTransform = "frc/estimator/UnscentedTransform.h" },
+  # frc/system
+  # { Discretization = "frc/system/Discretization.h" },
+  { LinearSystem = "frc/system/LinearSystem.h" },
+  { LinearSystemLoop = "frc/system/LinearSystemLoop.h" },
+  # { NumericalJacobian = "frc/system/NumericalJacobian.h" },
+  # { RungeKutta = "frc/system/RungeKutta.h" },
+  # frc/system/plant
+  { DCMotor = "frc/system/plant/DCMotor.h" },
+  { LinearSystemId = "frc/system/plant/LinearSystemId.h" },
 ]
 
 [tool.robotpy-build.wrappers."wpimath.geometry"]
@@ -1044,7 +1067,7 @@ extension = "_trajectory"
 sources = ["wpimath/trajectory/trajectory.cpp"]
 depends = [
   "wpimath_cpp",
-  "wpimath_controller",
+  "wpimath_controls",
   "wpimath_geometry",
   "wpimath_kinematics",
   "wpimath_spline",

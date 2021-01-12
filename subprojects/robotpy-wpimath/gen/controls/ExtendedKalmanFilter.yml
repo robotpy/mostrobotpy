@@ -1,0 +1,57 @@
+---
+
+classes:
+  ExtendedKalmanFilter:
+    shared_ptr: true
+    template_params:
+    - int States
+    - int Inputs
+    - int Outputs
+    methods:
+      ExtendedKalmanFilter:
+      P:
+        overloads:
+          '[const]':
+          int, int [const]:
+      SetP:
+      Xhat:
+        overloads:
+          '[const]':
+          int [const]:
+      SetXhat:
+        overloads:
+          Eigen::Matrix<double, States, 1>&:
+          int, double:
+      Reset:
+      Predict:
+      Correct:
+        overloads:
+          Eigen::Matrix<double, Inputs, 1>&, Eigen::Matrix<double, Outputs, 1>&:
+          ? Eigen::Matrix<double, Inputs, 1>&, Eigen::Matrix<double, Rows, 1>&, std::function<Eigen::Matrix<double,
+            Rows, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
+            Inputs, 1> & )>, Eigen::Matrix<double, Rows, Rows>&
+          :
+            ignore: true
+
+templates:
+  ExtendedKalmanFilter_1_1_1:
+    qualname: frc::ExtendedKalmanFilter
+    subpackage: estimator
+    params:
+    - 1
+    - 1
+    - 1
+  ExtendedKalmanFilter_2_1_1:
+    qualname: frc::ExtendedKalmanFilter
+    subpackage: estimator
+    params:
+    - 2
+    - 1
+    - 1 
+  ExtendedKalmanFilter_2_2_2:
+    qualname: frc::ExtendedKalmanFilter
+    subpackage: estimator
+    params:
+    - 2
+    - 2
+    - 2

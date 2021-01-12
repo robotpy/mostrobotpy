@@ -1,0 +1,17 @@
+---
+
+classes:
+  DifferentialDrivePoseEstimator:
+    shared_ptr: true
+    subpackage: estimator
+    methods:
+      DifferentialDrivePoseEstimator:
+        param_override:
+          nominalDt:
+            default: 0.02_s
+      SetVisionMeasurementStdDevs:
+      ResetPosition:
+      GetEstimatedPosition:
+      AddVisionMeasurement:
+      Update:
+      UpdateWithTime:

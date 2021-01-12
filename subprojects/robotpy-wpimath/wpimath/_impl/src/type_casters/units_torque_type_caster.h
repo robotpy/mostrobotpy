@@ -12,13 +12,13 @@ template <> struct handle_type_name<units::newton_meters> {
   static constexpr auto name = _("newton_meters");
 };
 
-template <> struct handle_type_name<units::foot_pound_t> {
-  static constexpr auto name = _("foot_pounds");
-};
+// template <> struct handle_type_name<units::foot_pound_t> {
+//   static constexpr auto name = _("foot_pounds");
+// };
 
-template <> struct handle_type_name<units::foot_pounds> {
-  static constexpr auto name = _("foot_pounds");
-};
+// template <> struct handle_type_name<units::foot_pounds> {
+//   static constexpr auto name = _("foot_pounds");
+// };
 
 template <> struct handle_type_name<units::foot_poundal_t> {
   static constexpr auto name = _("foot_poundals");

@@ -1,0 +1,64 @@
+---
+
+classes:
+  KalmanFilterImpl:
+    shared_ptr: true
+    template_params:
+    - int States
+    - int Inputs
+    - int Outputs
+    methods:
+      KalmanFilterImpl:
+      K:
+        overloads:
+          '[const]':
+          int, int [const]:
+      Xhat:
+        overloads:
+          '[const]':
+          int [const]:
+      SetXhat:
+        overloads:
+          Eigen::Matrix<double, States, 1>&:
+          int, double:
+      Reset:
+      Predict:
+      Correct:
+  KalmanFilter:
+    shared_ptr: true
+    template_params:
+    - int States
+    - int Inputs
+    - int Outputs
+    force_no_trampoline: true
+    ignored_bases:
+    - detail::KalmanFilterImpl<States,Inputs,Outputs>
+    methods:
+      KalmanFilter:
+  KalmanFilter<1,1,1>:
+    ignore: true
+  KalmanFilter<2,1,1>:
+    ignore: true
+
+templates:
+  KalmanFilter_1_1_1:
+    qualname: frc::KalmanFilter
+    subpackage: estimator
+    params:
+    - 1
+    - 1
+    - 1
+  KalmanFilter_2_1_1:    
+    qualname: frc::KalmanFilter
+    subpackage: estimator
+    params:
+    - 2
+    - 1
+    - 1 
+  KalmanFilter_2_2_2:
+    qualname: frc::KalmanFilter
+    subpackage: estimator
+    params:
+    - 2
+    - 2
+    - 2

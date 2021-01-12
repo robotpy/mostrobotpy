@@ -1,0 +1,93 @@
+---
+
+classes:
+  LinearQuadraticRegulatorImpl:
+    shared_ptr: true
+    template_params:
+    - int States
+    - int Inputs
+    methods:
+      LinearQuadraticRegulatorImpl:
+        overloads:
+          LinearSystem<States, Inputs, Outputs>&, std::array<double, States>&, std::array<double, Inputs>&, units::second_t:
+            ignore: true
+          ? Eigen::Matrix<double, States, States>&, Eigen::Matrix<double, States,
+            Inputs>&, std::array<double, States>&, std::array<double, Inputs>&, units::second_t
+          :
+          ? Eigen::Matrix<double, States, States>&, Eigen::Matrix<double, States,
+            Inputs>&, Eigen::Matrix<double, States, States>&, Eigen::Matrix<double,
+            Inputs, Inputs>&, units::second_t
+          :
+      K:
+        overloads:
+          '[const]':
+          int, int [const]:
+      R:
+        overloads:
+          '[const]':
+          int [const]:
+      U:
+        overloads:
+          '[const]':
+          int [const]:
+      Reset:
+      Calculate:
+        overloads:
+          Eigen::Matrix<double, States, 1>&:
+          Eigen::Matrix<double, States, 1>&, Eigen::Matrix<double, States, 1>&:
+      LatencyCompensate:
+        ignore: true
+    
+    template_inline_code: |
+      cls_LinearQuadraticRegulatorImpl
+        .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, const std::array<double, States>&, const std::array<double, Inputs>&, units::second_t>())
+        .def(py::init<const frc::LinearSystem<States, Inputs, 2>&, const std::array<double, States>&, const std::array<double, Inputs>&, units::second_t>());
+
+  LinearQuadraticRegulator:
+    shared_ptr: true
+    template_params:
+    - int States
+    - int Inputs
+    force_no_trampoline: true
+    ignored_bases:
+    - detail::LinearQuadraticRegulatorImpl<States,Inputs>
+    methods:
+      LinearQuadraticRegulator:
+        overloads:
+          LinearSystem<States, Inputs, Outputs>&, std::array<double, States>&, std::array<double, Inputs>&, units::second_t:
+            ignore: true
+          ? Eigen::Matrix<double, States, States>&, Eigen::Matrix<double, States,
+            Inputs>&, std::array<double, States>&, std::array<double, Inputs>&, units::second_t
+          :
+          ? Eigen::Matrix<double, States, States>&, Eigen::Matrix<double, States,
+            Inputs>&, Eigen::Matrix<double, States, States>&, Eigen::Matrix<double,
+            Inputs, Inputs>&, units::second_t
+          :
+    template_inline_code: |
+      cls_LinearQuadraticRegulator
+        .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, const std::array<double, States>&, const std::array<double, Inputs>&, units::second_t>())
+        .def(py::init<const frc::LinearSystem<States, Inputs, 2>&, const std::array<double, States>&, const std::array<double, Inputs>&, units::second_t>());
+  LinearQuadraticRegulator<1,1>:
+    ignore: true
+  LinearQuadraticRegulator<2,1>:
+    ignore: true
+
+templates:
+  LinearQuadraticRegulator_1_1:
+    qualname: frc::LinearQuadraticRegulator
+    subpackage: controller
+    params:
+    - 1
+    - 1
+  LinearQuadraticRegulator_2_1:
+    qualname: frc::LinearQuadraticRegulator
+    subpackage: controller
+    params:
+    - 2
+    - 1
+  LinearQuadraticRegulator_2_2:
+    qualname: frc::LinearQuadraticRegulator
+    subpackage: controller
+    params:
+    - 2
+    - 2

@@ -20,24 +20,18 @@ MANIFEST
 /wpimath/pkgcfg.py
 /wpimath/version.py
 /wpimath/_init_wpimath.py
-/wpimath/controller/_init_controller.py
-/wpimath/controller/pkgcfg.py
-/wpimath/drive/_init_drive.py
-/wpimath/drive/pkgcfg.py
+/wpimath/_controls/_init_controls.py
+/wpimath/_controls/pkgcfg.py
 /wpimath/geometry/_init_geometry.py
 /wpimath/geometry/pkgcfg.py
 /wpimath/interfaces/_init_interfaces.py
 /wpimath/interfaces/pkgcfg.py
 /wpimath/kinematics/_init_kinematics.py
 /wpimath/kinematics/pkgcfg.py
-/wpimath/simulation/_init_simulation.py
-/wpimath/simulation/pkgcfg.py
 /wpimath/spline/_init_spline.py
 /wpimath/spline/pkgcfg.py
 /wpimath/trajectory/_init_trajectory.py
 /wpimath/trajectory/pkgcfg.py
-/wpimath/trajectory/constraint/_init_constraint.py
-/wpimath/trajectory/constraint/pkgcfg.py
 
 rpy-include
 /wpimath/_impl/_init_wpimath_cpp.py

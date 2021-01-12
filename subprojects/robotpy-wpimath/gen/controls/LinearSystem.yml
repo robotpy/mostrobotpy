@@ -1,0 +1,73 @@
+---
+
+classes:
+  LinearSystem:
+    shared_ptr: true
+    template_params:
+    - int States
+    - int Inputs
+    - int Outputs
+    methods:
+      LinearSystem:
+      A:
+        overloads:
+          '[const]':
+          int, int [const]:
+      B:
+        overloads:
+          '[const]':
+          int, int [const]:
+      C:
+        overloads:
+          '[const]':
+          int, int [const]:
+      D:
+        overloads:
+          '[const]':
+          int, int [const]:
+      CalculateX:
+      CalculateY:
+
+templates:
+  LinearSystem_1_1_1:
+    qualname: frc::LinearSystem
+    subpackage: system
+    params:
+    - 1
+    - 1
+    - 1
+  LinearSystem_1_1_2:
+    qualname: frc::LinearSystem
+    subpackage: system
+    params:
+    - 1
+    - 1
+    - 2
+  LinearSystem_2_1_1:
+    qualname: frc::LinearSystem
+    subpackage: system
+    params:
+    - 2
+    - 1
+    - 1
+  LinearSystem_2_1_2:
+    qualname: frc::LinearSystem
+    subpackage: system
+    params:
+    - 2
+    - 1
+    - 2
+  LinearSystem_2_2_1:
+    qualname: frc::LinearSystem
+    subpackage: system
+    params:
+    - 2
+    - 2
+    - 1
+  LinearSystem_2_2_2:
+    qualname: frc::LinearSystem
+    subpackage: system
+    params:
+    - 2
+    - 2
+    - 2

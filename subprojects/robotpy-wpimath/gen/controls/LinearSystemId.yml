@@ -1,0 +1,16 @@
+---
+
+classes:
+  LinearSystemId:
+    shared_ptr: true
+    subpackage: system
+    methods:
+      ElevatorSystem:
+      SingleJointedArmSystem:
+      IdentifyVelocitySystem:
+        ignore: true # TODO
+      IdentifyPositionSystem:
+        ignore: true # TODO
+      IdentifyDrivetrainSystem:
+      FlywheelSystem:
+      DrivetrainVelocitySystem:

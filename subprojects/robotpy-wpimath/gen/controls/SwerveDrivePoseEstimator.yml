@@ -1,0 +1,98 @@
+---
+
+extra_includes:
+- "frc/kinematics/SwerveModuleState.h"
+
+classes:
+  SwerveDrivePoseEstimator:
+    shared_ptr: true
+    template_params:
+    - size_t NumModules
+    methods:
+      SwerveDrivePoseEstimator:
+        param_override:
+          nominalDt:
+            default: 0.02_s
+      ResetPosition:
+      GetEstimatedPosition:
+      SetVisionMeasurementStdDevs:
+      AddVisionMeasurement:
+      Update:
+        param_override:
+          gyroAngle:
+            ignore: true
+          moduleStates:
+            ignore: true
+        cpp_code: |
+          []() {
+            if constexpr (NumModules == 3) {
+              return [](SwerveDrivePoseEstimator<NumModules> * self, const Rotation2d& gyroAngle,
+                        SwerveModuleState s1, SwerveModuleState s2, SwerveModuleState s3) {
+                return self->Update(gyroAngle, s1, s2, s3);
+              };
+            } else if constexpr (NumModules == 4) {
+              return [](SwerveDrivePoseEstimator<NumModules> * self, const Rotation2d& gyroAngle,
+                        SwerveModuleState s1, SwerveModuleState s2,
+                        SwerveModuleState s3, SwerveModuleState s4) {
+                return self->Update(gyroAngle, s1, s2, s3, s4);
+              };
+            } else if constexpr (NumModules == 6) {
+              return [](SwerveDrivePoseEstimator<NumModules> * self, const Rotation2d& gyroAngle,
+                        SwerveModuleState s1, SwerveModuleState s2,
+                        SwerveModuleState s3, SwerveModuleState s4,
+                        SwerveModuleState s5, SwerveModuleState s6) {
+                return self->Update(gyroAngle, s1, s2, s3, s4, s5, s6);
+              };
+            }
+          }()
+      UpdateWithTime:
+        param_override:
+          currentTime:
+            ignore: true
+          gyroAngle:
+            ignore: true
+          moduleStates:
+            ignore: true
+        cpp_code: |
+          []() {
+            if constexpr (NumModules == 3) {
+              return [](SwerveDrivePoseEstimator<NumModules> * self,
+                        units::second_t currentTime, const Rotation2d& gyroAngle,
+                        SwerveModuleState s1, SwerveModuleState s2, SwerveModuleState s3) {
+                return self->UpdateWithTime(currentTime, gyroAngle, s1, s2, s3);
+              };
+            } else if constexpr (NumModules == 4) {
+              return [](SwerveDrivePoseEstimator<NumModules> * self,
+                        units::second_t currentTime, const Rotation2d& gyroAngle,
+                        SwerveModuleState s1, SwerveModuleState s2,
+                        SwerveModuleState s3, SwerveModuleState s4) {
+                return self->UpdateWithTime(currentTime, gyroAngle, s1, s2, s3, s4);
+              };
+            } else if constexpr (NumModules == 6) {
+              return [](SwerveDrivePoseEstimator<NumModules> * self,
+                        units::second_t currentTime, const Rotation2d& gyroAngle,
+                        SwerveModuleState s1, SwerveModuleState s2,
+                        SwerveModuleState s3, SwerveModuleState s4,
+                        SwerveModuleState s5, SwerveModuleState s6) {
+                return self->UpdateWithTime(currentTime, gyroAngle, s1, s2, s3, s4, s5, s6);
+              };
+            }
+          }()
+      
+
+templates:
+  SwerveDrive3PoseEstimator:
+    qualname: frc::SwerveDrivePoseEstimator
+    subpackage: estimator
+    params:
+    - 3
+  SwerveDrive4PoseEstimator:
+    qualname: frc::SwerveDrivePoseEstimator
+    subpackage: estimator
+    params:
+    - 4
+  SwerveDrive6PoseEstimator:
+    qualname: frc::SwerveDrivePoseEstimator
+    subpackage: estimator
+    params:
+    - 6

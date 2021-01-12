@@ -1,0 +1,54 @@
+---
+
+classes:
+  LinearPlantInversionFeedforward:
+    shared_ptr: true
+    template_params:
+    - int States
+    - int Inputs
+    methods:
+      LinearPlantInversionFeedforward:
+        overloads:
+          LinearSystem<States, Inputs, Outputs>&, units::second_t:
+            ignore: true
+          Eigen::Matrix<double, States, States>&, Eigen::Matrix<double, States, Inputs>&, units::second_t:
+      Uff:
+        overloads:
+          '[const]':
+          int [const]:
+      R:
+        overloads:
+          '[const]':
+          int [const]:
+      Reset:
+        overloads:
+          Eigen::Matrix<double, States, 1>&:
+          "":
+      Calculate:
+        overloads:
+          Eigen::Matrix<double, States, 1>&:
+          Eigen::Matrix<double, States, 1>&, Eigen::Matrix<double, States, 1>&:
+    template_inline_code: |
+      cls_LinearPlantInversionFeedforward
+        .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, units::second_t>())
+        .def(py::init<const frc::LinearSystem<States, Inputs, 2>&, units::second_t>());
+
+templates:
+  LinearPlantInversionFeedforward_1_1:
+    qualname: frc::LinearPlantInversionFeedforward
+    subpackage: controller
+    params:
+    - 1
+    - 1
+  LinearPlantInversionFeedforward_2_1:
+    qualname: frc::LinearPlantInversionFeedforward
+    subpackage: controller
+    params:
+    - 2
+    - 1
+  LinearPlantInversionFeedforward_2_2:
+    qualname: frc::LinearPlantInversionFeedforward
+    subpackage: controller
+    params:
+    - 2
+    - 2

@@ -1,0 +1,29 @@
+---
+
+classes:
+  DCMotor:
+    shared_ptr: true
+    subpackage: plant
+    attributes:
+      nominalVoltage:
+      stallTorque:
+      stallCurrent:
+      freeCurrent:
+      freeSpeed:
+      R:
+      Kv:
+      Kt:
+    methods:
+      DCMotor:
+      Current:
+      CIM:
+      MiniCIM:
+      Bag:
+      Vex775Pro:
+      RS775_125:
+      BanebotsRS775:
+      Andymark9015:
+      BanebotsRS550:
+      NEO:
+      NEO550:
+      Falcon500:

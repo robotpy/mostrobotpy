@@ -34,10 +34,12 @@ classes:
 templates:
   SimpleMotorFeedforward:
     qualname: frc::SimpleMotorFeedforward
+    subpackage: controller
     params:
       - units::dimensionless::scalar
   
   SimpleMotorFeedforwardMeters:
     qualname: frc::SimpleMotorFeedforward
+    subpackage: controller
     params:
       - units::meter

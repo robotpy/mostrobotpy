@@ -1,0 +1,17 @@
+---
+
+classes:
+  MecanumDrivePoseEstimator:
+    shared_ptr: true
+    subpackage: system
+    methods:
+      MecanumDrivePoseEstimator:
+        param_override:
+          nominalDt:
+            default: 0.02_s
+      SetVisionMeasurementStdDevs:
+      ResetPosition:
+      GetEstimatedPosition:
+      AddVisionMeasurement:
+      Update:
+      UpdateWithTime:

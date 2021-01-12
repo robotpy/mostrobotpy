@@ -1,0 +1,53 @@
+---
+
+classes:
+  ControlAffinePlantInversionFeedforward:
+    shared_ptr: true
+    template_params:
+    - int States
+    - int Inputs
+    methods:
+      ControlAffinePlantInversionFeedforward:
+        overloads:
+          ? std::function<Eigen::Matrix<double, States, 1> ( const Eigen::Matrix<double,
+            States, 1> &, const Eigen::Matrix<double, Inputs, 1> & )>, units::second_t
+          :
+          ? std::function<Eigen::Matrix<double, States, 1> ( const Eigen::Matrix<double,
+            States, 1> & )>, Eigen::Matrix<double, States, Inputs>&, units::second_t
+          :
+      Uff:
+        overloads:
+          '[const]':
+          int [const]:
+      R:
+        overloads:
+          '[const]':
+          int [const]:
+      Reset:
+        overloads:
+          Eigen::Matrix<double, States, 1>&:
+          "":
+      Calculate:
+        overloads:
+          Eigen::Matrix<double, States, 1>&:
+          Eigen::Matrix<double, States, 1>&, Eigen::Matrix<double, States, 1>&:
+
+templates:
+  ControlAffinePlantInversionFeedforward_1_1:
+    qualname: frc::ControlAffinePlantInversionFeedforward
+    subpackage: controller
+    params:
+    - 1
+    - 1
+  ControlAffinePlantInversionFeedforward_2_1:
+    qualname: frc::ControlAffinePlantInversionFeedforward
+    subpackage: controller
+    params:
+    - 2
+    - 1
+  ControlAffinePlantInversionFeedforward_2_2:
+    qualname: frc::ControlAffinePlantInversionFeedforward
+    subpackage: controller
+    params:
+    - 2
+    - 2
