@@ -197,7 +197,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
-    - uses: action/checkout@v2
+    - uses: actions/checkout@v2
 
     - name: Get Current Tag
       uses: robotpy/build-actions/get-git-tag@v2021
