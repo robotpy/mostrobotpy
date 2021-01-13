@@ -1,0 +1,17 @@
+name: ping-meta
+description: "Pings the robotpy-meta repository"
+inputs:
+  version:
+    description: "Package version"
+    required: true
+runs:
+  using: composite
+  steps:
+  - name: Ping meta
+      uses: peter-evans/repository-dispatch@v1
+      with:
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
+        repository: robotpy/robotpy-meta
+        event-type: tag
+        client-payload: '{"package_name": "robotpy-wpiutil", "package_version": "${{ inputs.version }}"}'
+
