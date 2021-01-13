@@ -959,7 +959,7 @@ name = "wpimath_cpp"
 ]
 
 [tool.robotpy-build.wrappers."wpimath"]
-depends = ["wpimath_cpp"]
+depends = ["wpiutil", "wpimath_cpp"]
 name = "wpimath"
 extension = "_wpimath"
 sources = ["wpimath/src/wpimath.cpp"]
@@ -974,7 +974,7 @@ generate = [
 name = "wpimath_controls"
 extension = "_controls"
 sources = ["wpimath/_controls/controls.cpp"]
-depends = ["wpimath_cpp", "wpimath_geometry", "wpimath_kinematics"]
+depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry", "wpimath_kinematics"]
 generation_data = "gen/controls"
 generate = [
   # frc/controller
@@ -1012,7 +1012,7 @@ name = "wpimath_geometry"
 extension = "_geometry"
 extra_includes = ["wpimath/geometry/include"]
 sources = ["wpimath/geometry/geometry.cpp"]
-depends = ["wpimath_cpp"]
+depends = ["wpiutil", "wpimath_cpp"]
 generation_data = "gen/geometry"
 generate = [
   # frc/geometry
@@ -1029,7 +1029,7 @@ generate = [
 name = "wpimath_kinematics"
 extension = "_kinematics"
 sources = ["wpimath/kinematics/kinematics.cpp"]
-depends = ["wpimath_cpp", "wpimath_geometry"]
+depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
 generation_data = "gen/kinematics"
 generate = [
   # frc/kinematics
@@ -1050,7 +1050,7 @@ generate = [
 name = "wpimath_spline"
 extension = "_spline"
 sources = ["wpimath/spline/spline.cpp"]
-depends = ["wpimath_cpp", "wpimath_geometry"]
+depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
 generation_data = "gen/spline"
 generate = [
   # frc/spline
@@ -1066,6 +1066,7 @@ name = "wpimath_trajectory"
 extension = "_trajectory"
 sources = ["wpimath/trajectory/trajectory.cpp"]
 depends = [
+  "wpiutil",
   "wpimath_cpp",
   "wpimath_controls",
   "wpimath_geometry",
