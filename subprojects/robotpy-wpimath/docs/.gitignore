@@ -1,0 +1,7 @@
+
+# Doc-related stuffs
+/_build
+/_sidebar.rst.inc
+/_sidebar.toml
+
+/wpimath*
