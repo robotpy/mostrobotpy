@@ -3,10 +3,18 @@
 # on a specific version
 
 from setuptools import setup
-import subprocess
+
+try:
+    from setuptools_scm import get_version
+except ImportError:
+    import subprocess
+
+    def get_version(*args):
+        return subprocess.check_output(["git", "describe", "--tags"], encoding="utf-8")
+
 
 package = "robotpy-wpimath"
-version = subprocess.check_output(["git", "describe", "--tags"], encoding="utf-8")
+version = get_version(root="..", relative_to=__file__)
 
 setup(
     name="dummy-package",
