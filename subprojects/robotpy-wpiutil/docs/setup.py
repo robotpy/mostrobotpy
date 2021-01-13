@@ -3,7 +3,15 @@
 # on a specific version
 
 from setuptools import setup
-from setuptools_scm import get_version
+
+try:
+    from setuptools_scm import get_version
+except ImportError:
+    import subprocess
+
+    def get_version(*args):
+        return subprocess.check_output(["git", "describe", "--tags"], encoding="utf-8")
+
 
 package = "robotpy-wpiutil"
 version = get_version(root="..", relative_to=__file__)

@@ -3,5 +3,4 @@
 sphinx >= 3.0
 sphinx-rtd-theme
 robotpy-sphinx-plugin
-setuptools_scm
 -e docs
