@@ -18,3 +18,6 @@ functions:
   HAL_GetFPGATime:
   HAL_ExpandFPGATime:
   HAL_Initialize:
+  HAL_Shutdown:
+  HAL_SimPeriodicBefore:
+  HAL_SimPeriodicAfter:

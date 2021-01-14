@@ -1,0 +1,29 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetRelayData:
+  HALSIM_RegisterRelayInitializedForwardCallback:
+    ignore: true
+  HALSIM_CancelRelayInitializedForwardCallback:
+  HALSIM_GetRelayInitializedForward:
+  HALSIM_SetRelayInitializedForward:
+  HALSIM_RegisterRelayInitializedReverseCallback:
+    ignore: true
+  HALSIM_CancelRelayInitializedReverseCallback:
+  HALSIM_GetRelayInitializedReverse:
+  HALSIM_SetRelayInitializedReverse:
+  HALSIM_RegisterRelayForwardCallback:
+    ignore: true
+  HALSIM_CancelRelayForwardCallback:
+  HALSIM_GetRelayForward:
+  HALSIM_SetRelayForward:
+  HALSIM_RegisterRelayReverseCallback:
+    ignore: true
+  HALSIM_CancelRelayReverseCallback:
+  HALSIM_GetRelayReverse:
+  HALSIM_SetRelayReverse:
+  HALSIM_RegisterRelayAllCallbacks:
+    ignore: true

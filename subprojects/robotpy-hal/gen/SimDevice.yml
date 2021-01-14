@@ -1,19 +1,21 @@
 ---
 
 extra_includes:
-- "mockdata/SimDeviceData.h"
+- "hal/simulation/SimDeviceData.h"
 
 strip_prefixes:
 - HAL_
 
+enums:
+  HAL_SimValueDirection:
 functions:
   HAL_CreateSimDevice:
   HAL_FreeSimDevice:
   HAL_CreateSimValue:
     overloads:
-      HAL_SimDeviceHandle, char*, HAL_Bool, struct HAL_Value*:
+      HAL_SimDeviceHandle, char*, int32_t, struct HAL_Value*:
         ignore: true
-      HAL_SimDeviceHandle, char*, HAL_Bool, HAL_Value&:
+      HAL_SimDeviceHandle, char*, int32_t, HAL_Value&:
   HAL_CreateSimValueDouble:
   HAL_CreateSimValueEnum:
     cpp_code: |
@@ -26,6 +28,8 @@ functions:
     param_override:
       numOptions:
         ignore: true
+  HAL_CreateSimValueEnumDouble:
+    ignore: true  # TODO
   HAL_CreateSimValueBoolean:
   HAL_GetSimValue:
     overloads:
@@ -133,6 +137,8 @@ classes:
     shared_ptr: false
     force_type_casters:
     - wpi::SmallVector
+    enums:
+      Direction:
     methods:
       SimDevice:
         overloads:
@@ -147,17 +153,32 @@ classes:
       CreateDouble:
       CreateEnum:
         overloads:
-          char*, bool, std::initializer_list<const char *>, int32_t:
+          char*, int32_t, std::initializer_list<const char *>, int32_t:
             ignore: true
-          char*, bool, wpi::ArrayRef<const char *>, int32_t:
+          char*, int32_t, wpi::ArrayRef<const char *>, int32_t:
             cpp_code: |
-              [](SimDevice * self, const char * name, bool readonly, const wpi::SmallVector<std::string, 8> &options, int32_t initialValue) {
+              [](SimDevice &self, const char * name, int32_t direction, const wpi::SmallVector<std::string, 8> &options, int32_t initialValue) {
                 wpi::SmallVector<const char *, 8> coptions;
                 coptions.reserve(options.size());
                 for (auto s: options) {
                   coptions.push_back(s.c_str());
                 }
-                return self->CreateEnum(name, readonly, coptions, initialValue);
+                return self.CreateEnum(name, direction, coptions, initialValue);
+              }
+
+      CreateEnumDouble:
+        overloads:
+          char*, int32_t, std::initializer_list<const char *>, std::initializer_list<double>, int32_t:
+            ignore: true
+          char*, int32_t, wpi::ArrayRef<const char *>, wpi::ArrayRef<double>, int32_t:
+            cpp_code: |
+              [](SimDevice &self, const char * name, int32_t direction, const wpi::SmallVector<std::string, 8> &options, const wpi::SmallVector<double, 8> &optionValues, int32_t initialValue) {
+                wpi::SmallVector<const char *, 8> coptions;
+                coptions.reserve(options.size());
+                for (auto s: options) {
+                  coptions.push_back(s.c_str());
+                }
+                return self.CreateEnumDouble(name, direction, coptions, optionValues, initialValue);
               }
 
       CreateBoolean:

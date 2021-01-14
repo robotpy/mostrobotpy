@@ -1,7 +1,0 @@
----
-
-functions:
-  WaitForProgramStart:
-  SetProgramStarted:
-  GetProgramStarted:
-  RestartTiming:

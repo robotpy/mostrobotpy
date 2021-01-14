@@ -1,0 +1,34 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetSPIAccelerometerData:
+  HALSIM_RegisterSPIAccelerometerActiveCallback:
+    ignore: true
+  HALSIM_CancelSPIAccelerometerActiveCallback:
+  HALSIM_GetSPIAccelerometerActive:
+  HALSIM_SetSPIAccelerometerActive:
+  HALSIM_RegisterSPIAccelerometerRangeCallback:
+    ignore: true
+  HALSIM_CancelSPIAccelerometerRangeCallback:
+  HALSIM_GetSPIAccelerometerRange:
+  HALSIM_SetSPIAccelerometerRange:
+  HALSIM_RegisterSPIAccelerometerXCallback:
+    ignore: true
+  HALSIM_CancelSPIAccelerometerXCallback:
+  HALSIM_GetSPIAccelerometerX:
+  HALSIM_SetSPIAccelerometerX:
+  HALSIM_RegisterSPIAccelerometerYCallback:
+    ignore: true
+  HALSIM_CancelSPIAccelerometerYCallback:
+  HALSIM_GetSPIAccelerometerY:
+  HALSIM_SetSPIAccelerometerY:
+  HALSIM_RegisterSPIAccelerometerZCallback:
+    ignore: true
+  HALSIM_CancelSPIAccelerometerZCallback:
+  HALSIM_GetSPIAccelerometerZ:
+  HALSIM_SetSPIAccelerometerZ:
+  HALSIM_RegisterSPIAccelerometerAllCallbcaks:
+    ignore: true

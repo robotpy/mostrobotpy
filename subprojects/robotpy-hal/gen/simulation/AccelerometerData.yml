@@ -1,0 +1,34 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetAccelerometerData:
+  HALSIM_RegisterAccelerometerActiveCallback:
+    ignore: true
+  HALSIM_CancelAccelerometerActiveCallback:
+  HALSIM_GetAccelerometerActive:
+  HALSIM_SetAccelerometerActive:
+  HALSIM_RegisterAccelerometerRangeCallback:
+    ignore: true
+  HALSIM_CancelAccelerometerRangeCallback:
+  HALSIM_GetAccelerometerRange:
+  HALSIM_SetAccelerometerRange:
+  HALSIM_RegisterAccelerometerXCallback:
+    ignore: true
+  HALSIM_CancelAccelerometerXCallback:
+  HALSIM_GetAccelerometerX:
+  HALSIM_SetAccelerometerX:
+  HALSIM_RegisterAccelerometerYCallback:
+    ignore: true
+  HALSIM_CancelAccelerometerYCallback:
+  HALSIM_GetAccelerometerY:
+  HALSIM_SetAccelerometerY:
+  HALSIM_RegisterAccelerometerZCallback:
+    ignore: true
+  HALSIM_CancelAccelerometerZCallback:
+  HALSIM_GetAccelerometerZ:
+  HALSIM_SetAccelerometerZ:
+  HALSIM_RegisterAccelerometerAllCallbacks:
+    ignore: true

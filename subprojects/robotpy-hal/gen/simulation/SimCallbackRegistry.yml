@@ -1,0 +1,18 @@
+---
+
+classes:
+  SimCallbackRegistryBase:
+    ignore: true  # TODO
+    shared_ptr: true
+    methods:
+      Cancel:
+      Reset:
+      GetMutex:
+      DoRegister:
+      DoReset:
+  SimCallbackRegistry:
+    ignore: true  # TODO
+    shared_ptr: true
+    methods:
+      Register:
+      Invoke:

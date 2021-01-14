@@ -1,0 +1,53 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetPCMData:
+  HALSIM_RegisterPCMSolenoidInitializedCallback:
+    ignore: true
+  HALSIM_CancelPCMSolenoidInitializedCallback:
+  HALSIM_GetPCMSolenoidInitialized:
+  HALSIM_SetPCMSolenoidInitialized:
+  HALSIM_RegisterPCMSolenoidOutputCallback:
+    ignore: true
+  HALSIM_CancelPCMSolenoidOutputCallback:
+  HALSIM_GetPCMSolenoidOutput:
+  HALSIM_SetPCMSolenoidOutput:
+  HALSIM_RegisterPCMAnySolenoidInitializedCallback:
+    ignore: true
+  HALSIM_CancelPCMAnySolenoidInitializedCallback:
+  HALSIM_GetPCMAnySolenoidInitialized:
+  HALSIM_SetPCMAnySolenoidInitialized:
+  HALSIM_RegisterPCMCompressorInitializedCallback:
+    ignore: true
+  HALSIM_CancelPCMCompressorInitializedCallback:
+  HALSIM_GetPCMCompressorInitialized:
+  HALSIM_SetPCMCompressorInitialized:
+  HALSIM_RegisterPCMCompressorOnCallback:
+    ignore: true
+  HALSIM_CancelPCMCompressorOnCallback:
+  HALSIM_GetPCMCompressorOn:
+  HALSIM_SetPCMCompressorOn:
+  HALSIM_RegisterPCMClosedLoopEnabledCallback:
+    ignore: true
+  HALSIM_CancelPCMClosedLoopEnabledCallback:
+  HALSIM_GetPCMClosedLoopEnabled:
+  HALSIM_SetPCMClosedLoopEnabled:
+  HALSIM_RegisterPCMPressureSwitchCallback:
+    ignore: true
+  HALSIM_CancelPCMPressureSwitchCallback:
+  HALSIM_GetPCMPressureSwitch:
+  HALSIM_SetPCMPressureSwitch:
+  HALSIM_RegisterPCMCompressorCurrentCallback:
+    ignore: true
+  HALSIM_CancelPCMCompressorCurrentCallback:
+  HALSIM_GetPCMCompressorCurrent:
+  HALSIM_SetPCMCompressorCurrent:
+  HALSIM_GetPCMAllSolenoids:
+  HALSIM_SetPCMAllSolenoids:
+  HALSIM_RegisterPCMAllNonSolenoidCallbacks:
+    ignore: true
+  HALSIM_RegisterPCMAllSolenoidCallbacks:
+    ignore: true
