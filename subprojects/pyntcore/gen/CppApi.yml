@@ -354,7 +354,7 @@ classes:
       ConnectionNotification:
         overloads:
           "":
-          NT_ConnectionListener, bool, nt::ConnectionInfo&:
+          NT_ConnectionListener, bool, nt::ConnectionInfo:
       swap:
         ignore: true
   LogMessage:
