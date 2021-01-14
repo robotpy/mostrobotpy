@@ -3,6 +3,7 @@ requires = [
     "robotpy-build>=2020.1.8,<2021.0.0",
     "robotpy-wpiutil>=2021.1.2.0,<2022.0.0",
     "robotpy-hal>=2021.1.2.0,<2022.0.0",
+    "pyntcore>=2021.1.2.0,<2022.0.0",
 ]
 
 [tool.robotpy-build]
@@ -20,7 +21,7 @@ dlopenlibs = ["halsim_gui"]
 # TODO: make this a namespace package?
 [tool.robotpy-build.wrappers."halsim_gui"]
 name = "halsim_gui"
-depends = ["wpiHal", "wpiutil"]
+depends = ["wpiutil", "wpiHal", "ntcore"]
 
 [tool.robotpy-build.metadata]
 name = "robotpy-halsim-gui"
@@ -32,4 +33,5 @@ license = "BSD-3-Clause"
 install_requires = [
     "robotpy-wpiutil>=2021.1.2.0,<2022.0.0",
     "robotpy-hal>=2021.1.2.0,<2022.0.0",
+    "pyntcore>=2021.1.2.0,<2022.0.0",
 ]
