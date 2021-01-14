@@ -9,7 +9,7 @@ try:
 except ImportError:
     import subprocess
 
-    def get_version(*args):
+    def get_version(*args, **kwargs):
         return subprocess.check_output(["git", "describe", "--tags"], encoding="utf-8")
 
 
