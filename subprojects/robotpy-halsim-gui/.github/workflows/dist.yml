@@ -116,11 +116,11 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         atomicPut: true
 
-    - name: Ping readthedocs
-      uses: robotpy/build-actions/ping-rtd@v2021
-      with:
-        token: ${{ secrets.RTD_TOKEN }}
-        webhook: ${{ secrets.RTD_WEBHOOK }}
+    # - name: Ping readthedocs
+    #   uses: robotpy/build-actions/ping-rtd@v2021
+    #   with:
+    #     token: ${{ secrets.RTD_TOKEN }}
+    #     webhook: ${{ secrets.RTD_WEBHOOK }}
 
     #
     # RoboRIO wheel
