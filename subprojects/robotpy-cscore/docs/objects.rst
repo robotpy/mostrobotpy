@@ -13,81 +13,68 @@ AxisCamera
    Bases: :class:`cscore.HttpCamera`
 
    A source that represents an Axis IP camera.
-   
+
    Overloaded function.
-   
+
    1. __init__(name: str, host: str) -> None
-   
+
    Create a source for a MJPEG-over-HTTP (IP) camera.
-   
+
    :param name: Source name (arbitrary unique identifier)
    :param host: Camera host IP or DNS name (e.g. "10.x.x.11")
    :param kind: Camera kind (e.g. kAxis)
-   
+
    2. __init__(name: str, hosts: List[str]) -> None
-   
+
    Create a source for a MJPEG-over-HTTP (IP) camera.
-   
+
    :param name: Source name (arbitrary unique identifier)
    :param hosts: Array of Camera host IPs/DNS names
    :param kind: Camera kind (e.g. kAxis)
-   
+
 
 CvSink
 ------
 
-.. py:class:: CvSink(name: str) -> None
+.. py:class:: CvSink(name: str)
    :module: cscore
 
-   Bases: :class:`cscore.VideoSink`
+   Bases: :class:`cscore.ImageSink`
 
    A sink for user code to accept video frames as OpenCV images.
-   
+
    Create a sink for accepting OpenCV images. :meth:`grabFrame` must be called on the created sink to get each new image
-   
+
    :param name: Source name (arbitrary unique identifier)
-   
-   
-   .. py:method:: CvSink.getError() -> str
+
+
+   .. py:method:: CvSink.grabFrame(image: numpy.ndarray, timeout: float = 0.225) -> Tuple[int, numpy.ndarray]
       :module: cscore
-   
-      Get error string.  Call this if :meth:`grabFrame` returns 0 to determine what the error is.
-      
-   
-   .. py:method:: CvSink.grabFrame(image: numpy.ndarray, timeout: float=0.225) -> Tuple[int, numpy.ndarray]
-      :module: cscore
-   
+
       Wait for the next frame and get the image. Times out (returning 0) after timeout seconds.
       The provided image will have three 8-bit channels stored in BGR order.
-      
+
       :returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image
                 The frame time is in 1us increments
-      
-   
+
+
    .. py:method:: CvSink.grabFrameNoTimeout(image: numpy.ndarray) -> Tuple[int, numpy.ndarray]
       :module: cscore
-   
+
       Wait for the next frame and get the image. May block forever.
       The provided image will have three 8-bit channels stored in BGR order.
-      
+
       :returns: Frame time, or 0 on error (call :meth:`getError` to obtain the error message), returned image
                 The frame time is in 1us increments
-      
-   
+
+
    .. py:method:: CvSink.setDescription(description: str) -> None
       :module: cscore
-   
+
       Set sink description.
-      
+
       :param description: Description
-      
-   
-   .. py:method:: CvSink.setEnabled(enabled: bool) -> None
-      :module: cscore
-   
-      Enable or disable getting new frames.
-      Disabling will cause processFrame (for callback-based CvSinks) to not be called and :meth:`grabFrame` to not return.  This can be used to save processor resources when frames are not needed.
-      
+
 
 CvSource
 --------
@@ -95,124 +82,39 @@ CvSource
 .. py:class:: CvSource(*args, **kwargs)
    :module: cscore
 
-   Bases: :class:`cscore.VideoSource`
+   Bases: :class:`cscore.ImageSource`
 
    A source for user code to provide OpenCV images as video frames.
-   
+
    Overloaded function.
-   
+
    1. __init__(name: str, mode: cscore.VideoMode) -> None
-   
+
    Create an OpenCV source.
-   
+
    :param name: Source name (arbitrary unique identifier)
    :param mode: Video mode being generated
-   
+
    2. __init__(name: str, pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int) -> None
-   
+
    Create an OpenCV source.
-   
+
    :param name: Source name (arbitrary unique identifier)
    :param pixelFormat: Pixel format
    :param width: width
    :param height: height
    :param fps: fps
-   
-   
-   .. py:method:: CvSource.createBooleanProperty(name: str, defaultValue: bool, value: bool) -> cscore.VideoProperty
-      :module: cscore
-   
-      Create a property.
-      
-      :param name: Property name
-      :param defaultValue: Default value
-      :param value: Current value
-      
-      :returns: Property
-      
-   
-   .. py:method:: CvSource.createIntegerProperty(name: str, minimum: int, maximum: int, step: int, defaultValue: int, value: int) -> cscore.VideoProperty
-      :module: cscore
-   
-      Create a property.
-      
-      :param name: Property name
-      :param minimum: Minimum value
-      :param maximum: Maximum value
-      :param step: Step value
-      :param defaultValue: Default value
-      :param value: Current value
-      
-      :returns: Property
-      
-   
-   .. py:method:: CvSource.createProperty(name: str, kind: cscore.VideoProperty.Kind, minimum: int, maximum: int, step: int, defaultValue: int, value: int) -> cscore.VideoProperty
-      :module: cscore
-   
-      Create a property.
-      
-      :param name: Property name
-      :param kind: Property kind
-      :param minimum: Minimum value
-      :param maximum: Maximum value
-      :param step: Step value
-      :param defaultValue: Default value
-      :param value: Current value
-      
-      :returns: Property
-      
-   
-   .. py:method:: CvSource.createStringProperty(name: str, value: str) -> cscore.VideoProperty
-      :module: cscore
-   
-      Create a property.
-      
-      :param name: Property name
-      :param value: Current value
-      
-      :returns: Property
-      
-   
-   .. py:method:: CvSource.notifyError(msg: str) -> None
-      :module: cscore
-   
-      Signal sinks that an error has occurred.  This should be called instead of :meth:`putFrame` when an error occurs.
-      
-   
+
+
    .. py:method:: CvSource.putFrame(image: numpy.ndarray) -> None
       :module: cscore
-   
+
       Put an OpenCV image and notify sinks.
-      
+
       Only 8-bit single-channel or 3-channel (with BGR channel order) images are supported. If the format, depth or channel order is different, use ``cv2.convertTo()`` and/or ``cv2.cvtColor()`` to convert it first.
-      
+
       :param image: OpenCV image
-      
-   
-   .. py:method:: CvSource.setConnected(connected: bool) -> None
-      :module: cscore
-   
-      Set source connection status.  Defaults to true.
-      
-      :param connected: True for connected, false for disconnected
-      
-   
-   .. py:method:: CvSource.setDescription(description: str) -> None
-      :module: cscore
-   
-      Set source description.
-      
-      :param description: Description
-      
-   
-   .. py:method:: CvSource.setEnumPropertyChoices(property: cscore.VideoProperty, choices: List[str]) -> None
-      :module: cscore
-   
-      Configure enum property choices.
-      
-      :param property: Property
-      :param choices: Choices
-      
+
 
 HttpCamera
 ----------
@@ -223,69 +125,212 @@ HttpCamera
    Bases: :class:`cscore.VideoCamera`
 
    A source that represents a MJPEG-over-HTTP (IP) camera.
-   
+
    Overloaded function.
-   
-   1. __init__(name: str, url: str, kind: cscore.HttpCamera.HttpCameraKind=HttpCameraKind.kUnknown) -> None
-   
+
+   1. __init__(name: str, url: str, kind: cscore.HttpCamera.HttpCameraKind = <HttpCameraKind.kUnknown: 0>) -> None
+
    Create a source for a MJPEG-over-HTTP (IP) camera.
-   
+
    :param name: Source name (arbitrary unique identifier)
    :param url: Camera URL (e.g. "http://10.x.y.11/video/stream.mjpg")
    :param kind: Camera kind (e.g. kAxis)
-   
-   2. __init__(name: str, urls: List[str], kind: cscore.HttpCamera.HttpCameraKind=HttpCameraKind.kUnknown) -> None
-   
+
+   2. __init__(name: str, urls: List[str], kind: cscore.HttpCamera.HttpCameraKind = <HttpCameraKind.kUnknown: 0>) -> None
+
    Create a source for a MJPEG-over-HTTP (IP) camera.
-   
+
    :param name: Source name (arbitrary unique identifier)
    :param urls: Array of Camera URLs
    :param kind: Camera kind (e.g. kAxis)
-   
-   
-   .. py:class:: HttpCamera.HttpCameraKind(arg0: int) -> None
+
+
+   .. py:class:: HttpCamera.HttpCameraKind(value: int) -> None
       :module: cscore
-   
+
       Bases: :class:`pybind11_builtins.pybind11_object`
-   
-      
+
+      Members:
+
+      kUnknown
+
+      kMJPGStreamer
+
+      kCSCore
+
+      kAxis
+
+
       .. py:attribute:: HttpCamera.HttpCameraKind.kAxis
          :module: cscore
-         :annotation: = HttpCameraKind.kAxis
-      
-      
+         :value: <HttpCameraKind.kAxis: 3>
+
+
       .. py:attribute:: HttpCamera.HttpCameraKind.kCSCore
          :module: cscore
-         :annotation: = HttpCameraKind.kCSCore
-      
-      
+         :value: <HttpCameraKind.kCSCore: 2>
+
+
       .. py:attribute:: HttpCamera.HttpCameraKind.kMJPGStreamer
          :module: cscore
-         :annotation: = HttpCameraKind.kMJPGStreamer
-      
-      
+         :value: <HttpCameraKind.kMJPGStreamer: 1>
+
+
       .. py:attribute:: HttpCamera.HttpCameraKind.kUnknown
          :module: cscore
-         :annotation: = HttpCameraKind.kUnknown
-      
-   
+         :value: <HttpCameraKind.kUnknown: 0>
+
+
+      .. py:method:: HttpCamera.HttpCameraKind.name
+         :module: cscore
+         :property:
+
+
    .. py:method:: HttpCamera.getHttpCameraKind() -> cscore.HttpCamera.HttpCameraKind
       :module: cscore
-   
+
       Get the kind of HTTP camera. Autodetection can result in returning a different value than the camera was created with.
-      
-   
+
+
    .. py:method:: HttpCamera.getUrls() -> List[str]
       :module: cscore
-   
+
       Get the URLs used to connect to the camera.
-      
-   
+
+
    .. py:method:: HttpCamera.setUrls(urls: List[str]) -> None
       :module: cscore
-   
+
       Change the URLs used to connect to the camera.
-      
+
+
+ImageSink
+---------
+
+.. py:class:: ImageSink
+   :module: cscore
+
+   Bases: :class:`cscore.VideoSink`
+
+   A base class for single image reading sinks.
+
+
+   .. py:method:: ImageSink.getError() -> str
+      :module: cscore
+
+      Get error string.  Call this if :meth:`waitForFrame` returns 0 to determine what the error is.
+
+
+   .. py:method:: ImageSink.setDescription(description: str) -> None
+      :module: cscore
+
+      Set sink description.
+
+      :param description: Description
+
+
+   .. py:method:: ImageSink.setEnabled(enabled: bool) -> None
+      :module: cscore
+
+      Enable or disable getting new frames.
+      Disabling will cause processFrame (for callback-based ImageSinks) to not be called and :meth:`waitForFrame` to not return.  This can be used to save processor resources when frames are not needed.
+
+
+ImageSource
+-----------
+
+.. py:class:: ImageSource
+   :module: cscore
+
+   Bases: :class:`cscore.VideoSource`
+
+   A base class for single image providing sources.
+
+
+   .. py:method:: ImageSource.createBooleanProperty(name: str, defaultValue: bool, value: bool) -> cscore.VideoProperty
+      :module: cscore
+
+      Create a property.
+
+      :param name: Property name
+      :param defaultValue: Default value
+      :param value: Current value
+
+      :returns: Property
+
+
+   .. py:method:: ImageSource.createIntegerProperty(name: str, minimum: int, maximum: int, step: int, defaultValue: int, value: int) -> cscore.VideoProperty
+      :module: cscore
+
+      Create a property.
+
+      :param name: Property name
+      :param minimum: Minimum value
+      :param maximum: Maximum value
+      :param step: Step value
+      :param defaultValue: Default value
+      :param value: Current value
+
+      :returns: Property
+
+
+   .. py:method:: ImageSource.createProperty(name: str, kind: cscore.VideoProperty.Kind, minimum: int, maximum: int, step: int, defaultValue: int, value: int) -> cscore.VideoProperty
+      :module: cscore
+
+      Create a property.
+
+      :param name: Property name
+      :param kind: Property kind
+      :param minimum: Minimum value
+      :param maximum: Maximum value
+      :param step: Step value
+      :param defaultValue: Default value
+      :param value: Current value
+
+      :returns: Property
+
+
+   .. py:method:: ImageSource.createStringProperty(name: str, value: str) -> cscore.VideoProperty
+      :module: cscore
+
+      Create a property.
+
+      :param name: Property name
+      :param value: Current value
+
+      :returns: Property
+
+
+   .. py:method:: ImageSource.notifyError(msg: str) -> None
+      :module: cscore
+
+      Signal sinks that an error has occurred.  This should be called instead of :meth:`notifyFrame` when an error occurs.
+
+
+   .. py:method:: ImageSource.setConnected(connected: bool) -> None
+      :module: cscore
+
+      Set source connection status.  Defaults to true.
+
+      :param connected: True for connected, false for disconnected
+
+
+   .. py:method:: ImageSource.setDescription(description: str) -> None
+      :module: cscore
+
+      Set source description.
+
+      :param description: Description
+
+
+   .. py:method:: ImageSource.setEnumPropertyChoices(property: cscore.VideoProperty, choices: List[str]) -> None
+      :module: cscore
+
+      Configure enum property choices.
+
+      :param property: Property
+      :param choices: Choices
+
 
 MjpegServer
 -----------
@@ -296,77 +341,77 @@ MjpegServer
    Bases: :class:`cscore.VideoSink`
 
    A sink that acts as a MJPEG-over-HTTP network server.
-   
+
    Overloaded function.
-   
+
    1. __init__(name: str, listenAddress: str, port: int) -> None
-   
+
    Create a MJPEG-over-HTTP server sink.
-   
+
    :param name: Sink name (arbitrary unique identifier)
    :param listenAddress: TCP listen address (empty string for all addresses)
    :param port: TCP port number
-   
+
    2. __init__(name: str, port: int) -> None
-   
+
    Create a MJPEG-over-HTTP server sink.
-   
+
    :param name: Sink name (arbitrary unique identifier)
    :param port: TCP port number
-   
-   
+
+
    .. py:method:: MjpegServer.getListenAddress() -> str
       :module: cscore
-   
+
       Get the listen address of the server.
-      
-   
+
+
    .. py:method:: MjpegServer.getPort() -> int
       :module: cscore
-   
+
       Get the port number of the server.
-      
-   
+
+
    .. py:method:: MjpegServer.setCompression(quality: int) -> None
       :module: cscore
-   
+
       Set the compression for clients that don't specify it.
-      
+
       Setting this will result in increased CPU usage for MJPEG source cameras as it will decompress and recompress the image instead of using the camera's MJPEG image directly.
-      
+
       :param quality: JPEG compression quality (0-100), -1 for unspecified
-      
-   
+
+
    .. py:method:: MjpegServer.setDefaultCompression(quality: int) -> None
       :module: cscore
-   
+
       Set the default compression used for non-MJPEG sources.  If not set, 80 is used.  This function has no effect on MJPEG source cameras; use setCompression() instead to force recompression of MJPEG source images.
-      
+
       :param quality: JPEG compression quality (0-100)
-      
-   
+
+
    .. py:method:: MjpegServer.setFPS(fps: int) -> None
       :module: cscore
-   
+
       Set the stream frames per second (FPS) for clients that don't specify it.
-      
+
       It is not necessary to set this if it is the same as the source FPS.
-      
+
       :param fps: FPS, 0 for unspecified
-      
-   
+
+
    .. py:method:: MjpegServer.setResolution(width: int, height: int) -> None
       :module: cscore
-   
+
       Set the stream resolution for clients that don't specify it.
-      
+
       It is not necessary to set this if it is the same as the source resolution.
-      
+
       Setting this different than the source resolution will result in increased CPU usage, particularly for MJPEG source cameras, as it will decompress, resize, and recompress the image, instead of using the camera's MJPEG image directly.
-      
+
       :param width:  width, 0 for unspecified
       :param height: height, 0 for unspecified
-      
+
 
 RawEvent
 --------
@@ -375,114 +420,186 @@ RawEvent
    :module: cscore
 
    Listener event
-   
-   
-   .. py:class:: RawEvent.Kind(arg0: int) -> None
+
+
+   .. py:class:: RawEvent.Kind(value: int) -> None
       :module: cscore
-   
-      
+
+      Members:
+
+      kSourceCreated
+
+      kSourceDestroyed
+
+      kSourceConnected
+
+      kSourceDisconnected
+
+      kSourceVideoModesUpdated
+
+      kSourceVideoModeChanged
+
+      kSourcePropertyCreated
+
+      kSourcePropertyValueUpdated
+
+      kSourcePropertyChoicesUpdated
+
+      kSinkSourceChanged
+
+      kSinkCreated
+
+      kSinkDestroyed
+
+      kSinkEnabled
+
+      kSinkDisabled
+
+      kNetworkInterfacesChanged
+
+      kTelemetryUpdated
+
+      kSinkPropertyCreated
+
+      kSinkPropertyValueUpdated
+
+      kSinkPropertyChoicesUpdated
+
+
       .. py:attribute:: RawEvent.Kind.kNetworkInterfacesChanged
          :module: cscore
-         :annotation: = Kind.kNetworkInterfacesChanged
-      
-      
+         :value: <Kind.kNetworkInterfacesChanged: 16384>
+
+
       .. py:attribute:: RawEvent.Kind.kSinkCreated
          :module: cscore
-         :annotation: = Kind.kSinkCreated
-      
-      
+         :value: <Kind.kSinkCreated: 1024>
+
+
       .. py:attribute:: RawEvent.Kind.kSinkDestroyed
          :module: cscore
-         :annotation: = Kind.kSinkDestroyed
-      
-      
+         :value: <Kind.kSinkDestroyed: 2048>
+
+
       .. py:attribute:: RawEvent.Kind.kSinkDisabled
          :module: cscore
-         :annotation: = Kind.kSinkDisabled
-      
-      
+         :value: <Kind.kSinkDisabled: 8192>
+
+
       .. py:attribute:: RawEvent.Kind.kSinkEnabled
          :module: cscore
-         :annotation: = Kind.kSinkEnabled
-      
-      
+         :value: <Kind.kSinkEnabled: 4096>
+
+
+      .. py:attribute:: RawEvent.Kind.kSinkPropertyChoicesUpdated
+         :module: cscore
+         :value: <Kind.kSinkPropertyChoicesUpdated: 262144>
+
+
+      .. py:attribute:: RawEvent.Kind.kSinkPropertyCreated
+         :module: cscore
+         :value: <Kind.kSinkPropertyCreated: 65536>
+
+
+      .. py:attribute:: RawEvent.Kind.kSinkPropertyValueUpdated
+         :module: cscore
+         :value: <Kind.kSinkPropertyValueUpdated: 131072>
+
+
       .. py:attribute:: RawEvent.Kind.kSinkSourceChanged
          :module: cscore
-         :annotation: = Kind.kSinkSourceChanged
-      
-      
+         :value: <Kind.kSinkSourceChanged: 512>
+
+
       .. py:attribute:: RawEvent.Kind.kSourceConnected
          :module: cscore
-         :annotation: = Kind.kSourceConnected
-      
-      
+         :value: <Kind.kSourceConnected: 4>
+
+
       .. py:attribute:: RawEvent.Kind.kSourceCreated
          :module: cscore
-         :annotation: = Kind.kSourceCreated
-      
-      
+         :value: <Kind.kSourceCreated: 1>
+
+
       .. py:attribute:: RawEvent.Kind.kSourceDestroyed
          :module: cscore
-         :annotation: = Kind.kSourceDestroyed
-      
-      
+         :value: <Kind.kSourceDestroyed: 2>
+
+
       .. py:attribute:: RawEvent.Kind.kSourceDisconnected
          :module: cscore
-         :annotation: = Kind.kSourceDisconnected
-      
-      
+         :value: <Kind.kSourceDisconnected: 8>
+
+
       .. py:attribute:: RawEvent.Kind.kSourcePropertyChoicesUpdated
          :module: cscore
-         :annotation: = Kind.kSourcePropertyChoicesUpdated
-      
-      
+         :value: <Kind.kSourcePropertyChoicesUpdated: 256>
+
+
       .. py:attribute:: RawEvent.Kind.kSourcePropertyCreated
          :module: cscore
-         :annotation: = Kind.kSourcePropertyCreated
-      
-      
+         :value: <Kind.kSourcePropertyCreated: 64>
+
+
       .. py:attribute:: RawEvent.Kind.kSourcePropertyValueUpdated
          :module: cscore
-         :annotation: = Kind.kSourcePropertyValueUpdated
-      
-      
+         :value: <Kind.kSourcePropertyValueUpdated: 128>
+
+
       .. py:attribute:: RawEvent.Kind.kSourceVideoModeChanged
          :module: cscore
-         :annotation: = Kind.kSourceVideoModeChanged
-      
-      
+         :value: <Kind.kSourceVideoModeChanged: 32>
+
+
       .. py:attribute:: RawEvent.Kind.kSourceVideoModesUpdated
          :module: cscore
-         :annotation: = Kind.kSourceVideoModesUpdated
-      
-   
-   .. py:attribute:: RawEvent.kind
+         :value: <Kind.kSourceVideoModesUpdated: 16>
+
+
+      .. py:attribute:: RawEvent.Kind.kTelemetryUpdated
+         :module: cscore
+         :value: <Kind.kTelemetryUpdated: 32768>
+
+
+      .. py:method:: RawEvent.Kind.name
+         :module: cscore
+         :property:
+
+
+   .. py:method:: RawEvent.kind
       :module: cscore
-   
-   
-   .. py:attribute:: RawEvent.mode
+      :property:
+
+
+   .. py:method:: RawEvent.mode
       :module: cscore
-   
-   
-   .. py:attribute:: RawEvent.name
+      :property:
+
+
+   .. py:method:: RawEvent.name
       :module: cscore
-   
-   
-   .. py:attribute:: RawEvent.sinkHandle
+      :property:
+
+
+   .. py:method:: RawEvent.sinkHandle
       :module: cscore
-   
-   
-   .. py:attribute:: RawEvent.sourceHandle
+      :property:
+
+
+   .. py:method:: RawEvent.sourceHandle
       :module: cscore
-   
-   
-   .. py:attribute:: RawEvent.value
+      :property:
+
+
+   .. py:method:: RawEvent.value
       :module: cscore
-   
-   
-   .. py:attribute:: RawEvent.valueStr
+      :property:
+
+
+   .. py:method:: RawEvent.valueStr
       :module: cscore
-   
+      :property:
+
 
 UsbCamera
 ---------
@@ -493,51 +610,58 @@ UsbCamera
    Bases: :class:`cscore.VideoCamera`
 
    A source that represents a USB camera.
-   
+
    Overloaded function.
-   
+
    1. __init__(name: str, dev: int) -> None
-   
+
    Create a source for a USB camera based on device number.
-   
+
    :param name: Source name (arbitrary unique identifier)
    :param dev: Device number (e.g. 0 for ``/dev/video0``)
-   
+
    2. __init__(name: str, path: str) -> None
-   
+
    Create a source for a USB camera based on device path.
-   
+
    :param name: Source name (arbitrary unique identifier)
    :param path: Path to device (e.g. ``/dev/video0`` on Linux)
-   
-   
+
+
    .. py:method:: UsbCamera.enumerateUsbCameras() -> List[cscore.UsbCameraInfo]
       :module: cscore
-   
+      :staticmethod:
+
       Enumerate USB cameras on the local system.
-      
+
       :returns: list of USB camera information (one for each camera)
-      
-   
+
+
    .. py:method:: UsbCamera.getInfo() -> cscore.UsbCameraInfo
       :module: cscore
-   
+
       Get the full camera information for the device.
-      
-   
+
+
    .. py:method:: UsbCamera.getPath() -> str
       :module: cscore
-   
+
       Get the path to the device.
-      
-   
+
+
    .. py:method:: UsbCamera.setConnectVerbose(level: int) -> None
       :module: cscore
-   
+
       Set how verbose the camera connection messages are.
-      
+
       :param level: 0=don't display Connecting message, 1=do display message
-      
+
+
+   .. py:method:: UsbCamera.setPath(path: str) -> None
+      :module: cscore
+
+      Change the path to the device.
+
 
 UsbCameraInfo
 -------------
@@ -546,23 +670,37 @@ UsbCameraInfo
    :module: cscore
 
    USB camera information
-   
-   
-   .. py:attribute:: UsbCameraInfo.dev
+
+
+   .. py:method:: UsbCameraInfo.dev
       :module: cscore
-   
-   
-   .. py:attribute:: UsbCameraInfo.name
+      :property:
+
+
+   .. py:method:: UsbCameraInfo.name
       :module: cscore
-   
-   
-   .. py:attribute:: UsbCameraInfo.otherPaths
+      :property:
+
+
+   .. py:method:: UsbCameraInfo.otherPaths
       :module: cscore
-   
-   
-   .. py:attribute:: UsbCameraInfo.path
+      :property:
+
+
+   .. py:method:: UsbCameraInfo.path
       :module: cscore
-   
+      :property:
+
+
+   .. py:method:: UsbCameraInfo.productId
+      :module: cscore
+      :property:
+
+
+   .. py:method:: UsbCameraInfo.vendorId
+      :module: cscore
+      :property:
+
 
 VideoCamera
 -----------
@@ -573,86 +711,103 @@ VideoCamera
    Bases: :class:`cscore.VideoSource`
 
    A source that represents a video camera.
-   
-   
-   .. py:class:: VideoCamera.WhiteBalance(arg0: int) -> None
+
+
+   .. py:class:: VideoCamera.WhiteBalance(value: int) -> None
       :module: cscore
-   
+
       Bases: :class:`pybind11_builtins.pybind11_object`
-   
-      
+
+      Members:
+
+      kFixedIndoor
+
+      kFixedOutdoor1
+
+      kFixedOutdoor2
+
+      kFixedFluorescent1
+
+      kFixedFlourescent2
+
+
       .. py:attribute:: VideoCamera.WhiteBalance.kFixedFlourescent2
          :module: cscore
-         :annotation: = WhiteBalance.kFixedFlourescent2
-      
-      
+         :value: <WhiteBalance.kFixedFlourescent2: 5200>
+
+
       .. py:attribute:: VideoCamera.WhiteBalance.kFixedFluorescent1
          :module: cscore
-         :annotation: = WhiteBalance.kFixedFluorescent1
-      
-      
+         :value: <WhiteBalance.kFixedFluorescent1: 5100>
+
+
       .. py:attribute:: VideoCamera.WhiteBalance.kFixedIndoor
          :module: cscore
-         :annotation: = WhiteBalance.kFixedIndoor
-      
-      
+         :value: <WhiteBalance.kFixedIndoor: 3000>
+
+
       .. py:attribute:: VideoCamera.WhiteBalance.kFixedOutdoor1
          :module: cscore
-         :annotation: = WhiteBalance.kFixedOutdoor1
-      
-      
+         :value: <WhiteBalance.kFixedOutdoor1: 4000>
+
+
       .. py:attribute:: VideoCamera.WhiteBalance.kFixedOutdoor2
          :module: cscore
-         :annotation: = WhiteBalance.kFixedOutdoor2
-      
-   
+         :value: <WhiteBalance.kFixedOutdoor2: 5000>
+
+
+      .. py:method:: VideoCamera.WhiteBalance.name
+         :module: cscore
+         :property:
+
+
    .. py:method:: VideoCamera.getBrightness() -> int
       :module: cscore
-   
+
       Get the brightness, as a percentage (0-100).
-      
-   
+
+
    .. py:method:: VideoCamera.setBrightness(brightness: int) -> None
       :module: cscore
-   
+
       Set the brightness, as a percentage (0-100).
-      
-   
+
+
    .. py:method:: VideoCamera.setExposureAuto() -> None
       :module: cscore
-   
+
       Set the exposure to auto aperature.
-      
-   
+
+
    .. py:method:: VideoCamera.setExposureHoldCurrent() -> None
       :module: cscore
-   
+
       Set the exposure to hold current.
-      
-   
+
+
    .. py:method:: VideoCamera.setExposureManual(value: int) -> None
       :module: cscore
-   
+
       Set the exposure to manual, as a percentage (0-100).
-      
-   
+
+
    .. py:method:: VideoCamera.setWhiteBalanceAuto() -> None
       :module: cscore
-   
+
       Set the white balance to auto.
-      
-   
+
+
    .. py:method:: VideoCamera.setWhiteBalanceHoldCurrent() -> None
       :module: cscore
-   
+
       Set the white balance to hold current.
-      
-   
+
+
    .. py:method:: VideoCamera.setWhiteBalanceManual(value: int) -> None
       :module: cscore
-   
+
       Set the white balance to manual, with specified color temperature.
-      
+
 
 VideoEvent
 ----------
@@ -663,98 +818,117 @@ VideoEvent
    Bases: :class:`cscore.RawEvent`
 
    An event generated by the library and provided to event listeners.
-   
-   
+
+
    .. py:method:: VideoEvent.getProperty() -> cscore.VideoProperty
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoEvent.getSink() -> cscore.VideoSink
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoEvent.getSource() -> cscore.VideoSource
       :module: cscore
-   
+
 
 VideoListener
 -------------
 
-.. py:class:: VideoListener(callback: Callable[[cscore.VideoEvent], None], eventMask: int, immediateNotify: bool) -> None
+.. py:class:: VideoListener(callback: Callable[[cscore.VideoEvent], None], eventMask: int, immediateNotify: bool)
    :module: cscore
 
    An event listener.  This calls back to a desigated callback function when
    an event matching the specified mask is generated by the library.
-   
+
    Create an event listener.
-   
+
    :param callback: Callback function
    :param eventMask: Bitmask of VideoEvent.Kind values
    :param immediateNotify: Whether callback should be immediately called with a representative set of events for the current library state.
-   
+
 
 VideoMode
 ---------
 
-.. py:class:: VideoMode(pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int) -> None
+.. py:class:: VideoMode(pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int)
    :module: cscore
 
-   Bases: :class:`cscore._CS_VideoMode`
-
    Video mode
-   
-   
-   .. py:class:: VideoMode.PixelFormat(arg0: int) -> None
+
+
+   .. py:class:: VideoMode.PixelFormat(value: int) -> None
       :module: cscore
-   
-      Bases: :class:`pybind11_builtins.pybind11_object`
-   
-      
+
+      Members:
+
+      kUnknown
+
+      kMJPEG
+
+      kYUYV
+
+      kRGB565
+
+      kBGR
+
+      kGray
+
+
       .. py:attribute:: VideoMode.PixelFormat.kBGR
          :module: cscore
-         :annotation: = PixelFormat.kBGR
-      
-      
+         :value: <PixelFormat.kBGR: 4>
+
+
       .. py:attribute:: VideoMode.PixelFormat.kGray
          :module: cscore
-         :annotation: = PixelFormat.kGray
-      
-      
+         :value: <PixelFormat.kGray: 5>
+
+
       .. py:attribute:: VideoMode.PixelFormat.kMJPEG
          :module: cscore
-         :annotation: = PixelFormat.kMJPEG
-      
-      
+         :value: <PixelFormat.kMJPEG: 1>
+
+
       .. py:attribute:: VideoMode.PixelFormat.kRGB565
          :module: cscore
-         :annotation: = PixelFormat.kRGB565
-      
-      
+         :value: <PixelFormat.kRGB565: 3>
+
+
       .. py:attribute:: VideoMode.PixelFormat.kUnknown
          :module: cscore
-         :annotation: = PixelFormat.kUnknown
-      
-      
+         :value: <PixelFormat.kUnknown: 0>
+
+
       .. py:attribute:: VideoMode.PixelFormat.kYUYV
          :module: cscore
-         :annotation: = PixelFormat.kYUYV
-      
-   
-   .. py:attribute:: VideoMode.fps
+         :value: <PixelFormat.kYUYV: 2>
+
+
+      .. py:method:: VideoMode.PixelFormat.name
+         :module: cscore
+         :property:
+
+
+   .. py:method:: VideoMode.fps
       :module: cscore
-   
-   
-   .. py:attribute:: VideoMode.height
+      :property:
+
+
+   .. py:method:: VideoMode.height
       :module: cscore
-   
-   
-   .. py:attribute:: VideoMode.pixelFormat
+      :property:
+
+
+   .. py:method:: VideoMode.pixelFormat
       :module: cscore
-   
-   
-   .. py:attribute:: VideoMode.width
+      :property:
+
+
+   .. py:method:: VideoMode.width
       :module: cscore
-   
+      :property:
+
 
 VideoProperty
 -------------
@@ -763,210 +937,241 @@ VideoProperty
    :module: cscore
 
    A source or sink property.
-   
-   
-   .. py:class:: VideoProperty.Kind(arg0: int) -> None
+
+
+   .. py:class:: VideoProperty.Kind(value: int) -> None
       :module: cscore
-   
-      
+
+      Members:
+
+      kNone
+
+      kBoolean
+
+      kInteger
+
+      kString
+
+      kEnum
+
+
       .. py:attribute:: VideoProperty.Kind.kBoolean
          :module: cscore
-         :annotation: = Kind.kBoolean
-      
-      
+         :value: <Kind.kBoolean: 1>
+
+
       .. py:attribute:: VideoProperty.Kind.kEnum
          :module: cscore
-         :annotation: = Kind.kEnum
-      
-      
+         :value: <Kind.kEnum: 8>
+
+
       .. py:attribute:: VideoProperty.Kind.kInteger
          :module: cscore
-         :annotation: = Kind.kInteger
-      
-      
+         :value: <Kind.kInteger: 2>
+
+
       .. py:attribute:: VideoProperty.Kind.kNone
          :module: cscore
-         :annotation: = Kind.kNone
-      
-      
+         :value: <Kind.kNone: 0>
+
+
       .. py:attribute:: VideoProperty.Kind.kString
          :module: cscore
-         :annotation: = Kind.kString
-      
-   
+         :value: <Kind.kString: 4>
+
+
+      .. py:method:: VideoProperty.Kind.name
+         :module: cscore
+         :property:
+
+
    .. py:method:: VideoProperty.get() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getChoices() -> List[str]
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getDefault() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getKind() -> cscore.VideoProperty.Kind
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getLastStatus() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getMax() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getMin() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getName() -> str
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getStep() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.getString() -> str
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.isBoolean() -> bool
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.isEnum() -> bool
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.isInteger() -> bool
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.isString() -> bool
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.set(value: int) -> None
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoProperty.setString(value: str) -> None
       :module: cscore
-   
+
 
 VideoSink
 ---------
 
-.. py:class:: VideoSink(sink: cscore.VideoSink) -> None
+.. py:class:: VideoSink(sink: cscore.VideoSink)
    :module: cscore
 
    A sink for video that accepts a sequence of frames.
-   
-   
-   .. py:class:: VideoSink.Kind(arg0: int) -> None
+
+
+   .. py:class:: VideoSink.Kind(value: int) -> None
       :module: cscore
-   
-      
+
+      Members:
+
+      kUnknown
+
+      kMjpeg
+
+      kCv
+
+
       .. py:attribute:: VideoSink.Kind.kCv
          :module: cscore
-         :annotation: = Kind.kCv
-      
-      
+         :value: <Kind.kCv: 4>
+
+
       .. py:attribute:: VideoSink.Kind.kMjpeg
          :module: cscore
-         :annotation: = Kind.kMjpeg
-      
-      
+         :value: <Kind.kMjpeg: 2>
+
+
       .. py:attribute:: VideoSink.Kind.kUnknown
          :module: cscore
-         :annotation: = Kind.kUnknown
-      
-   
+         :value: <Kind.kUnknown: 0>
+
+
+      .. py:method:: VideoSink.Kind.name
+         :module: cscore
+         :property:
+
+
    .. py:method:: VideoSink.enumerateProperties() -> List[cscore.VideoProperty]
       :module: cscore
-   
+
       Enumerate all properties of this sink
-      
-   
+
+
    .. py:method:: VideoSink.enumerateSinks() -> List[cscore.VideoSink]
       :module: cscore
-   
+      :staticmethod:
+
       Enumerate all existing sinks.
-      
+
       :returns: list of sinks.
-      
-   
+
+
    .. py:method:: VideoSink.getConfigJson() -> str
       :module: cscore
-   
+
       Get a JSON configuration string.
-      
+
       :returns: JSON configuration string
-      
-   
+
+
    .. py:method:: VideoSink.getDescription() -> str
       :module: cscore
-   
+
       Get the sink description.  This is sink-kind specific.
-      
-   
+
+
    .. py:method:: VideoSink.getHandle() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoSink.getKind() -> cscore.VideoSink.Kind
       :module: cscore
-   
+
       Get the kind of the sink.
-      
-   
+
+
    .. py:method:: VideoSink.getLastStatus() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoSink.getName() -> str
       :module: cscore
-   
+
       Get the name of the sink.  The name is an arbitrary identifier provided when the sink is created, and should be unique.
-      
-   
+
+
    .. py:method:: VideoSink.getProperty(name: str) -> cscore.VideoProperty
       :module: cscore
-   
+
       Get a property.
-      
+
       :param name: Property name
       :returns: Property contents (VideoSource.Kind.kNone if no property with the given name exists)
-      
-   
+
+
    .. py:method:: VideoSink.getSource() -> cscore.VideoSource
       :module: cscore
-   
+
       Get the connected source.
-      
+
       :returns: Connected source (empty if none connected).
-      
-   
+
+
    .. py:method:: VideoSink.getSourceProperty(name: str) -> cscore.VideoProperty
       :module: cscore
-   
+
       Get a property of the associated source.
-      
+
       :param name: Property name
       :returns: Property (VideoSink.Kind.kNone if no property with the given name exists or no source connected)
-      
-   
+
+
    .. py:method:: VideoSink.setConfigJson(config: str) -> bool
       :module: cscore
-   
+
       Set properties from a JSON configuration string.
-      
+
       The format of the JSON input is::
-      
+
           {
             "properties": [
               {
@@ -975,246 +1180,275 @@ VideoSink
                }
             ]
           }
-      
+
       :param config: configuration
       :returns: True if set successfully
-      
-   
+
+
    .. py:method:: VideoSink.setSource(source: cscore.VideoSource) -> None
       :module: cscore
-   
+
       Configure which source should provide frames to this sink.  Each sink can accept frames from only a single source, but a single source can provide frames to multiple clients.
-      
+
       :param source: Source
-      
+
 
 VideoSource
 -----------
 
-.. py:class:: VideoSource(source: cscore.VideoSource) -> None
+.. py:class:: VideoSource(source: cscore.VideoSource)
    :module: cscore
 
    A source for video that provides a sequence of frames.
-   
-   
-   .. py:class:: VideoSource.ConnectionStrategy(arg0: int) -> None
+
+
+   .. py:class:: VideoSource.ConnectionStrategy(value: int) -> None
       :module: cscore
-   
-      
+
+      Members:
+
+      kAutoManage
+
+      kKeepOpen
+
+      kForceClose
+
+
       .. py:attribute:: VideoSource.ConnectionStrategy.kAutoManage
          :module: cscore
-         :annotation: = ConnectionStrategy.kAutoManage
-      
-      
+         :value: <ConnectionStrategy.kAutoManage: 0>
+
+
       .. py:attribute:: VideoSource.ConnectionStrategy.kForceClose
          :module: cscore
-         :annotation: = ConnectionStrategy.kForceClose
-      
-      
+         :value: <ConnectionStrategy.kForceClose: 2>
+
+
       .. py:attribute:: VideoSource.ConnectionStrategy.kKeepOpen
          :module: cscore
-         :annotation: = ConnectionStrategy.kKeepOpen
-      
-   
-   .. py:class:: VideoSource.Kind(arg0: int) -> None
+         :value: <ConnectionStrategy.kKeepOpen: 1>
+
+
+      .. py:method:: VideoSource.ConnectionStrategy.name
+         :module: cscore
+         :property:
+
+
+   .. py:class:: VideoSource.Kind(value: int) -> None
       :module: cscore
-   
-      
+
+      Members:
+
+      kUnknown
+
+      kUsb
+
+      kHttp
+
+      kCv
+
+
       .. py:attribute:: VideoSource.Kind.kCv
          :module: cscore
-         :annotation: = Kind.kCv
-      
-      
+         :value: <Kind.kCv: 4>
+
+
       .. py:attribute:: VideoSource.Kind.kHttp
          :module: cscore
-         :annotation: = Kind.kHttp
-      
-      
+         :value: <Kind.kHttp: 2>
+
+
       .. py:attribute:: VideoSource.Kind.kUnknown
          :module: cscore
-         :annotation: = Kind.kUnknown
-      
-      
+         :value: <Kind.kUnknown: 0>
+
+
       .. py:attribute:: VideoSource.Kind.kUsb
          :module: cscore
-         :annotation: = Kind.kUsb
-      
-   
+         :value: <Kind.kUsb: 1>
+
+
+      .. py:method:: VideoSource.Kind.name
+         :module: cscore
+         :property:
+
+
    .. py:method:: VideoSource.enumerateProperties() -> List[cscore.VideoProperty]
       :module: cscore
-   
+
       Enumerate all properties of this source
-      
-   
+
+
    .. py:method:: VideoSource.enumerateSinks() -> List[cscore.VideoSink]
       :module: cscore
-   
+
       Enumerate all sinks connected to this source.
-      
+
       :returns: list of sinks.
-      
-   
+
+
    .. py:method:: VideoSource.enumerateSources() -> List[cscore.VideoSource]
       :module: cscore
-   
+      :staticmethod:
+
       Enumerate all existing sources.
-      
+
       :returns: list of sources.
-      
-   
+
+
    .. py:method:: VideoSource.enumerateVideoModes() -> List[cscore.VideoMode]
       :module: cscore
-   
+
       Enumerate all known video modes for this source.
-      
-   
+
+
    .. py:method:: VideoSource.getActualDataRate() -> float
       :module: cscore
-   
+
       Get the data rate (in bytes per second).
-      
+
       :func:`.setTelemetryPeriod` must be called for this to be valid.
-      
+
       :returns: Data rate averaged over the telemetry period.
-      
-   
+
+
    .. py:method:: VideoSource.getActualFPS() -> float
       :module: cscore
-   
+
       Get the actual FPS.
-      
+
       :func:`.setTelemetryPeriod` must be called for this to be valid.
-      
+
       :returns: Actual FPS averaged over the telemetry period.
-      
-   
+
+
    .. py:method:: VideoSource.getConfigJson() -> str
       :module: cscore
-   
+
       Get a JSON configuration string.
-      
+
       :returns: JSON string
-      
-   
+
+
    .. py:method:: VideoSource.getDescription() -> str
       :module: cscore
-   
+
       Get the source description.  This is source-kind specific.
-      
-   
+
+
    .. py:method:: VideoSource.getHandle() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoSource.getKind() -> cscore.VideoSource.Kind
       :module: cscore
-   
+
       Get the kind of the source
-      
-   
+
+
    .. py:method:: VideoSource.getLastFrameTime() -> int
       :module: cscore
-   
+
       Get the last time a frame was captured.
-      
-   
+
+
    .. py:method:: VideoSource.getLastStatus() -> int
       :module: cscore
-   
-   
+
+
    .. py:method:: VideoSource.getName() -> str
       :module: cscore
-   
+
       Get the name of the source. The name is an arbitrary identifier provided when the source is created, and should be unique.
-      
-   
+
+
    .. py:method:: VideoSource.getProperty(name: str) -> cscore.VideoProperty
       :module: cscore
-   
+
       Get a property.
-      
+
       :param name: Property name
       :returns: Property contents (VideoSource.Kind.kNone if no property with the given name exists)
-      
-   
+
+
    .. py:method:: VideoSource.getVideoMode() -> cscore.VideoMode
       :module: cscore
-   
+
       Get the current video mode.
-      
-   
+
+
    .. py:method:: VideoSource.isConnected() -> bool
       :module: cscore
-   
+
       Is the source currently connected to whatever is providing the images?
-      
-   
+
+
    .. py:method:: VideoSource.setConfigJson(config: str) -> bool
       :module: cscore
-   
+
       Set video mode and properties from a JSON configuration string.
-      
+
       :param config: Configuration
       :returns: True if set successfully
-      
-   
+
+
    .. py:method:: VideoSource.setConnectionStrategy(strategy: cscore.VideoSource.ConnectionStrategy) -> None
       :module: cscore
-   
+
       Set the connection strategy.  By default, the source will automatically connect or disconnect based on whether any sinks are connected.
-      
+
       :param strategy: connection strategy (see ConnectionStrategy)
-      
-   
+
+
    .. py:method:: VideoSource.setFPS(fps: int) -> bool
       :module: cscore
-   
+
       Set the frames per second (FPS).
-      
+
       :param fps: desired FPS
       :returns: True if set successfully
-      
-   
+
+
    .. py:method:: VideoSource.setPixelFormat(pixelFormat: cscore.VideoMode.PixelFormat) -> bool
       :module: cscore
-   
+
       Set the pixel format.
-      
+
       :param pixelFormat: desired pixel format
       :returns: True if set successfully
-      
-   
+
+
    .. py:method:: VideoSource.setResolution(width: int, height: int) -> bool
       :module: cscore
-   
+
       Set the resolution.
-      
+
       :param width: desired width
       :param height: desired height
       :returns: True if set successfully
-      
-   
+
+
    .. py:method:: VideoSource.setVideoMode(*args, **kwargs)
       :module: cscore
-   
+
       Overloaded function.
-      
+
       1. setVideoMode(mode: cscore.VideoMode) -> bool
-      
+
       Set the video mode.
-      
+
       :param mode: Video mode
-      
+
       2. setVideoMode(pixelFormat: cscore.VideoMode.PixelFormat, width: int, height: int, fps: int) -> bool
-      
+
       Set the video mode.
-      
+
       :param pixelFormat: desired pixel format
       :param width: desired width
       :param height: desired height
       :param fps: desired FPS
       :returns: True if set successfully
-      
+
 
 Utility functions
 -----------------
