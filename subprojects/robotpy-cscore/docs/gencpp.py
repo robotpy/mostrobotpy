@@ -87,7 +87,7 @@ def add_line(self, line, source, *lineno):
 sphinx.ext.autodoc.Documenter.add_line = add_line
 
 os.environ["GENERATING_CPP"] = "1"
-sphinx.cmd.build.main(
+exit_code = sphinx.cmd.build.main(
     [
         "-b",
         "html",
@@ -98,6 +98,8 @@ sphinx.cmd.build.main(
         "index.rst",
     ]
 )
+if exit_code != 0:
+    exit(exit_code)
 
 with open(join(root, "objects.rst"), "w") as fp:
     _writeheader(fp)
