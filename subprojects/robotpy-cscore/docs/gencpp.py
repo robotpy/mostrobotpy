@@ -19,8 +19,8 @@ if exists(gendir):
     shutil.rmtree(gendir)
 
 os.makedirs(gendir)
-shutil.copy("conf.py", gendir)
-shutil.copy("gensidebar.py", gendir)
+shutil.copy(join(root, "conf.py"), gendir)
+shutil.copy(join(root, "gensidebar.py"), gendir)
 
 os.chdir(gendir)
 
