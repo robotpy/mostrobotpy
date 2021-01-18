@@ -13,6 +13,9 @@ import re
 from os.path import abspath, exists, dirname, join
 import shutil
 
+import sphinx.cmd.build
+import sphinx.ext.autodoc
+
 root = abspath(dirname(__file__))
 gendir = join(root, "..", "_docgen")
 if exists(gendir):
@@ -70,8 +73,6 @@ with open(join(gendir, "index.rst"), "w") as fp:
     for fn in sorted(fns):
         print(".. autofunction:: cscore.%s\n" % fn, file=fp)
 
-import sphinx.ext.autodoc
-
 rst = []
 
 
@@ -86,21 +87,17 @@ def add_line(self, line, source, *lineno):
 sphinx.ext.autodoc.Documenter.add_line = add_line
 
 os.environ["GENERATING_CPP"] = "1"
-try:
-    sphinx.main(
-        [
-            "sphinx-build",
-            "-b",
-            "html",
-            "-d",
-            "_build/doctrees",
-            ".",
-            "_build/html",
-            "index.rst",
-        ]
-    )
-except SystemExit:
-    pass
+sphinx.cmd.build.main(
+    [
+        "-b",
+        "html",
+        "-d",
+        "_build/doctrees",
+        ".",
+        "_build/html",
+        "index.rst",
+    ]
+)
 
 with open(join(root, "objects.rst"), "w") as fp:
     _writeheader(fp)
