@@ -372,3 +372,12 @@ classes:
           NT_Logger, unsigned int, char*, unsigned int, wpi::StringRef:
       swap:
         ignore: true
+
+# TODO: remove this once robotpy-build is upgraded to cxxheaderparser
+inline_code: |
+  cls_LogMessage
+    .def_readwrite("level", &nt::LogMessage::level)
+    .def_readwrite("filename", &nt::LogMessage::filename)
+    .def_readwrite("line", &nt::LogMessage::line)
+    .def_readwrite("message", &nt::LogMessage::message);
+
