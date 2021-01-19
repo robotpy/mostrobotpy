@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "robotpy-build>=2020.1.8,<2021.0.0",
+    "robotpy-build>=2020.4.0,<2021.0.0",
     "robotpy-hal>=2021.1.2.0,<2022.0.0",
 ]
 
@@ -11,7 +11,7 @@ base_package = "halsim_ws"
 artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.1.2"
+version = "2021.2.1"
 
 dlopenlibs = ["halsim_ws_server"]
 
@@ -23,7 +23,7 @@ depends = ["wpiHal"]
 artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.1.2"
+version = "2021.2.1"
 
 dlopenlibs = ["halsim_ws_client"]
 

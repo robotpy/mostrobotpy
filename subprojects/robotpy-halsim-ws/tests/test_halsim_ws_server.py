@@ -1,5 +1,5 @@
 # tests the internals
-import halsim_ws_server._init_halsim_ws_server
+import halsim_ws.server._init_server
 
 
 def test_halsim_ws_server():

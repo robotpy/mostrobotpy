@@ -12,8 +12,14 @@
 /dist
 *.egg-info
 
-/halsim_gui/_init_halsim_gui.py
-/halsim_gui/pkgcfg.py
-/halsim_gui/version.py
-/halsim_gui/include
-/halsim_gui/lib
+/halsim_ws/version.py
+
+/halsim_ws/server/_init_server.py
+/halsim_ws/server/pkgcfg.py
+/halsim_ws/server/include
+/halsim_ws/server/lib
+
+/halsim_ws/client/_init_client.py
+/halsim_ws/client/pkgcfg.py
+/halsim_ws/client/include
+/halsim_ws/client/lib
