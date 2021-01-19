@@ -68,6 +68,46 @@ classes:
         ignore: true
       SetValue:
         ignore: true
+  SimInt:
+    doc: |
+      Wrapper around a HAL simulator int value handle.
+      
+      It is not useful to construct these directly, they are returned
+      from various functions.
+    shared_ptr: false
+    force_no_trampoline: true
+    methods:
+      SimInt:
+        overloads:
+          "":
+            ignore: true
+          HAL_SimValueHandle:
+            param_override:
+              val:
+                name: handle
+      Get:
+      Set:
+      Reset:
+  SimLong:
+    doc: |
+      Wrapper around a HAL simulator long value handle.
+      
+      It is not useful to construct these directly, they are returned
+      from various functions.
+    shared_ptr: false
+    force_no_trampoline: true
+    methods:
+      SimLong:
+        overloads:
+          "":
+            ignore: true
+          HAL_SimValueHandle:
+            param_override:
+              val:
+                name: handle
+      Get:
+      Set:
+      Reset:
   SimDouble:
     doc: |
       Wrapper around a HAL simulator double value.
@@ -87,6 +127,7 @@ classes:
                 name: handle
       Get:
       Set:
+      Reset:
   SimEnum:
     doc: |
       Wrapper around a HAL simulator enum value.
