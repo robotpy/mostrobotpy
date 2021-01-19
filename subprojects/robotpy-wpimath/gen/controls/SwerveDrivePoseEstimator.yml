@@ -25,7 +25,12 @@ classes:
             ignore: true
         cpp_code: |
           []() {
-            if constexpr (NumModules == 3) {
+            if constexpr (NumModules == 2) {
+              return [](SwerveDrivePoseEstimator<NumModules> * self, const Rotation2d& gyroAngle,
+                        SwerveModuleState s1, SwerveModuleState s2) {
+                return self->Update(gyroAngle, s1, s2);
+              };
+            } else if constexpr (NumModules == 3) {
               return [](SwerveDrivePoseEstimator<NumModules> * self, const Rotation2d& gyroAngle,
                         SwerveModuleState s1, SwerveModuleState s2, SwerveModuleState s3) {
                 return self->Update(gyroAngle, s1, s2, s3);
@@ -55,7 +60,13 @@ classes:
             ignore: true
         cpp_code: |
           []() {
-            if constexpr (NumModules == 3) {
+            if constexpr (NumModules == 2) {
+              return [](SwerveDrivePoseEstimator<NumModules> * self,
+                        units::second_t currentTime, const Rotation2d& gyroAngle,
+                        SwerveModuleState s1, SwerveModuleState s2) {
+                return self->UpdateWithTime(currentTime, gyroAngle, s1, s2);
+              };
+            } else if constexpr (NumModules == 3) {
               return [](SwerveDrivePoseEstimator<NumModules> * self,
                         units::second_t currentTime, const Rotation2d& gyroAngle,
                         SwerveModuleState s1, SwerveModuleState s2, SwerveModuleState s3) {
@@ -81,6 +92,11 @@ classes:
       
 
 templates:
+  SwerveDrive2PoseEstimator:
+    qualname: frc::SwerveDrivePoseEstimator
+    subpackage: estimator
+    params:
+    - 2
   SwerveDrive3PoseEstimator:
     qualname: frc::SwerveDrivePoseEstimator
     subpackage: estimator

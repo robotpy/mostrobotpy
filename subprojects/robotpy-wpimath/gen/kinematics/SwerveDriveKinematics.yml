@@ -52,7 +52,9 @@ classes:
           }
 
     template_inline_code: |
-      if constexpr (NumModules == 3) {
+      if constexpr (NumModules == 2) {
+        cls_SwerveDriveKinematics.def(py::init<Translation2d, Translation2d>());
+      } else if constexpr (NumModules == 3) {
         cls_SwerveDriveKinematics.def(py::init<Translation2d, Translation2d, Translation2d>());
       } else if constexpr (NumModules == 4) {
         cls_SwerveDriveKinematics.def(py::init<Translation2d, Translation2d, Translation2d, Translation2d>());
@@ -62,6 +64,10 @@ classes:
   
 
 templates:
+  SwerveDrive2Kinematics:
+    qualname: frc::SwerveDriveKinematics
+    params:
+    - 2
   SwerveDrive3Kinematics:
     qualname: frc::SwerveDriveKinematics
     params:

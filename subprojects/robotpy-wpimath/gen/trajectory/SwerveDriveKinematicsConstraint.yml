@@ -13,6 +13,11 @@ classes:
       MinMaxAcceleration:
 
 templates:
+  SwerveDrive2KinematicsConstraint:
+    subpackage: constraints
+    qualname: frc::SwerveDriveKinematicsConstraint
+    params:
+    - 2
   SwerveDrive3KinematicsConstraint:
     subpackage: constraints
     qualname: frc::SwerveDriveKinematicsConstraint
