@@ -73,12 +73,15 @@ classes:
       Constraints:
         overloads:
           "":
+            ignore: true
           units::unit_t<Velocity>, units::unit_t<Acceleration>:
             param_override:
               maxVelocity_:
                 name: maxVelocity
+                default: 0
               maxAcceleration_:
                 name: maxAcceleration
+                default: 0
   TrapezoidProfile::State:
     force_no_default_constructor: true
     shared_ptr: false
