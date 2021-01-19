@@ -11,7 +11,7 @@ base_package = "_pyntcore"
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.1.2"
+version = "2021.2.1"
 
 libs = ["ntcore"]
 
