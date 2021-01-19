@@ -15,6 +15,31 @@ classes:
     - State = typename frc::TrapezoidProfile<Distance>::State
     template_params:
     - Distance
+    doc: |
+      A trapezoid-shaped velocity profile.
+
+      While this class can be used for a profiled movement from start to finish,
+      the intended usage is to filter a reference's dynamics based on trapezoidal
+      velocity constraints. To compute the reference obeying this constraint, do
+      the following.
+
+      Initialization::
+
+        constraints = TrapezoidProfile.Constraints(kMaxV, kMaxA)
+        previousProfiledReference = initialReference
+
+      Run on update::
+
+        profile = TrapezoidProfile(constraints, unprofiledReference, previousProfiledReference)
+        previousProfiledReference = profile.calculate(timeSincePreviousUpdate)
+
+      where ``unprofiledReference`` is free to change between calls. Note that
+      when the unprofiled reference is within the constraints,
+      :meth:`calculate` returns the unprofiled reference unchanged.
+
+      Otherwise, a timer can be started to provide monotonic values for
+      ``calculate()`` and to determine when the profile has completed via
+      :meth:`isFinished`.
     methods:
       TrapezoidProfile:
         param_override:
