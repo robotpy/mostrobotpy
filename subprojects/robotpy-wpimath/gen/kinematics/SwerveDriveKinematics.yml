@@ -10,7 +10,7 @@ classes:
         overloads:
           Translation2d, Wheels ...&&:
             ignore: true
-          std::array<Translation2d, NumModules>&:
+          wpi::array<Translation2d, NumModules>&:
             ignore: true
 
       ToSwerveModuleStates:
@@ -43,7 +43,7 @@ classes:
         overloads:
           ModuleStates ...&& [const]:
             ignore: true
-          std::array<SwerveModuleState, NumModules> [const]:
+          wpi::array<SwerveModuleState, NumModules> [const]:
       NormalizeWheelSpeeds:
         cpp_code: |
           [](std::array<SwerveModuleState, NumModules> moduleStates, units::meters_per_second_t attainableMaxSpeed) {

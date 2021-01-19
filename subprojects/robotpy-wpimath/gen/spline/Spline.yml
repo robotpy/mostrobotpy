@@ -5,7 +5,7 @@ extra_includes:
 
 classes:
   Spline:
-    shared_ptr: true
+    shared_ptr: false
     is_polymorphic: true
     force_type_casters:
     - units::curvature_t
@@ -24,8 +24,8 @@ classes:
       cls_ControlVector
         .def(
           py::init<
-            std::array<double, (Degree + 1) / 2>,
-            std::array<double, (Degree + 1) / 2>>(),
+            wpi::array<double, (Degree + 1) / 2>,
+            wpi::array<double, (Degree + 1) / 2>>(),
           py::arg("x"),
           py::arg("y")
         )

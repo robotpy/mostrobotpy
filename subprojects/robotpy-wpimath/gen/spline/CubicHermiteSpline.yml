@@ -2,7 +2,7 @@
 
 classes:
   CubicHermiteSpline:
-    shared_ptr: true
+    shared_ptr: false
     methods:
       CubicHermiteSpline:
       Coefficients:
