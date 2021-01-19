@@ -11,6 +11,16 @@ classes:
             default: 0.02_s
       SetVisionMeasurementStdDevs:
       ResetPosition:
+        # https://github.com/wpilibsuite/allwpilib/pull/3097
+        doc: |
+          Resets the robot's position on the field.
+
+          You NEED to reset your encoders to zero when calling this method. The
+          gyroscope angle does not need to be reset here on the user's robot code.
+          The library automatically takes care of offsetting the gyro angle.
+
+          :param pose:      The estimated pose of the robot on the field.
+          :param gyroAngle: The current gyro angle.
       GetEstimatedPosition:
       AddVisionMeasurement:
       Update:
