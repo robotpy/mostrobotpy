@@ -32,7 +32,8 @@ classes:
         .def_readwrite("x", &frc::Spline<Degree>::ControlVector::x)
         .def_readwrite("y", &frc::Spline<Degree>::ControlVector::y);
   Spline::ControlVector:
-    shared_ptr: true
+    force_no_default_constructor: true
+    shared_ptr: false
     methods:
       ',':
         # CppHeaderParser bug
