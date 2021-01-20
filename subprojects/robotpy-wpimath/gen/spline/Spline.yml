@@ -5,10 +5,11 @@ extra_includes:
 
 classes:
   Spline:
-    shared_ptr: true
+    shared_ptr: false
     is_polymorphic: true
     force_type_casters:
     - units::curvature_t
+    - wpi::array
     template_params:
     - int Degree
     methods:
@@ -24,15 +25,16 @@ classes:
       cls_ControlVector
         .def(
           py::init<
-            std::array<double, (Degree + 1) / 2>,
-            std::array<double, (Degree + 1) / 2>>(),
+            wpi::array<double, (Degree + 1) / 2>,
+            wpi::array<double, (Degree + 1) / 2>>(),
           py::arg("x"),
           py::arg("y")
         )
         .def_readwrite("x", &frc::Spline<Degree>::ControlVector::x)
         .def_readwrite("y", &frc::Spline<Degree>::ControlVector::y);
   Spline::ControlVector:
-    shared_ptr: true
+    force_no_default_constructor: true
+    shared_ptr: false
     methods:
       ',':
         # CppHeaderParser bug

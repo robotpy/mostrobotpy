@@ -2,7 +2,7 @@
 
 classes:
   QuinticHermiteSpline:
-    shared_ptr: true
+    shared_ptr: false
     methods:
       QuinticHermiteSpline:
       Coefficients:

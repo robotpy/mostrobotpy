@@ -2,7 +2,7 @@
 
 classes:
   SplineParameterizer:
-    shared_ptr: true
+    shared_ptr: false
     force_no_default_constructor: true
     force_type_casters:
     - units::curvature_t
