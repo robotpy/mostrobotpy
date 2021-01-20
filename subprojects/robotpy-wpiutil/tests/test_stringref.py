@@ -9,6 +9,10 @@ def test_stringref_cast():
     assert module.cast_stringref() == "casted"
 
 
+def test_array_load_int():
+    assert module.load_array_int([1, 2, 3, 4]) == (1, 2, 3, 4)
+
+
 def test_arrayref_load_int():
     assert module.load_arrayref_int([1, 2, 3]) == [1, 2, 3]
 
