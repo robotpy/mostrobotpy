@@ -23,6 +23,7 @@ version = "2021.2.1"
 libs = ["wpiutil"]
 
 [tool.robotpy-build.wrappers."wpiutil".type_casters]
+"wpi_array_type_caster.h" =    ["wpi::array"]
 "wpi_arrayref_type_caster.h" =    ["wpi::ArrayRef"]
 "wpi_smallset_type_caster.h" =    ["wpi::SmallSet"]
 "wpi_smallvector_type_caster.h" = ["wpi::SmallVector"]

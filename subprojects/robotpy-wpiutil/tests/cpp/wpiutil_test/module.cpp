@@ -1,6 +1,7 @@
-
+// clang-format off
 #include <robotpy_build.h>
 
+#include <wpi_array_type_caster.h>
 #include <wpi_arrayref_type_caster.h>
 #include <wpi_smallset_type_caster.h>
 #include <wpi_smallvector_type_caster.h>
@@ -16,6 +17,13 @@ wpi::StringRef cast_stringref() {
     // StringRef refers to a thing -- static ensures the ref is valid
     static std::string casted("casted");
     return casted;
+}
+
+/*
+array tests
+*/
+wpi::array<int, 4> load_array_int(wpi::array<int, 4> data) {
+    return data;
 }
 
 /*
@@ -89,6 +97,8 @@ RPYBUILD_PYBIND11_MODULE(m) {
     // stringref
     m.def("load_stringref", &load_stringref);
     m.def("cast_stringref", &cast_stringref);
+    // array
+    m.def("load_array_int", &load_array_int);
     // ArrayRef
     m.def("load_arrayref_int", &load_arrayref_int);
     m.def("load_arrayref_bool", &load_arrayref_bool);
