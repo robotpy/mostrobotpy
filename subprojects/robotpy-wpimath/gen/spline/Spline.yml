@@ -9,6 +9,7 @@ classes:
     is_polymorphic: true
     force_type_casters:
     - units::curvature_t
+    - wpi::array
     template_params:
     - int Degree
     methods:
