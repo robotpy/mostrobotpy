@@ -197,13 +197,6 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Get Current Tag
-      uses: robotpy/build-actions/get-git-tag@v2021
-      id: currtag
-
-    - name: Ping meta
-      uses: ./.github/actions/ping-meta
+    - uses: robotpy/build-actions/ping-meta@v2021
       with:
-        version: "${{ steps.currtag.outputs.tag }}"
+        token: ${{ secrets.REPO_ACCESS_TOKEN }}
