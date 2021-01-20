@@ -46,7 +46,7 @@ classes:
           wpi::array<SwerveModuleState, NumModules> [const]:
       NormalizeWheelSpeeds:
         cpp_code: |
-          [](std::array<SwerveModuleState, NumModules> moduleStates, units::meters_per_second_t attainableMaxSpeed) {
+          [](wpi::array<SwerveModuleState, NumModules> moduleStates, units::meters_per_second_t attainableMaxSpeed) {
             frc::SwerveDriveKinematics<NumModules>::NormalizeWheelSpeeds(&moduleStates, attainableMaxSpeed);
             return moduleStates;
           }
