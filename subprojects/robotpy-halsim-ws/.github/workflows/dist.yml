@@ -94,27 +94,27 @@ jobs:
   # Publish wheels to robotpy site, pypi
   #
 
-  publish-rpyrepo:
-    runs-on: ubuntu-latest
-    # needs: [check, build, cross-build]
-    needs: [check, build]
-    if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+  # publish-rpyrepo:
+  #   runs-on: ubuntu-latest
+  #   # needs: [check, build, cross-build]
+  #   needs: [check, build]
+  #   if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
-    steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: dist-ubuntu-18.04
-        path: dist/
+  #   steps:
+  #   - uses: actions/download-artifact@v2
+  #     with:
+  #       name: dist-ubuntu-18.04
+  #       path: dist/
 
-    - uses: robotpy/github-action-scp@atomic
-      with:
-        local: dist
-        remote: public_html/2021/linux_x86_64
-        host: narya.tortall.net
-        username: ${{ secrets.SSH_USER }}
-        privateKey: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        atomicPut: true
+  #   - uses: robotpy/github-action-scp@atomic
+  #     with:
+  #       local: dist
+  #       remote: public_html/2021/linux_x86_64
+  #       host: narya.tortall.net
+  #       username: ${{ secrets.SSH_USER }}
+  #       privateKey: ${{ secrets.SSH_KEY }}
+  #       passphrase: ${{ secrets.SSH_PASSPHRASE }}
+  #       atomicPut: true
 
     # - name: Ping readthedocs
     #   uses: robotpy/build-actions/ping-rtd@v2021
@@ -178,6 +178,11 @@ jobs:
     - uses: actions/download-artifact@v2
       with:
         name: dist-macos-latest
+        path: dist/
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: dist-ubuntu-18.04
         path: dist/
 
     - uses: actions/setup-python@v2
