@@ -178,6 +178,11 @@ jobs:
         name: dist-macos-latest
         path: dist/
 
+    - uses: actions/download-artifact@v2
+      with:
+        name: dist-ubuntu-18.04
+        path: dist/
+
     - uses: actions/setup-python@v2
       with:
         python-version: 3.8
