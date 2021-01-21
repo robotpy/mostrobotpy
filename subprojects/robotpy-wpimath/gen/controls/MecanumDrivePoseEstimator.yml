@@ -2,8 +2,32 @@
 
 classes:
   MecanumDrivePoseEstimator:
-    shared_ptr: true
+    shared_ptr: false
     subpackage: system
+    doc: |
+      This class wraps an Unscented Kalman Filter to fuse latency-compensated
+      vision measurements with mecanum drive encoder velocity measurements. It will
+      correct for noisy measurements and encoder drift. It is intended to be an
+      easy but more accurate drop-in for :class:`MecanumDriveOdometry`.
+
+      :meth:`update` should be called every robot loop. If your loops are faster or
+      slower than the default of 0.02s, then you should change the nominal delta
+      time by specifying it in the constructor.
+
+      :meth:`addVisionMeasurement` can be called as infrequently as you want; if you
+      never call it, then this class will behave mostly like regular encoder
+      odometry.
+
+      Our state-space system is:
+
+      :math:`x = [[x, y, theta]]^T` in the
+      field-coordinate system.
+
+      :math:`u = [[vx, vy, omega]]^T` in the field-coordinate system.
+
+      :math:`y = [[x, y, theta]]^T` in field
+      coords from vision, or :math:`y = [[theta]]^T`
+      from the gyro.
     methods:
       MecanumDrivePoseEstimator:
         param_override:
