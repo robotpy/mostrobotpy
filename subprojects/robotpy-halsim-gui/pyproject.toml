@@ -14,8 +14,9 @@ base_package = "halsim_gui"
 [tool.robotpy-build.wrappers."halsim_gui".maven_lib_download]
 artifact_id = "halsim_gui"
 group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.2.1"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2021.2.1-9-ge8cbf2a"
 
 dlopenlibs = ["halsim_gui"]
 
