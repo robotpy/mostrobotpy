@@ -285,6 +285,8 @@ PYBIND11_MODULE(_cscore, m) {
       .def_static("enumerateUsbCameras", &UsbCamera::EnumerateUsbCameras, release_gil(),
           "Enumerate USB cameras on the local system.\n\n"
           ":returns: list of USB camera information (one for each camera)")
+      .def("setPath", &UsbCamera::SetPath, release_gil(), py::arg("path"),
+          "Change the path to the device.")
       .def("getPath", &UsbCamera::GetPath, "Get the path to the device.")
       .def("getInfo", &UsbCamera::GetInfo, release_gil(),
           "Get the full camera information for the device.")
