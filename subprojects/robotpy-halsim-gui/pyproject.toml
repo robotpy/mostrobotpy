@@ -16,7 +16,7 @@ artifact_id = "halsim_gui"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2021.2.1-9-ge8cbf2a"
+version = "2021.2.1-10-gc517ec6"
 
 dlopenlibs = ["halsim_gui"]
 
