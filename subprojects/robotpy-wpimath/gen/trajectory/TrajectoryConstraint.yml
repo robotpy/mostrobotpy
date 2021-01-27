@@ -4,6 +4,8 @@ classes:
   TrajectoryConstraint:
     subpackage: constraints
     shared_ptr: true
+    force_type_casters:
+      - units::meters_per_second_squared
     methods:
       TrajectoryConstraint:
       MaxVelocity:
