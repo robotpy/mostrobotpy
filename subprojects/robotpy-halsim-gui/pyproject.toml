@@ -1,10 +1,10 @@
 [build-system]
 requires = [
-    "robotpy-build>=2020.4.1,<2021.0.0",
-    "robotpy-wpiutil>=2021.2.1.0,<2022.0.0",
-    "robotpy-wpimath>=2021.2.1.0,<2022.0.0",
-    "robotpy-hal>=2021.2.1.0,<2022.0.0",
-    "pyntcore>=2021.2.1.0,<2022.0.0",
+    "robotpy-build>=2020.6.0,<2021.0.0",
+    "robotpy-wpiutil>=2021.2.2.0,<2022.0.0",
+    "robotpy-wpimath>=2021.2.2.0,<2022.0.0",
+    "robotpy-hal>=2021.2.2.0,<2022.0.0",
+    "pyntcore>=2021.2.2.0,<2022.0.0",
 ]
 
 [tool.robotpy-build]
@@ -14,9 +14,8 @@ base_package = "halsim_gui"
 [tool.robotpy-build.wrappers."halsim_gui".maven_lib_download]
 artifact_id = "halsim_gui"
 group_id = "edu.wpi.first.halsim"
-# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2021.2.1-10-gc517ec6"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2021.2.2"
 
 dlopenlibs = ["halsim_gui"]
 
@@ -33,8 +32,8 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-halsim-gui"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil>=2021.2.1.0,<2022.0.0",
-    "robotpy-wpimath>=2021.2.1.0,<2022.0.0",
-    "robotpy-hal>=2021.2.1.0,<2022.0.0",
-    "pyntcore>=2021.2.1.0,<2022.0.0",
+    "robotpy-wpiutil>=2021.2.2.0,<2022.0.0",
+    "robotpy-wpimath>=2021.2.2.0,<2022.0.0",
+    "robotpy-hal>=2021.2.2.0,<2022.0.0",
+    "pyntcore>=2021.2.2.0,<2022.0.0",
 ]
