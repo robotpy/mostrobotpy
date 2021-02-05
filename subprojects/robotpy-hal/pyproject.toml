@@ -1,7 +1,7 @@
 [build-system]
 requires = [
-    "robotpy-build>=2020.4.0,<2021.0.0",
-    "robotpy-wpiutil>=2021.1.2.0,<2022.0.0"
+    "robotpy-build>=2020.6.0,<2021.0.0",
+    "robotpy-wpiutil>=2021.2.2.0,<2022.0.0"
 ]
 
 [tool.robotpy-build]
@@ -12,7 +12,7 @@ base_package = "hal"
 artifact_id = "hal-cpp"
 group_id = "edu.wpi.first.hal"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.2.1"
+version = "2021.2.2"
 
 libs = ["wpiHal"]
 
@@ -125,5 +125,5 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-hal"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil>=2021.1.2.0,<2022.0.0",
+    "robotpy-wpiutil>=2021.2.2.0,<2022.0.0",
 ]
