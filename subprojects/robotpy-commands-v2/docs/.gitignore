@@ -1,0 +1,11 @@
+
+
+# Doc-related stuffs
+/_build
+/_sidebar.rst.inc
+/_sidebar.toml
+
+/commands2.rst
+/commands2
+/commands2.button.rst
+/commands2.button
