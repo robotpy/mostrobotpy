@@ -1,0 +1,21 @@
+---
+
+classes:
+  RectangularRegionConstraint:
+    shared_ptr: true
+    template_params:
+      - typename Constraint
+    typealias:
+      - frc::TrajectoryConstraint::MinMax
+    methods:
+      RectangularRegionConstraint:
+      MaxVelocity:
+      MinMaxAcceleration:
+      IsPoseInRegion:
+
+templates:
+  RectangularRegionConstraint:
+    subpackage: constraints
+    qualname: frc::RectangularRegionConstraint
+    params:
+      - std::shared_ptr<frc::TrajectoryConstraint>

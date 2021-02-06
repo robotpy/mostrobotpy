@@ -1,0 +1,21 @@
+---
+
+classes:
+  EllipticalRegionConstraint:
+    shared_ptr: true
+    template_params:
+      - typename Constraint
+    typealias:
+      - frc::TrajectoryConstraint::MinMax
+    methods:
+      EllipticalRegionConstraint:
+      MaxVelocity:
+      MinMaxAcceleration:
+      IsPoseInRegion:
+
+templates:
+  EllipticalRegionConstraint:
+    subpackage: constraints
+    qualname: frc::EllipticalRegionConstraint
+    params:
+      - std::shared_ptr<frc::TrajectoryConstraint>
