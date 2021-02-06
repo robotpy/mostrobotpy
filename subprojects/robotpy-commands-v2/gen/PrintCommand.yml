@@ -1,0 +1,12 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  PrintCommand:
+    shared_ptr: true
+    methods:
+      PrintCommand:
+      RunsWhenDisabled:

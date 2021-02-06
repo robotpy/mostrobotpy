@@ -1,0 +1,39 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+- src/helpers.h
+
+classes:
+  StartEndCommand:
+    shared_ptr: true
+    methods:
+      StartEndCommand:
+        overloads:
+          std::function<void ( )>, std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      Initialize:
+      End:
+      function<void:
+        ignore: true
+    
+    # workaround for CppHeaderParser badness
+      
+    trampoline_inline_code: |
+      using frc2::StartEndCommand::m_onInit;
+      using frc2::StartEndCommand::m_onEnd;
+
+inline_code: |
+  cls_StartEndCommand
+    .def(py::init([](std::function<void()> onInit, std::function<void()> onEnd,
+                     py::args requirements) {
+        auto reqs = pyargs2SharedSubsystemList(requirements);
+        return std::make_shared<StartEndCommand_Trampoline>(onInit, onEnd, reqs);
+      })
+    )
+
+    .def_readwrite("_onInit", &StartEndCommand_Trampoline::m_onInit)
+    .def_readwrite("_onEnd", &StartEndCommand_Trampoline::m_onEnd)
+  ;

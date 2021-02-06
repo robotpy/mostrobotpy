@@ -1,0 +1,34 @@
+---
+
+classes:
+  TrapezoidProfileSubsystem:
+    shared_ptr: true
+    template_params:
+    - Distance
+    typealias:
+    - Distance_t = units::unit_t<Distance>
+    methods:
+      TrapezoidProfileSubsystem:
+        param_override:
+          period:
+            default: 20_ms
+      Periodic:
+      SetGoal:
+        overloads:
+          'typename frc::TrapezoidProfile<Distance>::State':
+          units::unit_t<Distance>:
+      UseState:
+      Enable:
+      Disable:
+
+templates:
+  TrapezoidProfileSubsystem:
+    qualname: frc2::TrapezoidProfileSubsystem
+    params:
+      - units::dimensionless::scalar
+
+  # needed for HolonomicDriveController
+  TrapezoidProfileSubsystemRadians:
+    qualname: frc2::TrapezoidProfileSubsystem
+    params:
+      - units::radian

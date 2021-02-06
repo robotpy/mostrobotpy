@@ -1,0 +1,54 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+
+classes:
+  Trigger:
+    shared_ptr: true
+    methods:
+      Trigger:
+        overloads:
+          std::function<bool ( )>:
+          "":
+      WhenActive:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      WhileActiveContinous:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      WhileActiveOnce:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+      WhenInactive:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      ToggleWhenActive:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+      CancelWhenActive:
+      Get:
+        rename: __bool__
+
+
+inline_code: |
+  #include "src/Trigger.cpp.inl"

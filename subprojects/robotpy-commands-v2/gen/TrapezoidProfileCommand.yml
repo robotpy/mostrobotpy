@@ -1,0 +1,38 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  TrapezoidProfileCommand:
+    shared_ptr: true
+    template_params:
+    - Distance
+    typealias:
+    - State = typename frc::TrapezoidProfile<Distance>::State
+    methods:
+      TrapezoidProfileCommand:
+        overloads:
+          frc::TrapezoidProfile<Distance>, std::function<void ( State )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          frc::TrapezoidProfile<Distance>, std::function<void ( State )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+            param_override:
+              output:
+                x_type: std::function<void(State)>
+      Initialize:
+      Execute:
+      End:
+      IsFinished:
+
+templates:
+  TrapezoidProfileCommand:
+    qualname: frc2::TrapezoidProfileCommand
+    params:
+      - units::dimensionless::scalar
+
+  # needed for HolonomicDriveController
+  TrapezoidProfileCommandRadians:
+    qualname: frc2::TrapezoidProfileCommand
+    params:
+      - units::radian

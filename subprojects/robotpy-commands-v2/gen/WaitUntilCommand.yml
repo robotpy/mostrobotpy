@@ -1,0 +1,16 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  WaitUntilCommand:
+    shared_ptr: true
+    methods:
+      WaitUntilCommand:
+        overloads:
+          std::function<bool ( )>:
+          units::second_t:
+      IsFinished:
+      RunsWhenDisabled:

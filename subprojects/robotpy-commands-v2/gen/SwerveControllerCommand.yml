@@ -1,0 +1,56 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  SwerveControllerCommand:
+    shared_ptr: true
+    template_params:
+    - size_t NumModules
+    methods:
+      SwerveControllerCommand:
+        overloads:
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SwerveDriveKinematics<NumModules>,
+            frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
+            std::function<frc::Rotation2d ( )>, std::function<void ( std::array<frc::SwerveModuleState,
+            NumModules> )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SwerveDriveKinematics<NumModules>,
+            frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
+            std::function<void ( std::array<frc::SwerveModuleState, NumModules> )>,
+            std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SwerveDriveKinematics<NumModules>,
+            frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
+            std::function<frc::Rotation2d ( )>, std::function<void ( std::array<frc::SwerveModuleState,
+            NumModules> )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SwerveDriveKinematics<NumModules>,
+            frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
+            std::function<void ( std::array<frc::SwerveModuleState, NumModules> )>,
+            wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+      Initialize:
+      Execute:
+      End:
+      IsFinished:
+
+templates:
+  Swerve2ControllerCommand:
+    qualname: frc2::SwerveControllerCommand
+    params:
+    - 2
+  Swerve3ControllerCommand:
+    qualname: frc2::SwerveControllerCommand
+    params:
+    - 3
+  Swerve4ControllerCommand:
+    qualname: frc2::SwerveControllerCommand
+    params:
+    - 4
+  Swerve6ControllerCommand:
+    qualname: frc2::SwerveControllerCommand
+    params:
+    - 6

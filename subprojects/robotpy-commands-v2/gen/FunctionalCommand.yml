@@ -1,0 +1,36 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+- src/helpers.h
+
+classes:
+  FunctionalCommand:
+    shared_ptr: true
+    methods:
+      FunctionalCommand:
+        overloads:
+          ? std::function<void ( )>, std::function<void ( )>, std::function<void (
+            bool )>, std::function<bool ( )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? std::function<void ( )>, std::function<void ( )>, std::function<void (
+            bool )>, std::function<bool ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+      Initialize:
+      Execute:
+      End:
+      IsFinished:
+
+inline_code: |
+  cls_FunctionalCommand
+    .def(py::init([](
+        std::function<void()> onInit,
+        std::function<void()> onExecute,
+        std::function<void(bool)> onEnd,
+        std::function<bool()> isFinished,
+        py::args requirements) {
+      auto reqs = pyargs2SharedSubsystemList(requirements);
+      return std::make_shared<FunctionalCommand_Trampoline>(onInit, onExecute, onEnd, isFinished, reqs);
+    }))
+  ;

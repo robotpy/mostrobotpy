@@ -1,0 +1,72 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  MecanumControllerCommand:
+    shared_ptr: true
+    force_type_casters:
+    - units::volt_t
+    methods:
+      MecanumControllerCommand:
+        overloads:
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SimpleMotorFeedforward<units::meters>,
+            frc::MecanumDriveKinematics, frc2::PIDController, frc2::PIDController,
+            frc::ProfiledPIDController<units::radians>, std::function<frc::Rotation2d
+            ( )>, units::meters_per_second_t, std::function<frc::MecanumDriveWheelSpeeds
+            ( )>, frc2::PIDController, frc2::PIDController, frc2::PIDController, frc2::PIDController,
+            std::function<void ( units::volt_t, units::volt_t, units::volt_t, units::volt_t
+            )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SimpleMotorFeedforward<units::meters>,
+            frc::MecanumDriveKinematics, frc2::PIDController, frc2::PIDController,
+            frc::ProfiledPIDController<units::radians>, units::meters_per_second_t,
+            std::function<frc::MecanumDriveWheelSpeeds ( )>, frc2::PIDController,
+            frc2::PIDController, frc2::PIDController, frc2::PIDController, std::function<void
+            ( units::volt_t, units::volt_t, units::volt_t, units::volt_t )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SimpleMotorFeedforward<units::meters>,
+            frc::MecanumDriveKinematics, frc2::PIDController, frc2::PIDController,
+            frc::ProfiledPIDController<units::radians>, std::function<frc::Rotation2d
+            ( )>, units::meters_per_second_t, std::function<frc::MecanumDriveWheelSpeeds
+            ( )>, frc2::PIDController, frc2::PIDController, frc2::PIDController, frc2::PIDController,
+            std::function<void ( units::volt_t, units::volt_t, units::volt_t, units::volt_t
+            )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SimpleMotorFeedforward<units::meters>,
+            frc::MecanumDriveKinematics, frc2::PIDController, frc2::PIDController,
+            frc::ProfiledPIDController<units::radians>, units::meters_per_second_t,
+            std::function<frc::MecanumDriveWheelSpeeds ( )>, frc2::PIDController,
+            frc2::PIDController, frc2::PIDController, frc2::PIDController, std::function<void
+            ( units::volt_t, units::volt_t, units::volt_t, units::volt_t )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::MecanumDriveKinematics,
+            frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
+            std::function<frc::Rotation2d ( )>, units::meters_per_second_t, std::function<void
+            ( units::meters_per_second_t, units::meters_per_second_t, units::meters_per_second_t,
+            units::meters_per_second_t )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::MecanumDriveKinematics,
+            frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
+            units::meters_per_second_t, std::function<void ( units::meters_per_second_t,
+            units::meters_per_second_t, units::meters_per_second_t, units::meters_per_second_t
+            )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::MecanumDriveKinematics,
+            frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
+            std::function<frc::Rotation2d ( )>, units::meters_per_second_t, std::function<void
+            ( units::meters_per_second_t, units::meters_per_second_t, units::meters_per_second_t,
+            units::meters_per_second_t )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::MecanumDriveKinematics,
+            frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
+            units::meters_per_second_t, std::function<void ( units::meters_per_second_t,
+            units::meters_per_second_t, units::meters_per_second_t, units::meters_per_second_t
+            )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+      Initialize:
+      Execute:
+      End:
+      IsFinished:

@@ -1,0 +1,48 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  PIDCommand:
+    shared_ptr: true
+    attributes:
+      m_controller:
+        rename: "_controller"
+    methods:
+      PIDCommand:
+        overloads:
+          ? PIDController, std::function<double ( )>, std::function<double ( )>, std::function<void
+            ( double )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? PIDController, std::function<double ( )>, std::function<double ( )>, std::function<void
+            ( double )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? PIDController, std::function<double ( )>, double, std::function<void (
+            double )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? PIDController, std::function<double ( )>, double, std::function<void (
+            double )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+      Initialize:
+      Execute:
+      End:
+      GetController:
+      function<double:
+        ignore: true
+      function<void:
+        ignore: true
+    
+    trampoline_inline_code: |
+      using frc2::PIDCommand::m_measurement;
+      using frc2::PIDCommand::m_setpoint;
+      using frc2::PIDCommand::m_useOutput;
+
+
+inline_code: |
+  cls_PIDCommand
+    .def_readwrite("_measurement", &PIDCommand_Trampoline::m_measurement)
+    .def_readwrite("_setpoint", &PIDCommand_Trampoline::m_setpoint)
+    .def_readwrite("_useOutput", &PIDCommand_Trampoline::m_useOutput)
+  ;

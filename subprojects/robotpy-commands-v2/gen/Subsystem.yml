@@ -1,0 +1,19 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+
+classes:
+  Subsystem:
+    shared_ptr: true
+    ignored_bases:
+    - std::enable_shared_from_this<Subsystem>
+    methods:
+      Periodic:
+      SimulationPeriodic:
+      SetDefaultCommand:
+        template_impls:
+        - ["std::shared_ptr<Command>"]
+      GetDefaultCommand:
+      GetCurrentCommand:
+      Register:

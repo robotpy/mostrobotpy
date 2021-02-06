@@ -1,0 +1,20 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  ConditionalCommand:
+    shared_ptr: true
+    methods:
+      ConditionalCommand:
+        overloads:
+          T1&&, T2&&, std::function<bool ( )>:
+            ignore: true
+          std::shared_ptr<Command>, std::shared_ptr<Command>, std::function<bool ( )>:
+      Initialize:
+      Execute:
+      End:
+      IsFinished:
+      RunsWhenDisabled:

@@ -1,0 +1,37 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+- src/helpers.h
+
+classes:
+  ParallelDeadlineGroup:
+    shared_ptr: true
+    methods:
+      ParallelDeadlineGroup:
+        overloads:
+          std::shared_ptr<Command>, std::vector<std::shared_ptr<Command>>&&:
+          T&&, Types ...&&:
+            cpp_code: |
+              .def(py::init([](std::shared_ptr<Command> cmd, py::args cmds) {
+                return std::make_shared<ParallelDeadlineGroup_Trampoline>(cmd, std::move(pyargs2cmdList(cmds)));
+              })
+            param_override:
+              commands:
+                ignore: true
+      AddCommands:
+        overloads:
+          Types ...&&:
+            param_override:
+              commands:
+                ignore: true
+            cpp_code: |
+              [](ParallelDeadlineGroup * self, py::args cmds) {
+                self->AddCommands(std::move(pyargs2cmdList(cmds)));
+              }
+      Initialize:
+      Execute:
+      End:
+      IsFinished:
+      RunsWhenDisabled:

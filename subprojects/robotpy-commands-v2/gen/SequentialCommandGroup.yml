@@ -1,0 +1,42 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+- src/helpers.h
+
+attributes:
+  invalid_index:
+classes:
+  SequentialCommandGroup:
+    shared_ptr: true
+    attributes:
+      m_commands:
+    methods:
+      SequentialCommandGroup:
+        overloads:
+          std::vector<std::shared_ptr<Command>>&&:
+          Types ...&&:
+            cpp_code: |
+              .def(py::init([](py::args cmds) {
+                return std::make_shared<SequentialCommandGroup_Trampoline>(std::move(pyargs2cmdList(cmds)));
+              })
+            param_override:
+              commands:
+                ignore: true
+      AddCommands:
+        overloads:
+          std::vector<std::shared_ptr<Command>>&&:
+          Types ...&&:
+            param_override:
+              commands:
+                ignore: true
+            cpp_code: |
+              [](SequentialCommandGroup * self, py::args cmds) {
+                self->AddCommands(std::move(pyargs2cmdList(cmds)));
+              }
+      Initialize:
+      Execute:
+      End:
+      IsFinished:
+      RunsWhenDisabled:

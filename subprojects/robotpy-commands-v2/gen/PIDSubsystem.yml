@@ -1,0 +1,18 @@
+---
+
+classes:
+  PIDSubsystem:
+    shared_ptr: true
+    attributes:
+      m_controller:
+    methods:
+      PIDSubsystem:
+      Periodic:
+      SetSetpoint:
+      GetSetpoint:
+      Enable:
+      Disable:
+      IsEnabled:
+      GetController:
+      GetMeasurement:
+      UseOutput:

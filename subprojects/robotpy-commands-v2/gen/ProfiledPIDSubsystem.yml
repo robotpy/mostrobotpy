@@ -1,0 +1,31 @@
+---
+
+classes:
+  ProfiledPIDSubsystem:
+    shared_ptr: true
+    template_params:
+    - Distance
+    typealias:
+    - Distance_t = units::unit_t<Distance>
+    attributes:
+      m_controller:
+    methods:
+      ProfiledPIDSubsystem:
+      Periodic:
+      SetGoal:
+        overloads:
+          'typename frc::TrapezoidProfile<Distance>::State':
+          units::unit_t<Distance>:
+      Enable:
+      Disable:
+      IsEnabled:
+      GetController:
+      GetMeasurement:
+      UseOutput:
+
+
+templates:
+  ProfiledPIDSubsystem:
+    qualname: frc2::ProfiledPIDSubsystem
+    params:
+      - units::dimensionless::scalar

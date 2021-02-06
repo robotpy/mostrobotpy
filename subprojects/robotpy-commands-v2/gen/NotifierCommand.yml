@@ -1,0 +1,17 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  NotifierCommand:
+    shared_ptr: true
+    methods:
+      NotifierCommand:
+        overloads:
+          std::function<void ( )>, units::second_t, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, units::second_t, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      Initialize:
+      End:

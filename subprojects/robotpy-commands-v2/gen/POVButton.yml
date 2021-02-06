@@ -1,0 +1,9 @@
+---
+
+classes:
+  POVButton:
+    shared_ptr: true
+    force_no_trampoline: true
+    subpackage: button
+    methods:
+      POVButton:

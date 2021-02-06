@@ -1,0 +1,15 @@
+---
+
+classes:
+  SubsystemBase:
+    shared_ptr: true
+    ignored_bases:
+    - frc::SendableHelper<SubsystemBase>
+    methods:
+      InitSendable:
+      GetName:
+      SetName:
+      GetSubsystem:
+      SetSubsystem:
+      AddChild:
+      SubsystemBase:

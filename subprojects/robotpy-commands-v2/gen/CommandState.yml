@@ -1,0 +1,12 @@
+---
+
+classes:
+  CommandState:
+    shared_ptr: true
+    methods:
+      CommandState:
+        overloads:
+          "":
+          bool:
+      IsInterruptible:
+      TimeSinceInitialized:

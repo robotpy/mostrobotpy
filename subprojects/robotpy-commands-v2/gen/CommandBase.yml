@@ -1,0 +1,38 @@
+---
+
+extra_includes:
+- src/helpers.h
+
+classes:
+  CommandBase:
+    shared_ptr: true
+    attributes:
+      m_requirements:
+    ignored_bases:
+    - frc::SendableHelper<CommandBase>
+    methods:
+      AddRequirements:
+        overloads:
+          std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+          wpi::SmallSet<std::shared_ptr<Subsystem>, 4>:
+      GetRequirements:
+      SetName:
+      GetName:
+      GetSubsystem:
+      SetSubsystem:
+      InitSendable:
+      CommandBase:
+        cpp_code: |
+          .def(py::init([]() {
+            return std::make_unique<rpygen::Pyfrc2__CommandBase<typename frc2::CommandBase>>();
+          })
+
+
+inline_code: |
+  cls_CommandBase
+    .def("addRequirements", [](CommandBase * self, py::args requirements) {
+        auto reqs = pyargs2SharedSubsystemList(requirements);
+        self->AddRequirements(reqs);
+    });

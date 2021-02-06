@@ -1,0 +1,24 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+- src/helpers.h
+
+classes:
+  ProxyScheduleCommand:
+    shared_ptr: true
+    methods:
+      ProxyScheduleCommand:
+      Initialize:
+      End:
+      Execute:
+      IsFinished:
+
+inline_code: |
+  cls_ProxyScheduleCommand
+    .def(py::init([](py::args cmds) {
+      auto cmdList = pyargs2cmdList(cmds);
+      return std::make_shared<ProxyScheduleCommand_Trampoline>(cmdList);
+    }))
+  ;

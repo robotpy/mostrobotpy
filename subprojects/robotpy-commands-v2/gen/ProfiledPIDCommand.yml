@@ -1,0 +1,75 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  ProfiledPIDCommand:
+    shared_ptr: true
+    template_params:
+    - Distance
+    typealias:
+    - Distance_t = units::unit_t<Distance>
+    - State = typename frc::TrapezoidProfile<Distance>::State
+    attributes:
+      m_controller:
+        rename: _controller
+    methods:
+      ProfiledPIDCommand:
+        overloads:
+          ? frc::ProfiledPIDController<Distance>, std::function<Distance_t ( )>, std::function<State
+            ( )>, std::function<void ( double, State )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::ProfiledPIDController<Distance>, std::function<Distance_t ( )>, std::function<State
+            ( )>, std::function<void ( double, State )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? frc::ProfiledPIDController<Distance>, std::function<Distance_t ( )>, std::function<Distance_t
+            ( )>, std::function<void ( double, State )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::ProfiledPIDController<Distance>, std::function<Distance_t ( )>, std::function<Distance_t
+            ( )>, std::function<void ( double, State )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? frc::ProfiledPIDController<Distance>, std::function<Distance_t ( )>, typename frc::TrapezoidProfile<Distance>::State,
+            std::function<void ( double, State )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::ProfiledPIDController<Distance>, std::function<Distance_t ( )>, typename frc::TrapezoidProfile<Distance>::State,
+            std::function<void ( double, State )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? frc::ProfiledPIDController<Distance>, std::function<Distance_t ( )>, units::unit_t<Distance>,
+            std::function<void ( double, State )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::ProfiledPIDController<Distance>, std::function<Distance_t ( )>, units::unit_t<Distance>,
+            std::function<void ( double, State )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+      Initialize:
+      Execute:
+      End:
+      GetController:
+      function<Distance_t:
+        ignore: true
+      function<State:
+        ignore: true
+      function<void:
+        ignore: true
+      
+    # workarounds for CppHeaderParser limitations
+
+    template_inline_code: |
+      cls_ProfiledPIDCommand
+        .def_readwrite("_measurement", &ProfiledPIDCommand_Trampoline::m_measurement)
+        .def_readwrite("_goal", &ProfiledPIDCommand_Trampoline::m_goal)
+        .def_readwrite("_useOutput", &ProfiledPIDCommand_Trampoline::m_useOutput)
+      ;
+
+    trampoline_inline_code: |
+      using frc2::ProfiledPIDCommand<Distance>::m_measurement;
+      using frc2::ProfiledPIDCommand<Distance>::m_goal;
+      using frc2::ProfiledPIDCommand<Distance>::m_useOutput;
+
+
+templates:
+  ProfiledPIDCommand:
+    qualname: frc2::ProfiledPIDCommand
+    params:
+      - units::dimensionless::scalar

@@ -1,0 +1,32 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+functions:
+  Initialize:
+    ignore: true
+classes:
+  SelectCommand:
+    shared_ptr: true
+    template_params:
+    - Key
+    methods:
+      SelectCommand:
+        overloads:
+          std::function<Key ( )>, std::pair<Key, Types>...:
+            ignore: true
+          std::function<Key ( )>, std::vector<std::pair<Key, std::shared_ptr<Command>>>&&:
+          std::function<std::shared_ptr<Command> ( )>:
+      Initialize:
+      Execute:
+      End:
+      IsFinished:
+      RunsWhenDisabled:
+
+templates:
+  SelectCommand:
+    qualname: frc2::SelectCommand
+    params:
+      - py::object

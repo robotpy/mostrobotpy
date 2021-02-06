@@ -1,0 +1,23 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+- src/helpers.h
+
+classes:
+  ScheduleCommand:
+    shared_ptr: true
+    methods:
+      ScheduleCommand:
+      Initialize:
+      IsFinished:
+      RunsWhenDisabled:
+
+inline_code: |
+  cls_ScheduleCommand
+    .def(py::init([](py::args cmds) {
+      auto cmdList = pyargs2cmdList(cmds);
+      return std::make_shared<ScheduleCommand_Trampoline>(cmdList);
+    }))
+  ;

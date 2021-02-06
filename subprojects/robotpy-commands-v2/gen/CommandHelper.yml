@@ -1,0 +1,8 @@
+---
+
+classes:
+  CommandHelper:
+    shared_ptr: true
+    methods:
+      CommandHelper:
+      TransferOwnership:

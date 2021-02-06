@@ -1,0 +1,35 @@
+---
+
+classes:
+  RamseteCommand:
+    shared_ptr: true
+    force_type_casters:
+    - units::meters_per_second_t
+    - units::volt_t
+    methods:
+      RamseteCommand:
+        overloads:
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::RamseteController,
+            frc::SimpleMotorFeedforward<units::meters>, frc::DifferentialDriveKinematics,
+            std::function<frc::DifferentialDriveWheelSpeeds ( )>, frc2::PIDController,
+            frc2::PIDController, std::function<void ( units::volt_t, units::volt_t
+            )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::RamseteController,
+            frc::SimpleMotorFeedforward<units::meters>, frc::DifferentialDriveKinematics,
+            std::function<frc::DifferentialDriveWheelSpeeds ( )>, frc2::PIDController,
+            frc2::PIDController, std::function<void ( units::volt_t, units::volt_t
+            )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::RamseteController,
+            frc::DifferentialDriveKinematics, std::function<void ( units::meters_per_second_t,
+            units::meters_per_second_t )>, std::initializer_list<std::shared_ptr<Subsystem>>
+          : ignore: true
+          ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::RamseteController,
+            frc::DifferentialDriveKinematics, std::function<void ( units::meters_per_second_t,
+            units::meters_per_second_t )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>
+          :
+      Initialize:
+      Execute:
+      End:
+      IsFinished:

@@ -1,0 +1,13 @@
+---
+
+classes:
+  NetworkButton:
+    shared_ptr: true
+    force_no_trampoline: true
+    subpackage: button
+    methods:
+      NetworkButton:
+        overloads:
+          nt::NetworkTableEntry:
+          std::shared_ptr<nt::NetworkTable>, wpi::Twine&:
+          wpi::Twine&, wpi::Twine&:

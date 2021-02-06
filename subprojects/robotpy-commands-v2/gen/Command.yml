@@ -1,0 +1,57 @@
+---
+
+extra_includes:
+- frc2/command/ParallelCommandGroup.h
+- frc2/command/ParallelRaceGroup.h
+- frc2/command/ParallelDeadlineGroup.h
+- frc2/command/SequentialCommandGroup.h
+- frc2/command/PerpetualCommand.h
+- frc2/command/ProxyScheduleCommand.h
+- src/helpers.h
+
+inline_code: |
+  #include <src/Command.cpp.inl>
+
+functions:
+  GetTypeName:
+    ignore: true
+  RequirementsDisjoint:
+classes:
+  Command:
+    shared_ptr: true
+    ignored_bases:
+    - std::enable_shared_from_this<Command>
+    attributes:
+      m_isGrouped:
+    methods:
+      Command:
+      Initialize:
+      Execute:
+      End:
+      IsFinished:
+      GetRequirements:
+      WithTimeout:
+      WithInterrupt:
+      BeforeStarting:
+        overloads:
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      AndThen:
+        overloads:
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      Perpetually:
+      AsProxy:
+      Schedule:
+        overloads:
+          bool:
+          "":
+      Cancel:
+      IsScheduled:
+      HasRequirement:
+      IsGrouped:
+      SetGrouped:
+      RunsWhenDisabled:
+      GetName:

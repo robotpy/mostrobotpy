@@ -1,0 +1,18 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  PerpetualCommand:
+    shared_ptr: true
+    methods:
+      PerpetualCommand:
+        overloads:
+          std::shared_ptr<Command>:
+          T&&:
+            ignore: true
+      Initialize:
+      Execute:
+      End:

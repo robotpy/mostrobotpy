@@ -1,0 +1,91 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+- frc/smartdashboard/SendableBuilder.h
+- src/helpers.h
+
+classes:
+  CommandScheduler:
+    shared_ptr: true
+    ignored_bases:
+    - frc::SendableHelper<CommandScheduler>
+    methods:
+      GetInstance:
+        return_value_policy: reference
+        no_release_gil: true
+      ResetInstance:
+        no_release_gil: true
+      SetPeriod:
+      AddButton:
+      ClearButtons:
+      Schedule:
+        overloads:
+          bool, std::shared_ptr<Command>:
+          std::shared_ptr<Command>:
+          bool, wpi::ArrayRef<std::shared_ptr<Command>>:
+          bool, std::initializer_list<std::shared_ptr<Command>>:
+            ignore: true
+          wpi::ArrayRef<std::shared_ptr<Command>>:
+          std::initializer_list<std::shared_ptr<Command>>:
+            ignore: true
+      Run:
+      RegisterSubsystem:
+        overloads:
+          frc2::Subsystem*:
+          std::initializer_list<Subsystem *>:
+            ignore: true
+          wpi::ArrayRef<Subsystem *>:
+      UnregisterSubsystem:
+        overloads:
+          frc2::Subsystem*:
+          std::initializer_list<Subsystem *>:
+            ignore: true
+          wpi::ArrayRef<Subsystem *>:
+      SetDefaultCommand:
+        template_impls:
+        - ["std::shared_ptr<Command>"]
+      GetDefaultCommand:
+      Cancel:
+        overloads:
+          std::shared_ptr<Command>:
+          wpi::ArrayRef<std::shared_ptr<Command>>:
+          std::initializer_list<std::shared_ptr<Command>>:
+            ignore: true
+      CancelAll:
+      TimeSinceScheduled:
+      IsScheduled:
+        overloads:
+          wpi::ArrayRef<std::shared_ptr<Command>> [const]:
+          std::initializer_list<const std::shared_ptr<Command>> [const]:
+            ignore: true
+          std::shared_ptr<Command> [const]:
+      Requiring:
+      Disable:
+      Enable:
+      OnCommandInitialize:
+      OnCommandExecute:
+      OnCommandInterrupt:
+      OnCommandFinish:
+      InitSendable:
+
+inline_code: |
+    
+    // ensure that the command data is released when python shuts down
+    static int unused; // the capsule needs something to reference
+    py::capsule cleanup(&unused, [](void *) {
+        frc2::CommandScheduler::ResetInstance();
+    });
+    m.add_object("_cleanup", cleanup);
+
+    cls_CommandScheduler
+      .def("registerSubsystem", [](CommandScheduler * self, py::args args){
+        auto vargs = pyargs2SubsystemList(args);
+        self->RegisterSubsystem(vargs);
+      })
+      .def("unregisterSubsystem", [](CommandScheduler * self, py::args args){
+        auto vargs = pyargs2SubsystemList(args);
+        self->UnregisterSubsystem(vargs);
+      })
+    ;

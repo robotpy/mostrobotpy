@@ -1,0 +1,51 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  Button:
+    shared_ptr: true
+    force_no_trampoline: true
+    subpackage: button
+    methods:
+      Button:
+        overloads:
+          std::function<bool ( )>:
+          "":
+      WhenPressed:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      WhileHeld:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      WhenHeld:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+      WhenReleased:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+      ToggleWhenPressed:
+        overloads:
+          std::shared_ptr<Command>, bool:
+          T&&, bool:
+            ignore: true
+      CancelWhenPressed:

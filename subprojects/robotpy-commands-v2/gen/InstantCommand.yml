@@ -1,0 +1,28 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+- src/helpers.h
+
+classes:
+  InstantCommand:
+    shared_ptr: true
+    methods:
+      InstantCommand:
+        overloads:
+          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+            ignore: true
+          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+          "":
+      Initialize:
+      IsFinished:
+
+inline_code: |
+  cls_InstantCommand
+    .def(py::init([](std::function<void()> toRun, py::args requirements) {
+        auto reqs = pyargs2SharedSubsystemList(requirements);
+        return std::make_shared<InstantCommand_Trampoline>(toRun, reqs);
+      })
+    )
+  ;

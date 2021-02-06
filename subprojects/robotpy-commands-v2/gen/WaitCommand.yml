@@ -1,0 +1,17 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+classes:
+  WaitCommand:
+    shared_ptr: true
+    attributes:
+      m_timer:
+    methods:
+      WaitCommand:
+      Initialize:
+      End:
+      IsFinished:
+      RunsWhenDisabled:
