@@ -48,7 +48,7 @@ sources = [
 ]
 depends = [
     "wpilib_core", "wpilibc_interfaces", "wpilibc", "wpilibc_controller",
-    "wpimath_controls", "wpimath_geometry", "wpimath_kinematics",
+    "wpimath_cpp", "wpimath_controls", "wpimath_geometry", "wpimath_kinematics",
     "wpimath_spline", "wpimath_trajectory",
     "wpiHal", "wpiutil", "ntcore",
 ]
