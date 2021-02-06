@@ -49,7 +49,7 @@ namespace frc2 {
  */
 template <size_t NumModules>
 class SwerveControllerCommand
-    : public CommandHelper<CommandBase, SwerveControllerCommand<NumModules>> {
+    : public CommandBase {
   using voltsecondspermeter =
       units::compound_unit<units::voltage::volt, units::second,
                            units::inverse<units::meter>>;
@@ -92,7 +92,7 @@ class SwerveControllerCommand
       std::function<frc::Rotation2d()> desiredRotation,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      std::initializer_list<Subsystem*> requirements);
+      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Constructs a new SwerveControllerCommand that when executed will follow the
@@ -130,7 +130,7 @@ class SwerveControllerCommand
       frc::ProfiledPIDController<units::radians> thetaController,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      std::initializer_list<Subsystem*> requirements);
+      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Constructs a new SwerveControllerCommand that when executed will follow the
@@ -167,7 +167,7 @@ class SwerveControllerCommand
       std::function<frc::Rotation2d()> desiredRotation,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      wpi::ArrayRef<Subsystem*> requirements = {});
+      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Constructs a new SwerveControllerCommand that when executed will follow the
@@ -205,7 +205,7 @@ class SwerveControllerCommand
       frc::ProfiledPIDController<units::radians> thetaController,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      wpi::ArrayRef<Subsystem*> requirements = {});
+      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   void Initialize() override;
 

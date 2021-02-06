@@ -53,7 +53,7 @@ class Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
    */
-  Trigger WhenActive(Command* command, bool interruptible = true);
+  Trigger WhenActive(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to start when the trigger becomes active.  Transfers
@@ -70,7 +70,7 @@ class Trigger {
   Trigger WhenActive(T&& command, bool interruptible = true) {
     CommandScheduler::GetInstance().AddButton(
         [pressedLast = m_isActive(), *this,
-         command = std::make_unique<std::remove_reference_t<T>>(
+         command = std::make_shared<std::remove_reference_t<T>>(
              std::forward<T>(command)),
          interruptible]() mutable {
           bool pressed = m_isActive();
@@ -92,7 +92,7 @@ class Trigger {
    * @paaram requirements the required subsystems.
    */
   Trigger WhenActive(std::function<void()> toRun,
-                     std::initializer_list<Subsystem*> requirements);
+                     std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute when the trigger becomes active.
@@ -101,7 +101,7 @@ class Trigger {
    * @paaram requirements the required subsystems.
    */
   Trigger WhenActive(std::function<void()> toRun,
-                     wpi::ArrayRef<Subsystem*> requirements = {});
+                     wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started repeatedly while the trigger is active, and
@@ -112,7 +112,7 @@ class Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
    */
-  Trigger WhileActiveContinous(Command* command, bool interruptible = true);
+  Trigger WhileActiveContinous(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to be started repeatedly while the trigger is active, and
@@ -129,7 +129,7 @@ class Trigger {
   Trigger WhileActiveContinous(T&& command, bool interruptible = true) {
     CommandScheduler::GetInstance().AddButton(
         [pressedLast = m_isActive(), *this,
-         command = std::make_unique<std::remove_reference_t<T>>(
+         command = std::make_shared<std::remove_reference_t<T>>(
              std::forward<T>(command)),
          interruptible]() mutable {
           bool pressed = m_isActive();
@@ -152,7 +152,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhileActiveContinous(std::function<void()> toRun,
-                               std::initializer_list<Subsystem*> requirements);
+                               std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute repeatedly while the trigger is active.
@@ -161,7 +161,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhileActiveContinous(std::function<void()> toRun,
-                               wpi::ArrayRef<Subsystem*> requirements = {});
+                               wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started when the trigger becomes active, and
@@ -172,7 +172,7 @@ class Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
    */
-  Trigger WhileActiveOnce(Command* command, bool interruptible = true);
+  Trigger WhileActiveOnce(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to be started when the trigger becomes active, and
@@ -214,7 +214,7 @@ class Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
    */
-  Trigger WhenInactive(Command* command, bool interruptible = true);
+  Trigger WhenInactive(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to start when the trigger becomes inactive.  Transfers
@@ -231,7 +231,7 @@ class Trigger {
   Trigger WhenInactive(T&& command, bool interruptible = true) {
     CommandScheduler::GetInstance().AddButton(
         [pressedLast = m_isActive(), *this,
-         command = std::make_unique<std::remove_reference_t<T>>(
+         command = std::make_shared<std::remove_reference_t<T>>(
              std::forward<T>(command)),
          interruptible]() mutable {
           bool pressed = m_isActive();
@@ -252,7 +252,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhenInactive(std::function<void()> toRun,
-                       std::initializer_list<Subsystem*> requirements);
+                       std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute when the trigger becomes inactive.
@@ -261,7 +261,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhenInactive(std::function<void()> toRun,
-                       wpi::ArrayRef<Subsystem*> requirements = {});
+                       wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to start when the trigger becomes active, and be canceled
@@ -272,7 +272,7 @@ class Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
    */
-  Trigger ToggleWhenActive(Command* command, bool interruptible = true);
+  Trigger ToggleWhenActive(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to start when the trigger becomes active, and be canceled
@@ -315,7 +315,7 @@ class Trigger {
    * @param command The command to bind.
    * @return The trigger, for chained calls.
    */
-  Trigger CancelWhenActive(Command* command);
+  Trigger CancelWhenActive(std::shared_ptr<Command> command);
 
   /**
    * Composes two triggers with logical AND.
@@ -343,6 +343,13 @@ class Trigger {
    */
   Trigger operator!() {
     return Trigger([*this] { return !m_isActive(); });
+  }
+
+  /**
+   * Returns whether or not the trigger is currently active
+   */
+  bool Get() {
+    return m_isActive();
   }
 
  private:

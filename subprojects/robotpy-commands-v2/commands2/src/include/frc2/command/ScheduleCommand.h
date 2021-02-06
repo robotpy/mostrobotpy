@@ -18,7 +18,7 @@ namespace frc2 {
  * group will not know about the status of the scheduled commands, and will
  * treat this command as finishing instantly.
  */
-class ScheduleCommand : public CommandHelper<CommandBase, ScheduleCommand> {
+class ScheduleCommand : public CommandBase {
  public:
   /**
    * Creates a new ScheduleCommand that schedules the given commands when
@@ -26,7 +26,7 @@ class ScheduleCommand : public CommandHelper<CommandBase, ScheduleCommand> {
    *
    * @param toSchedule the commands to schedule
    */
-  explicit ScheduleCommand(wpi::ArrayRef<Command*> toSchedule);
+  explicit ScheduleCommand(wpi::ArrayRef<std::shared_ptr<Command>> toSchedule);
 
   ScheduleCommand(ScheduleCommand&& other) = default;
 
@@ -39,6 +39,6 @@ class ScheduleCommand : public CommandHelper<CommandBase, ScheduleCommand> {
   bool RunsWhenDisabled() const override;
 
  private:
-  wpi::SmallVector<Command*, 4> m_toSchedule;
+  wpi::SmallVector<std::shared_ptr<Command>, 4> m_toSchedule;
 };
 }  // namespace frc2

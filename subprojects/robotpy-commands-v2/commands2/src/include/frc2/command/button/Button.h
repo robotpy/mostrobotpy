@@ -44,7 +44,7 @@ class Button : public Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
    */
-  Button WhenPressed(Command* command, bool interruptible = true);
+  Button WhenPressed(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to start when the button is pressed.  Transfers
@@ -70,7 +70,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhenPressed(std::function<void()> toRun,
-                     std::initializer_list<Subsystem*> requirements);
+                     std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute when the button is pressed.
@@ -79,7 +79,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhenPressed(std::function<void()> toRun,
-                     wpi::ArrayRef<Subsystem*> requirements = {});
+                     wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started repeatedly while the button is pressed, and
@@ -90,7 +90,7 @@ class Button : public Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
-  Button WhileHeld(Command* command, bool interruptible = true);
+  Button WhileHeld(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to be started repeatedly while the button is pressed, and
@@ -116,7 +116,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhileHeld(std::function<void()> toRun,
-                   std::initializer_list<Subsystem*> requirements);
+                   std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute repeatedly while the button is pressed.
@@ -125,7 +125,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhileHeld(std::function<void()> toRun,
-                   wpi::ArrayRef<Subsystem*> requirements = {});
+                   wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started when the button is pressed, and canceled
@@ -136,7 +136,7 @@ class Button : public Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
-  Button WhenHeld(Command* command, bool interruptible = true);
+  Button WhenHeld(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to be started when the button is pressed, and canceled
@@ -164,7 +164,7 @@ class Button : public Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
-  Button WhenReleased(Command* command, bool interruptible = true);
+  Button WhenReleased(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to start when the button is pressed.  Transfers
@@ -190,7 +190,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhenReleased(std::function<void()> toRun,
-                      std::initializer_list<Subsystem*> requirements);
+                      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute when the button is released.
@@ -199,7 +199,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhenReleased(std::function<void()> toRun,
-                      wpi::ArrayRef<Subsystem*> requirements = {});
+                      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to start when the button is pressed, and be canceled when
@@ -210,7 +210,7 @@ class Button : public Trigger {
    * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
-  Button ToggleWhenPressed(Command* command, bool interruptible = true);
+  Button ToggleWhenPressed(std::shared_ptr<Command> command, bool interruptible = true);
 
   /**
    * Binds a command to start when the button is pressed, and be canceled when
@@ -237,6 +237,6 @@ class Button : public Trigger {
    * @param command The command to bind.
    * @return The button, for chained calls.
    */
-  Button CancelWhenPressed(Command* command);
+  Button CancelWhenPressed(std::shared_ptr<Command> command);
 };
 }  // namespace frc2

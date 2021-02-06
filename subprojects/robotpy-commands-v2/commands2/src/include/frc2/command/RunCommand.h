@@ -19,7 +19,7 @@ namespace frc2 {
  * Command.WithInterrupt() to give it one.  If you only wish
  * to execute a Runnable once, use InstantCommand.
  */
-class RunCommand : public CommandHelper<CommandBase, RunCommand> {
+class RunCommand : public CommandBase {
  public:
   /**
    * Creates a new RunCommand.  The Runnable will be run continuously until the
@@ -29,7 +29,7 @@ class RunCommand : public CommandHelper<CommandBase, RunCommand> {
    * @param requirements the subsystems to require
    */
   RunCommand(std::function<void()> toRun,
-             std::initializer_list<Subsystem*> requirements);
+             std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Creates a new RunCommand.  The Runnable will be run continuously until the
@@ -39,7 +39,7 @@ class RunCommand : public CommandHelper<CommandBase, RunCommand> {
    * @param requirements the subsystems to require
    */
   explicit RunCommand(std::function<void()> toRun,
-                      wpi::ArrayRef<Subsystem*> requirements = {});
+                      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   RunCommand(RunCommand&& other) = default;
 

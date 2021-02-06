@@ -18,13 +18,13 @@ namespace frc2 {
  */
 template <class Distance>
 class ProfiledPIDSubsystem : public SubsystemBase {
+ public:
   using Distance_t = units::unit_t<Distance>;
   using Velocity =
       units::compound_unit<Distance, units::inverse<units::seconds>>;
   using Velocity_t = units::unit_t<Velocity>;
   using State = typename frc::TrapezoidProfile<Distance>::State;
 
- public:
   /**
    * Creates a new ProfiledPIDSubsystem.
    *

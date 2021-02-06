@@ -37,7 +37,7 @@ namespace frc2 {
  * component commands.
  */
 template <typename Key>
-class SelectCommand : public CommandHelper<CommandBase, SelectCommand<Key>> {
+class SelectCommand : public CommandBase {
  public:
   /**
    * Creates a new selectcommand.
@@ -51,7 +51,7 @@ class SelectCommand : public CommandHelper<CommandBase, SelectCommand<Key>> {
   explicit SelectCommand(std::function<Key()> selector,
                          std::pair<Key, Types>... commands)
       : m_selector{std::move(selector)} {
-    std::vector<std::pair<Key, std::unique_ptr<Command>>> foo;
+    std::vector<std::pair<Key, std::shared_ptr<Command>>> foo;
 
     ((void)foo.emplace_back(commands.first,
                             std::make_unique<std::remove_reference_t<Types>>(
@@ -73,7 +73,7 @@ class SelectCommand : public CommandHelper<CommandBase, SelectCommand<Key>> {
 
   SelectCommand(
       std::function<Key()> selector,
-      std::vector<std::pair<Key, std::unique_ptr<Command>>>&& commands)
+      std::vector<std::pair<Key, std::shared_ptr<Command>>>&& commands)
       : m_selector{std::move(selector)} {
     for (auto&& command : commands) {
       if (!CommandGroupBase::RequireUngrouped(command.second)) {
@@ -99,7 +99,7 @@ class SelectCommand : public CommandHelper<CommandBase, SelectCommand<Key>> {
    *
    * @param toRun a supplier providing the command to run
    */
-  explicit SelectCommand(std::function<Command*()> toRun)
+  explicit SelectCommand(std::function<std::shared_ptr<Command>()> toRun)
       : m_toRun{std::move(toRun)} {}
 
   SelectCommand(SelectCommand&& other) = default;
@@ -117,15 +117,15 @@ class SelectCommand : public CommandHelper<CommandBase, SelectCommand<Key>> {
   bool RunsWhenDisabled() const override { return m_runsWhenDisabled; }
 
  protected:
-  std::unique_ptr<Command> TransferOwnership() && override {
-    return std::make_unique<SelectCommand>(std::move(*this));
-  }
+  // std::shared_ptr<Command> TransferOwnership() && override {
+  //   return std::make_unique<SelectCommand>(std::move(*this));
+  // }
 
  private:
-  std::unordered_map<Key, std::unique_ptr<Command>> m_commands;
+  std::unordered_map<Key, std::shared_ptr<Command>> m_commands;
   std::function<Key()> m_selector;
-  std::function<Command*()> m_toRun;
-  Command* m_selectedCommand;
+  std::function<std::shared_ptr<Command>()> m_toRun;
+  std::shared_ptr<Command> m_selectedCommand;
   bool m_runsWhenDisabled = true;
 };
 
@@ -134,11 +134,11 @@ void SelectCommand<T>::Initialize() {
   if (m_selector) {
     auto find = m_commands.find(m_selector());
     if (find == m_commands.end()) {
-      m_selectedCommand = new PrintCommand(
+      m_selectedCommand = std::make_shared<PrintCommand>(
           "SelectCommand selector value does not correspond to any command!");
       return;
     }
-    m_selectedCommand = find->second.get();
+    m_selectedCommand = find->second;
   } else {
     m_selectedCommand = m_toRun();
   }

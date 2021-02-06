@@ -40,7 +40,7 @@ namespace frc2 {
  * @see RamseteController
  * @see Trajectory
  */
-class RamseteCommand : public CommandHelper<CommandBase, RamseteCommand> {
+class RamseteCommand : public CommandBase {
  public:
   /**
    * Constructs a new RamseteCommand that, when executed, will follow the
@@ -77,7 +77,7 @@ class RamseteCommand : public CommandHelper<CommandBase, RamseteCommand> {
                  frc2::PIDController leftController,
                  frc2::PIDController rightController,
                  std::function<void(units::volt_t, units::volt_t)> output,
-                 std::initializer_list<Subsystem*> requirements);
+                 std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Constructs a new RamseteCommand that, when executed, will follow the
@@ -114,7 +114,7 @@ class RamseteCommand : public CommandHelper<CommandBase, RamseteCommand> {
                  frc2::PIDController leftController,
                  frc2::PIDController rightController,
                  std::function<void(units::volt_t, units::volt_t)> output,
-                 wpi::ArrayRef<Subsystem*> requirements = {});
+                 wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Constructs a new RamseteCommand that, when executed, will follow the
@@ -138,7 +138,7 @@ class RamseteCommand : public CommandHelper<CommandBase, RamseteCommand> {
                  std::function<void(units::meters_per_second_t,
                                     units::meters_per_second_t)>
                      output,
-                 std::initializer_list<Subsystem*> requirements);
+                 std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Constructs a new RamseteCommand that, when executed, will follow the
@@ -162,7 +162,7 @@ class RamseteCommand : public CommandHelper<CommandBase, RamseteCommand> {
                  std::function<void(units::meters_per_second_t,
                                     units::meters_per_second_t)>
                      output,
-                 wpi::ArrayRef<Subsystem*> requirements = {});
+                 wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   void Initialize() override;
 

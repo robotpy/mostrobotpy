@@ -7,7 +7,7 @@
 using namespace frc2;
 
 SequentialCommandGroup::SequentialCommandGroup(
-    std::vector<std::unique_ptr<Command>>&& commands) {
+    std::vector<std::shared_ptr<Command>>&& commands) {
   AddCommands(std::move(commands));
 }
 
@@ -54,13 +54,14 @@ bool SequentialCommandGroup::RunsWhenDisabled() const {
 }
 
 void SequentialCommandGroup::AddCommands(
-    std::vector<std::unique_ptr<Command>>&& commands) {
+    std::vector<std::shared_ptr<Command>>&& commands) {
   if (!RequireUngrouped(commands)) {
     return;
   }
 
   if (m_currentCommandIndex != invalid_index) {
-    wpi_setWPIErrorWithContext(CommandIllegalUse,
+    // wpi_setWPIErrorWithContext(CommandIllegalUse,
+    throw std::runtime_error(
                                "Commands cannot be added to a CommandGroup "
                                "while the group is running");
   }

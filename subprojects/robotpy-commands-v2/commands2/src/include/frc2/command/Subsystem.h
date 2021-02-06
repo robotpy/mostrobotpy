@@ -33,7 +33,7 @@ class Command;
  * @see CommandScheduler
  * @see SubsystemBase
  */
-class Subsystem {
+class Subsystem : public std::enable_shared_from_this<Subsystem> {
  public:
   ~Subsystem();
   /**
@@ -62,11 +62,9 @@ class Subsystem {
    *
    * @param defaultCommand the default command to associate with this subsystem
    */
-  template <class T, typename = std::enable_if_t<std::is_base_of_v<
-                         Command, std::remove_reference_t<T>>>>
-  void SetDefaultCommand(T&& defaultCommand) {
-    CommandScheduler::GetInstance().SetDefaultCommand(
-        this, std::forward<T>(defaultCommand));
+  template <class T>
+  void SetDefaultCommand(T defaultCommand) {
+    CommandScheduler::GetInstance().SetDefaultCommand(shared_from_this(), defaultCommand);
   }
 
   /**
@@ -75,7 +73,7 @@ class Subsystem {
    *
    * @return the default command associated with this subsystem
    */
-  Command* GetDefaultCommand() const;
+  std::shared_ptr<Command> GetDefaultCommand();
 
   /**
    * Returns the command currently running on this subsystem.  Returns null if
@@ -83,7 +81,7 @@ class Subsystem {
    *
    * @return the scheduled command currently requiring this subsystem
    */
-  Command* GetCurrentCommand() const;
+  std::shared_ptr<Command> GetCurrentCommand();
 
   /**
    * Registers this subsystem with the CommandScheduler, allowing its

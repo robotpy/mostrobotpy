@@ -7,8 +7,8 @@
 using namespace frc2;
 
 ParallelDeadlineGroup::ParallelDeadlineGroup(
-    std::unique_ptr<Command>&& deadline,
-    std::vector<std::unique_ptr<Command>>&& commands) {
+    std::shared_ptr<Command> deadline,
+    std::vector<std::shared_ptr<Command>>&& commands) {
   SetDeadline(std::move(deadline));
   AddCommands(std::move(commands));
 }
@@ -30,7 +30,7 @@ void ParallelDeadlineGroup::Execute() {
     if (commandRunning.first->IsFinished()) {
       commandRunning.first->End(false);
       commandRunning.second = false;
-      if (commandRunning.first.get() == m_deadline) {
+      if (commandRunning.first == m_deadline) {
         m_finished = true;
       }
     }
@@ -54,13 +54,14 @@ bool ParallelDeadlineGroup::RunsWhenDisabled() const {
 }
 
 void ParallelDeadlineGroup::AddCommands(
-    std::vector<std::unique_ptr<Command>>&& commands) {
+    std::vector<std::shared_ptr<Command>>&& commands) {
   if (!RequireUngrouped(commands)) {
     return;
   }
 
   if (!m_finished) {
-    wpi_setWPIErrorWithContext(CommandIllegalUse,
+    // wpi_setWPIErrorWithContext(CommandIllegalUse,
+    throw std::runtime_error(
                                "Commands cannot be added to a CommandGroup "
                                "while the group is running");
   }
@@ -72,7 +73,8 @@ void ParallelDeadlineGroup::AddCommands(
       m_runWhenDisabled &= command->RunsWhenDisabled();
       m_commands.emplace_back(std::move(command), false);
     } else {
-      wpi_setWPIErrorWithContext(CommandIllegalUse,
+      // wpi_setWPIErrorWithContext(CommandIllegalUse,
+      throw std::runtime_error(
                                  "Multiple commands in a parallel group cannot "
                                  "require the same subsystems");
       return;
@@ -80,8 +82,8 @@ void ParallelDeadlineGroup::AddCommands(
   }
 }
 
-void ParallelDeadlineGroup::SetDeadline(std::unique_ptr<Command>&& deadline) {
-  m_deadline = deadline.get();
+void ParallelDeadlineGroup::SetDeadline(std::shared_ptr<Command> deadline) {
+  m_deadline = deadline;
   m_deadline->SetGrouped(true);
   m_commands.emplace_back(std::move(deadline), false);
   AddRequirements(m_deadline->GetRequirements());

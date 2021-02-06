@@ -6,7 +6,7 @@
 
 using namespace frc2;
 
-ScheduleCommand::ScheduleCommand(wpi::ArrayRef<Command*> toSchedule) {
+ScheduleCommand::ScheduleCommand(wpi::ArrayRef<std::shared_ptr<Command>> toSchedule) {
   SetInsert(m_toSchedule, toSchedule);
 }
 

@@ -18,6 +18,8 @@
 #include <wpi/SmallVector.h>
 #include <wpi/raw_ostream.h>
 
+#include "frc2/command/DenseMapInfo.h"
+
 #include "frc2/command/CommandGroupBase.h"
 #include "frc2/command/CommandState.h"
 #include "frc2/command/Subsystem.h"
@@ -28,19 +30,19 @@ class CommandScheduler::Impl {
  public:
   // A map from commands to their scheduling state.  Also used as a set of the
   // currently-running commands.
-  wpi::DenseMap<Command*, CommandState> scheduledCommands;
+  wpi::DenseMap<std::shared_ptr<Command>, CommandState> scheduledCommands;
 
   // A map from required subsystems to their requiring commands.  Also used as a
   // set of the currently-required subsystems.
-  wpi::DenseMap<Subsystem*, Command*> requirements;
+  wpi::DenseMap<std::shared_ptr<Subsystem>, std::shared_ptr<Command>> requirements;
 
   // A map from subsystems registered with the scheduler to their default
   // commands.  Also used as a list of currently-registered subsystems.
-  wpi::DenseMap<Subsystem*, std::unique_ptr<Command>> subsystems;
+  wpi::DenseMap<Subsystem*, std::shared_ptr<Command>> subsystems;
 
   // The set of currently-registered buttons that will be polled every
   // iteration.
-  wpi::SmallVector<wpi::unique_function<void()>, 4> buttons;
+  wpi::SmallVector<std::function<void()>, 4> buttons;
 
   bool disabled{false};
 
@@ -55,8 +57,8 @@ class CommandScheduler::Impl {
   // scheduled/canceled during run
 
   bool inRunLoop = false;
-  wpi::DenseMap<Command*, bool> toSchedule;
-  wpi::SmallVector<Command*, 4> toCancel;
+  wpi::DenseMap<std::shared_ptr<Command>, bool> toSchedule;
+  wpi::SmallVector<std::shared_ptr<Command>, 4> toCancel;
 };
 
 template <typename TMap, typename TKey>
@@ -97,7 +99,7 @@ void CommandScheduler::SetPeriod(units::second_t period) {
   m_watchdog.SetTimeout(period);
 }
 
-void CommandScheduler::AddButton(wpi::unique_function<void()> button) {
+void CommandScheduler::AddButton(std::function<void()> button) {
   m_impl->buttons.emplace_back(std::move(button));
 }
 
@@ -105,14 +107,15 @@ void CommandScheduler::ClearButtons() {
   m_impl->buttons.clear();
 }
 
-void CommandScheduler::Schedule(bool interruptible, Command* command) {
+void CommandScheduler::Schedule(bool interruptible, std::shared_ptr<Command> command) {
   if (m_impl->inRunLoop) {
     m_impl->toSchedule.try_emplace(command, interruptible);
     return;
   }
 
   if (command->IsGrouped()) {
-    wpi_setWPIErrorWithContext(CommandIllegalUse,
+    // wpi_setWPIErrorWithContext(CommandIllegalUse,
+    throw std::runtime_error(
                                "A command that is part of a command group "
                                "cannot be independently scheduled");
     return;
@@ -125,12 +128,13 @@ void CommandScheduler::Schedule(bool interruptible, Command* command) {
 
   const auto& requirements = command->GetRequirements();
 
-  wpi::SmallVector<Command*, 8> intersection;
+  wpi::SmallVector<std::shared_ptr<Command>, 8> intersection;
 
   bool isDisjoint = true;
   bool allInterruptible = true;
   for (auto&& i1 : m_impl->requirements) {
-    if (requirements.find(i1.first) != requirements.end()) {
+    // if (requirements.find(i1.first) != requirements.end()) {
+    if (requirements.count(i1.first) != 0) {
       isDisjoint = false;
       allInterruptible &=
           m_impl->scheduledCommands[i1.second].IsInterruptible();
@@ -150,37 +154,37 @@ void CommandScheduler::Schedule(bool interruptible, Command* command) {
       m_impl->requirements[requirement] = command;
     }
     for (auto&& action : m_impl->initActions) {
-      action(*command);
+      action(command);
     }
     m_watchdog.AddEpoch(command->GetName() + ".Initialize()");
   }
 }
 
-void CommandScheduler::Schedule(Command* command) {
+void CommandScheduler::Schedule(std::shared_ptr<Command> command) {
   Schedule(true, command);
 }
 
 void CommandScheduler::Schedule(bool interruptible,
-                                wpi::ArrayRef<Command*> commands) {
+                                wpi::ArrayRef<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Schedule(interruptible, command);
   }
 }
 
 void CommandScheduler::Schedule(bool interruptible,
-                                std::initializer_list<Command*> commands) {
+                                std::initializer_list<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Schedule(interruptible, command);
   }
 }
 
-void CommandScheduler::Schedule(wpi::ArrayRef<Command*> commands) {
+void CommandScheduler::Schedule(wpi::ArrayRef<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Schedule(true, command);
   }
 }
 
-void CommandScheduler::Schedule(std::initializer_list<Command*> commands) {
+void CommandScheduler::Schedule(std::initializer_list<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Schedule(true, command);
   }
@@ -212,7 +216,7 @@ void CommandScheduler::Run() {
   // Run scheduled commands, remove finished commands.
   for (auto iterator = m_impl->scheduledCommands.begin();
        iterator != m_impl->scheduledCommands.end(); iterator++) {
-    Command* command = iterator->getFirst();
+    std::shared_ptr<Command> command = iterator->getFirst();
 
     if (!command->RunsWhenDisabled() && frc::RobotState::IsDisabled()) {
       Cancel(command);
@@ -221,14 +225,14 @@ void CommandScheduler::Run() {
 
     command->Execute();
     for (auto&& action : m_impl->executeActions) {
-      action(*command);
+      action(command);
     }
     m_watchdog.AddEpoch(command->GetName() + ".Execute()");
 
     if (command->IsFinished()) {
       command->End(false);
       for (auto&& action : m_impl->finishActions) {
-        action(*command);
+        action(command);
       }
 
       for (auto&& requirement : command->GetRequirements()) {
@@ -254,9 +258,9 @@ void CommandScheduler::Run() {
 
   // Add default commands for un-required registered subsystems.
   for (auto&& subsystem : m_impl->subsystems) {
-    auto s = m_impl->requirements.find(subsystem.getFirst());
+    auto s = m_impl->requirements.find_as(subsystem.getFirst());
     if (s == m_impl->requirements.end() && subsystem.getSecond()) {
-      Schedule({subsystem.getSecond().get()});
+      Schedule(subsystem.getSecond());
     }
   }
 
@@ -271,7 +275,7 @@ void CommandScheduler::RegisterSubsystem(Subsystem* subsystem) {
 }
 
 void CommandScheduler::UnregisterSubsystem(Subsystem* subsystem) {
-  auto s = m_impl->subsystems.find(subsystem);
+  auto s = m_impl->subsystems.find_as(subsystem);
   if (s != m_impl->subsystems.end()) {
     m_impl->subsystems.erase(s);
   }
@@ -279,41 +283,41 @@ void CommandScheduler::UnregisterSubsystem(Subsystem* subsystem) {
 
 void CommandScheduler::RegisterSubsystem(
     std::initializer_list<Subsystem*> subsystems) {
-  for (auto* subsystem : subsystems) {
+  for (auto subsystem : subsystems) {
     RegisterSubsystem(subsystem);
   }
 }
 
 void CommandScheduler::RegisterSubsystem(wpi::ArrayRef<Subsystem*> subsystems) {
-  for (auto* subsystem : subsystems) {
+  for (auto subsystem : subsystems) {
     RegisterSubsystem(subsystem);
   }
 }
 
 void CommandScheduler::UnregisterSubsystem(
     std::initializer_list<Subsystem*> subsystems) {
-  for (auto* subsystem : subsystems) {
+  for (auto subsystem : subsystems) {
     UnregisterSubsystem(subsystem);
   }
 }
 
 void CommandScheduler::UnregisterSubsystem(
     wpi::ArrayRef<Subsystem*> subsystems) {
-  for (auto* subsystem : subsystems) {
+  for (auto subsystem : subsystems) {
     UnregisterSubsystem(subsystem);
   }
 }
 
-Command* CommandScheduler::GetDefaultCommand(const Subsystem* subsystem) const {
-  auto&& find = m_impl->subsystems.find(subsystem);
+std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const std::shared_ptr<Subsystem> subsystem) const {
+  auto&& find = m_impl->subsystems.find(subsystem.get());
   if (find != m_impl->subsystems.end()) {
-    return find->second.get();
+    return find->second;
   } else {
     return nullptr;
   }
 }
 
-void CommandScheduler::Cancel(Command* command) {
+void CommandScheduler::Cancel(std::shared_ptr<Command> command) {
   if (!m_impl) {
     return;
   }
@@ -329,7 +333,7 @@ void CommandScheduler::Cancel(Command* command) {
   }
   command->End(true);
   for (auto&& action : m_impl->interruptActions) {
-    action(*command);
+    action(command);
   }
   m_watchdog.AddEpoch(command->GetName() + ".End(true)");
   m_impl->scheduledCommands.erase(find);
@@ -340,27 +344,27 @@ void CommandScheduler::Cancel(Command* command) {
   }
 }
 
-void CommandScheduler::Cancel(wpi::ArrayRef<Command*> commands) {
+void CommandScheduler::Cancel(wpi::ArrayRef<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Cancel(command);
   }
 }
 
-void CommandScheduler::Cancel(std::initializer_list<Command*> commands) {
+void CommandScheduler::Cancel(std::initializer_list<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Cancel(command);
   }
 }
 
 void CommandScheduler::CancelAll() {
-  wpi::SmallVector<Command*, 16> commands;
+  wpi::SmallVector<std::shared_ptr<Command>, 16> commands;
   for (auto&& command : m_impl->scheduledCommands) {
     commands.emplace_back(command.first);
   }
   Cancel(commands);
 }
 
-double CommandScheduler::TimeSinceScheduled(const Command* command) const {
+double CommandScheduler::TimeSinceScheduled(const std::shared_ptr<Command> command) const {
   auto find = m_impl->scheduledCommands.find(command);
   if (find != m_impl->scheduledCommands.end()) {
     return find->second.TimeSinceInitialized();
@@ -369,7 +373,7 @@ double CommandScheduler::TimeSinceScheduled(const Command* command) const {
   }
 }
 bool CommandScheduler::IsScheduled(
-    wpi::ArrayRef<const Command*> commands) const {
+    wpi::ArrayRef<std::shared_ptr<Command>> commands) const {
   for (auto command : commands) {
     if (!IsScheduled(command)) {
       return false;
@@ -379,7 +383,7 @@ bool CommandScheduler::IsScheduled(
 }
 
 bool CommandScheduler::IsScheduled(
-    std::initializer_list<const Command*> commands) const {
+    std::initializer_list<const std::shared_ptr<Command>> commands) const {
   for (auto command : commands) {
     if (!IsScheduled(command)) {
       return false;
@@ -388,12 +392,12 @@ bool CommandScheduler::IsScheduled(
   return true;
 }
 
-bool CommandScheduler::IsScheduled(const Command* command) const {
+bool CommandScheduler::IsScheduled(const std::shared_ptr<Command> command) const {
   return m_impl->scheduledCommands.find(command) !=
          m_impl->scheduledCommands.end();
 }
 
-Command* CommandScheduler::Requiring(const Subsystem* subsystem) const {
+std::shared_ptr<Command> CommandScheduler::Requiring(const std::shared_ptr<Subsystem> subsystem) const {
   auto find = m_impl->requirements.find(subsystem);
   if (find != m_impl->requirements.end()) {
     return find->second;
@@ -439,9 +443,9 @@ void CommandScheduler::InitSendable(frc::SendableBuilder& builder) {
     for (auto cancel : toCancel) {
       uintptr_t ptrTmp = static_cast<uintptr_t>(cancel);
       Command* command = reinterpret_cast<Command*>(ptrTmp);
-      if (m_impl->scheduledCommands.find(command) !=
+      if (m_impl->scheduledCommands.find_as(command) !=
           m_impl->scheduledCommands.end()) {
-        Cancel(command);
+        Cancel(command->shared_from_this());
       }
       nt::NetworkTableEntry(cancelEntry)
           .SetDoubleArray(wpi::ArrayRef<double>{});
@@ -451,7 +455,7 @@ void CommandScheduler::InitSendable(frc::SendableBuilder& builder) {
     wpi::SmallVector<double, 8> ids;
     for (auto&& command : m_impl->scheduledCommands) {
       names.emplace_back(command.first->GetName());
-      uintptr_t ptrTmp = reinterpret_cast<uintptr_t>(command.first);
+      uintptr_t ptrTmp = reinterpret_cast<uintptr_t>(command.first.get());
       ids.emplace_back(static_cast<double>(ptrTmp));
     }
     nt::NetworkTableEntry(namesEntry).SetStringArray(names);
@@ -459,7 +463,7 @@ void CommandScheduler::InitSendable(frc::SendableBuilder& builder) {
   });
 }
 
-void CommandScheduler::SetDefaultCommandImpl(Subsystem* subsystem,
-                                             std::unique_ptr<Command> command) {
-  m_impl->subsystems[subsystem] = std::move(command);
+void CommandScheduler::SetDefaultCommandImpl(std::shared_ptr<Subsystem> subsystem,
+                                             std::shared_ptr<Command> command) {
+  m_impl->subsystems[subsystem.get()] = std::move(command);
 }

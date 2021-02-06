@@ -14,19 +14,19 @@ CommandBase::CommandBase() {
 }
 
 void CommandBase::AddRequirements(
-    std::initializer_list<Subsystem*> requirements) {
+    std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
   m_requirements.insert(requirements.begin(), requirements.end());
 }
 
-void CommandBase::AddRequirements(wpi::ArrayRef<Subsystem*> requirements) {
+void CommandBase::AddRequirements(wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
   m_requirements.insert(requirements.begin(), requirements.end());
 }
 
-void CommandBase::AddRequirements(wpi::SmallSet<Subsystem*, 4> requirements) {
+void CommandBase::AddRequirements(wpi::SmallSet<std::shared_ptr<Subsystem>, 4> requirements) {
   m_requirements.insert(requirements.begin(), requirements.end());
 }
 
-wpi::SmallSet<Subsystem*, 4> CommandBase::GetRequirements() const {
+wpi::SmallSet<std::shared_ptr<Subsystem>, 4> CommandBase::GetRequirements() const {
   return m_requirements;
 }
 

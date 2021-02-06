@@ -20,7 +20,7 @@ namespace frc2 {
  * complexity it is usually better practice to write a proper class for it than
  * to inline it.
  */
-class FunctionalCommand : public CommandHelper<CommandBase, FunctionalCommand> {
+class FunctionalCommand : public CommandBase {
  public:
   /**
    * Creates a new FunctionalCommand.
@@ -36,7 +36,7 @@ class FunctionalCommand : public CommandHelper<CommandBase, FunctionalCommand> {
                     std::function<void()> onExecute,
                     std::function<void(bool)> onEnd,
                     std::function<bool()> isFinished,
-                    std::initializer_list<Subsystem*> requirements);
+                    std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Creates a new FunctionalCommand.
@@ -52,7 +52,7 @@ class FunctionalCommand : public CommandHelper<CommandBase, FunctionalCommand> {
                     std::function<void()> onExecute,
                     std::function<void(bool)> onEnd,
                     std::function<bool()> isFinished,
-                    wpi::ArrayRef<Subsystem*> requirements = {});
+                    wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   FunctionalCommand(FunctionalCommand&& other) = default;
 

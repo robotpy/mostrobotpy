@@ -17,6 +17,7 @@ namespace frc2 {
  */
 template <class Distance>
 class TrapezoidProfileSubsystem : public SubsystemBase {
+public:
   using Distance_t = units::unit_t<Distance>;
   using Velocity =
       units::compound_unit<Distance, units::inverse<units::seconds>>;
@@ -24,7 +25,6 @@ class TrapezoidProfileSubsystem : public SubsystemBase {
   using State = typename frc::TrapezoidProfile<Distance>::State;
   using Constraints = typename frc::TrapezoidProfile<Distance>::Constraints;
 
- public:
   /**
    * Creates a new TrapezoidProfileSubsystem.
    *

@@ -25,7 +25,7 @@ namespace frc2 {
  * make the executed code thread-safe.  If you do not know what "thread-safe"
  * means, that is a good sign that you should not use this class.
  */
-class NotifierCommand : public CommandHelper<CommandBase, NotifierCommand> {
+class NotifierCommand : public CommandBase {
  public:
   /**
    * Creates a new NotifierCommand.
@@ -35,7 +35,7 @@ class NotifierCommand : public CommandHelper<CommandBase, NotifierCommand> {
    * @param requirements the subsystems required by this command
    */
   NotifierCommand(std::function<void()> toRun, units::second_t period,
-                  std::initializer_list<Subsystem*> requirements);
+                  std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Creates a new NotifierCommand.
@@ -45,7 +45,7 @@ class NotifierCommand : public CommandHelper<CommandBase, NotifierCommand> {
    * @param requirements the subsystems required by this command
    */
   NotifierCommand(std::function<void()> toRun, units::second_t period,
-                  wpi::ArrayRef<Subsystem*> requirements = {});
+                  wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   NotifierCommand(NotifierCommand&& other);
 

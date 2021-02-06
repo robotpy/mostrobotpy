@@ -23,14 +23,14 @@ namespace frc2 {
  */
 template <class Distance>
 class TrapezoidProfileCommand
-    : public CommandHelper<CommandBase, TrapezoidProfileCommand<Distance>> {
+    : public CommandBase {
+public:
   using Distance_t = units::unit_t<Distance>;
   using Velocity =
       units::compound_unit<Distance, units::inverse<units::seconds>>;
   using Velocity_t = units::unit_t<Velocity>;
   using State = typename frc::TrapezoidProfile<Distance>::State;
 
- public:
   /**
    * Creates a new TrapezoidProfileCommand that will execute the given
    * TrapezoidalProfile. Output will be piped to the provided consumer function.
@@ -40,7 +40,7 @@ class TrapezoidProfileCommand
    */
   TrapezoidProfileCommand(frc::TrapezoidProfile<Distance> profile,
                           std::function<void(State)> output,
-                          std::initializer_list<Subsystem*> requirements)
+                          std::initializer_list<std::shared_ptr<Subsystem>> requirements)
       : m_profile(profile), m_output(output) {
     this->AddRequirements(requirements);
   }
@@ -54,7 +54,7 @@ class TrapezoidProfileCommand
    */
   TrapezoidProfileCommand(frc::TrapezoidProfile<Distance> profile,
                           std::function<void(State)> output,
-                          wpi::ArrayRef<Subsystem*> requirements = {})
+                          wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {})
       : m_profile(profile), m_output(output) {
     this->AddRequirements(requirements);
   }

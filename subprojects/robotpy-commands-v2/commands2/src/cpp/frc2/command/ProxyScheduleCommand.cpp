@@ -6,19 +6,19 @@
 
 using namespace frc2;
 
-ProxyScheduleCommand::ProxyScheduleCommand(wpi::ArrayRef<Command*> toSchedule) {
+ProxyScheduleCommand::ProxyScheduleCommand(wpi::ArrayRef<std::shared_ptr<Command>> toSchedule) {
   SetInsert(m_toSchedule, toSchedule);
 }
 
 void ProxyScheduleCommand::Initialize() {
-  for (auto* command : m_toSchedule) {
+  for (auto command : m_toSchedule) {
     command->Schedule();
   }
 }
 
 void ProxyScheduleCommand::End(bool interrupted) {
   if (interrupted) {
-    for (auto* command : m_toSchedule) {
+    for (auto command : m_toSchedule) {
       command->Cancel();
     }
   }
@@ -26,7 +26,7 @@ void ProxyScheduleCommand::End(bool interrupted) {
 
 void ProxyScheduleCommand::Execute() {
   m_finished = true;
-  for (auto* command : m_toSchedule) {
+  for (auto command : m_toSchedule) {
     m_finished &= !command->IsScheduled();
   }
 }

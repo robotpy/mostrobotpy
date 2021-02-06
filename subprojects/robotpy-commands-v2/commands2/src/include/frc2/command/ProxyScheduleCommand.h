@@ -19,7 +19,7 @@ namespace frc2 {
  * commands.
  */
 class ProxyScheduleCommand
-    : public CommandHelper<CommandBase, ProxyScheduleCommand> {
+    : public CommandBase{
  public:
   /**
    * Creates a new ProxyScheduleCommand that schedules the given commands when
@@ -27,7 +27,7 @@ class ProxyScheduleCommand
    *
    * @param toSchedule the commands to schedule
    */
-  explicit ProxyScheduleCommand(wpi::ArrayRef<Command*> toSchedule);
+  explicit ProxyScheduleCommand(wpi::ArrayRef<std::shared_ptr<Command>> toSchedule);
 
   ProxyScheduleCommand(ProxyScheduleCommand&& other) = default;
 
@@ -42,7 +42,7 @@ class ProxyScheduleCommand
   bool IsFinished() override;
 
  private:
-  wpi::SmallVector<Command*, 4> m_toSchedule;
+  wpi::SmallVector<std::shared_ptr<Command>, 4> m_toSchedule;
   bool m_finished{false};
 };
 }  // namespace frc2

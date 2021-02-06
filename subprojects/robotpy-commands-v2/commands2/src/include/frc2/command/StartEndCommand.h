@@ -20,7 +20,7 @@ namespace frc2 {
  * subclass it or use Command.WithTimeout() or Command.WithInterrupt() to give
  * it one.
  */
-class StartEndCommand : public CommandHelper<CommandBase, StartEndCommand> {
+class StartEndCommand : public CommandBase {
  public:
   /**
    * Creates a new StartEndCommand.  Will run the given runnables when the
@@ -31,7 +31,7 @@ class StartEndCommand : public CommandHelper<CommandBase, StartEndCommand> {
    * @param requirements the subsystems required by this command
    */
   StartEndCommand(std::function<void()> onInit, std::function<void()> onEnd,
-                  std::initializer_list<Subsystem*> requirements);
+                  std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Creates a new StartEndCommand.  Will run the given runnables when the
@@ -42,7 +42,7 @@ class StartEndCommand : public CommandHelper<CommandBase, StartEndCommand> {
    * @param requirements the subsystems required by this command
    */
   StartEndCommand(std::function<void()> onInit, std::function<void()> onEnd,
-                  wpi::ArrayRef<Subsystem*> requirements = {});
+                  wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   StartEndCommand(StartEndCommand&& other) = default;
 

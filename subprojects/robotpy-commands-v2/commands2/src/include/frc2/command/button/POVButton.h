@@ -23,7 +23,7 @@ class POVButton : public Button {
    * @param angle The angle of the POV corresponding to a button press.
    * @param povNumber The number of the POV on the joystick.
    */
-  POVButton(frc::GenericHID* joystick, int angle, int povNumber = 0)
+  POVButton(std::shared_ptr<frc::GenericHID> joystick, int angle, int povNumber = 0)
       : Button([joystick, angle, povNumber] {
           return joystick->GetPOV(povNumber) == angle;
         }) {}

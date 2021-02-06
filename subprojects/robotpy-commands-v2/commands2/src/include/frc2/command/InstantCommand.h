@@ -18,7 +18,7 @@ namespace frc2 {
  * the same iteration of the scheduler.  Users can either pass in a Runnable and
  * a set of requirements, or else subclass this command if desired.
  */
-class InstantCommand : public CommandHelper<CommandBase, InstantCommand> {
+class InstantCommand : public CommandBase {
  public:
   /**
    * Creates a new InstantCommand that runs the given Runnable with the given
@@ -28,7 +28,7 @@ class InstantCommand : public CommandHelper<CommandBase, InstantCommand> {
    * @param requirements the subsystems required by this command
    */
   InstantCommand(std::function<void()> toRun,
-                 std::initializer_list<Subsystem*> requirements);
+                 std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Creates a new InstantCommand that runs the given Runnable with the given
@@ -38,7 +38,7 @@ class InstantCommand : public CommandHelper<CommandBase, InstantCommand> {
    * @param requirements the subsystems required by this command
    */
   explicit InstantCommand(std::function<void()> toRun,
-                          wpi::ArrayRef<Subsystem*> requirements = {});
+                          wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   InstantCommand(InstantCommand&& other) = default;
 

@@ -10,39 +10,39 @@ using namespace frc2;
 
 bool CommandGroupBase::RequireUngrouped(Command& command) {
   if (command.IsGrouped()) {
-    wpi_setGlobalWPIErrorWithContext(
-        CommandIllegalUse,
-        "Commands cannot be added to more than one CommandGroup");
-    return false;
+    // wpi_setGlobalWPIErrorWithContext(
+    //     CommandIllegalUse,
+    throw std::runtime_error("Commands cannot be added to more than one CommandGroup");
+    // return false;
   } else {
     return true;
   }
 }
 
 bool CommandGroupBase::RequireUngrouped(
-    wpi::ArrayRef<std::unique_ptr<Command>> commands) {
+    wpi::ArrayRef<std::shared_ptr<Command>> commands) {
   bool allUngrouped = true;
   for (auto&& command : commands) {
     allUngrouped &= !command.get()->IsGrouped();
   }
   if (!allUngrouped) {
-    wpi_setGlobalWPIErrorWithContext(
-        CommandIllegalUse,
-        "Commands cannot be added to more than one CommandGroup");
+    // wpi_setGlobalWPIErrorWithContext(
+    //     CommandIllegalUse,
+    throw std::runtime_error("Commands cannot be added to more than one CommandGroup");
   }
   return allUngrouped;
 }
 
 bool CommandGroupBase::RequireUngrouped(
-    std::initializer_list<Command*> commands) {
+    std::initializer_list<std::shared_ptr<Command>> commands) {
   bool allUngrouped = true;
   for (auto&& command : commands) {
     allUngrouped &= !command->IsGrouped();
   }
   if (!allUngrouped) {
-    wpi_setGlobalWPIErrorWithContext(
-        CommandIllegalUse,
-        "Commands cannot be added to more than one CommandGroup");
+    // wpi_setGlobalWPIErrorWithContext(
+    //     CommandIllegalUse,
+    throw std::runtime_error("Commands cannot be added to more than one CommandGroup");
   }
   return allUngrouped;
 }

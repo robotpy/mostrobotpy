@@ -18,90 +18,90 @@
 using namespace frc2;
 
 Command::~Command() {
-  CommandScheduler::GetInstance().Cancel(this);
+  // CommandScheduler::GetInstance().Cancel(shared_from_this());
 }
 
-Command::Command(const Command& rhs) : ErrorBase(rhs) {}
+// Command::Command(const Command& rhs) : ErrorBase(rhs) {}
 
-Command& Command::operator=(const Command& rhs) {
-  ErrorBase::operator=(rhs);
-  m_isGrouped = false;
-  return *this;
-}
+// Command& Command::operator=(const Command& rhs) {
+//   ErrorBase::operator=(rhs);
+//   m_isGrouped = false;
+//   return *this;
+// }
 
 void Command::Initialize() {}
 void Command::Execute() {}
 void Command::End(bool interrupted) {}
 
-ParallelRaceGroup Command::WithTimeout(units::second_t duration) && {
-  std::vector<std::unique_ptr<Command>> temp;
-  temp.emplace_back(std::make_unique<WaitCommand>(duration));
-  temp.emplace_back(std::move(*this).TransferOwnership());
-  return ParallelRaceGroup(std::move(temp));
+std::shared_ptr<ParallelRaceGroup> Command::WithTimeout(units::second_t duration) {
+  std::vector<std::shared_ptr<Command>> temp;
+  temp.emplace_back(std::make_shared<WaitCommand>(duration));
+  temp.emplace_back(shared_from_this());
+  return std::make_shared<ParallelRaceGroup>(std::move(temp));
 }
 
-ParallelRaceGroup Command::WithInterrupt(std::function<bool()> condition) && {
-  std::vector<std::unique_ptr<Command>> temp;
-  temp.emplace_back(std::make_unique<WaitUntilCommand>(std::move(condition)));
-  temp.emplace_back(std::move(*this).TransferOwnership());
-  return ParallelRaceGroup(std::move(temp));
+std::shared_ptr<ParallelRaceGroup> Command::WithInterrupt(std::function<bool()> condition) {
+  std::vector<std::shared_ptr<Command>> temp;
+  temp.emplace_back(std::make_shared<WaitUntilCommand>(std::move(condition)));
+  temp.emplace_back(shared_from_this());
+  return std::make_shared<ParallelRaceGroup>(std::move(temp));
 }
 
-SequentialCommandGroup Command::BeforeStarting(
+std::shared_ptr<SequentialCommandGroup> Command::BeforeStarting(
     std::function<void()> toRun,
-    std::initializer_list<Subsystem*> requirements) && {
-  return std::move(*this).BeforeStarting(
+    std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  return BeforeStarting(
       std::move(toRun),
       wpi::makeArrayRef(requirements.begin(), requirements.end()));
 }
 
-SequentialCommandGroup Command::BeforeStarting(
-    std::function<void()> toRun, wpi::ArrayRef<Subsystem*> requirements) && {
-  std::vector<std::unique_ptr<Command>> temp;
+std::shared_ptr<SequentialCommandGroup> Command::BeforeStarting(
+    std::function<void()> toRun, wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
+  std::vector<std::shared_ptr<Command>> temp;
   temp.emplace_back(
-      std::make_unique<InstantCommand>(std::move(toRun), requirements));
-  temp.emplace_back(std::move(*this).TransferOwnership());
-  return SequentialCommandGroup(std::move(temp));
+      std::make_shared<InstantCommand>(std::move(toRun), requirements));
+  temp.emplace_back(shared_from_this());
+  return std::make_shared<SequentialCommandGroup>(std::move(temp));
 }
 
-SequentialCommandGroup Command::AndThen(
+std::shared_ptr<SequentialCommandGroup> Command::AndThen(
     std::function<void()> toRun,
-    std::initializer_list<Subsystem*> requirements) && {
-  return std::move(*this).AndThen(
+    std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  return AndThen(
       std::move(toRun),
       wpi::makeArrayRef(requirements.begin(), requirements.end()));
 }
 
-SequentialCommandGroup Command::AndThen(
-    std::function<void()> toRun, wpi::ArrayRef<Subsystem*> requirements) && {
-  std::vector<std::unique_ptr<Command>> temp;
-  temp.emplace_back(std::move(*this).TransferOwnership());
+std::shared_ptr<SequentialCommandGroup> Command::AndThen(
+    std::function<void()> toRun, wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
+  std::vector<std::shared_ptr<Command>> temp;
+  temp.emplace_back(shared_from_this());
   temp.emplace_back(
-      std::make_unique<InstantCommand>(std::move(toRun), requirements));
-  return SequentialCommandGroup(std::move(temp));
+      std::make_shared<InstantCommand>(std::move(toRun), requirements));
+  return std::make_shared<SequentialCommandGroup>(std::move(temp));
 }
 
-PerpetualCommand Command::Perpetually() && {
-  return PerpetualCommand(std::move(*this).TransferOwnership());
+std::shared_ptr<PerpetualCommand> Command::Perpetually() {
+  return std::make_shared<PerpetualCommand>(shared_from_this());
 }
 
-ProxyScheduleCommand Command::AsProxy() {
-  return ProxyScheduleCommand(this);
+std::shared_ptr<ProxyScheduleCommand> Command::AsProxy() {
+  return std::make_shared<ProxyScheduleCommand>(shared_from_this());
 }
 
 void Command::Schedule(bool interruptible) {
-  CommandScheduler::GetInstance().Schedule(interruptible, this);
+  CommandScheduler::GetInstance().Schedule(interruptible, shared_from_this());
 }
 
 void Command::Cancel() {
-  CommandScheduler::GetInstance().Cancel(this);
+  CommandScheduler::GetInstance().Cancel(shared_from_this());
 }
 
-bool Command::IsScheduled() const {
-  return CommandScheduler::GetInstance().IsScheduled(this);
+bool Command::IsScheduled() {
+  return CommandScheduler::GetInstance().IsScheduled(shared_from_this());
 }
 
-bool Command::HasRequirement(Subsystem* requirement) const {
+bool Command::HasRequirement(std::shared_ptr<Subsystem> requirement) const {
   bool hasRequirement = false;
   for (auto&& subsystem : GetRequirements()) {
     hasRequirement |= requirement == subsystem;
@@ -110,7 +110,7 @@ bool Command::HasRequirement(Subsystem* requirement) const {
 }
 
 std::string Command::GetName() const {
-  return GetTypeName(*this);
+  return GetTypeName(shared_from_this());
 }
 
 bool Command::IsGrouped() const {
@@ -126,7 +126,8 @@ bool RequirementsDisjoint(Command* first, Command* second) {
   bool disjoint = true;
   auto&& requirements = second->GetRequirements();
   for (auto&& requirement : first->GetRequirements()) {
-    disjoint &= requirements.find(requirement) == requirements.end();
+    // disjoint &= requirements.count(requirement) == requirements.end();
+    disjoint &= requirements.count(requirement) == 0;
   }
   return disjoint;
 }

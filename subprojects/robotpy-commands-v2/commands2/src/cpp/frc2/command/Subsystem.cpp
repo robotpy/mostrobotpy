@@ -13,12 +13,12 @@ void Subsystem::Periodic() {}
 
 void Subsystem::SimulationPeriodic() {}
 
-Command* Subsystem::GetDefaultCommand() const {
-  return CommandScheduler::GetInstance().GetDefaultCommand(this);
+std::shared_ptr<Command> Subsystem::GetDefaultCommand() {
+  return CommandScheduler::GetInstance().GetDefaultCommand(shared_from_this());
 }
 
-Command* Subsystem::GetCurrentCommand() const {
-  return CommandScheduler::GetInstance().Requiring(this);
+std::shared_ptr<Command> Subsystem::GetCurrentCommand() {
+  return CommandScheduler::GetInstance().Requiring(shared_from_this());
 }
 
 void Subsystem::Register() {

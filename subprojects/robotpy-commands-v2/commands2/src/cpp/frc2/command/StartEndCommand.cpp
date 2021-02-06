@@ -8,20 +8,19 @@ using namespace frc2;
 
 StartEndCommand::StartEndCommand(std::function<void()> onInit,
                                  std::function<void()> onEnd,
-                                 std::initializer_list<Subsystem*> requirements)
+                                 std::initializer_list<std::shared_ptr<Subsystem>> requirements)
     : m_onInit{std::move(onInit)}, m_onEnd{std::move(onEnd)} {
   AddRequirements(requirements);
 }
 
 StartEndCommand::StartEndCommand(std::function<void()> onInit,
                                  std::function<void()> onEnd,
-                                 wpi::ArrayRef<Subsystem*> requirements)
+                                 wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements)
     : m_onInit{std::move(onInit)}, m_onEnd{std::move(onEnd)} {
   AddRequirements(requirements);
 }
 
-StartEndCommand::StartEndCommand(const StartEndCommand& other)
-    : CommandHelper(other) {
+StartEndCommand::StartEndCommand(const StartEndCommand& other) {
   m_onInit = other.m_onInit;
   m_onEnd = other.m_onEnd;
 }

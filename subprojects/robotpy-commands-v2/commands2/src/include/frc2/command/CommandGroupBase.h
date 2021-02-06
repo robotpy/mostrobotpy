@@ -37,7 +37,7 @@ class CommandGroupBase : public CommandBase {
    * @param commands The commands to check
    * @return True if all the commands are ungrouped.
    */
-  static bool RequireUngrouped(wpi::ArrayRef<std::unique_ptr<Command>>);
+  static bool RequireUngrouped(wpi::ArrayRef<std::shared_ptr<Command>>);
 
   /**
    * Requires that the specified commands not have been already allocated to a
@@ -46,7 +46,7 @@ class CommandGroupBase : public CommandBase {
    * @param commands The commands to check
    * @return True if all the commands are ungrouped.
    */
-  static bool RequireUngrouped(std::initializer_list<Command*>);
+  static bool RequireUngrouped(std::initializer_list<std::shared_ptr<Command>>);
 
   /**
    * Adds the given commands to the command group.
@@ -54,6 +54,6 @@ class CommandGroupBase : public CommandBase {
    * @param commands The commands to add.
    */
   virtual void AddCommands(
-      std::vector<std::unique_ptr<Command>>&& commands) = 0;
+      std::vector<std::shared_ptr<Command>>&& commands) = 0;
 };
 }  // namespace frc2

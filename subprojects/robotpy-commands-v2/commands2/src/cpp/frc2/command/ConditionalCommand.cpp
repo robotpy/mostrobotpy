@@ -6,11 +6,11 @@
 
 using namespace frc2;
 
-ConditionalCommand::ConditionalCommand(std::unique_ptr<Command>&& onTrue,
-                                       std::unique_ptr<Command>&& onFalse,
+ConditionalCommand::ConditionalCommand(std::shared_ptr<Command> onTrue,
+                                       std::shared_ptr<Command> onFalse,
                                        std::function<bool()> condition)
     : m_condition{std::move(condition)} {
-  if (!CommandGroupBase::RequireUngrouped({onTrue.get(), onFalse.get()})) {
+  if (!CommandGroupBase::RequireUngrouped({onTrue, onFalse})) {
     return;
   }
 
@@ -29,9 +29,9 @@ ConditionalCommand::ConditionalCommand(std::unique_ptr<Command>&& onTrue,
 
 void ConditionalCommand::Initialize() {
   if (m_condition()) {
-    m_selectedCommand = m_onTrue.get();
+    m_selectedCommand = m_onTrue;
   } else {
-    m_selectedCommand = m_onFalse.get();
+    m_selectedCommand = m_onFalse;
   }
   m_selectedCommand->Initialize();
 }

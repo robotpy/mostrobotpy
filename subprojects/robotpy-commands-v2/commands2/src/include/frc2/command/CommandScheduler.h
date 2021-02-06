@@ -43,7 +43,7 @@ class CommandScheduler final : public frc::Sendable,
   CommandScheduler(const CommandScheduler&) = delete;
   CommandScheduler& operator=(const CommandScheduler&) = delete;
 
-  using Action = std::function<void(const Command&)>;
+  using Action = std::function<void(std::shared_ptr<Command>)>;
 
   /**
    * Changes the period of the loop overrun watchdog. This should be kept in
@@ -57,7 +57,7 @@ class CommandScheduler final : public frc::Sendable,
    *
    * @param button The button to add
    */
-  void AddButton(wpi::unique_function<void()> button);
+  void AddButton(std::function<void()> button);
 
   /**
    * Removes all button bindings from the scheduler.
@@ -74,7 +74,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param interruptible whether this command can be interrupted
    * @param command       the command to schedule
    */
-  void Schedule(bool interruptible, Command* command);
+  void Schedule(bool interruptible, std::shared_ptr<Command> command);
 
   /**
    * Schedules a command for execution, with interruptible defaulted to true.
@@ -82,7 +82,7 @@ class CommandScheduler final : public frc::Sendable,
    *
    * @param command the command to schedule
    */
-  void Schedule(Command* command);
+  void Schedule(std::shared_ptr<Command> command);
 
   /**
    * Schedules multiple commands for execution.  Does nothing if the command is
@@ -94,7 +94,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param interruptible whether the commands should be interruptible
    * @param commands      the commands to schedule
    */
-  void Schedule(bool interruptible, wpi::ArrayRef<Command*> commands);
+  void Schedule(bool interruptible, wpi::ArrayRef<std::shared_ptr<Command>> commands);
 
   /**
    * Schedules multiple commands for execution.  Does nothing if the command is
@@ -106,7 +106,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param interruptible whether the commands should be interruptible
    * @param commands      the commands to schedule
    */
-  void Schedule(bool interruptible, std::initializer_list<Command*> commands);
+  void Schedule(bool interruptible, std::initializer_list<std::shared_ptr<Command>> commands);
 
   /**
    * Schedules multiple commands for execution, with interruptible defaulted to
@@ -114,7 +114,7 @@ class CommandScheduler final : public frc::Sendable,
    *
    * @param commands the commands to schedule
    */
-  void Schedule(wpi::ArrayRef<Command*> commands);
+  void Schedule(wpi::ArrayRef<std::shared_ptr<Command>> commands);
 
   /**
    * Schedules multiple commands for execution, with interruptible defaulted to
@@ -122,7 +122,7 @@ class CommandScheduler final : public frc::Sendable,
    *
    * @param commands the commands to schedule
    */
-  void Schedule(std::initializer_list<Command*> commands);
+  void Schedule(std::initializer_list<std::shared_ptr<Command>> commands);
 
   /**
    * Runs a single iteration of the scheduler.  The execution occurs in the
@@ -178,22 +178,20 @@ class CommandScheduler final : public frc::Sendable,
    * @param subsystem      the subsystem whose default command will be set
    * @param defaultCommand the default command to associate with the subsystem
    */
-  template <class T, typename = std::enable_if_t<std::is_base_of_v<
-                         Command, std::remove_reference_t<T>>>>
-  void SetDefaultCommand(Subsystem* subsystem, T&& defaultCommand) {
-    if (!defaultCommand.HasRequirement(subsystem)) {
-      wpi_setWPIErrorWithContext(
-          CommandIllegalUse, "Default commands must require their subsystem!");
-      return;
+  template <class T>
+  void SetDefaultCommand(std::shared_ptr<Subsystem> subsystem, T defaultCommand) {
+    if (!defaultCommand->HasRequirement(subsystem)) {
+      // wpi_setWPIErrorWithContext(
+          // CommandIllegalUse, 
+      throw std::runtime_error("Default commands must require their subsystem!");
+      // return;
     }
-    if (defaultCommand.IsFinished()) {
-      wpi_setWPIErrorWithContext(CommandIllegalUse,
-                                 "Default commands should not end!");
-      return;
+    if (defaultCommand->IsFinished()) {
+      // wpi_setWPIErrorWithContext(CommandIllegalUse,
+      throw std::runtime_error("Default commands should not end!");
+      // return;
     }
-    SetDefaultCommandImpl(subsystem,
-                          std::make_unique<std::remove_reference_t<T>>(
-                              std::forward<T>(defaultCommand)));
+    SetDefaultCommandImpl(subsystem, defaultCommand);
   }
 
   /**
@@ -203,7 +201,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param subsystem the subsystem to inquire about
    * @return the default command associated with the subsystem
    */
-  Command* GetDefaultCommand(const Subsystem* subsystem) const;
+  std::shared_ptr<Command> GetDefaultCommand(const std::shared_ptr<Subsystem> subsystem) const;
 
   /**
    * Cancels commands. The scheduler will only call Command::End()
@@ -215,7 +213,7 @@ class CommandScheduler final : public frc::Sendable,
    *
    * @param commands the commands to cancel
    */
-  void Cancel(Command* command);
+  void Cancel(std::shared_ptr<Command> command);
 
   /**
    * Cancels commands. The scheduler will only call Command::End()
@@ -227,7 +225,7 @@ class CommandScheduler final : public frc::Sendable,
    *
    * @param commands the commands to cancel
    */
-  void Cancel(wpi::ArrayRef<Command*> commands);
+  void Cancel(wpi::ArrayRef<std::shared_ptr<Command>> commands);
 
   /**
    * Cancels commands. The scheduler will only call Command::End()
@@ -239,7 +237,7 @@ class CommandScheduler final : public frc::Sendable,
    *
    * @param commands the commands to cancel
    */
-  void Cancel(std::initializer_list<Command*> commands);
+  void Cancel(std::initializer_list<std::shared_ptr<Command>> commands);
 
   /**
    * Cancels all commands that are currently scheduled.
@@ -255,7 +253,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param command the command to query
    * @return the time since the command was scheduled, in seconds
    */
-  double TimeSinceScheduled(const Command* command) const;
+  double TimeSinceScheduled(const std::shared_ptr<Command> command) const;
 
   /**
    * Whether the given commands are running.  Note that this only works on
@@ -265,7 +263,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param commands the command to query
    * @return whether the command is currently scheduled
    */
-  bool IsScheduled(wpi::ArrayRef<const Command*> commands) const;
+  bool IsScheduled(wpi::ArrayRef<std::shared_ptr<Command>> commands) const;
 
   /**
    * Whether the given commands are running.  Note that this only works on
@@ -275,7 +273,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param commands the command to query
    * @return whether the command is currently scheduled
    */
-  bool IsScheduled(std::initializer_list<const Command*> commands) const;
+  bool IsScheduled(std::initializer_list<const std::shared_ptr<Command>> commands) const;
 
   /**
    * Whether a given command is running.  Note that this only works on commands
@@ -285,7 +283,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param commands the command to query
    * @return whether the command is currently scheduled
    */
-  bool IsScheduled(const Command* command) const;
+  bool IsScheduled(const std::shared_ptr<Command> command) const;
 
   /**
    * Returns the command currently requiring a given subsystem.  Null if no
@@ -294,7 +292,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param subsystem the subsystem to be inquired about
    * @return the command currently requiring the subsystem
    */
-  Command* Requiring(const Subsystem* subsystem) const;
+  std::shared_ptr<Command> Requiring(const std::shared_ptr<Subsystem> subsystem) const;
 
   /**
    * Disables the command scheduler.
@@ -342,8 +340,8 @@ class CommandScheduler final : public frc::Sendable,
   // Constructor; private as this is a singleton
   CommandScheduler();
 
-  void SetDefaultCommandImpl(Subsystem* subsystem,
-                             std::unique_ptr<Command> command);
+  void SetDefaultCommandImpl(std::shared_ptr<Subsystem> subsystem,
+                             std::shared_ptr<Command> command);
 
   class Impl;
   std::unique_ptr<Impl> m_impl;

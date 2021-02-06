@@ -16,7 +16,7 @@ namespace frc2 {
  * Useful for CommandGroups.  Can also be subclassed to make a command with an
  * internal timer.
  */
-class WaitCommand : public CommandHelper<CommandBase, WaitCommand> {
+class WaitCommand : public CommandBase {
  public:
   /**
    * Creates a new WaitCommand.  This command will do nothing, and end after the

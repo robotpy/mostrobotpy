@@ -25,7 +25,7 @@ namespace frc2 {
  * component commands.
  */
 class ParallelCommandGroup
-    : public CommandHelper<CommandGroupBase, ParallelCommandGroup> {
+    : public CommandGroupBase {
  public:
   /**
    * Creates a new ParallelCommandGroup.  The given commands will be executed
@@ -36,7 +36,7 @@ class ParallelCommandGroup
    * @param commands the commands to include in this group.
    */
   explicit ParallelCommandGroup(
-      std::vector<std::unique_ptr<Command>>&& commands);
+      std::vector<std::shared_ptr<Command>>&& commands);
 
   /**
    * Creates a new ParallelCommandGroup.  The given commands will be executed
@@ -65,8 +65,8 @@ class ParallelCommandGroup
             typename = std::enable_if_t<std::conjunction_v<
                 std::is_base_of<Command, std::remove_reference_t<Types>>...>>>
   void AddCommands(Types&&... commands) {
-    std::vector<std::unique_ptr<Command>> foo;
-    ((void)foo.emplace_back(std::make_unique<std::remove_reference_t<Types>>(
+    std::vector<std::shared_ptr<Command>> foo;
+    ((void)foo.emplace_back(std::make_shared<std::remove_reference_t<Types>>(
          std::forward<Types>(commands))),
      ...);
     AddCommands(std::move(foo));
@@ -82,10 +82,10 @@ class ParallelCommandGroup
 
   bool RunsWhenDisabled() const override;
 
+ public:
+  void AddCommands(std::vector<std::shared_ptr<Command>>&& commands) final;
  private:
-  void AddCommands(std::vector<std::unique_ptr<Command>>&& commands) final;
-
-  std::vector<std::pair<std::unique_ptr<Command>, bool>> m_commands;
+  std::vector<std::pair<std::shared_ptr<Command>, bool>> m_commands;
   bool m_runWhenDisabled{true};
   bool isRunning = false;
 };

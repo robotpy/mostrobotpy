@@ -26,7 +26,7 @@ namespace frc2 {
  * component commands.
  */
 class ParallelDeadlineGroup
-    : public CommandHelper<CommandGroupBase, ParallelDeadlineGroup> {
+    : public CommandGroupBase {
  public:
   /**
    * Creates a new ParallelDeadlineGroup.  The given commands (including the
@@ -38,8 +38,8 @@ class ParallelDeadlineGroup
    * @param deadline the command that determines when the group ends
    * @param commands the commands to be executed
    */
-  ParallelDeadlineGroup(std::unique_ptr<Command>&& deadline,
-                        std::vector<std::unique_ptr<Command>>&& commands);
+  ParallelDeadlineGroup(std::shared_ptr<Command> deadline,
+                        std::vector<std::shared_ptr<Command>>&& commands);
   /**
    * Creates a new ParallelDeadlineGroup.  The given commands (including the
    * deadline) will be executed simultaneously.  The CommandGroup will finish
@@ -56,7 +56,7 @@ class ParallelDeadlineGroup
             typename = std::enable_if_t<std::conjunction_v<
                 std::is_base_of<Command, std::remove_reference_t<Types>>...>>>
   explicit ParallelDeadlineGroup(T&& deadline, Types&&... commands) {
-    SetDeadline(std::make_unique<std::remove_reference_t<T>>(
+    SetDeadline(std::make_shared<std::remove_reference_t<T>>(
         std::forward<T>(deadline)));
     AddCommands(std::forward<Types>(commands)...);
   }
@@ -73,8 +73,8 @@ class ParallelDeadlineGroup
             typename = std::enable_if_t<std::conjunction_v<
                 std::is_base_of<Command, std::remove_reference_t<Types>>...>>>
   void AddCommands(Types&&... commands) {
-    std::vector<std::unique_ptr<Command>> foo;
-    ((void)foo.emplace_back(std::make_unique<std::remove_reference_t<Types>>(
+    std::vector<std::shared_ptr<Command>> foo;
+    ((void)foo.emplace_back(std::make_shared<std::remove_reference_t<Types>>(
          std::forward<Types>(commands))),
      ...);
     AddCommands(std::move(foo));
@@ -90,13 +90,14 @@ class ParallelDeadlineGroup
 
   bool RunsWhenDisabled() const override;
 
+ public:
+  void AddCommands(std::vector<std::shared_ptr<Command>>&& commands) final;
+
  private:
-  void AddCommands(std::vector<std::unique_ptr<Command>>&& commands) final;
+  void SetDeadline(std::shared_ptr<Command> deadline);
 
-  void SetDeadline(std::unique_ptr<Command>&& deadline);
-
-  std::vector<std::pair<std::unique_ptr<Command>, bool>> m_commands;
-  Command* m_deadline;
+  std::vector<std::pair<std::shared_ptr<Command>, bool>> m_commands;
+  std::shared_ptr<Command> m_deadline;
   bool m_runWhenDisabled{true};
   bool m_finished{true};
 };

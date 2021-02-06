@@ -13,7 +13,7 @@ namespace frc2 {
 /**
  * A command that prints a string when initialized.
  */
-class PrintCommand : public CommandHelper<InstantCommand, PrintCommand> {
+class PrintCommand : public InstantCommand {
  public:
   /**
    * Creates a new a PrintCommand.

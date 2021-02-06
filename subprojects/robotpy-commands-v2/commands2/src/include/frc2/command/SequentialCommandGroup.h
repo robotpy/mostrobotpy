@@ -33,7 +33,7 @@ const size_t invalid_index = std::numeric_limits<size_t>::max();
  * component commands.
  */
 class SequentialCommandGroup
-    : public CommandHelper<CommandGroupBase, SequentialCommandGroup> {
+    : public CommandGroupBase {
  public:
   /**
    * Creates a new SequentialCommandGroup.  The given commands will be run
@@ -43,7 +43,7 @@ class SequentialCommandGroup
    * @param commands the commands to include in this group.
    */
   explicit SequentialCommandGroup(
-      std::vector<std::unique_ptr<Command>>&& commands);
+      std::vector<std::shared_ptr<Command>>&& commands);
 
   /**
    * Creates a new SequentialCommandGroup.  The given commands will be run
@@ -71,8 +71,8 @@ class SequentialCommandGroup
             typename = std::enable_if_t<std::conjunction_v<
                 std::is_base_of<Command, std::remove_reference_t<Types>>...>>>
   void AddCommands(Types&&... commands) {
-    std::vector<std::unique_ptr<Command>> foo;
-    ((void)foo.emplace_back(std::make_unique<std::remove_reference_t<Types>>(
+    std::vector<std::shared_ptr<Command>> foo;
+    ((void)foo.emplace_back(std::make_shared<std::remove_reference_t<Types>>(
          std::forward<Types>(commands))),
      ...);
     AddCommands(std::move(foo));
@@ -88,10 +88,10 @@ class SequentialCommandGroup
 
   bool RunsWhenDisabled() const override;
 
+ public:
+  void AddCommands(std::vector<std::shared_ptr<Command>>&& commands) final;
  private:
-  void AddCommands(std::vector<std::unique_ptr<Command>>&& commands) final;
-
-  wpi::SmallVector<std::unique_ptr<Command>, 4> m_commands;
+  wpi::SmallVector<std::shared_ptr<Command>, 4> m_commands;
   size_t m_currentCommandIndex{invalid_index};
   bool m_runWhenDisabled{true};
 };

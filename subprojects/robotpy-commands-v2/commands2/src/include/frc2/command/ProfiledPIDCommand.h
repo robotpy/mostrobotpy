@@ -26,14 +26,14 @@ namespace frc2 {
  */
 template <class Distance>
 class ProfiledPIDCommand
-    : public CommandHelper<CommandBase, ProfiledPIDCommand<Distance>> {
+    : public CommandBase {
+ public:
   using Distance_t = units::unit_t<Distance>;
   using Velocity =
       units::compound_unit<Distance, units::inverse<units::seconds>>;
   using Velocity_t = units::unit_t<Velocity>;
   using State = typename frc::TrapezoidProfile<Distance>::State;
 
- public:
   /**
    * Creates a new PIDCommand, which controls the given output with a
    * ProfiledPIDController.
@@ -48,7 +48,7 @@ class ProfiledPIDCommand
                      std::function<Distance_t()> measurementSource,
                      std::function<State()> goalSource,
                      std::function<void(double, State)> useOutput,
-                     std::initializer_list<Subsystem*> requirements)
+                     std::initializer_list<std::shared_ptr<Subsystem>> requirements)
       : m_controller{controller},
         m_measurement{std::move(measurementSource)},
         m_goal{std::move(goalSource)},
@@ -70,7 +70,7 @@ class ProfiledPIDCommand
                      std::function<Distance_t()> measurementSource,
                      std::function<State()> goalSource,
                      std::function<void(double, State)> useOutput,
-                     wpi::ArrayRef<Subsystem*> requirements = {})
+                     wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {})
       : m_controller{controller},
         m_measurement{std::move(measurementSource)},
         m_goal{std::move(goalSource)},
@@ -92,7 +92,7 @@ class ProfiledPIDCommand
                      std::function<Distance_t()> measurementSource,
                      std::function<Distance_t()> goalSource,
                      std::function<void(double, State)> useOutput,
-                     std::initializer_list<Subsystem*> requirements)
+                     std::initializer_list<std::shared_ptr<Subsystem>> requirements)
       : ProfiledPIDCommand(
             controller, measurementSource,
             [&goalSource]() {
@@ -114,7 +114,7 @@ class ProfiledPIDCommand
                      std::function<Distance_t()> measurementSource,
                      std::function<Distance_t()> goalSource,
                      std::function<void(double, State)> useOutput,
-                     wpi::ArrayRef<Subsystem*> requirements = {})
+                     wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {})
       : ProfiledPIDCommand(
             controller, measurementSource,
             [&goalSource]() {
@@ -135,7 +135,7 @@ class ProfiledPIDCommand
   ProfiledPIDCommand(frc::ProfiledPIDController<Distance> controller,
                      std::function<Distance_t()> measurementSource, State goal,
                      std::function<void(double, State)> useOutput,
-                     std::initializer_list<Subsystem*> requirements)
+                     std::initializer_list<std::shared_ptr<Subsystem>> requirements)
       : ProfiledPIDCommand(
             controller, measurementSource, [goal] { return goal; }, useOutput,
             requirements) {}
@@ -153,7 +153,7 @@ class ProfiledPIDCommand
   ProfiledPIDCommand(frc::ProfiledPIDController<Distance> controller,
                      std::function<Distance_t()> measurementSource, State goal,
                      std::function<void(double, State)> useOutput,
-                     wpi::ArrayRef<Subsystem*> requirements = {})
+                     wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {})
       : ProfiledPIDCommand(
             controller, measurementSource, [goal] { return goal; }, useOutput,
             requirements) {}
@@ -172,7 +172,7 @@ class ProfiledPIDCommand
                      std::function<Distance_t()> measurementSource,
                      Distance_t goal,
                      std::function<void(double, State)> useOutput,
-                     std::initializer_list<Subsystem*> requirements)
+                     std::initializer_list<std::shared_ptr<Subsystem>> requirements)
       : ProfiledPIDCommand(
             controller, measurementSource, [goal] { return goal; }, useOutput,
             requirements) {}
@@ -191,7 +191,7 @@ class ProfiledPIDCommand
                      std::function<Distance_t()> measurementSource,
                      Distance_t goal,
                      std::function<void(double, State)> useOutput,
-                     wpi::ArrayRef<Subsystem*> requirements = {})
+                     wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {})
       : ProfiledPIDCommand(
             controller, measurementSource, [goal] { return goal; }, useOutput,
             requirements) {}

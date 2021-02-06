@@ -7,13 +7,13 @@
 using namespace frc2;
 
 InstantCommand::InstantCommand(std::function<void()> toRun,
-                               std::initializer_list<Subsystem*> requirements)
+                               std::initializer_list<std::shared_ptr<Subsystem>> requirements)
     : m_toRun{std::move(toRun)} {
   AddRequirements(requirements);
 }
 
 InstantCommand::InstantCommand(std::function<void()> toRun,
-                               wpi::ArrayRef<Subsystem*> requirements)
+                               wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements)
     : m_toRun{std::move(toRun)} {
   AddRequirements(requirements);
 }

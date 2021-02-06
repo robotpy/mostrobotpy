@@ -40,21 +40,17 @@ class ProxyScheduleCommand;
  * <p>Commands are run synchronously from the main robot loop; no multithreading
  * is used, unless specified explicitly from the command implementation.
  *
- * <p>Note: ALWAYS create a subclass by extending CommandHelper<Base, Subclass>,
- * or decorators will not function!
- *
  * @see CommandScheduler
- * @see CommandHelper
  */
-class Command : public frc::ErrorBase {
+class Command : public std::enable_shared_from_this<Command>, public frc::ErrorBase {
  public:
   Command() = default;
   ~Command() override;
 
-  Command(const Command&);
-  Command& operator=(const Command&);
-  Command(Command&&) = default;
-  Command& operator=(Command&&) = default;
+//   Command(const Command&);
+//   Command& operator=(const Command&);
+//   Command(Command&&) = default;
+//   Command& operator=(Command&&) = default;
 
   /**
    * The initial subroutine of a command.  Called once when the command is
@@ -97,7 +93,7 @@ class Command : public frc::ErrorBase {
    *
    * @return the set of subsystems that are required
    */
-  virtual wpi::SmallSet<Subsystem*, 4> GetRequirements() const = 0;
+  virtual wpi::SmallSet<std::shared_ptr<Subsystem>, 4> GetRequirements() const = 0;
 
   /**
    * Decorates this command with a timeout.  If the specified timeout is
@@ -108,7 +104,7 @@ class Command : public frc::ErrorBase {
    * @param duration the timeout duration
    * @return the command with the timeout added
    */
-  ParallelRaceGroup WithTimeout(units::second_t duration) &&;
+  std::shared_ptr<ParallelRaceGroup> WithTimeout(units::second_t duration);
 
   /**
    * Decorates this command with an interrupt condition.  If the specified
@@ -119,7 +115,7 @@ class Command : public frc::ErrorBase {
    * @param condition the interrupt condition
    * @return the command with the interrupt condition added
    */
-  ParallelRaceGroup WithInterrupt(std::function<bool()> condition) &&;
+  std::shared_ptr<ParallelRaceGroup> WithInterrupt(std::function<bool()> condition);
 
   /**
    * Decorates this command with a runnable to run before this command starts.
@@ -128,9 +124,9 @@ class Command : public frc::ErrorBase {
    * @param requirements the required subsystems
    * @return the decorated command
    */
-  SequentialCommandGroup BeforeStarting(
+  std::shared_ptr<SequentialCommandGroup> BeforeStarting(
       std::function<void()> toRun,
-      std::initializer_list<Subsystem*> requirements) &&;
+      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Decorates this command with a runnable to run before this command starts.
@@ -139,9 +135,9 @@ class Command : public frc::ErrorBase {
    * @param requirements the required subsystems
    * @return the decorated command
    */
-  SequentialCommandGroup BeforeStarting(
+  std::shared_ptr<SequentialCommandGroup> BeforeStarting(
       std::function<void()> toRun,
-      wpi::ArrayRef<Subsystem*> requirements = {}) &&;
+      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Decorates this command with a runnable to run after the command finishes.
@@ -150,9 +146,9 @@ class Command : public frc::ErrorBase {
    * @param requirements the required subsystems
    * @return the decorated command
    */
-  SequentialCommandGroup AndThen(
+  std::shared_ptr<SequentialCommandGroup> AndThen(
       std::function<void()> toRun,
-      std::initializer_list<Subsystem*> requirements) &&;
+      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Decorates this command with a runnable to run after the command finishes.
@@ -161,9 +157,9 @@ class Command : public frc::ErrorBase {
    * @param requirements the required subsystems
    * @return the decorated command
    */
-  SequentialCommandGroup AndThen(
+  std::shared_ptr<SequentialCommandGroup> AndThen(
       std::function<void()> toRun,
-      wpi::ArrayRef<Subsystem*> requirements = {}) &&;
+      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Decorates this command to run perpetually, ignoring its ordinary end
@@ -171,7 +167,7 @@ class Command : public frc::ErrorBase {
    *
    * @return the decorated command
    */
-  PerpetualCommand Perpetually() &&;
+  std::shared_ptr<PerpetualCommand> Perpetually();
 
   /**
    * Decorates this command to run "by proxy" by wrapping it in a {@link
@@ -181,7 +177,7 @@ class Command : public frc::ErrorBase {
    *
    * @return the decorated command
    */
-  ProxyScheduleCommand AsProxy();
+  std::shared_ptr<ProxyScheduleCommand> AsProxy();
 
   /**
    * Schedules this command.
@@ -209,7 +205,7 @@ class Command : public frc::ErrorBase {
    *
    * @return Whether the command is scheduled.
    */
-  bool IsScheduled() const;
+  bool IsScheduled();
 
   /**
    * Whether the command requires a given subsystem.  Named "hasRequirement"
@@ -221,7 +217,7 @@ class Command : public frc::ErrorBase {
    * @param requirement the subsystem to inquire about
    * @return whether the subsystem is required
    */
-  bool HasRequirement(Subsystem* requirement) const;
+  bool HasRequirement(std::shared_ptr<Subsystem> requirement) const;
 
   /**
    * Whether the command is currently grouped in a command group.  Used as extra
@@ -251,7 +247,7 @@ class Command : public frc::ErrorBase {
    * Transfers ownership of this command to a unique pointer.  Used for
    * decorator methods.
    */
-  virtual std::unique_ptr<Command> TransferOwnership() && = 0;
+  // virtual std::shared_ptr<Command> TransferOwnership() && = 0;
 
   bool m_isGrouped = false;
 };

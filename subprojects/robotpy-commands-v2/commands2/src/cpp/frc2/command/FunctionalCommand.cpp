@@ -9,7 +9,7 @@ using namespace frc2;
 FunctionalCommand::FunctionalCommand(
     std::function<void()> onInit, std::function<void()> onExecute,
     std::function<void(bool)> onEnd, std::function<bool()> isFinished,
-    std::initializer_list<Subsystem*> requirements)
+    std::initializer_list<std::shared_ptr<Subsystem>> requirements)
     : m_onInit{std::move(onInit)},
       m_onExecute{std::move(onExecute)},
       m_onEnd{std::move(onEnd)},
@@ -21,7 +21,7 @@ FunctionalCommand::FunctionalCommand(std::function<void()> onInit,
                                      std::function<void()> onExecute,
                                      std::function<void(bool)> onEnd,
                                      std::function<bool()> isFinished,
-                                     wpi::ArrayRef<Subsystem*> requirements)
+                                     wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements)
     : m_onInit{std::move(onInit)},
       m_onExecute{std::move(onExecute)},
       m_onEnd{std::move(onEnd)},

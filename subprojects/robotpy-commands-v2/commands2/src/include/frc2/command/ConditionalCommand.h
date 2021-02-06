@@ -31,8 +31,7 @@ namespace frc2 {
  *
  * @see ScheduleCommand
  */
-class ConditionalCommand
-    : public CommandHelper<CommandBase, ConditionalCommand> {
+class ConditionalCommand : public CommandBase {
  public:
   /**
    * Creates a new ConditionalCommand.
@@ -47,9 +46,9 @@ class ConditionalCommand
             typename = std::enable_if_t<
                 std::is_base_of_v<Command, std::remove_reference_t<T2>>>>
   ConditionalCommand(T1&& onTrue, T2&& onFalse, std::function<bool()> condition)
-      : ConditionalCommand(std::make_unique<std::remove_reference_t<T1>>(
+      : ConditionalCommand(std::make_shared<std::remove_reference_t<T1>>(
                                std::forward<T1>(onTrue)),
-                           std::make_unique<std::remove_reference_t<T2>>(
+                           std::make_shared<std::remove_reference_t<T2>>(
                                std::forward<T2>(onFalse)),
                            condition) {}
 
@@ -60,8 +59,8 @@ class ConditionalCommand
    * @param onFalse   the command to run if the condition is false
    * @param condition the condition to determine which command to run
    */
-  ConditionalCommand(std::unique_ptr<Command>&& onTrue,
-                     std::unique_ptr<Command>&& onFalse,
+  ConditionalCommand(std::shared_ptr<Command> onTrue,
+                     std::shared_ptr<Command> onFalse,
                      std::function<bool()> condition);
 
   ConditionalCommand(ConditionalCommand&& other) = default;
@@ -80,10 +79,10 @@ class ConditionalCommand
   bool RunsWhenDisabled() const override;
 
  private:
-  std::unique_ptr<Command> m_onTrue;
-  std::unique_ptr<Command> m_onFalse;
+  std::shared_ptr<Command> m_onTrue;
+  std::shared_ptr<Command> m_onFalse;
   std::function<bool()> m_condition;
-  Command* m_selectedCommand{nullptr};
+  std::shared_ptr<Command> m_selectedCommand{nullptr};
   bool m_runsWhenDisabled = true;
 };
 }  // namespace frc2

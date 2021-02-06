@@ -8,26 +8,26 @@ using namespace frc2;
 
 NotifierCommand::NotifierCommand(std::function<void()> toRun,
                                  units::second_t period,
-                                 std::initializer_list<Subsystem*> requirements)
+                                 std::initializer_list<std::shared_ptr<Subsystem>> requirements)
     : m_toRun(toRun), m_notifier{std::move(toRun)}, m_period{period} {
   AddRequirements(requirements);
 }
 
 NotifierCommand::NotifierCommand(std::function<void()> toRun,
                                  units::second_t period,
-                                 wpi::ArrayRef<Subsystem*> requirements)
+                                 wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements)
     : m_toRun(toRun), m_notifier{std::move(toRun)}, m_period{period} {
   AddRequirements(requirements);
 }
 
 NotifierCommand::NotifierCommand(NotifierCommand&& other)
-    : CommandHelper(std::move(other)),
+    : CommandBase(std::move(other)),
       m_toRun(other.m_toRun),
       m_notifier(other.m_toRun),
       m_period(other.m_period) {}
 
 NotifierCommand::NotifierCommand(const NotifierCommand& other)
-    : CommandHelper(other),
+    : CommandBase(other),
       m_toRun(other.m_toRun),
       m_notifier(frc::Notifier(other.m_toRun)),
       m_period(other.m_period) {}

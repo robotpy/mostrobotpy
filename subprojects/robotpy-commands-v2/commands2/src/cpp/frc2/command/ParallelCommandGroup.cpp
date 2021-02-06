@@ -7,7 +7,7 @@
 using namespace frc2;
 
 ParallelCommandGroup::ParallelCommandGroup(
-    std::vector<std::unique_ptr<Command>>&& commands) {
+    std::vector<std::shared_ptr<Command>>&& commands) {
   AddCommands(std::move(commands));
 }
 
@@ -57,7 +57,7 @@ bool ParallelCommandGroup::RunsWhenDisabled() const {
 }
 
 void ParallelCommandGroup::AddCommands(
-    std::vector<std::unique_ptr<Command>>&& commands) {
+    std::vector<std::shared_ptr<Command>>&& commands) {
   for (auto&& command : commands) {
     if (!RequireUngrouped(*command)) {
       return;
@@ -65,7 +65,8 @@ void ParallelCommandGroup::AddCommands(
   }
 
   if (isRunning) {
-    wpi_setWPIErrorWithContext(CommandIllegalUse,
+    // wpi_setWPIErrorWithContext(CommandIllegalUse,
+    throw std::runtime_error(
                                "Commands cannot be added to a CommandGroup "
                                "while the group is running");
   }
@@ -77,7 +78,8 @@ void ParallelCommandGroup::AddCommands(
       m_runWhenDisabled &= command->RunsWhenDisabled();
       m_commands.emplace_back(std::move(command), false);
     } else {
-      wpi_setWPIErrorWithContext(CommandIllegalUse,
+      // wpi_setWPIErrorWithContext(CommandIllegalUse,
+      throw std::runtime_error(
                                  "Multiple commands in a parallel group cannot "
                                  "require the same subsystems");
       return;

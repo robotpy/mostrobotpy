@@ -8,68 +8,68 @@ using namespace frc2;
 
 Button::Button(std::function<bool()> isPressed) : Trigger(isPressed) {}
 
-Button Button::WhenPressed(Command* command, bool interruptible) {
+Button Button::WhenPressed(std::shared_ptr<Command> command, bool interruptible) {
   WhenActive(command, interruptible);
   return *this;
 }
 
 Button Button::WhenPressed(std::function<void()> toRun,
-                           std::initializer_list<Subsystem*> requirements) {
+                           std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
   WhenActive(std::move(toRun), requirements);
   return *this;
 }
 
 Button Button::WhenPressed(std::function<void()> toRun,
-                           wpi::ArrayRef<Subsystem*> requirements) {
+                           wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
   WhenActive(std::move(toRun), requirements);
   return *this;
 }
 
-Button Button::WhileHeld(Command* command, bool interruptible) {
+Button Button::WhileHeld(std::shared_ptr<Command> command, bool interruptible) {
   WhileActiveContinous(command, interruptible);
   return *this;
 }
 
 Button Button::WhileHeld(std::function<void()> toRun,
-                         std::initializer_list<Subsystem*> requirements) {
+                         std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
   WhileActiveContinous(std::move(toRun), requirements);
   return *this;
 }
 
 Button Button::WhileHeld(std::function<void()> toRun,
-                         wpi::ArrayRef<Subsystem*> requirements) {
+                         wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
   WhileActiveContinous(std::move(toRun), requirements);
   return *this;
 }
 
-Button Button::WhenHeld(Command* command, bool interruptible) {
+Button Button::WhenHeld(std::shared_ptr<Command> command, bool interruptible) {
   WhileActiveOnce(command, interruptible);
   return *this;
 }
 
-Button Button::WhenReleased(Command* command, bool interruptible) {
+Button Button::WhenReleased(std::shared_ptr<Command> command, bool interruptible) {
   WhenInactive(command, interruptible);
   return *this;
 }
 
 Button Button::WhenReleased(std::function<void()> toRun,
-                            std::initializer_list<Subsystem*> requirements) {
+                            std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
   WhenInactive(std::move(toRun), requirements);
   return *this;
 }
 
 Button Button::WhenReleased(std::function<void()> toRun,
-                            wpi::ArrayRef<Subsystem*> requirements) {
+                            wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
   WhenInactive(std::move(toRun), requirements);
   return *this;
 }
 
-Button Button::ToggleWhenPressed(Command* command, bool interruptible) {
+Button Button::ToggleWhenPressed(std::shared_ptr<Command> command, bool interruptible) {
   ToggleWhenActive(command, interruptible);
   return *this;
 }
 
-Button Button::CancelWhenPressed(Command* command) {
+Button Button::CancelWhenPressed(std::shared_ptr<Command> command) {
   CancelWhenActive(command);
   return *this;
 }

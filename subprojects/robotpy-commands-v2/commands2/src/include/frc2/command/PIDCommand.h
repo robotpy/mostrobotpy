@@ -21,7 +21,7 @@ namespace frc2 {
  *
  * @see PIDController
  */
-class PIDCommand : public CommandHelper<CommandBase, PIDCommand> {
+class PIDCommand : public CommandBase {
  public:
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -37,7 +37,7 @@ class PIDCommand : public CommandHelper<CommandBase, PIDCommand> {
              std::function<double()> measurementSource,
              std::function<double()> setpointSource,
              std::function<void(double)> useOutput,
-             std::initializer_list<Subsystem*> requirements);
+             std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -53,7 +53,7 @@ class PIDCommand : public CommandHelper<CommandBase, PIDCommand> {
              std::function<double()> measurementSource,
              std::function<double()> setpointSource,
              std::function<void(double)> useOutput,
-             wpi::ArrayRef<Subsystem*> requirements = {});
+             wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -68,7 +68,7 @@ class PIDCommand : public CommandHelper<CommandBase, PIDCommand> {
   PIDCommand(PIDController controller,
              std::function<double()> measurementSource, double setpoint,
              std::function<void(double)> useOutput,
-             std::initializer_list<Subsystem*> requirements);
+             std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -83,7 +83,7 @@ class PIDCommand : public CommandHelper<CommandBase, PIDCommand> {
   PIDCommand(PIDController controller,
              std::function<double()> measurementSource, double setpoint,
              std::function<void(double)> useOutput,
-             wpi::ArrayRef<Subsystem*> requirements = {});
+             wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
 
   PIDCommand(PIDCommand&& other) = default;
 

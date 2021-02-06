@@ -22,7 +22,7 @@ class JoystickButton : public Button {
    * @param joystick The joystick on which the button is located.
    * @param buttonNumber The number of the button on the joystic.
    */
-  explicit JoystickButton(frc::GenericHID* joystick, int buttonNumber)
+  explicit JoystickButton(std::shared_ptr<frc::GenericHID> joystick, int buttonNumber)
       : Button([joystick, buttonNumber] {
           return joystick->GetRawButton(buttonNumber);
         }) {}
