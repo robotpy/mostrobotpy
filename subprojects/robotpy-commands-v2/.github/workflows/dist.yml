@@ -45,8 +45,8 @@ jobs:
     - uses: robotpy/build-actions/build-wheel@v2021
     - uses: robotpy/build-actions/test-native-wheel@v2021
 
-    - uses: robotpy/build-actions/validate-sphinx@v2021
-      if: ${{ matrix.python_version == '3.7' && matrix.os == 'ubuntu-18.04' }}
+    # - uses: robotpy/build-actions/validate-sphinx@v2021
+    #   if: ${{ matrix.python_version == '3.7' && matrix.os == 'ubuntu-18.04' }}
 
     - uses: actions/upload-artifact@v2
       with:
