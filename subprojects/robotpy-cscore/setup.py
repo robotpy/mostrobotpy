@@ -99,6 +99,19 @@ class get_numpy_include(object):
         return np.get_include()
 
 
+class get_pybind11_include:
+    def __str__(self):
+        import pybind11
+
+        print("Using installed (out-of-tree) pybind11.")
+        return pybind11.get_include()
+
+
+pybind11_include = "pybind11/include"
+if not exists(pybind11_include):
+    pybind11_include = get_pybind11_include()
+
+
 def get_opencv_lib(name):
     lib = "opencv_" + name
     if sys.platform == "win32":
@@ -242,7 +255,7 @@ ext_modules = [
         + get_wpiutil_sources("cscore_src/wpiutil/src/main/native/cpp")
         + get_libuv_sources("cscore_src/wpiutil/src/main/native/libuv/src"),
         include_dirs=[
-            "pybind11/include",
+            pybind11_include,
             "cscore_src/cscore/src/main/native/include",
             "cscore_src/cscore/src/main/native/cpp",
             "cscore_src/wpiutil/src/main/native/include",
