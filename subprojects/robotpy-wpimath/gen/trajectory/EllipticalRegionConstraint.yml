@@ -13,6 +13,15 @@ classes:
       MinMaxAcceleration:
       IsPoseInRegion:
 
+    template_inline_code: |
+      cls_EllipticalRegionConstraint
+        .def_static("fromFeet", [](const Translation2d& center, units::foot_t xWidth,
+                                   units::foot_t yWidth, const Rotation2d& rotation,
+                                   const Constraint& constraint) {
+          return std::make_shared<EllipticalRegionConstraint<Constraint>>(center, xWidth, yWidth, rotation, constraint);
+        }, py::arg("center"), py::arg("xWidth"), py::arg("yWidth"), py::arg("rotation"), py::arg("constraint"))
+      ;
+
 templates:
   EllipticalRegionConstraint:
     subpackage: constraints
