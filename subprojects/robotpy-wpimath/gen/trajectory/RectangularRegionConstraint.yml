@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- PyTrajectoryConstraint.h
+
 classes:
   RectangularRegionConstraint:
     shared_ptr: true
@@ -18,4 +21,4 @@ templates:
     subpackage: constraints
     qualname: frc::RectangularRegionConstraint
     params:
-      - std::shared_ptr<frc::TrajectoryConstraint>
+    - frc::PyTrajectoryConstraint
