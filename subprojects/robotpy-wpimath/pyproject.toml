@@ -17,7 +17,7 @@ libs = ["wpimath"]
 
 [tool.robotpy-build.wrappers."wpimath._impl"]
 depends = ["wpiutil"]
-extra_includes = ["wpimath/_impl/src/eigen", "wpimath/_impl/src/type_casters"]
+extra_includes = ["wpimath/_impl/src", "wpimath/_impl/src/eigen", "wpimath/_impl/src/type_casters"]
 name = "wpimath_cpp"
 
 [tool.robotpy-build.wrappers."wpimath._impl".type_casters]

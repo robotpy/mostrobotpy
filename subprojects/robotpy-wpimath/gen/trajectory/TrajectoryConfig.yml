@@ -1,10 +1,7 @@
 ---
 
 extra_includes:
-- frc/trajectory/constraint/CentripetalAccelerationConstraint.h
-- frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h
-- frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h
-- frc/trajectory/constraint/MecanumDriveKinematicsConstraint.h
+- PyTrajectoryConstraint.h
 
 classes:
   TrajectoryConfig:
@@ -16,11 +13,7 @@ classes:
       SetReversed:
       AddConstraint:
         template_impls:
-        - [frc::CentripetalAccelerationConstraint]
-        - [frc::DifferentialDriveKinematicsConstraint]
-        - [frc::DifferentialDriveVoltageConstraint]
-        - [frc::MecanumDriveKinematicsConstraint]
-        # TODO: user constraint
+        - [PyTrajectoryConstraint]
       SetKinematics:
         overloads:
           DifferentialDriveKinematics&:
