@@ -52,6 +52,12 @@ inline_code: |
       py::arg("pose") = Pose2d(),
       py::arg("curvature") = 0.0
     )
+    .def_property_readonly("velocity_fps", [](frc::Trajectory::State * self) -> units::feet_per_second_t {
+      return self->velocity;
+    })
+    .def_property_readonly("acceleration_fps", [](frc::Trajectory::State * self) -> units::feet_per_second_squared_t {
+      return self->acceleration;
+    })
     .def("__repr__", [](frc::Trajectory::State *self) {
       return "Trajectory.State("
         "t=" + std::to_string(self->t()) + ", "

@@ -11,6 +11,13 @@ classes:
       SwerveDriveKinematicsConstraint:
       MaxVelocity:
       MinMaxAcceleration:
+    template_inline_code: |
+      cls_SwerveDriveKinematicsConstraint
+        .def_static("fromFps", [](const frc::SwerveDriveKinematics<NumModules>& kinematics,
+                                  units::feet_per_second_t maxSpeed) {
+          return std::make_shared<frc::SwerveDriveKinematicsConstraint<NumModules>>(kinematics, maxSpeed);
+        }, py::arg("kinematics"), py::arg("maxSpeed"))
+      ;
 
 templates:
   SwerveDrive2KinematicsConstraint:
