@@ -23,15 +23,16 @@ classes:
       AddCommands:
         overloads:
           Types ...&&:
-            param_override:
-              commands:
-                ignore: true
-            cpp_code: |
-              [](ParallelDeadlineGroup * self, py::args cmds) {
-                self->AddCommands(std::move(pyargs2cmdList(cmds)));
-              }
+            ignore: true
       Initialize:
       Execute:
       End:
       IsFinished:
       RunsWhenDisabled:
+
+inline_code: |
+  cls_ParallelDeadlineGroup
+    .def("addCommands", [](ParallelDeadlineGroup * self, py::args cmds) {
+      self->AddCommands(std::move(pyargs2cmdList(cmds)));
+    })
+  ;
