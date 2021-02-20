@@ -272,6 +272,15 @@ ext_modules = [
     )
 ]
 
+install_requires = ["numpy", "pynetworktables"]
+try:
+    import distro
+
+    if distro.id() == "nilrt":
+        install_requires.append('robotpy-opencv; platform_machine == "armv7l"')
+except:
+    pass
+
 setup(
     name="robotpy-cscore",
     version=__version__,
@@ -282,7 +291,7 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     ext_modules=ext_modules,
-    install_requires=["numpy", "pynetworktables"],
+    install_requires=install_requires,
     license="BSD",
     zip_safe=False,
     cmdclass={"build_ext": BuildExt},
