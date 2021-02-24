@@ -71,13 +71,6 @@ classes:
       InitSendable:
 
 inline_code: |
-    
-    // ensure that the command data is released when python shuts down
-    static int unused; // the capsule needs something to reference
-    py::capsule cleanup(&unused, [](void *) {
-        frc2::CommandScheduler::ResetInstance();
-    });
-    m.add_object("_cleanup", cleanup);
 
     cls_CommandScheduler
       .def("registerSubsystem", [](CommandScheduler * self, py::args args){
