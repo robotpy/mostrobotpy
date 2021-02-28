@@ -8,6 +8,7 @@ from ._trajectory import (
     TrajectoryParameterizer,
     TrajectoryUtil,
     TrapezoidProfile,
+    TrapezoidProfileRadians,
     constraints,
 )
 
@@ -18,5 +19,6 @@ __all__ = [
     "TrajectoryParameterizer",
     "TrajectoryUtil",
     "TrapezoidProfile",
+    "TrapezoidProfileRadians",
     "constraints",
 ]
