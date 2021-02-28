@@ -47,6 +47,9 @@ jobs:
 
     - uses: robotpy/build-actions/validate-sphinx@v2021
       if: ${{ matrix.python_version == '3.7' && matrix.os == 'ubuntu-18.04' }}
+      with:
+        # disable fail on warnings
+        sphinxopts:
 
     - uses: actions/upload-artifact@v2
       with:
