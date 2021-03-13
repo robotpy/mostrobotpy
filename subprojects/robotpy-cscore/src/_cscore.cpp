@@ -141,7 +141,7 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<VideoSource> videosource(m, "VideoSource");
     videosource.doc() = "A source for video that provides a sequence of frames.";
     videosource
-      .def(py::init<cs::VideoSource>(), py::arg("source"))
+      .def(py::init<cs::VideoSource>(), py::arg("source"), release_gil())
       .def("getHandle", &VideoSource::GetHandle)
       .def(py::self == py::self)
       .def(py::self != py::self)
@@ -272,12 +272,12 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<UsbCamera, VideoCamera> usbcamera(m, "UsbCamera");
     usbcamera.doc() = "A source that represents a USB camera.";
     usbcamera
-      .def(py::init<const wpi::Twine&, int>(),
+      .def(py::init<const wpi::Twine&, int>(), release_gil(),
           py::arg("name"), py::arg("dev"),
           "Create a source for a USB camera based on device number.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param dev: Device number (e.g. 0 for ``/dev/video0``)")
-      .def(py::init<const wpi::Twine&, const wpi::Twine&>(),
+      .def(py::init<const wpi::Twine&, const wpi::Twine&>(), release_gil(),
           py::arg("name"), py::arg("path"),
           "Create a source for a USB camera based on device path.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
@@ -287,7 +287,7 @@ PYBIND11_MODULE(_cscore, m) {
           ":returns: list of USB camera information (one for each camera)")
       .def("setPath", &UsbCamera::SetPath, release_gil(), py::arg("path"),
           "Change the path to the device.")
-      .def("getPath", &UsbCamera::GetPath, "Get the path to the device.")
+      .def("getPath", &UsbCamera::GetPath, release_gil(), "Get the path to the device.")
       .def("getInfo", &UsbCamera::GetInfo, release_gil(),
           "Get the full camera information for the device.")
       .def("setConnectVerbose", &UsbCamera::SetConnectVerbose, py::arg("level"),
@@ -307,13 +307,13 @@ PYBIND11_MODULE(_cscore, m) {
     httpcamera
       //.def(py::init<wpi::StringRef,wpi::StringRef,HttpCamera::HttpCameraKind>())
       //.def(py::init<wpi::StringRef,const char *,cs::HttpCamera::HttpCameraKind>())
-      .def(py::init<const wpi::Twine&, const wpi::Twine&, cs::HttpCamera::HttpCameraKind>(),
+      .def(py::init<const wpi::Twine&, const wpi::Twine&, cs::HttpCamera::HttpCameraKind>(), release_gil(),
            py::arg("name"), py::arg("url"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown,
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param url: Camera URL (e.g. \"http://10.x.y.11/video/stream.mjpg\")\n"
           ":param kind: Camera kind (e.g. kAxis)")
-      .def(py::init<const wpi::Twine&, wpi::ArrayRef<std::string>, HttpCamera::HttpCameraKind>(),
+      .def(py::init<const wpi::Twine&, wpi::ArrayRef<std::string>, HttpCamera::HttpCameraKind>(), release_gil(),
            py::arg("name"), py::arg("urls"), py::arg("kind") = HttpCamera::HttpCameraKind::kUnknown,
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
@@ -333,7 +333,7 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<AxisCamera, HttpCamera> axiscamera(m, "AxisCamera");
     axiscamera.doc() = "A source that represents an Axis IP camera.";
     axiscamera
-      .def(py::init<const wpi::Twine&, const wpi::Twine&>(),
+      .def(py::init<const wpi::Twine&, const wpi::Twine&>(), release_gil(),
           py::arg("name"), py::arg("host"),
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
@@ -341,7 +341,7 @@ PYBIND11_MODULE(_cscore, m) {
           ":param kind: Camera kind (e.g. kAxis)")
       //.def(py::init<wpi::StringRef,const char *>(),
       //.def(py::init<wpi::StringRef,std::string>(),
-      .def(py::init<const wpi::Twine&, wpi::ArrayRef<std::string>>(),
+      .def(py::init<const wpi::Twine&, wpi::ArrayRef<std::string>>(), release_gil(),
           py::arg("name"), py::arg("hosts"),
           "Create a source for a MJPEG-over-HTTP (IP) camera.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
@@ -412,7 +412,7 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<VideoSink> videosink(m, "VideoSink");
     videosink.doc() = "A sink for video that accepts a sequence of frames.";
     videosink
-      .def(py::init<cs::VideoSink>(), py::arg("sink"))
+      .def(py::init<cs::VideoSink>(), release_gil(), py::arg("sink"))
       .def("getHandle", &VideoSink::GetHandle)
       .def(py::self == py::self)
       .def(py::self != py::self)
@@ -475,13 +475,13 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<MjpegServer, VideoSink> mjpegserver(m, "MjpegServer");
     mjpegserver.doc() = "A sink that acts as a MJPEG-over-HTTP network server.";
     mjpegserver
-      .def(py::init<const wpi::Twine&, const wpi::Twine&, int>(),
+      .def(py::init<const wpi::Twine&, const wpi::Twine&, int>(), release_gil(),
           py::arg("name"), py::arg("listenAddress"), py::arg("port"),
           "Create a MJPEG-over-HTTP server sink.\n\n"
           ":param name: Sink name (arbitrary unique identifier)\n"
           ":param listenAddress: TCP listen address (empty string for all addresses)\n"
           ":param port: TCP port number")
-      .def(py::init<const wpi::Twine&, int>(),
+      .def(py::init<const wpi::Twine&, int>(), release_gil(),
           py::arg("name"), py::arg("port"),
           "Create a MJPEG-over-HTTP server sink.\n\n"
           ":param name: Sink name (arbitrary unique identifier)\n"
@@ -517,13 +517,13 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<ImageSink, VideoSink> imagesink(m, "ImageSink");
     imagesink.doc() = "A base class for single image reading sinks.";
     imagesink
-      .def("setDescription", &ImageSink::SetDescription,
+      .def("setDescription", &ImageSink::SetDescription, release_gil(),
           py::arg("description"),
           "Set sink description.\n\n"
           ":param description: Description")
       .def("getError", &ImageSink::GetError,
            "Get error string.  Call this if :meth:`waitForFrame` returns 0 to determine what the error is.")
-      .def("setEnabled", &ImageSink::SetEnabled,
+      .def("setEnabled", &ImageSink::SetEnabled, release_gil(),
           py::arg("enabled"),
           "Enable or disable getting new frames.\n"
           "Disabling will cause processFrame (for callback-based ImageSinks) to not"
@@ -575,7 +575,7 @@ PYBIND11_MODULE(_cscore, m) {
         "An event listener.  This calls back to a desigated callback function when\n"
         "an event matching the specified mask is generated by the library.";
     videolistener
-      .def(py::init<std::function<void(const VideoEvent&)>,int,bool>(),
+      .def(py::init<std::function<void(const VideoEvent&)>,int,bool>(), release_gil(),
           py::arg("callback"), py::arg("eventMask"), py::arg("immediateNotify"),
           "Create an event listener.\n\n"
           ":param callback: Callback function\n"
@@ -588,12 +588,12 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<CvSource, ImageSource> cvsource(m, "CvSource");
     cvsource.doc() = "A source for user code to provide OpenCV images as video frames.";
     cvsource
-      .def(py::init<const wpi::Twine&, VideoMode>(),
+      .def(py::init<const wpi::Twine&, VideoMode>(), release_gil(),
           py::arg("name"), py::arg("mode"),
           "Create an OpenCV source.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
           ":param mode: Video mode being generated")
-      .def(py::init<const wpi::Twine&, VideoMode::PixelFormat, int, int, int>(),
+      .def(py::init<const wpi::Twine&, VideoMode::PixelFormat, int, int, int>(), release_gil(),
           py::arg("name"), py::arg("pixelFormat"), py::arg("width"), py::arg("height"), py::arg("fps"),
           "Create an OpenCV source.\n\n"
           ":param name: Source name (arbitrary unique identifier)\n"
@@ -612,7 +612,7 @@ PYBIND11_MODULE(_cscore, m) {
     py::class_<CvSink, ImageSink> cvsink(m, "CvSink");
     cvsink.doc() = "A sink for user code to accept video frames as OpenCV images.";
     cvsink
-      .def(py::init<const wpi::Twine&>(),
+      .def(py::init<const wpi::Twine&>(), release_gil(),
           py::arg("name"),
           "Create a sink for accepting OpenCV images. "
           ":meth:`grabFrame` must be called on the created sink to get each new image\n\n"
@@ -626,7 +626,7 @@ PYBIND11_MODULE(_cscore, m) {
           ":param processFrame: Frame processing function; will be called with a "
           "time=0 if an error occurred.  processFrame should call :meth:`grabFrame`"
           "or :meth:`getError` as needed.")*/
-      .def("setDescription", &CvSink::SetDescription,
+      .def("setDescription", &CvSink::SetDescription, release_gil(),
           py::arg("description"),
           "Set sink description.\n\n"
           ":param description: Description")
