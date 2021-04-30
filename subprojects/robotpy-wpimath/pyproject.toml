@@ -11,7 +11,7 @@ base_package = "wpimath"
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.2.2"
+version = "2021.3.1"
 
 libs = ["wpimath"]
 
