@@ -9,6 +9,22 @@ classes:
     - int Outputs
     methods:
       ExtendedKalmanFilter:
+        overloads:
+          ? std::function<Eigen::Matrix<double, States, 1> ( const Eigen::Matrix<double,
+            States, 1> &, const Eigen::Matrix<double, Inputs, 1> & )>, std::function<Eigen::Matrix<double,
+            Outputs, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
+            Inputs, 1> & )>, wpi::array<double, States>&, wpi::array<double, Outputs>&,
+            units::second_t
+          :
+          ? std::function<Eigen::Matrix<double, States, 1> ( const Eigen::Matrix<double,
+            States, 1> &, const Eigen::Matrix<double, Inputs, 1> & )>, std::function<Eigen::Matrix<double,
+            Outputs, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
+            Inputs, 1> & )>, wpi::array<double, States>&, wpi::array<double, Outputs>&,
+            std::function<Eigen::Matrix<double, Outputs, 1> ( const Eigen::Matrix<double,
+            Outputs, 1> &, const Eigen::Matrix<double, Outputs, 1> & )>, std::function<Eigen::Matrix<double,
+            States, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
+            States, 1> & )>, units::second_t
+          :
       P:
         overloads:
           '[const]':
@@ -30,6 +46,15 @@ classes:
           ? Eigen::Matrix<double, Inputs, 1>&, Eigen::Matrix<double, Rows, 1>&, std::function<Eigen::Matrix<double,
             Rows, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
             Inputs, 1> & )>, Eigen::Matrix<double, Rows, Rows>&
+          :
+            ignore: true
+          ? Eigen::Matrix<double, Inputs, 1>&, Eigen::Matrix<double, Rows, 1>&, std::function<Eigen::Matrix<double,
+            Rows, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
+            Inputs, 1> & )>, Eigen::Matrix<double, Rows, Rows>&, std::function<Eigen::Matrix<double,
+            Rows, 1> ( const Eigen::Matrix<double, Rows, 1> &, const Eigen::Matrix<double,
+            Rows, 1> & )>, std::function<Eigen::Matrix<double, States, 1> ( const
+            Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double, States,
+            1> )>
           :
             ignore: true
 
