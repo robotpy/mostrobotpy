@@ -23,7 +23,7 @@ depends = ["wpiHal"]
 artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.2.2"
+version = "2021.3.1"
 
 dlopenlibs = ["halsim_ws_client"]
 
