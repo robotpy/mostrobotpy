@@ -45,7 +45,7 @@ cls_NetworkTableInstance
                 py::gil_scoped_acquire acquire;
                 if (paramIsNew) {
                     listener(event.name, pyntcore::ntvalue2py(event.value.get()),
-                             event.flags | NT_NOTIFY_NEW ? 1 : 0);
+                             event.flags & NT_NOTIFY_NEW ? 1 : 0);
                 } else {
                     listener(event.name, pyntcore::ntvalue2py(event.value.get()),
                              event.flags);
