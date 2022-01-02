@@ -20,7 +20,7 @@ functions:
   HAL_CreateSimValueEnum:
     cpp_code: |
       [](HAL_SimDeviceHandle device, const char* name, bool readonly,
-         wpi::ArrayRef<const char*> options, int32_t initialValue) {
+         std::vector<const char*> options, int32_t initialValue) {
         return HAL_CreateSimValueEnum(device, name, readonly, options.size(),
                                       const_cast<const char**>(options.data()),
                                       initialValue);
@@ -196,7 +196,7 @@ classes:
         overloads:
           char*, int32_t, std::initializer_list<const char *>, int32_t:
             ignore: true
-          char*, int32_t, wpi::ArrayRef<const char *>, int32_t:
+          char*, int32_t, wpi::span<const char * const>, int32_t:
             cpp_code: |
               [](SimDevice &self, const char * name, int32_t direction, const wpi::SmallVector<std::string, 8> &options, int32_t initialValue) {
                 wpi::SmallVector<const char *, 8> coptions;
@@ -211,7 +211,7 @@ classes:
         overloads:
           char*, int32_t, std::initializer_list<const char *>, std::initializer_list<double>, int32_t:
             ignore: true
-          char*, int32_t, wpi::ArrayRef<const char *>, wpi::ArrayRef<double>, int32_t:
+          char*, int32_t, wpi::span<const char * const>, wpi::span<const double>, int32_t:
             cpp_code: |
               [](SimDevice &self, const char * name, int32_t direction, const wpi::SmallVector<std::string, 8> &options, const wpi::SmallVector<double, 8> &optionValues, int32_t initialValue) {
                 wpi::SmallVector<const char *, 8> coptions;
