@@ -1,0 +1,49 @@
+---
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetCTREPCMData:
+  HALSIM_RegisterCTREPCMInitializedCallback:
+    ignore: true
+  HALSIM_CancelCTREPCMInitializedCallback:
+  HALSIM_GetCTREPCMInitialized:
+  HALSIM_SetCTREPCMInitialized:
+  HALSIM_RegisterCTREPCMSolenoidOutputCallback:
+    ignore: true
+  HALSIM_CancelCTREPCMInitializedCallback:
+  HALSIM_CancelCTREPCMSolenoidOutputCallback:
+  HALSIM_GetCTREPCMSolenoidOutput:
+  HALSIM_SetCTREPCMSolenoidOutput:
+  HALSIM_RegisterCTREPCMCompressorOnCallback:
+    ignore: true
+  HALSIM_CancelCTREPCMInitializedCallback:
+  HALSIM_CancelCTREPCMCompressorOnCallback:
+  HALSIM_GetCTREPCMCompressorOn:
+  HALSIM_SetCTREPCMCompressorOn:
+  HALSIM_RegisterCTREPCMClosedLoopEnabledCallback:
+    ignore: true
+  HALSIM_CancelCTREPCMInitializedCallback:
+  HALSIM_CancelCTREPCMClosedLoopEnabledCallback:
+  HALSIM_GetCTREPCMClosedLoopEnabled:
+  HALSIM_SetCTREPCMClosedLoopEnabled:
+  HALSIM_RegisterCTREPCMPressureSwitchCallback:
+    ignore: true
+  HALSIM_CancelCTREPCMInitializedCallback:
+  HALSIM_CancelCTREPCMPressureSwitchCallback:
+  HALSIM_GetCTREPCMPressureSwitch:
+  HALSIM_SetCTREPCMPressureSwitch:
+  HALSIM_RegisterCTREPCMCompressorCurrentCallback:
+    ignore: true
+  HALSIM_CancelCTREPCMInitializedCallback:
+  HALSIM_CancelCTREPCMCompressorCurrentCallback:
+  HALSIM_GetCTREPCMCompressorCurrent:
+  HALSIM_SetCTREPCMCompressorCurrent:
+  HALSIM_GetCTREPCMAllSolenoids:
+  HALSIM_SetCTREPCMAllSolenoids:
+  HALSIM_RegisterCTREPCMAllNonSolenoidCallbacks:
+    ignore: true
+  HALSIM_CancelCTREPCMInitializedCallback:
+  HALSIM_RegisterCTREPCMAllSolenoidCallbacks:
+    ignore: true
+  HALSIM_CancelCTREPCMInitializedCallback:
