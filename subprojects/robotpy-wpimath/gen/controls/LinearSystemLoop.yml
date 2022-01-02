@@ -14,15 +14,15 @@ classes:
             Inputs>&, KalmanFilter<States, Inputs, Outputs>&, units::volt_t, units::second_t
           :
           ? LinearSystem<States, Inputs, Outputs>&, LinearQuadraticRegulator<States,
-            Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<Eigen::Matrix<double,
-            Inputs, 1> ( const Eigen::Matrix<double, Inputs, 1> & )>, units::second_t
+            Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<Eigen::Vector<double,
+            Inputs> ( const Eigen::Vector<double, Inputs> & )>, units::second_t
           :
           ? LinearQuadraticRegulator<States, Inputs>&, LinearPlantInversionFeedforward<States,
             Inputs>&, KalmanFilter<States, Inputs, Outputs>&, units::volt_t
           :
           ? LinearQuadraticRegulator<States, Inputs>&, LinearPlantInversionFeedforward<States,
-            Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<Eigen::Matrix<double,
-            Inputs, 1> ( const Eigen::Matrix<double, Inputs, 1> & )>
+            Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<Eigen::Vector<double,
+            Inputs> ( const Eigen::Vector<double, Inputs> & )>
           :
       Xhat:
         overloads:
@@ -38,7 +38,7 @@ classes:
           int [const]:
       SetXhat:
         overloads:
-          Eigen::Matrix<double, States, 1>&:
+          Eigen::Vector<double, States>&:
           int, double:
       SetNextR:
       Controller:

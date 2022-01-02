@@ -19,7 +19,7 @@ classes:
           int [const]:
       SetXhat:
         overloads:
-          Eigen::Matrix<double, States, 1>&:
+          Eigen::Vector<double, States>&:
           int, double:
       Reset:
       Predict:

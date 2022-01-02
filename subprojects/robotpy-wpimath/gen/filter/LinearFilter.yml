@@ -8,7 +8,7 @@ classes:
     methods:
       LinearFilter:
         overloads:
-          wpi::ArrayRef<double>, wpi::ArrayRef<double>:
+          wpi::span<const double>, wpi::span<const double>:
           std::initializer_list<double>, std::initializer_list<double>:
             ignore: true
       SinglePoleIIR:
@@ -16,6 +16,7 @@ classes:
       MovingAverage:
       Reset:
       Calculate:
+      BackwardFiniteDifference:
 
 templates:
   LinearFilter:

@@ -23,6 +23,9 @@ classes:
       TransformBy:
       RelativeTo:
       InitialPose:
+      operator+:
+      operator==:
+      operator!=:
   Trajectory::State:
     force_no_default_constructor: true
     shared_ptr: false

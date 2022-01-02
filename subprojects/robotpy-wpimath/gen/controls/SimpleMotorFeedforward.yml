@@ -21,6 +21,9 @@ classes:
           "":
           units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit>:
       Calculate:
+        overloads:
+          units::unit_t<Velocity>, units::unit_t<Acceleration> [const]:
+          units::unit_t<Velocity>, units::unit_t<Velocity>, units::second_t [const]:
       MaxAchievableVelocity:
       MinAchievableVelocity:
       MaxAchievableAcceleration:

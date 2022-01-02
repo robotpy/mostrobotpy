@@ -11,7 +11,7 @@ base_package = "wpimath"
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.3.1"
+version = "2022.1.1-beta-4"
 
 libs = ["wpimath"]
 
@@ -965,9 +965,7 @@ extension = "_wpimath"
 sources = ["wpimath/src/wpimath.cpp"]
 generation_data = "gen"
 generate = [
-  { LinearFilter = "frc/LinearFilter.h" },
-  { MathUtil = "frc/MathUtil.h" },
-  { MedianFilter = "frc/MedianFilter.h" },
+   { MathUtil = "frc/MathUtil.h" }
 ]
 
 [tool.robotpy-build.wrappers."wpimath._controls"]
@@ -1004,6 +1002,18 @@ generate = [
   # frc/system/plant
   { DCMotor = "frc/system/plant/DCMotor.h" },
   { LinearSystemId = "frc/system/plant/LinearSystemId.h" },
+]
+
+[tool.robotpy-build.wrappers."wpimath.filter"]
+
+depends = ["wpiutil", "wpimath_cpp"]
+name = "wpimath_filter"
+extension = "_filter"
+sources = ["wpimath/filter/filter.cpp"]
+generation_data = "gen/filter"
+generate = [
+  { LinearFilter = "frc/filter/LinearFilter.h" },
+  { MedianFilter = "frc/filter/MedianFilter.h" },
 ]
 
 [tool.robotpy-build.wrappers."wpimath.geometry"]

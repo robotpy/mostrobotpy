@@ -18,6 +18,10 @@ classes:
             Inputs>&, Eigen::Matrix<double, States, States>&, Eigen::Matrix<double,
             Inputs, Inputs>&, units::second_t
           :
+          ? Eigen::Matrix<double, States, States>&, Eigen::Matrix<double, States,
+            Inputs>&, Eigen::Matrix<double, States, States>&, Eigen::Matrix<double,
+            Inputs, Inputs>&, Eigen::Matrix<double, States, Inputs>&, units::second_t
+          :
       K:
         overloads:
           '[const]':
@@ -33,8 +37,8 @@ classes:
       Reset:
       Calculate:
         overloads:
-          Eigen::Matrix<double, States, 1>&:
-          Eigen::Matrix<double, States, 1>&, Eigen::Matrix<double, States, 1>&:
+          Eigen::Vector<double, States>&:
+          Eigen::Vector<double, States>&, Eigen::Vector<double, States>&:
       LatencyCompensate:
         ignore: true
     
@@ -63,6 +67,10 @@ classes:
             Inputs>&, Eigen::Matrix<double, States, States>&, Eigen::Matrix<double,
             Inputs, Inputs>&, units::second_t
           :
+          ? Eigen::Matrix<double, States, States>&, Eigen::Matrix<double, States,
+            Inputs>&, Eigen::Matrix<double, States, States>&, Eigen::Matrix<double,
+            Inputs, Inputs>&, Eigen::Matrix<double, States, Inputs>&, units::second_t
+          :
     template_inline_code: |
       cls_LinearQuadraticRegulator
         .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, const wpi::array<double, States>&, const wpi::array<double, Inputs>&, units::second_t>())
@@ -70,6 +78,8 @@ classes:
   LinearQuadraticRegulator<1,1>:
     ignore: true
   LinearQuadraticRegulator<2,1>:
+    ignore: true
+  LinearQuadraticRegulator<2,2>:
     ignore: true
 
 templates:

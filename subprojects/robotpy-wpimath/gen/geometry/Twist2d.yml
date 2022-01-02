@@ -8,6 +8,7 @@ classes:
       dx:
       dy:
       dtheta:
+    methods:
       operator==:
       operator!=:
 
