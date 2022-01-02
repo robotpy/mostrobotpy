@@ -19,43 +19,43 @@ functions:
     ignore: true
   GetEntryValue:
     overloads:
-      wpi::StringRef:
+      std::string_view:
         ignore: true
       NT_Entry:
         ignore: true
   SetDefaultEntryValue:
     overloads:
-      wpi::StringRef, std::shared_ptr<Value>:
+      std::string_view, std::shared_ptr<Value>:
         ignore: true
       NT_Entry, std::shared_ptr<Value>:
         ignore: true
   SetEntryValue:
     overloads:
-      wpi::StringRef, std::shared_ptr<Value>:
+      std::string_view, std::shared_ptr<Value>:
         ignore: true
       NT_Entry, std::shared_ptr<Value>:
         ignore: true
   SetEntryTypeValue:
     overloads:
-      wpi::StringRef, std::shared_ptr<Value>:
+      std::string_view, std::shared_ptr<Value>:
         ignore: true
       NT_Entry, std::shared_ptr<Value>:
         ignore: true
   SetEntryFlags:
     overloads:
-      wpi::StringRef, unsigned int:
+      std::string_view, unsigned int:
         ignore: true
       NT_Entry, unsigned int:
         ignore: true
   GetEntryFlags:
     overloads:
-      wpi::StringRef:
+      std::string_view:
         ignore: true
       NT_Entry:
         ignore: true
   DeleteEntry:
     overloads:
-      wpi::StringRef:
+      std::string_view:
         ignore: true
       NT_Entry:
         ignore: true
@@ -67,17 +67,17 @@ functions:
         ignore: true
   GetEntryInfo:
     overloads:
-      wpi::StringRef, unsigned int:
+      std::string_view, unsigned int:
         ignore: true
-      NT_Inst, wpi::Twine&, unsigned int:
+      NT_Inst, std::string_view, unsigned int:
         ignore: true
       NT_Entry:
         ignore: true
   AddEntryListener:
     overloads:
-      wpi::StringRef, nt::EntryListenerCallback, unsigned int:
+      std::string_view, nt::EntryListenerCallback, unsigned int:
         ignore: true
-      NT_Inst, wpi::Twine&, std::function<void ( const EntryNotification & event )>, unsigned int:
+      NT_Inst, std::string_view, std::function<void ( const EntryNotification & event )>, unsigned int:
         ignore: true
       NT_Entry, std::function<void ( const EntryNotification & event )>, unsigned int:
         ignore: true
@@ -87,7 +87,7 @@ functions:
     ignore: true
   AddPolledEntryListener:
     overloads:
-      NT_EntryListenerPoller, wpi::Twine&, unsigned int:
+      NT_EntryListenerPoller, std::string_view, unsigned int:
         ignore: true
       NT_EntryListenerPoller, NT_Entry, unsigned int:
         ignore: true
@@ -167,9 +167,9 @@ functions:
     ignore: true
   SetNetworkIdentity:
     overloads:
-      wpi::StringRef:
+      std::string_view:
         ignore: true
-      NT_Inst, wpi::Twine&:
+      NT_Inst, std::string_view:
         ignore: true
   GetNetworkMode:
     overloads:
@@ -183,9 +183,9 @@ functions:
     ignore: true
   StartServer:
     overloads:
-      wpi::StringRef, char*, unsigned int:
+      std::string_view, char*, unsigned int:
         ignore: true
-      NT_Inst, wpi::Twine&, char*, unsigned int:
+      NT_Inst, std::string_view, char*, unsigned int:
         ignore: true
   StopServer:
     overloads:
@@ -199,13 +199,13 @@ functions:
         ignore: true
       char*, unsigned int:
         ignore: true
-      ArrayRef<std::pair<StringRef, unsigned int>>:
+      wpi::span<const std::pair<std::string_view, unsigned int>>:
         ignore: true
       NT_Inst:
         ignore: true
       NT_Inst, char*, unsigned int:
         ignore: true
-      NT_Inst, ArrayRef<std::pair<StringRef, unsigned int>>:
+      NT_Inst, wpi::span<const std::pair<std::string_view, unsigned int>>:
         ignore: true
   StartClientTeam:
     ignore: true
@@ -219,11 +219,11 @@ functions:
     overloads:
       char*, unsigned int:
         ignore: true
-      ArrayRef<std::pair<StringRef, unsigned int>>:
+      wpi::span<const std::pair<std::string_view, unsigned int>>:
         ignore: true
       NT_Inst, char*, unsigned int:
         ignore: true
-      NT_Inst, ArrayRef<std::pair<StringRef, unsigned int>>:
+      NT_Inst, wpi::span<const std::pair<std::string_view, unsigned int>>:
         ignore: true
   SetServerTeam:
     ignore: true
@@ -263,15 +263,15 @@ functions:
     ignore: true
   SavePersistent:
     overloads:
-      wpi::StringRef:
+      std::string_view:
         ignore: true
-      NT_Inst, wpi::Twine&:
+      NT_Inst, std::string_view:
         ignore: true
   LoadPersistent:
     overloads:
-      wpi::StringRef, std::function<void ( size_t line, const char * msg )>:
+      std::string_view, std::function<void ( size_t line, const char * msg )>:
         ignore: true
-      NT_Inst, wpi::Twine&, std::function<void ( size_t line, const char * msg )>:
+      NT_Inst, std::string_view, std::function<void ( size_t line, const char * msg )>:
         ignore: true
   SaveEntries:
     ignore: true
@@ -341,7 +341,7 @@ classes:
       EntryNotification:
         overloads:
           "":
-          NT_EntryListener, NT_Entry, wpi::StringRef, std::shared_ptr<Value>, unsigned int:
+          NT_EntryListener, NT_Entry, std::string_view, std::shared_ptr<Value>, unsigned int:
       swap:
         ignore: true
   ConnectionNotification:
@@ -369,7 +369,7 @@ classes:
       LogMessage:
         overloads:
           "":
-          NT_Logger, unsigned int, char*, unsigned int, wpi::StringRef:
+          NT_Logger, unsigned int, std::string_view, unsigned int, std::string_view:
       swap:
         ignore: true
 

@@ -57,23 +57,23 @@ classes:
       MakeDouble:
       MakeString:
         overloads:
-          wpi::Twine&, uint64_t:
+          std::string_view, uint64_t:
           T&&, uint64_t:
             ignore: true
       MakeRaw:
         overloads:
-          wpi::StringRef, uint64_t:
+          std::string_view, uint64_t:
           T&&, uint64_t:
             ignore: true
       MakeRpc:
         overloads:
-          wpi::StringRef, uint64_t:
+          std::string_view, uint64_t:
           T&&, uint64_t:
             ignore: true
       MakeBooleanArray:
         overloads:
-          ArrayRef<bool>, uint64_t:
-          ArrayRef<int>, uint64_t:
+          wpi::span<const bool>, uint64_t:
+          wpi::span<const int>, uint64_t:
             ignore: true
           std::initializer_list<bool>, uint64_t:
             ignore: true
@@ -81,12 +81,12 @@ classes:
             ignore: true
       MakeDoubleArray:
         overloads:
-          ArrayRef<double>, uint64_t:
+          wpi::span<const double>, uint64_t:
           std::initializer_list<double>, uint64_t:
             ignore: true
       MakeStringArray:
         overloads:
-          ArrayRef<std::string>, uint64_t:
+          wpi::span<const std::string>, uint64_t:
             ignore: true
           std::vector<std::string>&&, uint64_t:
           std::initializer_list<std::string>, uint64_t:

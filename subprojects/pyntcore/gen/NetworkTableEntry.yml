@@ -48,7 +48,7 @@ classes:
           }
       GetBooleanArray:
         overloads:
-          ArrayRef<int> [const]:
+          wpi::span<const int> [const]:
           std::initializer_list<int> [const]:
             ignore: true
         cpp_code: |
@@ -57,7 +57,7 @@ classes:
           }
       GetDoubleArray:
         overloads:
-          ArrayRef<double> [const]:
+          wpi::span<const double> [const]:
           std::initializer_list<double> [const]:
             ignore: true
         cpp_code: |
@@ -66,7 +66,7 @@ classes:
           }
       GetStringArray:
         overloads:
-          ArrayRef<std::string> [const]:
+          wpi::span<const std::string> [const]:
           std::initializer_list<std::string> [const]:
             ignore: true
         cpp_code: |
@@ -80,17 +80,17 @@ classes:
       SetDefaultRaw:
       SetDefaultBooleanArray:
         overloads:
-          ArrayRef<int>:
+          wpi::span<const int>:
           std::initializer_list<int>:
             ignore: true
       SetDefaultDoubleArray:
         overloads:
-          ArrayRef<double>:
+          wpi::span<const double>:
           std::initializer_list<double>:
             ignore: true
       SetDefaultStringArray:
         overloads:
-          ArrayRef<std::string>:
+          wpi::span<const std::string>:
           std::initializer_list<std::string>:
             ignore: true
       SetValue:
@@ -100,21 +100,21 @@ classes:
       SetRaw:
       SetBooleanArray:
         overloads:
-          ArrayRef<bool>:
+          wpi::span<const bool>:
           std::initializer_list<bool>:
             ignore: true
-          ArrayRef<int>:
+          wpi::span<const int>:
             ignore: true
           std::initializer_list<int>:
             ignore: true
       SetDoubleArray:
         overloads:
-          ArrayRef<double>:
+          wpi::span<const double>:
           std::initializer_list<double>:
             ignore: true
       SetStringArray:
         overloads:
-          ArrayRef<std::string>:
+          wpi::span<const std::string>:
           std::initializer_list<std::string>:
             ignore: true
       ForceSetValue:
@@ -124,21 +124,21 @@ classes:
       ForceSetRaw:
       ForceSetBooleanArray:
         overloads:
-          ArrayRef<bool>:
+          wpi::span<const bool>:
           std::initializer_list<bool>:
             ignore: true
-          ArrayRef<int>:
+          wpi::span<const int>:
             ignore: true
           std::initializer_list<int>:
             ignore: true
       ForceSetDoubleArray:
         overloads:
-          ArrayRef<double>:
+          wpi::span<const double>:
           std::initializer_list<double>:
             ignore: true
       ForceSetStringArray:
         overloads:
-          ArrayRef<std::string>:
+          wpi::span<const std::string>:
           std::initializer_list<std::string>:
             ignore: true
       SetFlags:

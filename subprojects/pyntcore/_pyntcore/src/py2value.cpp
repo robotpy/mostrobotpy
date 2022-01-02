@@ -5,8 +5,6 @@
 
 // type casters
 #include <pybind11/stl.h>
-#include <wpi_arrayref_type_caster.h>
-#include <wpi_twine_type_caster.h>
 
 
 
@@ -48,7 +46,7 @@ py::object ntvalue2py(nt::Value * ntvalue) {
   }
   
   case NT_STRING_ARRAY: {
-    return std::move(py::cast(ntvalue->GetStringArray()));
+    return py::cast(ntvalue->GetStringArray());
   }
 
   default:
@@ -96,15 +94,15 @@ py::cpp_function valueFactoryByType(nt::NetworkTableType type) {
   case nt::NetworkTableType::kDouble:
     return py::cpp_function([](double v) { return nt::Value::MakeDouble(v); });
   case nt::NetworkTableType::kString:
-    return py::cpp_function([](const wpi::Twine &v) { return nt::Value::MakeString(v); });
+    return py::cpp_function([](std::string_view v) { return nt::Value::MakeString(v); });
   case nt::NetworkTableType::kRaw:
-    return py::cpp_function([](const wpi::Twine &v) { return nt::Value::MakeString(v); });
+    return py::cpp_function([](std::string_view v) { return nt::Value::MakeString(v); });
   case nt::NetworkTableType::kBooleanArray: 
-    return py::cpp_function([](const wpi::ArrayRef<bool> &v) { return nt::Value::MakeBooleanArray(v); });
+    return py::cpp_function([](wpi::span<const bool> v) { return nt::Value::MakeBooleanArray(v); });
   case nt::NetworkTableType::kDoubleArray: 
-    return py::cpp_function([](const wpi::ArrayRef<double> &v) { return nt::Value::MakeDoubleArray(v); });
+    return py::cpp_function([](wpi::span<const double> v) { return nt::Value::MakeDoubleArray(v); });
   case nt::NetworkTableType::kStringArray:
-    return py::cpp_function([](const wpi::ArrayRef<std::string> &v) { return nt::Value::MakeStringArray(v); });
+    return py::cpp_function([](std::vector<std::string>&& v) { return nt::Value::MakeStringArray(v); });
   default:
     throw py::type_error("empty nt value");
   }

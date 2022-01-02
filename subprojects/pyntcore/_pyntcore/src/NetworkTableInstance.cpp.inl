@@ -14,7 +14,7 @@ cls_NetworkTableInstance
         return that->GetTable("/");
     }, release_gil())
     .def("getGlobalAutoUpdateValue", [](NetworkTableInstance * that,
-        const wpi::Twine &key, py::handle defaultValue, bool writeDefault) {
+        std::string_view key, py::handle defaultValue, bool writeDefault) {
         auto dv = pyntcore::py2ntvalue(defaultValue);
 
         py::gil_scoped_release release;

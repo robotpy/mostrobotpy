@@ -2,9 +2,6 @@
 #include "pyentry.h"
 #include "py2value.h"
 
-#include <wpi_arrayref_type_caster.h>
-#include <wpi_stringref_type_caster.h>
-
 namespace pyntcore {
 
 py::object GetBooleanEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {

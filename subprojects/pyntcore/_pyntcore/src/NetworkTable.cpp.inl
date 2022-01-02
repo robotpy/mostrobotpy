@@ -1,5 +1,5 @@
 cls_NetworkTable
-    .def("getValue", [](NetworkTable * table, wpi::StringRef key, py::object defaultValue) -> py::object {
+    .def("getValue", [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
         nt::NetworkTableEntry entry;
         {
             py::gil_scoped_release release;
@@ -9,40 +9,40 @@ cls_NetworkTable
     }, py::arg("key"), py::arg("value"))
 
     // double overload must come before boolean version
-    .def("putValue", [](nt::NetworkTable *self, const wpi::Twine &key, double value) {
+    .def("putValue", [](nt::NetworkTable *self, std::string_view key, double value) {
         return self->PutValue(key, nt::Value::MakeDouble(value));
     }, py::arg("key"), py::arg("value"), release_gil())
-    .def("putValue", [](nt::NetworkTable *self, const wpi::Twine &key, bool value) {
+    .def("putValue", [](nt::NetworkTable *self, std::string_view key, bool value) {
         return self->PutValue(key, nt::Value::MakeBoolean(value));
     }, py::arg("key"), py::arg("value"), release_gil())
-    .def("putValue", [](nt::NetworkTable *self, const wpi::Twine &key, py::bytes value) {
+    .def("putValue", [](nt::NetworkTable *self, std::string_view key, py::bytes value) {
         return self->PutValue(key, nt::Value::MakeRaw(value.cast<std::string>()));
     }, py::arg("key"), py::arg("value"))
-    .def("putValue", [](nt::NetworkTable *self, const wpi::Twine &key, std::string value) {
+    .def("putValue", [](nt::NetworkTable *self, std::string_view key, std::string value) {
         return self->PutValue(key, nt::Value::MakeString(value));
     }, py::arg("key"), py::arg("value"), release_gil())
-    .def("putValue", [](nt::NetworkTable *self, const wpi::Twine &key, py::sequence value) {
+    .def("putValue", [](nt::NetworkTable *self, std::string_view key, py::sequence value) {
         return self->PutValue(key, pyntcore::py2ntvalue(value));
     }, py::arg("key"), py::arg("value"))
 
     // double overload must come before boolean version
-    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, double value) {
+    .def("setDefaultValue", [](nt::NetworkTable *self, std::string_view key, double value) {
         return self->SetDefaultValue(key, nt::Value::MakeDouble(value));
     }, py::arg("key"), py::arg("value"), release_gil())
-    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, bool value) {
+    .def("setDefaultValue", [](nt::NetworkTable *self, std::string_view key, bool value) {
         return self->SetDefaultValue(key, nt::Value::MakeBoolean(value));
     }, py::arg("key"), py::arg("value"), release_gil())
-    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, py::bytes value) {
+    .def("setDefaultValue", [](nt::NetworkTable *self, std::string_view key, py::bytes value) {
         return self->SetDefaultValue(key, nt::Value::MakeRaw(value.cast<std::string>()));
     }, py::arg("key"), py::arg("value"))
-    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, std::string value) {
+    .def("setDefaultValue", [](nt::NetworkTable *self, std::string_view key, std::string value) {
         return self->SetDefaultValue(key, nt::Value::MakeString(value));
     }, py::arg("key"), py::arg("value"), release_gil())
-    .def("setDefaultValue", [](nt::NetworkTable *self, const wpi::Twine &key, py::sequence value) {
+    .def("setDefaultValue", [](nt::NetworkTable *self, std::string_view key, py::sequence value) {
         return self->SetDefaultValue(key, pyntcore::py2ntvalue(value));
     }, py::arg("key"), py::arg("value"))
 
-    .def("__contains__", [](nt::NetworkTable *self, const wpi::Twine &key) -> bool {
+    .def("__contains__", [](nt::NetworkTable *self, std::string_view key) -> bool {
         return self->ContainsKey(key);
     })
 ;

@@ -73,7 +73,7 @@ classes:
             default: "NT_DEFAULT_PORT"
         cpp_code: |
           [](NetworkTableInstance * that,
-             const Twine& persist_filename,
+             std::string_view persist_filename,
              const char* listen_address,
              unsigned int port) {
             pyntcore::attachLogging(that->GetHandle());
@@ -98,20 +98,20 @@ classes:
                 pyntcore::attachLogging(that->GetHandle());
                 that->StartClient(server_name, port);
               }
-          ArrayRef<std::pair<StringRef, unsigned int>>:
+          wpi::span<const std::pair<std::string_view, unsigned int>>:
             cpp_code: |
               [](NetworkTableInstance * that,
-                 ArrayRef<std::pair<StringRef, unsigned int>> servers) {
+                 wpi::span<const std::pair<std::string_view, unsigned int>> servers) {
                 pyntcore::attachLogging(that->GetHandle());
                 that->StartClient(servers);
               }
-          ArrayRef<StringRef>, unsigned int:
+          wpi::span<const std::string_view>, unsigned int:
             param_override:
               port:
                 default: "NT_DEFAULT_PORT"
             cpp_code: |
               [](NetworkTableInstance * that,
-                 ArrayRef<StringRef> servers, unsigned int port) {
+                 wpi::span<const std::string_view> servers, unsigned int port) {
                 pyntcore::attachLogging(that->GetHandle());
                 that->StartClient(servers, port);
               }
@@ -132,8 +132,8 @@ classes:
             param_override:
               port:
                 default: "NT_DEFAULT_PORT"
-          ArrayRef<std::pair<StringRef, unsigned int>>:
-          ArrayRef<StringRef>, unsigned int:
+          wpi::span<const std::pair<std::string_view, unsigned int>>:
+          wpi::span<const std::string_view>, unsigned int:
             param_override:
               port:
                 default: "NT_DEFAULT_PORT"
