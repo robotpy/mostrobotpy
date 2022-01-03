@@ -17,6 +17,7 @@ classes:
       Reset:
       Calculate:
       BackwardFiniteDifference:
+        ignore: true  # TODO: template_impls
 
 templates:
   LinearFilter:

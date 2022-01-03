@@ -12,5 +12,12 @@ classes:
       IdentifyPositionSystem:
         ignore: true # TODO
       IdentifyDrivetrainSystem:
+        overloads:
+          decltype ( 1 _V / 1 _mps ), decltype ( 1 _V / 1 _mps_sq ), decltype ( 1 _V / 1 _mps ), decltype ( 1 _V / 1 _mps_sq ):
+            ignore: true  # TODO: decltype
+          ? decltype ( 1 _V / 1 _mps ), decltype ( 1 _V / 1 _mps_sq ), decltype (
+            1 _V / 1 _rad_per_s ), decltype ( 1 _V / 1 _rad_per_s_sq ), units::meter_t
+          :
+            ignore: true  # TODO: decltype
       FlywheelSystem:
       DrivetrainVelocitySystem:
