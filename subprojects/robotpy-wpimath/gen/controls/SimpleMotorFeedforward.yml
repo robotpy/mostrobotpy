@@ -10,6 +10,7 @@ classes:
     - units::meters_per_second
     - units::meters_per_second_squared
     typealias:
+    - typename frc::SimpleMotorFeedforward<Distance>::Velocity
     - typename frc::SimpleMotorFeedforward<Distance>::Acceleration
     - typename frc::SimpleMotorFeedforward<Distance>::kv_unit
     - typename frc::SimpleMotorFeedforward<Distance>::ka_unit
