@@ -87,6 +87,11 @@ template<typename Derived> class SparseMatrixBase
           * we are dealing with a column-vector (if there is only one column) or with
           * a row-vector (if there is only one row). */
 
+      NumDimensions = int(MaxSizeAtCompileTime) == 1 ? 0 : bool(IsVectorAtCompileTime) ? 1 : 2,
+        /**< This value is equal to Tensor::NumDimensions, i.e. 0 for scalars, 1 for vectors,
+         * and 2 for matrices.
+         */
+
       Flags = internal::traits<Derived>::Flags,
         /**< This stores expression \ref flags flags which may or may not be inherited by new expressions
           * constructed from this one. See the \ref flags "list of flags".
@@ -154,11 +159,11 @@ template<typename Derived> class SparseMatrixBase
 #define EIGEN_DOC_BLOCK_ADDONS_NOT_INNER_PANEL
 #define EIGEN_DOC_BLOCK_ADDONS_INNER_PANEL_IF(COND)
 #endif
-#   include "../../../../../include/Eigen/src/plugins/CommonCwiseUnaryOps.h"
-#   include "../../../../../include/Eigen/src/plugins/CommonCwiseBinaryOps.h"
-#   include "../../../../../include/Eigen/src/plugins/MatrixCwiseUnaryOps.h"
-#   include "../../../../../include/Eigen/src/plugins/MatrixCwiseBinaryOps.h"
-#   include "../../../../../include/Eigen/src/plugins/BlockMethods.h"
+#   include "Eigen/src/plugins/CommonCwiseUnaryOps.h"
+#   include "Eigen/src/plugins/CommonCwiseBinaryOps.h"
+#   include "Eigen/src/plugins/MatrixCwiseUnaryOps.h"
+#   include "Eigen/src/plugins/MatrixCwiseBinaryOps.h"
+#   include "Eigen/src/plugins/BlockMethods.h"
 #   ifdef EIGEN_SPARSEMATRIXBASE_PLUGIN
 #     include EIGEN_SPARSEMATRIXBASE_PLUGIN
 #   endif
@@ -349,18 +354,6 @@ template<typename Derived> class SparseMatrixBase
     TransposeReturnType transpose() { return TransposeReturnType(derived()); }
     const ConstTransposeReturnType transpose() const { return ConstTransposeReturnType(derived()); }
     const AdjointReturnType adjoint() const { return AdjointReturnType(transpose()); }
-
-    // inner-vector
-    typedef Block<Derived,IsRowMajor?1:Dynamic,IsRowMajor?Dynamic:1,true>       InnerVectorReturnType;
-    typedef Block<const Derived,IsRowMajor?1:Dynamic,IsRowMajor?Dynamic:1,true> ConstInnerVectorReturnType;
-    InnerVectorReturnType innerVector(Index outer);
-    const ConstInnerVectorReturnType innerVector(Index outer) const;
-
-    // set of inner-vectors
-    typedef Block<Derived,Dynamic,Dynamic,true> InnerVectorsReturnType;
-    typedef Block<const Derived,Dynamic,Dynamic,true> ConstInnerVectorsReturnType;
-    InnerVectorsReturnType innerVectors(Index outerStart, Index outerSize);
-    const ConstInnerVectorsReturnType innerVectors(Index outerStart, Index outerSize) const;
 
     DenseMatrixType toDense() const
     {
