@@ -1,0 +1,27 @@
+---
+
+classes:
+  SendableBuilder:
+    shared_ptr: true
+    enums:
+      BackendKind:
+    methods:
+      SetSmartDashboardType:
+      SetActuator:
+      SetSafeState:
+      AddBooleanProperty:
+      AddDoubleProperty:
+      AddStringProperty:
+      AddBooleanArrayProperty:
+      AddDoubleArrayProperty:
+      AddStringArrayProperty:
+      AddRawProperty:
+      AddSmallStringProperty:
+      AddSmallBooleanArrayProperty:
+      AddSmallDoubleArrayProperty:
+      AddSmallStringArrayProperty:
+      AddSmallRawProperty:
+      GetBackendKind:
+      IsPublished:
+      Update:
+      ClearProperties:

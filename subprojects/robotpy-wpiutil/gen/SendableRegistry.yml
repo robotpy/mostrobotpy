@@ -1,0 +1,76 @@
+---
+
+extra_includes:
+- wpi/sendable/Sendable.h
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  SendableRegistry:
+    nodelete: true
+    methods:
+      SetLiveWindowBuilderFactory:
+      Add:
+        overloads:
+          wpi::Sendable*, std::string_view:
+            keepalive:
+            - [1, 2]
+          wpi::Sendable*, std::string_view, int:
+            keepalive:
+            - [1, 2]
+          wpi::Sendable*, std::string_view, int, int:
+            keepalive:
+            - [1, 2]
+          wpi::Sendable*, std::string_view, std::string_view:
+            keepalive:
+            - [1, 2]
+      AddLW:
+        overloads:
+          wpi::Sendable*, std::string_view:
+            keepalive:
+            - [1, 2]
+          wpi::Sendable*, std::string_view, int:
+            keepalive:
+            - [1, 2]
+          wpi::Sendable*, std::string_view, int, int:
+            keepalive:
+            - [1, 2]
+          wpi::Sendable*, std::string_view, std::string_view:
+            keepalive:
+            - [1, 2]
+      AddChild:
+        overloads:
+          wpi::Sendable*, wpi::Sendable*:
+            keepalive:
+            - [1, 2]
+            - [2, 3]
+          wpi::Sendable*, void*:
+            ignore: true
+      Remove:
+      Move:
+        ignore: true
+      Contains:
+      GetName:
+      SetName:
+        overloads:
+          wpi::Sendable*, std::string_view:
+          wpi::Sendable*, std::string_view, int:
+          wpi::Sendable*, std::string_view, int, int:
+          wpi::Sendable*, std::string_view, std::string_view:
+      GetSubsystem:
+      SetSubsystem:
+      GetDataHandle:
+        ignore: true
+      SetData:
+        ignore: true
+      GetData:
+        ignore: true
+      EnableLiveWindow:
+      DisableLiveWindow:
+      GetUniqueId:
+      GetSendable:
+      Publish:
+      Update:
+      ForeachLiveWindow:
+        ignore: true
+  SendableRegistry::CallbackData:
+    ignore: true
