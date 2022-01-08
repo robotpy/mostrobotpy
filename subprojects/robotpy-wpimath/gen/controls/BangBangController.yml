@@ -2,6 +2,7 @@
 
 classes:
   BangBangController:
+    subpackage: controller
     ignored_bases:
     - wpi::SendableHelper<BangBangController>
     methods:

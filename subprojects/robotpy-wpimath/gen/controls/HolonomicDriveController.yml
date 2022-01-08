@@ -2,6 +2,7 @@
 
 classes:
   HolonomicDriveController:
+    subpackage: controller
     methods:
       HolonomicDriveController:
       AtReference:

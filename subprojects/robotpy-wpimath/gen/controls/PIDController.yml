@@ -2,6 +2,7 @@
 
 classes:
   PIDController:
+    subpackage: controller
     ignored_bases:
     - wpi::SendableHelper<PIDController>
     methods:

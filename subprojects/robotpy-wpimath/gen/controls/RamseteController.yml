@@ -2,6 +2,7 @@
 
 classes:
   RamseteController:
+    subpackage: controller
     methods:
       RamseteController:
         overloads:
