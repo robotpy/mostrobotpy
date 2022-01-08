@@ -30,6 +30,7 @@ libs = ["wpiutil"]
 
 [tool.robotpy-build.wrappers."wpiutil".type_casters]
 "wpi_array_type_caster.h" =    ["wpi::array"]
+"wpi_span_type_caster.h" = ["wpi::span"]
 "wpi_smallset_type_caster.h" =    ["wpi::SmallSet"]
 "wpi_smallvector_type_caster.h" = ["wpi::SmallVector"]
 "wpi_smallvectorimpl_type_caster.h" = ["wpi::SmallVectorImpl"]

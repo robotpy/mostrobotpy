@@ -2,22 +2,10 @@
 #include <robotpy_build.h>
 
 #include <wpi_array_type_caster.h>
-#include <wpi_arrayref_type_caster.h>
+#include <wpi_span_type_caster.h>
 #include <wpi_smallset_type_caster.h>
 #include <wpi_smallvector_type_caster.h>
 #include <wpi_smallvectorimpl_type_caster.h>
-#include <wpi_stringref_type_caster.h>
-#include <wpi_twine_type_caster.h>
-
-std::string load_stringref(wpi::StringRef ref) {
-    return ref.str();
-}
-
-wpi::StringRef cast_stringref() {
-    // StringRef refers to a thing -- static ensures the ref is valid
-    static std::string casted("casted");
-    return casted;
-}
 
 /*
 array tests
@@ -27,25 +15,29 @@ wpi::array<int, 4> load_array_int(wpi::array<int, 4> data) {
 }
 
 /*
-ArrayRef Tests
+span Tests
 */
-wpi::ArrayRef<int> load_arrayref_int(wpi::ArrayRef<int> ref) {
+wpi::span<const int> load_span_int(wpi::span<const int> ref) {
     return ref;
 }
 
-wpi::ArrayRef<bool> load_arrayref_bool(wpi::ArrayRef<bool> ref) {
+wpi::span<const bool> load_span_bool(wpi::span<const bool> ref) {
     return ref;
 }
 
-wpi::ArrayRef<std::string> load_arrayref_string(wpi::ArrayRef<std::string> ref) {
+wpi::span<std::string> load_span_string(wpi::span<std::string> ref) {
     return ref;
 }
 
-wpi::ArrayRef<std::vector<std::string>> load_arrayref_vector(wpi::ArrayRef<std::vector<std::string>> ref) {
+wpi::span<std::string_view> load_span_string_view(wpi::span<std::string_view> ref) {
     return ref;
 }
 
-wpi::ArrayRef<int> cast_arrayref() {
+wpi::span<std::vector<std::string>> load_span_vector(wpi::span<std::vector<std::string>> ref) {
+    return ref;
+}
+
+wpi::span<int> cast_span() {
     static std::vector<int> vec{1, 2, 3};
     return vec;
 }
@@ -94,16 +86,14 @@ wpi::SmallVectorImpl<int>&  load_smallvecimpl_int(wpi::SmallVectorImpl<int>& ref
 
 RPYBUILD_PYBIND11_MODULE(m) {
 
-    // stringref
-    m.def("load_stringref", &load_stringref);
-    m.def("cast_stringref", &cast_stringref);
     // array
     m.def("load_array_int", &load_array_int);
-    // ArrayRef
-    m.def("load_arrayref_int", &load_arrayref_int);
-    m.def("load_arrayref_bool", &load_arrayref_bool);
-    m.def("load_arrayref_string", &load_arrayref_string);
-    m.def("load_arrayref_vector", &load_arrayref_vector);
+    // span
+    m.def("load_span_int", &load_span_int);
+    m.def("load_span_bool", &load_span_bool);
+    m.def("load_span_string", &load_span_string);
+    m.def("load_span_string_view", &load_span_string_view);
+    m.def("load_span_vector", &load_span_vector);
     // SmallSet
     m.def("load_smallset_int", &load_smallset_int);
     m.def("cast_smallset", &cast_smallset);
