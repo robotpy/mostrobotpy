@@ -36,11 +36,12 @@ classes:
         .def_readwrite("kA", &SimpleMotorFeedforward<Distance>::kA);
 
 templates:
-  SimpleMotorFeedforward:
-    qualname: frc::SimpleMotorFeedforward
-    subpackage: controller
-    params:
-      - units::dimensionless::scalar
+  # Unfortunately this is broken because calculate requires an SI unit
+  # SimpleMotorFeedforward:
+  #   qualname: frc::SimpleMotorFeedforward
+  #   subpackage: controller
+  #   params:
+  #     - units::dimensionless::scalar
   
   SimpleMotorFeedforwardMeters:
     qualname: frc::SimpleMotorFeedforward

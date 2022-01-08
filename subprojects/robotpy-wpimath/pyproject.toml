@@ -11,7 +11,7 @@ base_package = "wpimath"
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2022.1.1-beta-4"
+version = "2022.1.1"
 
 libs = ["wpimath"]
 
@@ -972,16 +972,21 @@ generate = [
 name = "wpimath_controls"
 extension = "_controls"
 sources = ["wpimath/_controls/controls.cpp"]
-depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry", "wpimath_kinematics"]
+depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry", "wpimath_kinematics", "wpimath_trajectory"]
 generation_data = "gen/controls"
 generate = [
   # frc/controller
   { ArmFeedforward = "frc/controller/ArmFeedforward.h" },
+  { BangBangController = "frc/controller/BangBangController.h" },
   { ControlAffinePlantInversionFeedforward = "frc/controller/ControlAffinePlantInversionFeedforward.h" },
   { ElevatorFeedforward = "frc/controller/ElevatorFeedforward.h" },
+  { HolonomicDriveController = "frc/controller/HolonomicDriveController.h" },
   { LinearPlantInversionFeedforward = "frc/controller/LinearPlantInversionFeedforward.h" },
   { LinearQuadraticRegulator = "frc/controller/LinearQuadraticRegulator.h" },
-  { SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h" },
+  { PIDController = "frc/controller/PIDController.h" },
+  { ProfiledPIDController = "frc/controller/ProfiledPIDController.h" },
+  { RamseteController = "frc/controller/RamseteController.h" },
+  
   # frc/estimator
   # { AngleStatistics = "frc/estimator/AngleStatistics.h" },
   { DifferentialDrivePoseEstimator = "frc/estimator/DifferentialDrivePoseEstimator.h" },
@@ -993,12 +998,14 @@ generate = [
   { SwerveDrivePoseEstimator = "frc/estimator/SwerveDrivePoseEstimator.h" },
   # { UnscentedKalmanFilter = "frc/estimator/UnscentedKalmanFilter.h" },
   # { UnscentedTransform = "frc/estimator/UnscentedTransform.h" },
+
   # frc/system
   # { Discretization = "frc/system/Discretization.h" },
   { LinearSystem = "frc/system/LinearSystem.h" },
   { LinearSystemLoop = "frc/system/LinearSystemLoop.h" },
+  # { NumericalIntegration = "frc/system/NumericalIntegration.h" },
   # { NumericalJacobian = "frc/system/NumericalJacobian.h" },
-  # { RungeKutta = "frc/system/RungeKutta.h" },
+
   # frc/system/plant
   { DCMotor = "frc/system/plant/DCMotor.h" },
   { LinearSystemId = "frc/system/plant/LinearSystemId.h" },
@@ -1012,8 +1019,10 @@ extension = "_filter"
 sources = ["wpimath/filter/filter.cpp"]
 generation_data = "gen/filter"
 generate = [
+  { Debouncer = "frc/filter/Debouncer.h" },
   { LinearFilter = "frc/filter/LinearFilter.h" },
   { MedianFilter = "frc/filter/MedianFilter.h" },
+  { SlewRateLimiter = "frc/filter/SlewRateLimiter.h" },
 ]
 
 [tool.robotpy-build.wrappers."wpimath.geometry"]
@@ -1103,6 +1112,9 @@ generate = [
   { RectangularRegionConstraint = "frc/trajectory/constraint/RectangularRegionConstraint.h" },
   { SwerveDriveKinematicsConstraint = "frc/trajectory/constraint/SwerveDriveKinematicsConstraint.h" },
   { TrajectoryConstraint = "frc/trajectory/constraint/TrajectoryConstraint.h" },
+
+  # circular dependencies, yay
+  { SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h" },
 ]
 
 

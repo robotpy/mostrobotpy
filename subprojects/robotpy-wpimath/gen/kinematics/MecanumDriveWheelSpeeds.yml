@@ -11,6 +11,7 @@ classes:
       rearRight:
     methods:
       Normalize:
+      Desaturate:
 
 inline_code: |
   cls_MecanumDriveWheelSpeeds

@@ -1,0 +1,35 @@
+---
+
+classes:
+  PIDController:
+    ignored_bases:
+    - wpi::SendableHelper<PIDController>
+    methods:
+      PIDController:
+        param_override:
+          period:
+            default: 0.020_s
+      SetPID:
+      SetP:
+      SetI:
+      SetD:
+      GetP:
+      GetI:
+      GetD:
+      GetPeriod:
+      SetSetpoint:
+      GetSetpoint:
+      AtSetpoint:
+      EnableContinuousInput:
+      DisableContinuousInput:
+      IsContinuousInputEnabled:
+      SetIntegratorRange:
+      SetTolerance:
+      GetPositionError:
+      GetVelocityError:
+      Calculate:
+        overloads:
+          double:
+          double, double:
+      Reset:
+      InitSendable:

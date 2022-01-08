@@ -11,7 +11,7 @@ from .._controls._controls.controller import (
     LinearQuadraticRegulator_1_1,
     LinearQuadraticRegulator_2_1,
     LinearQuadraticRegulator_2_2,
-    SimpleMotorFeedforward,
+    # SimpleMotorFeedforward,
     SimpleMotorFeedforwardMeters,
 )
 
@@ -27,6 +27,6 @@ __all__ = [
     "LinearQuadraticRegulator_1_1",
     "LinearQuadraticRegulator_2_1",
     "LinearQuadraticRegulator_2_2",
-    "SimpleMotorFeedforward",
+    # "SimpleMotorFeedforward",
     "SimpleMotorFeedforwardMeters",
 ]
