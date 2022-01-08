@@ -1,0 +1,11 @@
+---
+extra_includes:
+  - networktables/NTSendableBuilder.h
+
+classes:
+  NTSendable:
+    methods:
+      InitSendable:
+        overloads:
+          nt::NTSendableBuilder&:
+          wpi::SendableBuilder&:

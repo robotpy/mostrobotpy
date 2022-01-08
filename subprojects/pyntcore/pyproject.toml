@@ -27,6 +27,8 @@ sources = [
 depends = ["wpiutil"]
 
 generate = [
+    { NTSendable = "networktables/NTSendable.h" },
+    { NTSendableBuilder = "networktables/NTSendableBuilder.h" },
     { NetworkTable = "networktables/NetworkTable.h" },
     { NetworkTableEntry = "networktables/NetworkTableEntry.h" },
     { NetworkTableInstance = "networktables/NetworkTableInstance.h" },

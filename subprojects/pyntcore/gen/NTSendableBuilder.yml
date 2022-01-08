@@ -1,0 +1,11 @@
+---
+
+classes:
+  NTSendableBuilder:
+    methods:
+      SetUpdateTable:
+      GetEntry:
+      AddValueProperty:
+      GetTable:
+      GetBackendKind:
+        ignore: true  # TODO: unqualified return type
