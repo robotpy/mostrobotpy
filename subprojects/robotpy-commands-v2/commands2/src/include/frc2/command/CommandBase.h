@@ -6,12 +6,12 @@
 
 #include <initializer_list>
 #include <string>
+#include <string_view>
 
-#include <frc/smartdashboard/Sendable.h>
-#include <frc/smartdashboard/SendableHelper.h>
-#include <wpi/ArrayRef.h>
 #include <wpi/SmallSet.h>
-#include <wpi/Twine.h>
+#include <wpi/sendable/Sendable.h>
+#include <wpi/sendable/SendableHelper.h>
+#include <wpi/span.h>
 
 #include "frc2/command/Command.h"
 
@@ -20,25 +20,42 @@ namespace frc2 {
  * A Sendable base class for Commands.
  */
 class CommandBase : public Command,
-                    public frc::Sendable,
-                    public frc::SendableHelper<CommandBase> {
+                    public wpi::Sendable,
+                    public wpi::SendableHelper<CommandBase> {
  public:
   /**
-   * Adds the specified requirements to the command.
+   * Adds the specified Subsystem requirements to the command.
    *
-   * @param requirements the requirements to add
+   * @param requirements the Subsystem requirements to add
    */
   void AddRequirements(std::initializer_list<Subsystem*> requirements);
 
   /**
-   * Adds the specified requirements to the command.
+   * Adds the specified Subsystem requirements to the command.
    *
-   * @param requirements the requirements to add
+   * @param requirements the Subsystem requirements to add
    */
-  void AddRequirements(wpi::ArrayRef<Subsystem*> requirements);
+  void AddRequirements(wpi::span<Subsystem* const> requirements);
 
+  /**
+   * Adds the specified Subsystem requirements to the command.
+   *
+   * @param requirements the Subsystem requirements to add
+   */
   void AddRequirements(wpi::SmallSet<Subsystem*, 4> requirements);
 
+  /**
+   * Adds the specified Subsystem requirement to the command.
+   *
+   * @param requirement the Subsystem requirement to add
+   */
+  void AddRequirements(Subsystem* requirement);
+
+  /**
+   * Gets the Subsystem requirements of the command.
+   *
+   * @return the Command's Subsystem requirements
+   */
   wpi::SmallSet<Subsystem*, 4> GetRequirements() const override;
 
   /**
@@ -46,7 +63,7 @@ class CommandBase : public Command,
    *
    * @param name name
    */
-  void SetName(const wpi::Twine& name);
+  void SetName(std::string_view name);
 
   /**
    * Gets the name of this Command.
@@ -67,9 +84,9 @@ class CommandBase : public Command,
    *
    * @param subsystem subsystem name
    */
-  void SetSubsystem(const wpi::Twine& subsystem);
+  void SetSubsystem(std::string_view subsystem);
 
-  void InitSendable(frc::SendableBuilder& builder) override;
+  void InitSendable(wpi::SendableBuilder& builder) override;
 
  protected:
   CommandBase();

@@ -4,6 +4,8 @@
 
 #include "frc2/command/button/Trigger.h"
 
+#include <frc/filter/Debouncer.h>
+
 #include "frc2/command/InstantCommand.h"
 
 using namespace frc2;
@@ -27,12 +29,12 @@ Trigger Trigger::WhenActive(Command* command, bool interruptible) {
 
 Trigger Trigger::WhenActive(std::function<void()> toRun,
                             std::initializer_list<Subsystem*> requirements) {
-  return WhenActive(std::move(toRun), wpi::makeArrayRef(requirements.begin(),
-                                                        requirements.end()));
+  return WhenActive(std::move(toRun),
+                    {requirements.begin(), requirements.end()});
 }
 
 Trigger Trigger::WhenActive(std::function<void()> toRun,
-                            wpi::ArrayRef<Subsystem*> requirements) {
+                            wpi::span<Subsystem* const> requirements) {
   return WhenActive(InstantCommand(std::move(toRun), requirements));
 }
 
@@ -55,13 +57,12 @@ Trigger Trigger::WhileActiveContinous(Command* command, bool interruptible) {
 Trigger Trigger::WhileActiveContinous(
     std::function<void()> toRun,
     std::initializer_list<Subsystem*> requirements) {
-  return WhileActiveContinous(
-      std::move(toRun),
-      wpi::makeArrayRef(requirements.begin(), requirements.end()));
+  return WhileActiveContinous(std::move(toRun),
+                              {requirements.begin(), requirements.end()});
 }
 
-Trigger Trigger::WhileActiveContinous(std::function<void()> toRun,
-                                      wpi::ArrayRef<Subsystem*> requirements) {
+Trigger Trigger::WhileActiveContinous(
+    std::function<void()> toRun, wpi::span<Subsystem* const> requirements) {
   return WhileActiveContinous(InstantCommand(std::move(toRun), requirements));
 }
 
@@ -97,12 +98,12 @@ Trigger Trigger::WhenInactive(Command* command, bool interruptible) {
 
 Trigger Trigger::WhenInactive(std::function<void()> toRun,
                               std::initializer_list<Subsystem*> requirements) {
-  return WhenInactive(std::move(toRun), wpi::makeArrayRef(requirements.begin(),
-                                                          requirements.end()));
+  return WhenInactive(std::move(toRun),
+                      {requirements.begin(), requirements.end()});
 }
 
 Trigger Trigger::WhenInactive(std::function<void()> toRun,
-                              wpi::ArrayRef<Subsystem*> requirements) {
+                              wpi::span<Subsystem* const> requirements) {
   return WhenInactive(InstantCommand(std::move(toRun), requirements));
 }
 
@@ -136,4 +137,12 @@ Trigger Trigger::CancelWhenActive(Command* command) {
         pressedLast = pressed;
       });
   return *this;
+}
+
+Trigger Trigger::Debounce(units::second_t debounceTime,
+                          frc::Debouncer::DebounceType type) {
+  return Trigger(
+      [debouncer = frc::Debouncer(debounceTime, type), *this]() mutable {
+        return debouncer.Calculate(m_isActive());
+      });
 }
