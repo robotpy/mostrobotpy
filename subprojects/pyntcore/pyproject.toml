@@ -25,19 +25,26 @@ sources = [
 ]
 
 depends = ["wpiutil"]
-
-generate = [
-    { NTSendable = "networktables/NTSendable.h" },
-    { NTSendableBuilder = "networktables/NTSendableBuilder.h" },
-    { NetworkTable = "networktables/NetworkTable.h" },
-    { NetworkTableEntry = "networktables/NetworkTableEntry.h" },
-    { NetworkTableInstance = "networktables/NetworkTableInstance.h" },
-    { NetworkTableType = "networktables/NetworkTableType.h" },
-    { NetworkTableValue = "networktables/NetworkTableValue.h" },
-    { CppApi = "ntcore_cpp.h" },
-]
-
 generation_data = "gen"
+
+[tool.robotpy-build.wrappers."_pyntcore".autogen_headers]
+# networktables
+# EntryListenerFlags = "networktables/EntryListenerFlags.h"     .. already in NetworkTableInstance.cpp.inl
+NTSendable = "networktables/NTSendable.h"
+NTSendableBuilder = "networktables/NTSendableBuilder.h"
+NetworkTable = "networktables/NetworkTable.h"
+NetworkTableEntry = "networktables/NetworkTableEntry.h"
+NetworkTableInstance = "networktables/NetworkTableInstance.h"
+NetworkTableType = "networktables/NetworkTableType.h"
+NetworkTableValue = "networktables/NetworkTableValue.h"
+# RpcCall = "networktables/RpcCall.h"
+# TableEntryListener = "networktables/TableEntryListener.h"
+# TableListener = "networktables/TableListener.h"
+
+# ntcore = "ntcore.h"
+# ntcore_c = "ntcore_c.h"
+ntcore_cpp = "ntcore_cpp.h"
+# ntcore_test = "ntcore_test.h"
 
 
 [tool.robotpy-build.metadata]
