@@ -24,3 +24,11 @@ functions:
   HAL_GetNumPDPChannels:
   HAL_GetNumDutyCycles:
   HAL_GetNumAddressableLEDs:
+  HAL_GetNumCTREPCMModules:
+  HAL_GetNumCTRESolenoidChannels:
+  HAL_GetNumCTREPDPModules:
+  HAL_GetNumCTREPDPChannels:
+  HAL_GetNumREVPDHModules:
+  HAL_GetNumREVPDHChannels:
+  HAL_GetNumREVPHModules:
+  HAL_GetNumREVPHChannels:

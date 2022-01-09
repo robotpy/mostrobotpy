@@ -21,3 +21,4 @@ functions:
   HAL_Shutdown:
   HAL_SimPeriodicBefore:
   HAL_SimPeriodicAfter:
+  HAL_GetLastError:

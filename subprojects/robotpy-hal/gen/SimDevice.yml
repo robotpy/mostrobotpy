@@ -47,6 +47,13 @@ functions:
   HAL_SetSimValueDouble:
   HAL_SetSimValueEnum:
   HAL_SetSimValueBoolean:
+  HAL_CreateSimValueInt:
+  HAL_CreateSimValueLong:
+  HAL_GetSimValueInt:
+  HAL_GetSimValueLong:
+  HAL_SetSimValueInt:
+  HAL_SetSimValueLong:
+  HAL_ResetSimValue:
 classes:
   SimValue:
     doc: |
@@ -223,6 +230,8 @@ classes:
               }
 
       CreateBoolean:
+      CreateInt:
+      CreateLong:
 
 inline_code: |
 
