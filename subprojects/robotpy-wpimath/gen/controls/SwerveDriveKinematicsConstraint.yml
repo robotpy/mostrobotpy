@@ -21,22 +21,22 @@ classes:
 
 templates:
   SwerveDrive2KinematicsConstraint:
-    subpackage: constraints
+    subpackage: constraint
     qualname: frc::SwerveDriveKinematicsConstraint
     params:
     - 2
   SwerveDrive3KinematicsConstraint:
-    subpackage: constraints
+    subpackage: constraint
     qualname: frc::SwerveDriveKinematicsConstraint
     params:
     - 3
   SwerveDrive4KinematicsConstraint:
-    subpackage: constraints
+    subpackage: constraint
     qualname: frc::SwerveDriveKinematicsConstraint
     params:
     - 4
   SwerveDrive6KinematicsConstraint:
-    subpackage: constraints
+    subpackage: constraint
     qualname: frc::SwerveDriveKinematicsConstraint
     params:
     - 6

@@ -27,7 +27,7 @@ classes:
 
 templates:
   EllipticalRegionConstraint:
-    subpackage: constraints
+    subpackage: constraint
     qualname: frc::EllipticalRegionConstraint
     params:
     - frc::PyTrajectoryConstraint

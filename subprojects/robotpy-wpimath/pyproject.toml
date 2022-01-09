@@ -972,7 +972,7 @@ generate = [
 name = "wpimath_controls"
 extension = "_controls"
 sources = ["wpimath/_controls/controls.cpp"]
-depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry", "wpimath_kinematics", "wpimath_trajectory"]
+depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry", "wpimath_kinematics", "wpimath_spline"]
 generation_data = "gen/controls"
 generate = [
   # frc/controller
@@ -1010,6 +1010,25 @@ generate = [
   # frc/system/plant
   { DCMotor = "frc/system/plant/DCMotor.h" },
   { LinearSystemId = "frc/system/plant/LinearSystemId.h" },
+
+  # frc/trajectory
+  { Trajectory = "frc/trajectory/Trajectory.h" },
+  { TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h" },
+  { TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h" },
+  { TrajectoryParameterizer = "frc/trajectory/TrajectoryParameterizer.h" },
+  { TrajectoryUtil = "frc/trajectory/TrajectoryUtil.h" },
+  { TrapezoidProfile = "frc/trajectory/TrapezoidProfile.h" },
+
+  # frc/trajectory/constraint
+  { CentripetalAccelerationConstraint = "frc/trajectory/constraint/CentripetalAccelerationConstraint.h" },
+  { DifferentialDriveKinematicsConstraint = "frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h" },
+  { DifferentialDriveVoltageConstraint = "frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h" },
+  { EllipticalRegionConstraint = "frc/trajectory/constraint/EllipticalRegionConstraint.h" },
+  { MaxVelocityConstraint = "frc/trajectory/constraint/MaxVelocityConstraint.h" },
+  { MecanumDriveKinematicsConstraint = "frc/trajectory/constraint/MecanumDriveKinematicsConstraint.h" },
+  { RectangularRegionConstraint = "frc/trajectory/constraint/RectangularRegionConstraint.h" },
+  { SwerveDriveKinematicsConstraint = "frc/trajectory/constraint/SwerveDriveKinematicsConstraint.h" },
+  { TrajectoryConstraint = "frc/trajectory/constraint/TrajectoryConstraint.h" },
 ]
 
 [tool.robotpy-build.wrappers."wpimath.filter"]
@@ -1079,40 +1098,6 @@ generate = [
   { Spline = "frc/spline/Spline.h" },
   { SplineHelper = "frc/spline/SplineHelper.h" },
   { SplineParameterizer = "frc/spline/SplineParameterizer.h" },
-]
-
-[tool.robotpy-build.wrappers."wpimath.trajectory"]
-name = "wpimath_trajectory"
-extension = "_trajectory"
-sources = ["wpimath/trajectory/trajectory.cpp"]
-depends = [
-  "wpiutil",
-  "wpimath_cpp",
-  "wpimath_controls",
-  "wpimath_geometry",
-  "wpimath_kinematics",
-  "wpimath_spline",
-]
-generation_data = "gen/trajectory"
-generate = [
-  # frc/trajectory
-  { Trajectory = "frc/trajectory/Trajectory.h" },
-  { TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h" },
-  { TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h" },
-  { TrajectoryParameterizer = "frc/trajectory/TrajectoryParameterizer.h" },
-  { TrajectoryUtil = "frc/trajectory/TrajectoryUtil.h" },
-  { TrapezoidProfile = "frc/trajectory/TrapezoidProfile.h" },
-
-  # frc/trajectory/constraint
-  { CentripetalAccelerationConstraint = "frc/trajectory/constraint/CentripetalAccelerationConstraint.h" },
-  { DifferentialDriveKinematicsConstraint = "frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h" },
-  { DifferentialDriveVoltageConstraint = "frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h" },
-  { EllipticalRegionConstraint = "frc/trajectory/constraint/EllipticalRegionConstraint.h" },
-  { MaxVelocityConstraint = "frc/trajectory/constraint/MaxVelocityConstraint.h" },
-  { MecanumDriveKinematicsConstraint = "frc/trajectory/constraint/MecanumDriveKinematicsConstraint.h" },
-  { RectangularRegionConstraint = "frc/trajectory/constraint/RectangularRegionConstraint.h" },
-  { SwerveDriveKinematicsConstraint = "frc/trajectory/constraint/SwerveDriveKinematicsConstraint.h" },
-  { TrajectoryConstraint = "frc/trajectory/constraint/TrajectoryConstraint.h" },
 ]
 
 
