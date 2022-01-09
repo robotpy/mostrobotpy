@@ -33,7 +33,7 @@ classes:
           :returns: An array containing the module states. Use caution because these
                     module states are not normalized. Sometimes, a user input may cause one of
                     the module speeds to go above the attainable max velocity. Use the
-                    :meth:`normalizeWheelSpeeds` function to rectify this issue.
+                    :meth:`desaturateWheelSpeeds` function to rectify this issue.
                     In addition, you can use Python unpacking syntax
                     to directly assign the module states to variables::
 
@@ -44,12 +44,6 @@ classes:
           ModuleStates ...&& [const]:
             ignore: true
           wpi::array<SwerveModuleState, NumModules> [const]:
-      NormalizeWheelSpeeds:
-        cpp_code: |
-          [](wpi::array<SwerveModuleState, NumModules> moduleStates, units::meters_per_second_t attainableMaxSpeed) {
-            frc::SwerveDriveKinematics<NumModules>::NormalizeWheelSpeeds(&moduleStates, attainableMaxSpeed);
-            return moduleStates;
-          }
       DesaturateWheelSpeeds:
         cpp_code: |
           [](wpi::array<SwerveModuleState, NumModules> moduleStates, units::meters_per_second_t attainableMaxSpeed) {
