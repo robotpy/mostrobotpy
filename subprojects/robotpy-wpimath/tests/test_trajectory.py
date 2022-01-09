@@ -1,5 +1,5 @@
-from wpimath.trajectory._trajectory import TrajectoryGenerator
-from wpimath.geometry._geometry import Transform2d
+from wpimath.trajectory import TrajectoryGenerator
+from wpimath.geometry import Transform2d
 import wpimath.trajectory
 import wpimath.trajectory.constraint
 
