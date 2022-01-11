@@ -11,7 +11,7 @@ base_package = "halsim_ws"
 artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.2.2"
+version = "2022.1.1"
 
 dlopenlibs = ["halsim_ws_server"]
 
@@ -23,13 +23,13 @@ depends = ["wpiHal"]
 artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.3.1"
+version = "2022.1.1"
 
 dlopenlibs = ["halsim_ws_client"]
 
 [tool.robotpy-build.wrappers."halsim_ws.client"]
 name = "client"
-depends = ["wpiHal"]
+depends = ["wpiHal", "wpiutil"]
 
 [tool.robotpy-build.metadata]
 name = "robotpy-halsim-ws"
