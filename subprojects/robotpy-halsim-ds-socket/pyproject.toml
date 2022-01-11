@@ -11,7 +11,7 @@ base_package = "halsim_ds_socket"
 artifact_id = "halsim_ds_socket"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.2.2"
+version = "2022.1.1"
 
 dlopenlibs = ["halsim_ds_socket"]
 
