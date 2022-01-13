@@ -1,0 +1,13 @@
+---
+
+classes:
+  SomeClass:
+    attributes:
+      kDefaultPeriod:
+    methods:
+      checkDefaultByName:
+      checkDefaultByNum:
+        param_override:
+          period:
+            default: 50_ms
+      ft2m:
