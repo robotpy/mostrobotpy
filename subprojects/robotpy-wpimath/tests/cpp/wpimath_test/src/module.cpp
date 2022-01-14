@@ -24,7 +24,15 @@ bool SomeClass::checkDefaultByName2(units::second_t period)
     return true;
 }
 
-bool SomeClass::checkDefaultByNum(units::second_t period)
+bool SomeClass::checkDefaultByNum1(units::second_t period)
+{
+    if (period != 50_ms) {
+        throw std::runtime_error(units::to_string(period));
+    }
+    return true;
+}
+
+bool SomeClass::checkDefaultByNum2(units::second_t period)
 {
     if (period != 50_ms) {
         throw std::runtime_error(units::to_string(period));
@@ -38,4 +46,8 @@ units::meter_t SomeClass::ft2m(units::foot_t f) {
 
 units::second_t SomeClass::ms2s(units::millisecond_t ms) {
     return ms;
+}
+
+units::millisecond_t SomeClass::s2ms(units::second_t s) {
+    return s;
 }

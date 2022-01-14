@@ -4,10 +4,16 @@ classes:
   SomeClass:
     attributes:
       kDefaultPeriod:
+      five_ft:
     methods:
       checkDefaultByName:
-      checkDefaultByNum:
+      checkDefaultByNum1:
         param_override:
           period:
             default: 50_ms
+      checkDefaultByNum2:
+        param_override:
+          period:
+            default: 0.050_s
+      ms2s:
       ft2m:
