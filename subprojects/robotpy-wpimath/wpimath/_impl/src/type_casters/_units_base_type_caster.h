@@ -17,8 +17,9 @@ struct type_caster<units::unit_t<U, T, S>> {
       return false;
     if (!convert && !PyFloat_Check(src.ptr()))
       return false;
-    value = value_type(PyFloat_AsDouble(src.ptr()));
-    return true;
+    auto cvted = PyFloat_AsDouble(src.ptr());
+    value = value_type(cvted);
+    return !(cvted == -1 && PyErr_Occurred());
   }
 
   static handle cast(const value_type &src, return_value_policy /* policy */,
