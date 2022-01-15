@@ -1,5 +1,5 @@
 [build-system]
-requires = ["robotpy-build>=2020.6.0,<2021.0.0"]
+requires = ["robotpy-build>=2022.0.0,<2023.0.0"]
 
 [tool.robotpy-build]
 base_package = "wpiutil"
@@ -10,7 +10,13 @@ sources = ["wpiutil/src/main.cpp"]
 extra_includes = ["wpiutil/src/type_casters"]
 
 generate = [
-    { PortForwarder = "wpi/PortForwarder.h" }
+    { PortForwarder = "wpi/PortForwarder.h" },
+
+    # wpi/sendable
+    { Sendable = "wpi/sendable/Sendable.h" },
+    { SendableBuilder = "wpi/sendable/SendableBuilder.h" },
+    #{ SendableHelper = "wpi/sendable/SendableHelper.h" },
+    { SendableRegistry = "wpi/sendable/SendableRegistry.h" },
 ]
 generation_data = "gen"
 
@@ -18,18 +24,29 @@ generation_data = "gen"
 artifact_id = "wpiutil-cpp"
 group_id = "edu.wpi.first.wpiutil"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.3.1"
+version = "2022.1.1"
 
 libs = ["wpiutil"]
 
-[tool.robotpy-build.wrappers."wpiutil".type_casters]
-"wpi_array_type_caster.h" =    ["wpi::array"]
-"wpi_arrayref_type_caster.h" =    ["wpi::ArrayRef"]
-"wpi_smallset_type_caster.h" =    ["wpi::SmallSet"]
-"wpi_smallvector_type_caster.h" = ["wpi::SmallVector"]
-"wpi_smallvectorimpl_type_caster.h" = ["wpi::SmallVectorImpl"]
-"wpi_stringref_type_caster.h" =   ["wpi::StringRef"]
-"wpi_twine_type_caster.h" =       ["wpi::Twine"]
+[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+header = "wpi_array_type_caster.h"
+types = ["wpi::array"]
+
+[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+header = "wpi_span_type_caster.h"
+types = ["wpi::span"]
+
+[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+header = "wpi_smallset_type_caster.h"
+types = ["wpi::SmallSet"]
+
+[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+header = "wpi_smallvector_type_caster.h"
+types = ["wpi::SmallVector"]
+
+[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+header = "wpi_smallvectorimpl_type_caster.h"
+types = ["wpi::SmallVectorImpl"]
 
 [tool.robotpy-build.metadata]
 name = "robotpy-wpiutil"
