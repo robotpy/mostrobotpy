@@ -11,3 +11,4 @@ functions:
   HAL_UpdateNotifierAlarm:
   HAL_CancelNotifierAlarm:
   HAL_WaitForNotifierAlarm:
+  HAL_SetNotifierThreadPriority:

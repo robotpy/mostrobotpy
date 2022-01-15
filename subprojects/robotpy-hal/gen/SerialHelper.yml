@@ -1,0 +1,10 @@
+---
+
+classes:
+  SerialHelper:
+    methods:
+      SerialHelper:
+      GetVISASerialPortName:
+      GetOSSerialPortName:
+      GetVISASerialPortList:
+      GetOSSerialPortList:

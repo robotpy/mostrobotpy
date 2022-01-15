@@ -18,3 +18,5 @@ functions:
   HAL_GetUserCurrent3V3:
   HAL_GetUserActive3V3:
   HAL_GetUserCurrentFaults3V3:
+  HAL_GetBrownoutVoltage:
+  HAL_SetBrownoutVoltage:

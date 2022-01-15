@@ -80,5 +80,10 @@ functions:
   HALSIM_CancelRoboRioUserFaults3V3Callback:
   HALSIM_GetRoboRioUserFaults3V3:
   HALSIM_SetRoboRioUserFaults3V3:
+  HALSIM_RegisterRoboRioBrownoutVoltageCallback:
+    ignore: true
+  HALSIM_CancelRoboRioBrownoutVoltageCallback:
+  HALSIM_GetRoboRioBrownoutVoltage:
+  HALSIM_SetRoboRioBrownoutVoltage:
   HALSIM_RegisterRoboRioAllCallbacks:
     ignore: true

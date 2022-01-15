@@ -1,7 +1,7 @@
 [build-system]
 requires = [
-    "robotpy-build>=2020.6.0,<2021.0.0",
-    "robotpy-wpiutil>=2021.2.2.0,<2022.0.0"
+    "robotpy-build>=2022.0.0,<2023.0.0",
+    "robotpy-wpiutil>=2022.0.0,<2023.0.0"
 ]
 
 [tool.robotpy-build]
@@ -12,7 +12,7 @@ base_package = "hal"
 artifact_id = "hal-cpp"
 group_id = "edu.wpi.first.hal"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2021.3.1"
+version = "2022.1.1"
 
 libs = ["wpiHal"]
 
@@ -23,57 +23,72 @@ sources = [
     "hal/src/hal.cpp"
 ]
 
-generate = [
-    { Accelerometer = "hal/Accelerometer.h" },
-    { AddressableLED = "hal/AddressableLED.h" },
-    { AddressableLEDTypes = "hal/AddressableLEDTypes.h" },
-    { AnalogAccumulator = "hal/AnalogAccumulator.h" },
-    { AnalogGyro = "hal/AnalogGyro.h" },
-    { AnalogInput = "hal/AnalogInput.h" },
-    { AnalogOutput = "hal/AnalogOutput.h" },
-    { AnalogTrigger = "hal/AnalogTrigger.h" },
-    { CAN = "hal/CAN.h" },
-    { CANAPI = "hal/CANAPI.h" },
-    { CANAPITypes = "hal/CANAPITypes.h" },
-    #{ ChipObject = "hal/ChipObject.h" },
-    { Compressor = "hal/Compressor.h" },
-    { Constants = "hal/Constants.h" },
-    { Counter = "hal/Counter.h" },
-    { DIO = "hal/DIO.h" },
-    # { DMA = "hal/DMA.h" },
-    { DriverStation = "hal/DriverStation.h" },
-    { DriverStationTypes = "hal/DriverStationTypes.h" },
-    { DutyCycle = "hal/DutyCycle.h" },
-    { Encoder = "hal/Encoder.h" },
-    # { Errors = "hal/Errors.h" },
-    { Extensions = "hal/Extensions.h" },
-    { FRCUsageReporting = "hal/FRCUsageReporting.h" },
-    # { HAL = "hal/HAL.h" },
-    { HALBase = "hal/HALBase.h" },
-    { I2C = "hal/I2C.h" },
-    { I2CTypes = "hal/I2CTypes.h" },
-    { Interrupts = "hal/Interrupts.h" },
-    { Main = "hal/Main.h" },
-    { Notifier = "hal/Notifier.h" },
-    { PDP = "hal/PDP.h" },
-    { PWM = "hal/PWM.h" },
-    { Ports = "hal/Ports.h" },
-    { Power = "hal/Power.h" },
-    { Relay = "hal/Relay.h" },
-    { SPI = "hal/SPI.h" },
-    { SPITypes = "hal/SPITypes.h" },
-    { SerialPort = "hal/SerialPort.h" },
-    { SimDevice = "hal/SimDevice.h" },
-    { Solenoid = "hal/Solenoid.h" },
-    { Threads = "hal/Threads.h" },
-    # { Types = "hal/Types.h" },
-    # { Value = "hal/Value.h" },
-
-    { HandlesInternal = "hal/handles/HandlesInternal.h" },
-]
-
 generation_data = "gen"
 depends = ["wpiutil"]
+
+[tool.robotpy-build.wrappers."hal".autogen_headers]
+# hal
+Accelerometer = "hal/Accelerometer.h"
+AddressableLED = "hal/AddressableLED.h"
+AddressableLEDTypes = "hal/AddressableLEDTypes.h"
+AnalogAccumulator = "hal/AnalogAccumulator.h"
+AnalogGyro = "hal/AnalogGyro.h"
+AnalogInput = "hal/AnalogInput.h"
+AnalogOutput = "hal/AnalogOutput.h"
+AnalogTrigger = "hal/AnalogTrigger.h"
+CAN = "hal/CAN.h"
+CANAPI = "hal/CANAPI.h"
+CANAPITypes = "hal/CANAPITypes.h"
+CTREPCM = "hal/CTREPCM.h"
+# ChipObject = "hal/ChipObject.h"
+Constants = "hal/Constants.h"
+Counter = "hal/Counter.h"
+DIO = "hal/DIO.h"
+# DMA = "hal/DMA.h"
+DriverStation = "hal/DriverStation.h"
+DriverStationTypes = "hal/DriverStationTypes.h"
+DutyCycle = "hal/DutyCycle.h"
+Encoder = "hal/Encoder.h"
+# Errors = "hal/Errors.h"
+Extensions = "hal/Extensions.h"
+FRCUsageReporting = "hal/FRCUsageReporting.h"
+# HAL = "hal/HAL.h"
+HALBase = "hal/HALBase.h"
+I2C = "hal/I2C.h"
+I2CTypes = "hal/I2CTypes.h"
+Interrupts = "hal/Interrupts.h"
+Main = "hal/Main.h"
+Notifier = "hal/Notifier.h"
+PWM = "hal/PWM.h"
+Ports = "hal/Ports.h"
+Power = "hal/Power.h"
+PowerDistribution = "hal/PowerDistribution.h"
+REVPH = "hal/REVPH.h"
+Relay = "hal/Relay.h"
+SPI = "hal/SPI.h"
+SPITypes = "hal/SPITypes.h"
+SerialPort = "hal/SerialPort.h"
+SimDevice = "hal/SimDevice.h"
+Threads = "hal/Threads.h"
+# Types = "hal/Types.h"
+# Value = "hal/Value.h"
+
+# hal/cpp
+# SerialHelper = "hal/cpp/SerialHelper.h"
+# UnsafeDIO = "hal/cpp/UnsafeDIO.h"
+# fpga_clock = "hal/cpp/fpga_clock.h"
+
+# hal/handles
+# DigitalHandleResource = "hal/handles/DigitalHandleResource.h"
+HandlesInternal = "hal/handles/HandlesInternal.h"
+# IndexedClassedHandleResource = "hal/handles/IndexedClassedHandleResource.h"
+# IndexedHandleResource = "hal/handles/IndexedHandleResource.h"
+# LimitedClassedHandleResource = "hal/handles/LimitedClassedHandleResource.h"
+# LimitedHandleResource = "hal/handles/LimitedHandleResource.h"
+# UnlimitedHandleResource = "hal/handles/UnlimitedHandleResource.h"
+
+[tool.robotpy-build.wrappers."hal".autogen_headers.override.platform_linux_athena]
+SerialHelper = "hal/cpp/SerialHelper.h"
 
 
 [tool.robotpy-build.wrappers."hal.simulation"]
@@ -92,6 +107,7 @@ generate = [
     { AnalogInData = "hal/simulation/AnalogInData.h" },
     { AnalogOutData = "hal/simulation/AnalogOutData.h" },
     { AnalogTriggerData = "hal/simulation/AnalogTriggerData.h" },
+    { CTREPCMData = "hal/simulation/CTREPCMData.h" },
     # { CanData = "hal/simulation/CanData.h" },
     { DIOData = "hal/simulation/DIOData.h" },
     { DigitalPWMData = "hal/simulation/DigitalPWMData.h" },
@@ -102,9 +118,9 @@ generate = [
     { MockHooks = "hal/simulation/MockHooks.h" },
     { NotifierData = "hal/simulation/NotifierData.h" },
     # { NotifyListener = "hal/simulation/NotifyListener.h" },
-    { PCMData = "hal/simulation/PCMData.h" },
-    { PDPData = "hal/simulation/PDPData.h" },
     { PWMData = "hal/simulation/PWMData.h" },
+    { PowerDistributionData = "hal/simulation/PowerDistributionData.h" },
+    { REVPHData = "hal/simulation/REVPHData.h" },
     { RelayData = "hal/simulation/RelayData.h" },
     { RoboRioData = "hal/simulation/RoboRioData.h" },
     { SPIAccelerometerData = "hal/simulation/SPIAccelerometerData.h" },
@@ -125,5 +141,5 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-hal"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil>=2021.2.2.0,<2022.0.0",
+    "robotpy-wpiutil>=2022.0.0,<2023.0.0",
 ]
