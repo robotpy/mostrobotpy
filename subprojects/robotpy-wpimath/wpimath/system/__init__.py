@@ -23,10 +23,4 @@ __all__ = [
     "LinearSystem_2_1_2",
     "LinearSystem_2_2_1",
     "LinearSystem_2_2_2",
-    "MecanumDrivePoseEstimator",
 ]
-
-# backwards compat: remove in 2022
-from .._controls._controls.estimator import MecanumDrivePoseEstimator
-
-__all__ += ["MecanumDrivePoseEstimator"]
