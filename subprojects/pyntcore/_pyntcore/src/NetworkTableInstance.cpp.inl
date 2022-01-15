@@ -62,14 +62,14 @@ cls_NetworkTableInstance
     .def("isServer", [](NetworkTableInstance * self) -> bool {
         return self->GetNetworkMode() & NT_NET_MODE_SERVER;
     })
-    .def("getRemoteAddress", [](NetworkTableInstance * self) -> py::object {
-        if (!(self->GetNetworkMode() & NT_NET_MODE_SERVER)) {
-            for (auto conn: self->GetConnections()) {
-                return py::str(conn.remote_ip);
+    .def("getRemoteAddress", [](const NetworkTableInstance &self) -> std::optional<std::string> {
+        if (!(self.GetNetworkMode() & NT_NET_MODE_SERVER)) {
+            for (auto conn: self.GetConnections()) {
+                return conn.remote_ip;
             }
         }
-        return py::none();
-    });
+        return std::nullopt;
+    }, release_gil());
 
 
 auto nf = m.def_submodule("NotifyFlags");
