@@ -20,16 +20,18 @@ classes:
       never call it, then this class will behave mostly like regular encoder
       odometry.
 
-      Our state-space system is:
+      The state-space system used internally has the following states (x), inputs
+      (u), and outputs (y):
 
-      :math:`x = [[x, y, theta]]^T` in the
-      field-coordinate system.
+      :math:`x = [x, y, \theta]^T` in the field-coordinate system
+      containing x position, y position, and heading.
 
-      :math:`u = [[vx, vy, omega]]^T` in the field-coordinate system.
+      :math:`u = [v_x, v_y, d\theta]^T`
+      in the field-coordinate system.
 
-      :math:`y = [[x, y, theta]]^T` in field
-      coords from vision, or :math:`y = [[theta]]^T`
-      from the gyro.
+      :math:`y = [x, y, \theta]^T` from vision containing x position, y
+      position, and heading; or :math:`y = [theta]^T` containing gyro
+      heading.
     template_params:
     - size_t NumModules
     methods:
