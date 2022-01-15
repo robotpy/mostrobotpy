@@ -23,3 +23,7 @@ def test_span_load_stringview():
 
 def test_span_load_vector():
     assert module.load_span_vector([["a"], ["b"], ["c"]]) == [["a"], ["b"], ["c"]]
+
+
+def test_span_cast():
+    assert module.cast_span() == [1, 2, 3]

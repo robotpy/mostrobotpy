@@ -94,6 +94,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
     m.def("load_span_string", &load_span_string);
     m.def("load_span_string_view", &load_span_string_view);
     m.def("load_span_vector", &load_span_vector);
+    m.def("cast_span", &cast_span);
     // SmallSet
     m.def("load_smallset_int", &load_smallset_int);
     m.def("cast_smallset", &cast_smallset);
