@@ -12,6 +12,8 @@ on:
 jobs:
   ci:
     uses: robotpy/build-actions/.github/workflows/package-ci.yml@v2022
+    with:
+      enable_rtd: false
     secrets:
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
