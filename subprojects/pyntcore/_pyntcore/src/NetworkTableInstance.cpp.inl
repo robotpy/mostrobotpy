@@ -59,8 +59,8 @@ cls_NetworkTableInstance
         py::arg("paramIsNew")=true,
         release_gil()
     )
-    .def("isServer", [](NetworkTableInstance * self) -> bool {
-        return self->GetNetworkMode() & NT_NET_MODE_SERVER;
+    .def("isServer", [](const NetworkTableInstance &self) -> bool {
+        return self.GetNetworkMode() & NT_NET_MODE_SERVER;
     })
     .def("getRemoteAddress", [](const NetworkTableInstance &self) -> std::optional<std::string> {
         if (!(self.GetNetworkMode() & NT_NET_MODE_SERVER)) {

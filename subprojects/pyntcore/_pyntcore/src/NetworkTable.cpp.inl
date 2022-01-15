@@ -1,9 +1,9 @@
 cls_NetworkTable
-    .def("getValue", [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
+    .def("getValue", [](const NetworkTable &self, std::string_view key, py::object defaultValue) -> py::object {
         nt::NetworkTableEntry entry;
         {
             py::gil_scoped_release release;
-            entry = table->GetEntry(key);
+            entry = self.GetEntry(key);
         }
         return pyntcore::GetValueEntry(entry, defaultValue);
     }, py::arg("key"), py::arg("value"))
@@ -42,7 +42,7 @@ cls_NetworkTable
         return self->SetDefaultValue(key, pyntcore::py2ntvalue(value));
     }, py::arg("key"), py::arg("value"))
 
-    .def("__contains__", [](nt::NetworkTable *self, std::string_view key) -> bool {
-        return self->ContainsKey(key);
+    .def("__contains__", [](const nt::NetworkTable &self, std::string_view key) -> bool {
+        return self.ContainsKey(key);
     })
 ;

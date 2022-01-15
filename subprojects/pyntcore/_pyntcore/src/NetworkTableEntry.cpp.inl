@@ -1,6 +1,6 @@
 cls_NetworkTableEntry
-    .def_property_readonly("value", [](nt::NetworkTableEntry * that) {
-        auto v = that->GetValue();
+    .def_property_readonly("value", [](const nt::NetworkTableEntry &self) {
+        auto v = self.GetValue();
         return pyntcore::ntvalue2py(v.get());
     })
 

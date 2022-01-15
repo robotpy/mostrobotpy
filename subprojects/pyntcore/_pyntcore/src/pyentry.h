@@ -5,13 +5,13 @@
 
 namespace pyntcore {
 
-py::object GetBooleanEntry(nt::NetworkTableEntry &entry, py::object &defaultValue);
-py::object GetDoubleEntry(nt::NetworkTableEntry &entry, py::object &defaultValue);
-py::object GetStringEntry(nt::NetworkTableEntry &entry, py::object &defaultValue);
-py::object GetRawEntry(nt::NetworkTableEntry &entry, py::object &defaultValue);
-py::object GetBooleanArrayEntry(nt::NetworkTableEntry &entry, py::object &defaultValue);
-py::object GetDoubleArrayEntry(nt::NetworkTableEntry &entry, py::object &defaultValue);
-py::object GetStringArrayEntry(nt::NetworkTableEntry &entry, py::object &defaultValue);
-py::object GetValueEntry(nt::NetworkTableEntry &entry, py::object &defaultValue);
+py::object GetBooleanEntry(const nt::NetworkTableEntry &entry, py::object defaultValue);
+py::object GetDoubleEntry(const nt::NetworkTableEntry &entry, py::object defaultValue);
+py::object GetStringEntry(const nt::NetworkTableEntry &entry, py::object defaultValue);
+py::object GetRawEntry(const nt::NetworkTableEntry &entry, py::object defaultValue);
+py::object GetBooleanArrayEntry(const nt::NetworkTableEntry &entry, py::object defaultValue);
+py::object GetDoubleArrayEntry(const nt::NetworkTableEntry &entry, py::object defaultValue);
+py::object GetStringArrayEntry(const nt::NetworkTableEntry &entry, py::object defaultValue);
+py::object GetValueEntry(const nt::NetworkTableEntry &entry, py::object defaultValue);
 
 };

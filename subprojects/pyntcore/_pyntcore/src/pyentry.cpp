@@ -7,7 +7,7 @@
 
 namespace pyntcore {
 
-py::object GetBooleanEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
+py::object GetBooleanEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
     std::shared_ptr<nt::Value> value;
     {
         py::gil_scoped_release release;
@@ -17,7 +17,7 @@ py::object GetBooleanEntry(nt::NetworkTableEntry &entry, py::object &defaultValu
     return py::cast(value->GetBoolean());
 }
 
-py::object GetDoubleEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
+py::object GetDoubleEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
     std::shared_ptr<nt::Value> value;
     {
         py::gil_scoped_release release;
@@ -27,7 +27,7 @@ py::object GetDoubleEntry(nt::NetworkTableEntry &entry, py::object &defaultValue
     return py::cast(value->GetDouble());
 }
 
-py::object GetStringEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
+py::object GetStringEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
     std::shared_ptr<nt::Value> value;
     {
         py::gil_scoped_release release;
@@ -38,7 +38,7 @@ py::object GetStringEntry(nt::NetworkTableEntry &entry, py::object &defaultValue
     return py::str(s.data(), s.size());
 }
 
-py::object GetRawEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
+py::object GetRawEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
     std::shared_ptr<nt::Value> value;
     {
         py::gil_scoped_release release;
@@ -49,7 +49,7 @@ py::object GetRawEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
     return py::bytes(s.data(), s.size());
 }
 
-py::object GetBooleanArrayEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
+py::object GetBooleanArrayEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
     std::shared_ptr<nt::Value> value;
     {
         py::gil_scoped_release release;
@@ -66,7 +66,7 @@ py::object GetBooleanArrayEntry(nt::NetworkTableEntry &entry, py::object &defaul
     return std::move(l);
 }
 
-py::object GetDoubleArrayEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
+py::object GetDoubleArrayEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
     std::shared_ptr<nt::Value> value;
     {
         py::gil_scoped_release release;
@@ -76,7 +76,7 @@ py::object GetDoubleArrayEntry(nt::NetworkTableEntry &entry, py::object &default
     return py::cast(value->GetDoubleArray());
 }
 
-py::object GetStringArrayEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
+py::object GetStringArrayEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
     std::shared_ptr<nt::Value> value;
     {
         py::gil_scoped_release release;
@@ -86,7 +86,7 @@ py::object GetStringArrayEntry(nt::NetworkTableEntry &entry, py::object &default
     return py::cast(value->GetStringArray());
 }
 
-py::object GetValueEntry(nt::NetworkTableEntry &entry, py::object &defaultValue) {
+py::object GetValueEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
     std::shared_ptr<nt::Value> value;
     {
         py::gil_scoped_release release;
