@@ -29,6 +29,10 @@ wpi::span<std::string> load_span_string(wpi::span<std::string> ref) {
     return ref;
 }
 
+wpi::span<const std::string> load_span_string_const(wpi::span<const std::string> ref) {
+    return ref;
+}
+
 wpi::span<std::string_view> load_span_string_view(wpi::span<std::string_view> ref) {
     return ref;
 }
@@ -92,6 +96,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
     m.def("load_span_int", &load_span_int);
     m.def("load_span_bool", &load_span_bool);
     m.def("load_span_string", &load_span_string);
+    m.def("load_span_string_const", &load_span_string_const);
     m.def("load_span_string_view", &load_span_string_view);
     m.def("load_span_vector", &load_span_vector);
     m.def("cast_span", &cast_span);
