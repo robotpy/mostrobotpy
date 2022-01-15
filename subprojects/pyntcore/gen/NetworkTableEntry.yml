@@ -28,51 +28,37 @@ classes:
       GetValue:
       GetBoolean:
         cpp_code: |
-          [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
-            return pyntcore::GetBooleanEntry(*entry, defaultValue);
-          }
+          &pyntcore::GetBooleanEntry
       GetDouble:
         cpp_code: |
-          [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
-            return pyntcore::GetDoubleEntry(*entry, defaultValue);
-          }
+          &pyntcore::GetDoubleEntry
       GetString:
         cpp_code: |
-          [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
-            return pyntcore::GetStringEntry(*entry, defaultValue);
-          }
+          &pyntcore::GetStringEntry
       GetRaw:
         cpp_code: |
-          [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
-            return pyntcore::GetRawEntry(*entry, defaultValue);
-          }
+          &pyntcore::GetRawEntry
       GetBooleanArray:
         overloads:
           wpi::span<const int> [const]:
           std::initializer_list<int> [const]:
             ignore: true
         cpp_code: |
-          [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
-            return pyntcore::GetBooleanArrayEntry(*entry, defaultValue);
-          }
+          &pyntcore::GetBooleanArrayEntry
       GetDoubleArray:
         overloads:
           wpi::span<const double> [const]:
           std::initializer_list<double> [const]:
             ignore: true
         cpp_code: |
-          [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
-            return pyntcore::GetDoubleArrayEntry(*entry, defaultValue);
-          }
+          &pyntcore::GetDoubleArrayEntry
       GetStringArray:
         overloads:
           wpi::span<const std::string> [const]:
           std::initializer_list<std::string> [const]:
             ignore: true
         cpp_code: |
-          [](NetworkTableEntry * entry, py::object defaultValue) -> py::object {
-            return pyntcore::GetStringArrayEntry(*entry, defaultValue);
-          }
+          &pyntcore::GetStringArrayEntry
       SetDefaultValue:
       SetDefaultBoolean:
       SetDefaultDouble:
