@@ -9,11 +9,11 @@ classes:
     methods:
       ControlAffinePlantInversionFeedforward:
         overloads:
-          ? std::function<Eigen::Matrix<double, States, 1> ( const Eigen::Matrix<double,
-            States, 1> &, const Eigen::Matrix<double, Inputs, 1> & )>, units::second_t
+          ? std::function<Eigen::Vector<double, States> ( const Eigen::Vector<double,
+            States> &, const Eigen::Vector<double, Inputs> & )>, units::second_t
           :
-          ? std::function<Eigen::Matrix<double, States, 1> ( const Eigen::Matrix<double,
-            States, 1> & )>, Eigen::Matrix<double, States, Inputs>&, units::second_t
+          ? std::function<Eigen::Vector<double, States> ( const Eigen::Vector<double,
+            States> & )>, Eigen::Matrix<double, States, Inputs>&, units::second_t
           :
       Uff:
         overloads:
@@ -25,12 +25,12 @@ classes:
           int [const]:
       Reset:
         overloads:
-          Eigen::Matrix<double, States, 1>&:
+          Eigen::Vector<double, States>&:
           "":
       Calculate:
         overloads:
-          Eigen::Matrix<double, States, 1>&:
-          Eigen::Matrix<double, States, 1>&, Eigen::Matrix<double, States, 1>&:
+          Eigen::Vector<double, States>&:
+          Eigen::Vector<double, States>&, Eigen::Vector<double, States>&:
 
 templates:
   ControlAffinePlantInversionFeedforward_1_1:

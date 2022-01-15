@@ -39,7 +39,7 @@ def test_swerve4_normalize():
     s3 = SwerveModuleState(4)
     s4 = SwerveModuleState(7)
 
-    states = SwerveDrive4Kinematics.normalizeWheelSpeeds([s1, s2, s3, s4], 5.5)
+    states = SwerveDrive4Kinematics.desaturateWheelSpeeds([s1, s2, s3, s4], 5.5)
 
     kFactor = 5.5 / 7.0
 

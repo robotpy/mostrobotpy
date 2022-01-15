@@ -1,0 +1,9 @@
+*.py[ciod]
+*.so
+*.dylib
+
+/wpimath_test/pkgcfg.py
+/wpimath_test/py.typed
+/wpimath_test/_init_wpimath_test.py
+/wpimath_test/rpy-include
+/wpimath_test/_wpimath_test

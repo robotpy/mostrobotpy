@@ -5,6 +5,7 @@ extra_includes:
 
 classes:
   TrajectoryConfig:
+    subpackage: trajectory
     shared_ptr: true
     methods:
       TrajectoryConfig:

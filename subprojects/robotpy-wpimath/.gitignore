@@ -17,11 +17,14 @@ build
 dist
 MANIFEST
 
+/wpimath/py.typed
 /wpimath/pkgcfg.py
 /wpimath/version.py
 /wpimath/_init_wpimath.py
 /wpimath/_controls/_init_controls.py
 /wpimath/_controls/pkgcfg.py
+/wpimath/filter/_init_filter.py
+/wpimath/filter/pkgcfg.py
 /wpimath/geometry/_init_geometry.py
 /wpimath/geometry/pkgcfg.py
 /wpimath/interfaces/_init_interfaces.py

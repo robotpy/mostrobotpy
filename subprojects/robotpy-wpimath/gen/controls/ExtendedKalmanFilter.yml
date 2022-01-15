@@ -10,20 +10,20 @@ classes:
     methods:
       ExtendedKalmanFilter:
         overloads:
-          ? std::function<Eigen::Matrix<double, States, 1> ( const Eigen::Matrix<double,
-            States, 1> &, const Eigen::Matrix<double, Inputs, 1> & )>, std::function<Eigen::Matrix<double,
-            Outputs, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
-            Inputs, 1> & )>, wpi::array<double, States>&, wpi::array<double, Outputs>&,
+          ? std::function<Eigen::Vector<double, States> ( const Eigen::Vector<double,
+            States> &, const Eigen::Vector<double, Inputs> & )>, std::function<Eigen::Vector<double,
+            Outputs> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
+            Inputs> & )>, wpi::array<double, States>&, wpi::array<double, Outputs>&,
             units::second_t
           :
-          ? std::function<Eigen::Matrix<double, States, 1> ( const Eigen::Matrix<double,
-            States, 1> &, const Eigen::Matrix<double, Inputs, 1> & )>, std::function<Eigen::Matrix<double,
-            Outputs, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
-            Inputs, 1> & )>, wpi::array<double, States>&, wpi::array<double, Outputs>&,
-            std::function<Eigen::Matrix<double, Outputs, 1> ( const Eigen::Matrix<double,
-            Outputs, 1> &, const Eigen::Matrix<double, Outputs, 1> & )>, std::function<Eigen::Matrix<double,
-            States, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
-            States, 1> & )>, units::second_t
+          ? std::function<Eigen::Vector<double, States> ( const Eigen::Vector<double,
+            States> &, const Eigen::Vector<double, Inputs> & )>, std::function<Eigen::Vector<double,
+            Outputs> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
+            Inputs> & )>, wpi::array<double, States>&, wpi::array<double, Outputs>&,
+            std::function<Eigen::Vector<double, Outputs> ( const Eigen::Vector<double,
+            Outputs> &, const Eigen::Vector<double, Outputs> & )>, std::function<Eigen::Vector<double,
+            States> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
+            States> & )>, units::second_t
           :
       P:
         overloads:
@@ -36,25 +36,24 @@ classes:
           int [const]:
       SetXhat:
         overloads:
-          Eigen::Matrix<double, States, 1>&:
+          Eigen::Vector<double, States>&:
           int, double:
       Reset:
       Predict:
       Correct:
         overloads:
-          Eigen::Matrix<double, Inputs, 1>&, Eigen::Matrix<double, Outputs, 1>&:
-          ? Eigen::Matrix<double, Inputs, 1>&, Eigen::Matrix<double, Rows, 1>&, std::function<Eigen::Matrix<double,
-            Rows, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
-            Inputs, 1> & )>, Eigen::Matrix<double, Rows, Rows>&
+          Eigen::Vector<double, Inputs>&, Eigen::Vector<double, Outputs>&:
+          ? Eigen::Vector<double, Inputs>&, Eigen::Vector<double, Rows>&, std::function<Eigen::Vector<double,
+            Rows> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
+            Inputs> & )>, Eigen::Matrix<double, Rows, Rows>&
           :
             ignore: true
-          ? Eigen::Matrix<double, Inputs, 1>&, Eigen::Matrix<double, Rows, 1>&, std::function<Eigen::Matrix<double,
-            Rows, 1> ( const Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double,
-            Inputs, 1> & )>, Eigen::Matrix<double, Rows, Rows>&, std::function<Eigen::Matrix<double,
-            Rows, 1> ( const Eigen::Matrix<double, Rows, 1> &, const Eigen::Matrix<double,
-            Rows, 1> & )>, std::function<Eigen::Matrix<double, States, 1> ( const
-            Eigen::Matrix<double, States, 1> &, const Eigen::Matrix<double, States,
-            1> )>
+          ? Eigen::Vector<double, Inputs>&, Eigen::Vector<double, Rows>&, std::function<Eigen::Vector<double,
+            Rows> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
+            Inputs> & )>, Eigen::Matrix<double, Rows, Rows>&, std::function<Eigen::Vector<double,
+            Rows> ( const Eigen::Vector<double, Rows> &, const Eigen::Vector<double,
+            Rows> & )>, std::function<Eigen::Vector<double, States> ( const Eigen::Vector<double,
+            States> &, const Eigen::Vector<double, States> )>
           :
             ignore: true
 

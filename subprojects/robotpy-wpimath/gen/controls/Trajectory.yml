@@ -9,6 +9,7 @@ functions:
     ignore: true
 classes:
   Trajectory:
+    subpackage: trajectory
     shared_ptr: true
     force_type_casters:
     - units::curvature_t
@@ -23,6 +24,9 @@ classes:
       TransformBy:
       RelativeTo:
       InitialPose:
+      operator+:
+      operator==:
+      operator!=:
   Trajectory::State:
     force_no_default_constructor: true
     shared_ptr: false

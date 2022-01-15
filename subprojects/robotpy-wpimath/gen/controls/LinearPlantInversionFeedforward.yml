@@ -22,12 +22,12 @@ classes:
           int [const]:
       Reset:
         overloads:
-          Eigen::Matrix<double, States, 1>&:
+          Eigen::Vector<double, States>&:
           "":
       Calculate:
         overloads:
-          Eigen::Matrix<double, States, 1>&:
-          Eigen::Matrix<double, States, 1>&, Eigen::Matrix<double, States, 1>&:
+          Eigen::Vector<double, States>&:
+          Eigen::Vector<double, States>&, Eigen::Vector<double, States>&:
     template_inline_code: |
       cls_LinearPlantInversionFeedforward
         .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, units::second_t>())

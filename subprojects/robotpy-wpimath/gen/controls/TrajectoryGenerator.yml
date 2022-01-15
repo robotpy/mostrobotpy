@@ -6,6 +6,7 @@ extra_includes:
 
 classes:
   TrajectoryGenerator:
+    subpackage: trajectory
     shared_ptr: true
     force_type_casters:
     - units::unit_t
@@ -22,3 +23,4 @@ classes:
         - [CubicHermiteSpline]
         - [QuinticHermiteSpline]
       SetErrorHandler:
+        ignore: true # TODO?

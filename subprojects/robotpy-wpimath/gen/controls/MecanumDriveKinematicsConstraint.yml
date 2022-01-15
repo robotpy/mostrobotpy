@@ -2,7 +2,7 @@
 
 classes:
   MecanumDriveKinematicsConstraint:
-    subpackage: constraints
+    subpackage: constraint
     shared_ptr: true
     typealias:
     - frc::TrajectoryConstraint::MinMax

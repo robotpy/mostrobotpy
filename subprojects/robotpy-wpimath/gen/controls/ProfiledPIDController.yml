@@ -1,0 +1,83 @@
+---
+
+functions:
+  ReportProfiledPIDController:
+    ignore: true
+classes:
+  ProfiledPIDController:
+    force_type_casters:
+    - units::radians_per_second
+    template_params:
+    - Distance
+    ignored_bases:
+    - wpi::SendableHelper<ProfiledPIDController<Distance>>
+    typealias:
+    - typename frc::ProfiledPIDController<Distance>::Velocity
+    methods:
+      ProfiledPIDController:
+        param_override:
+          constraints:
+            x_type: typename TrapezoidProfile<Distance>::Constraints
+          period:
+            default: 0.020_s
+      SetPID:
+      SetP:
+      SetI:
+      SetD:
+      GetP:
+      GetI:
+      GetD:
+      GetPeriod:
+      SetGoal:
+        overloads:
+          typename TrapezoidProfile<Distance>::State:
+            param_override:
+              goal:
+                x_type: typename TrapezoidProfile<Distance>::State
+          units::unit_t<Distance>:
+      GetGoal:
+      AtGoal:
+      SetConstraints:
+      GetSetpoint:
+      AtSetpoint:
+      EnableContinuousInput:
+      DisableContinuousInput:
+      SetIntegratorRange:
+      SetTolerance:
+      GetPositionError:
+      GetVelocityError:
+      Calculate:
+        overloads:
+          units::unit_t<Distance>:
+          units::unit_t<Distance>, typename TrapezoidProfile<Distance>::State:
+            param_override:
+              goal:
+                x_type: typename TrapezoidProfile<Distance>::State
+          units::unit_t<Distance>, units::unit_t<Distance>:
+          units::unit_t<Distance>, units::unit_t<Distance>, typename frc::TrapezoidProfile<Distance>::Constraints:
+            param_override:
+              constraints:
+                x_type: typename TrapezoidProfile<Distance>::Constraints
+      Reset:
+        overloads:
+          typename TrapezoidProfile<Distance>::State&:
+            param_override:
+              measurement:
+                x_type: typename TrapezoidProfile<Distance>::State
+          units::unit_t<Distance>, units::unit_t<Velocity>:
+          units::unit_t<Distance>:
+      InitSendable:
+
+templates:
+  ProfiledPIDController:
+    subpackage: controller
+    qualname: frc::ProfiledPIDController
+    params:
+      - units::dimensionless::scalar
+  
+  # needed for HolonomicDriveController
+  ProfiledPIDControllerRadians:
+    subpackage: controller
+    qualname: frc::ProfiledPIDController
+    params:
+      - units::radian

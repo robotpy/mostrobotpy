@@ -9,6 +9,7 @@ classes:
       right:
     methods:
       Normalize:
+      Desaturate:
 
 
 inline_code: |

@@ -10,6 +10,7 @@ classes:
     - units::meters_per_second
     - units::meters_per_second_squared
     typealias:
+    - typename frc::SimpleMotorFeedforward<Distance>::Velocity
     - typename frc::SimpleMotorFeedforward<Distance>::Acceleration
     - typename frc::SimpleMotorFeedforward<Distance>::kv_unit
     - typename frc::SimpleMotorFeedforward<Distance>::ka_unit
@@ -21,6 +22,9 @@ classes:
           "":
           units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit>:
       Calculate:
+        overloads:
+          units::unit_t<Velocity>, units::unit_t<Acceleration> [const]:
+          units::unit_t<Velocity>, units::unit_t<Velocity>, units::second_t [const]:
       MaxAchievableVelocity:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
@@ -32,11 +36,12 @@ classes:
         .def_readwrite("kA", &SimpleMotorFeedforward<Distance>::kA);
 
 templates:
-  SimpleMotorFeedforward:
-    qualname: frc::SimpleMotorFeedforward
-    subpackage: controller
-    params:
-      - units::dimensionless::scalar
+  # Unfortunately this is broken because calculate requires an SI unit
+  # SimpleMotorFeedforward:
+  #   qualname: frc::SimpleMotorFeedforward
+  #   subpackage: controller
+  #   params:
+  #     - units::dimensionless::scalar
   
   SimpleMotorFeedforwardMeters:
     qualname: frc::SimpleMotorFeedforward

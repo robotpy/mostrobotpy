@@ -1,0 +1,14 @@
+---
+
+classes:
+  HolonomicDriveController:
+    subpackage: controller
+    methods:
+      HolonomicDriveController:
+      AtReference:
+      SetTolerance:
+      Calculate:
+        overloads:
+          Pose2d&, Pose2d&, units::meters_per_second_t, Rotation2d&:
+          Pose2d&, Trajectory::State&, Rotation2d&:
+      SetEnabled:
