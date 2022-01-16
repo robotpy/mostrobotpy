@@ -83,7 +83,8 @@ py::object GetStringArrayEntry(const nt::NetworkTableEntry &entry, py::object de
         value = nt::GetEntryValue(entry.GetHandle());
     }
     if (!value || value->type() != NT_STRING_ARRAY) return defaultValue;
-    return py::cast(value->GetStringArray());
+    wpi::span<const std::string> rval = value->GetStringArray();
+    return py::cast(rval);
 }
 
 py::object GetValueEntry(const nt::NetworkTableEntry &entry, py::object defaultValue) {
