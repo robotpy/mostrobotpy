@@ -15,6 +15,7 @@ classes:
     methods:
       AddRequirements:
         overloads:
+          std::shared_ptr<Subsystem>:
           std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
           wpi::span<std::shared_ptr<Subsystem>>:

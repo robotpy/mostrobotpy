@@ -23,9 +23,9 @@ functions:
     ignore: true
   Command_Schedule:
     overloads:
-      std::shared_ptr<frc2::Command>:
+      std::shared_ptr<Command>:
         ignore: true
-      std::shared_ptr<frc2::Command>, bool:
+      std::shared_ptr<Command>, bool:
         ignore: true
 classes:
   Command:

@@ -46,6 +46,7 @@ classes:
           T&&, bool:
             ignore: true
       CancelWhenActive:
+      Debounce:
       Get:
         rename: __bool__
 

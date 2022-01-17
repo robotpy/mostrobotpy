@@ -37,25 +37,25 @@ classes:
           frc2::Subsystem*:
           std::initializer_list<Subsystem *>:
             ignore: true
-          wpi::span<std::shared_ptr<Subsystem>>:
+          wpi::span<Subsystem *>:
       UnregisterSubsystem:
         overloads:
           frc2::Subsystem*:
           std::initializer_list<Subsystem *>:
             ignore: true
-          wpi::span<std::shared_ptr<Subsystem>>:
+          wpi::span<Subsystem *>:
       SetDefaultCommand:
         template_impls:
         - ["std::shared_ptr<Command>"]
       GetDefaultCommand:
         overloads:
-          std::shared_ptr<Subsystem> [const]:
+          frc2::Subsystem* [const]:
           Subsystem* [const]:
             ignore: true
       Cancel:
         overloads:
           std::shared_ptr<Command>:
-          Command*:
+          frc2::Command*:
             ignore: true
           wpi::span<std::shared_ptr<Command>>:
           std::initializer_list<std::shared_ptr<Command>>:
@@ -64,13 +64,16 @@ classes:
       TimeSinceScheduled:
       IsScheduled:
         overloads:
-          wpi::span<std::shared_ptr<Command>> [const]:
+          wpi::span<const std::shared_ptr<Command>> [const]:
           std::initializer_list<const std::shared_ptr<Command>> [const]:
             ignore: true
           std::shared_ptr<Command> [const]:
           Command* [const]:
             ignore: true
       Requiring:
+        overloads:
+          std::shared_ptr<Subsystem> [const]:
+          frc2::Subsystem* [const]:
       Disable:
       Enable:
       OnCommandInitialize:

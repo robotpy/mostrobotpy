@@ -32,7 +32,7 @@ cls_Command
       return std::make_shared<SequentialCommandGroup>(std::move(commands));
     },
     "Decorates this command with a set of commands to run after it in sequence. Often more\n"
-    "convenient/less-verbose than constructing a new {@link SequentialCommandGroup} explicitly.\n"
+    "convenient/less-verbose than constructing a new :class:`.SequentialCommandGroup` explicitly.\n"
     DECORATOR_NOTE)
   .def("alongWith",
     [](std::shared_ptr<Command> self, py::args cmds) {
@@ -83,7 +83,7 @@ cls_Command
     },
     "Decorates this command with a set of commands to run parallel to it, ending when the calling\n"
     "command ends and interrupting all the others. Often more convenient/less-verbose than\n"
-    "constructing a new {@link ParallelDeadlineGroup} explicitly.\n"
+    "constructing a new :class:`.ParallelDeadlineGroup` explicitly.\n"
     DECORATOR_NOTE)
   .def("perpetually", 
     [](std::shared_ptr<Command> self) {
@@ -92,7 +92,7 @@ cls_Command
     "Decorates this command to run perpetually, ignoring its ordinary end\n"
     "conditions.  The decorated command can still be interrupted or canceled.\n"
     "\n"
-    ":returns: the decorated command"
+    ":returns: the decorated command\n"
     DECORATOR_NOTE)
   .def("raceWith",
     [](std::shared_ptr<Command> self, py::args cmds) {

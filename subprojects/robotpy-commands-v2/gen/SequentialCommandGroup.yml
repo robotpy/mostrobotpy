@@ -7,9 +7,17 @@ extra_includes:
 
 attributes:
   invalid_index:
+functions:
+  SequentialCommandGroup_BeforeStarting:
+    ignore: true
+  SequentialCommandGroup_AndThen:
+    ignore: true
 classes:
   SequentialCommandGroup:
     shared_ptr: true
+    force_type_casters:
+    - wpi::span
+    - std::function
     attributes:
       m_commands:
     methods:
