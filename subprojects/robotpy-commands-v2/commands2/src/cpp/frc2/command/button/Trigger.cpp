@@ -16,7 +16,7 @@ Trigger Trigger::WhenActive(std::shared_ptr<Command> command, bool interruptible
         bool pressed = m_isActive();
 
         if (!pressedLast && pressed) {
-          command->Schedule(interruptible);
+          Command_Schedule(command, interruptible);
         }
 
         pressedLast = pressed;
@@ -42,7 +42,7 @@ Trigger Trigger::WhileActiveContinous(std::shared_ptr<Command> command, bool int
         bool pressed = m_isActive();
 
         if (pressed) {
-          command->Schedule(interruptible);
+          Command_Schedule(command, interruptible);
         } else if (pressedLast && !pressed) {
           command->Cancel();
         }
@@ -71,7 +71,7 @@ Trigger Trigger::WhileActiveOnce(std::shared_ptr<Command> command, bool interrup
         bool pressed = m_isActive();
 
         if (!pressedLast && pressed) {
-          command->Schedule(interruptible);
+          Command_Schedule(command, interruptible);
         } else if (pressedLast && !pressed) {
           command->Cancel();
         }
@@ -87,7 +87,7 @@ Trigger Trigger::WhenInactive(std::shared_ptr<Command> command, bool interruptib
         bool pressed = m_isActive();
 
         if (pressedLast && !pressed) {
-          command->Schedule(interruptible);
+          Command_Schedule(command, interruptible);
         }
 
         pressedLast = pressed;
@@ -115,7 +115,7 @@ Trigger Trigger::ToggleWhenActive(std::shared_ptr<Command> command, bool interru
           if (command->IsScheduled()) {
             command->Cancel();
           } else {
-            command->Schedule(interruptible);
+            Command_Schedule(command, interruptible);
           }
         }
 

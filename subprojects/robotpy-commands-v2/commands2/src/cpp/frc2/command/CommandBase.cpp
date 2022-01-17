@@ -7,6 +7,8 @@
 #include <frc/smartdashboard/SendableBuilder.h>
 #include <frc/smartdashboard/SendableRegistry.h>
 
+#include <src/helpers.h>
+
 using namespace frc2;
 
 CommandBase::CommandBase() {
@@ -53,9 +55,14 @@ void CommandBase::InitSendable(frc::SendableBuilder& builder) {
   builder.AddBooleanProperty(
       "running", [this] { return IsScheduled(); },
       [this](bool value) {
+        std::shared_ptr<Command> hack_ptr = convertToSharedPtrHack(this);
+        if (!hack_ptr) {
+          return;
+        }
+
         bool isScheduled = IsScheduled();
         if (value && !isScheduled) {
-          Schedule();
+          Command_Schedule(hack_ptr);
         } else if (!value && isScheduled) {
           Cancel();
         }

@@ -76,7 +76,7 @@ class Trigger {
           bool pressed = m_isActive();
 
           if (!pressedLast && pressed) {
-            command->Schedule(interruptible);
+            Command_Schedule(command, interruptible);
           }
 
           pressedLast = pressed;
@@ -135,7 +135,7 @@ class Trigger {
           bool pressed = m_isActive();
 
           if (pressed) {
-            command->Schedule(interruptible);
+            Command_Schedule(command, interruptible);
           } else if (pressedLast && !pressed) {
             command->Cancel();
           }
@@ -195,7 +195,7 @@ class Trigger {
           bool pressed = m_isActive();
 
           if (!pressedLast && pressed) {
-            command->Schedule(interruptible);
+            Command_Schedule(command, interruptible);
           } else if (pressedLast && !pressed) {
             command->Cancel();
           }
@@ -237,7 +237,7 @@ class Trigger {
           bool pressed = m_isActive();
 
           if (pressedLast && !pressed) {
-            command->Schedule(interruptible);
+            Command_Schedule(command, interruptible);
           }
 
           pressedLast = pressed;
@@ -289,7 +289,7 @@ class Trigger {
   Trigger ToggleWhenActive(T&& command, bool interruptible = true) {
     CommandScheduler::GetInstance().AddButton(
         [pressedLast = m_isActive(), *this,
-         command = std::make_unique<std::remove_reference_t<T>>(
+         command = std::make_shared<std::remove_reference_t<T>>(
              std::forward<T>(command)),
          interruptible]() mutable {
           bool pressed = m_isActive();
@@ -298,7 +298,7 @@ class Trigger {
             if (command->IsScheduled()) {
               command->Cancel();
             } else {
-              command->Schedule(interruptible);
+              Command_Schedule(command, interruptible);
             }
           }
 

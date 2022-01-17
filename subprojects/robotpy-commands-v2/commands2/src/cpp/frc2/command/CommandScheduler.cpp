@@ -314,7 +314,11 @@ void CommandScheduler::UnregisterSubsystem(
 }
 
 std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const std::shared_ptr<Subsystem> subsystem) const {
-  auto&& find = m_impl->subsystems.find(subsystem.get());
+  return GetDefaultCommand(subsystem.get());
+}
+
+std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const Subsystem *subsystem) const {
+  auto&& find = m_impl->subsystems.find(subsystem);
   if (find != m_impl->subsystems.end()) {
     return find->second;
   } else {
@@ -347,6 +351,18 @@ void CommandScheduler::Cancel(std::shared_ptr<Command> command) {
       m_impl->requirements.erase(requirement.first);
     }
   }
+}
+
+void CommandScheduler::Cancel(Command *command) {
+  if (!m_impl) {
+    return;
+  }
+  auto found = m_impl->scheduledCommands.find_as(command);
+  if (found == m_impl->scheduledCommands.end()) {
+    return;
+  }
+
+  Cancel(found->first);
 }
 
 void CommandScheduler::Cancel(wpi::ArrayRef<std::shared_ptr<Command>> commands) {
@@ -402,8 +418,22 @@ bool CommandScheduler::IsScheduled(const std::shared_ptr<Command> command) const
          m_impl->scheduledCommands.end();
 }
 
+bool CommandScheduler::IsScheduled(const Command* command) const {
+  return m_impl->scheduledCommands.find_as(command) !=
+         m_impl->scheduledCommands.end();
+}
+
 std::shared_ptr<Command> CommandScheduler::Requiring(const std::shared_ptr<Subsystem> subsystem) const {
   auto find = m_impl->requirements.find(subsystem);
+  if (find != m_impl->requirements.end()) {
+    return find->second;
+  } else {
+    return nullptr;
+  }
+}
+
+std::shared_ptr<Command> CommandScheduler::Requiring(const Subsystem* subsystem) const {
+  auto find = m_impl->requirements.find_as(subsystem);
   if (find != m_impl->requirements.end()) {
     return find->second;
   } else {
@@ -450,7 +480,7 @@ void CommandScheduler::InitSendable(frc::SendableBuilder& builder) {
       Command* command = reinterpret_cast<Command*>(ptrTmp);
       if (m_impl->scheduledCommands.find_as(command) !=
           m_impl->scheduledCommands.end()) {
-        Cancel(command->shared_from_this());
+        Cancel(command);
       }
       nt::NetworkTableEntry(cancelEntry)
           .SetDoubleArray(wpi::ArrayRef<double>{});

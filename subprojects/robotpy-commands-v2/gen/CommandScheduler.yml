@@ -47,9 +47,15 @@ classes:
         template_impls:
         - ["std::shared_ptr<Command>"]
       GetDefaultCommand:
+        overloads:
+          std::shared_ptr<Subsystem> [const]:
+          Subsystem* [const]:
+            ignore: true
       Cancel:
         overloads:
           std::shared_ptr<Command>:
+          Command*:
+            ignore: true
           wpi::ArrayRef<std::shared_ptr<Command>>:
           std::initializer_list<std::shared_ptr<Command>>:
             ignore: true
@@ -61,6 +67,8 @@ classes:
           std::initializer_list<const std::shared_ptr<Command>> [const]:
             ignore: true
           std::shared_ptr<Command> [const]:
+          Command* [const]:
+            ignore: true
       Requiring:
       Disable:
       Enable:

@@ -14,11 +14,11 @@ void Subsystem::Periodic() {}
 void Subsystem::SimulationPeriodic() {}
 
 std::shared_ptr<Command> Subsystem::GetDefaultCommand() {
-  return CommandScheduler::GetInstance().GetDefaultCommand(shared_from_this());
+  return CommandScheduler::GetInstance().GetDefaultCommand(this);
 }
 
 std::shared_ptr<Command> Subsystem::GetCurrentCommand() {
-  return CommandScheduler::GetInstance().Requiring(shared_from_this());
+  return CommandScheduler::GetInstance().Requiring(this);
 }
 
 void Subsystem::Register() {

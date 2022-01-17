@@ -208,6 +208,8 @@ class CommandScheduler final : public frc::Sendable,
    */
   std::shared_ptr<Command> GetDefaultCommand(const std::shared_ptr<Subsystem> subsystem) const;
 
+  std::shared_ptr<Command> GetDefaultCommand(const Subsystem* subsystem) const;
+
   /**
    * Cancels commands. The scheduler will only call Command::End()
    * method of the canceled command with true, indicating they were
@@ -219,6 +221,7 @@ class CommandScheduler final : public frc::Sendable,
    * @param commands the commands to cancel
    */
   void Cancel(std::shared_ptr<Command> command);
+  void Cancel(Command* command);
 
   /**
    * Cancels commands. The scheduler will only call Command::End()
@@ -289,6 +292,7 @@ class CommandScheduler final : public frc::Sendable,
    * @return whether the command is currently scheduled
    */
   bool IsScheduled(const std::shared_ptr<Command> command) const;
+  bool IsScheduled(const Command* command) const;
 
   /**
    * Returns the command currently requiring a given subsystem.  Null if no
@@ -298,6 +302,7 @@ class CommandScheduler final : public frc::Sendable,
    * @return the command currently requiring the subsystem
    */
   std::shared_ptr<Command> Requiring(const std::shared_ptr<Subsystem> subsystem) const;
+  std::shared_ptr<Command> Requiring(const Subsystem* subsystem) const;
 
   /**
    * Disables the command scheduler.

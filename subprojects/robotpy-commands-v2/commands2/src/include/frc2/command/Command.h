@@ -42,7 +42,7 @@ class ProxyScheduleCommand;
  *
  * @see CommandScheduler
  */
-class Command : public std::enable_shared_from_this<Command>, public frc::ErrorBase {
+class Command : public frc::ErrorBase {
  public:
   Command() = default;
   ~Command() override;
@@ -104,7 +104,9 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
    * @param duration the timeout duration
    * @return the command with the timeout added
    */
-  std::shared_ptr<ParallelRaceGroup> WithTimeout(units::second_t duration);
+   /*
+  ParallelRaceGroup WithTimeout(units::second_t duration) &&;
+  */
 
   /**
    * Decorates this command with an interrupt condition.  If the specified
@@ -115,7 +117,9 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
    * @param condition the interrupt condition
    * @return the command with the interrupt condition added
    */
-  std::shared_ptr<ParallelRaceGroup> WithInterrupt(std::function<bool()> condition);
+   /*
+  ParallelRaceGroup WithInterrupt(std::function<bool()> condition) &&;
+  */
 
   /**
    * Decorates this command with a runnable to run before this command starts.
@@ -124,9 +128,11 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
    * @param requirements the required subsystems
    * @return the decorated command
    */
-  std::shared_ptr<SequentialCommandGroup> BeforeStarting(
+   /*
+  SequentialCommandGroup BeforeStarting(
       std::function<void()> toRun,
-      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+      std::initializer_list<Subsystem*> requirements) &&;
+      */
 
   /**
    * Decorates this command with a runnable to run before this command starts.
@@ -135,9 +141,11 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
    * @param requirements the required subsystems
    * @return the decorated command
    */
-  std::shared_ptr<SequentialCommandGroup> BeforeStarting(
+   /*
+  SequentialCommandGroup BeforeStarting(
       std::function<void()> toRun,
-      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+      wpi::ArrayRef<Subsystem*> requirements = {}) &&;
+      */
 
   /**
    * Decorates this command with a runnable to run after the command finishes.
@@ -146,9 +154,11 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
    * @param requirements the required subsystems
    * @return the decorated command
    */
-  std::shared_ptr<SequentialCommandGroup> AndThen(
+   /*
+  SequentialCommandGroup AndThen(
       std::function<void()> toRun,
-      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+      std::initializer_list<Subsystem*> requirements) &&;
+      */
 
   /**
    * Decorates this command with a runnable to run after the command finishes.
@@ -157,9 +167,11 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
    * @param requirements the required subsystems
    * @return the decorated command
    */
-  std::shared_ptr<SequentialCommandGroup> AndThen(
+   /*
+  SequentialCommandGroup AndThen(
       std::function<void()> toRun,
-      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+      wpi::ArrayRef<Subsystem*> requirements = {}) &&;
+      */
 
   /**
    * Decorates this command to run perpetually, ignoring its ordinary end
@@ -167,7 +179,9 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
    *
    * @return the decorated command
    */
-  std::shared_ptr<PerpetualCommand> Perpetually();
+   /*
+  PerpetualCommand Perpetually() &&;
+  */
 
   /**
    * Decorates this command to run "by proxy" by wrapping it in a {@link
@@ -177,7 +191,9 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
    *
    * @return the decorated command
    */
-  std::shared_ptr<ProxyScheduleCommand> AsProxy();
+   /*
+  ProxyScheduleCommand AsProxy();
+  */
 
   /**
    * Schedules this command.
@@ -190,7 +206,7 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
   /**
    * Schedules this command, defaulting to interruptible.
    */
-  void Schedule() { Schedule(true); }
+  void Schedule();
 
   /**
    * Cancels this command.  Will call the command's interrupted() method.
@@ -260,4 +276,10 @@ class Command : public std::enable_shared_from_this<Command>, public frc::ErrorB
  * @return False if first and second share a requirement.
  */
 bool RequirementsDisjoint(Command* first, Command* second);
+
+void Command_Schedule(std::shared_ptr<Command> self);
+void Command_Schedule(std::shared_ptr<Command> self, bool interruptable);
+
+
 }  // namespace frc2
+

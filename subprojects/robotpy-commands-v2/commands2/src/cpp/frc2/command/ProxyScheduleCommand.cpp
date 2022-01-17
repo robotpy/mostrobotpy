@@ -12,7 +12,7 @@ ProxyScheduleCommand::ProxyScheduleCommand(wpi::ArrayRef<std::shared_ptr<Command
 
 void ProxyScheduleCommand::Initialize() {
   for (auto command : m_toSchedule) {
-    command->Schedule();
+    Command_Schedule(command);
   }
 }
 

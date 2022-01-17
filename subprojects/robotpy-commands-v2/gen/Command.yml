@@ -16,11 +16,17 @@ functions:
   GetTypeName:
     ignore: true
   RequirementsDisjoint:
+  Command_Schedule:
+    ignore: true
+  Command_Schedule:
+    overloads:
+      std::shared_ptr<frc2::Command>:
+        ignore: true
+      std::shared_ptr<frc2::Command>, bool:
+        ignore: true
 classes:
   Command:
     shared_ptr: true
-    ignored_bases:
-    - std::enable_shared_from_this<Command>
     attributes:
       m_isGrouped:
     methods:
@@ -30,24 +36,16 @@ classes:
       End:
       IsFinished:
       GetRequirements:
-      WithTimeout:
-      WithInterrupt:
-      BeforeStarting:
-        overloads:
-          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
-            ignore: true
-          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
-      AndThen:
-        overloads:
-          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
-            ignore: true
-          std::function<void ( )>, wpi::ArrayRef<std::shared_ptr<Subsystem>>:
-      Perpetually:
-      AsProxy:
       Schedule:
         overloads:
           bool:
+            cpp_code: |
+              [](std::shared_ptr<Command> self, bool interruptable) {
+                Command_Schedule(self, interruptable);
+              }
           "":
+            cpp_code: |
+              [](std::shared_ptr<Command> self) { Command_Schedule(self, true); }
       Cancel:
       IsScheduled:
       HasRequirement:
