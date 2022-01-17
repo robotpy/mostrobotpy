@@ -17,8 +17,6 @@ namespace frc2 {
  * all the commands are no longer scheduled.  Useful for forking off from
  * CommandGroups.  If this command is interrupted, it will cancel all of the
  * commands.
- *
- * This class is provided by the NewCommands VendorDep
  */
 class ProxyScheduleCommand
     : public CommandBase{

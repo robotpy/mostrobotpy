@@ -29,8 +29,6 @@ class Command;
  * SubsystemBase class offers a simple base for user implementations
  * that handles this.
  *
- * This class is provided by the NewCommands VendorDep
- *
  * @see Command
  * @see CommandScheduler
  * @see SubsystemBase

@@ -19,8 +19,6 @@ namespace frc2 {
  * A command that runs a TrapezoidProfile.  Useful for smoothly controlling
  * mechanism motion.
  *
- * This class is provided by the NewCommands VendorDep
- *
  * @see TrapezoidProfile
  */
 template <class Distance>

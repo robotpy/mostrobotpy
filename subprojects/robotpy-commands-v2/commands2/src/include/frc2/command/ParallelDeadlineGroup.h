@@ -24,8 +24,6 @@ namespace frc2 {
  *
  * <p>As a rule, CommandGroups require the union of the requirements of their
  * component commands.
- *
- * This class is provided by the NewCommands VendorDep
  */
 class ParallelDeadlineGroup
     : public CommandGroupBase {

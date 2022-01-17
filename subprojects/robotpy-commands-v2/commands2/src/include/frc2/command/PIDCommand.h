@@ -20,8 +20,6 @@ namespace frc2 {
  * The controller calculation and output are performed synchronously in the
  * command's execute() method.
  *
- * This class is provided by the NewCommands VendorDep
- *
  * @see PIDController
  */
 class PIDCommand : public CommandBase {

@@ -19,8 +19,6 @@ namespace frc2 {
  * complex commands - note, however, that if a command is beyond a certain
  * complexity it is usually better practice to write a proper class for it than
  * to inline it.
- *
- * This class is provided by the NewCommands VendorDep
  */
 class FunctionalCommand : public CommandBase {
  public:

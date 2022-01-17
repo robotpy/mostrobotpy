@@ -19,8 +19,6 @@ namespace frc2 {
  * extending and then retracting a solenoid. Has no end condition as-is; either
  * subclass it or use Command.WithTimeout() or Command.WithInterrupt() to give
  * it one.
- *
- * This class is provided by the NewCommands VendorDep
  */
 class StartEndCommand : public CommandBase {
  public:
