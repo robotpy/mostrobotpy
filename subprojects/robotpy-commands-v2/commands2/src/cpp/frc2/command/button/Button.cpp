@@ -13,14 +13,14 @@ Button Button::WhenPressed(std::shared_ptr<Command> command, bool interruptible)
   return *this;
 }
 
-Button Button::WhenPressed(std::function<void()> toRun,
-                           std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
-  WhenActive(std::move(toRun), requirements);
-  return *this;
-}
+// Button Button::WhenPressed(std::function<void()> toRun,
+//                            std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+//   WhenActive(std::move(toRun), requirements);
+//   return *this;
+// }
 
 Button Button::WhenPressed(std::function<void()> toRun,
-                           wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
+                           wpi::span<std::shared_ptr<Subsystem>> requirements) {
   WhenActive(std::move(toRun), requirements);
   return *this;
 }
@@ -30,14 +30,14 @@ Button Button::WhileHeld(std::shared_ptr<Command> command, bool interruptible) {
   return *this;
 }
 
-Button Button::WhileHeld(std::function<void()> toRun,
-                         std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
-  WhileActiveContinous(std::move(toRun), requirements);
-  return *this;
-}
+// Button Button::WhileHeld(std::function<void()> toRun,
+//                          std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+//   WhileActiveContinous(std::move(toRun), requirements);
+//   return *this;
+// }
 
 Button Button::WhileHeld(std::function<void()> toRun,
-                         wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
+                         wpi::span<std::shared_ptr<Subsystem>> requirements) {
   WhileActiveContinous(std::move(toRun), requirements);
   return *this;
 }
@@ -52,14 +52,14 @@ Button Button::WhenReleased(std::shared_ptr<Command> command, bool interruptible
   return *this;
 }
 
-Button Button::WhenReleased(std::function<void()> toRun,
-                            std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
-  WhenInactive(std::move(toRun), requirements);
-  return *this;
-}
+// Button Button::WhenReleased(std::function<void()> toRun,
+//                             std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+//   WhenInactive(std::move(toRun), requirements);
+//   return *this;
+// }
 
 Button Button::WhenReleased(std::function<void()> toRun,
-                            wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
+                            wpi::span<std::shared_ptr<Subsystem>> requirements) {
   WhenInactive(std::move(toRun), requirements);
   return *this;
 }

@@ -15,7 +15,7 @@ StartEndCommand::StartEndCommand(std::function<void()> onInit,
 
 StartEndCommand::StartEndCommand(std::function<void()> onInit,
                                  std::function<void()> onEnd,
-                                 wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements)
+                                 wpi::span<std::shared_ptr<Subsystem>> requirements)
     : m_onInit{std::move(onInit)}, m_onEnd{std::move(onEnd)} {
   AddRequirements(requirements);
 }

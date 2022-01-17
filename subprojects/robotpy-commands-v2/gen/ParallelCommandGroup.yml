@@ -36,4 +36,8 @@ inline_code: |
     .def("addCommands", [](ParallelCommandGroup * self, py::args cmds) {
       self->AddCommands(std::move(pyargs2cmdList(cmds)));
     })
+    .def("alongWith", [](std::shared_ptr<ParallelCommandGroup> self, py::args cmds) -> std::shared_ptr<ParallelCommandGroup> {
+      self->AddCommands(std::move(pyargs2cmdList(cmds)));
+      return self;
+    })
   ;

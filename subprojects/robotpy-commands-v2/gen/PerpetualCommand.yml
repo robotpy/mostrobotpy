@@ -16,3 +16,8 @@ classes:
       Initialize:
       Execute:
       End:
+      Perpetually:
+        cpp_code: |
+          [](std::shared_ptr<PerpetualCommand> self) {
+            return self;
+          }

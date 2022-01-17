@@ -7,7 +7,7 @@
 using namespace frc2;
 
 PerpetualCommand::PerpetualCommand(std::shared_ptr<Command> command) {
-  if (!CommandGroupBase::RequireUngrouped(command)) {
+  if (!CommandGroupBase::RequireUngrouped(*command)) {
     return;
   }
   m_command = std::move(command);
@@ -26,3 +26,7 @@ void PerpetualCommand::Execute() {
 void PerpetualCommand::End(bool interrupted) {
   m_command->End(interrupted);
 }
+
+// PerpetualCommand PerpetualCommand::Perpetually() && {
+//   return std::move(*this);
+// }

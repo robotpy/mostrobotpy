@@ -10,8 +10,10 @@ classes:
     methods:
       RequireUngrouped:
         overloads:
-          Command&:
-          wpi::ArrayRef<std::shared_ptr<Command>>:
+          Command& [const]:
+          Command* [const]:
+            ignore: true
+          wpi::span<std::shared_ptr<Command>>:
           std::initializer_list<std::shared_ptr<Command>>:
             ignore: true
       AddCommands:

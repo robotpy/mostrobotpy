@@ -4,13 +4,13 @@
 
 #include "frc2/command/PrintCommand.h"
 
-#include <wpi/raw_ostream.h>
+#include <fmt/format.h>
 
 using namespace frc2;
 
-PrintCommand::PrintCommand(const wpi::Twine& message)
-    : InstantCommand{[str = message.str()] { wpi::outs() << str << "\n"; }, {}} {
-}
+PrintCommand::PrintCommand(std::string_view message)
+    : InstantCommand{[str = std::string(message)] { fmt::print("{}\n", str); },
+                    {}} {}
 
 bool PrintCommand::RunsWhenDisabled() const {
   return true;

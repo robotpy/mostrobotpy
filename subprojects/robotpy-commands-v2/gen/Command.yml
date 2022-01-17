@@ -1,12 +1,15 @@
 ---
 
 extra_includes:
+- frc2/command/InstantCommand.h
 - frc2/command/ParallelCommandGroup.h
 - frc2/command/ParallelRaceGroup.h
 - frc2/command/ParallelDeadlineGroup.h
 - frc2/command/SequentialCommandGroup.h
 - frc2/command/PerpetualCommand.h
 - frc2/command/ProxyScheduleCommand.h
+- frc2/command/WaitCommand.h
+- frc2/command/WaitUntilCommand.h
 - src/helpers.h
 
 inline_code: |
@@ -26,6 +29,8 @@ functions:
         ignore: true
 classes:
   Command:
+    force_type_casters:
+    - wpi::span
     shared_ptr: true
     attributes:
       m_isGrouped:

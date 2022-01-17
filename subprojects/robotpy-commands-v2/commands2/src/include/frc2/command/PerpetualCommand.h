@@ -65,6 +65,8 @@ class PerpetualCommand : public CommandBase {
 
   void End(bool interrupted) override;
 
+  // std::shared_ptr<PerpetualCommand> Perpetually() override;
+
  private:
   std::shared_ptr<Command> m_command;
 };

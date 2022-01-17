@@ -51,13 +51,13 @@ cls_Command
     DECORATOR_NOTE
   )
   .def("beforeStarting",
-    [](std::shared_ptr<Command> self, std::function<void()> toRun, wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements) {
+    [](std::shared_ptr<Command> self, std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements) {
       std::vector<std::shared_ptr<Command>> temp;
       temp.emplace_back(std::make_shared<InstantCommand>(std::move(toRun), requirements));
       temp.emplace_back(self);
       return std::make_shared<SequentialCommandGroup>(std::move(temp));
     },
-    py::arg("toRun"), py::arg("requirements")=wpi::ArrayRef<std::shared_ptr<Subsystem> >{},
+    py::arg("toRun"), py::arg("requirements")=wpi::span<std::shared_ptr<Subsystem> >{},
     "Decorates this command with a runnable to run before this command starts.\n"
     "\n"
     ":param toRun:        the Runnable to run\n"
@@ -83,7 +83,6 @@ cls_Command
     "\n"
     ":returns: the decorated command"
     DECORATOR_NOTE)
-  )
   .def("raceWith",
     [](std::shared_ptr<Command> self, py::args cmds) {
       std::vector<std::shared_ptr<Command>> commands;

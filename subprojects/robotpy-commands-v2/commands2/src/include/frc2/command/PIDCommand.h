@@ -8,6 +8,7 @@
 #include <initializer_list>
 
 #include <frc/controller/PIDController.h>
+#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"
@@ -53,7 +54,7 @@ class PIDCommand : public CommandBase {
              std::function<double()> measurementSource,
              std::function<double()> setpointSource,
              std::function<void(double)> useOutput,
-             wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+             wpi::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -83,7 +84,7 @@ class PIDCommand : public CommandBase {
   PIDCommand(PIDController controller,
              std::function<double()> measurementSource, double setpoint,
              std::function<void(double)> useOutput,
-             wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+             wpi::span<std::shared_ptr<Subsystem>> requirements = {});
 
   PIDCommand(PIDCommand&& other) = default;
 

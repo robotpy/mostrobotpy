@@ -8,14 +8,16 @@ classes:
     shared_ptr: true
     attributes:
       m_requirements:
+        # this is supposed to be protected, but had to make it public
+        rename: _m_requirements
     ignored_bases:
-    - frc::SendableHelper<CommandBase>
+    - wpi::SendableHelper<CommandBase>
     methods:
       AddRequirements:
         overloads:
           std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
-          wpi::ArrayRef<std::shared_ptr<Subsystem>>:
+          wpi::span<std::shared_ptr<Subsystem>>:
           wpi::SmallSet<std::shared_ptr<Subsystem>, 4>:
       GetRequirements:
       SetName:
@@ -26,7 +28,7 @@ classes:
       CommandBase:
         cpp_code: |
           .def(py::init([]() {
-            return std::make_unique<rpygen::Pyfrc2__CommandBase<typename frc2::CommandBase>>();
+            return std::make_shared<CommandBase_Trampoline>();
           })
 
 

@@ -35,4 +35,8 @@ inline_code: |
     .def("addCommands", [](ParallelDeadlineGroup * self, py::args cmds) {
       self->AddCommands(std::move(pyargs2cmdList(cmds)));
     })
+    .def("deadlineWith", [](std::shared_ptr<ParallelDeadlineGroup> self, py::args cmds) -> std::shared_ptr<ParallelDeadlineGroup> {
+      self->AddCommands(std::move(pyargs2cmdList(cmds)));
+      return self;
+    })
   ;

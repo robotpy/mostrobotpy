@@ -40,4 +40,6 @@ inline_code: |
     .def("addCommands", [](SequentialCommandGroup * self, py::args cmds) {
       self->AddCommands(std::move(pyargs2cmdList(cmds)));
     })
+    .def("beforeStarting", &frc2::SequentialCommandGroup_BeforeStarting)
+    .def("andThen", &frc2::SequentialCommandGroup_AndThen)
   ;

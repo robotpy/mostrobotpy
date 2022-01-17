@@ -43,9 +43,6 @@ SwerveControllerCommand<NumModules>::SwerveControllerCommand(
       m_controller(xController, yController, thetaController),
       m_outputStates(output) {
   this->AddRequirements(requirements);
-  m_desiredRotation = [&] {
-    return m_trajectory.States().back().pose.Rotation();
-  };
 }
 
 template <size_t NumModules>
@@ -56,7 +53,7 @@ SwerveControllerCommand<NumModules>::SwerveControllerCommand(
     frc::ProfiledPIDController<units::radians> thetaController,
     std::function<frc::Rotation2d()> desiredRotation,
     std::function<void(std::array<frc::SwerveModuleState, NumModules>)> output,
-    wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements)
+    wpi::span<std::shared_ptr<Subsystem>> requirements)
     : m_trajectory(std::move(trajectory)),
       m_pose(std::move(pose)),
       m_kinematics(kinematics),
@@ -73,20 +70,22 @@ SwerveControllerCommand<NumModules>::SwerveControllerCommand(
     frc2::PIDController xController, frc2::PIDController yController,
     frc::ProfiledPIDController<units::radians> thetaController,
     std::function<void(std::array<frc::SwerveModuleState, NumModules>)> output,
-    wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements)
+    wpi::span<std::shared_ptr<Subsystem>> requirements)
     : m_trajectory(std::move(trajectory)),
       m_pose(std::move(pose)),
       m_kinematics(kinematics),
       m_controller(xController, yController, thetaController),
       m_outputStates(output) {
   this->AddRequirements(requirements);
-  m_desiredRotation = [&] {
-    return m_trajectory.States().back().pose.Rotation();
-  };
 }
 
 template <size_t NumModules>
 void SwerveControllerCommand<NumModules>::Initialize() {
+  if (m_desiredRotation == nullptr) {
+    m_desiredRotation = [&] {
+      return m_trajectory.States().back().pose.Rotation();
+    };
+  }
   m_timer.Reset();
   m_timer.Start();
 }

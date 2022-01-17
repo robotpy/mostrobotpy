@@ -7,7 +7,7 @@
 #include <functional>
 #include <initializer_list>
 
-#include <wpi/ArrayRef.h>
+#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"
@@ -39,7 +39,7 @@ class RunCommand : public CommandBase {
    * @param requirements the subsystems to require
    */
   explicit RunCommand(std::function<void()> toRun,
-                      wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+                      wpi::span<std::shared_ptr<Subsystem>> requirements = {});
 
   RunCommand(RunCommand&& other) = default;
 

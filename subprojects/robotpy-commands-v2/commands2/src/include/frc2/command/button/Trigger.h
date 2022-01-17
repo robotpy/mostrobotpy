@@ -9,7 +9,9 @@
 #include <memory>
 #include <utility>
 
-#include <wpi/ArrayRef.h>
+#include <frc/filter/Debouncer.h>
+#include <units/time.h>
+#include <wpi/span.h>
 
 #include "frc2/command/Command.h"
 #include "frc2/command/CommandScheduler.h"
@@ -89,19 +91,19 @@ class Trigger {
    * Binds a runnable to execute when the trigger becomes active.
    *
    * @param toRun the runnable to execute.
-   * @paaram requirements the required subsystems.
+   * @param requirements the required subsystems.
    */
-  Trigger WhenActive(std::function<void()> toRun,
-                     std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+  // Trigger WhenActive(std::function<void()> toRun,
+  //                    std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute when the trigger becomes active.
    *
    * @param toRun the runnable to execute.
-   * @paaram requirements the required subsystems.
+   * @param requirements the required subsystems.
    */
   Trigger WhenActive(std::function<void()> toRun,
-                     wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+                     wpi::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started repeatedly while the trigger is active, and
@@ -151,8 +153,8 @@ class Trigger {
    * @param toRun the runnable to execute.
    * @param requirements the required subsystems.
    */
-  Trigger WhileActiveContinous(std::function<void()> toRun,
-                               std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+  // Trigger WhileActiveContinous(std::function<void()> toRun,
+  //                              std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute repeatedly while the trigger is active.
@@ -161,7 +163,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhileActiveContinous(std::function<void()> toRun,
-                               wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+                               wpi::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started when the trigger becomes active, and
@@ -251,8 +253,8 @@ class Trigger {
    * @param toRun the runnable to execute.
    * @param requirements the required subsystems.
    */
-  Trigger WhenInactive(std::function<void()> toRun,
-                       std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+  // Trigger WhenInactive(std::function<void()> toRun,
+  //                      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Binds a runnable to execute when the trigger becomes inactive.
@@ -261,7 +263,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhenInactive(std::function<void()> toRun,
-                       wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+                       wpi::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to start when the trigger becomes active, and be canceled
@@ -346,11 +348,16 @@ class Trigger {
   }
 
   /**
-   * Returns whether or not the trigger is currently active
+   * Creates a new debounced trigger from this trigger - it will become active
+   * when this trigger has been active for longer than the specified period.
+   *
+   * @param debounceTime The debounce period.
+   * @param type The debounce type.
+   * @return The debounced trigger.
    */
-  bool Get() {
-    return m_isActive();
-  }
+  Trigger Debounce(units::second_t debounceTime,
+                   frc::Debouncer::DebounceType type =
+                       frc::Debouncer::DebounceType::kRising);
 
  private:
   std::function<bool()> m_isActive;

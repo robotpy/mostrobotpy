@@ -36,4 +36,8 @@ inline_code: |
     .def("addCommands", [](ParallelRaceGroup * self, py::args cmds) {
       self->AddCommands(std::move(pyargs2cmdList(cmds)));
     })
+    .def("raceWith", [](std::shared_ptr<ParallelRaceGroup> self, py::args cmds) -> std::shared_ptr<ParallelRaceGroup> {
+      self->AddCommands(std::move(pyargs2cmdList(cmds)));
+      return self;
+    })
   ;

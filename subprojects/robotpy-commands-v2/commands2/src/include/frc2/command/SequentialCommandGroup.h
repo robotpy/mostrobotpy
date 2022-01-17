@@ -15,9 +15,7 @@
 #include <utility>
 #include <vector>
 
-#include <frc/ErrorBase.h>
-#include <frc/WPIErrors.h>
-#include <wpi/ArrayRef.h>
+#include <wpi/span.h>
 
 #include "frc2/command/CommandGroupBase.h"
 #include "frc2/command/CommandHelper.h"
@@ -88,13 +86,32 @@ class SequentialCommandGroup
 
   bool RunsWhenDisabled() const override;
 
+  // std::shared_ptr<Subsystem> BeforeStarting(
+  //     std::function<void()> toRun,
+  //     wpi::span<std::shared_ptr<Subsystem>> requirements = {})
+  //     override;
+
+  // std::shared_ptr<Subsystem> AndThen(
+  //     std::function<void()> toRun,
+  //     wpi::span<std::shared_ptr<Subsystem>> requirements = {})
+  //     override;
+
  public:
   void AddCommands(std::vector<std::shared_ptr<Command>>&& commands) final;
- private:
+
   wpi::SmallVector<std::shared_ptr<Command>, 4> m_commands;
   size_t m_currentCommandIndex{invalid_index};
   bool m_runWhenDisabled{true};
 };
+
+
+std::shared_ptr<SequentialCommandGroup> SequentialCommandGroup_BeforeStarting(
+  std::shared_ptr<SequentialCommandGroup> self,
+    std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements);
+std::shared_ptr<SequentialCommandGroup> SequentialCommandGroup_AndThen(
+    std::shared_ptr<SequentialCommandGroup> self,
+    std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements);
+
 }  // namespace frc2
 
 #ifdef _WIN32

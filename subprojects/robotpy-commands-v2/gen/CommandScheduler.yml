@@ -3,14 +3,15 @@
 extra_includes:
 - frc2/command/Command.h
 - frc2/command/Subsystem.h
-- frc/smartdashboard/SendableBuilder.h
+- wpi/sendable/SendableBuilder.h
+- networktables/NTSendableBuilder.h
 - src/helpers.h
 
 classes:
   CommandScheduler:
     shared_ptr: true
     ignored_bases:
-    - frc::SendableHelper<CommandScheduler>
+    - wpi::SendableHelper<CommandScheduler>
     methods:
       GetInstance:
         return_value_policy: reference
@@ -24,10 +25,10 @@ classes:
         overloads:
           bool, std::shared_ptr<Command>:
           std::shared_ptr<Command>:
-          bool, wpi::ArrayRef<std::shared_ptr<Command>>:
+          bool, wpi::span<std::shared_ptr<Command>>:
           bool, std::initializer_list<std::shared_ptr<Command>>:
             ignore: true
-          wpi::ArrayRef<std::shared_ptr<Command>>:
+          wpi::span<std::shared_ptr<Command>>:
           std::initializer_list<std::shared_ptr<Command>>:
             ignore: true
       Run:
@@ -36,13 +37,13 @@ classes:
           frc2::Subsystem*:
           std::initializer_list<Subsystem *>:
             ignore: true
-          wpi::ArrayRef<Subsystem *>:
+          wpi::span<std::shared_ptr<Subsystem>>:
       UnregisterSubsystem:
         overloads:
           frc2::Subsystem*:
           std::initializer_list<Subsystem *>:
             ignore: true
-          wpi::ArrayRef<Subsystem *>:
+          wpi::span<std::shared_ptr<Subsystem>>:
       SetDefaultCommand:
         template_impls:
         - ["std::shared_ptr<Command>"]
@@ -56,14 +57,14 @@ classes:
           std::shared_ptr<Command>:
           Command*:
             ignore: true
-          wpi::ArrayRef<std::shared_ptr<Command>>:
+          wpi::span<std::shared_ptr<Command>>:
           std::initializer_list<std::shared_ptr<Command>>:
             ignore: true
       CancelAll:
       TimeSinceScheduled:
       IsScheduled:
         overloads:
-          wpi::ArrayRef<std::shared_ptr<Command>> [const]:
+          wpi::span<std::shared_ptr<Command>> [const]:
           std::initializer_list<const std::shared_ptr<Command>> [const]:
             ignore: true
           std::shared_ptr<Command> [const]:

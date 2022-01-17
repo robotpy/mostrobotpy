@@ -7,7 +7,7 @@
 #include <functional>
 #include <initializer_list>
 
-#include <wpi/ArrayRef.h>
+#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"
@@ -42,7 +42,7 @@ class StartEndCommand : public CommandBase {
    * @param requirements the subsystems required by this command
    */
   StartEndCommand(std::function<void()> onInit, std::function<void()> onEnd,
-                  wpi::ArrayRef<std::shared_ptr<Subsystem>> requirements = {});
+                  wpi::span<std::shared_ptr<Subsystem>> requirements = {});
 
   StartEndCommand(StartEndCommand&& other) = default;
 

@@ -59,7 +59,7 @@ class SelectCommand : public CommandBase {
      ...);
 
     for (auto&& command : foo) {
-      if (!CommandGroupBase::RequireUngrouped(command.second)) {
+      if (!CommandGroupBase::RequireUngrouped(*command.second)) {
         return;
       }
     }
@@ -76,7 +76,7 @@ class SelectCommand : public CommandBase {
       std::vector<std::pair<Key, std::shared_ptr<Command>>>&& commands)
       : m_selector{std::move(selector)} {
     for (auto&& command : commands) {
-      if (!CommandGroupBase::RequireUngrouped(command.second)) {
+      if (!CommandGroupBase::RequireUngrouped(*command.second)) {
         return;
       }
     }
