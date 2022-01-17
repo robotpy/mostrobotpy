@@ -348,6 +348,13 @@ class Trigger {
   }
 
   /**
+   * Returns whether or not the trigger is currently active
+   */
+  bool Get() {
+    return m_isActive();
+  }
+
+  /**
    * Creates a new debounced trigger from this trigger - it will become active
    * when this trigger has been active for longer than the specified period.
    *

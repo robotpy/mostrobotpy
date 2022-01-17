@@ -47,9 +47,9 @@ sources = [
     "commands2/src/cpp/frc2/command/WaitUntilCommand.cpp",
 ]
 depends = [
-    "wpilib_core", "wpilibc_interfaces", "wpilibc", "wpilibc_controller",
-    "wpimath_cpp", "wpimath_controls", "wpimath_geometry", "wpimath_kinematics",
-    "wpimath_spline", "wpimath_trajectory",
+    "wpilib_core", "wpilibc_interfaces", "wpilibc",
+    "wpimath_cpp", "wpimath_controls", "wpimath_geometry", "wpimath_filter",
+    "wpimath_kinematics", "wpimath_spline",
     "wpiHal", "wpiutil", "ntcore",
 ]
 

@@ -31,6 +31,8 @@ classes:
   Command:
     force_type_casters:
     - wpi::span
+    - std::function
+    - units::second_t
     shared_ptr: true
     attributes:
       m_isGrouped:

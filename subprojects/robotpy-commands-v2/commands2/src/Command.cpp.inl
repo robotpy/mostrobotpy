@@ -11,6 +11,17 @@
 
 cls_Command
   .def("andThen",
+    [](std::shared_ptr<Command> self, std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements) {
+      std::vector<std::shared_ptr<Command>> temp;
+      temp.emplace_back(self);
+      temp.emplace_back(
+          std::make_shared<InstantCommand>(std::move(toRun), requirements));
+      return SequentialCommandGroup(std::move(temp));
+    },
+    py::arg("toRun"), py::arg("requirements") = wpi::span<std::shared_ptr<Subsystem>>{},
+    "Decorates this command with a runnable to run after the command finishes.\n"
+    DECORATOR_NOTE)
+  .def("andThen",
     [](std::shared_ptr<Command> self, py::args cmds) {
       std::vector<std::shared_ptr<Command>> commands;
       commands.emplace_back(self);
