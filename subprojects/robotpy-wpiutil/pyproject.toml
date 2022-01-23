@@ -1,5 +1,5 @@
 [build-system]
-requires = ["robotpy-build>=2022.1.0,<2023.0.0"]
+requires = ["robotpy-build<2023.0.0,>=2022.2.0"]
 
 [tool.robotpy-build]
 base_package = "wpiutil"
@@ -28,23 +28,23 @@ version = "2022.2.1"
 
 libs = ["wpiutil"]
 
-[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_array_type_caster.h"
 types = ["wpi::array"]
 
-[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_span_type_caster.h"
 types = ["wpi::span"]
 
-[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_smallset_type_caster.h"
 types = ["wpi::SmallSet"]
 
-[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_smallvector_type_caster.h"
 types = ["wpi::SmallVector"]
 
-[[tool.robotpy-build.wrappers.wpiutil.type_casters]]
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_smallvectorimpl_type_caster.h"
 types = ["wpi::SmallVectorImpl"]
 
