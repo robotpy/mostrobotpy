@@ -9,6 +9,7 @@ WPIMath API
   wpimath
   wpimath.controller
   wpimath.estimator
+  wpimath.filter
   wpimath.geometry
   wpimath.kinematics
   wpimath.spline
