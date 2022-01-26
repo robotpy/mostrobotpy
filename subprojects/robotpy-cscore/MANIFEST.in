@@ -2,9 +2,10 @@ include LICENSE
 exclude pyproject.toml
 recursive-include src *.h *.hpp
 recursive-include cscore_src/cscore/src/main/native *.cpp *.h
-include cscore_src/cscore/src/main/native/include/*.inl
-recursive-include cscore_src/wpiutil/src/main/native/cpp *.h *.inc
-recursive-include cscore_src/wpiutil/src/main/native/include *.h *.inl *.inc
+include cscore_src/cscore/src/main/native/include/*.inc
+recursive-include cscore_src/wpiutil/src/main/native/cpp *.h
+include cscore_src/wpiutil/src/main/native/fmtlib/include/fmt/*.h
+recursive-include cscore_src/wpiutil/src/main/native/include *.h *.hpp *.inc
 recursive-include cscore_src/wpiutil/src/main/native/libuv *.cpp *.h
 recursive-include pybind11/include *.h
 include pybind11/LICENSE

@@ -182,7 +182,6 @@ def get_cscore_sources(d):
         l.extend(glob.glob(d + "/osx/*.cpp"))
     else:
         l.extend(glob.glob(d + "/linux/*.cpp"))
-    print(l)
     return l
 
 
@@ -253,11 +252,13 @@ ext_modules = [
         ["src/_cscore.cpp", "src/ndarray_converter.cpp"]
         + get_cscore_sources("cscore_src/cscore/src/main/native")
         + get_wpiutil_sources("cscore_src/wpiutil/src/main/native/cpp")
+        + ["cscore_src/wpiutil/src/main/native/fmtlib/src/format.cpp"]
         + get_libuv_sources("cscore_src/wpiutil/src/main/native/libuv/src"),
         include_dirs=[
             pybind11_include,
             "cscore_src/cscore/src/main/native/include",
             "cscore_src/cscore/src/main/native/cpp",
+            "cscore_src/wpiutil/src/main/native/fmtlib/include",
             "cscore_src/wpiutil/src/main/native/include",
             "cscore_src/wpiutil/src/main/native/libuv/src",
             "cscore_src/wpiutil/src/main/native/libuv/include",
