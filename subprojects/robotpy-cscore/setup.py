@@ -192,6 +192,10 @@ def get_wpiutil_sources(d):
         l.extend(glob.glob(d + "/windows/*.cpp"))
     else:
         l.extend(glob.glob(d + "/unix/*.cpp"))
+        if sys.platform == "darwin":
+            l.extend(glob.glob(d + "/macOS/*.cpp"))
+        else:
+            l.extend(glob.glob(d + "/linux/*.cpp"))
     return l
 
 
