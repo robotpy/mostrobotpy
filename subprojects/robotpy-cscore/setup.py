@@ -150,7 +150,6 @@ class BuildExt(build_ext):
         ct = self.compiler.compiler_type
         opts = self.c_opts.get(ct, [])
         if ct == "unix":
-            opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
             # TODO: this feels like a hack
             if not os.environ.get("RPY_DEBUG"):
                 opts.append("-s")  # strip
@@ -161,8 +160,6 @@ class BuildExt(build_ext):
                 opts.append("-fvisibility=hidden")
             if sys.platform != "darwin":
                 opts.append("-D_GNU_SOURCE")
-        elif ct == "msvc":
-            opts.append('/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version())
         for ext in self.extensions:
             ext.extra_compile_args = opts
         build_ext.build_extensions(self)
