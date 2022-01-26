@@ -187,7 +187,11 @@ def get_cscore_sources(d):
 
 def get_wpiutil_sources(d):
     jni = re.compile(r"[\/]jni[\/]")
-    l = [f for f in recursive_glob(d) if not jni.search(f)]
+    l = [f for f in recursive_glob(d + "/cpp") if not jni.search(f)]
+    if sys.platform == "win32":
+        l.extend(glob.glob(d + "/windows/*.cpp"))
+    else:
+        l.extend(glob.glob(d + "/unix/*.cpp"))
     return l
 
 
@@ -251,7 +255,7 @@ ext_modules = [
         "_cscore",
         ["src/_cscore.cpp", "src/ndarray_converter.cpp"]
         + get_cscore_sources("cscore_src/cscore/src/main/native")
-        + get_wpiutil_sources("cscore_src/wpiutil/src/main/native/cpp")
+        + get_wpiutil_sources("cscore_src/wpiutil/src/main/native")
         + ["cscore_src/wpiutil/src/main/native/fmtlib/src/format.cpp"]
         + get_libuv_sources("cscore_src/wpiutil/src/main/native/libuv/src"),
         include_dirs=[
