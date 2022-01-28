@@ -95,13 +95,11 @@ jobs:
     #
 
     - uses: actions/download-artifact@v2
-      if: inputs.enable_roborio
       with:
         name: dist-roborio
         path: dist-roborio/
 
     - uses: robotpy/github-action-scp@atomic
-      if: inputs.enable_roborio
       with:
         local: dist-roborio
         remote: public_html/2022/roborio
