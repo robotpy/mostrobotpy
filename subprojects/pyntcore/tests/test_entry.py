@@ -3,15 +3,30 @@
 #
 
 
-def test_entry_value(nt):
+def test_entry_string(nt):
     e = nt.getEntry("/k1")
     assert e.getString(None) is None
     e.setString("value")
     assert e.getString(None) == "value"
+    assert e.getValue().value() == "value"
+    assert e.value == "value"
     e.delete()
     assert e.getString(None) is None
     e.setString("value")
     assert e.getString(None) == "value"
+
+
+def test_entry_string_array(nt):
+    e = nt.getEntry("/k1")
+    assert e.getStringArray(None) is None
+    e.setStringArray(["value"])
+    assert e.getStringArray(None) == ["value"]
+    assert e.getValue().value() == ["value"]
+    assert e.value == ["value"]
+    e.delete()
+    assert e.getStringArray(None) is None
+    e.setStringArray(["value"])
+    assert e.getStringArray(None) == ["value"]
 
 
 def test_entry_persistence(nt):
