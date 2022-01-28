@@ -16,6 +16,7 @@ from setuptools import find_packages, setup, Extension
 from setuptools.command.build_ext import build_ext
 import subprocess
 import setuptools
+import importlib.util
 import re
 
 setup_dir = dirname(__file__)
@@ -56,35 +57,48 @@ with open(join(setup_dir, "README.rst"), "r") as readme_file:
     long_description = readme_file.read()
 
 
+# detect crossenv
+cross_compiling = getattr(sys, "cross_compiling", False)
+
+
 # try to use pkgconfig to find compile parameters for OpenCV
 # Note: pkg-config is available for Windows, so try it on all platforms
 # default: no additional directories needed
 opencv_pkg = {"include_dirs": [], "library_dirs": []}
-try:
-    import pkgconfig
-except ModuleNotFoundError:
-    print(
-        "WARNING: could not import pkgconfig, build will fail with opencv4",
-        file=sys.stderr,
-    )
+if cross_compiling:
+    import sysconfig
+
+    sysconf_data = sysconfig.get_paths()["data"]
+    opencv_pkg = {
+        "include_dirs": [join(sysconf_data, "include", "opencv4")],
+        "library_dirs": [join(sysconf_data, "lib")],
+    }
 else:
     try:
-        if pkgconfig.exists("opencv4"):
-            opencv_pkg = pkgconfig.parse("opencv4")
-        elif pkgconfig.exists("opencv"):
-            opencv_pkg = pkgconfig.parse("opencv")
-        else:
-            print(
-                "WARNING: pkg-config could not find OpenCV. Continuing anyway.",
-                file=sys.stderr,
-            )
-            print(
-                "  If you compiled OpenCV, build with -DOPENCV_GENERATE_PKGCONFIG=ON",
-                file=sys.stderr,
-            )
-    except EnvironmentError as ex:
-        # failed to run pkg-config
-        print("WARNING:", ex, "- continuing anyway", file=sys.stderr)
+        import pkgconfig
+    except ModuleNotFoundError:
+        print(
+            "WARNING: could not import pkgconfig, build will fail with opencv4",
+            file=sys.stderr,
+        )
+    else:
+        try:
+            if pkgconfig.exists("opencv4"):
+                opencv_pkg = pkgconfig.parse("opencv4")
+            elif pkgconfig.exists("opencv"):
+                opencv_pkg = pkgconfig.parse("opencv")
+            else:
+                print(
+                    "WARNING: pkg-config could not find OpenCV. Continuing anyway.",
+                    file=sys.stderr,
+                )
+                print(
+                    "  If you compiled OpenCV, build with -DOPENCV_GENERATE_PKGCONFIG=ON",
+                    file=sys.stderr,
+                )
+        except EnvironmentError as ex:
+            # failed to run pkg-config
+            print("WARNING:", ex, "- continuing anyway", file=sys.stderr)
 
 
 #
@@ -93,10 +107,20 @@ else:
 
 
 class get_numpy_include(object):
-    def __str__(self):
-        import numpy as np
 
-        return np.get_include()
+    if cross_compiling:
+
+        def __str__(self):
+            spec = importlib.util.find_spec("numpy")
+            numpy_root = dirname(spec.origin)
+            return join(numpy_root, "core", "include")
+
+    else:
+
+        def __str__(self):
+            import numpy as np
+
+            return np.get_include()
 
 
 class get_pybind11_include:
