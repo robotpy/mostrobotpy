@@ -1,3 +1,4 @@
+from . import _init_cscore
 from _cscore import *
 from ._logging import enableLogging
 
