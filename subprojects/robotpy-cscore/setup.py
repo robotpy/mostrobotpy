@@ -138,10 +138,27 @@ def has_flag(compiler, flagname):
     return True
 
 
+def cpp_flag(compiler, pfx, sep="="):
+    """Return the -std=c++[17/20] compiler flag.
+    The newer version is prefered when it is available).
+    """
+
+    flags = [
+        f"{pfx}std{sep}c++20",
+        f"{pfx}std{sep}c++17",
+    ]
+
+    for flag in flags:
+        if has_flag(compiler, flag):
+            return flag
+
+    raise RuntimeError("Unsupported compiler -- at least C++17 support is needed!")
+
+
 class BuildExt(build_ext):
     """A custom build extension for adding compiler-specific options."""
 
-    c_opts = {"msvc": ["/EHsc", "/DNOMINMAX", "/std:c++17"], "unix": ["-std=c++17"]}
+    c_opts = {"msvc": ["/EHsc", "/DNOMINMAX"], "unix": []}
 
     if sys.platform == "darwin":
         c_opts["unix"] += ["-stdlib=libc++", "-mmacosx-version-min=10.14"]
@@ -156,11 +173,16 @@ class BuildExt(build_ext):
                 opts.append("-g0")  # remove debug symbols
             else:
                 opts.append("-O0")
+            opts.append(cpp_flag(self.compiler, "-"))
             if has_flag(self.compiler, "-fvisibility=hidden"):
                 opts.append("-fvisibility=hidden")
             if sys.platform != "darwin":
                 opts.append("-D_GNU_SOURCE")
+        elif ct == "msvc":
+            opts.append(cpp_flag(self.compiler, "/", ":"))
+            opts.append("/Zc:__cplusplus")
         for ext in self.extensions:
+            ext.define_macros.append(("PYBIND11_USE_SMART_HOLDER_AS_DEFAULT", "1"))
             ext.extra_compile_args = opts
         build_ext.build_extensions(self)
 
