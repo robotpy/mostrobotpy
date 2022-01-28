@@ -6,6 +6,7 @@ __pycache__
 
 /docs/_sidebar.rst.inc
 /docs/_build
+/cscore/_init_cscore.py
 
 dist
 build
