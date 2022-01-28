@@ -61,6 +61,54 @@ with open(join(setup_dir, "README.rst"), "r") as readme_file:
 cross_compiling = getattr(sys, "cross_compiling", False)
 
 
+# parallel hack
+parallel = int(os.environ.get("RPYBUILD_PARALLEL", "0"))
+if parallel > 0:
+    # don't enable this hack by default, because not really sure of the
+    # ramifications -- however, it's really useful for development
+    #
+    # .. the real answer to this is cmake o_O
+
+    # monkey-patch for parallel compilation
+    # -> https://stackoverflow.com/questions/11013851/speeding-up-build-process-with-distutils/13176803#13176803
+    def parallelCCompile(
+        self,
+        sources,
+        output_dir=None,
+        macros=None,
+        include_dirs=None,
+        debug=0,
+        extra_preargs=None,
+        extra_postargs=None,
+        depends=None,
+    ):
+        # those lines are copied from distutils.ccompiler.CCompiler directly
+        macros, objects, extra_postargs, pp_opts, build = self._setup_compile(
+            output_dir, macros, include_dirs, sources, depends, extra_postargs
+        )
+        cc_args = self._get_cc_args(pp_opts, debug, extra_preargs)
+        # parallel code
+        import multiprocessing
+        import multiprocessing.pool
+
+        N = multiprocessing.cpu_count() if parallel == 1 else parallel
+
+        def _single_compile(obj):
+            try:
+                src, ext = build[obj]
+            except KeyError:
+                return
+            self._compile(obj, src, ext, cc_args, extra_postargs, pp_opts)
+
+        for _ in multiprocessing.pool.ThreadPool(N).imap(_single_compile, objects):
+            pass
+        return objects
+
+    import distutils.ccompiler
+
+    distutils.ccompiler.CCompiler.compile = parallelCCompile
+
+
 # try to use pkgconfig to find compile parameters for OpenCV
 # Note: pkg-config is available for Windows, so try it on all platforms
 # default: no additional directories needed
