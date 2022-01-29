@@ -222,18 +222,21 @@ def get_opencv_lib(name):
     return lib
 
 
-# As of Python 3.6, CCompiler has a `has_flag` method.
 # cf http://bugs.python.org/issue26689
-def has_flag(compiler, flagname):
+def has_flag(compiler, flag):
     """Return a boolean indicating whether a flag name is supported on
     the specified compiler.
     """
     import tempfile
 
-    with tempfile.NamedTemporaryFile("w", suffix=".cpp") as f:
-        f.write("int main (int argc, char **argv) { return 0; }")
+    with tempfile.TemporaryDirectory() as tmpdir:
+        fname = join(tmpdir, "flagcheck.cpp")
+        with open(fname, "w") as f:
+            # Don't trigger -Wunused-parameter.
+            f.write("int main (int, char **) { return 0; }")
+
         try:
-            compiler.compile([f.name], extra_postargs=[flagname])
+            compiler.compile([fname], output_dir=tmpdir, extra_postargs=[flag])
         except setuptools.distutils.errors.CompileError:
             return False
     return True
