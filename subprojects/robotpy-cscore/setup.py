@@ -312,7 +312,7 @@ def get_wpiutil_sources(d):
     if external_wpiutil:
         return []
 
-    jni = re.compile(r"[\/]jni[\/]")
+    jni = re.compile(r"[\\/]jni[\\/]")
     l = [f for f in recursive_glob(d + "/cpp") if not jni.search(f)]
     if sys.platform == "win32":
         l.extend(glob.glob(d + "/windows/*.cpp"))
