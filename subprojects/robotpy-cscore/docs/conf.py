@@ -49,6 +49,7 @@ if os.environ.get("GENERATING_CPP") is None:
     # sys.meta_path.append(Importer())
 
     sys.modules["_cscore"] = FakeModule(name="cscore")
+    sys.modules["_init_cscore"] = FakeModule(name="init_cscore")
     sys.modules["cv2"] = Mock()
 
 import cscore
