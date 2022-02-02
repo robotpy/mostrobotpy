@@ -24,7 +24,7 @@ generation_data = "gen"
 artifact_id = "wpiutil-cpp"
 group_id = "edu.wpi.first.wpiutil"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2022.2.1"
+version = "2022.3.1"
 
 libs = ["wpiutil"]
 
