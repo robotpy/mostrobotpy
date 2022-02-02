@@ -42,7 +42,7 @@ def do(nt1, nt2, t):
         t1.putNumber("number1", 1)
         t1.putNumber("number2", 1.5)
         t1.putString("string", "string")
-        t1.putString("unicode", u"\xA9")  # copyright symbol
+        t1.putString("unicode", "\xA9")  # copyright symbol
         t1.putBooleanArray("ba", (True, False))
         t1.putNumberArray("na", (1, 2))
         t1.putStringArray("sa", ("s", "t"))
@@ -52,7 +52,7 @@ def do(nt1, nt2, t):
     assert t2.getNumber("number1", None) == 1
     assert t2.getNumber("number2", None) == 1.5
     assert t2.getString("string", None) == "string"
-    assert t2.getString("unicode", None) == u"\xA9"  # copyright symbol
+    assert t2.getString("unicode", None) == "\xA9"  # copyright symbol
     assert t2.getBooleanArray("ba", None) == [True, False]
     assert t2.getNumberArray("na", None) == [1, 2]
     assert t2.getStringArray("sa", None) == ["s", "t"]
@@ -63,7 +63,7 @@ def do(nt1, nt2, t):
         t1.putValue("v_n1", 2)
         t1.putValue("v_n2", 2.5)
         t1.putValue("v_s", "ssss")
-        t1.putValue("v_s2", u"\xA9")
+        t1.putValue("v_s2", "\xA9")
 
         t1.putValue("v_v", 0)
 
@@ -72,7 +72,7 @@ def do(nt1, nt2, t):
     assert t2.getNumber("v_n1", None) == 2
     assert t2.getNumber("v_n2", None) == 2.5
     assert t2.getString("v_s", None) == "ssss"
-    assert t2.getString("v_s2", None) == u"\xA9"
+    assert t2.getString("v_s2", None) == "\xA9"
     assert t2.getValue("v_v", None) == 0
 
     # Ensure that updating values work!
@@ -81,7 +81,7 @@ def do(nt1, nt2, t):
         t1.putNumber("number1", 2)
         t1.putNumber("number2", 2.5)
         t1.putString("string", "sss")
-        t1.putString("unicode", u"\u2122")  # (tm)
+        t1.putString("unicode", "\u2122")  # (tm)
         t1.putBooleanArray("ba", (False, True, False))
         t1.putNumberArray("na", (2, 1))
         t1.putStringArray("sa", ("t", "s"))
@@ -91,7 +91,7 @@ def do(nt1, nt2, t):
     assert t2.getNumber("number1", None) == 2
     assert t2.getNumber("number2", None) == 2.5
     assert t2.getString("string", None) == "sss"
-    assert t2.getString("unicode", None) == u"\u2122"
+    assert t2.getString("unicode", None) == "\u2122"
     assert t2.getBooleanArray("ba", None) == [False, True, False]
     assert t2.getNumberArray("na", None) == [2, 1]
     assert t2.getStringArray("sa", None) == ["t", "s"]
