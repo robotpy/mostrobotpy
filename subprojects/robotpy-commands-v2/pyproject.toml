@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "robotpy-build<2023.0.0,>=2022.2.0",
-    "wpilib<2023.0.0,>=2022.2.1.3",
+    "wpilib<2023.0.0,>=2022.3.1.0",
 ]
 
 [tool.robotpy-build]
@@ -116,5 +116,5 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-commands-v2"
 license = "BSD-3-Clause"
 install_requires = [
-    "wpilib<2023.0.0,>=2022.2.1.3",
+    "wpilib<2023.0.0,>=2022.3.1.0",
 ]
