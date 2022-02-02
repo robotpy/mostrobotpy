@@ -23,6 +23,6 @@ classes:
 inline_code:
   cls_ArmFeedforward
     .def_readwrite("kS", &ArmFeedforward::kS)
-    .def_readwrite("kCos", &ArmFeedforward::kCos)
+    .def_readwrite("kG", &ArmFeedforward::kG)
     .def_readwrite("kV", &ArmFeedforward::kV)
     .def_readwrite("kA", &ArmFeedforward::kA);
