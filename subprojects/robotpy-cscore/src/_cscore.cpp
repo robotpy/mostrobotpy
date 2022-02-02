@@ -160,6 +160,9 @@ PYBIND11_MODULE(_cscore, m) {
           ":param strategy: connection strategy (see ConnectionStrategy)")
       .def("isConnected", &VideoSource::IsConnected, release_gil(),
           "Is the source currently connected to whatever is providing the images?")
+      .def("isEnabled", &VideoSource::IsEnabled, release_gil(),
+          "Gets source enable status.  This is determined with a combination of\n"
+          "connection strategy and the number of sinks connected.")
       .def("getProperty", &VideoSource::GetProperty, py::arg("name"), release_gil(),
           "Get a property.\n\n"
           ":param name: Property name\n"
