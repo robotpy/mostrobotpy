@@ -4,3 +4,6 @@ from . import _init_wpiutil
 from ._wpiutil import PortForwarder
 
 __all__ = ["PortForwarder"]
+
+# Imported for side effects only
+from . import _stacktrace

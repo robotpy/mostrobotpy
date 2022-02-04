@@ -6,11 +6,15 @@ base_package = "wpiutil"
 
 [tool.robotpy-build.wrappers."wpiutil"]
 name = "wpiutil"
-sources = ["wpiutil/src/main.cpp"]
+sources = [
+    "wpiutil/src/main.cpp",
+    "wpiutil/src/stacktracehook.cpp"
+]
 extra_includes = ["wpiutil/src/type_casters"]
 
 generate = [
     { PortForwarder = "wpi/PortForwarder.h" },
+    { StackTrace = "wpi/StackTrace.h" },
 
     # wpi/sendable
     { Sendable = "wpi/sendable/Sendable.h" },
