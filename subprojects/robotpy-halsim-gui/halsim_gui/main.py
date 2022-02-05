@@ -21,3 +21,7 @@ def loadExtension():
     retval = hal.loadOneExtension(ext)
     if retval != 0:
         logger.warn("loading extension may have failed (error=%d)", retval)
+
+    from ._ext._halsim_gui_ext import _kill_on_signal
+
+    _kill_on_signal()
