@@ -108,6 +108,23 @@ cls_Command
     "command ends. Often more convenient/less-verbose than constructing a new\n"
     "ParallelRaceGroup explicitly.\n"
     DECORATOR_NOTE)
+  .def("until",
+    [](std::shared_ptr<Command> self, std::function<bool()> condition) {
+      std::vector<std::shared_ptr<Command>> temp;
+      temp.emplace_back(std::make_shared<WaitUntilCommand>(std::move(condition)));
+      temp.emplace_back(self);
+      return std::make_shared<ParallelRaceGroup>(std::move(temp));
+    },
+    py::arg("condition"),
+    "Decorates this command with an interrupt condition.  If the specified\n"
+    "condition becomes true before the command finishes normally, the command\n"
+    "will be interrupted and un-scheduled. Note that this only applies to the\n"
+    "command returned by this method; the calling command is not itself changed.\n"
+    "\n"
+    ":param condition: the interrupt condition\n"
+    "\n"
+    ":returns: the command with the interrupt condition added\n"
+    DECORATOR_NOTE)
   .def("withInterrupt",
     [](std::shared_ptr<Command> self, std::function<bool()> condition) {
       std::vector<std::shared_ptr<Command>> temp;
