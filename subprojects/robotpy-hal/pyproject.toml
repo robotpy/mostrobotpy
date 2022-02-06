@@ -96,7 +96,7 @@ SerialHelper = "hal/cpp/SerialHelper.h"
 name = "hal_simulation"
 extension = "_simulation"
 sources = [
-    "hal/simulation/simulation.cpp"
+    "hal/simulation/main.cpp"
 ]
 
 generate = [
