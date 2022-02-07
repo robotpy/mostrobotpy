@@ -7,6 +7,12 @@ py::object &get_hook_ref() {
   return hook;
 }
 
+std::string final_py_stack_trace_hook(int offset) {
+  std::string msg = "\tat <python stack trace not available due to interpreter shutdown>\n";
+  msg += wpi::GetStackTraceDefault(offset);
+  return msg;
+}
+
 std::string py_stack_trace_hook(int offset) {
   py::gil_scoped_acquire gil;
 
@@ -28,7 +34,7 @@ void setup_stack_trace_hook(py::object fn) {
 }
 
 void cleanup_stack_trace_hook() {
-  wpi::SetGetStackTraceImpl(nullptr);
+  wpi::SetGetStackTraceImpl(final_py_stack_trace_hook);
 
   // release the function during interpreter shutdown
   auto &hook = get_hook_ref();
