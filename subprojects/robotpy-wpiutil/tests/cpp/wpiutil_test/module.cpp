@@ -14,6 +14,10 @@ wpi::array<int, 4> load_array_int(wpi::array<int, 4> data) {
     return data;
 }
 
+wpi::array<int, 1> load_array_int1(wpi::array<int, 1> data) {
+    return data;
+}
+
 /*
 span Tests
 */
@@ -88,6 +92,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
 
     // array
     m.def("load_array_int", &load_array_int);
+    m.def("load_array_int1", &load_array_int1);
     // span
     m.def("load_span_int", &load_span_int);
     m.def("load_span_bool", &load_span_bool);

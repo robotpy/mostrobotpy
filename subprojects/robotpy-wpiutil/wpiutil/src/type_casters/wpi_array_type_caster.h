@@ -7,6 +7,22 @@
 namespace pybind11 {
 namespace detail {
 
+template <size_t N>
+struct wpi_array_name_maker {
+  template <typename T>
+  static constexpr auto make(const T &t) {
+    return concat(t, wpi_array_name_maker<N-1>::make(t));
+  }
+};
+
+template <>
+struct wpi_array_name_maker<1> {
+  template <typename T>
+  static constexpr auto make(const T &t) {
+    return t;
+  }
+};
+
 template <typename Type, size_t Size>
 struct type_caster<wpi::array<Type, Size>> {
   using value_conv = make_caster<Type>;
@@ -22,7 +38,7 @@ protected:
   static_assert(Size > 0, "empty array not supported");
 
 public:
-  static constexpr auto name = _("Tuple[") + value_conv::name + _("]");
+  static constexpr auto name = const_name("Tuple[") + wpi_array_name_maker<Size>::make(value_conv::name) + const_name("]");
   template <
       typename T_,
       enable_if_t<std::is_same<wpi::array<Type, Size>, remove_cv_t<T_>>::value,
