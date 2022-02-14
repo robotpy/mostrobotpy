@@ -1,7 +1,7 @@
 [build-system]
 requires = [
   "robotpy-build<2023.0.0,>=2022.2.0",
-  "robotpy-wpiutil<2023.0.0,>=2022.3.1.0",
+  "robotpy-wpiutil<2023.0.0,>=2022.3.1.2",
 ]
 
 [tool.robotpy-build]
