@@ -18,6 +18,9 @@ struct type_caster<wpi::array<Type, Size>> {
 protected:
   wpi::array<Type, Size> value{wpi::empty_array_t{}};
 
+  // An empty tuple is pretty useless
+  static_assert(Size > 0, "empty array not supported");
+
 public:
   static constexpr auto name = _("Tuple[") + value_conv::name + _("]");
   template <
