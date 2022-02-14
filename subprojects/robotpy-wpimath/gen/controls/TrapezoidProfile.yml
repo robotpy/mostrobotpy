@@ -54,6 +54,8 @@ classes:
       TotalTime:
       IsFinished:
     template_inline_code: |
+      std::string clsNameCopy = clsName;
+
       cls_State
         .def(
           py::init<Distance_t, Velocity_t>(),
@@ -62,8 +64,8 @@ classes:
         )
         .def_readwrite("position", &frc::TrapezoidProfile<Distance>::State::position)
         .def_readwrite("velocity", &frc::TrapezoidProfile<Distance>::State::velocity)
-        .def("__repr__", [=](const State &self) {
-          return std::string(clsName) + ".State("
+        .def("__repr__", [clsNameCopy](const frc::TrapezoidProfile<Distance>::State &self) {
+          return clsNameCopy + ".State("
             "position=" + std::to_string(self.position()) + ", "
             "velocity=" + std::to_string(self.velocity()) + ")";
         });
