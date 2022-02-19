@@ -11,7 +11,7 @@ def _stack_trace_hook(offset: int) -> str:
 
     stack = extract_stack()[:-1]
     if not stack:
-        return "\tat <no python frames>\n" + getStackTraceDefault()
+        return "\tat <no python frames>\n" + getStackTraceDefault(offset)
 
     # filter out any frames before start.py (except for one of them) to
     # make stack frames more useful for users
