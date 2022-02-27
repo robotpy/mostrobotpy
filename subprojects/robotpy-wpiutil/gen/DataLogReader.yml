@@ -1,0 +1,77 @@
+---
+
+classes:
+  StartRecordData:
+    subpackage: log
+    attributes:
+      entry:
+      name:
+      type:
+      metadata:
+  MetadataRecordData:
+    subpackage: log
+    attributes:
+      entry:
+      metadata:
+  DataLogRecord:
+    subpackage: log
+    methods:
+      DataLogRecord:
+        overloads:
+          "":
+            ignore: true
+          int, int64_t, wpi::span<const uint8_t>:
+      GetEntry:
+      GetTimestamp:
+      GetSize:
+      GetRaw:
+      IsControl:
+      IsStart:
+      IsFinish:
+      IsSetMetadata:
+      GetStartData:
+      GetFinishEntry:
+      GetSetMetadataData:
+      GetBoolean:
+      GetInteger:
+      GetFloat:
+      GetDouble:
+      GetString:
+      GetBooleanArray:
+      GetIntegerArray:
+      GetFloatArray:
+      GetDoubleArray:
+      GetStringArray:
+  DataLogIterator:
+    subpackage: log
+    methods:
+      DataLogIterator:
+      operator==:
+      operator!=:
+      operator<:
+      operator>:
+      operator<=:
+      operator>=:
+      operator*:
+        rename: get
+  DataLogReader:
+    subpackage: log
+    methods:
+      DataLogReader:
+      IsValid:
+      GetVersion:
+      GetExtraHeader:
+      GetBufferIdentifier:
+      begin:
+        rename: __iter__
+      end:
+
+inline_code: |
+  cls_DataLogIterator
+    .def("__iter__", [](DataLogIterator &self) { return self; })
+    .def("__next__", [](DataLogIterator &self) {
+      auto& record = *self;
+      ++self;
+      return record;
+    })
+  ;
