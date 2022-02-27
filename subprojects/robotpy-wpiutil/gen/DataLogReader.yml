@@ -46,13 +46,21 @@ classes:
     subpackage: log
     methods:
       DataLogIterator:
+      # TODO: https://github.com/robotpy/robotpy-build/issues/160
       operator==:
+        ignore: true
       operator!=:
+        ignore: true
       operator<:
+        ignore: true
       operator>:
+        ignore: true
       operator<=:
+        ignore: true
       operator>=:
+        ignore: true
       operator*:
+        ignore: true  # XXX: https://github.com/robotpy/robotpy-build/issues/159
         rename: get
   DataLogReader:
     subpackage: log
