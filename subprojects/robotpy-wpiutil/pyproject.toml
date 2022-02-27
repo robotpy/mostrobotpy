@@ -26,6 +26,7 @@ libs = ["wpiutil"]
 # wpi
 DataLog = "wpi/DataLog.h"
 DataLogReader = "wpi/DataLogReader.h"
+MemoryBuffer = "wpi/MemoryBuffer.h"
 PortForwarder = "wpi/PortForwarder.h"
 StackTrace = "wpi/StackTrace.h"
 

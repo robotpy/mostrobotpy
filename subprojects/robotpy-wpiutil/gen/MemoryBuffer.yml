@@ -1,0 +1,63 @@
+---
+
+classes:
+  MemoryBuffer:
+    enums:
+      BufferKind:
+    methods:
+      begin:
+      end:
+      size:
+      GetBuffer:
+      GetBufferIdentifier:
+      GetFile:
+      GetFileAsStream:
+      GetOpenFileSlice:
+      GetOpenFile:
+      GetMemBuffer:
+        overloads:
+          span<const uint8_t>, std::string_view:
+          wpi::MemoryBufferRef:
+      GetMemBufferCopy:
+      GetFileSlice:
+      GetBufferKind:
+      GetMemBufferRef:
+      MemoryBuffer:
+      Init:
+  WritableMemoryBuffer:
+    methods:
+      begin:
+        ignore: true
+      end:
+        ignore: true
+      GetBuffer:
+        ignore: true
+      GetFile:
+      GetFileSlice:
+      GetNewUninitMemBuffer:
+      GetNewMemBuffer:
+      WritableMemoryBuffer:
+  WriteThroughMemoryBuffer:
+    methods:
+      begin:
+        ignore: true
+      end:
+        ignore: true
+      GetBuffer:
+        ignore: true
+      GetFile:
+      GetFileSlice:
+      WriteThroughMemoryBuffer:
+  MemoryBufferRef:
+    methods:
+      MemoryBufferRef:
+        overloads:
+          "":
+            ignore: true
+          wpi::MemoryBuffer&:
+          span<const uint8_t>, std::string_view:
+      GetBuffer:
+      GetBufferIdentifier:
+      begin:
+      end:
+      size:
