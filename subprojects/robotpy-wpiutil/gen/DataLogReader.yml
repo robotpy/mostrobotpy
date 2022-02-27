@@ -64,6 +64,8 @@ classes:
         rename: get
   DataLogReader:
     subpackage: log
+    typealias:
+      - wpi::MemoryBuffer
     methods:
       DataLogReader:
       IsValid:
