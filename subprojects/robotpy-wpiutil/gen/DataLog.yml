@@ -45,6 +45,7 @@ classes:
           int, wpi::span<const std::string_view>, int64_t:
   DataLogEntry:
     subpackage: log
+    force_no_trampoline: true
     methods:
       SetMetadata:
       Finish:
@@ -55,6 +56,7 @@ classes:
           wpi::log::DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
   RawLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -68,6 +70,7 @@ classes:
       Append:
   BooleanLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -80,6 +83,7 @@ classes:
       Append:
   IntegerLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -92,6 +96,7 @@ classes:
       Append:
   FloatLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -104,6 +109,7 @@ classes:
       Append:
   DoubleLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -116,6 +122,7 @@ classes:
       Append:
   StringLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -129,6 +136,7 @@ classes:
       Append:
   BooleanArrayLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -151,6 +159,7 @@ classes:
             ignore: true
   IntegerArrayLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -167,6 +176,7 @@ classes:
             ignore: true
   FloatArrayLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -183,6 +193,7 @@ classes:
             ignore: true
   DoubleArrayLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
@@ -199,6 +210,7 @@ classes:
             ignore: true
   StringArrayLogEntry:
     subpackage: log
+    force_no_trampoline: true
     attributes:
       kDataType:
     methods:
