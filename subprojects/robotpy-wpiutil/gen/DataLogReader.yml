@@ -30,58 +30,125 @@ classes:
       IsFinish:
       IsSetMetadata:
       GetStartData:
+        param_override:
+          out:
+            force_out: true
+            default:
       GetFinishEntry:
+        param_override:
+          out:
+            force_out: true
+            default:
       GetSetMetadataData:
+        param_override:
+          out:
+            force_out: true
+            default:
       GetBoolean:
       GetInteger:
       GetFloat:
       GetDouble:
       GetString:
+        param_override:
+          value:
+            force_out: true
+            default:
       GetBooleanArray:
+        param_override:
+          arr:
+            force_out: true
+            default:
       GetIntegerArray:
+        param_override:
+          arr:
+            force_out: true
+            default:
       GetFloatArray:
+        param_override:
+          arr:
+            force_out: true
+            default:
       GetDoubleArray:
+        param_override:
+          arr:
+            force_out: true
+            default:
       GetStringArray:
+        param_override:
+          arr:
+            force_out: true
+            default:
   DataLogIterator:
-    subpackage: log
-    methods:
-      DataLogIterator:
-      # TODO: https://github.com/robotpy/robotpy-build/issues/160
-      operator==:
-        ignore: true
-      operator!=:
-        ignore: true
-      operator<:
-        ignore: true
-      operator>:
-        ignore: true
-      operator<=:
-        ignore: true
-      operator>=:
-        ignore: true
-      operator*:
-        ignore: true  # XXX: https://github.com/robotpy/robotpy-build/issues/159
-        rename: get
+    ignore: true
   DataLogReader:
     subpackage: log
     typealias:
       - wpi::MemoryBuffer
     methods:
       DataLogReader:
+        ignore: true
       IsValid:
       GetVersion:
       GetExtraHeader:
       GetBufferIdentifier:
       begin:
-        rename: __iter__
+        ignore: true
       end:
+        ignore: true
 
 inline_code: |
-  cls_DataLogIterator
-    .def("__iter__", [](DataLogIterator &self) { return self; })
-    .def("__next__", [](DataLogIterator &self) {
-      auto& record = *self;
-      ++self;
-      return record;
-    })
-  ;
+  cls_StartRecordData
+    .def("__repr__", [](const wpi::log::StartRecordData &data) -> std::string {
+      return "StartRecordData(entry=" + std::to_string(data.entry) + ", "
+                             "name=\"" + std::string(data.name) + "\", "
+                             "type=\"" + std::string(data.type) + "\", "
+                             "metadata=\"" + std::string(data.metadata) + "\")";
+    });
+  
+  cls_MetadataRecordData
+    .def("__repr__", [](const wpi::log::MetadataRecordData &data) -> std::string {
+      return "MetadataRecordData(entry=" + std::to_string(data.entry) + ", "
+                                "metadata=\"" + std::string(data.metadata) + "\")";
+    });
+
+
+  cls_DataLogReader
+    .def(py::init([](const std::string &filename) {
+      std::error_code ec;
+      auto mbuf = wpi::MemoryBuffer::GetFile(filename, ec);
+      if (ec) {
+        py::gil_scoped_acquire gil;
+        #ifdef _WIN32
+          PyErr_SetFromWindowsErr(ec.value());
+        #else
+          errno = ec.value();
+          PyErr_SetFromErrno(PyExc_OSError);
+        #endif
+        throw py::error_already_set();
+      }
+
+      return std::make_shared<wpi::log::DataLogReader>(std::move(mbuf));
+    }),
+      release_gil(), py::arg("filename"))
+
+    .def(py::init([](const py::buffer &buffer, const std::string &name) {
+      auto req = buffer.request();
+      if (req.itemsize != 1) {
+        throw py::value_error("buffer must only contain bytes");
+      } else if (req.ndim != 1) {
+        throw py::value_error("buffer must only have a single dimension");
+      }
+
+      auto mbuf = wpi::MemoryBuffer::GetMemBuffer(wpi::span((uint8_t*)req.ptr, req.size), name);
+
+      {
+        py::gil_scoped_release gil;
+        return std::make_shared<wpi::log::DataLogReader>(std::move(mbuf));
+      }
+    }),
+      py::arg("buffer"), py::arg("name") = "",
+      py::keep_alive<1, 2>())
+    .def("__iter__", [](wpi::log::DataLogReader * that) {
+      return py::make_iterator(that->begin(), that->end());
+    }, py::keep_alive<0,1>());
+

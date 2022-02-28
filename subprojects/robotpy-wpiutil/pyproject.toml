@@ -1,5 +1,5 @@
 [build-system]
-requires = ["robotpy-build<2023.0.0,>=2022.2.0"]
+requires = ["robotpy-build<2023.0.0,>=2022.2.2"]
 
 [tool.robotpy-build]
 base_package = "wpiutil"
@@ -26,7 +26,6 @@ libs = ["wpiutil"]
 # wpi
 DataLog = "wpi/DataLog.h"
 DataLogReader = "wpi/DataLogReader.h"
-MemoryBuffer = "wpi/MemoryBuffer.h"
 PortForwarder = "wpi/PortForwarder.h"
 StackTrace = "wpi/StackTrace.h"
 
