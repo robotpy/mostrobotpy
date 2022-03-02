@@ -31,3 +31,7 @@ def test_span_load_vector():
 
 def test_span_cast():
     assert module.cast_span() == [1, 2, 3]
+
+
+def test_string_span():
+    assert module.cast_string_span() == ["hi", "there"]

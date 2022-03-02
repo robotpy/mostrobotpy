@@ -50,6 +50,15 @@ wpi::span<int> cast_span() {
     return vec;
 }
 
+wpi::span<const std::string> make_string_span() {
+    static std::vector<std::string> vec{"hi", "there"};
+    return vec;
+}
+
+py::object cast_string_span() {
+    return py::cast(make_string_span());
+}
+
 /*
 SmallSet tests
 */
@@ -105,6 +114,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
     m.def("load_span_string_view", &load_span_string_view);
     m.def("load_span_vector", &load_span_vector);
     m.def("cast_span", &cast_span);
+    m.def("cast_string_span", &cast_string_span);
     // SmallSet
     m.def("load_smallset_int", &load_smallset_int);
     m.def("cast_smallset", &cast_smallset);
