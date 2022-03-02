@@ -1,7 +1,7 @@
 [build-system]
 requires = [
     "robotpy-build<2023.0.0,>=2022.2.0",
-    "robotpy-wpiutil<2023.0.0,>=2022.3.1.0",
+    "robotpy-wpiutil<2023.0.0,>=2022.4.1.0",
 ]
 
 [tool.robotpy-build]
@@ -12,7 +12,7 @@ base_package = "hal"
 artifact_id = "hal-cpp"
 group_id = "edu.wpi.first.hal"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2022.3.1"
+version = "2022.4.1"
 
 libs = ["wpiHal"]
 
@@ -96,7 +96,9 @@ SerialHelper = "hal/cpp/SerialHelper.h"
 name = "hal_simulation"
 extension = "_simulation"
 sources = [
-    "hal/simulation/simulation.cpp"
+    "hal/simulation/main.cpp",
+    "hal/simulation/resetdata.cpp",
+    "hal/simulation/resethandles.cpp",
 ]
 
 generate = [
@@ -141,5 +143,5 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-hal"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil<2023.0.0,>=2022.3.1.0",
+    "robotpy-wpiutil<2023.0.0,>=2022.4.1.0",
 ]
