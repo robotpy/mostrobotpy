@@ -13,6 +13,7 @@ classes:
     - wpi::SendableHelper<ProfiledPIDController<Distance>>
     typealias:
     - typename frc::ProfiledPIDController<Distance>::Velocity
+    - typename frc::ProfiledPIDController<Distance>::Velocity_t
     methods:
       ProfiledPIDController:
         param_override:
