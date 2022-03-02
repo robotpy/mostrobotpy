@@ -59,6 +59,14 @@ py::object cast_string_span() {
     return py::cast(make_string_span());
 }
 
+wpi::span<const uint8_t> load_span_bytes(wpi::span<const uint8_t> ref) {
+    return ref;
+}
+
+void modify_span_buffer(wpi::span<uint8_t> ref) {
+    ref[0] = 0x4;
+}
+
 /*
 SmallSet tests
 */
@@ -115,6 +123,8 @@ RPYBUILD_PYBIND11_MODULE(m) {
     m.def("load_span_vector", &load_span_vector);
     m.def("cast_span", &cast_span);
     m.def("cast_string_span", &cast_string_span);
+    m.def("load_span_bytes", &load_span_bytes);
+    m.def("modify_span_buffer", &modify_span_buffer);
     // SmallSet
     m.def("load_smallset_int", &load_smallset_int);
     m.def("cast_smallset", &cast_smallset);

@@ -50,5 +50,54 @@ public:
   }
 };
 
+// span specialization: accepts any readonly buffers
+template <> struct type_caster<wpi::span<const uint8_t>> {
+  PYBIND11_TYPE_CASTER(wpi::span<const uint8_t>, _("buffer"));
+
+  bool load(handle src, bool convert) {
+    if (!isinstance<buffer>(src))
+      return false;
+    auto buf = reinterpret_borrow<buffer>(src);
+    auto req = buf.request();
+    if (req.ndim != 1) {
+      return false;
+    }
+
+    value = wpi::span<const uint8_t>((const uint8_t*)req.ptr, req.size*req.itemsize);
+    return true;
+  }
+
+public:
+  template <typename T>
+  static handle cast(T &&src, return_value_policy policy, handle parent) {
+    return bytes((char*)src.data(), src.size()).release();
+  }
+};
+
+// span specialization: writeable buffer
+template <> struct type_caster<wpi::span<uint8_t>> {
+  PYBIND11_TYPE_CASTER(wpi::span<uint8_t>, _("buffer"));
+
+  bool load(handle src, bool convert) {
+    if (!isinstance<buffer>(src))
+      return false;
+    auto buf = reinterpret_borrow<buffer>(src);
+    auto req = buf.request(true); // buffer must be writeable
+    if (req.ndim != 1) {
+      return false;
+    }
+
+    value = wpi::span<uint8_t>((uint8_t*)req.ptr, req.size*req.itemsize);
+    return true;
+  }
+
+public:
+  template <typename T>
+  static handle cast(T &&src, return_value_policy policy, handle parent) {
+    // TODO: should this be a memoryview instead?
+    return bytes((char*)src.data(), src.size()).release();
+  }
+};
+
 } // namespace detail
 } // namespace pybind11
