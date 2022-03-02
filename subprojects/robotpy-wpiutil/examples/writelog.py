@@ -3,7 +3,7 @@
 import argparse
 import pathlib
 
-from wpiutil.log import DataLog, BooleanLogEntry
+from wpiutil.log import DataLog, BooleanLogEntry, StringArrayLogEntry, RawLogEntry
 
 
 if __name__ == "__main__":
@@ -20,3 +20,11 @@ if __name__ == "__main__":
     bools = BooleanLogEntry(datalog, "/bools")
     bools.append(True)
     bools.append(False)
+
+    strings = StringArrayLogEntry(datalog, "/strings")
+    strings.append(["a", "b", "c"])
+    strings.append(["d", "e", "f"])
+
+    raw = RawLogEntry(datalog, "/raws")
+    raw.append(b"\x01\x02\x03")
+    raw.append(b"\x04\x05\x06")
