@@ -1,7 +1,7 @@
 [build-system]
 requires = [
   "robotpy-build<2023.0.0,>=2022.2.0",
-  "robotpy-wpiutil<2023.0.0,>=2022.3.1.0",
+  "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
 ]
 
 [tool.robotpy-build]
@@ -11,7 +11,7 @@ base_package = "_pyntcore"
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2022.3.1"
+version = "2022.4.1"
 
 libs = ["ntcore"]
 
@@ -55,6 +55,6 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/pyntcore"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil<2023.0.0,>=2022.3.1.0",
+    "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
     "pynetworktables>=2021.0.0,<2022.0.0",
 ]
