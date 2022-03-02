@@ -17,6 +17,10 @@ def test_span_load_string():
     assert module.load_span_string(["a", "b", "c"]) == ["a", "b", "c"]
 
 
+def test_span_load_string_const():
+    assert module.load_span_string_const(["a", "b", "c"]) == ["a", "b", "c"]
+
+
 def test_span_load_stringview():
     assert module.load_span_string_view(["a", "b", "c"]) == ["a", "b", "c"]
 
