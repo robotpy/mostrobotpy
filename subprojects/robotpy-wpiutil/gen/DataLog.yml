@@ -1,0 +1,229 @@
+---
+
+enums:
+  ControlRecordType:
+classes:
+  DataLog:
+    subpackage: log
+    methods:
+      DataLog:
+        overloads:
+          std::string_view, std::string_view, double, std::string_view:
+          wpi::Logger&, std::string_view, std::string_view, double, std::string_view:
+            ignore: true
+          std::function<void ( wpi::span<const uint8_t> data )>, double, std::string_view:
+          wpi::Logger&, std::function<void ( wpi::span<const uint8_t> data )>, double, std::string_view:
+            ignore: true
+      SetFilename:
+      Flush:
+      Pause:
+      Resume:
+      Start:
+      Finish:
+      SetMetadata:
+      AppendRaw:
+      AppendRaw2:
+      AppendBoolean:
+      AppendInteger:
+      AppendFloat:
+      AppendDouble:
+      AppendString:
+      AppendBooleanArray:
+        overloads:
+          int, wpi::span<const bool>, int64_t:
+          int, wpi::span<const int>, int64_t:
+            ignore: true
+          int, wpi::span<const uint8_t>, int64_t:
+            ignore: true
+      AppendIntegerArray:
+      AppendFloatArray:
+      AppendDoubleArray:
+      AppendStringArray:
+        overloads:
+          int, wpi::span<const std::string>, int64_t:
+            ignore: true
+          int, wpi::span<const std::string_view>, int64_t:
+  DataLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    methods:
+      SetMetadata:
+      Finish:
+      DataLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
+  RawLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      RawLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
+      Append:
+  BooleanLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      BooleanLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+  IntegerLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      IntegerLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+  FloatLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      FloatLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+  DoubleLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      DoubleLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+  StringLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      StringLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
+      Append:
+  BooleanArrayLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      BooleanArrayLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+        overloads:
+          wpi::span<const bool>, int64_t:
+          std::initializer_list<bool>, int64_t:
+            ignore: true
+          wpi::span<const int>, int64_t:
+            ignore: true
+          std::initializer_list<int>, int64_t:
+            ignore: true
+          wpi::span<const uint8_t>, int64_t:
+            ignore: true
+  IntegerArrayLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      IntegerArrayLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+        overloads:
+          wpi::span<const int64_t>, int64_t:
+          std::initializer_list<int64_t>, int64_t:
+            ignore: true
+  FloatArrayLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      FloatArrayLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+        overloads:
+          wpi::span<const float>, int64_t:
+          std::initializer_list<float>, int64_t:
+            ignore: true
+  DoubleArrayLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      DoubleArrayLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+        overloads:
+          wpi::span<const double>, int64_t:
+          std::initializer_list<double>, int64_t:
+            ignore: true
+  StringArrayLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    attributes:
+      kDataType:
+    methods:
+      StringArrayLogEntry:
+        overloads:
+          "":
+            ignore: true
+          wpi::log::DataLog&, std::string_view, int64_t:
+          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+        overloads:
+          wpi::span<const std::string>, int64_t:
+            ignore: true
+          wpi::span<const std::string_view>, int64_t:
+          std::initializer_list<std::string_view>, int64_t:
+            ignore: true
