@@ -17,7 +17,7 @@ group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2022.4.1"
 
-libs = ["halsim_gui"]
+dlopenlibs = ["halsim_gui"]
 
 # TODO: make this a namespace package?
 [tool.robotpy-build.wrappers."halsim_gui"]
@@ -29,7 +29,7 @@ name = "halsim_gui_ext"
 sources = [
     "halsim_gui/_ext/main.cpp"
 ]
-depends = ["wpiutil", "wpiHal", "ntcore", "wpimath_cpp", "halsim_gui"]
+depends = ["wpiutil", "wpiHal", "ntcore", "wpimath_cpp"]
 
 [tool.robotpy-build.metadata]
 name = "robotpy-halsim-gui"
