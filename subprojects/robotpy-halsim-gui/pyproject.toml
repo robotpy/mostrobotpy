@@ -29,7 +29,7 @@ name = "halsim_gui_ext"
 sources = [
     "halsim_gui/_ext/main.cpp"
 ]
-depends = ["wpiutil", "wpiHal", "ntcore", "wpimath_cpp"]
+depends = ["wpiutil", "wpiHal", "ntcore", "wpimath_cpp", "halsim_gui"]
 
 [tool.robotpy-build.metadata]
 name = "robotpy-halsim-gui"
