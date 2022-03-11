@@ -20,3 +20,4 @@ of things in it.
 .. toctree::
 
   wpiutil
+  wpiutil.log
