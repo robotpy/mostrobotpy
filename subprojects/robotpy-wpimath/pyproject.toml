@@ -1347,7 +1347,12 @@ sources = ["wpimath/src/wpimath.cpp"]
 generation_data = "gen"
 
 [tool.robotpy-build.wrappers."wpimath".autogen_headers]
+# frc
 MathUtil = "frc/MathUtil.h"
+# StateSpaceUtil = "frc/StateSpaceUtil.h"
+
+# frc/interpolation
+TimeInterpolatableBuffer = "frc/interpolation/TimeInterpolatableBuffer.h"
 
 [tool.robotpy-build.wrappers."wpimath._controls"]
 name = "wpimath_controls"

@@ -1,0 +1,27 @@
+---
+
+functions:
+  TimeInterpolatableBuffer:
+    ignore: true  # constructor specialization
+classes:
+  TimeInterpolatableBuffer:
+    template_params:
+      - T
+    methods:
+      TimeInterpolatableBuffer:
+        overloads:
+          units::second_t, std::function<T ( const T &, const T &, double )>:
+          units::second_t:
+      AddSample:
+      Clear:
+      Sample:
+
+templates:
+  TimeInterpolatablePose2dBuffer:
+    qualname: frc::TimeInterpolatableBuffer
+    params:
+      - frc::Pose2d
+  TimeInterpolatableFloatBuffer:
+    qualname: frc::TimeInterpolatableBuffer
+    params:
+      - double
