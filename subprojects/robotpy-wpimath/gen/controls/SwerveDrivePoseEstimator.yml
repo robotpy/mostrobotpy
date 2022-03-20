@@ -48,6 +48,9 @@ classes:
           Pose2d&, units::second_t, wpi::array<double, 3>&:
       Update:
         param_override:
+          # pybind11 does not allow partially naming arguments
+          gyroAngle:
+            ignore: true
           moduleStates:
             ignore: true
         cpp_code: |
@@ -79,6 +82,11 @@ classes:
           }()
       UpdateWithTime:
         param_override:
+          # pybind11 does not allow partially naming arguments
+          currentTime:
+            ignore: true
+          gyroAngle:
+            ignore: true
           moduleStates:
             ignore: true
         cpp_code: |
