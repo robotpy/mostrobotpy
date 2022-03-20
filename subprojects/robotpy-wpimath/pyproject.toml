@@ -1351,9 +1351,6 @@ generation_data = "gen"
 MathUtil = "frc/MathUtil.h"
 # StateSpaceUtil = "frc/StateSpaceUtil.h"
 
-# frc/interpolation
-TimeInterpolatableBuffer = "frc/interpolation/TimeInterpolatableBuffer.h"
-
 [tool.robotpy-build.wrappers."wpimath._controls"]
 name = "wpimath_controls"
 extension = "_controls"
@@ -1448,6 +1445,17 @@ Transform2d = "frc/geometry/Transform2d.h"
 Translation2d = "frc/geometry/Translation2d.h"
 Twist2d = "frc/geometry/Twist2d.h"
 
+[tool.robotpy-build.wrappers."wpimath.interpolation"]
+
+name = "wpimath_interpolation"
+extension = "_interpolation"
+sources = ["wpimath/interpolation/interpolation.cpp"]
+depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
+generation_data = "gen/interpolation"
+
+[tool.robotpy-build.wrappers."wpimath.interpolation".autogen_headers]
+# frc/interpolation
+TimeInterpolatableBuffer = "frc/interpolation/TimeInterpolatableBuffer.h"
 
 [tool.robotpy-build.wrappers."wpimath.kinematics"]
 

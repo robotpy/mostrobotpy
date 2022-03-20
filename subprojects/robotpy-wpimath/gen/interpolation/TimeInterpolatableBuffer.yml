@@ -17,10 +17,10 @@ classes:
       Sample:
 
 templates:
-  # TimeInterpolatablePose2dBuffer:
-  #   qualname: frc::TimeInterpolatableBuffer
-  #   params:
-  #     - frc::Pose2d
+  TimeInterpolatablePose2dBuffer:
+    qualname: frc::TimeInterpolatableBuffer
+    params:
+      - frc::Pose2d
   TimeInterpolatableFloatBuffer:
     qualname: frc::TimeInterpolatableBuffer
     params:
