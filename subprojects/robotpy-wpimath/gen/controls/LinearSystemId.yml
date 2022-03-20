@@ -39,6 +39,7 @@ classes:
                 return frc::LinearSystemId::IdentifyDrivetrainSystem(kVlinear, kAlinear, kVangular, kAangular, trackWidth);
               }
       FlywheelSystem:
+      DCMotorSystem:
       DrivetrainVelocitySystem:
 
 inline_code: |
