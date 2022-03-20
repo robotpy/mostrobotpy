@@ -11,6 +11,7 @@ WPIMath API
   wpimath.estimator
   wpimath.filter
   wpimath.geometry
+  wpimath.interpolation
   wpimath.kinematics
   wpimath.spline
   wpimath.system
