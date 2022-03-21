@@ -1345,9 +1345,11 @@ name = "wpimath"
 extension = "_wpimath"
 sources = ["wpimath/src/wpimath.cpp"]
 generation_data = "gen"
-generate = [
-   { MathUtil = "frc/MathUtil.h" }
-]
+
+[tool.robotpy-build.wrappers."wpimath".autogen_headers]
+# frc
+MathUtil = "frc/MathUtil.h"
+# StateSpaceUtil = "frc/StateSpaceUtil.h"
 
 [tool.robotpy-build.wrappers."wpimath._controls"]
 name = "wpimath_controls"
@@ -1355,62 +1357,62 @@ extension = "_controls"
 sources = ["wpimath/_controls/controls.cpp"]
 depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry", "wpimath_kinematics", "wpimath_spline"]
 generation_data = "gen/controls"
-generate = [
-  # frc/controller
-  { ArmFeedforward = "frc/controller/ArmFeedforward.h" },
-  { BangBangController = "frc/controller/BangBangController.h" },
-  { ControlAffinePlantInversionFeedforward = "frc/controller/ControlAffinePlantInversionFeedforward.h" },
-  { ElevatorFeedforward = "frc/controller/ElevatorFeedforward.h" },
-  { HolonomicDriveController = "frc/controller/HolonomicDriveController.h" },
-  { LinearPlantInversionFeedforward = "frc/controller/LinearPlantInversionFeedforward.h" },
-  { LinearQuadraticRegulator = "frc/controller/LinearQuadraticRegulator.h" },
-  { PIDController = "frc/controller/PIDController.h" },
-  { ProfiledPIDController = "frc/controller/ProfiledPIDController.h" },
-  { RamseteController = "frc/controller/RamseteController.h" },
-  { SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h" },
-  
-  # frc/estimator
-  # { AngleStatistics = "frc/estimator/AngleStatistics.h" },
-  { DifferentialDrivePoseEstimator = "frc/estimator/DifferentialDrivePoseEstimator.h" },
-  { ExtendedKalmanFilter = "frc/estimator/ExtendedKalmanFilter.h" },
-  { KalmanFilter = "frc/estimator/KalmanFilter.h" },
-  # { KalmanFilterLatencyCompensator = "frc/estimator/KalmanFilterLatencyCompensator.h" },
-  { MecanumDrivePoseEstimator = "frc/estimator/MecanumDrivePoseEstimator.h" },
-  # { MerweScaledSigmaPoints = "frc/estimator/MerweScaledSigmaPoints.h" },
-  { SwerveDrivePoseEstimator = "frc/estimator/SwerveDrivePoseEstimator.h" },
-  # { UnscentedKalmanFilter = "frc/estimator/UnscentedKalmanFilter.h" },
-  # { UnscentedTransform = "frc/estimator/UnscentedTransform.h" },
 
-  # frc/system
-  # { Discretization = "frc/system/Discretization.h" },
-  { LinearSystem = "frc/system/LinearSystem.h" },
-  { LinearSystemLoop = "frc/system/LinearSystemLoop.h" },
-  # { NumericalIntegration = "frc/system/NumericalIntegration.h" },
-  # { NumericalJacobian = "frc/system/NumericalJacobian.h" },
+[tool.robotpy-build.wrappers."wpimath._controls".autogen_headers]
+# frc/controller
+ArmFeedforward = "frc/controller/ArmFeedforward.h"
+BangBangController = "frc/controller/BangBangController.h"
+ControlAffinePlantInversionFeedforward = "frc/controller/ControlAffinePlantInversionFeedforward.h"
+ElevatorFeedforward = "frc/controller/ElevatorFeedforward.h"
+HolonomicDriveController = "frc/controller/HolonomicDriveController.h"
+LinearPlantInversionFeedforward = "frc/controller/LinearPlantInversionFeedforward.h"
+LinearQuadraticRegulator = "frc/controller/LinearQuadraticRegulator.h"
+PIDController = "frc/controller/PIDController.h"
+ProfiledPIDController = "frc/controller/ProfiledPIDController.h"
+RamseteController = "frc/controller/RamseteController.h"
+SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h"
 
-  # frc/system/plant
-  { DCMotor = "frc/system/plant/DCMotor.h" },
-  { LinearSystemId = "frc/system/plant/LinearSystemId.h" },
+# frc/estimator
+# AngleStatistics = "frc/estimator/AngleStatistics.h"
+DifferentialDrivePoseEstimator = "frc/estimator/DifferentialDrivePoseEstimator.h"
+ExtendedKalmanFilter = "frc/estimator/ExtendedKalmanFilter.h"
+KalmanFilter = "frc/estimator/KalmanFilter.h"
+# KalmanFilterLatencyCompensator = "frc/estimator/KalmanFilterLatencyCompensator.h"
+MecanumDrivePoseEstimator = "frc/estimator/MecanumDrivePoseEstimator.h"
+# MerweScaledSigmaPoints = "frc/estimator/MerweScaledSigmaPoints.h"
+SwerveDrivePoseEstimator = "frc/estimator/SwerveDrivePoseEstimator.h"
+# UnscentedKalmanFilter = "frc/estimator/UnscentedKalmanFilter.h"
+# UnscentedTransform = "frc/estimator/UnscentedTransform.h"
 
-  # frc/trajectory
-  { Trajectory = "frc/trajectory/Trajectory.h" },
-  { TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h" },
-  { TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h" },
-  { TrajectoryParameterizer = "frc/trajectory/TrajectoryParameterizer.h" },
-  { TrajectoryUtil = "frc/trajectory/TrajectoryUtil.h" },
-  { TrapezoidProfile = "frc/trajectory/TrapezoidProfile.h" },
+# frc/system
+# Discretization = "frc/system/Discretization.h"
+LinearSystem = "frc/system/LinearSystem.h"
+LinearSystemLoop = "frc/system/LinearSystemLoop.h"
+# NumericalIntegration = "frc/system/NumericalIntegration.h"
+# NumericalJacobian = "frc/system/NumericalJacobian.h"
 
-  # frc/trajectory/constraint
-  { CentripetalAccelerationConstraint = "frc/trajectory/constraint/CentripetalAccelerationConstraint.h" },
-  { DifferentialDriveKinematicsConstraint = "frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h" },
-  { DifferentialDriveVoltageConstraint = "frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h" },
-  { EllipticalRegionConstraint = "frc/trajectory/constraint/EllipticalRegionConstraint.h" },
-  { MaxVelocityConstraint = "frc/trajectory/constraint/MaxVelocityConstraint.h" },
-  { MecanumDriveKinematicsConstraint = "frc/trajectory/constraint/MecanumDriveKinematicsConstraint.h" },
-  { RectangularRegionConstraint = "frc/trajectory/constraint/RectangularRegionConstraint.h" },
-  { SwerveDriveKinematicsConstraint = "frc/trajectory/constraint/SwerveDriveKinematicsConstraint.h" },
-  { TrajectoryConstraint = "frc/trajectory/constraint/TrajectoryConstraint.h" },
-]
+# frc/system/plant
+DCMotor = "frc/system/plant/DCMotor.h"
+LinearSystemId = "frc/system/plant/LinearSystemId.h"
+
+# frc/trajectory
+Trajectory = "frc/trajectory/Trajectory.h"
+TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h"
+TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h"
+TrajectoryParameterizer = "frc/trajectory/TrajectoryParameterizer.h"
+TrajectoryUtil = "frc/trajectory/TrajectoryUtil.h"
+TrapezoidProfile = "frc/trajectory/TrapezoidProfile.h"
+
+# frc/trajectory/constraint
+CentripetalAccelerationConstraint = "frc/trajectory/constraint/CentripetalAccelerationConstraint.h"
+DifferentialDriveKinematicsConstraint = "frc/trajectory/constraint/DifferentialDriveKinematicsConstraint.h"
+DifferentialDriveVoltageConstraint = "frc/trajectory/constraint/DifferentialDriveVoltageConstraint.h"
+EllipticalRegionConstraint = "frc/trajectory/constraint/EllipticalRegionConstraint.h"
+MaxVelocityConstraint = "frc/trajectory/constraint/MaxVelocityConstraint.h"
+MecanumDriveKinematicsConstraint = "frc/trajectory/constraint/MecanumDriveKinematicsConstraint.h"
+RectangularRegionConstraint = "frc/trajectory/constraint/RectangularRegionConstraint.h"
+SwerveDriveKinematicsConstraint = "frc/trajectory/constraint/SwerveDriveKinematicsConstraint.h"
+TrajectoryConstraint = "frc/trajectory/constraint/TrajectoryConstraint.h"
 
 [tool.robotpy-build.wrappers."wpimath.filter"]
 
@@ -1419,12 +1421,12 @@ name = "wpimath_filter"
 extension = "_filter"
 sources = ["wpimath/filter/filter.cpp"]
 generation_data = "gen/filter"
-generate = [
-  { Debouncer = "frc/filter/Debouncer.h" },
-  { LinearFilter = "frc/filter/LinearFilter.h" },
-  { MedianFilter = "frc/filter/MedianFilter.h" },
-  { SlewRateLimiter = "frc/filter/SlewRateLimiter.h" },
-]
+
+[tool.robotpy-build.wrappers."wpimath.filter".autogen_headers]
+Debouncer = "frc/filter/Debouncer.h"
+LinearFilter = "frc/filter/LinearFilter.h"
+MedianFilter = "frc/filter/MedianFilter.h"
+SlewRateLimiter = "frc/filter/SlewRateLimiter.h"
 
 [tool.robotpy-build.wrappers."wpimath.geometry"]
 
@@ -1434,15 +1436,26 @@ extra_includes = ["wpimath/geometry/include"]
 sources = ["wpimath/geometry/geometry.cpp"]
 depends = ["wpiutil", "wpimath_cpp"]
 generation_data = "gen/geometry"
-generate = [
-  # frc/geometry
-  { Pose2d = "frc/geometry/Pose2d.h" },
-  { Rotation2d = "frc/geometry/Rotation2d.h" },
-  { Transform2d = "frc/geometry/Transform2d.h" },
-  { Translation2d = "frc/geometry/Translation2d.h" },
-  { Twist2d = "frc/geometry/Twist2d.h" },
-]
 
+[tool.robotpy-build.wrappers."wpimath.geometry".autogen_headers]
+# frc/geometry
+Pose2d = "frc/geometry/Pose2d.h"
+Rotation2d = "frc/geometry/Rotation2d.h"
+Transform2d = "frc/geometry/Transform2d.h"
+Translation2d = "frc/geometry/Translation2d.h"
+Twist2d = "frc/geometry/Twist2d.h"
+
+[tool.robotpy-build.wrappers."wpimath.interpolation"]
+
+name = "wpimath_interpolation"
+extension = "_interpolation"
+sources = ["wpimath/interpolation/interpolation.cpp"]
+depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
+generation_data = "gen/interpolation"
+
+[tool.robotpy-build.wrappers."wpimath.interpolation".autogen_headers]
+# frc/interpolation
+TimeInterpolatableBuffer = "frc/interpolation/TimeInterpolatableBuffer.h"
 
 [tool.robotpy-build.wrappers."wpimath.kinematics"]
 
@@ -1451,19 +1464,19 @@ extension = "_kinematics"
 sources = ["wpimath/kinematics/kinematics.cpp"]
 depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
 generation_data = "gen/kinematics"
-generate = [
-  # frc/kinematics
-  { ChassisSpeeds = "frc/kinematics/ChassisSpeeds.h" },
-  { DifferentialDriveKinematics = "frc/kinematics/DifferentialDriveKinematics.h" },
-  { DifferentialDriveOdometry = "frc/kinematics/DifferentialDriveOdometry.h" },
-  { DifferentialDriveWheelSpeeds = "frc/kinematics/DifferentialDriveWheelSpeeds.h" },
-  { MecanumDriveKinematics = "frc/kinematics/MecanumDriveKinematics.h" },
-  { MecanumDriveOdometry = "frc/kinematics/MecanumDriveOdometry.h" },
-  { MecanumDriveWheelSpeeds = "frc/kinematics/MecanumDriveWheelSpeeds.h" },
-  { SwerveDriveKinematics = "frc/kinematics/SwerveDriveKinematics.h" },
-  { SwerveDriveOdometry = "frc/kinematics/SwerveDriveOdometry.h" },
-  { SwerveModuleState = "frc/kinematics/SwerveModuleState.h" },
-]
+
+[tool.robotpy-build.wrappers."wpimath.kinematics".autogen_headers]
+# frc/kinematics
+ChassisSpeeds = "frc/kinematics/ChassisSpeeds.h"
+DifferentialDriveKinematics = "frc/kinematics/DifferentialDriveKinematics.h"
+DifferentialDriveOdometry = "frc/kinematics/DifferentialDriveOdometry.h"
+DifferentialDriveWheelSpeeds = "frc/kinematics/DifferentialDriveWheelSpeeds.h"
+MecanumDriveKinematics = "frc/kinematics/MecanumDriveKinematics.h"
+MecanumDriveOdometry = "frc/kinematics/MecanumDriveOdometry.h"
+MecanumDriveWheelSpeeds = "frc/kinematics/MecanumDriveWheelSpeeds.h"
+SwerveDriveKinematics = "frc/kinematics/SwerveDriveKinematics.h"
+SwerveDriveOdometry = "frc/kinematics/SwerveDriveOdometry.h"
+SwerveModuleState = "frc/kinematics/SwerveModuleState.h"
 
 [tool.robotpy-build.wrappers."wpimath.spline"]
 
@@ -1472,14 +1485,14 @@ extension = "_spline"
 sources = ["wpimath/spline/spline.cpp"]
 depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
 generation_data = "gen/spline"
-generate = [
-  # frc/spline
-  { CubicHermiteSpline = "frc/spline/CubicHermiteSpline.h" },
-  { QuinticHermiteSpline = "frc/spline/QuinticHermiteSpline.h" },
-  { Spline = "frc/spline/Spline.h" },
-  { SplineHelper = "frc/spline/SplineHelper.h" },
-  { SplineParameterizer = "frc/spline/SplineParameterizer.h" },
-]
+
+[tool.robotpy-build.wrappers."wpimath.spline".autogen_headers]
+# frc/spline
+CubicHermiteSpline = "frc/spline/CubicHermiteSpline.h"
+QuinticHermiteSpline = "frc/spline/QuinticHermiteSpline.h"
+Spline = "frc/spline/Spline.h"
+SplineHelper = "frc/spline/SplineHelper.h"
+SplineParameterizer = "frc/spline/SplineParameterizer.h"
 
 
 [tool.robotpy-build.metadata]

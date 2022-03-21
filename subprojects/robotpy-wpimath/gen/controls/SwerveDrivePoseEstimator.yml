@@ -26,8 +26,8 @@ classes:
       :math:`x = [x, y, \theta]^T` in the field-coordinate system
       containing x position, y position, and heading.
 
-      :math:`u = [v_x, v_y, d\theta]^T`
-      in the field-coordinate system.
+      :math:`u = [v_x, v_y, \omega]^T` containing x velocity, y velocity,
+      and angular velocity in the field-coordinate system.
 
       :math:`y = [x, y, \theta]^T` from vision containing x position, y
       position, and heading; or :math:`y = [theta]^T` containing gyro
@@ -48,6 +48,7 @@ classes:
           Pose2d&, units::second_t, wpi::array<double, 3>&:
       Update:
         param_override:
+          # pybind11 does not allow partially naming arguments
           gyroAngle:
             ignore: true
           moduleStates:
@@ -81,6 +82,7 @@ classes:
           }()
       UpdateWithTime:
         param_override:
+          # pybind11 does not allow partially naming arguments
           currentTime:
             ignore: true
           gyroAngle:

@@ -24,8 +24,8 @@ classes:
       :math:`x = [x, y, \theta]^T` in the field-coordinate system
       containing x position, y position, and heading.
 
-      :math:`u = [v_x, v_y, d\theta]^T`
-      in the field-coordinate system.
+      :math:`u = [v_x, v_y, \omega]^T` containing x velocity, y velocity,
+      and angular velocity in the field-coordinate system.
 
       :math:`y = [x, y, \theta]^T` from vision containing x position, y
       position, and heading; or :math:`y = [theta]^T` containing gyro
