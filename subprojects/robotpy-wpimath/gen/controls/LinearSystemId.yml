@@ -45,7 +45,7 @@ classes:
 inline_code: |
   cls_LinearSystemId
     .def_static("identifyVelocitySystemRadians", [](kv_radians kV, ka_radians kA) {
-        return frc::LinearSystemId::IdentifyPositionSystem<units::radian>(kV, kA);
+        return frc::LinearSystemId::IdentifyVelocitySystem<units::radian>(kV, kA);
       }, py::arg("kV"), py::arg("kA"), release_gil()
     )
     .def_static("identifyPositionSystemRadians", [](kv_radians kV, ka_radians kA) {
