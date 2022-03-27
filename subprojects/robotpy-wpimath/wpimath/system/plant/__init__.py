@@ -1,3 +1,3 @@
-from ..._controls._controls.plant import DCMotor
+from ..._controls._controls.plant import DCMotor, LinearSystemId
 
-__all__ = ["DCMotor"]
+__all__ = ["DCMotor", "LinearSystemId"]
