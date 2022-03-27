@@ -15,6 +15,11 @@ namespace frc2 {
  */
 class TimedCommandRobot : public frc::TimedRobot {
 public:
+
+  TimedCommandRobot(units::second_t period = frc::TimedRobot::kDefaultPeriod) :
+    TimedRobot(period)
+  {}
+
   /** Ensures commands are run */
   void RobotPeriodic() override { CommandScheduler::GetInstance().Run(); }
 };
