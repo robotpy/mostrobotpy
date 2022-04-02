@@ -257,6 +257,10 @@ inline_code: |
           return py::none();
         }
     })
+    .def_property_readonly("type", [](const hal::SimValue &self) -> HAL_Type {
+      py::gil_scoped_release release;
+      return self.GetValue().type;
+    })
     .def("__bool__", [](const hal::SimValue &self) -> bool {
       return (bool)self;
     })
