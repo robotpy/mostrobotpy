@@ -375,3 +375,25 @@ inline_code: |
         }
       #endif
     });
+
+  cls_SimInt
+    .def_property("value", &SimInt::Get, &SimInt::Set)
+    .def("__repr__", [](const SimInt &self) -> py::str {
+      if (self) {
+        py::gil_scoped_release release;
+        return "<SimInt value=" + std::to_string(self.Get()) + ">";
+      } else {
+        return "<SimInt (invalid)>";
+      }
+    });
+
+  cls_SimLong
+    .def_property("value", &SimLong::Get, &SimLong::Set)
+    .def("__repr__", [](const SimLong &self) -> py::str {
+      if (self) {
+        py::gil_scoped_release release;
+        return "<SimLong value=" + std::to_string(self.Get()) + ">";
+      } else {
+        return "<SimLong (invalid)>";
+      }
+    });
