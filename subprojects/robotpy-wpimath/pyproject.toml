@@ -87,6 +87,22 @@ types = [
 default_arg_cast = false
 
 [[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+header = "units_angular_acceleration_type_caster.h"
+types = [
+    "units::radians_per_second_squared_t",
+    "units::degrees_per_second_squared_t",
+]
+default_arg_cast = true
+
+[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+header = "units_angular_acceleration_type_caster.h"
+types = [
+    "units::radians_per_second_squared",
+    "units::degrees_per_second_squared",
+]
+default_arg_cast = false
+
+[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
 header = "units_angular_velocity_type_caster.h"
 types = [
     "units::degrees_per_second_t",

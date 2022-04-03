@@ -17,12 +17,6 @@ struct handle_type_name<units::unit_t<
 
 template <>
 struct handle_type_name<units::unit_t<units::compound_unit<
-    units::radians_per_second, units::inverse<units::seconds>>>> {
-  static constexpr auto name = _("radians_per_second_squared");
-};
-
-template <>
-struct handle_type_name<units::unit_t<units::compound_unit<
     units::radians_per_second, units::inverse<units::volt>>>> {
   static constexpr auto name = _("radians_per_second_per_volt");
 };
