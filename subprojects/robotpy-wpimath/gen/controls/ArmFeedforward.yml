@@ -4,6 +4,8 @@ classes:
   ArmFeedforward:
     shared_ptr: true
     subpackage: controller
+    force_type_casters:
+    - units::radians_per_second_squared
     typealias:
     - frc::ArmFeedforward::Acceleration
     - frc::ArmFeedforward::kv_unit

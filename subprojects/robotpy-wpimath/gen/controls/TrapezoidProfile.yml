@@ -6,6 +6,7 @@ classes:
     force_type_casters:
     - units::second_t
     - units::radians_per_second
+    - units::radians_per_second_squared
     typealias:
     - Distance_t = units::unit_t<Distance>
     - Velocity = units::compound_unit<Distance, units::inverse<units::seconds>>
