@@ -18,6 +18,7 @@ functions:
   HAL_GetDIO:
   HAL_GetDIODirection:
   HAL_Pulse:
+  HAL_PulseMultiple:
   HAL_IsPulsing:
   HAL_IsAnyPulsing:
   HAL_SetFilterSelect:

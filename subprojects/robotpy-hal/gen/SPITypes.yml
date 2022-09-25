@@ -6,3 +6,5 @@ strip_prefixes:
 enums:
   HAL_SPIPort:
     value_prefix: HAL_SPI
+  HAL_SPIMode:
+    value_prefix: HAL_SPI

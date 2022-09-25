@@ -29,3 +29,5 @@ functions:
   HALSIM_RegisterSimPeriodicAfterCallback:
     ignore: true
   HALSIM_CancelSimPeriodicAfterCallback:
+
+  HALSIM_CancelAllSimPeriodicCallbacks:

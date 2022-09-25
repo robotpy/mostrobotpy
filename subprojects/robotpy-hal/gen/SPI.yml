@@ -18,7 +18,8 @@ functions:
     - { type: out, src: buffer, len: count }
   HAL_CloseSPI:
   HAL_SetSPISpeed:
-  HAL_SetSPIOpts:
+  HAL_SetSPIMode:
+  HAL_GetSPIMode:
   HAL_SetSPIChipSelectActiveHigh:
   HAL_SetSPIChipSelectActiveLow:
   HAL_GetSPIHandle:
