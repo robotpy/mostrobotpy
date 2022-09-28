@@ -2,11 +2,6 @@
 
 classes:
   LinearSystemLoop:
-    shared_ptr: true
-    template_params:
-    - int States
-    - int Inputs
-    - int Outputs
     methods:
       LinearSystemLoop:
         overloads:
@@ -42,38 +37,11 @@ classes:
           int, double:
       SetNextR:
       Controller:
-        ignore: true # TODO
       Feedforward:
-        ignore: true # TODO
       Observer:
-        ignore: true # TODO
       Reset:
       Error:
       Correct:
       Predict:
       ClampInput:
       function<InputVector:
-        ignore: true
-
-templates:
-  LinearSystemLoop_1_1_1:
-    qualname: frc::LinearSystemLoop
-    subpackage: system
-    params:
-    - 1
-    - 1
-    - 1
-  LinearSystemLoop_2_1_1:
-    qualname: frc::LinearSystemLoop
-    subpackage: system
-    params:
-    - 2
-    - 1
-    - 1 
-  LinearSystemLoop_2_2_2:
-    qualname: frc::LinearSystemLoop
-    subpackage: system
-    params:
-    - 2
-    - 2
-    - 2

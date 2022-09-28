@@ -1,0 +1,8 @@
+---
+
+classes:
+  DifferentialDriveAccelerationLimiter:
+    subpackage: controller
+    methods:
+      DifferentialDriveAccelerationLimiter:
+      Calculate:

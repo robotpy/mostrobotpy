@@ -29,6 +29,8 @@ MANIFEST
 /wpimath/geometry/pkgcfg.py
 /wpimath/interfaces/_init_interfaces.py
 /wpimath/interfaces/pkgcfg.py
+/wpimath/interpolation/_init_interpolation.py
+/wpimath/interpolation/pkgcfg.py
 /wpimath/kinematics/_init_kinematics.py
 /wpimath/kinematics/pkgcfg.py
 /wpimath/spline/_init_spline.py

@@ -9,6 +9,10 @@ classes:
     - Rate = units::compound_unit<Unit, units::inverse<units::seconds>>
     methods:
       SlewRateLimiter:
+        overloads:
+          units::unit_t<Rate>, units::unit_t<Rate>, units::unit_t<Unit>:
+          units::unit_t<Rate>:
+          units::unit_t<Rate>, units::unit_t<Unit>:
       Calculate:
       Reset:
 

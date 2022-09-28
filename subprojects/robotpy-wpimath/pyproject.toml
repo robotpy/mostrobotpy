@@ -10,8 +10,8 @@ base_package = "wpimath"
 [tool.robotpy-build.wrappers."wpimath._impl".maven_lib_download]
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2022.4.1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2023.0.0-alpha-1-120-ga791470"
 
 libs = ["wpimath"]
 
@@ -1355,8 +1355,15 @@ types = [
 ]
 default_arg_cast = false
 
+[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+header = "pybind11/eigen.h"
+types = [
+    "frc::Vectord",
+    "frc::Matrixd",
+]
+
 [tool.robotpy-build.wrappers."wpimath"]
-depends = ["wpiutil", "wpimath_cpp"]
+depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
 name = "wpimath"
 extension = "_wpimath"
 sources = ["wpimath/src/wpimath.cpp"]
@@ -1364,8 +1371,11 @@ generation_data = "gen"
 
 [tool.robotpy-build.wrappers."wpimath".autogen_headers]
 # frc
+ComputerVisionUtil = "frc/ComputerVisionUtil.h"
+# EigenCore = "frc/EigenCore.h"
 MathUtil = "frc/MathUtil.h"
 # StateSpaceUtil = "frc/StateSpaceUtil.h"
+
 
 [tool.robotpy-build.wrappers."wpimath._controls"]
 name = "wpimath_controls"
@@ -1379,8 +1389,13 @@ generation_data = "gen/controls"
 ArmFeedforward = "frc/controller/ArmFeedforward.h"
 BangBangController = "frc/controller/BangBangController.h"
 ControlAffinePlantInversionFeedforward = "frc/controller/ControlAffinePlantInversionFeedforward.h"
+DifferentialDriveAccelerationLimiter = "frc/controller/DifferentialDriveAccelerationLimiter.h"
+DifferentialDriveWheelVoltages = "frc/controller/DifferentialDriveWheelVoltages.h"
 ElevatorFeedforward = "frc/controller/ElevatorFeedforward.h"
 HolonomicDriveController = "frc/controller/HolonomicDriveController.h"
+ImplicitModelFollower = "frc/controller/ImplicitModelFollower.h"
+LTVDifferentialDriveController = "frc/controller/LTVDifferentialDriveController.h"
+LTVUnicycleController = "frc/controller/LTVUnicycleController.h"
 LinearPlantInversionFeedforward = "frc/controller/LinearPlantInversionFeedforward.h"
 LinearQuadraticRegulator = "frc/controller/LinearQuadraticRegulator.h"
 PIDController = "frc/controller/PIDController.h"
@@ -1455,11 +1470,19 @@ generation_data = "gen/geometry"
 
 [tool.robotpy-build.wrappers."wpimath.geometry".autogen_headers]
 # frc/geometry
+CoordinateAxis = "frc/geometry/CoordinateAxis.h"
+CoordinateSystem = "frc/geometry/CoordinateSystem.h"
 Pose2d = "frc/geometry/Pose2d.h"
+Pose3d = "frc/geometry/Pose3d.h"
+Quaternion = "frc/geometry/Quaternion.h"
 Rotation2d = "frc/geometry/Rotation2d.h"
+Rotation3d = "frc/geometry/Rotation3d.h"
 Transform2d = "frc/geometry/Transform2d.h"
+Transform3d = "frc/geometry/Transform3d.h"
 Translation2d = "frc/geometry/Translation2d.h"
+Translation3d = "frc/geometry/Translation3d.h"
 Twist2d = "frc/geometry/Twist2d.h"
+Twist3d = "frc/geometry/Twist3d.h"
 
 [tool.robotpy-build.wrappers."wpimath.interpolation"]
 

@@ -45,4 +45,12 @@ inline_code: |
     .def(py::init([](units::meter_t x, units::meter_t y, units::radian_t angle) {
       return std::make_unique<Pose2d>(x, y, angle);
     }), py::arg("x"), py::arg("y"), py::arg("angle"))
+    .def_property_readonly("x", &Pose2d::X)
+    .def_property_readonly("y", &Pose2d::Y)
+    .def_property_readonly("x_feet", [](Pose2d * self) -> units::foot_t {
+      return self->X();
+    })
+    .def_property_readonly("y_feet", [](Pose2d * self) -> units::foot_t {
+      return self->Y();
+    })
     .def("__repr__", py::overload_cast<const Pose2d&>(&rpy::toString));

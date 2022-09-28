@@ -12,8 +12,6 @@ classes:
       operator==:
       operator!=:
       operator*:
-        # restore when https://github.com/wpilibsuite/allwpilib/issues/3880 is fixed
-        ignore: true
       
 
 inline_code: |
