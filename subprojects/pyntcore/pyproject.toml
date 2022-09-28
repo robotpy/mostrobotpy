@@ -2,6 +2,7 @@
 requires = [
   "robotpy-build<2023.0.0,>=2022.2.0",
   "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
+  "robotpy-wpinet",
 ]
 
 [tool.robotpy-build]
@@ -10,8 +11,8 @@ base_package = "_pyntcore"
 [tool.robotpy-build.wrappers."_pyntcore".maven_lib_download]
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2022.4.1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2023.0.0-alpha-1-120-ga791470"
 
 libs = ["ntcore"]
 
@@ -24,7 +25,7 @@ sources = [
     "_pyntcore/src/pyentry.cpp",
 ]
 
-depends = ["wpiutil"]
+depends = ["wpiutil", "wpinet"]
 generation_data = "gen"
 
 [tool.robotpy-build.wrappers."_pyntcore".autogen_headers]
@@ -56,5 +57,6 @@ url = "https://github.com/robotpy/pyntcore"
 license = "BSD-3-Clause"
 install_requires = [
     "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
+    "robotpy-wpinet",
     "pynetworktables>=2021.0.0,<2022.0.0",
 ]
