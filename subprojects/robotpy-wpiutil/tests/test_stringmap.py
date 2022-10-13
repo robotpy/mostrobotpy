@@ -8,5 +8,6 @@ def test_stringmap_load():
         "three": 33,
     }
 
+
 def test_stringmap_cast():
     assert module.cast_stringmap() == {"one": 1, "two": 2}

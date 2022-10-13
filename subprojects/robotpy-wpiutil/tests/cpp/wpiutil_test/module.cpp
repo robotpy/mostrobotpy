@@ -6,6 +6,7 @@
 #include <wpi_smallset_type_caster.h>
 #include <wpi_smallvector_type_caster.h>
 #include <wpi_smallvectorimpl_type_caster.h>
+#include <wpi_string_map_caster.h>
 
 /*
 array tests
@@ -109,6 +110,21 @@ wpi::SmallVectorImpl<int>&  load_smallvecimpl_int(wpi::SmallVectorImpl<int>& ref
     return set;
 }
 
+/*
+StringMap tests
+*/
+wpi::StringMap<int> load_stringmap_int(wpi::StringMap<int> ref) {
+    return ref;
+}
+
+wpi::StringMap<int> cast_stringmap() {
+    static wpi::StringMap<int> m;
+    m["one"] = 1;
+    m["two"] = 2;
+    return m;
+}
+
+
 RPYBUILD_PYBIND11_MODULE(m) {
 
     // array
@@ -133,4 +149,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
     m.def("cast_smallvec", &cast_smallvec);
     // SmallVectorImpl
     m.def("load_smallvecimpl_int", &load_smallvecimpl_int);
+    // StringMap
+    m.def("load_stringmap_int", &load_stringmap_int);
+    m.def("cast_stringmap", &cast_stringmap);
 };

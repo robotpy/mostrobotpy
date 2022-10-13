@@ -54,6 +54,10 @@ types = ["wpi::SmallVector"]
 header = "wpi_smallvectorimpl_type_caster.h"
 types = ["wpi::SmallVectorImpl"]
 
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_string_map_caster.h"
+types = ["wpi::StringMap"]
+
 [tool.robotpy-build.metadata]
 name = "robotpy-wpiutil"
 description = "Binary wrapper for FRC WPIUtil library"
