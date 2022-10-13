@@ -39,6 +39,10 @@ header = "wpi_array_type_caster.h"
 types = ["wpi::array"]
 
 [[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_json_type_caster.h"
+types = ["wpi::json"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_span_type_caster.h"
 types = ["wpi::span"]
 
