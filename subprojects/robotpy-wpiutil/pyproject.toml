@@ -18,7 +18,7 @@ generation_data = "gen"
 artifact_id = "wpiutil-cpp"
 group_id = "edu.wpi.first.wpiutil"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.0.0-alpha-2"
+version = "2023.1.1-alpha-1"
 
 libs = ["wpiutil"]
 
@@ -44,7 +44,7 @@ types = ["wpi::json"]
 
 [[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_span_type_caster.h"
-types = ["wpi::span"]
+types = ["std::span"]
 
 [[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_smallset_type_caster.h"
