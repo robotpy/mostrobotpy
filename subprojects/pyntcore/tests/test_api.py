@@ -46,6 +46,7 @@ def do(nt1, nt2, t):
         t1.putBooleanArray("ba", (True, False))
         t1.putNumberArray("na", (1, 2))
         t1.putStringArray("sa", ("s", "t"))
+        print("put is done")
 
     t2 = nt2.getTable(t)
     assert t2.getBoolean("bool", None) is True

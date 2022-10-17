@@ -1,34 +1,41 @@
 ---
 extra_includes:
 - networktables/NetworkTableInstance.h
+- networktables/Topic.h
 - src/py2value.h
 - src/pyentry.h
 
 inline_code: |
   #include <src/NetworkTableEntry.cpp.inl>
-
 classes:
   NetworkTableEntry:
-    shared_ptr: false
     enums:
       Flags:
     methods:
       NetworkTableEntry:
         overloads:
           "":
+            ignore: true
           NT_Entry:
+            ignore: true
       GetHandle:
+        ignore: true
       GetInstance:
       Exists:
       GetName:
       GetType:
       GetFlags:
       GetLastChange:
-      GetInfo:
       GetValue:
       GetBoolean:
         cpp_code: |
           &pyntcore::GetBooleanEntry
+      GetInteger:
+        cpp_code: |
+          &pyntcore::GetIntegerEntry
+      GetFloat:
+        cpp_code: |
+          &pyntcore::GetFloatEntry
       GetDouble:
         cpp_code: |
           &pyntcore::GetDoubleEntry
@@ -39,107 +46,56 @@ classes:
         cpp_code: |
           &pyntcore::GetRawEntry
       GetBooleanArray:
-        overloads:
-          wpi::span<const int> [const]:
-          std::initializer_list<int> [const]:
-            ignore: true
         cpp_code: |
           &pyntcore::GetBooleanArrayEntry
+      GetIntegerArray:
+        cpp_code: |
+          &pyntcore::GetIntegerArrayEntry
+      GetFloatArray:
+        cpp_code: |
+          &pyntcore::GetFloatArrayEntry
       GetDoubleArray:
-        overloads:
-          wpi::span<const double> [const]:
-          std::initializer_list<double> [const]:
-            ignore: true
         cpp_code: |
           &pyntcore::GetDoubleArrayEntry
       GetStringArray:
-        overloads:
-          wpi::span<const std::string> [const]:
-          std::initializer_list<std::string> [const]:
-            ignore: true
         cpp_code: |
           &pyntcore::GetStringArrayEntry
+      ReadQueue:
       SetDefaultValue:
       SetDefaultBoolean:
+      SetDefaultInteger:
+      SetDefaultFloat:
       SetDefaultDouble:
       SetDefaultString:
       SetDefaultRaw:
       SetDefaultBooleanArray:
-        overloads:
-          wpi::span<const int>:
-          std::initializer_list<int>:
-            ignore: true
+      SetDefaultIntegerArray:
+      SetDefaultFloatArray:
       SetDefaultDoubleArray:
-        overloads:
-          wpi::span<const double>:
-          std::initializer_list<double>:
-            ignore: true
       SetDefaultStringArray:
-        overloads:
-          wpi::span<const std::string>:
-          std::initializer_list<std::string>:
-            ignore: true
       SetValue:
       SetBoolean:
+      SetInteger:
+      SetFloat:
       SetDouble:
       SetString:
       SetRaw:
       SetBooleanArray:
         overloads:
-          wpi::span<const bool>:
-          std::initializer_list<bool>:
+          std::span<const bool>, int64_t:
+          std::span<const int>, int64_t:
             ignore: true
-          wpi::span<const int>:
-            ignore: true
-          std::initializer_list<int>:
-            ignore: true
+      SetIntegerArray:
+      SetFloatArray:
       SetDoubleArray:
-        overloads:
-          wpi::span<const double>:
-          std::initializer_list<double>:
-            ignore: true
       SetStringArray:
-        overloads:
-          wpi::span<const std::string>:
-          std::initializer_list<std::string>:
-            ignore: true
-      ForceSetValue:
-      ForceSetBoolean:
-      ForceSetDouble:
-      ForceSetString:
-      ForceSetRaw:
-      ForceSetBooleanArray:
-        overloads:
-          wpi::span<const bool>:
-          std::initializer_list<bool>:
-            ignore: true
-          wpi::span<const int>:
-            ignore: true
-          std::initializer_list<int>:
-            ignore: true
-      ForceSetDoubleArray:
-        overloads:
-          wpi::span<const double>:
-          std::initializer_list<double>:
-            ignore: true
-      ForceSetStringArray:
-        overloads:
-          wpi::span<const std::string>:
-          std::initializer_list<std::string>:
-            ignore: true
       SetFlags:
       ClearFlags:
       SetPersistent:
       ClearPersistent:
       IsPersistent:
+      Unpublish:
       Delete:
-      CreateRpc:
-        ignore: true
-      CreatePolledRpc:
-        ignore: true
-      CallRpc:
-        ignore: true
-      AddListener:
-      RemoveListener:
+      GetTopic:
       operator==:
       operator!=:

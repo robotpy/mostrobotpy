@@ -5,6 +5,8 @@
 from contextlib import contextmanager
 from threading import Condition
 
+from ntcore._ntcore import ValueListenerFlags
+
 log_datefmt = "%H:%M:%S"
 log_format = "%(asctime)s:%(msecs)03d %(levelname)-8s: %(name)-8s: %(message)s"
 
@@ -17,7 +19,7 @@ logger = logging.getLogger("conftest")
 
 import pytest
 
-from _pyntcore import NetworkTablesInstance
+from ntcore import NetworkTableInstance, ValueListener, MultiSubscriber
 
 #
 # Fixtures for a usable in-memory version of networktables
@@ -26,13 +28,13 @@ from _pyntcore import NetworkTablesInstance
 
 @pytest.fixture(scope="function")
 def nt():
-    instance = NetworkTablesInstance.create()
+    instance = NetworkTableInstance.create()
     instance.startLocal()
 
     try:
         yield instance
     finally:
-        NetworkTablesInstance.destroy(instance)
+        NetworkTableInstance.destroy(instance)
 
 
 @pytest.fixture(scope="function")
@@ -62,14 +64,14 @@ class NtTestBase:
         self.reset()
 
     def reset(self):
-        self._impl = NetworkTablesInstance.create()
+        self._impl = NetworkTableInstance.create()
         self.getTable = self._impl.getTable
         self.isConnected = self._impl.isConnected
 
     def shutdown(self):
         logger.info("shutting down %s", self.__class__.__name__)
         if self._impl:
-            NetworkTablesInstance.destroy(self._impl)
+            NetworkTableInstance.destroy(self._impl)
         self._impl = None
 
     # def disconnect(self):
@@ -82,10 +84,11 @@ class NtTestBase:
 
         # self._wait_init()
 
-    def _init_server(self, server_port=23232):
+    def _init_server(self, port3=23232, port4=23233):
         self._init_common()
 
-        self.port = server_port
+        self.port3 = port3
+        self.port4 = port4
 
     def _init_client(self):
         self._init_common()
@@ -96,19 +99,24 @@ class NtTestBase:
         self._wait_init_listener()
 
     def _wait_init_listener(self):
-        self._impl.addEntryListener(
-            "",
-            self._wait_cb,
-            NetworkTablesInstance.NotifyFlags.NEW
-            | NetworkTablesInstance.NotifyFlags.UPDATE
-            | NetworkTablesInstance.NotifyFlags.DELETE
-            | NetworkTablesInstance.NotifyFlags.FLAGS,
-        )
+
+        self.msub = MultiSubscriber(self._impl, ["/"])
+        self.vl = ValueListener(self.msub, ValueListenerFlags.kImmediate, self._wait_cb)
+        logger.info("wait init")
+
+        # self._impl.addEntryListener(
+        #     "",
+        #     self._wait_cb,
+        #     NetworkTableInstance.NotifyFlags.NEW
+        #     | NetworkTableInstance.NotifyFlags.UPDATE
+        #     | NetworkTableInstance.NotifyFlags.DELETE
+        #     | NetworkTableInstance.NotifyFlags.FLAGS,
+        # )
 
     def _wait_cb(self, *args):
+        logger.info('Wait callback, got: %s', args)
         with self._wait_lock:
-            self._wait += 1
-            # logger.info('Wait callback, got: %s', args)
+            self._wait += 1            
             self._wait_lock.notify()
 
     @contextmanager
@@ -140,21 +148,24 @@ class NtTestBase:
 def nt_server(request):
     class NtServer(NtTestBase):
 
-        _test_saved_port = None
+        _test_saved_port3 = None
+        _test_saved_port4 = None
 
         def start_test(self):
             logger.info("NtServer::start_test")
 
             # Restore server port on restart
-            if self._test_saved_port is not None:
-                self.port = self._test_saved_port
+            if self._test_saved_port3 is not None:
+                self.port3 = self._test_saved_port3
+                self.port4 = self._test_saved_port4
 
-            print("self.port", self.port)
-            self._impl.startServer(listenAddress="127.0.0.1", port=self.port)
+            print("self.port", self.port3, self.port4)
+            self._impl.startServer(listen_address="127.0.0.1", port3=self.port3, port4=self.port4)
 
             # assert self._api.dispatcher.m_server_acceptor.waitForStart(timeout=1)
             # self.port = self._api.dispatcher.m_server_acceptor.m_port
-            self._test_saved_port = self.port
+            self._test_saved_port3 = self.port3
+            self._test_saved_port4 = self.port4
 
     server = NtServer()
     server._init_server()
@@ -165,11 +176,11 @@ def nt_server(request):
 
 
 @pytest.fixture()
-def nt_client(request, nt_server):
+def nt_client3(request, nt_server):
     class NtClient(NtTestBase):
         def start_test(self):
-            self._impl.setNetworkIdentity("C1")
-            self._impl.startClient("127.0.0.1", nt_server.port)
+            self._impl.setServer("127.0.0.1", nt_server.port3)
+            self._impl.startClient3()
 
     client = NtClient()
     client._init_client()
@@ -180,11 +191,12 @@ def nt_client(request, nt_server):
 
 
 @pytest.fixture()
-def nt_client2(request, nt_server):
+def nt_client4(request, nt_server):
     class NtClient(NtTestBase):
         def start_test(self):
-            self._impl.setNetworkIdentity("C2")
-            self._impl.startClient(("127.0.0.1", nt_server.port))
+            self._impl.setNetworkIdentity("C4")
+            self._impl.setServer("127.0.0.1", nt_server.port4)
+            self._impl.startClient4()
 
     client = NtClient()
     client._init_client()
@@ -193,10 +205,10 @@ def nt_client2(request, nt_server):
 
 
 @pytest.fixture
-def nt_live(nt_server, nt_client):
+def nt_live(nt_server, nt_client4):
     """This fixture automatically starts the client and server"""
 
     nt_server.start_test()
-    nt_client.start_test()
+    nt_client4.start_test()
 
-    return nt_server, nt_client
+    return nt_server, nt_client4

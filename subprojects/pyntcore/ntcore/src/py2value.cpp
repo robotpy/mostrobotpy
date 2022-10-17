@@ -12,8 +12,8 @@
 namespace pyntcore {
 
 
-py::object ntvalue2py(nt::Value * ntvalue) {
-  auto v = ntvalue->value();
+py::object ntvalue2py(const nt::Value &ntvalue) {
+  auto &v = ntvalue.value();
   switch (v.type) {
   case NT_BOOLEAN:
     return py::bool_(v.data.v_boolean);
@@ -46,7 +46,33 @@ py::object ntvalue2py(nt::Value * ntvalue) {
   }
   
   case NT_STRING_ARRAY: {
-    return py::cast(ntvalue->GetStringArray());
+    return py::cast(ntvalue.GetStringArray());
+  }
+
+  case NT_INTEGER: {
+    return py::int_(v.data.v_int);
+  }
+
+  case NT_FLOAT: {
+    return py::float_(v.data.v_float);
+  }
+
+  case NT_INTEGER_ARRAY: {
+    py::list l(v.data.arr_int.size);
+    for (size_t i = 0; i < v.data.arr_int.size; i++) {
+      auto d = py::int_(v.data.arr_int.arr[i]);
+      PyList_SET_ITEM(l.ptr(), i, d.release().ptr());
+    }
+    return std::move(l);
+  }
+
+  case NT_FLOAT_ARRAY: {
+    py::list l(v.data.arr_float.size);
+    for (size_t i = 0; i < v.data.arr_float.size; i++) {
+      auto d = py::float_(v.data.arr_float.arr[i]);
+      PyList_SET_ITEM(l.ptr(), i, d.release().ptr());
+    }
+    return std::move(l);
   }
 
   default:
@@ -54,15 +80,17 @@ py::object ntvalue2py(nt::Value * ntvalue) {
   }
 }
 
-std::shared_ptr<nt::NetworkTableValue> py2ntvalue(py::handle h) {
+nt::Value py2ntvalue(py::handle h) {
   if (py::isinstance<py::bool_>(h)) {
-    return nt::NetworkTableValue::MakeBoolean(h.cast<bool>());
-  } else if (py::isinstance<py::float_>(h) || py::isinstance<py::int_>(h)) {
-    return nt::NetworkTableValue::MakeDouble(h.cast<double>());
+    return nt::Value::MakeBoolean(h.cast<bool>());
+  } else if (py::isinstance<py::float_>(h)) {
+    return nt::Value::MakeDouble(h.cast<double>());
+  } else if (py::isinstance<py::int_>(h)) {
+    return nt::Value::MakeInteger(h.cast<int64_t>());
   } else if (py::isinstance<py::str>(h)) {
-    return nt::NetworkTableValue::MakeString(h.cast<std::string>());
+    return nt::Value::MakeString(h.cast<std::string>());
   } else if (py::isinstance<py::bytes>(h)) {
-    return nt::NetworkTableValue::MakeRaw(h.cast<std::string>());
+    return nt::Value::MakeRaw(h.cast<std::span<const uint8_t>>());
   } else if (py::isinstance<py::none>(h)) {
     throw py::value_error("Cannot put None into NetworkTable");
   }
@@ -75,13 +103,16 @@ std::shared_ptr<nt::NetworkTableValue> py2ntvalue(py::handle h) {
   auto i1 = seq[0];
   if (py::isinstance<py::bool_>(i1)) {
     auto v = h.cast<std::vector<int>>();
-    return nt::NetworkTableValue::MakeBooleanArray(v);
-  } else if (py::isinstance<py::float_>(i1) || py::isinstance<py::int_>(i1)) {
+    return nt::Value::MakeBooleanArray(v);
+  } else if (py::isinstance<py::float_>(i1)) {
     auto v = h.cast<std::vector<double>>();
-    return nt::NetworkTableValue::MakeDoubleArray(v);
+    return nt::Value::MakeDoubleArray(v);
+  } else if (py::isinstance<py::int_>(i1)) {
+    auto v = h.cast<std::vector<int64_t>>();
+    return nt::Value::MakeIntegerArray(v);
   } else if (py::isinstance<py::str>(i1)) {
     auto v = h.cast<std::vector<std::string>>();
-    return nt::NetworkTableValue::MakeStringArray(v);
+    return nt::Value::MakeStringArray(v);
   } else {
     throw py::value_error("Can only put bool/int/float/str/bytes or lists/tuples of them");
   }
@@ -98,11 +129,19 @@ py::cpp_function valueFactoryByType(nt::NetworkTableType type) {
   case nt::NetworkTableType::kRaw:
     return py::cpp_function([](std::string_view v) { return nt::Value::MakeString(v); });
   case nt::NetworkTableType::kBooleanArray: 
-    return py::cpp_function([](wpi::span<const bool> v) { return nt::Value::MakeBooleanArray(v); });
+    return py::cpp_function([](std::span<const bool> v) { return nt::Value::MakeBooleanArray(v); });
   case nt::NetworkTableType::kDoubleArray: 
-    return py::cpp_function([](wpi::span<const double> v) { return nt::Value::MakeDoubleArray(v); });
+    return py::cpp_function([](std::span<const double> v) { return nt::Value::MakeDoubleArray(v); });
   case nt::NetworkTableType::kStringArray:
-    return py::cpp_function([](std::vector<std::string>&& v) { return nt::Value::MakeStringArray(v); });
+    return py::cpp_function([](std::vector<std::string> v) { return nt::Value::MakeStringArray(std::move(v)); });
+  case nt::NetworkTableType::kInteger:
+    return py::cpp_function([](int64_t v) { return nt::Value::MakeInteger(v); });
+  case nt::NetworkTableType::kFloat:
+    return py::cpp_function([](float v) { return nt::Value::MakeFloat(v); });
+  case nt::NetworkTableType::kIntegerArray:
+    return py::cpp_function([](std::span<const int64_t> v) { return nt::Value::MakeIntegerArray(v); });
+  case nt::NetworkTableType::kFloatArray:
+    return py::cpp_function([](std::span<const float> v) { return nt::Value::MakeFloatArray(v); });
   default:
     throw py::type_error("empty nt value");
   }

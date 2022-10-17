@@ -1,0 +1,68 @@
+---
+
+extra_includes:
+- networktables/GenericEntry.h
+- networktables/NetworkTableInstance.h
+
+classes:
+  Topic:
+    methods:
+      Topic:
+        overloads:
+          "":
+            ignore: true
+          NT_Topic:
+            ignore: true
+      GetHandle:
+        ignore: true
+      GetInstance:
+      GetName:
+      GetType:
+      GetTypeString:
+      SetPersistent:
+      IsPersistent:
+      SetRetained:
+      IsRetained:
+      Exists:
+      GetProperty:
+      SetProperty:
+      DeleteProperty:
+      GetProperties:
+      SetProperties:
+      GetInfo:
+      GenericSubscribe:
+        overloads:
+          std::span<const PubSubOption>:
+          std::string_view, std::span<const PubSubOption>:
+      GenericPublish:
+      GenericPublishEx:
+      GetGenericEntry:
+        overloads:
+          std::span<const PubSubOption>:
+          std::string_view, std::span<const PubSubOption>:
+      operator==:
+      operator!=:
+  Subscriber:
+    methods:
+      GetHandle:
+        ignore: true
+      Exists:
+      GetLastChange:
+      GetTopic:
+      Subscriber:
+        overloads:
+          "":
+            ignore: true
+          NT_Subscriber:
+            ignore: true
+  Publisher:
+    methods:
+      GetHandle:
+        ignore: true
+      GetTopic:
+      Publisher:
+        overloads:
+          "":
+            ignore: true
+          NT_Publisher:
+            ignore: true

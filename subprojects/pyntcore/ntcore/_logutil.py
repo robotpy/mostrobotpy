@@ -33,8 +33,8 @@ class NtLogForwarder:
         self,
         instHandle,
         logName: str,
-        minLevel=_ntcore.NetworkTablesInstance.LogLevel.kLogDebug,
-        maxLevel=_ntcore.NetworkTablesInstance.LogLevel.kLogCritical,
+        minLevel=_ntcore.NetworkTableInstance.LogLevel.kLogDebug,
+        maxLevel=_ntcore.NetworkTableInstance.LogLevel.kLogCritical,
     ):
         self.lock = threading.Lock()
         self.poller = _ntcore._createLoggerPoller(instHandle)
@@ -50,14 +50,14 @@ class NtLogForwarder:
 
         atexit.register(self.destroy)
 
-    def _logging_thread(self, poller, logName, ntLogger):
+    def _logging_thread(self, poller: int, logName: str, ntLogger: int):
 
         logger = logging.getLogger(logName)
 
-        _pollLogger = _ntcore._pollLogger
+        _readLoggerQueue = _ntcore._readLoggerQueue
 
         while True:
-            messages = _pollLogger(poller)
+            messages = _readLoggerQueue(poller)
             if not messages:
                 break
 

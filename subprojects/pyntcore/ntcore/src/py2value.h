@@ -5,9 +5,9 @@
 
 namespace pyntcore {
 
-py::object ntvalue2py(nt::Value * ntvalue);
+py::object ntvalue2py(const nt::Value &ntvalue);
 
-std::shared_ptr<nt::NetworkTableValue> py2ntvalue(py::handle h);
+nt::Value py2ntvalue(py::handle h);
 
 py::cpp_function valueFactoryByType(nt::NetworkTableType type);
 
