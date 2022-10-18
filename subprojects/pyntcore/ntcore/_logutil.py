@@ -4,6 +4,7 @@ import threading
 
 from . import _ntcore
 
+import wpiutil.sync
 
 class NtLogForwarder:
     """
@@ -40,6 +41,7 @@ class NtLogForwarder:
         self.poller = _ntcore._createLoggerPoller(instHandle)
         ntLogger = _ntcore._addPolledLogger(self.poller, minLevel, maxLevel)
 
+
         self.thread = threading.Thread(
             target=self._logging_thread,
             name=logName + "-log-thread",
@@ -55,11 +57,15 @@ class NtLogForwarder:
         logger = logging.getLogger(logName)
 
         _readLoggerQueue = _ntcore._readLoggerQueue
+        _waitForObject = wpiutil.sync.waitForObject
 
         while True:
+            if not _waitForObject(poller):
+                break
+
             messages = _readLoggerQueue(poller)
             if not messages:
-                break
+                continue
 
             for msg in messages:
                 if logger.isEnabledFor(msg.level):
