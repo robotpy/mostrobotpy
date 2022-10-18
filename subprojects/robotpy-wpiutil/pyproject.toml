@@ -27,6 +27,7 @@ libs = ["wpiutil"]
 DataLog = "wpi/DataLog.h"
 DataLogReader = "wpi/DataLogReader.h"
 StackTrace = "wpi/StackTrace.h"
+Synchronization = "wpi/Synchronization.h"
 
 # wpi/sendable
 Sendable = "wpi/sendable/Sendable.h"
