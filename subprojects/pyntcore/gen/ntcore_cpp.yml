@@ -310,3 +310,36 @@ classes:
       TopicsOnly:
       KeepDuplicates:
       PollStorage:
+    inline_code: |
+      .def("__repr__", [](const PubSubOption& self) -> py::str {
+        const char * tname = "kNone";
+        switch (self.type) {
+        case NT_PUBSUB_PERIODIC:
+          tname = "kPeriodic";
+          break;
+        case NT_PUBSUB_SENDALL:
+          tname = "kSendAll";
+          break;
+        case NT_PUBSUB_TOPICSONLY:
+          tname = "kTopicsOnly";
+          break;
+        case NT_PUBSUB_POLLSTORAGE:
+          tname = "kPollStorage";
+          break;
+        case NT_PUBSUB_KEEPDUPLICATES:
+          tname = "kKeepDuplicates";
+          break;
+        }
+        return py::str("PubSubOption(type=PubSubOption.Type.{}, value={})")
+          .format(tname, self.value);
+      });
+
+      py::enum_<NT_PubSubOptionType>(cls_PubSubOption, "Type")
+        .value("kNone", (NT_PubSubOptionType)0)
+        .value("kPeriodic", NT_PUBSUB_PERIODIC)
+        .value("kSendAll", NT_PUBSUB_SENDALL)
+        .value("kTopicsOnly", NT_PUBSUB_TOPICSONLY)
+        .value("kPollStorage", NT_PUBSUB_POLLSTORAGE)
+        .value("kKeepDuplicates", NT_PUBSUB_KEEPDUPLICATES)
+
+
