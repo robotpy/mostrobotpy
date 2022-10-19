@@ -115,3 +115,8 @@ classes:
       .def_static("getFactoryByType", [](nt::NetworkTableType type) {
         return pyntcore::valueFactoryByType(type);
       })
+      .def("__repr__", [](const Value &self) -> py::str {
+          auto typestr = pyntcore::nttype2str(self.type());
+          auto valrepr = py::repr(pyntcore::ntvalue2py(self));
+          return py::str("<Value type={} value={}>").format(typestr, valrepr);
+      })

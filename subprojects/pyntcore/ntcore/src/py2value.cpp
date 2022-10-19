@@ -11,6 +11,35 @@
 
 namespace pyntcore {
 
+const char * nttype2str(NT_Type type) {
+  switch (type) {
+  case NT_BOOLEAN:
+    return "bool";
+  case NT_DOUBLE:
+    return "double";
+  case NT_STRING:
+    return "string";
+  case NT_RAW:
+    return "raw";
+  case NT_BOOLEAN_ARRAY:
+    return "bool[]";
+  case NT_DOUBLE_ARRAY:
+    return "double[]";
+  case NT_STRING_ARRAY:
+    return "string[]";
+  case NT_INTEGER:
+    return "int";
+  case NT_FLOAT:
+    return "float";
+  case NT_INTEGER_ARRAY:
+    return "int[]";
+  case NT_FLOAT_ARRAY:
+    return "float[]";
+  default:
+    return "invalid";
+  }
+}
+
 
 py::object ntvalue2py(const nt::Value &ntvalue) {
   auto &v = ntvalue.value();

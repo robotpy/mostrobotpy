@@ -139,8 +139,6 @@ functions:
     ignore: true
   RemoveConnectionListener:
     ignore: true
-  SetNetworkIdentity:
-    ignore: true
   GetNetworkMode:
     ignore: true
   StartLocal:
@@ -220,6 +218,15 @@ classes:
     methods:
       swap:
         ignore: true
+    inline_code: |
+      .def_readwrite("remote_port", &ConnectionInfo::remote_port)
+      .def_readwrite("last_update", &ConnectionInfo::last_update)
+      .def_readwrite("protocol_version", &ConnectionInfo::protocol_version)
+      .def("__repr__", [](const ConnectionInfo &self) -> py::str {
+        return py::str("<ConnectionInfo id={} addr={}:{} last_update={} protocol={}>")
+          .format(self.remote_id, self.remote_ip, self.remote_port, 
+                  self.last_update, self.protocol_version);
+      })
   TopicNotification:
     attributes:
       info:
@@ -232,6 +239,11 @@ classes:
             ignore: true
       swap:
         ignore: true
+    inline_code: |
+      .def("__repr__", [](const TopicNotification &self) {
+        return py::str("<TopicNotification topic_name=\"{}\" topic_type={} flags={}>")
+          .format(self.info.name, self.info.type_str, self.flags);
+      })
   ValueNotification:
     attributes:
       value:
@@ -244,6 +256,13 @@ classes:
             ignore: true
       swap:
         ignore: true
+    inline_code: |
+      .def_readwrite("flags", &ValueNotification::flags)
+      .def("__repr__", [](const ValueNotification &self) {
+        auto topicInfo = nt::GetTopicInfo(self.topic);
+        return py::str("<ValueNotification topic_name=\"{}\" topic_type={} flags={} value={}>")
+          .format(topicInfo.name, topicInfo.type_str, self.flags, py::repr(py::cast(self.value)));
+      })
   ConnectionNotification:
     attributes:
       connected:
@@ -257,6 +276,11 @@ classes:
             ignore: true
       swap:
         ignore: true
+    inline_code: |
+      .def("__repr__", [](const ConnectionNotification &self) -> py::str {
+        return py::str("<ConnectionNotification connected={} info={}>")
+          .format(self.connected, py::cast(self.conn));
+      })
   LogMessage:
     attributes:
       filename:

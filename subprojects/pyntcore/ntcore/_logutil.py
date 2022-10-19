@@ -6,6 +6,7 @@ from . import _ntcore
 
 import wpiutil.sync
 
+
 class NtLogForwarder:
     """
     Forwards ntcore's logger to python's logging system
@@ -40,7 +41,6 @@ class NtLogForwarder:
         self.lock = threading.Lock()
         self.poller = _ntcore._createLoggerPoller(instHandle)
         ntLogger = _ntcore._addPolledLogger(self.poller, minLevel, maxLevel)
-
 
         self.thread = threading.Thread(
             target=self._logging_thread,

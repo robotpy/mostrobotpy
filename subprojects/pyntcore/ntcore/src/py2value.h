@@ -5,6 +5,8 @@
 
 namespace pyntcore {
 
+const char * nttype2str(NT_Type type);
+
 py::object ntvalue2py(const nt::Value &ntvalue);
 
 nt::Value py2ntvalue(py::handle h);

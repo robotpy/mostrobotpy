@@ -78,7 +78,6 @@ classes:
             }, immediateNotify);
           }
       RemoveConnectionListener:
-      SetNetworkIdentity:
       GetNetworkMode:
       StartLocal:
         cpp_code: |
@@ -97,15 +96,15 @@ classes:
       StopServer:
       StartClient3:
         cpp_code: |
-          [](NetworkTableInstance * self) {
+          [](NetworkTableInstance * self, std::string_view identity) {
             pyntcore::attachLogging(self->GetHandle());
-            self->StartClient3();
+            self->StartClient3(identity);
           }
       StartClient4:
         cpp_code: |
-          [](NetworkTableInstance * self) {
+          [](NetworkTableInstance * self, std::string_view identity) {
             pyntcore::attachLogging(self->GetHandle());
-            self->StartClient4();
+            self->StartClient4(identity);
           }
       StopClient:
       SetServer:
