@@ -4,16 +4,11 @@
 
 from contextlib import contextmanager
 from threading import Condition
+import ntcore
 
 from ntcore._ntcore import ValueListenerFlags
 
-log_datefmt = "%H:%M:%S"
-log_format = "%(asctime)s:%(msecs)03d %(levelname)-8s: %(name)-8s: %(message)s"
-
 import logging
-
-logging.basicConfig(level=logging.DEBUG, format=log_format, datefmt=log_datefmt)
-
 
 logger = logging.getLogger("conftest")
 
@@ -26,8 +21,13 @@ from ntcore import NetworkTableInstance, ValueListener, MultiSubscriber
 #
 
 
+@pytest.fixture
+def cfg_logging(caplog):
+    caplog.set_level(logging.INFO)
+
+
 @pytest.fixture(scope="function")
-def nt():
+def nt(cfg_logging):
     instance = NetworkTableInstance.create()
     instance.startLocal()
 
@@ -35,17 +35,6 @@ def nt():
         yield instance
     finally:
         NetworkTableInstance.destroy(instance)
-
-
-@pytest.fixture(scope="function")
-def nt_flush(nt):
-    """Flushes NT key notifications"""
-
-    def _flush():
-        assert nt.waitForEntryListenerQueue(1.0)
-        assert nt.waitForConnectionListenerQueue(1.0)
-
-    return _flush
 
 
 #
@@ -100,23 +89,13 @@ class NtTestBase:
 
     def _wait_init_listener(self):
 
-        self.msub = MultiSubscriber(self._impl, ["/"])
-        self.vl = ValueListener(self.msub, ValueListenerFlags.kImmediate, self._wait_cb)
-        logger.info("wait init")
+        self.msub = MultiSubscriber(self._impl, [""])
+        self.vl = ValueListener(self.msub, 0, self._wait_cb)
 
-        # self._impl.addEntryListener(
-        #     "",
-        #     self._wait_cb,
-        #     NetworkTableInstance.NotifyFlags.NEW
-        #     | NetworkTableInstance.NotifyFlags.UPDATE
-        #     | NetworkTableInstance.NotifyFlags.DELETE
-        #     | NetworkTableInstance.NotifyFlags.FLAGS,
-        # )
-
-    def _wait_cb(self, *args):
-        logger.info('Wait callback, got: %s', args)
+    def _wait_cb(self, vn: ntcore.ValueNotification):
+        logger.info("wait-callback %s: %s", self.__class__.__name__, vn)
         with self._wait_lock:
-            self._wait += 1            
+            self._wait += 1
             self._wait_lock.notify()
 
     @contextmanager
@@ -136,16 +115,15 @@ class NtTestBase:
         logger.info("Waiting for %s changes", count)
 
         with self._wait_lock:
-            result, msg = (
-                self._wait_lock.wait_for(lambda: self._wait == count, 4),
-                "Timeout waiting for %s changes (got %s)" % (count, self._wait),
-            )
-            logger.info("expect_changes: %s %s", result, msg)
-            assert result, msg
+            self._wait_lock.wait_for(lambda: self._wait >= count, 4)
+            logger.info("expect_changes: %s == %s", self._wait, count)
+
+            msg = "Failed waiting for exactly %s changes (got %s)" % (count, self._wait)
+            assert self._wait == count, msg
 
 
 @pytest.fixture()
-def nt_server(request):
+def nt_server(request, cfg_logging):
     class NtServer(NtTestBase):
 
         _test_saved_port3 = None
@@ -159,11 +137,10 @@ def nt_server(request):
                 self.port3 = self._test_saved_port3
                 self.port4 = self._test_saved_port4
 
-            print("self.port", self.port3, self.port4)
-            self._impl.startServer(listen_address="127.0.0.1", port3=self.port3, port4=self.port4)
+            self._impl.startServer(
+                listen_address="127.0.0.1", port3=self.port3, port4=self.port4
+            )
 
-            # assert self._api.dispatcher.m_server_acceptor.waitForStart(timeout=1)
-            # self.port = self._api.dispatcher.m_server_acceptor.m_port
             self._test_saved_port3 = self.port3
             self._test_saved_port4 = self.port4
 
@@ -179,8 +156,8 @@ def nt_server(request):
 def nt_client3(request, nt_server):
     class NtClient(NtTestBase):
         def start_test(self):
+            self._impl.startClient3("C3")
             self._impl.setServer("127.0.0.1", nt_server.port3)
-            self._impl.startClient3()
 
     client = NtClient()
     client._init_client()
@@ -194,9 +171,8 @@ def nt_client3(request, nt_server):
 def nt_client4(request, nt_server):
     class NtClient(NtTestBase):
         def start_test(self):
-            self._impl.setNetworkIdentity("C4")
+            self._impl.startClient4("C4")
             self._impl.setServer("127.0.0.1", nt_server.port4)
-            self._impl.startClient4()
 
     client = NtClient()
     client._init_client()
