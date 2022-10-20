@@ -98,7 +98,6 @@ def do(nt1, nt2, t):
     assert t2.getStringArray("sa", None) == ["t", "s"]
 
 
-@pytest.mark.xfail(reason="ntcore ValueListener bug")
 def test_basic(nt_live):
 
     nt_server, nt_client = nt_live

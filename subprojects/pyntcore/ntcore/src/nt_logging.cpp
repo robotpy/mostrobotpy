@@ -4,12 +4,10 @@
 namespace pyntcore {
 
 void attachLogging(NT_Inst instance) {
-    py::gil_scoped_acquire gil;
     py::module::import("ntcore._logutil").attr("_attach")(instance);
 }
 
 void detachLogging(NT_Inst instance) {
-    py::gil_scoped_acquire gil;
     py::module::import("ntcore._logutil").attr("_detach")(instance);
 }
 

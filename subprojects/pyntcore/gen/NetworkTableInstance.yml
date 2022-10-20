@@ -38,6 +38,7 @@ classes:
         cpp_code: |
           [](NetworkTableInstance * self) {
             pyntcore::detachLogging(self->GetHandle());
+            py::gil_scoped_release release;
             NetworkTableInstance::Destroy(*self);
           }
       GetHandle:
@@ -73,7 +74,8 @@ classes:
           [](NetworkTableInstance * self,
              std::function<void(bool, const ConnectionInfo &)> listener,
              bool immediateNotify) {
-            self->AddConnectionListener([listener](const ConnectionNotification& event){
+            py::gil_scoped_release release;
+            return self->AddConnectionListener([listener](const ConnectionNotification& event){
               listener(event.connected, event.conn);
             }, immediateNotify);
           }
@@ -83,6 +85,7 @@ classes:
         cpp_code: |
           [](NetworkTableInstance * self) {
             pyntcore::attachLogging(self->GetHandle());
+            py::gil_scoped_release release;
             self->StartLocal();
           }
       StopLocal:
@@ -91,6 +94,7 @@ classes:
           [](NetworkTableInstance * self, std::string_view persist_filename,  const char* listen_address,
              unsigned int port3, unsigned int port4) {
             pyntcore::attachLogging(self->GetHandle());
+            py::gil_scoped_release release;
             self->StartServer(persist_filename, listen_address, port3, port4);
           }
       StopServer:
@@ -98,12 +102,14 @@ classes:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view identity) {
             pyntcore::attachLogging(self->GetHandle());
+            py::gil_scoped_release release;
             self->StartClient3(identity);
           }
       StartClient4:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view identity) {
             pyntcore::attachLogging(self->GetHandle());
+            py::gil_scoped_release release;
             self->StartClient4(identity);
           }
       StopClient:
@@ -127,3 +133,19 @@ classes:
       RemoveLogger:
       operator==:
       operator!=:
+    inline_code: |
+      .def("configPythonLogging", [](NetworkTableInstance * self, 
+        NetworkTableInstance::LogLevel minLevel, NetworkTableInstance::LogLevel maxLevel, py::str logName) {
+          py::module::import("ntcore._logutil").attr("_config_logging")(self->GetHandle(), minLevel, maxLevel, logName);
+        }, py::kw_only(),
+          py::arg("min") = NetworkTableInstance::LogLevel::kLogInfo,
+          py::arg("max") = NetworkTableInstance::LogLevel::kLogCritical,
+          py::arg("name") = "nt",
+        py::doc("Configure python logging for this instance.\n"
+                "\n"
+                ":param min:  Minimum NT level to log\n"
+                ":param max:  Maximum NT level to log\n"
+                ":param name: Name of python logger\n"
+                "\n"
+                ".. note:: This must be called before the instance is started")
+      )

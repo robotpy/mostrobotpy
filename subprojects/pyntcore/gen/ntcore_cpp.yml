@@ -176,7 +176,9 @@ functions:
   IsConnected:
     ignore: true
   Now:
+    internal: true
   SetNow:
+    internal: true
   GetTypeFromString:
     ignore: true
   GetStringFromType:

@@ -86,8 +86,8 @@ from ._ntcore import (
     ValueListenerFlags,
     ValueListenerPoller,
     ValueNotification,
-    now,
-    setNow,
+    _now,
+    _setNow,
 )
 
 __all__ = [
@@ -175,8 +175,8 @@ __all__ = [
     "ValueListenerFlags",
     "ValueListenerPoller",
     "ValueNotification",
-    "now",
-    "setNow",
+    "_now",
+    "_setNow",
 ]
 
 try:

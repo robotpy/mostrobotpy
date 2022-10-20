@@ -7,6 +7,10 @@ from . import _ntcore
 import wpiutil.sync
 
 
+class InstanceAlreadyStartedError(Exception):
+    pass
+
+
 class NtLogForwarder:
     """
     Forwards ntcore's logger to python's logging system
@@ -14,15 +18,38 @@ class NtLogForwarder:
 
     _instlock = threading.Lock()
     _instances = {}
+    _instcfg = {}
 
     @classmethod
-    def attach(cls, instHandle):
-        # TODO: allow customizing the name, log levels?
+    def config_logging(
+        cls,
+        instHandle: int,
+        minLevel: _ntcore.NetworkTableInstance.LogLevel,
+        maxLevel: _ntcore.NetworkTableInstance.LogLevel,
+        logName: str,
+    ):
+        with cls._instlock:
+            if instHandle in cls._instances:
+                raise InstanceAlreadyStartedError(
+                    "cannot configure logging after instance has been started"
+                )
+
+            cls._instcfg[instHandle] = (minLevel, maxLevel, logName)
+
+    @classmethod
+    def attach(cls, instHandle: int):
         with cls._instlock:
             if instHandle in cls._instances:
                 return
 
-            cls._instances[instHandle] = cls(instHandle, "nt")
+            default_cfg = (
+                _ntcore.NetworkTableInstance.LogLevel.kLogInfo,
+                _ntcore.NetworkTableInstance.LogLevel.kLogCritical,
+                "nt",
+            )
+            minLevel, maxLevel, logName = cls._instcfg.get(instHandle, default_cfg)
+
+            cls._instances[instHandle] = cls(instHandle, logName, minLevel, maxLevel)
 
     @classmethod
     def detach(cls, instHandle):
@@ -33,10 +60,10 @@ class NtLogForwarder:
 
     def __init__(
         self,
-        instHandle,
+        instHandle: int,
         logName: str,
-        minLevel=_ntcore.NetworkTableInstance.LogLevel.kLogDebug,
-        maxLevel=_ntcore.NetworkTableInstance.LogLevel.kLogCritical,
+        minLevel: _ntcore.NetworkTableInstance.LogLevel,
+        maxLevel: _ntcore.NetworkTableInstance.LogLevel,
     ):
         self.lock = threading.Lock()
         self.poller = _ntcore._createLoggerPoller(instHandle)
@@ -59,28 +86,29 @@ class NtLogForwarder:
         _readLoggerQueue = _ntcore._readLoggerQueue
         _waitForObject = wpiutil.sync.waitForObject
 
-        while True:
-            if not _waitForObject(poller):
-                break
+        try:
+            while True:
+                if not _waitForObject(poller):
+                    break
 
-            messages = _readLoggerQueue(poller)
-            if not messages:
-                continue
+                messages = _readLoggerQueue(poller)
+                if not messages:
+                    continue
 
-            for msg in messages:
-                if logger.isEnabledFor(msg.level):
-                    lr = logger.makeRecord(
-                        logName,
-                        msg.level,
-                        msg.filename,
-                        msg.line,
-                        "%s",
-                        (msg.message,),
-                        None,
-                    )
-                    logger.handle(lr)
-
-        _ntcore._removeLogger(ntLogger)
+                for msg in messages:
+                    if logger.isEnabledFor(msg.level):
+                        lr = logger.makeRecord(
+                            logName,
+                            msg.level,
+                            msg.filename,
+                            msg.line,
+                            "%s",
+                            (msg.message,),
+                            None,
+                        )
+                        logger.handle(lr)
+        finally:
+            _ntcore._removeLogger(ntLogger)
 
     def destroy(self):
         with self.lock:
@@ -92,3 +120,4 @@ class NtLogForwarder:
 
 _attach = NtLogForwarder.attach
 _detach = NtLogForwarder.detach
+_config_logging = NtLogForwarder.config_logging
