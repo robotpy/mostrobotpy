@@ -101,39 +101,39 @@ sources = [
     "hal/simulation/resethandles.cpp",
 ]
 
-generate = [
-    # hal/simulation
-    { AccelerometerData = "hal/simulation/AccelerometerData.h" },
-    { AddressableLEDData = "hal/simulation/AddressableLEDData.h" },
-    { AnalogGyroData = "hal/simulation/AnalogGyroData.h" },
-    { AnalogInData = "hal/simulation/AnalogInData.h" },
-    { AnalogOutData = "hal/simulation/AnalogOutData.h" },
-    { AnalogTriggerData = "hal/simulation/AnalogTriggerData.h" },
-    { CTREPCMData = "hal/simulation/CTREPCMData.h" },
-    # { CanData = "hal/simulation/CanData.h" },
-    { DIOData = "hal/simulation/DIOData.h" },
-    { DigitalPWMData = "hal/simulation/DigitalPWMData.h" },
-    { DriverStationData = "hal/simulation/DriverStationData.h" },
-    { DutyCycleData = "hal/simulation/DutyCycleData.h" },
-    { EncoderData = "hal/simulation/EncoderData.h" },
-    # { I2CData = "hal/simulation/I2CData.h" },
-    { MockHooks = "hal/simulation/MockHooks.h" },
-    { NotifierData = "hal/simulation/NotifierData.h" },
-    # { NotifyListener = "hal/simulation/NotifyListener.h" },
-    { PWMData = "hal/simulation/PWMData.h" },
-    { PowerDistributionData = "hal/simulation/PowerDistributionData.h" },
-    { REVPHData = "hal/simulation/REVPHData.h" },
-    { RelayData = "hal/simulation/RelayData.h" },
-    { RoboRioData = "hal/simulation/RoboRioData.h" },
-    { SPIAccelerometerData = "hal/simulation/SPIAccelerometerData.h" },
-    # { SPIData = "hal/simulation/SPIData.h" },
-    # { SimCallbackRegistry = "hal/simulation/SimCallbackRegistry.h" },
-    # { SimDataValue = "hal/simulation/SimDataValue.h" },
-    { SimDeviceData = "hal/simulation/SimDeviceData.h" },
-]
-
 generation_data = "gen/simulation"
 depends = ["wpiutil", "wpiHal"]
+
+[tool.robotpy-build.wrappers."hal.simulation".autogen_headers]
+AccelerometerData = "hal/simulation/AccelerometerData.h"
+AddressableLEDData = "hal/simulation/AddressableLEDData.h"
+AnalogGyroData = "hal/simulation/AnalogGyroData.h"
+AnalogInData = "hal/simulation/AnalogInData.h"
+AnalogOutData = "hal/simulation/AnalogOutData.h"
+AnalogTriggerData = "hal/simulation/AnalogTriggerData.h"
+CTREPCMData = "hal/simulation/CTREPCMData.h"
+# CanData = "hal/simulation/CanData.h"
+DIOData = "hal/simulation/DIOData.h"
+DigitalPWMData = "hal/simulation/DigitalPWMData.h"
+DriverStationData = "hal/simulation/DriverStationData.h"
+DutyCycleData = "hal/simulation/DutyCycleData.h"
+EncoderData = "hal/simulation/EncoderData.h"
+# I2CData = "hal/simulation/I2CData.h"
+MockHooks = "hal/simulation/MockHooks.h"
+NotifierData = "hal/simulation/NotifierData.h"
+# NotifyListener = "hal/simulation/NotifyListener.h"
+PWMData = "hal/simulation/PWMData.h"
+PowerDistributionData = "hal/simulation/PowerDistributionData.h"
+REVPHData = "hal/simulation/REVPHData.h"
+RelayData = "hal/simulation/RelayData.h"
+Reset = "hal/simulation/Reset.h"
+RoboRioData = "hal/simulation/RoboRioData.h"
+SPIAccelerometerData = "hal/simulation/SPIAccelerometerData.h"
+# SPIData = "hal/simulation/SPIData.h"
+# SimCallbackRegistry = "hal/simulation/SimCallbackRegistry.h"
+# SimDataValue = "hal/simulation/SimDataValue.h"
+SimDeviceData = "hal/simulation/SimDeviceData.h"
+
 
 [tool.robotpy-build.metadata]
 name = "robotpy-hal"
