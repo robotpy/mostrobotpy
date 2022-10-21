@@ -1,0 +1,20 @@
+---
+name: dist
+
+on:
+  pull_request:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  ci:
+    uses: robotpy/build-actions/.github/workflows/package-ci.yml@v2022
+    secrets:
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_KEY: ${{ secrets.SSH_KEY }}
+      SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+      META_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      RTD_TOKEN: ${{ secrets.RTD_TOKEN }}
+      RTD_WEBHOOK: ${{ secrets.RTD_WEBHOOK }}
+      PYPI_API_TOKEN: ${{ secrets.PYPI_PASSWORD }}

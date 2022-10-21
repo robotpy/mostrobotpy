@@ -1,0 +1,40 @@
+[build-system]
+requires = [
+    "robotpy-build<2023.0.0,>=2022.2.2",
+    "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
+]
+
+[tool.robotpy-build]
+base_package = "wpinet"
+
+[tool.robotpy-build.wrappers."wpinet"]
+name = "wpinet"
+sources = [
+    "wpinet/src/main.cpp",
+]
+
+depends = ["wpiutil"]
+generation_data = "gen"
+
+[tool.robotpy-build.wrappers."wpinet".maven_lib_download]
+artifact_id = "wpinet-cpp"
+group_id = "edu.wpi.first.wpinet"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2023.1.1-alpha-1"
+
+libs = ["wpinet"]
+
+[tool.robotpy-build.wrappers."wpinet".autogen_headers]
+# wpinet
+PortForwarder = "wpinet/PortForwarder.h"
+
+[tool.robotpy-build.metadata]
+name = "robotpy-wpinet"
+description = "Binary wrapper for FRC wpinet library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-wpinet"
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
+]
