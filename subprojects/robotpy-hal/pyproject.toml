@@ -11,8 +11,8 @@ base_package = "hal"
 [tool.robotpy-build.wrappers."hal".maven_lib_download]
 artifact_id = "hal-cpp"
 group_id = "edu.wpi.first.hal"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2023.0.0-alpha-1-120-ga791470"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2023.1.1-alpha-1"
 
 libs = ["wpiHal"]
 
