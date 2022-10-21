@@ -3,6 +3,7 @@
 # A client that publishes some synchronized values periodically
 
 import argparse
+import os
 from os.path import basename
 import logging
 import time
@@ -19,7 +20,7 @@ if __name__ == "__main__":
     # Initialize NT4 client
     inst = ntcore.NetworkTableInstance.getDefault()
 
-    identity = basename(__file__)
+    identity = f"{basename(__file__)}-{os.getpid()}"
     inst.startClient4(identity)
 
     inst.setServer(args.ip)
