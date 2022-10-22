@@ -18,6 +18,7 @@ classes:
       Rotation:
       Inverse:
       operator*:
+      operator/:
       operator+:
       operator==:
       operator!=:

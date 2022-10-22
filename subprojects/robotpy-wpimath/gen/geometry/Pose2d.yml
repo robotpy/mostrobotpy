@@ -33,6 +33,8 @@ classes:
       operator-:
       operator==:
       operator!=:
+      operator*:
+      operator/:
 
 inline_code: |
   cls_Pose2d

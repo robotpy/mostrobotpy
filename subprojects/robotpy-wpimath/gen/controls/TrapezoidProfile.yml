@@ -7,13 +7,6 @@ classes:
     - units::second_t
     - units::radians_per_second
     - units::radians_per_second_squared
-    typealias:
-    - Distance_t = units::unit_t<Distance>
-    - Velocity = units::compound_unit<Distance, units::inverse<units::seconds>>
-    - Velocity_t = units::unit_t<Velocity>
-    - Acceleration = units::compound_unit<Velocity, units::inverse<units::seconds>>
-    - Acceleration_t = units::unit_t<Acceleration>
-    - State = typename frc::TrapezoidProfile<Distance>::State
     template_params:
     - Distance
     doc: |

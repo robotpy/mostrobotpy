@@ -23,6 +23,7 @@ classes:
       Y:
       Inverse:
       operator*:
+      operator/:
       operator==:
       operator!=:
       operator+:

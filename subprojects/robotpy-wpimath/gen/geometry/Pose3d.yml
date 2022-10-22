@@ -20,6 +20,8 @@ classes:
       Y:
       Z:
       Rotation:
+      operator*:
+      operator/:
       TransformBy:
       RelativeTo:
       Exp:
