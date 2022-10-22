@@ -24,6 +24,7 @@ classes:
     attributes:
       count:
       axes:
+      raw:
   HAL_JoystickPOVs:
     shared_ptr: false
     attributes:

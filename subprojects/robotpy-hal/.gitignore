@@ -12,6 +12,7 @@ __pycache__
 /hal/lib
 /hal/rpy-include
 /hal/_init_wpiHal.py
+/hal/py.typed
 /hal/pkgcfg.py
 /hal/version.py
 /hal/simulation/_init_simulation.py
