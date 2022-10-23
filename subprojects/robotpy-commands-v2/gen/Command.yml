@@ -30,7 +30,7 @@ functions:
 classes:
   Command:
     force_type_casters:
-    - wpi::span
+    - std::span
     - std::function
     - units::second_t
     shared_ptr: true

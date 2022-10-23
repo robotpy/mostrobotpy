@@ -156,7 +156,7 @@ class Command {
    /*
   virtual SequentialCommandGroup BeforeStarting(
       std::function<void()> toRun,
-      wpi::span<Subsystem* const> requirements = {}) &&;
+      std::span<Subsystem* const> requirements = {}) &&;
       */
 
   /**
@@ -182,7 +182,7 @@ class Command {
    /*
   virtual SequentialCommandGroup AndThen(
       std::function<void()> toRun,
-      wpi::span<Subsystem* const> requirements = {}) &&;
+      std::span<Subsystem* const> requirements = {}) &&;
       */
 
   /**

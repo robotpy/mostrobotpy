@@ -167,7 +167,7 @@ void CommandScheduler::Schedule(std::shared_ptr<Command> command) {
 }
 
 void CommandScheduler::Schedule(bool interruptible,
-                                wpi::span<std::shared_ptr<Command>> commands) {
+                                std::span<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Schedule(interruptible, command);
   }
@@ -180,7 +180,7 @@ void CommandScheduler::Schedule(bool interruptible,
   }
 }
 
-void CommandScheduler::Schedule(wpi::span<std::shared_ptr<Command>> commands) {
+void CommandScheduler::Schedule(std::span<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Schedule(true, command);
   }
@@ -291,7 +291,7 @@ void CommandScheduler::RegisterSubsystem(
 }
 
 void CommandScheduler::RegisterSubsystem(
-    wpi::span<Subsystem*> subsystems) {
+    std::span<Subsystem*> subsystems) {
   for (auto* subsystem : subsystems) {
     RegisterSubsystem(subsystem);
   }
@@ -305,7 +305,7 @@ void CommandScheduler::UnregisterSubsystem(
 }
 
 void CommandScheduler::UnregisterSubsystem(
-    wpi::span<Subsystem*> subsystems) {
+    std::span<Subsystem*> subsystems) {
   for (auto* subsystem : subsystems) {
     UnregisterSubsystem(subsystem);
   }
@@ -363,7 +363,7 @@ void CommandScheduler::Cancel(Command *command) {
   Cancel(found->first);
 }
 
-void CommandScheduler::Cancel(wpi::span<std::shared_ptr<Command>> commands) {
+void CommandScheduler::Cancel(std::span<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Cancel(command);
   }
@@ -393,7 +393,7 @@ units::second_t CommandScheduler::TimeSinceScheduled(
   }
 }
 bool CommandScheduler::IsScheduled(
-    wpi::span<const std::shared_ptr<Command>> commands) const {
+    std::span<const std::shared_ptr<Command>> commands) const {
   for (auto command : commands) {
     if (!IsScheduled(command)) {
       return false;

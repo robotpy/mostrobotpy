@@ -20,7 +20,7 @@ bool CommandGroupBase::RequireUngrouped(const Command* command) {
 }
 
 bool CommandGroupBase::RequireUngrouped(
-    wpi::span<std::shared_ptr<Command>> commands) {
+    std::span<std::shared_ptr<Command>> commands) {
   bool allUngrouped = true;
   for (auto&& command : commands) {
     allUngrouped &= !command.get()->IsGrouped();

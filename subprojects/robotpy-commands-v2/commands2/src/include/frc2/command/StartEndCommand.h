@@ -42,7 +42,7 @@ class StartEndCommand : public CommandBase {
    * @param requirements the subsystems required by this command
    */
   StartEndCommand(std::function<void()> onInit, std::function<void()> onEnd,
-                  wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                  std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   StartEndCommand(StartEndCommand&& other) = default;
 

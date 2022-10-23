@@ -35,7 +35,7 @@ class CommandBase : public Command,
    *
    * @param requirements the Subsystem requirements to add
    */
-  void AddRequirements(wpi::span<std::shared_ptr<Subsystem>> requirements);
+  void AddRequirements(std::span<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Adds the specified Subsystem requirements to the command.

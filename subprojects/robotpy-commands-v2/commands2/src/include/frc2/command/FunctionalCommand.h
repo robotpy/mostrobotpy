@@ -52,7 +52,7 @@ class FunctionalCommand : public CommandBase {
                     std::function<void()> onExecute,
                     std::function<void(bool)> onEnd,
                     std::function<bool()> isFinished,
-                    wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                    std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   FunctionalCommand(FunctionalCommand&& other) = default;
 

@@ -27,7 +27,7 @@ class ProxyScheduleCommand
    *
    * @param toSchedule the commands to schedule
    */
-  explicit ProxyScheduleCommand(wpi::span<std::shared_ptr<Command>> toSchedule);
+  explicit ProxyScheduleCommand(std::span<std::shared_ptr<Command>> toSchedule);
 
   explicit ProxyScheduleCommand(std::shared_ptr<Command> toSchedule);
 

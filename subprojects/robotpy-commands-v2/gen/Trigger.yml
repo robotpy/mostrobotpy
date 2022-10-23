@@ -18,7 +18,7 @@ classes:
             ignore: true
           std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       WhileActiveContinous:
         overloads:
           std::shared_ptr<Command>, bool:
@@ -26,7 +26,7 @@ classes:
             ignore: true
           std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       WhileActiveOnce:
         overloads:
           std::shared_ptr<Command>, bool:
@@ -39,7 +39,7 @@ classes:
             ignore: true
           std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       ToggleWhenActive:
         overloads:
           std::shared_ptr<Command>, bool:

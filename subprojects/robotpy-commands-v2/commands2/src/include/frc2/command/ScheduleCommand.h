@@ -26,7 +26,7 @@ class ScheduleCommand : public CommandBase {
    *
    * @param toSchedule the commands to schedule
    */
-  explicit ScheduleCommand(wpi::span<std::shared_ptr<Command>> toSchedule);
+  explicit ScheduleCommand(std::span<std::shared_ptr<Command>> toSchedule);
 
   explicit ScheduleCommand(std::shared_ptr<Command> toSchedule);
 

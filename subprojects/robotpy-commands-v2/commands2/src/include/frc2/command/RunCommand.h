@@ -39,7 +39,7 @@ class RunCommand : public CommandBase {
    * @param requirements the subsystems to require
    */
   explicit RunCommand(std::function<void()> toRun,
-                      wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                      std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   RunCommand(RunCommand&& other) = default;
 

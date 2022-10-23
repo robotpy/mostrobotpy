@@ -34,7 +34,7 @@ Trigger Trigger::WhenActive(std::shared_ptr<Command> command, bool interruptible
 // }
 
 Trigger Trigger::WhenActive(std::function<void()> toRun,
-                            wpi::span<std::shared_ptr<Subsystem>> requirements) {
+                            std::span<std::shared_ptr<Subsystem>> requirements) {
   return WhenActive(InstantCommand(std::move(toRun), requirements));
 }
 
@@ -62,7 +62,7 @@ Trigger Trigger::WhileActiveContinous(std::shared_ptr<Command> command, bool int
 // }
 
 Trigger Trigger::WhileActiveContinous(
-    std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements) {
+    std::function<void()> toRun, std::span<std::shared_ptr<Subsystem>> requirements) {
   return WhileActiveContinous(InstantCommand(std::move(toRun), requirements));
 }
 
@@ -103,7 +103,7 @@ Trigger Trigger::WhenInactive(std::shared_ptr<Command> command, bool interruptib
 // }
 
 Trigger Trigger::WhenInactive(std::function<void()> toRun,
-                              wpi::span<std::shared_ptr<Subsystem>> requirements) {
+                              std::span<std::shared_ptr<Subsystem>> requirements) {
   return WhenInactive(InstantCommand(std::move(toRun), requirements));
 }
 

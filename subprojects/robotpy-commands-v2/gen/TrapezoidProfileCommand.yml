@@ -16,7 +16,7 @@ classes:
         overloads:
           frc::TrapezoidProfile<Distance>, std::function<void ( State )>, std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
-          frc::TrapezoidProfile<Distance>, std::function<void ( State )>, wpi::span<std::shared_ptr<Subsystem>>:
+          frc::TrapezoidProfile<Distance>, std::function<void ( State )>, std::span<std::shared_ptr<Subsystem>>:
             param_override:
               output:
                 x_type: std::function<void(State)>

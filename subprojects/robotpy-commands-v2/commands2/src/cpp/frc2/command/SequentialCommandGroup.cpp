@@ -77,7 +77,7 @@ void SequentialCommandGroup::AddCommands(
 
 std::shared_ptr<SequentialCommandGroup> frc2::SequentialCommandGroup_BeforeStarting(
   std::shared_ptr<SequentialCommandGroup> self,
-    std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements) {
+    std::function<void()> toRun, std::span<std::shared_ptr<Subsystem>> requirements) {
   // store all the commands
   std::vector<std::shared_ptr<Command>> tmp;
   tmp.emplace_back(
@@ -99,7 +99,7 @@ std::shared_ptr<SequentialCommandGroup> frc2::SequentialCommandGroup_BeforeStart
 
 std::shared_ptr<SequentialCommandGroup> frc2::SequentialCommandGroup_AndThen(
     std::shared_ptr<SequentialCommandGroup> self,
-    std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements) {
+    std::function<void()> toRun, std::span<std::shared_ptr<Subsystem>> requirements) {
   std::vector<std::shared_ptr<Command>> tmp;
   tmp.emplace_back(
       std::make_shared<InstantCommand>(std::move(toRun), requirements));

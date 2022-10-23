@@ -70,7 +70,7 @@ SequentialCommandGroup Command::BeforeStarting(
 
 /*
 SequentialCommandGroup Command::BeforeStarting(
-    std::function<void()> toRun, wpi::span<Subsystem* const> requirements) && {
+    std::function<void()> toRun, std::span<Subsystem* const> requirements) && {
   std::vector<std::unique_ptr<Command>> temp;
   temp.emplace_back(
       std::make_unique<InstantCommand>(std::move(toRun), requirements));
@@ -90,7 +90,7 @@ SequentialCommandGroup Command::AndThen(
 
 /*
 SequentialCommandGroup Command::AndThen(
-    std::function<void()> toRun, wpi::span<Subsystem* const> requirements) && {
+    std::function<void()> toRun, std::span<Subsystem* const> requirements) && {
   std::vector<std::unique_ptr<Command>> temp;
   temp.emplace_back(std::move(*this).TransferOwnership());
   temp.emplace_back(

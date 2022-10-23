@@ -54,7 +54,7 @@ class PIDCommand : public CommandBase {
              std::function<double()> measurementSource,
              std::function<double()> setpointSource,
              std::function<void(double)> useOutput,
-             wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+             std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Creates a new PIDCommand, which controls the given output with a
@@ -84,7 +84,7 @@ class PIDCommand : public CommandBase {
   PIDCommand(PIDController controller,
              std::function<double()> measurementSource, double setpoint,
              std::function<void(double)> useOutput,
-             wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+             std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   PIDCommand(PIDCommand&& other) = default;
 

@@ -47,7 +47,7 @@ class CommandGroupBase : public CommandBase {
    * @return True if all the commands are ungrouped.
    */
   static bool RequireUngrouped(
-      wpi::span<std::shared_ptr<Command>> commands);
+      std::span<std::shared_ptr<Command>> commands);
 
   /**
    * Requires that the specified commands not have been already allocated to a

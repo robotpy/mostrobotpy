@@ -103,7 +103,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhenActive(std::function<void()> toRun,
-                     wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                     std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started repeatedly while the trigger is active, and
@@ -163,7 +163,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhileActiveContinous(std::function<void()> toRun,
-                               wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                               std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started when the trigger becomes active, and
@@ -263,7 +263,7 @@ class Trigger {
    * @param requirements the required subsystems.
    */
   Trigger WhenInactive(std::function<void()> toRun,
-                       wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                       std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to start when the trigger becomes active, and be canceled

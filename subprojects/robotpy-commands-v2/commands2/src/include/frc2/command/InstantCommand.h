@@ -38,7 +38,7 @@ class InstantCommand : public CommandBase {
    * @param requirements the subsystems required by this command
    */
   explicit InstantCommand(std::function<void()> toRun,
-                          wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                          std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   InstantCommand(InstantCommand&& other) = default;
 

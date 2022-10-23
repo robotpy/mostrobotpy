@@ -167,7 +167,7 @@ class SwerveControllerCommand
       std::function<frc::Rotation2d()> desiredRotation,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+      std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Constructs a new SwerveControllerCommand that when executed will follow the
@@ -205,7 +205,7 @@ class SwerveControllerCommand
       frc::ProfiledPIDController<units::radians> thetaController,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+      std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   void Initialize() override;
 

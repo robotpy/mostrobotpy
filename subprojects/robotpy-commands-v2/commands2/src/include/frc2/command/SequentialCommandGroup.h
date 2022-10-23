@@ -88,12 +88,12 @@ class SequentialCommandGroup
 
   // std::shared_ptr<Subsystem> BeforeStarting(
   //     std::function<void()> toRun,
-  //     wpi::span<std::shared_ptr<Subsystem>> requirements = {})
+  //     std::span<std::shared_ptr<Subsystem>> requirements = {})
   //     override;
 
   // std::shared_ptr<Subsystem> AndThen(
   //     std::function<void()> toRun,
-  //     wpi::span<std::shared_ptr<Subsystem>> requirements = {})
+  //     std::span<std::shared_ptr<Subsystem>> requirements = {})
   //     override;
 
  public:
@@ -107,10 +107,10 @@ class SequentialCommandGroup
 
 std::shared_ptr<SequentialCommandGroup> SequentialCommandGroup_BeforeStarting(
   std::shared_ptr<SequentialCommandGroup> self,
-    std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements);
+    std::function<void()> toRun, std::span<std::shared_ptr<Subsystem>> requirements);
 std::shared_ptr<SequentialCommandGroup> SequentialCommandGroup_AndThen(
     std::shared_ptr<SequentialCommandGroup> self,
-    std::function<void()> toRun, wpi::span<std::shared_ptr<Subsystem>> requirements);
+    std::function<void()> toRun, std::span<std::shared_ptr<Subsystem>> requirements);
 
 }  // namespace frc2
 

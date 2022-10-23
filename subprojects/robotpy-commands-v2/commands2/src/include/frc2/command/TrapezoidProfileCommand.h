@@ -56,7 +56,7 @@ public:
    */
   TrapezoidProfileCommand(frc::TrapezoidProfile<Distance> profile,
                           std::function<void(State)> output,
-                          wpi::span<std::shared_ptr<Subsystem>> requirements = {})
+                          std::span<std::shared_ptr<Subsystem>> requirements = {})
       : m_profile(profile), m_output(output) {
     this->AddRequirements(requirements);
   }

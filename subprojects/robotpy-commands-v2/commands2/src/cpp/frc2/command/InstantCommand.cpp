@@ -13,7 +13,7 @@ InstantCommand::InstantCommand(std::function<void()> toRun,
 }
 
 InstantCommand::InstantCommand(std::function<void()> toRun,
-                               wpi::span<std::shared_ptr<Subsystem>> requirements)
+                               std::span<std::shared_ptr<Subsystem>> requirements)
     : m_toRun{std::move(toRun)} {
   AddRequirements(requirements);
 }

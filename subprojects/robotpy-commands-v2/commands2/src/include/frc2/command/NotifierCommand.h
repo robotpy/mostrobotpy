@@ -45,7 +45,7 @@ class NotifierCommand : public CommandBase {
    * @param requirements the subsystems required by this command
    */
   NotifierCommand(std::function<void()> toRun, units::second_t period,
-                  wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                  std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   NotifierCommand(NotifierCommand&& other);
 

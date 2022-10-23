@@ -17,13 +17,13 @@ classes:
             ( double )>, std::initializer_list<std::shared_ptr<Subsystem>>
           : ignore: true
           ? PIDController, std::function<double ( )>, std::function<double ( )>, std::function<void
-            ( double )>, wpi::span<std::shared_ptr<Subsystem>>
+            ( double )>, std::span<std::shared_ptr<Subsystem>>
           :
           ? PIDController, std::function<double ( )>, double, std::function<void (
             double )>, std::initializer_list<std::shared_ptr<Subsystem>>
           : ignore: true
           ? PIDController, std::function<double ( )>, double, std::function<void (
-            double )>, wpi::span<std::shared_ptr<Subsystem>>
+            double )>, std::span<std::shared_ptr<Subsystem>>
           :
       Initialize:
       Execute:

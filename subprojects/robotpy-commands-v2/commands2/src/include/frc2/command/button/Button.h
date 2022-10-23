@@ -79,7 +79,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhenPressed(std::function<void()> toRun,
-                     wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                     std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started repeatedly while the button is pressed, and
@@ -125,7 +125,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhileHeld(std::function<void()> toRun,
-                   wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                   std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to be started when the button is pressed, and canceled
@@ -199,7 +199,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhenReleased(std::function<void()> toRun,
-                      wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                      std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to start when the button is pressed, and be canceled when

@@ -20,7 +20,7 @@ void CommandBase::AddRequirements(
   m_requirements.insert(requirements.begin(), requirements.end());
 }
 
-void CommandBase::AddRequirements(wpi::span<std::shared_ptr<Subsystem>> requirements) {
+void CommandBase::AddRequirements(std::span<std::shared_ptr<Subsystem>> requirements) {
   m_requirements.insert(requirements.begin(), requirements.end());
 }
 

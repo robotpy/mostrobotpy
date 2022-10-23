@@ -16,7 +16,7 @@ classes:
   SequentialCommandGroup:
     shared_ptr: true
     force_type_casters:
-    - wpi::span
+    - std::span
     - std::function
     attributes:
       m_commands:

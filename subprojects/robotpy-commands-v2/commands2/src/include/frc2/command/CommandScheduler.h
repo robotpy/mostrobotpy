@@ -97,7 +97,7 @@ class CommandScheduler final : public nt::NTSendable,
    * @param interruptible whether the commands should be interruptible
    * @param commands      the commands to schedule
    */
-  void Schedule(bool interruptible, wpi::span<std::shared_ptr<Command>> commands);
+  void Schedule(bool interruptible, std::span<std::shared_ptr<Command>> commands);
 
   /**
    * Schedules multiple commands for execution.  Does nothing if the command is
@@ -117,7 +117,7 @@ class CommandScheduler final : public nt::NTSendable,
    *
    * @param commands the commands to schedule
    */
-  void Schedule(wpi::span<std::shared_ptr<Command>> commands);
+  void Schedule(std::span<std::shared_ptr<Command>> commands);
 
   /**
    * Schedules multiple commands for execution, with interruptible defaulted to
@@ -165,10 +165,10 @@ class CommandScheduler final : public nt::NTSendable,
   void UnregisterSubsystem(Subsystem* subsystem);
 
   void RegisterSubsystem(std::initializer_list<Subsystem*> subsystems);
-  void RegisterSubsystem(wpi::span<Subsystem*> subsystems);
+  void RegisterSubsystem(std::span<Subsystem*> subsystems);
 
   void UnregisterSubsystem(std::initializer_list<Subsystem*> subsystems);
-  void UnregisterSubsystem(wpi::span<Subsystem*> subsystems);
+  void UnregisterSubsystem(std::span<Subsystem*> subsystems);
 
   /**
    * Sets the default command for a subsystem.  Registers that subsystem if it
@@ -228,7 +228,7 @@ class CommandScheduler final : public nt::NTSendable,
    *
    * @param commands the commands to cancel
    */
-  void Cancel(wpi::span<std::shared_ptr<Command>> commands);
+  void Cancel(std::span<std::shared_ptr<Command>> commands);
 
   /**
    * Cancels commands. The scheduler will only call Command::End()
@@ -266,7 +266,7 @@ class CommandScheduler final : public nt::NTSendable,
    * @param commands the command to query
    * @return whether the command is currently scheduled
    */
-  bool IsScheduled(wpi::span<const std::shared_ptr<Command>> commands) const;
+  bool IsScheduled(std::span<const std::shared_ptr<Command>> commands) const;
 
   /**
    * Whether the given commands are running.  Note that this only works on
