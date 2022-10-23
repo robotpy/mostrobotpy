@@ -8,8 +8,13 @@ using namespace frc2;
 
 Button::Button(std::function<bool()> isPressed) : Trigger(isPressed) {}
 
-Button Button::WhenPressed(Command* command, bool interruptible) {
-  WhenActive(command, interruptible);
+Button Button::WhenPressed(Command* command) {
+  WhenActive(command);
+  return *this;
+}
+
+Button Button::WhenPressed(CommandPtr&& command) {
+  WhenActive(std::move(command));
   return *this;
 }
 
@@ -20,13 +25,18 @@ Button Button::WhenPressed(std::function<void()> toRun,
 }
 
 Button Button::WhenPressed(std::function<void()> toRun,
-                           wpi::span<Subsystem* const> requirements) {
+                           std::span<Subsystem* const> requirements) {
   WhenActive(std::move(toRun), requirements);
   return *this;
 }
 
-Button Button::WhileHeld(Command* command, bool interruptible) {
-  WhileActiveContinous(command, interruptible);
+Button Button::WhileHeld(Command* command) {
+  WhileActiveContinous(command);
+  return *this;
+}
+
+Button Button::WhileHeld(CommandPtr&& command) {
+  WhileActiveContinous(std::move(command));
   return *this;
 }
 
@@ -37,18 +47,28 @@ Button Button::WhileHeld(std::function<void()> toRun,
 }
 
 Button Button::WhileHeld(std::function<void()> toRun,
-                         wpi::span<Subsystem* const> requirements) {
+                         std::span<Subsystem* const> requirements) {
   WhileActiveContinous(std::move(toRun), requirements);
   return *this;
 }
 
-Button Button::WhenHeld(Command* command, bool interruptible) {
-  WhileActiveOnce(command, interruptible);
+Button Button::WhenHeld(Command* command) {
+  WhileActiveOnce(command);
   return *this;
 }
 
-Button Button::WhenReleased(Command* command, bool interruptible) {
-  WhenInactive(command, interruptible);
+Button Button::WhenHeld(CommandPtr&& command) {
+  WhileActiveOnce(std::move(command));
+  return *this;
+}
+
+Button Button::WhenReleased(Command* command) {
+  WhenInactive(command);
+  return *this;
+}
+
+Button Button::WhenReleased(CommandPtr&& command) {
+  WhenInactive(std::move(command));
   return *this;
 }
 
@@ -59,13 +79,18 @@ Button Button::WhenReleased(std::function<void()> toRun,
 }
 
 Button Button::WhenReleased(std::function<void()> toRun,
-                            wpi::span<Subsystem* const> requirements) {
+                            std::span<Subsystem* const> requirements) {
   WhenInactive(std::move(toRun), requirements);
   return *this;
 }
 
-Button Button::ToggleWhenPressed(Command* command, bool interruptible) {
-  ToggleWhenActive(command, interruptible);
+Button Button::ToggleWhenPressed(Command* command) {
+  ToggleWhenActive(command);
+  return *this;
+}
+
+Button Button::ToggleWhenPressed(CommandPtr&& command) {
+  ToggleWhenActive(std::move(command));
   return *this;
 }
 

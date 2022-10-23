@@ -6,11 +6,11 @@
 
 #include <functional>
 #include <initializer_list>
+#include <span>
 #include <utility>
 
-#include <wpi/span.h>
-
 #include "Trigger.h"
+#include "frc2/command/CommandPtr.h"
 
 namespace frc2 {
 class Command;
@@ -43,10 +43,19 @@ class Button : public Trigger {
    * of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
    */
-  Button WhenPressed(Command* command, bool interruptible = true);
+  Button WhenPressed(Command* command);
+
+  /**
+   * Binds a command to start when the button is pressed.  Transfers
+   * command ownership to the button scheduler, so the user does not have to
+   * worry about lifespan.
+   *
+   * @param command The command to bind.
+   * @return The trigger, for chained calls.
+   */
+  Button WhenPressed(CommandPtr&& command);
 
   /**
    * Binds a command to start when the button is pressed.  Transfers
@@ -55,13 +64,12 @@ class Button : public Trigger {
    * *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Button WhenPressed(T&& command, bool interruptible = true) {
-    WhenActive(std::forward<T>(command), interruptible);
+  Button WhenPressed(T&& command) {
+    WhenActive(std::forward<T>(command));
     return *this;
   }
 
@@ -81,7 +89,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhenPressed(std::function<void()> toRun,
-                     wpi::span<Subsystem* const> requirements = {});
+                     std::span<Subsystem* const> requirements = {});
 
   /**
    * Binds a command to be started repeatedly while the button is pressed, and
@@ -89,10 +97,19 @@ class Button : public Trigger {
    * users are responsible for the lifespan of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
-  Button WhileHeld(Command* command, bool interruptible = true);
+  Button WhileHeld(Command* command);
+
+  /**
+   * Binds a command to be started repeatedly while the button is pressed, and
+   * canceled when it is released.  Transfers command ownership to the button
+   * scheduler, so the user does not have to worry about lifespan.
+   *
+   * @param command The command to bind.
+   * @return The button, for chained calls.
+   */
+  Button WhileHeld(CommandPtr&& command);
 
   /**
    * Binds a command to be started repeatedly while the button is pressed, and
@@ -101,13 +118,12 @@ class Button : public Trigger {
    * will be *moved*, lvalue refs will be *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Button WhileHeld(T&& command, bool interruptible = true) {
-    WhileActiveContinous(std::forward<T>(command), interruptible);
+  Button WhileHeld(T&& command) {
+    WhileActiveContinous(std::forward<T>(command));
     return *this;
   }
 
@@ -127,7 +143,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhileHeld(std::function<void()> toRun,
-                   wpi::span<Subsystem* const> requirements = {});
+                   std::span<Subsystem* const> requirements = {});
 
   /**
    * Binds a command to be started when the button is pressed, and canceled
@@ -135,10 +151,19 @@ class Button : public Trigger {
    * responsible for the lifespan of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
-  Button WhenHeld(Command* command, bool interruptible = true);
+  Button WhenHeld(Command* command);
+
+  /**
+   * Binds a command to be started when the button is pressed, and canceled
+   * when it is released.  Transfers command ownership to the button scheduler,
+   * so the user does not have to worry about lifespan.
+   *
+   * @param command The command to bind.
+   * @return The button, for chained calls.
+   */
+  Button WhenHeld(CommandPtr&& command);
 
   /**
    * Binds a command to be started when the button is pressed, and canceled
@@ -147,13 +172,12 @@ class Button : public Trigger {
    * *moved*, lvalue refs will be *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Button WhenHeld(T&& command, bool interruptible = true) {
-    WhileActiveOnce(std::forward<T>(command), interruptible);
+  Button WhenHeld(T&& command) {
+    WhileActiveOnce(std::forward<T>(command));
     return *this;
   }
 
@@ -163,10 +187,19 @@ class Button : public Trigger {
    * of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
-  Button WhenReleased(Command* command, bool interruptible = true);
+  Button WhenReleased(Command* command);
+
+  /**
+   * Binds a command to start when the button is pressed.  Transfers
+   * command ownership to the button scheduler, so the user does not have to
+   * worry about lifespan.
+   *
+   * @param command The command to bind.
+   * @return The button, for chained calls.
+   */
+  Button WhenReleased(CommandPtr&& command);
 
   /**
    * Binds a command to start when the button is pressed.  Transfers
@@ -175,13 +208,12 @@ class Button : public Trigger {
    * *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Button WhenReleased(T&& command, bool interruptible = true) {
-    WhenInactive(std::forward<T>(command), interruptible);
+  Button WhenReleased(T&& command) {
+    WhenInactive(std::forward<T>(command));
     return *this;
   }
 
@@ -201,7 +233,7 @@ class Button : public Trigger {
    * @param requirements the required subsystems.
    */
   Button WhenReleased(std::function<void()> toRun,
-                      wpi::span<Subsystem* const> requirements = {});
+                      std::span<Subsystem* const> requirements = {});
 
   /**
    * Binds a command to start when the button is pressed, and be canceled when
@@ -209,10 +241,19 @@ class Button : public Trigger {
    * responsible for the lifespan of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
-  Button ToggleWhenPressed(Command* command, bool interruptible = true);
+  Button ToggleWhenPressed(Command* command);
+
+  /**
+   * Binds a command to start when the button is pressed, and be canceled when
+   * it is pessed again.  Transfers command ownership to the button scheduler,
+   * so the user does not have to worry about lifespan.
+   *
+   * @param command The command to bind.
+   * @return The button, for chained calls.
+   */
+  Button ToggleWhenPressed(CommandPtr&& command);
 
   /**
    * Binds a command to start when the button is pressed, and be canceled when
@@ -221,13 +262,12 @@ class Button : public Trigger {
    * *moved*, lvalue refs will be *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The button, for chained calls.
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Button ToggleWhenPressed(T&& command, bool interruptible = true) {
-    ToggleWhenActive(std::forward<T>(command), interruptible);
+  Button ToggleWhenPressed(T&& command) {
+    ToggleWhenActive(std::forward<T>(command));
     return *this;
   }
 

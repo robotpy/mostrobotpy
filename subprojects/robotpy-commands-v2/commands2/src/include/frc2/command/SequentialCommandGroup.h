@@ -11,11 +11,10 @@
 
 #include <limits>
 #include <memory>
+#include <span>
 #include <type_traits>
 #include <utility>
 #include <vector>
-
-#include <wpi/span.h>
 
 #include "frc2/command/CommandGroupBase.h"
 #include "frc2/command/CommandHelper.h"
@@ -78,25 +77,15 @@ class SequentialCommandGroup
     AddCommands(std::move(foo));
   }
 
-  void Initialize() override;
+  void Initialize() final;
 
-  void Execute() override;
+  void Execute() final;
 
-  void End(bool interrupted) override;
+  void End(bool interrupted) final;
 
-  bool IsFinished() override;
+  bool IsFinished() final;
 
   bool RunsWhenDisabled() const override;
-
-  SequentialCommandGroup BeforeStarting(
-      std::function<void()> toRun,
-      wpi::span<Subsystem* const> requirements = {}) &&
-      override;
-
-  SequentialCommandGroup AndThen(
-      std::function<void()> toRun,
-      wpi::span<Subsystem* const> requirements = {}) &&
-      override;
 
  private:
   void AddCommands(std::vector<std::unique_ptr<Command>>&& commands) final;
