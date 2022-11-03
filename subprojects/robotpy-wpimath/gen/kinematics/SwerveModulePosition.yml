@@ -1,0 +1,7 @@
+---
+
+classes:
+  SwerveModulePosition:
+    attributes:
+      distance:
+      angle:

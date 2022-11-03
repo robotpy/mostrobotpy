@@ -11,7 +11,7 @@ base_package = "wpimath"
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.1.1-beta-1"
+version = "2023.1.1-beta-2"
 
 libs = ["wpimath"]
 
@@ -1510,9 +1510,11 @@ DifferentialDriveOdometry = "frc/kinematics/DifferentialDriveOdometry.h"
 DifferentialDriveWheelSpeeds = "frc/kinematics/DifferentialDriveWheelSpeeds.h"
 MecanumDriveKinematics = "frc/kinematics/MecanumDriveKinematics.h"
 MecanumDriveOdometry = "frc/kinematics/MecanumDriveOdometry.h"
+MecanumDriveWheelPositions = "frc/kinematics/MecanumDriveWheelPositions.h"
 MecanumDriveWheelSpeeds = "frc/kinematics/MecanumDriveWheelSpeeds.h"
 SwerveDriveKinematics = "frc/kinematics/SwerveDriveKinematics.h"
 SwerveDriveOdometry = "frc/kinematics/SwerveDriveOdometry.h"
+SwerveModulePosition = "frc/kinematics/SwerveModulePosition.h"
 SwerveModuleState = "frc/kinematics/SwerveModuleState.h"
 
 [tool.robotpy-build.wrappers."wpimath.spline"]
