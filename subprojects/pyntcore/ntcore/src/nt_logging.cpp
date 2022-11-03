@@ -3,11 +3,11 @@
 
 namespace pyntcore {
 
-void attachLogging(NT_Inst instance) {
+void attachLogging(nt::NetworkTableInstance *instance) {
     py::module::import("ntcore._logutil").attr("_attach")(instance);
 }
 
-void detachLogging(NT_Inst instance) {
+void detachLogging(nt::NetworkTableInstance *instance) {
     py::module::import("ntcore._logutil").attr("_detach")(instance);
 }
 

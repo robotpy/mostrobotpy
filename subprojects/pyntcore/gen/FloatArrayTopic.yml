@@ -52,12 +52,14 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](FloatArrayEntry *self) {
+        py::gil_scoped_release release;
         *self = FloatArrayEntry();
       }, py::doc("Destroys the entry"))
       .def("__enter__", [](FloatArrayEntry *self) {
         return self;
       })
       .def("__exit__", [](FloatArrayEntry *self, py::args args) {
+        py::gil_scoped_release release;
         *self = FloatArrayEntry();
       })
   FloatArrayTopic:

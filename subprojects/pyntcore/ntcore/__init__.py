@@ -11,9 +11,6 @@ from ._ntcore import (
     BooleanSubscriber,
     BooleanTopic,
     ConnectionInfo,
-    ConnectionListener,
-    ConnectionListenerPoller,
-    ConnectionNotification,
     DoubleArrayEntry,
     DoubleArrayPublisher,
     DoubleArraySubscriber,
@@ -22,6 +19,8 @@ from ._ntcore import (
     DoublePublisher,
     DoubleSubscriber,
     DoubleTopic,
+    Event,
+    EventFlags,
     FloatArrayEntry,
     FloatArrayPublisher,
     FloatArraySubscriber,
@@ -48,6 +47,8 @@ from ._ntcore import (
     NetworkTable,
     NetworkTableEntry,
     NetworkTableInstance,
+    NetworkTableListener,
+    NetworkTableListenerPoller,
     NetworkTableType,
     PubSubOption,
     Publisher,
@@ -77,17 +78,8 @@ from ._ntcore import (
     TimestampedStringArray,
     Topic,
     TopicInfo,
-    TopicListener,
-    TopicListenerFlags,
-    TopicListenerPoller,
-    TopicNotification,
     Value,
-    ValueListener,
-    ValueListenerFlags,
-    ValueListenerPoller,
-    ValueNotification,
-    _now,
-    _setNow,
+    ValueEventData,
 )
 
 __all__ = [
@@ -100,9 +92,6 @@ __all__ = [
     "BooleanSubscriber",
     "BooleanTopic",
     "ConnectionInfo",
-    "ConnectionListener",
-    "ConnectionListenerPoller",
-    "ConnectionNotification",
     "DoubleArrayEntry",
     "DoubleArrayPublisher",
     "DoubleArraySubscriber",
@@ -111,6 +100,8 @@ __all__ = [
     "DoublePublisher",
     "DoubleSubscriber",
     "DoubleTopic",
+    "Event",
+    "EventFlags",
     "FloatArrayEntry",
     "FloatArrayPublisher",
     "FloatArraySubscriber",
@@ -137,6 +128,8 @@ __all__ = [
     "NetworkTable",
     "NetworkTableEntry",
     "NetworkTableInstance",
+    "NetworkTableListener",
+    "NetworkTableListenerPoller",
     "NetworkTableType",
     "PubSubOption",
     "Publisher",
@@ -166,18 +159,13 @@ __all__ = [
     "TimestampedStringArray",
     "Topic",
     "TopicInfo",
-    "TopicListener",
-    "TopicListenerFlags",
-    "TopicListenerPoller",
-    "TopicNotification",
     "Value",
-    "ValueListener",
-    "ValueListenerFlags",
-    "ValueListenerPoller",
-    "ValueNotification",
-    "_now",
-    "_setNow",
+    "ValueEventData",
 ]
+
+from ._ntcore import _now, _setNow
+
+__all__ += ["_now", "_setNow"]
 
 try:
     from .version import version as __version__

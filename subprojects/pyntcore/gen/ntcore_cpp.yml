@@ -1,5 +1,9 @@
 ---
 
+extra_includes:
+- pybind11/stl.h
+- networktables/Topic.h
+
 functions:
   GetDefaultInstance:
     ignore: true
@@ -95,50 +99,28 @@ functions:
     ignore: true
   UnsubscribeMultiple:
     ignore: true
-  AddTopicListener:
+  CreateListenerPoller:
+    ignore: true
+  DestroyListenerPoller:
+    ignore: true
+  ReadListenerQueue:
+    ignore: true
+  RemoveListener:
+    internal: true
+  WaitForListenerQueue:
+    ignore: true
+  AddListener:
     overloads:
-      NT_Inst, std::span<const std::string_view>, unsigned int, std::function<void ( const TopicNotification & )>:
+      NT_Inst, std::span<const std::string_view>, unsigned int, std::function<void ( const Event & )>:
         ignore: true
-      NT_Handle, unsigned int, std::function<void ( const TopicNotification & )>:
+      NT_Handle, unsigned int, std::function<void ( const Event & )>:
         ignore: true
-  CreateTopicListenerPoller:
-    ignore: true
-  DestroyTopicListenerPoller:
-    ignore: true
-  ReadTopicListenerQueue:
-    ignore: true
-  AddPolledTopicListener:
+  AddPolledListener:
     overloads:
-      NT_TopicListenerPoller, std::span<const std::string_view>, unsigned int:
+      NT_ListenerPoller, std::span<const std::string_view>, unsigned int:
         ignore: true
-      NT_TopicListenerPoller, NT_Handle, unsigned int:
+      NT_ListenerPoller, NT_Handle, unsigned int:
         ignore: true
-  RemoveTopicListener:
-    ignore: true
-  AddValueListener:
-    ignore: true
-  CreateValueListenerPoller:
-    ignore: true
-  DestroyValueListenerPoller:
-    ignore: true
-  ReadValueListenerQueue:
-    ignore: true
-  AddPolledValueListener:
-    ignore: true
-  RemoveValueListener:
-    ignore: true
-  AddConnectionListener:
-    ignore: true
-  CreateConnectionListenerPoller:
-    ignore: true
-  DestroyConnectionListenerPoller:
-    ignore: true
-  AddPolledConnectionListener:
-    ignore: true
-  ReadConnectionListenerQueue:
-    ignore: true
-  RemoveConnectionListener:
-    ignore: true
   GetNetworkMode:
     ignore: true
   StartLocal:
@@ -157,7 +139,7 @@ functions:
     ignore: true
   SetServer:
     overloads:
-      NT_Inst, char*, unsigned int:
+      NT_Inst, char*, unsigned int: 
         ignore: true
       NT_Inst, std::span<const std::pair<std::string_view, unsigned int>>:
         ignore: true
@@ -193,17 +175,24 @@ functions:
     ignore: true
   AddLogger:
     ignore: true
-  CreateLoggerPoller:
-    internal: true
-  DestroyLoggerPoller:
-    internal: true
   AddPolledLogger:
     internal: true
-  ReadLoggerQueue:
-    internal: true
-  RemoveLogger:
-    internal: true
 classes:
+  EventFlags:
+    attributes:
+      kNone:
+      kImmediate:
+      kConnected:
+      kDisconnected:
+      kConnection:
+      kPublish:
+      kUnpublish:
+      kProperties:
+      kTopic:
+      kValueRemote:
+      kValueLocal:
+      kValueAll:
+      kLogMessage:
   TopicInfo:
     attributes:
       name:
@@ -213,6 +202,14 @@ classes:
       GetProperties:
       swap:
         ignore: true
+    inline_code: |
+      .def_property_readonly("topic", [](const TopicInfo &self) {
+        return std::make_shared<nt::Topic>(self.topic);
+      })
+      .def("__repr__", [](const TopicInfo &self) -> py::str {
+        return py::str("<TopicInfo name={} type={}>")
+          .format(self.name, self.type_str);
+      })
   ConnectionInfo:
     attributes:
       remote_id:
@@ -229,59 +226,24 @@ classes:
           .format(self.remote_id, self.remote_ip, self.remote_port, 
                   self.last_update, self.protocol_version);
       })
-  TopicNotification:
-    attributes:
-      info:
-    methods:
-      TopicNotification:
-        overloads:
-          "":
-            ignore: true
-          NT_TopicListener, nt::TopicInfo, unsigned int:
-            ignore: true
-      swap:
-        ignore: true
-    inline_code: |
-      .def("__repr__", [](const TopicNotification &self) {
-        return py::str("<TopicNotification topic_name=\"{}\" topic_type={} flags={}>")
-          .format(self.info.name, self.info.type_str, self.flags);
-      })
-  ValueNotification:
+  ValueEventData:
     attributes:
       value:
     methods:
-      ValueNotification:
+      ValueEventData:
         overloads:
           "":
             ignore: true
-          NT_ValueListener, NT_Topic, NT_Handle, Value, unsigned int:
+          NT_Topic, NT_Handle, Value:
             ignore: true
-      swap:
-        ignore: true
     inline_code: |
-      .def_readwrite("flags", &ValueNotification::flags)
-      .def("__repr__", [](const ValueNotification &self) {
-        auto topicInfo = nt::GetTopicInfo(self.topic);
-        return py::str("<ValueNotification topic_name=\"{}\" topic_type={} flags={} value={}>")
-          .format(topicInfo.name, topicInfo.type_str, self.flags, py::repr(py::cast(self.value)));
+      .def_property_readonly("topic", [](const ValueEventData &self) {
+        return std::make_shared<nt::Topic>(self.topic);
       })
-  ConnectionNotification:
-    attributes:
-      connected:
-      conn:
-    methods:
-      ConnectionNotification:
-        overloads:
-          "":
-            ignore: true
-          NT_ConnectionListener, bool, nt::ConnectionInfo:
-            ignore: true
-      swap:
-        ignore: true
-    inline_code: |
-      .def("__repr__", [](const ConnectionNotification &self) -> py::str {
-        return py::str("<ConnectionNotification connected={} info={}>")
-          .format(self.connected, py::cast(self.conn));
+      .def("__repr__", [](const ValueEventData &self) -> py::str {
+        auto topicInfo = nt::GetTopicInfo(self.topic);
+        return py::str("<ValueEventData topic_name=\"{}\" topic_type={} value={}>")
+          .format(topicInfo.name, topicInfo.type_str, self.value);
       })
   LogMessage:
     attributes:
@@ -292,15 +254,63 @@ classes:
         overloads:
           "":
             ignore: true
-          NT_Logger, unsigned int, std::string_view, unsigned int, std::string_view:
+          unsigned int, std::string_view, unsigned int, std::string_view:
             ignore: true
-      swap:
-        ignore: true
     inline_code: |
       .def_readwrite("level", &nt::LogMessage::level)
-      .def_readwrite("filename", &nt::LogMessage::filename)
       .def_readwrite("line", &nt::LogMessage::line)
-      .def_readwrite("message", &nt::LogMessage::message);
+  Event:
+    attributes:
+      data:
+    methods:
+      Event:
+        overloads:
+          "":
+            ignore: true
+          NT_Listener, unsigned int, nt::ConnectionInfo:
+            ignore: true
+          NT_Listener, unsigned int, nt::TopicInfo:
+            ignore: true
+          NT_Listener, unsigned int, nt::ValueEventData:
+            ignore: true
+          NT_Listener, unsigned int, nt::LogMessage:
+            ignore: true
+          NT_Listener, unsigned int, NT_Topic, NT_Handle, Value:
+            ignore: true
+          NT_Listener, unsigned int, unsigned int, std::string_view, unsigned int, std::string_view:
+            ignore: true
+      GetConnectionInfo:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+      GetTopicInfo:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+      GetValueEventData:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+      GetLogMessage:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+    inline_code: |
+      .def_readwrite("listener", &nt::Event::listener)
+      .def_readwrite("flags", &nt::Event::flags)
+      .def_readwrite("data", &nt::Event::data)
+      .def("__repr__", [](const nt::Event &self) -> py::str {
+        return py::str("<Event listener={} flags={} data={}>")
+          .format(self.listener, self.flags, self.data);
+      })
   PubSubOption:
     attributes:
       type:
@@ -343,5 +353,3 @@ classes:
         .value("kTopicsOnly", NT_PUBSUB_TOPICSONLY)
         .value("kPollStorage", NT_PUBSUB_POLLSTORAGE)
         .value("kKeepDuplicates", NT_PUBSUB_KEEPDUPLICATES)
-
-

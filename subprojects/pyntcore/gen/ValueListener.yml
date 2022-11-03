@@ -19,12 +19,14 @@ classes:
       GetHandle:
     inline_code: |
       .def("close", [](ValueListener *self) {
+        py::gil_scoped_release release;
         *self = ValueListener();
       }, py::doc("Destroys the listener"))
       .def("__enter__", [](ValueListener *self) {
         return self;
       })
       .def("__exit__", [](ValueListener *self, py::args args) {
+        py::gil_scoped_release release;
         *self = ValueListener();
       })
   ValueListenerPoller:
@@ -47,11 +49,13 @@ classes:
       ReadQueue:
     inline_code: |
       .def("close", [](ValueListenerPoller *self) {
+        py::gil_scoped_release release;
         *self = ValueListenerPoller();
       }, py::doc("Destroys the poller"))
       .def("__enter__", [](ValueListenerPoller *self) {
         return self;
       })
       .def("__exit__", [](ValueListenerPoller *self, py::args args) {
+        py::gil_scoped_release release;
         *self = ValueListenerPoller();
       })

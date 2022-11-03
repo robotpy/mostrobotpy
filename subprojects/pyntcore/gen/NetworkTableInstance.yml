@@ -9,6 +9,7 @@ extra_includes:
 - networktables/FloatTopic.h
 - networktables/IntegerArrayTopic.h
 - networktables/IntegerTopic.h
+- networktables/MultiSubscriber.h
 - networktables/RawTopic.h
 - networktables/StringArrayTopic.h
 - networktables/StringTopic.h
@@ -19,6 +20,8 @@ extra_includes:
 
 classes:
   NetworkTableInstance:
+    force_type_casters:
+    - std::function
     attributes:
       kDefaultPort3:
       kDefaultPort4:
@@ -39,12 +42,12 @@ classes:
       Destroy:
         cpp_code: |
           [](NetworkTableInstance * self) {
-            pyntcore::detachLogging(self->GetHandle());
+            pyntcore::detachLogging(self);
             py::gil_scoped_release release;
             NetworkTableInstance::Destroy(*self);
           }
       GetHandle:
-        ignore: true
+        internal: true
       GetTopic:
       GetBooleanTopic:
       GetIntegerTopic:
@@ -71,22 +74,21 @@ classes:
           std::string_view, std::span<std::string_view>:
       GetEntry:
       GetTable:
+      RemoveListener:
+      WaitForListenerQueue:
       AddConnectionListener:
-        cpp_code: |
-          [](NetworkTableInstance * self,
-             std::function<void(bool, const ConnectionInfo &)> listener,
-             bool immediateNotify) {
-            py::gil_scoped_release release;
-            return self->AddConnectionListener([listener](const ConnectionNotification& event){
-              listener(event.connected, event.conn);
-            }, immediateNotify);
-          }
-      RemoveConnectionListener:
+      AddListener:
+        overloads:
+          nt::Topic, unsigned int, ListenerCallback:
+          nt::Subscriber&, unsigned int, ListenerCallback:
+          nt::MultiSubscriber&, int, ListenerCallback:
+          NetworkTableEntry&, int, ListenerCallback:
+          std::span<const std::string_view>, int, ListenerCallback:
       GetNetworkMode:
       StartLocal:
         cpp_code: |
           [](NetworkTableInstance * self) {
-            pyntcore::attachLogging(self->GetHandle());
+            pyntcore::attachLogging(self);
             py::gil_scoped_release release;
             self->StartLocal();
           }
@@ -95,7 +97,7 @@ classes:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view persist_filename,  const char* listen_address,
              unsigned int port3, unsigned int port4) {
-            pyntcore::attachLogging(self->GetHandle());
+            pyntcore::attachLogging(self);
             py::gil_scoped_release release;
             self->StartServer(persist_filename, listen_address, port3, port4);
           }
@@ -103,14 +105,14 @@ classes:
       StartClient3:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view identity) {
-            pyntcore::attachLogging(self->GetHandle());
+            pyntcore::attachLogging(self);
             py::gil_scoped_release release;
             self->StartClient3(identity);
           }
       StartClient4:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view identity) {
-            pyntcore::attachLogging(self->GetHandle());
+            pyntcore::attachLogging(self);
             py::gil_scoped_release release;
             self->StartClient4(identity);
           }
@@ -138,7 +140,7 @@ classes:
     inline_code: |
       .def("configPythonLogging", [](NetworkTableInstance * self, 
         NetworkTableInstance::LogLevel minLevel, NetworkTableInstance::LogLevel maxLevel, py::str logName) {
-          py::module::import("ntcore._logutil").attr("_config_logging")(self->GetHandle(), minLevel, maxLevel, logName);
+          py::module::import("ntcore._logutil").attr("_config_logging")(self, minLevel, maxLevel, logName);
         }, py::kw_only(),
           py::arg("min") = NetworkTableInstance::LogLevel::kLogInfo,
           py::arg("max") = NetworkTableInstance::LogLevel::kLogCritical,

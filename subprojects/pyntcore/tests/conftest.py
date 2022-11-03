@@ -4,9 +4,6 @@
 
 from contextlib import contextmanager
 from threading import Condition
-import ntcore
-
-from ntcore._ntcore import ValueListenerFlags
 
 import logging
 
@@ -14,7 +11,7 @@ logger = logging.getLogger("conftest")
 
 import pytest
 
-from ntcore import NetworkTableInstance, ValueListener, MultiSubscriber
+from ntcore import NetworkTableInstance, MultiSubscriber, Event, EventFlags
 
 #
 # Fixtures for a usable in-memory version of networktables
@@ -83,17 +80,17 @@ class NtTestBase:
         self._init_common()
 
     def _wait_init(self):
+        logger.info("wait-init %s", self.__class__.__name__)
         self._wait_lock = Condition()
         self._wait = 0
-        self._wait_init_listener()
-
-    def _wait_init_listener(self):
 
         self.msub = MultiSubscriber(self._impl, [""])
-        self.vl = ValueListener(self.msub, 0, self._wait_cb)
+        self.vl = self._impl.addListener(
+            self.msub, EventFlags.kValueRemote, self._wait_cb
+        )
 
-    def _wait_cb(self, vn: ntcore.ValueNotification):
-        logger.info("wait-callback %s: %s", self.__class__.__name__, vn)
+    def _wait_cb(self, evt: Event):
+        logger.info("wait-callback %s: %s", self.__class__.__name__, evt)
         with self._wait_lock:
             self._wait += 1
             self._wait_lock.notify()

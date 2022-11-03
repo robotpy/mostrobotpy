@@ -2,10 +2,11 @@
 #pragma once
 
 #include <ntcore.h>
+#include <networktables/NetworkTableInstance.h>
 
 namespace pyntcore {
 
-void attachLogging(NT_Inst instance);
-void detachLogging(NT_Inst instance);
+void attachLogging(nt::NetworkTableInstance *instance);
+void detachLogging(nt::NetworkTableInstance *instance);
 
 }; // namespace pyntcore
