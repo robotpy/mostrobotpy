@@ -1,17 +1,10 @@
 ---
 
-extra_includes:
-- units/dimensionless.h
-
 classes:
   ElevatorFeedforward:
-    shared_ptr: true
-    typealias:
-    - typename frc::ElevatorFeedforward<Distance>::Acceleration
-    - typename frc::ElevatorFeedforward<Distance>::kv_unit
-    - typename frc::ElevatorFeedforward<Distance>::ka_unit
-    template_params:
-    - Distance
+    force_type_casters:
+    - units::meters_per_second
+    - meters_per_second_squared
     methods:
       ElevatorFeedforward:
         overloads:
@@ -22,18 +15,8 @@ classes:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
       MinAchievableAcceleration:
-    template_inline_code: |
-      cls_ElevatorFeedforward
-        .def_readwrite("kS", &ElevatorFeedforward<Distance>::kS)
-        .def_readwrite("kG", &ElevatorFeedforward<Distance>::kG)
-        .def_readwrite("kV", &ElevatorFeedforward<Distance>::kV)
-        .def_readwrite("kA", &ElevatorFeedforward<Distance>::kA);
-
-templates:
-  ElevatorFeedforward:
-    qualname: frc::ElevatorFeedforward
-    subpackage: controller
-    params:
-      - units::dimensionless::scalar
-
-
+    inline_code: |
+        .def_readwrite("kS", &ElevatorFeedforward::kS)
+        .def_readwrite("kG", &ElevatorFeedforward::kG)
+        .def_readwrite("kV", &ElevatorFeedforward::kV)
+        .def_readwrite("kA", &ElevatorFeedforward::kA)

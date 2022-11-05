@@ -2,6 +2,11 @@
 extra_includes:
   - rpy/geometryToString.h
 
+functions:
+  to_json:
+    ignore: true
+  from_json:
+    ignore: true
 classes:
   Rotation3d:
     shared_ptr: false
