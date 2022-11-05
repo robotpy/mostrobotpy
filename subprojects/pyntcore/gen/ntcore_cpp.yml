@@ -279,6 +279,8 @@ classes:
             ignore: true
           NT_Listener, unsigned int, unsigned int, std::string_view, unsigned int, std::string_view:
             ignore: true
+      Is:
+        rename: is_
       GetConnectionInfo:
         overloads:
           '[const]':
