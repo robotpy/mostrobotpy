@@ -11,6 +11,7 @@
 
 namespace frc2 {
 class Command;
+class CommandPtr;
 /**
  * A robot subsystem.  Subsystems are the basic unit of robot organization in
  * the Command-based framework; they encapsulate low-level hardware objects
@@ -66,6 +67,17 @@ class Subsystem {
   // void SetDefaultCommand(T defaultCommand) {
   //   CommandScheduler::GetInstance().SetDefaultCommand(this, defaultCommand);
   // }
+
+  /**
+   * Sets the default Command of the subsystem.  The default command will be
+   * automatically scheduled when no other commands are scheduled that require
+   * the subsystem. Default commands should generally not end on their own, i.e.
+   * their IsFinished() method should always return false.  Will automatically
+   * register this subsystem with the CommandScheduler.
+   *
+   * @param defaultCommand the default command to associate with this subsystem
+   */
+  void SetDefaultCommand(std::shared_ptr<Command> defaultCommand);
 
   /**
    * Gets the default command for this subsystem.  Returns null if no default

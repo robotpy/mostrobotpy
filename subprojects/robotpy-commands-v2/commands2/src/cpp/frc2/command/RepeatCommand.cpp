@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "frc2/command/PerpetualCommand.h"
+#include "frc2/command/RepeatCommand.h"
 
 using namespace frc2;
 
-PerpetualCommand::PerpetualCommand(std::shared_ptr<Command> command) {
+RepeatCommand::RepeatCommand(std::unique_ptr<Command>&& command) {
   if (!CommandGroupBase::RequireUngrouped(*command)) {
     return;
   }
@@ -15,14 +15,27 @@ PerpetualCommand::PerpetualCommand(std::shared_ptr<Command> command) {
   AddRequirements(m_command->GetRequirements());
 }
 
-void PerpetualCommand::Initialize() {
+void RepeatCommand::Initialize() {
   m_command->Initialize();
 }
 
-void PerpetualCommand::Execute() {
+void RepeatCommand::Execute() {
   m_command->Execute();
+  if (m_command->IsFinished()) {
+    // restart command
+    m_command->End(false);
+    m_command->Initialize();
+  }
 }
 
-void PerpetualCommand::End(bool interrupted) {
+bool RepeatCommand::IsFinished() {
+  return false;
+}
+
+void RepeatCommand::End(bool interrupted) {
   m_command->End(interrupted);
+}
+
+bool RepeatCommand::RunsWhenDisabled() const {
+  return m_command->RunsWhenDisabled();
 }

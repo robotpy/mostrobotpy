@@ -6,18 +6,21 @@
 
 #include <initializer_list>
 #include <memory>
+#include <span>
 #include <utility>
 
 #include <frc/Errors.h>
 #include <frc/Watchdog.h>
+#include <frc/event/EventLoop.h>
 #include <networktables/NTSendable.h>
 #include <units/time.h>
 #include <wpi/FunctionExtras.h>
+#include <wpi/deprecated.h>
 #include <wpi/sendable/SendableHelper.h>
-#include <wpi/span.h>
 
 namespace frc2 {
 class Command;
+class CommandPtr;
 class Subsystem;
 
 /**
@@ -55,73 +58,69 @@ class CommandScheduler final : public nt::NTSendable,
   void SetPeriod(units::second_t period);
 
   /**
-   * Adds a button binding to the scheduler, which will be polled to schedule
-   * commands.
+   * Get the active button poll.
    *
-   * @param button The button to add
+   * @return a reference to the current {@link frc::EventLoop} object polling
+   * buttons.
    */
-  void AddButton(std::function<void()> button);
+  frc::EventLoop* GetActiveButtonLoop() const;
+
+  /**
+   * Replace the button poll with another one.
+   *
+   * @param loop the new button polling loop object.
+   */
+  void SetActiveButtonLoop(frc::EventLoop* loop);
+
+  /**
+   * Get the default button poll.
+   *
+   * @return a reference to the default {@link frc::EventLoop} object polling
+   * buttons.
+   */
+  frc::EventLoop* GetDefaultButtonLoop() const;
 
   /**
    * Removes all button bindings from the scheduler.
    */
+  WPI_DEPRECATED("Call Clear on the EventLoop instance directly!")
   void ClearButtons();
 
   /**
-   * Schedules a command for execution.  Does nothing if the command is already
+   * Schedules a command for execution. Does nothing if the command is already
    * scheduled. If a command's requirements are not available, it will only be
-   * started if all the commands currently using those requirements have been
-   * scheduled as interruptible.  If this is the case, they will be interrupted
-   * and the command will be scheduled.
+   * started if all the commands currently using those requirements are
+   * interruptible. If this is the case, they will be interrupted and the
+   * command will be scheduled.
    *
-   * @param interruptible whether this command can be interrupted
-   * @param command       the command to schedule
+   * @param command the command to schedule
    */
-  void Schedule(bool interruptible, std::shared_ptr<Command> command);
+   /*
+  void Schedule(const CommandPtr& command);
+  */
 
   /**
-   * Schedules a command for execution, with interruptible defaulted to true.
-   * Does nothing if the command is already scheduled.
+   * Schedules a command for execution. Does nothing if the command is already
+   * scheduled. If a command's requirements are not available, it will only be
+   * started if all the commands currently using those requirements have been
+   * scheduled as interruptible. If this is the case, they will be interrupted
+   * and the command will be scheduled.
    *
    * @param command the command to schedule
    */
   void Schedule(std::shared_ptr<Command> command);
 
   /**
-   * Schedules multiple commands for execution.  Does nothing if the command is
-   * already scheduled. If a command's requirements are not available, it will
-   * only be started if all the commands currently using those requirements have
-   * been scheduled as interruptible.  If this is the case, they will be
-   * interrupted and the command will be scheduled.
-   *
-   * @param interruptible whether the commands should be interruptible
-   * @param commands      the commands to schedule
-   */
-  void Schedule(bool interruptible, std::span<std::shared_ptr<Command>> commands);
-
-  /**
-   * Schedules multiple commands for execution.  Does nothing if the command is
-   * already scheduled. If a command's requirements are not available, it will
-   * only be started if all the commands currently using those requirements have
-   * been scheduled as interruptible.  If this is the case, they will be
-   * interrupted and the command will be scheduled.
-   *
-   * @param interruptible whether the commands should be interruptible
-   * @param commands      the commands to schedule
-   */
-  void Schedule(bool interruptible, std::initializer_list<std::shared_ptr<Command>> commands);
-
-  /**
-   * Schedules multiple commands for execution, with interruptible defaulted to
-   * true.  Does nothing if the command is already scheduled.
+   * Schedules multiple commands for execution. Does nothing for commands
+   * already scheduled.
    *
    * @param commands the commands to schedule
    */
   void Schedule(std::span<std::shared_ptr<Command>> commands);
 
   /**
-   * Schedules multiple commands for execution, with interruptible defaulted to
-   * true.  Does nothing if the command is already scheduled.
+   * Schedules multiple commands for execution. Does nothing for commands
+   * already scheduled.
    *
    * @param commands the commands to schedule
    */
@@ -181,18 +180,32 @@ class CommandScheduler final : public nt::NTSendable,
    * @param subsystem      the subsystem whose default command will be set
    * @param defaultCommand the default command to associate with the subsystem
    */
-  template <class T>
-  void SetDefaultCommand(std::shared_ptr<Subsystem> subsystem, T defaultCommand) {
-    if (!defaultCommand->HasRequirement(subsystem)) {
-      throw FRC_MakeError(frc::err::CommandIllegalUse, "{}",
+  template <class T, typename = std::enable_if_t<std::is_base_of_v<
+                         Command, std::remove_reference_t<T>>>>
+  void SetDefaultCommand(std::shared_ptr<Subsystem> subsystem, T&& defaultCommand) {
+    if (!defaultCommand.HasRequirement(subsystem)) {
+      throw FRC_MakeError(frc::err::CommandIllegalUse,
                           "Default commands must require their subsystem!");
     }
-    if (defaultCommand->IsFinished()) {
-      throw FRC_MakeError(frc::err::CommandIllegalUse, "{}",
+    if (defaultCommand.IsFinished()) {
+      throw FRC_MakeError(frc::err::CommandIllegalUse,
                           "Default commands should not end!");
     }
     SetDefaultCommandImpl(subsystem, defaultCommand);
   }
+
+  /**
+   * Sets the default command for a subsystem.  Registers that subsystem if it
+   * is not already registered.  Default commands will run whenever there is no
+   * other command currently scheduled that requires the subsystem.  Default
+   * commands should be written to never end (i.e. their IsFinished() method
+   * should return false), as they would simply be re-scheduled if they do.
+   * Default commands must also require their subsystem.
+   *
+   * @param subsystem      the subsystem whose default command will be set
+   * @param defaultCommand the default command to associate with the subsystem
+   */
+  void SetDefaultCommand(Subsystem* subsystem, CommandPtr&& defaultCommand);
 
   /**
    * Gets the default command associated with this subsystem.  Null if this
@@ -226,6 +239,18 @@ class CommandScheduler final : public nt::NTSendable,
    * <p>Commands will be canceled even if they are not scheduled as
    * interruptible.
    *
+   * @param command the command to cancel
+   */
+  void Cancel(const CommandPtr& command);
+
+  /**
+   * Cancels commands. The scheduler will only call Command::End()
+   * method of the canceled command with true, indicating they were
+   * canceled (as opposed to finishing normally).
+   *
+   * <p>Commands will be canceled even if they are not scheduled as
+   * interruptible.
+   *
    * @param commands the commands to cancel
    */
   void Cancel(std::span<std::shared_ptr<Command>> commands);
@@ -246,17 +271,6 @@ class CommandScheduler final : public nt::NTSendable,
    * Cancels all commands that are currently scheduled.
    */
   void CancelAll();
-
-  /**
-   * Returns the time since a given command was scheduled.  Note that this only
-   * works on commands that are directly scheduled by the scheduler; it will not
-   * work on commands inside of commandgroups, as the scheduler does not see
-   * them.
-   *
-   * @param command the command to query
-   * @return the time since the command was scheduled
-   */
-  units::second_t TimeSinceScheduled(const std::shared_ptr<Command> command) const;
 
   /**
    * Whether the given commands are running.  Note that this only works on
@@ -288,6 +302,16 @@ class CommandScheduler final : public nt::NTSendable,
    */
   bool IsScheduled(const std::shared_ptr<Command> command) const;
   bool IsScheduled(const Command* command) const;
+
+  /**
+   * Whether a given command is running.  Note that this only works on commands
+   * that are directly scheduled by the scheduler; it will not work on commands
+   * inside of CommandGroups, as the scheduler does not see them.
+   *
+   * @param command the command to query
+   * @return whether the command is currently scheduled
+   */
+  bool IsScheduled(const CommandPtr& command) const;
 
   /**
    * Returns the command currently requiring a given subsystem.  Null if no
@@ -354,5 +378,8 @@ class CommandScheduler final : public nt::NTSendable,
   frc::Watchdog m_watchdog;
 
   friend class CommandTestBase;
+
+  template <typename T>
+  friend class CommandTestBaseWithParam;
 };
 }  // namespace frc2

@@ -6,10 +6,10 @@
 
 #include <functional>
 #include <initializer_list>
+#include <span>
 
 #include <frc/Timer.h>
 #include <frc/trajectory/TrapezoidProfile.h>
-#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"

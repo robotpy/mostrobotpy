@@ -6,11 +6,11 @@
 
 #include <functional>
 #include <initializer_list>
+#include <span>
 #include <utility>
 
 #include <frc/controller/ProfiledPIDController.h>
 #include <units/time.h>
-#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"

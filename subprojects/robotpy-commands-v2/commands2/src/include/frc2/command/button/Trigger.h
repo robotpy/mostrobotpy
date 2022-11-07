@@ -7,11 +7,14 @@
 #include <functional>
 #include <initializer_list>
 #include <memory>
+#include <span>
 #include <utility>
 
+#include <frc/event/BooleanEvent.h>
+#include <frc/event/EventLoop.h>
 #include <frc/filter/Debouncer.h>
 #include <units/time.h>
-#include <wpi/span.h>
+#include <wpi/deprecated.h>
 
 #include "frc2/command/Command.h"
 #include "frc2/command/CommandScheduler.h"
@@ -19,70 +22,208 @@
 namespace frc2 {
 class Command;
 /**
- * A class used to bind command scheduling to events.  The
- * Trigger class is a base for all command-event-binding classes, and so the
- * methods are named fairly abstractly; for purpose-specific wrappers, see
- * Button.
+ * This class is a command-based wrapper around {@link frc::BooleanEvent},
+ * providing an easy way to link commands to inputs.
  *
  * @see Button
  */
 class Trigger {
  public:
   /**
-   * Create a new trigger that is active when the given condition is true.
+   * Creates a new trigger with the given condition determining whether it is
+   * active.
    *
-   * @param isActive Whether the trigger is active.
+   * <p>Polled by the default scheduler button loop.
+   *
+   * @param isActive returns whether or not the trigger should be active
    */
   explicit Trigger(std::function<bool()> isActive)
-      : m_isActive{std::move(isActive)} {}
+      : m_event{CommandScheduler::GetInstance().GetDefaultButtonLoop(),
+                std::move(isActive)} {}
+
+  /**
+   * Create a new trigger that is active when the given condition is true.
+   *
+   * @param loop The loop instance that polls this trigger.
+   * @param isActive Whether the trigger is active.
+   */
+  Trigger(frc::EventLoop* loop, std::function<bool()> isActive)
+      : m_event{loop, std::move(isActive)} {}
 
   /**
    * Create a new trigger that is never active (default constructor) - activity
    *  can be further determined by subclass code.
    */
-  Trigger() {
-    m_isActive = [] { return false; };
-  }
+  Trigger() : Trigger([] { return false; }) {}
 
   Trigger(const Trigger& other);
 
   /**
-   * Binds a command to start when the trigger becomes active.  Takes a
+   * Starts the given command whenever the signal rises from `false` to `true`.
+   *
+   * <p>Takes a raw pointer, and so is non-owning; users are responsible for the
+   * lifespan of the command.
+   *
+   * @param command the command to start
+   * @return this trigger, so calls can be chained
+   * @see #Rising()
+   */
+  Trigger OnTrue(std::shared_ptr<Command> command);
+
+  /**
+   * Starts the given command whenever the signal rises from `false` to `true`.
+   * Moves command ownership to the button scheduler.
+   *
+   * @param command The command to bind.
+   * @return The trigger, for chained calls.
+   */
+  Trigger OnTrue(CommandPtr&& command);
+
+  /**
+   * Starts the given command whenever the signal falls from `true` to `false`.
+   *
+   * <p>Takes a raw pointer, and so is non-owning; users are responsible for the
+   * lifespan of the command.
+   *
+   * @param command the command to start
+   * @return this trigger, so calls can be chained
+   * @see #Falling()
+   */
+  Trigger OnFalse(std::shared_ptr<Command> command);
+
+  /**
+   * Starts the given command whenever the signal falls from `true` to `false`.
+   *
+   * @param command The command to bind.
+   * @return The trigger, for chained calls.
+   */
+  Trigger OnFalse(CommandPtr&& command);
+
+  /**
+   * Starts the given command when the signal rises to `true` and cancels it
+   * when the signal falls to `false`.
+   *
+   * <p>Doesn't re-start the command in-between.
+   *
+   * <p>Takes a raw pointer, and so is non-owning; users are responsible for the
+   * lifespan of the command.
+   *
+   * @param command the command to start
+   * @return this trigger, so calls can be chained
+   */
+  Trigger WhileTrue(std::shared_ptr<Command> command);
+
+  /**
+   * Starts the given command when the signal rises to `true` and cancels it
+   * when the signal falls to `false`. Moves command ownership to the button
+   * scheduler.
+   *
+   * @param command The command to bind.
+   * @return The trigger, for chained calls.
+   */
+  Trigger WhileTrue(CommandPtr&& command);
+
+  /**
+   * Starts the given command when the signal falls to `false` and cancels
+   * it when the signal rises.
+   *
+   * <p>Doesn't re-start the command in-between.
+   *
+   * <p>Takes a raw pointer, and so is non-owning; users are responsible for the
+   * lifespan of the command.
+   *
+   * @param command the command to start
+   * @return this trigger, so calls can be chained
+   */
+  Trigger WhileFalse(std::shared_ptr<Command> command);
+
+  /**
+   * Starts the given command when the signal falls to `false` and cancels
+   * it when the signal rises. Moves command ownership to the button
+   * scheduler.
+   *
+   * @param command The command to bind.
+   * @return The trigger, for chained calls.
+   */
+  Trigger WhileFalse(CommandPtr&& command);
+
+  /**
+   * Toggles a command when the signal rises from `false` to the high
+   * state.
+   *
+   * <p>Takes a raw pointer, and so is non-owning; users are responsible for the
+   * lifespan of the command.
+   *
+   * @param command the command to toggle
+   * @return this trigger, so calls can be chained
+   */
+  Trigger ToggleOnTrue(std::shared_ptr<Command> command);
+
+  /**
+   * Toggles a command when the signal rises from `false` to the high
+   * state.
+   *
+   * <p>Takes a raw pointer, and so is non-owning; users are responsible for the
+   * lifespan of the command.
+   *
+   * @param command the command to toggle
+   * @return this trigger, so calls can be chained
+   */
+  Trigger ToggleOnTrue(CommandPtr&& command);
+
+  /**
+   * Toggles a command when the signal falls from `true` to the low
+   * state.
+   *
+   * <p>Takes a raw pointer, and so is non-owning; users are responsible for the
+   * lifespan of the command.
+   *
+   * @param command the command to toggle
+   * @return this trigger, so calls can be chained
+   */
+  Trigger ToggleOnFalse(std::shared_ptr<Command> command);
+
+  /**
+   * Toggles a command when the signal falls from `true` to the low
+   * state.
+   *
+   * <p>Takes a raw pointer, and so is non-owning; users are responsible for the
+   * lifespan of the command.
+   *
+   * @param command the command to toggle
+   * @return this trigger, so calls can be chained
+   */
+  Trigger ToggleOnFalse(CommandPtr&& command);
+
+  /**
+   * Binds a command to start when the trigger becomes active. Takes a
    * raw pointer, and so is non-owning; users are responsible for the lifespan
    * of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use OnTrue(Command) instead
    */
-  Trigger WhenActive(std::shared_ptr<Command> command, bool interruptible = true);
+  WPI_DEPRECATED("Use OnTrue(Command) instead")
+  Trigger WhenActive(std::shared_ptr<Command> command);
 
   /**
-   * Binds a command to start when the trigger becomes active.  Transfers
+   * Binds a command to start when the trigger becomes active. Transfers
    * command ownership to the button scheduler, so the user does not have to
    * worry about lifespan - rvalue refs will be *moved*, lvalue refs will be
    * *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use OnTrue(Command) instead
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Trigger WhenActive(T&& command, bool interruptible = true) {
-    CommandScheduler::GetInstance().AddButton(
-        [pressedLast = m_isActive(), *this,
-         command = std::make_shared<std::remove_reference_t<T>>(
-             std::forward<T>(command)),
-         interruptible]() mutable {
-          bool pressed = m_isActive();
-
-          if (!pressedLast && pressed) {
-            Command_Schedule(command, interruptible);
-          }
-
-          pressedLast = pressed;
-        });
+  WPI_DEPRECATED("Use OnTrue(Command) instead")
+  Trigger WhenActive(T&& command) {
+    m_event.Rising().IfHigh(
+        [command = std::make_unique<std::remove_reference_t<T>>(
+             std::forward<T>(command))] { command->Schedule(); });
 
     return *this;
   }
@@ -92,16 +233,26 @@ class Trigger {
    *
    * @param toRun the runnable to execute.
    * @param requirements the required subsystems.
+   * @deprecated Use OnTrue(Command) instead and construct the InstantCommand
+   * manually
    */
-  // Trigger WhenActive(std::function<void()> toRun,
-  //                    std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+   /*
+  WPI_DEPRECATED(
+      "Use OnTrue(Command) instead and construct the InstantCommand manually")
+  Trigger WhenActive(std::function<void()> toRun,
+                     std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+  */
 
   /**
    * Binds a runnable to execute when the trigger becomes active.
    *
    * @param toRun the runnable to execute.
    * @param requirements the required subsystems.
+   * @deprecated Use OnTrue(Command) instead and construct the InstantCommand
+   * manually
    */
+  WPI_DEPRECATED(
+      "Use OnTrue(Command) instead and construct the InstantCommand manually")
   Trigger WhenActive(std::function<void()> toRun,
                      std::span<std::shared_ptr<Subsystem>> requirements = {});
 
@@ -111,10 +262,14 @@ class Trigger {
    * non-owning; users are responsible for the lifespan of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use WhileTrue(Command) with RepeatCommand, or bind
+   command::Schedule with IfHigh(std::function<void()>).
    */
-  Trigger WhileActiveContinous(std::shared_ptr<Command> command, bool interruptible = true);
+  WPI_DEPRECATED(
+      "Use WhileTrue(Command) with RepeatCommand, or bind command::Schedule "
+      "with IfHigh(std::function<void()>).")
+  Trigger WhileActiveContinous(std::shared_ptr<Command> command);
 
   /**
    * Binds a command to be started repeatedly while the trigger is active, and
@@ -123,27 +278,21 @@ class Trigger {
    * rvalue refs will be *moved*, lvalue refs will be *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use WhileTrue(Command) with RepeatCommand, or bind
+   command::Schedule with IfHigh(std::function<void()>).
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Trigger WhileActiveContinous(T&& command, bool interruptible = true) {
-    CommandScheduler::GetInstance().AddButton(
-        [pressedLast = m_isActive(), *this,
-         command = std::make_shared<std::remove_reference_t<T>>(
-             std::forward<T>(command)),
-         interruptible]() mutable {
-          bool pressed = m_isActive();
+  WPI_DEPRECATED(
+      "Use WhileTrue(Command) with RepeatCommand, or bind command::Schedule "
+      "with IfHigh(std::function<void()>).")
+  Trigger WhileActiveContinous(T&& command) {
+    std::shared_ptr<T> ptr =
+        std::make_shared<std::remove_reference_t<T>>(std::forward<T>(command));
+    m_event.IfHigh([ptr] { ptr->Schedule(); });
+    m_event.Falling().IfHigh([ptr] { ptr->Cancel(); });
 
-          if (pressed) {
-            Command_Schedule(command, interruptible);
-          } else if (pressedLast && !pressed) {
-            command->Cancel();
-          }
-
-          pressedLast = pressed;
-        });
     return *this;
   }
 
@@ -152,16 +301,22 @@ class Trigger {
    *
    * @param toRun the runnable to execute.
    * @param requirements the required subsystems.
+   * @deprecated Use WhileTrue(Command) and construct a RunCommand manually
    */
-  // Trigger WhileActiveContinous(std::function<void()> toRun,
-  //                              std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+   /*
+  WPI_DEPRECATED("Use WhileTrue(Command) and construct a RunCommand manually")
+  Trigger WhileActiveContinous(std::function<void()> toRun,
+                               std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+  */
 
   /**
    * Binds a runnable to execute repeatedly while the trigger is active.
    *
    * @param toRun the runnable to execute.
    * @param requirements the required subsystems.
+   * @deprecated Use WhileTrue(Command) and construct a RunCommand manually
    */
+  WPI_DEPRECATED("Use WhileTrue(Command) and construct a RunCommand manually")
   Trigger WhileActiveContinous(std::function<void()> toRun,
                                std::span<std::shared_ptr<Subsystem>> requirements = {});
 
@@ -171,39 +326,32 @@ class Trigger {
    * non-owning; users are responsible for the lifespan of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use WhileTrue(Command) instead.
    */
-  Trigger WhileActiveOnce(std::shared_ptr<Command> command, bool interruptible = true);
+  WPI_DEPRECATED("Use WhileTrue(Command) instead.")
+  Trigger WhileActiveOnce(std::shared_ptr<Command> command);
 
   /**
    * Binds a command to be started when the trigger becomes active, and
-   * canceled when it becomes inactive.  Transfers command ownership to the
+   * canceled when it becomes inactive. Transfers command ownership to the
    * button scheduler, so the user does not have to worry about lifespan -
    * rvalue refs will be *moved*, lvalue refs will be *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use WhileTrue(Command) instead.
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Trigger WhileActiveOnce(T&& command, bool interruptible = true) {
-    CommandScheduler::GetInstance().AddButton(
-        [pressedLast = m_isActive(), *this,
-         command = std::make_unique<std::remove_reference_t<T>>(
-             std::forward<T>(command)),
-         interruptible]() mutable {
-          bool pressed = m_isActive();
+  WPI_DEPRECATED("Use WhileTrue(Command) instead.")
+  Trigger WhileActiveOnce(T&& command) {
+    std::shared_ptr<T> ptr =
+        std::make_shared<std::remove_reference_t<T>>(std::forward<T>(command));
 
-          if (!pressedLast && pressed) {
-            Command_Schedule(command, interruptible);
-          } else if (pressedLast && !pressed) {
-            command->Cancel();
-          }
+    m_event.Rising().IfHigh([ptr] { ptr->Schedule(); });
+    m_event.Falling().IfHigh([ptr] { ptr->Cancel(); });
 
-          pressedLast = pressed;
-        });
     return *this;
   }
 
@@ -213,10 +361,11 @@ class Trigger {
    * of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use OnFalse(Command) instead.
    */
-  Trigger WhenInactive(std::shared_ptr<Command> command, bool interruptible = true);
+  WPI_DEPRECATED("Use OnFalse(Command) instead.")
+  Trigger WhenInactive(std::shared_ptr<Command> command);
 
   /**
    * Binds a command to start when the trigger becomes inactive.  Transfers
@@ -225,25 +374,17 @@ class Trigger {
    * *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use OnFalse(Command) instead.
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Trigger WhenInactive(T&& command, bool interruptible = true) {
-    CommandScheduler::GetInstance().AddButton(
-        [pressedLast = m_isActive(), *this,
-         command = std::make_shared<std::remove_reference_t<T>>(
-             std::forward<T>(command)),
-         interruptible]() mutable {
-          bool pressed = m_isActive();
+  WPI_DEPRECATED("Use OnFalse(Command) instead.")
+  Trigger WhenInactive(T&& command) {
+    m_event.Falling().IfHigh(
+        [command = std::make_unique<std::remove_reference_t<T>>(
+             std::forward<T>(command))] { command->Schedule(); });
 
-          if (pressedLast && !pressed) {
-            Command_Schedule(command, interruptible);
-          }
-
-          pressedLast = pressed;
-        });
     return *this;
   }
 
@@ -252,29 +393,40 @@ class Trigger {
    *
    * @param toRun the runnable to execute.
    * @param requirements the required subsystems.
+   * @deprecated Use OnFalse(Command) instead and construct the InstantCommand
+   * manually
    */
-  // Trigger WhenInactive(std::function<void()> toRun,
-  //                      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+   /*
+  WPI_DEPRECATED(
+      "Use OnFalse(Command) instead and construct the InstantCommand manually")
+  Trigger WhenInactive(std::function<void()> toRun,
+                       std::initializer_list<std::shared_ptr<Subsystem>> requirements);
+  */
 
   /**
    * Binds a runnable to execute when the trigger becomes inactive.
    *
    * @param toRun the runnable to execute.
    * @param requirements the required subsystems.
+   * @deprecated Use OnFalse(Command) instead and construct the InstantCommand
+   * manually
    */
+  WPI_DEPRECATED(
+      "Use OnFalse(Command) instead and construct the InstantCommand manually")
   Trigger WhenInactive(std::function<void()> toRun,
                        std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Binds a command to start when the trigger becomes active, and be canceled
-   * when it again becomes active.  Takes a raw pointer, and so is non-owning;
+   * when it again becomes active. Takes a raw pointer, and so is non-owning;
    * users are responsible for the lifespan of the command.
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use ToggleOnTrue(Command) instead.
    */
-  Trigger ToggleWhenActive(std::shared_ptr<Command> command, bool interruptible = true);
+  WPI_DEPRECATED("Use ToggleOnTrue(Command) instead.")
+  Trigger ToggleWhenActive(std::shared_ptr<Command> command);
 
   /**
    * Binds a command to start when the trigger becomes active, and be canceled
@@ -283,29 +435,23 @@ class Trigger {
    * will be *moved*, lvalue refs will be *copied.*
    *
    * @param command The command to bind.
-   * @param interruptible Whether the command should be interruptible.
    * @return The trigger, for chained calls.
+   * @deprecated Use ToggleOnTrue(Command) instead.
    */
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
-  Trigger ToggleWhenActive(T&& command, bool interruptible = true) {
-    CommandScheduler::GetInstance().AddButton(
-        [pressedLast = m_isActive(), *this,
-         command = std::make_shared<std::remove_reference_t<T>>(
-             std::forward<T>(command)),
-         interruptible]() mutable {
-          bool pressed = m_isActive();
-
-          if (!pressedLast && pressed) {
-            if (command->IsScheduled()) {
-              command->Cancel();
-            } else {
-              Command_Schedule(command, interruptible);
-            }
+  WPI_DEPRECATED("Use ToggleOnTrue(Command) instead.")
+  Trigger ToggleWhenActive(T&& command) {
+    m_event.Rising().IfHigh(
+        [command = std::make_unique<std::remove_reference_t<T>>(
+             std::forward<T>(command))] {
+          if (!command->IsScheduled()) {
+            command->Schedule();
+          } else {
+            command->Cancel();
           }
-
-          pressedLast = pressed;
         });
+
     return *this;
   }
 
@@ -316,16 +462,33 @@ class Trigger {
    *
    * @param command The command to bind.
    * @return The trigger, for chained calls.
+   * @deprecated Use Rising() as a command end condition with Until() instead.
    */
+  WPI_DEPRECATED(
+      "Use Rising() as a command end condition with Until() instead.")
   Trigger CancelWhenActive(std::shared_ptr<Command> command);
+
+  /**
+   * Get a new event that events only when this one newly changes to true.
+   *
+   * @return a new event representing when this one newly changes to true.
+   */
+  Trigger Rising() { return m_event.Rising().CastTo<Trigger>(); }
+
+  /**
+   * Get a new event that triggers only when this one newly changes to false.
+   *
+   * @return a new event representing when this one newly changes to false.
+   */
+  Trigger Falling() { return m_event.Falling().CastTo<Trigger>(); }
 
   /**
    * Composes two triggers with logical AND.
    *
    * @return A trigger which is active when both component triggers are active.
    */
-  Trigger operator&&(Trigger rhs) {
-    return Trigger([*this, rhs] { return m_isActive() && rhs.m_isActive(); });
+  Trigger operator&&(std::function<bool()> rhs) {
+    return m_event.operator&&(rhs).CastTo<Trigger>();
   }
 
   /**
@@ -333,8 +496,8 @@ class Trigger {
    *
    * @return A trigger which is active when either component trigger is active.
    */
-  Trigger operator||(Trigger rhs) {
-    return Trigger([*this, rhs] { return m_isActive() || rhs.m_isActive(); });
+  Trigger operator||(std::function<bool()> rhs) {
+    return m_event.operator||(rhs).CastTo<Trigger>();
   }
 
   /**
@@ -343,9 +506,7 @@ class Trigger {
    * @return A trigger which is active when the component trigger is inactive,
    * and vice-versa.
    */
-  Trigger operator!() {
-    return Trigger([*this] { return !m_isActive(); });
-  }
+  Trigger operator!() { return m_event.operator!().CastTo<Trigger>(); }
 
   /**
    * Returns whether or not the trigger is currently active
@@ -364,9 +525,16 @@ class Trigger {
    */
   Trigger Debounce(units::second_t debounceTime,
                    frc::Debouncer::DebounceType type =
-                       frc::Debouncer::DebounceType::kRising);
+                       frc::Debouncer::DebounceType::kRising) {
+    return m_event.Debounce(debounceTime, type).CastTo<Trigger>();
+  }
+
+  /**
+   * Get the wrapped BooleanEvent instance.
+   */
+  frc::BooleanEvent GetEvent() const;
 
  private:
-  std::function<bool()> m_isActive;
+  frc::BooleanEvent m_event;
 };
 }  // namespace frc2

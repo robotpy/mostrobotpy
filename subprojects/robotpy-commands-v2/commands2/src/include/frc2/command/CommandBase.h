@@ -5,13 +5,13 @@
 #pragma once
 
 #include <initializer_list>
+#include <span>
 #include <string>
 #include <string_view>
 
 #include <wpi/SmallSet.h>
 #include <wpi/sendable/Sendable.h>
 #include <wpi/sendable/SendableHelper.h>
-#include <wpi/span.h>
 
 #include "frc2/command/Command.h"
 

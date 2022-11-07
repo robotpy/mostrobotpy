@@ -7,6 +7,7 @@
 #include <functional>
 #include <initializer_list>
 #include <memory>
+#include <span>
 
 #include <frc/Timer.h>
 #include <frc/controller/PIDController.h>
@@ -17,7 +18,6 @@
 #include <frc/trajectory/Trajectory.h>
 #include <units/length.h>
 #include <units/voltage.h>
-#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"

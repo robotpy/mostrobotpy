@@ -6,6 +6,7 @@
 #include <functional>
 #include <initializer_list>
 #include <memory>
+#include <span>
 
 #include <frc/Timer.h>
 #include <frc/controller/HolonomicDriveController.h>
@@ -19,7 +20,6 @@
 #include <units/length.h>
 #include <units/time.h>
 #include <units/voltage.h>
-#include <wpi/span.h>
 
 #include "CommandBase.h"
 #include "CommandHelper.h"

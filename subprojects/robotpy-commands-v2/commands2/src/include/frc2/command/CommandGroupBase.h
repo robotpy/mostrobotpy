@@ -6,9 +6,8 @@
 
 #include <initializer_list>
 #include <memory>
+#include <span>
 #include <vector>
-
-#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 

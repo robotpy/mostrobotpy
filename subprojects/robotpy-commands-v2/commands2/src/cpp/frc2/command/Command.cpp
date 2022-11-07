@@ -4,16 +4,20 @@
 
 #include "frc2/command/Command.h"
 
+#include "frc2/command/CommandHelper.h"
 #include "frc2/command/CommandScheduler.h"
+#include "frc2/command/ConditionalCommand.h"
 #include "frc2/command/InstantCommand.h"
 #include "frc2/command/ParallelCommandGroup.h"
 #include "frc2/command/ParallelDeadlineGroup.h"
 #include "frc2/command/ParallelRaceGroup.h"
 #include "frc2/command/PerpetualCommand.h"
 #include "frc2/command/ProxyScheduleCommand.h"
+#include "frc2/command/RepeatCommand.h"
 #include "frc2/command/SequentialCommandGroup.h"
 #include "frc2/command/WaitCommand.h"
 #include "frc2/command/WaitUntilCommand.h"
+#include "frc2/command/WrapperCommand.h"
 
 #include <src/helpers.h>
 
@@ -33,34 +37,42 @@ void Command::Execute() {}
 void Command::End(bool interrupted) {}
 
 /*
-ParallelRaceGroup Command::WithTimeout(units::second_t duration) && {
-  std::vector<std::unique_ptr<Command>> temp;
-  temp.emplace_back(std::make_unique<WaitCommand>(duration));
-  temp.emplace_back(std::move(*this).TransferOwnership());
-  return ParallelRaceGroup(std::move(temp));
+CommandPtr Command::WithTimeout(units::second_t duration) && {
+  return CommandPtr(std::move(*this).TransferOwnership()).WithTimeout(duration);
 }
 */
 
 /*
-ParallelRaceGroup Command::Until(std::function<bool()> condition) && {
-  std::vector<std::unique_ptr<Command>> temp;
-  temp.emplace_back(std::make_unique<WaitUntilCommand>(std::move(condition)));
-  temp.emplace_back(std::move(*this).TransferOwnership());
-  return ParallelRaceGroup(std::move(temp));
+CommandPtr Command::Until(std::function<bool()> condition) && {
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .Until(std::move(condition));
 }
 */
 
 /*
-ParallelRaceGroup Command::WithInterrupt(std::function<bool()> condition) && {
-  std::vector<std::unique_ptr<Command>> temp;
-  temp.emplace_back(std::make_unique<WaitUntilCommand>(std::move(condition)));
-  temp.emplace_back(std::move(*this).TransferOwnership());
-  return ParallelRaceGroup(std::move(temp));
+CommandPtr Command::IgnoringDisable(bool doesRunWhenDisabled) && {
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .IgnoringDisable(doesRunWhenDisabled);
 }
 */
 
 /*
-SequentialCommandGroup Command::BeforeStarting(
+CommandPtr Command::WithInterruptBehavior(
+    InterruptionBehavior interruptBehavior) && {
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .WithInterruptBehavior(interruptBehavior);
+}
+*/
+
+/*
+CommandPtr Command::WithInterrupt(std::function<bool()> condition) && {
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .Until(std::move(condition));
+}
+*/
+
+/*
+CommandPtr Command::BeforeStarting(
     std::function<void()> toRun,
     std::initializer_list<Subsystem*> requirements) && {
   return std::move(*this).BeforeStarting(
@@ -69,54 +81,72 @@ SequentialCommandGroup Command::BeforeStarting(
 */
 
 /*
-SequentialCommandGroup Command::BeforeStarting(
+CommandPtr Command::BeforeStarting(
     std::function<void()> toRun, std::span<Subsystem* const> requirements) && {
-  std::vector<std::unique_ptr<Command>> temp;
-  temp.emplace_back(
-      std::make_unique<InstantCommand>(std::move(toRun), requirements));
-  temp.emplace_back(std::move(*this).TransferOwnership());
-  return SequentialCommandGroup(std::move(temp));
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .BeforeStarting(std::move(toRun), requirements);
 }
 */
 
 /*
-SequentialCommandGroup Command::AndThen(
-    std::function<void()> toRun,
-    std::initializer_list<Subsystem*> requirements) && {
+CommandPtr Command::AndThen(std::function<void()> toRun,
+                            std::initializer_list<Subsystem*> requirements) && {
   return std::move(*this).AndThen(std::move(toRun),
                                   {requirements.begin(), requirements.end()});
 }
 */
 
 /*
-SequentialCommandGroup Command::AndThen(
-    std::function<void()> toRun, std::span<Subsystem* const> requirements) && {
-  std::vector<std::unique_ptr<Command>> temp;
-  temp.emplace_back(std::move(*this).TransferOwnership());
-  temp.emplace_back(
-      std::make_unique<InstantCommand>(std::move(toRun), requirements));
-  return SequentialCommandGroup(std::move(temp));
+CommandPtr Command::AndThen(std::function<void()> toRun,
+                            std::span<Subsystem* const> requirements) && {
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .AndThen(std::move(toRun), requirements);
 }
 */
 
 /*
 PerpetualCommand Command::Perpetually() && {
+  WPI_IGNORE_DEPRECATED
   return PerpetualCommand(std::move(*this).TransferOwnership());
+  WPI_UNIGNORE_DEPRECATED
 }
 */
 
 /*
-ProxyScheduleCommand Command::AsProxy() {
-  return ProxyScheduleCommand(this);
+CommandPtr Command::Repeatedly() && {
+  return CommandPtr(std::move(*this).TransferOwnership()).Repeatedly();
 }
 */
 
-void frc2::Command_Schedule(std::shared_ptr<Command> self, bool interruptible) {
-  CommandScheduler::GetInstance().Schedule(interruptible, self);
+/*
+CommandPtr Command::AsProxy() && {
+  return CommandPtr(std::move(*this).TransferOwnership()).AsProxy();
 }
+*/
+
+/*
+CommandPtr Command::Unless(std::function<bool()> condition) && {
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .Unless(std::move(condition));
+}
+*/
+
+/*
+CommandPtr Command::FinallyDo(std::function<void(bool)> end) && {
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .FinallyDo(std::move(end));
+}
+*/
+
+/*
+CommandPtr Command::HandleInterrupt(std::function<void(void)> handler) && {
+  return CommandPtr(std::move(*this).TransferOwnership())
+      .HandleInterrupt(std::move(handler));
+}
+*/
 
 void frc2::Command_Schedule(std::shared_ptr<Command> self) {
-  CommandScheduler::GetInstance().Schedule(true, self);
+  CommandScheduler::GetInstance().Schedule(self);
 }
 
 void Command::Cancel() {
