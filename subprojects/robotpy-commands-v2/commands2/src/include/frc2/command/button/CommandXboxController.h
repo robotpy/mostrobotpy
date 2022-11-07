@@ -29,8 +29,7 @@ class CommandXboxController : public frc::XboxController {
    * to the given loop.
    */
   Trigger Button(int button,
-                 frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                            .GetDefaultButtonLoop()) const;
+                 std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the left bumper's digital signal.
@@ -40,8 +39,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the left bumper's digital signal
    * attached to the given loop.
    */
-  Trigger LeftBumper(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                                .GetDefaultButtonLoop()) const;
+  Trigger LeftBumper(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the right bumper's digital signal.
@@ -51,8 +49,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the right bumper's digital signal
    * attached to the given loop.
    */
-  Trigger RightBumper(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                                 .GetDefaultButtonLoop()) const;
+  Trigger RightBumper(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the left stick's digital signal.
@@ -62,8 +59,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the left stick's digital signal
    * attached to the given loop.
    */
-  Trigger LeftStick(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                               .GetDefaultButtonLoop()) const;
+  Trigger LeftStick(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the right stick's digital signal.
@@ -73,8 +69,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the right stick's digital signal
    * attached to the given loop.
    */
-  Trigger RightStick(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                                .GetDefaultButtonLoop()) const;
+  Trigger RightStick(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the A button's digital signal.
@@ -84,8 +79,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the A button's digital signal
    * attached to the given loop.
    */
-  Trigger A(frc::EventLoop* loop =
-                CommandScheduler::GetInstance().GetDefaultButtonLoop()) const;
+  Trigger A(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the B button's digital signal.
@@ -95,8 +89,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the B button's digital signal
    * attached to the given loop.
    */
-  Trigger B(frc::EventLoop* loop =
-                CommandScheduler::GetInstance().GetDefaultButtonLoop()) const;
+  Trigger B(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the X button's digital signal.
@@ -106,8 +99,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the X button's digital signal
    * attached to the given loop.
    */
-  Trigger X(frc::EventLoop* loop =
-                CommandScheduler::GetInstance().GetDefaultButtonLoop()) const;
+  Trigger X(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the Y button's digital signal.
@@ -117,8 +109,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the Y button's digital signal
    * attached to the given loop.
    */
-  Trigger Y(frc::EventLoop* loop =
-                CommandScheduler::GetInstance().GetDefaultButtonLoop()) const;
+  Trigger Y(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the back button's digital signal.
@@ -128,8 +119,7 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the back button's digital signal
    * attached to the given loop.
    */
-  Trigger Back(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                          .GetDefaultButtonLoop()) const;
+  Trigger Back(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the start button's digital signal.
@@ -139,7 +129,6 @@ class CommandXboxController : public frc::XboxController {
    * @return an event instance representing the start button's digital signal
    * attached to the given loop.
    */
-  Trigger Start(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                           .GetDefaultButtonLoop()) const;
+  Trigger Start(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 };
 }  // namespace frc2

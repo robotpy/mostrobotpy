@@ -6,7 +6,7 @@
 
 using namespace frc2;
 
-RepeatCommand::RepeatCommand(std::unique_ptr<Command>&& command) {
+RepeatCommand::RepeatCommand(std::shared_ptr<Command> command) {
   if (!CommandGroupBase::RequireUngrouped(*command)) {
     return;
   }

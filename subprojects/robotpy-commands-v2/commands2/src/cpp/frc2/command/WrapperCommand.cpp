@@ -40,6 +40,6 @@ Command::InterruptionBehavior WrapperCommand::GetInterruptionBehavior() const {
   return m_command->GetInterruptionBehavior();
 }
 
-wpi::SmallSet<Subsystem*, 4> WrapperCommand::GetRequirements() const {
+wpi::SmallSet<std::shared_ptr<Subsystem>, 4> WrapperCommand::GetRequirements() const {
   return m_command->GetRequirements();
 }

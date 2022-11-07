@@ -10,7 +10,7 @@
 
 namespace frc2 {
 template <typename T>
-void SetInsert(wpi::SmallVectorImpl<T*>& vector, std::span<T* const> toAdd) {
+void SetInsert(wpi::SmallVectorImpl<T>& vector, std::span<T> toAdd) {
   for (auto addCommand : toAdd) {
     bool exists = false;
     for (auto existingCommand : vector) {

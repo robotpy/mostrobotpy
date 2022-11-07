@@ -157,10 +157,10 @@ bool Command::IsScheduled() {
   return CommandScheduler::GetInstance().IsScheduled(this);
 }
 
-bool Command::HasRequirement(std::shared_ptr<Subsystem> requirement) const {
+bool Command::HasRequirement(Subsystem* requirement) const {
   bool hasRequirement = false;
   for (auto&& subsystem : GetRequirements()) {
-    hasRequirement |= requirement == subsystem;
+    hasRequirement |= requirement == subsystem.get();
   }
   return hasRequirement;
 }

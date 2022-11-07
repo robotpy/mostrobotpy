@@ -8,7 +8,6 @@ from ._impl import (
     CommandBase,
     CommandGroupBase,
     CommandScheduler,
-    CommandState,
     ConditionalCommand,
     FunctionalCommand,
     InstantCommand,
@@ -25,6 +24,7 @@ from ._impl import (
     ProfiledPIDSubsystem,
     ProxyScheduleCommand,
     RamseteCommand,
+    RepeatCommand,
     RunCommand,
     ScheduleCommand,
     SequentialCommandGroup,
@@ -44,6 +44,7 @@ from ._impl import (
     WaitCommand,
     WaitUntilCommand,
     # button,
+    # cmd,
     requirementsDisjoint,
 )
 
@@ -52,7 +53,6 @@ __all__ = [
     "CommandBase",
     "CommandGroupBase",
     "CommandScheduler",
-    "CommandState",
     "ConditionalCommand",
     "FunctionalCommand",
     "InstantCommand",
@@ -69,6 +69,7 @@ __all__ = [
     "ProfiledPIDSubsystem",
     "ProxyScheduleCommand",
     "RamseteCommand",
+    "RepeatCommand",
     "RunCommand",
     "ScheduleCommand",
     "SequentialCommandGroup",
@@ -88,5 +89,6 @@ __all__ = [
     "WaitCommand",
     "WaitUntilCommand",
     # "button",
+    # "cmd",
     "requirementsDisjoint",
 ]

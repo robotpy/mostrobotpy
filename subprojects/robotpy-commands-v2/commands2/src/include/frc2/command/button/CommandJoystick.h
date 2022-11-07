@@ -29,8 +29,7 @@ class CommandJoystick : public frc::Joystick {
    * to the given loop.
    */
   class Trigger Button(
-      int button, frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                             .GetDefaultButtonLoop()) const;
+      int button, std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the trigger button's digital signal.
@@ -41,8 +40,7 @@ class CommandJoystick : public frc::Joystick {
    * attached to the given loop.
    */
   class Trigger Trigger(
-      frc::EventLoop* loop =
-          CommandScheduler::GetInstance().GetDefaultButtonLoop()) const;
+      std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs an event instance around the top button's digital signal.
@@ -52,7 +50,6 @@ class CommandJoystick : public frc::Joystick {
    * @return an event instance representing the top button's digital signal
    * attached to the given loop.
    */
-  class Trigger Top(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                               .GetDefaultButtonLoop()) const;
+  class Trigger Top(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 };
 }  // namespace frc2

@@ -11,7 +11,8 @@ ScheduleCommand::ScheduleCommand(std::span<std::shared_ptr<Command>> toSchedule)
 }
 
 ScheduleCommand::ScheduleCommand(std::shared_ptr<Command> toSchedule) {
-  SetInsert(m_toSchedule, {&toSchedule, 1});
+  std::shared_ptr<Command> v[] = {toSchedule};
+  SetInsert(m_toSchedule, {v, 1});
 }
 
 void ScheduleCommand::Initialize() {

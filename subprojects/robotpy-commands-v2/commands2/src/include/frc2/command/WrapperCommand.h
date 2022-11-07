@@ -24,7 +24,7 @@ namespace frc2 {
  * <p>Wrapped commands may only be used through the wrapper, trying to directly
  * schedule them or add them to a group will throw an exception.
  */
-class WrapperCommand : public CommandHelper<CommandBase, WrapperCommand> {
+class WrapperCommand : public CommandBase {
  public:
   /**
    * Wrap a command.
@@ -66,7 +66,7 @@ class WrapperCommand : public CommandHelper<CommandBase, WrapperCommand> {
 
   InterruptionBehavior GetInterruptionBehavior() const override;
 
-  wpi::SmallSet<Subsystem*, 4> GetRequirements() const override;
+  wpi::SmallSet<std::shared_ptr<Subsystem>, 4> GetRequirements() const override;
 
  protected:
   std::unique_ptr<Command> m_command;

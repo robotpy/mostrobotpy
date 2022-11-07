@@ -29,7 +29,7 @@ namespace frc2 {
  *
  * <p>This class is provided by the NewCommands VendorDep
  */
-class RepeatCommand : public CommandHelper<CommandBase, RepeatCommand> {
+class RepeatCommand : public CommandBase {
  public:
   /**
    * Creates a new RepeatCommand. Will run another command repeatedly,
@@ -37,7 +37,7 @@ class RepeatCommand : public CommandHelper<CommandBase, RepeatCommand> {
    *
    * @param command the command to run repeatedly
    */
-  explicit RepeatCommand(std::unique_ptr<Command>&& command);
+  explicit RepeatCommand(std::shared_ptr<Command> command);
 
   /**
    * Creates a new RepeatCommand. Will run another command repeatedly,
@@ -70,7 +70,7 @@ class RepeatCommand : public CommandHelper<CommandBase, RepeatCommand> {
   bool RunsWhenDisabled() const override;
 
  private:
-  std::unique_ptr<Command> m_command;
+  std::shared_ptr<Command> m_command;
 };
 }  // namespace frc2
 

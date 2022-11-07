@@ -17,7 +17,7 @@ void Subsystem::SimulationPeriodic() {}
 
 void Subsystem::SetDefaultCommand(std::shared_ptr<Command> defaultCommand) {
   CommandScheduler::GetInstance().SetDefaultCommand(this,
-                                                    std::move(defaultCommand));
+                                                    defaultCommand);
 }
 
 std::shared_ptr<Command> Subsystem::GetDefaultCommand() {

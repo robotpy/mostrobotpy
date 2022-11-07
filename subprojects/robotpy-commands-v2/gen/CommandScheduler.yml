@@ -9,7 +9,6 @@ extra_includes:
 
 classes:
   CommandScheduler:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<CommandScheduler>
     methods:
@@ -19,15 +18,13 @@ classes:
       ResetInstance:
         no_release_gil: true
       SetPeriod:
-      AddButton:
+      GetActiveButtonLoop:
+      SetActiveButtonLoop:
+      GetDefaultButtonLoop:
       ClearButtons:
       Schedule:
         overloads:
-          bool, std::shared_ptr<Command>:
           std::shared_ptr<Command>:
-          bool, std::span<std::shared_ptr<Command>>:
-          bool, std::initializer_list<std::shared_ptr<Command>>:
-            ignore: true
           std::span<std::shared_ptr<Command>>:
           std::initializer_list<std::shared_ptr<Command>>:
             ignore: true
@@ -46,34 +43,38 @@ classes:
           std::span<Subsystem *>:
       SetDefaultCommand:
         template_impls:
-        - ["std::shared_ptr<Command>"]
+        - ["std::shared_ptr<Command>"]        
       GetDefaultCommand:
         overloads:
+          std::shared_ptr<Subsystem> [const]:
           frc2::Subsystem* [const]:
-          Subsystem* [const]:
             ignore: true
       Cancel:
         overloads:
           std::shared_ptr<Command>:
           frc2::Command*:
             ignore: true
+          frc2::CommandPtr&:
+            ignore: true
           std::span<std::shared_ptr<Command>>:
           std::initializer_list<std::shared_ptr<Command>>:
             ignore: true
       CancelAll:
-      TimeSinceScheduled:
       IsScheduled:
         overloads:
           std::span<const std::shared_ptr<Command>> [const]:
           std::initializer_list<const std::shared_ptr<Command>> [const]:
             ignore: true
           std::shared_ptr<Command> [const]:
-          Command* [const]:
+          frc2::Command* [const]:
+            ignore: true
+          frc2::CommandPtr& [const]:
             ignore: true
       Requiring:
         overloads:
           std::shared_ptr<Subsystem> [const]:
           frc2::Subsystem* [const]:
+            ignore: true
       Disable:
       Enable:
       OnCommandInitialize:
@@ -81,10 +82,7 @@ classes:
       OnCommandInterrupt:
       OnCommandFinish:
       InitSendable:
-
-inline_code: |
-
-    cls_CommandScheduler
+    inline_code: |
       .def("registerSubsystem", [](CommandScheduler * self, py::args args){
         auto vargs = pyargs2SubsystemList(args);
         self->RegisterSubsystem(vargs);
@@ -93,4 +91,3 @@ inline_code: |
         auto vargs = pyargs2SubsystemList(args);
         self->UnregisterSubsystem(vargs);
       })
-    ;

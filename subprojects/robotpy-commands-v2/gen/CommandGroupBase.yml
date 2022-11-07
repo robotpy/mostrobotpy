@@ -10,8 +10,8 @@ classes:
     methods:
       RequireUngrouped:
         overloads:
-          Command& [const]:
-          Command* [const]:
+          Command&:
+          Command*:
             ignore: true
           std::span<std::shared_ptr<Command>>:
           std::initializer_list<std::shared_ptr<Command>>:

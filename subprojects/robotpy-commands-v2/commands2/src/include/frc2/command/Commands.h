@@ -24,7 +24,7 @@ namespace cmd {
 /**
  * Constructs a command that does nothing, finishing immediately.
  */
-[[nodiscard]] CommandPtr None();
+[[nodiscard]] std::shared_ptr<Command> None();
 
 // Action Commands
 
@@ -34,9 +34,9 @@ namespace cmd {
  * @param action the action to run
  * @param requirements subsystems the action requires
  */
-[[nodiscard]] CommandPtr RunOnce(
+[[nodiscard]] std::shared_ptr<Command> RunOnce(
     std::function<void()> action,
-    std::initializer_list<Subsystem*> requirements);
+    std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
 /**
  * Constructs a command that runs an action once and finishes.
@@ -44,8 +44,8 @@ namespace cmd {
  * @param action the action to run
  * @param requirements subsystems the action requires
  */
-[[nodiscard]] CommandPtr RunOnce(std::function<void()> action,
-                                 std::span<Subsystem* const> requirements = {});
+[[nodiscard]] std::shared_ptr<Command> RunOnce(std::function<void()> action,
+                                 std::span<std::shared_ptr<Subsystem>> requirements = {});
 
 /**
  * Constructs a command that runs an action every iteration until interrupted.
@@ -53,8 +53,8 @@ namespace cmd {
  * @param action the action to run
  * @param requirements subsystems the action requires
  */
-[[nodiscard]] CommandPtr Run(std::function<void()> action,
-                             std::initializer_list<Subsystem*> requirements);
+[[nodiscard]] std::shared_ptr<Command> Run(std::function<void()> action,
+                             std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
 /**
  * Constructs a command that runs an action every iteration until interrupted.
@@ -62,8 +62,8 @@ namespace cmd {
  * @param action the action to run
  * @param requirements subsystems the action requires
  */
-[[nodiscard]] CommandPtr Run(std::function<void()> action,
-                             std::span<Subsystem* const> requirements = {});
+[[nodiscard]] std::shared_ptr<Command> Run(std::function<void()> action,
+                             std::span<std::shared_ptr<Subsystem>> requirements = {});
 
 /**
  * Constructs a command that runs an action once and another action when the
@@ -73,9 +73,9 @@ namespace cmd {
  * @param end the action to run on interrupt
  * @param requirements subsystems the action requires
  */
-[[nodiscard]] CommandPtr StartEnd(
+[[nodiscard]] std::shared_ptr<Command> StartEnd(
     std::function<void()> start, std::function<void()> end,
-    std::initializer_list<Subsystem*> requirements);
+    std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
 /**
  * Constructs a command that runs an action once and another action when the
@@ -85,9 +85,9 @@ namespace cmd {
  * @param end the action to run on interrupt
  * @param requirements subsystems the action requires
  */
-[[nodiscard]] CommandPtr StartEnd(
+[[nodiscard]] std::shared_ptr<Command> StartEnd(
     std::function<void()> start, std::function<void()> end,
-    std::span<Subsystem* const> requirements = {});
+    std::span<std::shared_ptr<Subsystem>> requirements = {});
 
 /**
  * Constructs a command that runs an action every iteration until interrupted,
@@ -97,9 +97,9 @@ namespace cmd {
  * @param end the action to run on interrupt
  * @param requirements subsystems the action requires
  */
-[[nodiscard]] CommandPtr RunEnd(std::function<void()> run,
+[[nodiscard]] std::shared_ptr<Command> RunEnd(std::function<void()> run,
                                 std::function<void()> end,
-                                std::initializer_list<Subsystem*> requirements);
+                                std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
 /**
  * Constructs a command that runs an action every iteration until interrupted,
@@ -109,16 +109,16 @@ namespace cmd {
  * @param end the action to run on interrupt
  * @param requirements subsystems the action requires
  */
-[[nodiscard]] CommandPtr RunEnd(std::function<void()> run,
+[[nodiscard]] std::shared_ptr<Command> RunEnd(std::function<void()> run,
                                 std::function<void()> end,
-                                std::span<Subsystem* const> requirements = {});
+                                std::span<std::shared_ptr<Subsystem>> requirements = {});
 
 /**
  * Constructs a command that prints a message and finishes.
  *
  * @param msg the message to print
  */
-[[nodiscard]] CommandPtr Print(std::string_view msg);
+[[nodiscard]] std::shared_ptr<Command> Print(std::string_view msg);
 
 // Idling Commands
 
@@ -127,7 +127,7 @@ namespace cmd {
  *
  * @param duration after how long the command finishes
  */
-[[nodiscard]] CommandPtr Wait(units::second_t duration);
+[[nodiscard]] std::shared_ptr<Command> Wait(units::second_t duration);
 
 /**
  * Constructs a command that does nothing, finishing once a command becomes
@@ -135,7 +135,7 @@ namespace cmd {
  *
  * @param condition the condition
  */
-[[nodiscard]] CommandPtr WaitUntil(std::function<bool()> condition);
+[[nodiscard]] std::shared_ptr<Command> WaitUntil(std::function<bool()> condition);
 
 // Selector Commands
 
@@ -146,7 +146,7 @@ namespace cmd {
  * @param onFalse the command to run if the selector function returns false
  * @param selector the selector function
  */
-[[nodiscard]] CommandPtr Either(CommandPtr&& onTrue, CommandPtr&& onFalse,
+[[nodiscard]] std::shared_ptr<Command> Either(std::shared_ptr<Command> onTrue, std::shared_ptr<Command> onFalse,
                                 std::function<bool()> selector);
 
 /**
@@ -156,41 +156,41 @@ namespace cmd {
  * @param commands map of commands to select from
  */
 template <typename Key>
-[[nodiscard]] CommandPtr Select(
+[[nodiscard]] std::shared_ptr<Command> Select(
     std::function<Key()> selector,
-    std::vector<std::pair<Key, CommandPtr>> commands);
+    std::vector<std::pair<Key, std::shared_ptr<Command>>> commands);
 
 // Command Groups
 
 /**
  * Runs a group of commands in series, one after the other.
  */
-[[nodiscard]] CommandPtr Sequence(std::vector<CommandPtr>&& commands);
+[[nodiscard]] std::shared_ptr<Command> Sequence(std::vector<std::shared_ptr<Command>>&& commands);
 
 /**
  * Runs a group of commands in series, one after the other. Once the last
  * command ends, the group is restarted.
  */
-[[nodiscard]] CommandPtr RepeatingSequence(std::vector<CommandPtr>&& commands);
+[[nodiscard]] std::shared_ptr<Command> RepeatingSequence(std::vector<std::shared_ptr<Command>>&& commands);
 
 /**
  * Runs a group of commands at the same time. Ends once all commands in the
  * group finish.
  */
-[[nodiscard]] CommandPtr Parallel(std::vector<CommandPtr>&& commands);
+[[nodiscard]] std::shared_ptr<Command> Parallel(std::vector<std::shared_ptr<Command>>&& commands);
 
 /**
  * Runs a group of commands at the same time. Ends once any command in the group
  * finishes, and cancels the others.
  */
-[[nodiscard]] CommandPtr Race(std::vector<CommandPtr>&& commands);
+[[nodiscard]] std::shared_ptr<Command> Race(std::vector<std::shared_ptr<Command>>&& commands);
 
 /**
  * Runs a group of commands at the same time. Ends once a specific command
  * finishes, and cancels the others.
  */
-[[nodiscard]] CommandPtr Deadline(CommandPtr&& deadline,
-                                  std::vector<CommandPtr>&& others);
+[[nodiscard]] std::shared_ptr<Command> Deadline(std::shared_ptr<Command> deadline,
+                                  std::vector<std::shared_ptr<Command>>&& others);
 }  // namespace cmd
 
 }  // namespace frc2

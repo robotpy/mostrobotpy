@@ -30,7 +30,7 @@ using namespace frc2;
 class CommandScheduler::Impl {
  public:
   // A set of the currently-running commands.
-  wpi::SmallSet<std::shared_ptr<Command>, 12> scheduledCommands;
+  wpi::DenseMap<std::shared_ptr<Command>, bool> scheduledCommands;
 
   // A map from required subsystems to their requiring commands.  Also used as a
   // set of the currently-required subsystems.
@@ -133,7 +133,7 @@ void CommandScheduler::Schedule(std::shared_ptr<Command> command) {
   }
   if (m_impl->disabled ||
       (frc::RobotState::IsDisabled() && !command->RunsWhenDisabled()) ||
-      m_impl->scheduledCommands.contains(command)) {
+      ContainsKey(m_impl->scheduledCommands, command)) {
     return;
   }
 
@@ -159,7 +159,7 @@ void CommandScheduler::Schedule(std::shared_ptr<Command> command) {
         Cancel(cmdToCancel);
       }
     }
-    m_impl->scheduledCommands.insert(command);
+    m_impl->scheduledCommands[command] = true;
     for (auto&& requirement : requirements) {
       m_impl->requirements[requirement] = command;
     }
@@ -214,7 +214,8 @@ void CommandScheduler::Run() {
 
   m_impl->inRunLoop = true;
   // Run scheduled commands, remove finished commands.
-  for (std::shared_ptr<Command> command : m_impl->scheduledCommands) {
+  for (auto&& iter : m_impl->scheduledCommands) {
+    auto command = iter.first;
     if (!command->RunsWhenDisabled() && frc::RobotState::IsDisabled()) {
       Cancel(command);
       continue;
@@ -242,7 +243,7 @@ void CommandScheduler::Run() {
   }
   m_impl->inRunLoop = false;
 
-  for (Command* command : m_impl->toSchedule) {
+  for (auto&& command : m_impl->toSchedule) {
     Schedule(command);
   }
 
@@ -286,7 +287,7 @@ void CommandScheduler::RegisterSubsystem(
 }
 
 void CommandScheduler::RegisterSubsystem(
-    std::span<Subsystem* const> subsystems) {
+    std::span<Subsystem*> subsystems) {
   for (auto* subsystem : subsystems) {
     RegisterSubsystem(subsystem);
   }
@@ -300,12 +301,13 @@ void CommandScheduler::UnregisterSubsystem(
 }
 
 void CommandScheduler::UnregisterSubsystem(
-    std::span<Subsystem* const> subsystems) {
+    std::span<Subsystem*> subsystems) {
   for (auto* subsystem : subsystems) {
     UnregisterSubsystem(subsystem);
   }
 }
 
+/*
 void CommandScheduler::SetDefaultCommand(Subsystem* subsystem,
                                          CommandPtr&& defaultCommand) {
   if (!defaultCommand.get()->HasRequirement(subsystem)) {
@@ -319,12 +321,13 @@ void CommandScheduler::SetDefaultCommand(Subsystem* subsystem,
 
   SetDefaultCommandImpl(subsystem, std::move(defaultCommand).Unwrap());
 }
+*/
 
 std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const std::shared_ptr<Subsystem> subsystem) const {
   return GetDefaultCommand(subsystem.get());
 }
 
-Command* CommandScheduler::GetDefaultCommand(const Subsystem* subsystem) const {
+std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const Subsystem* subsystem) const {
   auto&& find = m_impl->subsystems.find(subsystem);
   if (find != m_impl->subsystems.end()) {
     return find->second;
@@ -347,7 +350,7 @@ void CommandScheduler::Cancel(std::shared_ptr<Command> command) {
   if (find == m_impl->scheduledCommands.end()) {
     return;
   }
-  m_impl->scheduledCommands.erase(*find);
+  m_impl->scheduledCommands.erase(find);
   for (auto&& requirement : m_impl->requirements) {
     if (requirement.second == command) {
       m_impl->requirements.erase(requirement.first);
@@ -355,7 +358,7 @@ void CommandScheduler::Cancel(std::shared_ptr<Command> command) {
   }
   command->End(true);
   for (auto&& action : m_impl->interruptActions) {
-    action(*command);
+    action(command);
   }
   m_watchdog.AddEpoch(command->GetName() + ".End(true)");
 }
@@ -372,9 +375,11 @@ void CommandScheduler::Cancel(Command *command) {
   Cancel(found->first);
 }
 
+/*
 void CommandScheduler::Cancel(const CommandPtr& command) {
   Cancel(command.get());
 }
+*/
 
 void CommandScheduler::Cancel(std::span<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
@@ -391,7 +396,7 @@ void CommandScheduler::Cancel(std::initializer_list<std::shared_ptr<Command>> co
 void CommandScheduler::CancelAll() {
   wpi::SmallVector<std::shared_ptr<Command>, 16> commands;
   for (auto&& command : m_impl->scheduledCommands) {
-    commands.emplace_back(command);
+    commands.emplace_back(command.first);
   }
   Cancel(commands);
 }
@@ -417,7 +422,7 @@ bool CommandScheduler::IsScheduled(
 }
 
 bool CommandScheduler::IsScheduled(std::shared_ptr<Command> command) const {
-  return m_impl->scheduledCommands.contains(command);
+  return ContainsKey(m_impl->scheduledCommands, command);
 }
 
 bool CommandScheduler::IsScheduled(const Command* command) const {
@@ -425,9 +430,10 @@ bool CommandScheduler::IsScheduled(const Command* command) const {
          m_impl->scheduledCommands.end();
 }
 
+/*
 bool CommandScheduler::IsScheduled(const CommandPtr& command) const {
   return m_impl->scheduledCommands.contains(command.get());
-}
+}*/
 
 std::shared_ptr<Command> CommandScheduler::Requiring(const std::shared_ptr<Subsystem> subsystem) const {
   auto find = m_impl->requirements.find(subsystem);
@@ -484,7 +490,7 @@ void CommandScheduler::InitSendable(nt::NTSendableBuilder& builder) {
           for (auto cancel : cancelEntry.Get()) {
             uintptr_t ptrTmp = static_cast<uintptr_t>(cancel);
             Command* command = reinterpret_cast<Command*>(ptrTmp);
-            if (m_impl->scheduledCommands.find(command) !=
+            if (m_impl->scheduledCommands.find_as(command) !=
                 m_impl->scheduledCommands.end()) {
               Cancel(command);
             }
@@ -494,9 +500,9 @@ void CommandScheduler::InitSendable(nt::NTSendableBuilder& builder) {
 
         wpi::SmallVector<std::string, 8> names;
         wpi::SmallVector<int64_t, 8> ids;
-        for (Command* command : m_impl->scheduledCommands) {
-          names.emplace_back(command->GetName());
-          uintptr_t ptrTmp = reinterpret_cast<uintptr_t>(command);
+        for (auto &&command : m_impl->scheduledCommands) {
+          names.emplace_back(command.first->GetName());
+          uintptr_t ptrTmp = reinterpret_cast<uintptr_t>(command.first.get());
           ids.emplace_back(static_cast<int64_t>(ptrTmp));
         }
         namesPub.Set(names);
@@ -505,7 +511,7 @@ void CommandScheduler::InitSendable(nt::NTSendableBuilder& builder) {
 }
 
 void CommandScheduler::SetDefaultCommandImpl(Subsystem* subsystem,
-                                             std::unique_ptr<Command> command) {
+                                             std::shared_ptr<Command> command) {
   if (command->GetInterruptionBehavior() ==
       Command::InterruptionBehavior::kCancelIncoming) {
     std::puts(

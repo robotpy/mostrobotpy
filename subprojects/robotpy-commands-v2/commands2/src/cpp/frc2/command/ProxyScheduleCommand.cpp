@@ -12,7 +12,8 @@ ProxyScheduleCommand::ProxyScheduleCommand(
 }
 
 ProxyScheduleCommand::ProxyScheduleCommand(std::shared_ptr<Command> toSchedule) {
-  SetInsert(m_toSchedule, {&toSchedule, 1});
+  std::shared_ptr<Command> v[] = {toSchedule};
+  SetInsert(m_toSchedule, {v, 1});
 }
 
 // ProxyScheduleCommand::ProxyScheduleCommand(

@@ -2,4 +2,6 @@
 
 classes:
   TimedCommandRobot:
-    shared_ptr: false
+    methods:
+      TimedCommandRobot:
+      RobotPeriodic:

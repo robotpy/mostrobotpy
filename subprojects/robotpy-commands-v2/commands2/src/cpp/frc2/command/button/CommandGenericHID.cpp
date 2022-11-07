@@ -6,51 +6,53 @@
 
 using namespace frc2;
 
-Trigger CommandGenericHID::Button(int button, frc::EventLoop* loop) const {
+#define loop (loop_arg ? *loop_arg : CommandScheduler::GetInstance().GetDefaultButtonLoop())
+
+Trigger CommandGenericHID::Button(int button, std::optional<frc::EventLoop*> loop_arg) const {
   return GenericHID::Button(button, loop).CastTo<Trigger>();
 }
 
-Trigger CommandGenericHID::POV(int angle, frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POV(int angle, std::optional<frc::EventLoop*> loop_arg) const {
   return POV(0, angle, loop);
 }
 
-Trigger CommandGenericHID::POV(int pov, int angle, frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POV(int pov, int angle, std::optional<frc::EventLoop*> loop_arg) const {
   return Trigger(loop,
                  [this, pov, angle] { return this->GetPOV(pov) == angle; });
 }
 
-Trigger CommandGenericHID::POVUp(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVUp(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(0, loop);
 }
 
-Trigger CommandGenericHID::POVUpRight(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVUpRight(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(45, loop);
 }
 
-Trigger CommandGenericHID::POVRight(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVRight(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(90, loop);
 }
 
-Trigger CommandGenericHID::POVDownRight(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVDownRight(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(135, loop);
 }
 
-Trigger CommandGenericHID::POVDown(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVDown(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(180, loop);
 }
 
-Trigger CommandGenericHID::POVDownLeft(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVDownLeft(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(225, loop);
 }
 
-Trigger CommandGenericHID::POVLeft(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVLeft(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(270, loop);
 }
 
-Trigger CommandGenericHID::POVUpLeft(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVUpLeft(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(315, loop);
 }
 
-Trigger CommandGenericHID::POVCenter(frc::EventLoop* loop) const {
+Trigger CommandGenericHID::POVCenter(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(360, loop);
 }

@@ -28,9 +28,9 @@ classes:
       InitSendable:
       CommandBase:
         cpp_code: |
-          .def(py::init([]() {
+          []() {
             return std::make_shared<CommandBase_Trampoline>();
-          })
+          }
 
 
 inline_code: |

@@ -180,15 +180,14 @@ class CommandScheduler final : public nt::NTSendable,
    * @param subsystem      the subsystem whose default command will be set
    * @param defaultCommand the default command to associate with the subsystem
    */
-  template <class T, typename = std::enable_if_t<std::is_base_of_v<
-                         Command, std::remove_reference_t<T>>>>
-  void SetDefaultCommand(std::shared_ptr<Subsystem> subsystem, T&& defaultCommand) {
-    if (!defaultCommand.HasRequirement(subsystem)) {
-      throw FRC_MakeError(frc::err::CommandIllegalUse,
+  template <class T>
+  void SetDefaultCommand(Subsystem* subsystem, T defaultCommand) {
+    if (!defaultCommand->HasRequirement(subsystem)) {
+      throw FRC_MakeError(frc::err::CommandIllegalUse, "{}",
                           "Default commands must require their subsystem!");
     }
-    if (defaultCommand.IsFinished()) {
-      throw FRC_MakeError(frc::err::CommandIllegalUse,
+    if (defaultCommand->IsFinished()) {
+      throw FRC_MakeError(frc::err::CommandIllegalUse, "{}",
                           "Default commands should not end!");
     }
     SetDefaultCommandImpl(subsystem, defaultCommand);
@@ -205,7 +204,9 @@ class CommandScheduler final : public nt::NTSendable,
    * @param subsystem      the subsystem whose default command will be set
    * @param defaultCommand the default command to associate with the subsystem
    */
+  /*
   void SetDefaultCommand(Subsystem* subsystem, CommandPtr&& defaultCommand);
+  */
 
   /**
    * Gets the default command associated with this subsystem.  Null if this
@@ -241,7 +242,9 @@ class CommandScheduler final : public nt::NTSendable,
    *
    * @param command the command to cancel
    */
+   /*
   void Cancel(const CommandPtr& command);
+  */
 
   /**
    * Cancels commands. The scheduler will only call Command::End()
@@ -280,7 +283,7 @@ class CommandScheduler final : public nt::NTSendable,
    * @param commands the command to query
    * @return whether the command is currently scheduled
    */
-  bool IsScheduled(std::span<const std::shared_ptr<Command>> commands) const;
+  bool IsScheduled(std::span<std::shared_ptr<Command>> commands) const;
 
   /**
    * Whether the given commands are running.  Note that this only works on
@@ -300,7 +303,7 @@ class CommandScheduler final : public nt::NTSendable,
    * @param command the command to query
    * @return whether the command is currently scheduled
    */
-  bool IsScheduled(const std::shared_ptr<Command> command) const;
+  bool IsScheduled(std::shared_ptr<Command> command) const;
   bool IsScheduled(const Command* command) const;
 
   /**
@@ -311,7 +314,9 @@ class CommandScheduler final : public nt::NTSendable,
    * @param command the command to query
    * @return whether the command is currently scheduled
    */
+   /*
   bool IsScheduled(const CommandPtr& command) const;
+  */
 
   /**
    * Returns the command currently requiring a given subsystem.  Null if no
@@ -369,7 +374,7 @@ class CommandScheduler final : public nt::NTSendable,
   // Constructor; private as this is a singleton
   CommandScheduler();
 
-  void SetDefaultCommandImpl(std::shared_ptr<Subsystem> subsystem,
+  void SetDefaultCommandImpl(Subsystem* subsystem,
                              std::shared_ptr<Command> command);
 
   class Impl;

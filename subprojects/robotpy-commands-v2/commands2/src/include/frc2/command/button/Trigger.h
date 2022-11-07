@@ -77,7 +77,9 @@ class Trigger {
    * @param command The command to bind.
    * @return The trigger, for chained calls.
    */
+   /*
   Trigger OnTrue(CommandPtr&& command);
+  */
 
   /**
    * Starts the given command whenever the signal falls from `true` to `false`.
@@ -97,7 +99,9 @@ class Trigger {
    * @param command The command to bind.
    * @return The trigger, for chained calls.
    */
+   /*
   Trigger OnFalse(CommandPtr&& command);
+  */
 
   /**
    * Starts the given command when the signal rises to `true` and cancels it
@@ -121,7 +125,9 @@ class Trigger {
    * @param command The command to bind.
    * @return The trigger, for chained calls.
    */
+   /*
   Trigger WhileTrue(CommandPtr&& command);
+  */
 
   /**
    * Starts the given command when the signal falls to `false` and cancels
@@ -145,7 +151,9 @@ class Trigger {
    * @param command The command to bind.
    * @return The trigger, for chained calls.
    */
+   /*
   Trigger WhileFalse(CommandPtr&& command);
+  */
 
   /**
    * Toggles a command when the signal rises from `false` to the high
@@ -169,7 +177,9 @@ class Trigger {
    * @param command the command to toggle
    * @return this trigger, so calls can be chained
    */
+   /*
   Trigger ToggleOnTrue(CommandPtr&& command);
+  */
 
   /**
    * Toggles a command when the signal falls from `true` to the low
@@ -193,7 +203,9 @@ class Trigger {
    * @param command the command to toggle
    * @return this trigger, so calls can be chained
    */
+   /*
   Trigger ToggleOnFalse(CommandPtr&& command);
+  */
 
   /**
    * Binds a command to start when the trigger becomes active. Takes a
@@ -222,8 +234,8 @@ class Trigger {
   WPI_DEPRECATED("Use OnTrue(Command) instead")
   Trigger WhenActive(T&& command) {
     m_event.Rising().IfHigh(
-        [command = std::make_unique<std::remove_reference_t<T>>(
-             std::forward<T>(command))] { command->Schedule(); });
+        [command = std::make_shared<std::remove_reference_t<T>>(
+             std::forward<T>(command))] { Command_Schedule(command); });
 
     return *this;
   }
@@ -290,7 +302,7 @@ class Trigger {
   Trigger WhileActiveContinous(T&& command) {
     std::shared_ptr<T> ptr =
         std::make_shared<std::remove_reference_t<T>>(std::forward<T>(command));
-    m_event.IfHigh([ptr] { ptr->Schedule(); });
+    m_event.IfHigh([ptr] { Command_Schedule(ptr); });
     m_event.Falling().IfHigh([ptr] { ptr->Cancel(); });
 
     return *this;
@@ -349,7 +361,7 @@ class Trigger {
     std::shared_ptr<T> ptr =
         std::make_shared<std::remove_reference_t<T>>(std::forward<T>(command));
 
-    m_event.Rising().IfHigh([ptr] { ptr->Schedule(); });
+    m_event.Rising().IfHigh([ptr] { Command_Schedule(ptr); });
     m_event.Falling().IfHigh([ptr] { ptr->Cancel(); });
 
     return *this;
@@ -382,8 +394,8 @@ class Trigger {
   WPI_DEPRECATED("Use OnFalse(Command) instead.")
   Trigger WhenInactive(T&& command) {
     m_event.Falling().IfHigh(
-        [command = std::make_unique<std::remove_reference_t<T>>(
-             std::forward<T>(command))] { command->Schedule(); });
+        [command = std::make_shared<std::remove_reference_t<T>>(
+             std::forward<T>(command))] { Command_Schedule(command); });
 
     return *this;
   }
@@ -443,10 +455,10 @@ class Trigger {
   WPI_DEPRECATED("Use ToggleOnTrue(Command) instead.")
   Trigger ToggleWhenActive(T&& command) {
     m_event.Rising().IfHigh(
-        [command = std::make_unique<std::remove_reference_t<T>>(
+        [command = std::make_shared<std::remove_reference_t<T>>(
              std::forward<T>(command))] {
           if (!command->IsScheduled()) {
-            command->Schedule();
+            Command_Schedule(command);
           } else {
             command->Cancel();
           }
@@ -491,6 +503,10 @@ class Trigger {
     return m_event.operator&&(rhs).CastTo<Trigger>();
   }
 
+  Trigger operator&&(Trigger &rhs) {
+    return (m_event && rhs.m_event).CastTo<Trigger>();
+  }
+
   /**
    * Composes two triggers with logical OR.
    *
@@ -498,6 +514,10 @@ class Trigger {
    */
   Trigger operator||(std::function<bool()> rhs) {
     return m_event.operator||(rhs).CastTo<Trigger>();
+  }
+
+  Trigger operator||(Trigger &rhs) {
+    return (m_event || rhs.m_event).CastTo<Trigger>();
   }
 
   /**
@@ -512,7 +532,7 @@ class Trigger {
    * Returns whether or not the trigger is currently active
    */
   bool Get() {
-    return m_isActive();
+    return m_event.GetAsBoolean();
   }
 
   /**

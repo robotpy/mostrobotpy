@@ -3,9 +3,6 @@
 extra_includes:
 - frc2/command/Command.h
 
-inline_code: |
-  #include <src/Subsystem.cpp.inl>
-
 classes:
   Subsystem:
     shared_ptr: true

@@ -13,6 +13,7 @@
 #include "frc2/command/PerpetualCommand.h"
 #include "frc2/command/PrintCommand.h"
 #include "frc2/command/ProxyScheduleCommand.h"
+#include "frc2/command/RepeatCommand.h"
 #include "frc2/command/RunCommand.h"
 #include "frc2/command/SelectCommand.h"
 #include "frc2/command/SequentialCommandGroup.h"
@@ -23,83 +24,79 @@ using namespace frc2;
 
 // Factories
 
-CommandPtr cmd::None() {
-  return InstantCommand().ToPtr();
+std::shared_ptr<Command> cmd::None() {
+  return std::make_shared<InstantCommand>();
 }
 
-CommandPtr cmd::RunOnce(std::function<void()> action,
-                        std::initializer_list<Subsystem*> requirements) {
-  return InstantCommand(std::move(action), requirements).ToPtr();
+std::shared_ptr<Command> cmd::RunOnce(std::function<void()> action,
+                        std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  return std::make_shared<InstantCommand>(std::move(action), requirements);
 }
 
-CommandPtr cmd::RunOnce(std::function<void()> action,
-                        std::span<Subsystem* const> requirements) {
-  return InstantCommand(std::move(action), requirements).ToPtr();
+std::shared_ptr<Command> cmd::RunOnce(std::function<void()> action,
+                        std::span<std::shared_ptr<Subsystem>> requirements) {
+  return std::make_shared<InstantCommand>(std::move(action), requirements);
 }
 
-CommandPtr cmd::Run(std::function<void()> action,
-                    std::initializer_list<Subsystem*> requirements) {
-  return RunCommand(std::move(action), requirements).ToPtr();
+std::shared_ptr<Command> cmd::Run(std::function<void()> action,
+                    std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  return std::make_shared<RunCommand>(std::move(action), requirements);
 }
 
-CommandPtr cmd::Run(std::function<void()> action,
-                    std::span<Subsystem* const> requirements) {
-  return RunCommand(std::move(action), requirements).ToPtr();
+std::shared_ptr<Command> cmd::Run(std::function<void()> action,
+                    std::span<std::shared_ptr<Subsystem>> requirements) {
+  return std::make_shared<RunCommand>(std::move(action), requirements);
 }
 
-CommandPtr cmd::StartEnd(std::function<void()> start, std::function<void()> end,
-                         std::initializer_list<Subsystem*> requirements) {
-  return FunctionalCommand(
+std::shared_ptr<Command> cmd::StartEnd(std::function<void()> start, std::function<void()> end,
+                         std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  return std::make_shared<FunctionalCommand>(
              std::move(start), [] {},
              [end = std::move(end)](bool interrupted) { end(); },
-             [] { return false; }, requirements)
-      .ToPtr();
+             [] { return false; }, requirements);
 }
 
-CommandPtr cmd::StartEnd(std::function<void()> start, std::function<void()> end,
-                         std::span<Subsystem* const> requirements) {
-  return FunctionalCommand(
+std::shared_ptr<Command> cmd::StartEnd(std::function<void()> start, std::function<void()> end,
+                         std::span<std::shared_ptr<Subsystem>> requirements) {
+  return std::make_shared<FunctionalCommand>(
              std::move(start), [] {},
              [end = std::move(end)](bool interrupted) { end(); },
-             [] { return false; }, requirements)
-      .ToPtr();
+             [] { return false; }, requirements);
 }
 
-CommandPtr cmd::RunEnd(std::function<void()> run, std::function<void()> end,
-                       std::initializer_list<Subsystem*> requirements) {
-  return FunctionalCommand([] {}, std::move(run),
+std::shared_ptr<Command> cmd::RunEnd(std::function<void()> run, std::function<void()> end,
+                       std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  return std::make_shared<FunctionalCommand>([] {}, std::move(run),
                            [end = std::move(end)](bool interrupted) { end(); },
-                           [] { return false; }, requirements)
-      .ToPtr();
+                           [] { return false; }, requirements);
 }
 
-CommandPtr cmd::RunEnd(std::function<void()> run, std::function<void()> end,
-                       std::span<Subsystem* const> requirements) {
-  return FunctionalCommand([] {}, std::move(run),
+std::shared_ptr<Command> cmd::RunEnd(std::function<void()> run, std::function<void()> end,
+                       std::span<std::shared_ptr<Subsystem>> requirements) {
+  return std::make_shared<FunctionalCommand>([] {}, std::move(run),
                            [end = std::move(end)](bool interrupted) { end(); },
-                           [] { return false; }, requirements)
-      .ToPtr();
+                           [] { return false; }, requirements);
 }
 
-CommandPtr cmd::Print(std::string_view msg) {
-  return PrintCommand(msg).ToPtr();
+std::shared_ptr<Command> cmd::Print(std::string_view msg) {
+  return std::make_shared<PrintCommand>(msg);
 }
 
-CommandPtr cmd::Wait(units::second_t duration) {
-  return WaitCommand(duration).ToPtr();
+std::shared_ptr<Command> cmd::Wait(units::second_t duration) {
+  return std::make_shared<WaitCommand>(duration);
 }
 
-CommandPtr cmd::WaitUntil(std::function<bool()> condition) {
-  return WaitUntilCommand(condition).ToPtr();
+std::shared_ptr<Command> cmd::WaitUntil(std::function<bool()> condition) {
+  return std::make_shared<WaitUntilCommand>(condition);
 }
 
-CommandPtr cmd::Either(CommandPtr&& onTrue, CommandPtr&& onFalse,
+std::shared_ptr<Command> cmd::Either(std::shared_ptr<Command> onTrue, std::shared_ptr<Command> onFalse,
                        std::function<bool()> selector) {
-  return ConditionalCommand(std::move(onTrue).Unwrap(),
-                            std::move(onFalse).Unwrap(), std::move(selector))
-      .ToPtr();
+  return std::make_shared<ConditionalCommand>(std::move(onTrue),
+                            std::move(onFalse), std::move(selector));
 }
 
+/*
 template <typename Key>
 CommandPtr cmd::Select(std::function<Key()> selector,
                        std::vector<std::pair<Key, CommandPtr>> commands) {
@@ -107,29 +104,26 @@ CommandPtr cmd::Select(std::function<Key()> selector,
                        CommandPtr::UnwrapVector(std::move(commands)))
       .ToPtr();
 }
+*/
 
-CommandPtr cmd::Sequence(std::vector<CommandPtr>&& commands) {
-  return SequentialCommandGroup(CommandPtr::UnwrapVector(std::move(commands)))
-      .ToPtr();
+std::shared_ptr<Command> cmd::Sequence(std::vector<std::shared_ptr<Command> >&& commands) {
+  return std::make_shared<SequentialCommandGroup>(std::move(commands));
 }
 
-CommandPtr cmd::RepeatingSequence(std::vector<CommandPtr>&& commands) {
-  return Sequence(std::move(commands)).Repeatedly();
+std::shared_ptr<Command> cmd::RepeatingSequence(std::vector<std::shared_ptr<Command> >&& commands) {
+  return std::make_shared<RepeatCommand>(Sequence(std::move(commands)));
 }
 
-CommandPtr cmd::Parallel(std::vector<CommandPtr>&& commands) {
-  return ParallelCommandGroup(CommandPtr::UnwrapVector(std::move(commands)))
-      .ToPtr();
+std::shared_ptr<Command> cmd::Parallel(std::vector<std::shared_ptr<Command> >&& commands) {
+  return std::make_shared<ParallelCommandGroup>(std::move(commands));
 }
 
-CommandPtr cmd::Race(std::vector<CommandPtr>&& commands) {
-  return ParallelRaceGroup(CommandPtr::UnwrapVector(std::move(commands)))
-      .ToPtr();
+std::shared_ptr<Command> cmd::Race(std::vector<std::shared_ptr<Command> >&& commands) {
+  return std::make_shared<ParallelRaceGroup>(std::move(commands));
 }
 
-CommandPtr cmd::Deadline(CommandPtr&& deadline,
-                         std::vector<CommandPtr>&& others) {
-  return ParallelDeadlineGroup(std::move(deadline).Unwrap(),
-                               CommandPtr::UnwrapVector(std::move(others)))
-      .ToPtr();
+std::shared_ptr<Command> cmd::Deadline(std::shared_ptr<Command> deadline,
+                         std::vector<std::shared_ptr<Command> >&& others) {
+  return std::make_shared<ParallelDeadlineGroup>(std::move(deadline),
+                               std::move(others));
 }

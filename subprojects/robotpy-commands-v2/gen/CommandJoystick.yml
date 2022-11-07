@@ -1,0 +1,14 @@
+---
+
+classes:
+  CommandJoystick:
+    subpackage: button
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    force_no_default_constructor: true
+    methods:
+      Button:
+      Trigger:
+      Top:
+    inline_code: |
+      .def(py::init<int>())

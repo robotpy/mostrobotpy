@@ -10,6 +10,9 @@ classes:
     shared_ptr: true
     methods:
       ScheduleCommand:
+        overloads:
+          std::span<std::shared_ptr<Command>>:
+          std::shared_ptr<Command>:
       Initialize:
       IsFinished:
       RunsWhenDisabled:

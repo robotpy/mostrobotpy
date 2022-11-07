@@ -299,7 +299,7 @@ safe) semantics.
   /**
    * Schedules this command.
    */
-  void Schedule();
+  // void Schedule();
 
   /**
    * Cancels this command. Will call End(true). Commands will be canceled
@@ -324,7 +324,7 @@ safe) semantics.
    * @param requirement the subsystem to inquire about
    * @return whether the subsystem is required
    */
-  bool HasRequirement(std::shared_ptr<Subsystem> requirement) const;
+  bool HasRequirement(Subsystem* requirement) const;
 
   /**
    * Whether the command is currently grouped in a command group.  Used as extra
@@ -379,7 +379,6 @@ safe) semantics.
 bool RequirementsDisjoint(Command* first, Command* second);
 
 void Command_Schedule(std::shared_ptr<Command> self);
-void Command_Schedule(std::shared_ptr<Command> self, bool interruptable);
 
 
 }  // namespace frc2

@@ -6,14 +6,16 @@
 
 using namespace frc2;
 
-Trigger CommandJoystick::Button(int button, frc::EventLoop* loop) const {
+#define loop (loop_arg ? *loop_arg : CommandScheduler::GetInstance().GetDefaultButtonLoop())
+
+Trigger CommandJoystick::Button(int button, std::optional<frc::EventLoop*> loop_arg) const {
   return GenericHID::Button(button, loop).CastTo<class Trigger>();
 }
 
-Trigger CommandJoystick::Trigger(frc::EventLoop* loop) const {
+Trigger CommandJoystick::Trigger(std::optional<frc::EventLoop*> loop_arg) const {
   return Joystick::Trigger(loop).CastTo<class Trigger>();
 }
 
-Trigger CommandJoystick::Top(frc::EventLoop* loop) const {
+Trigger CommandJoystick::Top(std::optional<frc::EventLoop*> loop_arg) const {
   return Joystick::Top(loop).CastTo<class Trigger>();
 }

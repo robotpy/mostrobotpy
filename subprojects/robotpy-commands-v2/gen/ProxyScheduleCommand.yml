@@ -7,9 +7,11 @@ extra_includes:
 
 classes:
   ProxyScheduleCommand:
-    shared_ptr: true
     methods:
       ProxyScheduleCommand:
+        overloads:
+          std::span<std::shared_ptr<Command>>:
+          std::shared_ptr<Command>:
       Initialize:
       End:
       Execute:

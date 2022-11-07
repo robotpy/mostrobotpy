@@ -29,8 +29,7 @@ class CommandGenericHID : public frc::GenericHID {
    * to the given loop.
    */
   Trigger Button(int button,
-                 frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                            .GetDefaultButtonLoop()) const;
+                 std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around this angle of a POV on the HID.
@@ -45,8 +44,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around this angle of a POV on the HID.
    */
   Trigger POV(int angle,
-              frc::EventLoop* loop =
-                  CommandScheduler::GetInstance().GetDefaultButtonLoop()) const;
+              std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around this angle of a POV on the HID.
@@ -62,8 +60,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around this angle of a POV on the HID.
    */
   Trigger POV(int pov, int angle,
-              frc::EventLoop* loop =
-                  CommandScheduler::GetInstance().GetDefaultButtonLoop()) const;
+              std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the 0-degree angle (up) of the
@@ -75,8 +72,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around the 90-degree angle of a POV on the
    * HID.
    */
-  Trigger POVUp(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                           .GetDefaultButtonLoop()) const;
+  Trigger POVUp(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the 45-degree angle (right up)
@@ -88,8 +84,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around the 90-degree angle of a POV on the
    * HID.
    */
-  Trigger POVUpRight(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                                .GetDefaultButtonLoop()) const;
+  Trigger POVUpRight(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the 90-degree angle (right) of
@@ -101,8 +96,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around the 90-degree angle of a POV on the
    * HID.
    */
-  Trigger POVRight(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                              .GetDefaultButtonLoop()) const;
+  Trigger POVRight(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the 135-degree angle (right
@@ -112,8 +106,7 @@ class CommandGenericHID : public frc::GenericHID {
    * the HID.
    */
   Trigger POVDownRight(
-      frc::EventLoop* loop =
-          CommandScheduler::GetInstance().GetDefaultButtonLoop()) const;
+      std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the 180-degree angle (down) of
@@ -125,8 +118,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around the 90-degree angle of a POV on the
    * HID.
    */
-  Trigger POVDown(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                             .GetDefaultButtonLoop()) const;
+  Trigger POVDown(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the 225-degree angle (down left)
@@ -138,8 +130,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around the 90-degree angle of a POV on the
    * HID.
    */
-  Trigger POVDownLeft(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                                 .GetDefaultButtonLoop()) const;
+  Trigger POVDownLeft(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the 270-degree angle (left) of
@@ -151,8 +142,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around the 90-degree angle of a POV on the
    * HID.
    */
-  Trigger POVLeft(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                             .GetDefaultButtonLoop()) const;
+  Trigger POVLeft(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the 315-degree angle (left up)
@@ -164,8 +154,7 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around the 90-degree angle of a POV on the
    * HID.
    */
-  Trigger POVUpLeft(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                               .GetDefaultButtonLoop()) const;
+  Trigger POVUpLeft(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 
   /**
    * Constructs a Trigger instance based around the center (not pressed) of the
@@ -177,7 +166,6 @@ class CommandGenericHID : public frc::GenericHID {
    * @return a Trigger instance based around the 90-degree angle of a POV on the
    * HID.
    */
-  Trigger POVCenter(frc::EventLoop* loop = CommandScheduler::GetInstance()
-                                               .GetDefaultButtonLoop()) const;
+  Trigger POVCenter(std::optional<frc::EventLoop*> loop = std::nullopt) const;
 };
 }  // namespace frc2
