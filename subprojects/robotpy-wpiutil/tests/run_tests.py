@@ -27,4 +27,4 @@ if __name__ == "__main__":
         env=env,
     )
 
-    subprocess.check_call([sys.executable, "-m", "py.test"])
+    subprocess.check_call([sys.executable, "-m", "pytest"])
