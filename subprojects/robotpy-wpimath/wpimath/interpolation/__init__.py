@@ -6,7 +6,4 @@ from ._interpolation import (
     TimeInterpolatablePose2dBuffer,
 )
 
-__all__ = [
-    "TimeInterpolatableFloatBuffer",
-    "TimeInterpolatablePose2dBuffer",
-]
+__all__ = ["TimeInterpolatableFloatBuffer", "TimeInterpolatablePose2dBuffer"]

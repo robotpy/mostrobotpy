@@ -5,6 +5,7 @@ classes:
     force_type_casters:
     - units::meters_per_second
     - meters_per_second_squared
+    subpackage: controller
     methods:
       ElevatorFeedforward:
         overloads:
