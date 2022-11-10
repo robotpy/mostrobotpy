@@ -26,7 +26,7 @@ classes:
         overloads:
           "":
             ignore: true
-          int, int64_t, wpi::span<const uint8_t>:
+          int, int64_t, std::span<const uint8_t>:
             ignore: true
       GetEntry:
       GetTimestamp:
@@ -55,7 +55,7 @@ classes:
             if (!self->GetStartData(ptr.get())) {
               throw py::type_error("not a start record");
             }
-            return std::move(ptr);
+            return ptr;
           }
         return_value_policy: reference_internal
       GetFinishEntry:
@@ -86,7 +86,7 @@ classes:
             if (!self->GetSetMetadataData(ptr.get())) {
               throw py::type_error("not a metadata control record");
             }
-            return std::move(ptr);
+            return ptr;
           }
         return_value_policy: reference_internal
       GetBoolean:
@@ -194,7 +194,7 @@ classes:
               auto b = py::bool_(arr[i]);
               PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
             }
-            return std::move(l);
+            return l;
           }
       GetIntegerArray:
         no_release_gil: true
@@ -211,7 +211,7 @@ classes:
             if (!self->GetIntegerArray(&arr)) {
               throw py::type_error("not an integer array");
             }
-            return std::move(arr);
+            return arr;
           }
       GetFloatArray:
         no_release_gil: true
@@ -228,7 +228,7 @@ classes:
             if (!self->GetFloatArray(&arr)) {
               throw py::type_error("not a float array");
             }
-            return std::move(arr);
+            return arr;
           }
       GetDoubleArray:
         no_release_gil: true
@@ -245,7 +245,7 @@ classes:
             if (!self->GetDoubleArray(&arr)) {
               throw py::type_error("not a double array");
             }
-            return std::move(arr);
+            return arr;
           }
       GetStringArray:
         no_release_gil: true
@@ -262,7 +262,7 @@ classes:
             if (!self->GetStringArray(&arr)) {
               throw py::type_error("not a string array");
             }
-            return std::move(arr);
+            return arr;
           }
   DataLogIterator:
     ignore: true
@@ -325,7 +325,7 @@ inline_code: |
         throw py::value_error("buffer must only have a single dimension");
       }
 
-      auto mbuf = wpi::MemoryBuffer::GetMemBuffer(wpi::span((uint8_t*)req.ptr, req.size), name);
+      auto mbuf = wpi::MemoryBuffer::GetMemBuffer(std::span((uint8_t*)req.ptr, req.size), name);
 
       {
         py::gil_scoped_release gil;

@@ -5,15 +5,15 @@
 #include <pybind11/stl.h>
 
 #include <wpi/SmallVector.h>
-#include <wpi/span.h>
+#include <span>
 
 namespace pybind11 {
 namespace detail {
 
-template <typename Type> struct type_caster<wpi::span<Type>> {
+template <typename Type> struct type_caster<std::span<Type>> {
   using value_conv = make_caster<Type>;
   using value_type = typename std::remove_cv<Type>::type;
-  PYBIND11_TYPE_CASTER(wpi::span<Type>, _("List[") + value_conv::name + _("]"));
+  PYBIND11_TYPE_CASTER(std::span<Type>, _("List[") + value_conv::name + _("]"));
 
   wpi::SmallVector<value_type, 32> vec;
   bool load(handle src, bool convert) {
@@ -27,7 +27,7 @@ template <typename Type> struct type_caster<wpi::span<Type>> {
         return false;
       vec.push_back(cast_op<Type &&>(std::move(conv)));
     }
-    value = wpi::span<Type>(std::data(vec), std::size(vec));
+    value = std::span<Type>(std::data(vec), std::size(vec));
     return true;
   }
 
@@ -51,8 +51,8 @@ public:
 };
 
 // span specialization: accepts any readonly buffers
-template <> struct type_caster<wpi::span<const uint8_t>> {
-  PYBIND11_TYPE_CASTER(wpi::span<const uint8_t>, _("buffer"));
+template <> struct type_caster<std::span<const uint8_t>> {
+  PYBIND11_TYPE_CASTER(std::span<const uint8_t>, _("buffer"));
 
   bool load(handle src, bool convert) {
     if (!isinstance<buffer>(src))
@@ -63,7 +63,7 @@ template <> struct type_caster<wpi::span<const uint8_t>> {
       return false;
     }
 
-    value = wpi::span<const uint8_t>((const uint8_t*)req.ptr, req.size*req.itemsize);
+    value = std::span<const uint8_t>((const uint8_t*)req.ptr, req.size*req.itemsize);
     return true;
   }
 
@@ -75,8 +75,8 @@ public:
 };
 
 // span specialization: writeable buffer
-template <> struct type_caster<wpi::span<uint8_t>> {
-  PYBIND11_TYPE_CASTER(wpi::span<uint8_t>, _("buffer"));
+template <> struct type_caster<std::span<uint8_t>> {
+  PYBIND11_TYPE_CASTER(std::span<uint8_t>, _("buffer"));
 
   bool load(handle src, bool convert) {
     if (!isinstance<buffer>(src))
@@ -87,7 +87,7 @@ template <> struct type_caster<wpi::span<uint8_t>> {
       return false;
     }
 
-    value = wpi::span<uint8_t>((uint8_t*)req.ptr, req.size*req.itemsize);
+    value = std::span<uint8_t>((uint8_t*)req.ptr, req.size*req.itemsize);
     return true;
   }
 

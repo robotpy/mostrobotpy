@@ -21,3 +21,4 @@ of things in it.
 
   wpiutil
   wpiutil.log
+  wpiutil.sync

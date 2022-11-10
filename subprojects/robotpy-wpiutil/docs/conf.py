@@ -158,3 +158,4 @@ root = abspath(dirname(__file__))
 
 gen_package(root, "wpiutil")
 gen_package(root, "wpiutil.log")
+gen_package(root, "wpiutil.sync")
