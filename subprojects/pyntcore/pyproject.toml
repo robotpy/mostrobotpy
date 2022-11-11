@@ -1,8 +1,20 @@
+[tool.robotpy-build.metadata]
+name = "pyntcore"
+description = "Binary wrappers for the FRC ntcore library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/pyntcore"
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil<2024.0.0,>=2023.0.0b3.post1",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b3",
+]
+
 [build-system]
 requires = [
-  "robotpy-build<2023.0.0,>=2022.2.0",
-  "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
-  "robotpy-wpinet",
+    "robotpy-build<2024.0.0,>=2023.0.0b9",
+    "robotpy-wpiutil<2024.0.0,>=2023.0.0b3.post1",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b3",
 ]
 
 [tool.robotpy-build]
@@ -11,8 +23,9 @@ base_package = "ntcore"
 [tool.robotpy-build.wrappers."ntcore".maven_lib_download]
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.1.1-beta-3"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2023.1.1-beta-3-9-g2a8e0e1"
 
 libs = ["ntcore"]
 
@@ -60,17 +73,3 @@ Topic = "networktables/Topic.h"
 ntcore_cpp = "ntcore_cpp.h"
 ntcore_cpp_types = "ntcore_cpp_types.h"
 # ntcore_test = "ntcore_test.h"
-
-
-[tool.robotpy-build.metadata]
-name = "pyntcore"
-description = "Binary wrappers for the FRC ntcore library"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/pyntcore"
-license = "BSD-3-Clause"
-install_requires = [
-    "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
-    "robotpy-wpinet",
-    "pynetworktables>=2021.0.0,<2022.0.0",
-]
