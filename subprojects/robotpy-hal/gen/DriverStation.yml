@@ -11,6 +11,7 @@ functions:
   HAL_GetJoystickAxes:
   HAL_GetJoystickPOVs:
   HAL_GetJoystickButtons:
+  HAL_GetAllJoystickData:
   HAL_GetJoystickDescriptor:
   HAL_GetJoystickIsXbox:
   HAL_GetJoystickType:
@@ -27,12 +28,11 @@ functions:
   HAL_GetJoystickAxisType:
   HAL_SetJoystickOutputs:
   HAL_GetMatchTime:
+  HAL_GetOutputsEnabled:
   HAL_GetMatchInfo:
-  HAL_ReleaseDSMutex:
-  HAL_IsNewControlData:
-  HAL_WaitForDSData:
-  HAL_WaitForDSDataTimeout:
-  HAL_InitializeDriverStation:
+  HAL_RefreshDSData:
+  HAL_ProvideNewDataEventHandle:
+  HAL_RemoveNewDataEventHandle:
   HAL_ObserveUserProgramStarting:
   HAL_ObserveUserProgramDisabled:
   HAL_ObserveUserProgramAutonomous:

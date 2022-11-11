@@ -10,6 +10,6 @@ functions:
     ifndef: __FRC_ROBORIO__
   HAL_GetDutyCycleFrequency:
   HAL_GetDutyCycleOutput:
-  HAL_GetDutyCycleOutputRaw:
+  HAL_GetDutyCycleHighTime:
   HAL_GetDutyCycleOutputScaleFactor:
   HAL_GetDutyCycleFPGAIndex:
