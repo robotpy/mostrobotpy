@@ -1,5 +1,16 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-wpiutil"
+description = "Binary wrapper for FRC WPIUtil library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-wpiutil"
+license = "BSD-3-Clause"
+install_requires = []
+
 [build-system]
-requires = ["robotpy-build<2024.0.0,>=2023.0.0b6"]
+requires = [
+    "robotpy-build<2024.0.0,>=2023.0.0b8",
+]
 
 [tool.robotpy-build]
 base_package = "wpiutil"
@@ -63,12 +74,3 @@ types = ["wpi::SmallVectorImpl"]
 [[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_string_map_caster.h"
 types = ["wpi::StringMap"]
-
-[tool.robotpy-build.metadata]
-name = "robotpy-wpiutil"
-description = "Binary wrapper for FRC WPIUtil library"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/robotpy-wpiutil"
-license = "BSD-3-Clause"
-install_requires = []
