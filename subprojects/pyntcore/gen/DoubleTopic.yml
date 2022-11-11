@@ -1,0 +1,73 @@
+---
+
+classes:
+  DoubleSubscriber:
+    methods:
+      DoubleSubscriber:
+        overloads:
+          "":
+            ignore: true
+          NT_Subscriber, double:
+            ignore: true
+      Get:
+        overloads:
+          '[const]':
+          double [const]:
+      GetAtomic:
+        overloads:
+          '[const]':
+          double [const]:
+      ReadQueue:
+      GetTopic:
+  DoublePublisher:
+    methods:
+      DoublePublisher:
+        overloads:
+          "":
+            ignore: true
+          NT_Publisher:
+            ignore: true
+      Set:
+      SetDefault:
+      GetTopic:
+  DoubleEntry:
+    methods:
+      DoubleEntry:
+        overloads:
+          "":
+            ignore: true
+          NT_Entry, double:
+            ignore: true
+      GetHandle:
+        ignore: true
+      GetTopic:
+      Unpublish:
+    inline_code: |
+      .def("close", [](DoubleEntry *self) {
+        py::gil_scoped_release release;
+        *self = DoubleEntry();
+      }, py::doc("Destroys the entry"))
+      .def("__enter__", [](DoubleEntry *self) {
+        return self;
+      })
+      .def("__exit__", [](DoubleEntry *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = DoubleEntry();
+      })
+  DoubleTopic:
+    attributes:
+      kTypeString:
+    methods:
+      DoubleTopic:
+        overloads:
+          "":
+            ignore: true
+          NT_Topic:
+            ignore: true
+          Topic:
+      Subscribe:
+      SubscribeEx:
+      Publish:
+      PublishEx:
+      GetEntry:
+      GetEntryEx:

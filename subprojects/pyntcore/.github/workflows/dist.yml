@@ -4,12 +4,14 @@ name: dist
 on:
   pull_request:
   push:
+    branches:
+    - main
     tags:
     - '*'
 
 jobs:
   ci:
-    uses: robotpy/build-actions/.github/workflows/package-ci.yml@v2022
+    uses: robotpy/build-actions/.github/workflows/package-ci.yml@v2023
     with:
       enable_rtd: false
     secrets:

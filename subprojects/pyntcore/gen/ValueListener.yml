@@ -1,0 +1,61 @@
+---
+
+classes:
+  ValueListenerFlags:
+    attributes:
+      kImmediate:
+      kLocal:
+  ValueListener:
+    methods:
+      ValueListener:
+        overloads:
+          "":
+            ignore: true
+          nt::Subscriber&, unsigned int, std::function<void ( const ValueNotification & )>:
+          nt::MultiSubscriber&, unsigned int, std::function<void ( const ValueNotification & )>:
+          nt::NetworkTableEntry&, unsigned int, std::function<void ( const ValueNotification & )>:
+          NT_Handle, unsigned int, std::function<void ( const ValueNotification & )>:
+            ignore: true
+      GetHandle:
+    inline_code: |
+      .def("close", [](ValueListener *self) {
+        py::gil_scoped_release release;
+        *self = ValueListener();
+      }, py::doc("Destroys the listener"))
+      .def("__enter__", [](ValueListener *self) {
+        return self;
+      })
+      .def("__exit__", [](ValueListener *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = ValueListener();
+      })
+  ValueListenerPoller:
+    methods:
+      ValueListenerPoller:
+        overloads:
+          "":
+            ignore: true
+          nt::NetworkTableInstance:
+      GetHandle:
+        ignore: true
+      Add:
+        overloads:
+          nt::Subscriber&, unsigned int:
+          nt::MultiSubscriber&, unsigned int:
+          nt::NetworkTableEntry&, unsigned int:
+          NT_Handle, unsigned int:
+            ignore: true
+      Remove:
+      ReadQueue:
+    inline_code: |
+      .def("close", [](ValueListenerPoller *self) {
+        py::gil_scoped_release release;
+        *self = ValueListenerPoller();
+      }, py::doc("Destroys the poller"))
+      .def("__enter__", [](ValueListenerPoller *self) {
+        return self;
+      })
+      .def("__exit__", [](ValueListenerPoller *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = ValueListenerPoller();
+      })

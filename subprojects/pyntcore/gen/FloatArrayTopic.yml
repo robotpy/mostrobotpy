@@ -1,0 +1,81 @@
+---
+
+classes:
+  FloatArraySubscriber:
+    methods:
+      FloatArraySubscriber:
+        overloads:
+          "":
+            ignore: true
+          NT_Subscriber, std::span<const float>:
+            ignore: true
+      Get:
+        overloads:
+          '[const]':
+          std::span<const float> [const]:
+          wpi::SmallVectorImpl<SmallElemType>& [const]:
+            ignore: true
+          wpi::SmallVectorImpl<SmallElemType>&, std::span<const float> [const]:
+            ignore: true
+      GetAtomic:
+        overloads:
+          '[const]':
+          std::span<const float> [const]:
+          wpi::SmallVectorImpl<SmallElemType>& [const]:
+            ignore: true
+          wpi::SmallVectorImpl<SmallElemType>&, std::span<const float> [const]:
+            ignore: true
+      ReadQueue:
+      GetTopic:
+  FloatArrayPublisher:
+    methods:
+      FloatArrayPublisher:
+        overloads:
+          "":
+            ignore: true
+          NT_Publisher:
+            ignore: true
+      Set:
+      SetDefault:
+      GetTopic:
+  FloatArrayEntry:
+    methods:
+      FloatArrayEntry:
+        overloads:
+          "":
+            ignore: true
+          NT_Entry, std::span<const float>:
+            ignore: true
+      GetHandle:
+        ignore: true
+      GetTopic:
+      Unpublish:
+    inline_code: |
+      .def("close", [](FloatArrayEntry *self) {
+        py::gil_scoped_release release;
+        *self = FloatArrayEntry();
+      }, py::doc("Destroys the entry"))
+      .def("__enter__", [](FloatArrayEntry *self) {
+        return self;
+      })
+      .def("__exit__", [](FloatArrayEntry *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = FloatArrayEntry();
+      })
+  FloatArrayTopic:
+    attributes:
+      kTypeString:
+    methods:
+      FloatArrayTopic:
+        overloads:
+          "":
+            ignore: true
+          NT_Topic:
+            ignore: true
+          Topic:
+      Subscribe:
+      SubscribeEx:
+      Publish:
+      PublishEx:
+      GetEntry:
+      GetEntryEx:

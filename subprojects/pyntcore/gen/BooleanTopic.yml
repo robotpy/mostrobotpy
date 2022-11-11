@@ -1,0 +1,73 @@
+---
+
+classes:
+  BooleanSubscriber:
+    methods:
+      BooleanSubscriber:
+        overloads:
+          "":
+            ignore: true
+          NT_Subscriber, bool:
+            ignore: true
+      Get:
+        overloads:
+          '[const]':
+          bool [const]:
+      GetAtomic:
+        overloads:
+          '[const]':
+          bool [const]:
+      ReadQueue:
+      GetTopic:
+  BooleanPublisher:
+    methods:
+      BooleanPublisher:
+        overloads:
+          "":
+            ignore: true
+          NT_Publisher:
+            ignore: true
+      Set:
+      SetDefault:
+      GetTopic:
+  BooleanEntry:
+    methods:
+      BooleanEntry:
+        overloads:
+          "":
+            ignore: true
+          NT_Entry, bool:
+            ignore: true
+      GetHandle:
+        ignore: true
+      GetTopic:
+      Unpublish:
+    inline_code: |
+      .def("close", [](BooleanEntry *self) {
+        py::gil_scoped_release release;
+        *self = BooleanEntry();
+      }, py::doc("Destroys the entry"))
+      .def("__enter__", [](BooleanEntry *self) {
+        return self;
+      })
+      .def("__exit__", [](BooleanEntry *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = BooleanEntry();
+      })
+  BooleanTopic:
+    attributes:
+      kTypeString:
+    methods:
+      BooleanTopic:
+        overloads:
+          "":
+            ignore: true
+          NT_Topic:
+            ignore: true
+          Topic:
+      Subscribe:
+      SubscribeEx:
+      Publish:
+      PublishEx:
+      GetEntry:
+      GetEntryEx:

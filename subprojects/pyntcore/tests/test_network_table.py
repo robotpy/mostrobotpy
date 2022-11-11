@@ -166,12 +166,12 @@ def test_flags(table1):
     assert not table1.isPersistent("foo")
 
 
-def test_delete(table1):
-    table1.putBoolean("foo", True)
-    assert table1.getBoolean("foo", None) == True
+# def test_delete(table1):
+#     table1.putBoolean("foo", True)
+#     assert table1.getBoolean("foo", None) == True
 
-    table1.delete("foo")
-    assert table1.getBoolean("foo", None) == None
+#     table1.delete("foo")
+#     assert table1.getBoolean("foo", None) == None
 
 
 def test_different_type(table1):

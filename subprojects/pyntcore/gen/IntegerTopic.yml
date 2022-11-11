@@ -1,0 +1,73 @@
+---
+
+classes:
+  IntegerSubscriber:
+    methods:
+      IntegerSubscriber:
+        overloads:
+          "":
+            ignore: true
+          NT_Subscriber, int64_t:
+            ignore: true
+      Get:
+        overloads:
+          '[const]':
+          int64_t [const]:
+      GetAtomic:
+        overloads:
+          '[const]':
+          int64_t [const]:
+      ReadQueue:
+      GetTopic:
+  IntegerPublisher:
+    methods:
+      IntegerPublisher:
+        overloads:
+          "":
+            ignore: true
+          NT_Publisher:
+            ignore: true
+      Set:
+      SetDefault:
+      GetTopic:
+  IntegerEntry:
+    methods:
+      IntegerEntry:
+        overloads:
+          "":
+            ignore: true
+          NT_Entry, int64_t:
+            ignore: true
+      GetHandle:
+        ignore: true
+      GetTopic:
+      Unpublish:
+    inline_code: |
+      .def("close", [](IntegerEntry *self) {
+        py::gil_scoped_release release;
+        *self = IntegerEntry();
+      }, py::doc("Destroys the entry"))
+      .def("__enter__", [](IntegerEntry *self) {
+        return self;
+      })
+      .def("__exit__", [](IntegerEntry *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = IntegerEntry();
+      })
+  IntegerTopic:
+    attributes:
+      kTypeString:
+    methods:
+      IntegerTopic:
+        overloads:
+          "":
+            ignore: true
+          NT_Topic:
+            ignore: true
+          Topic:
+      Subscribe:
+      SubscribeEx:
+      Publish:
+      PublishEx:
+      GetEntry:
+      GetEntryEx:

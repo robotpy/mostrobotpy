@@ -1,52 +1,3 @@
-[build-system]
-requires = [
-  "robotpy-build<2023.0.0,>=2022.2.0",
-  "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
-]
-
-[tool.robotpy-build]
-base_package = "_pyntcore"
-
-[tool.robotpy-build.wrappers."_pyntcore".maven_lib_download]
-artifact_id = "ntcore-cpp"
-group_id = "edu.wpi.first.ntcore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2022.4.1"
-
-libs = ["ntcore"]
-
-[tool.robotpy-build.wrappers."_pyntcore"]
-name = "ntcore"
-sources = [
-    "_pyntcore/src/ntcore.cpp",
-    "_pyntcore/src/nt_logging.cpp",
-    "_pyntcore/src/py2value.cpp",
-    "_pyntcore/src/pyentry.cpp",
-]
-
-depends = ["wpiutil"]
-generation_data = "gen"
-
-[tool.robotpy-build.wrappers."_pyntcore".autogen_headers]
-# networktables
-# EntryListenerFlags = "networktables/EntryListenerFlags.h"     .. already in NetworkTableInstance.cpp.inl
-NTSendable = "networktables/NTSendable.h"
-NTSendableBuilder = "networktables/NTSendableBuilder.h"
-NetworkTable = "networktables/NetworkTable.h"
-NetworkTableEntry = "networktables/NetworkTableEntry.h"
-NetworkTableInstance = "networktables/NetworkTableInstance.h"
-NetworkTableType = "networktables/NetworkTableType.h"
-NetworkTableValue = "networktables/NetworkTableValue.h"
-# RpcCall = "networktables/RpcCall.h"
-# TableEntryListener = "networktables/TableEntryListener.h"
-# TableListener = "networktables/TableListener.h"
-
-# ntcore = "ntcore.h"
-# ntcore_c = "ntcore_c.h"
-ntcore_cpp = "ntcore_cpp.h"
-# ntcore_test = "ntcore_test.h"
-
-
 [tool.robotpy-build.metadata]
 name = "pyntcore"
 description = "Binary wrappers for the FRC ntcore library"
@@ -55,6 +6,70 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/pyntcore"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil<2023.0.0,>=2022.4.1.1",
-    "pynetworktables>=2021.0.0,<2022.0.0",
+    "robotpy-wpiutil<2024.0.0,>=2023.0.0b3.post1",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b3",
 ]
+
+[build-system]
+requires = [
+    "robotpy-build<2024.0.0,>=2023.0.0b9",
+    "robotpy-wpiutil<2024.0.0,>=2023.0.0b3.post1",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b3",
+]
+
+[tool.robotpy-build]
+base_package = "ntcore"
+
+[tool.robotpy-build.wrappers."ntcore".maven_lib_download]
+artifact_id = "ntcore-cpp"
+group_id = "edu.wpi.first.ntcore"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2023.1.1-beta-3-9-g2a8e0e1"
+
+libs = ["ntcore"]
+
+[tool.robotpy-build.wrappers."ntcore"]
+name = "ntcore"
+sources = [
+    "ntcore/src/ntcore.cpp",
+    "ntcore/src/nt_logging.cpp",
+    "ntcore/src/py2value.cpp",
+    "ntcore/src/pyentry.cpp",
+]
+
+depends = ["wpiutil", "wpinet"]
+generation_data = "gen"
+
+[tool.robotpy-build.wrappers."ntcore".autogen_headers]
+# networktables
+BooleanArrayTopic = "networktables/BooleanArrayTopic.h"
+BooleanTopic = "networktables/BooleanTopic.h"
+DoubleArrayTopic = "networktables/DoubleArrayTopic.h"
+DoubleTopic = "networktables/DoubleTopic.h"
+FloatArrayTopic = "networktables/FloatArrayTopic.h"
+FloatTopic = "networktables/FloatTopic.h"
+GenericEntry = "networktables/GenericEntry.h"
+IntegerArrayTopic = "networktables/IntegerArrayTopic.h"
+IntegerTopic = "networktables/IntegerTopic.h"
+MultiSubscriber = "networktables/MultiSubscriber.h"
+NTSendable = "networktables/NTSendable.h"
+NTSendableBuilder = "networktables/NTSendableBuilder.h"
+NetworkTable = "networktables/NetworkTable.h"
+NetworkTableEntry = "networktables/NetworkTableEntry.h"
+NetworkTableInstance = "networktables/NetworkTableInstance.h"
+NetworkTableListener = "networktables/NetworkTableListener.h"
+NetworkTableType = "networktables/NetworkTableType.h"
+NetworkTableValue = "networktables/NetworkTableValue.h"
+RawTopic = "networktables/RawTopic.h"
+StringArrayTopic = "networktables/StringArrayTopic.h"
+StringTopic = "networktables/StringTopic.h"
+Topic = "networktables/Topic.h"
+# UnitTopic = "networktables/UnitTopic.h"
+
+# ntcore = "ntcore.h"
+# ntcore_c = "ntcore_c.h"
+# ntcore_c_types = "ntcore_c_types.h"
+ntcore_cpp = "ntcore_cpp.h"
+ntcore_cpp_types = "ntcore_cpp_types.h"
+# ntcore_test = "ntcore_test.h"

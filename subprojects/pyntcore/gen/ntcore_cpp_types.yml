@@ -1,0 +1,409 @@
+---
+
+functions:
+  SetBoolean:
+    ignore: true
+  SetDefaultBoolean:
+    ignore: true
+  GetBoolean:
+    ignore: true
+  GetAtomicBoolean:
+    ignore: true
+  ReadQueueBoolean:
+    ignore: true
+  ReadQueueValuesBoolean:
+    ignore: true
+  SetInteger:
+    ignore: true
+  SetDefaultInteger:
+    ignore: true
+  GetInteger:
+    ignore: true
+  GetAtomicInteger:
+    ignore: true
+  ReadQueueInteger:
+    ignore: true
+  ReadQueueValuesInteger:
+    ignore: true
+  SetFloat:
+    ignore: true
+  SetDefaultFloat:
+    ignore: true
+  GetFloat:
+    ignore: true
+  GetAtomicFloat:
+    ignore: true
+  ReadQueueFloat:
+    ignore: true
+  ReadQueueValuesFloat:
+    ignore: true
+  SetDouble:
+    ignore: true
+  SetDefaultDouble:
+    ignore: true
+  GetDouble:
+    ignore: true
+  GetAtomicDouble:
+    ignore: true
+  ReadQueueDouble:
+    ignore: true
+  ReadQueueValuesDouble:
+    ignore: true
+  SetString:
+    ignore: true
+  SetDefaultString:
+    ignore: true
+  GetString:
+    overloads:
+      NT_Handle, std::string_view:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<char>&, std::string_view:
+        ignore: true
+  GetAtomicString:
+    overloads:
+      NT_Handle, std::string_view:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<char>&, std::string_view:
+        ignore: true
+  ReadQueueString:
+    ignore: true
+  ReadQueueValuesString:
+    ignore: true
+  SetRaw:
+    ignore: true
+  SetDefaultRaw:
+    ignore: true
+  GetRaw:
+    overloads:
+      NT_Handle, std::span<const uint8_t>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<uint8_t>&, std::span<const uint8_t>:
+        ignore: true
+  GetAtomicRaw:
+    overloads:
+      NT_Handle, std::span<const uint8_t>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<uint8_t>&, std::span<const uint8_t>:
+        ignore: true
+  ReadQueueRaw:
+    ignore: true
+  ReadQueueValuesRaw:
+    ignore: true
+  SetBooleanArray:
+    ignore: true
+  SetDefaultBooleanArray:
+    ignore: true
+  GetBooleanArray:
+    overloads:
+      NT_Handle, std::span<const int>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<int>&, std::span<const int>:
+        ignore: true
+  GetAtomicBooleanArray:
+    overloads:
+      NT_Handle, std::span<const int>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<int>&, std::span<const int>:
+        ignore: true
+  ReadQueueBooleanArray:
+    ignore: true
+  ReadQueueValuesBooleanArray:
+    ignore: true
+  SetIntegerArray:
+    ignore: true
+  SetDefaultIntegerArray:
+    ignore: true
+  GetIntegerArray:
+    overloads:
+      NT_Handle, std::span<const int64_t>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<int64_t>&, std::span<const int64_t>:
+        ignore: true
+  GetAtomicIntegerArray:
+    overloads:
+      NT_Handle, std::span<const int64_t>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<int64_t>&, std::span<const int64_t>:
+        ignore: true
+  ReadQueueIntegerArray:
+    ignore: true
+  ReadQueueValuesIntegerArray:
+    ignore: true
+  SetFloatArray:
+    ignore: true
+  SetDefaultFloatArray:
+    ignore: true
+  GetFloatArray:
+    overloads:
+      NT_Handle, std::span<const float>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<float>&, std::span<const float>:
+        ignore: true
+  GetAtomicFloatArray:
+    overloads:
+      NT_Handle, std::span<const float>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<float>&, std::span<const float>:
+        ignore: true
+  ReadQueueFloatArray:
+    ignore: true
+  ReadQueueValuesFloatArray:
+    ignore: true
+  SetDoubleArray:
+    ignore: true
+  SetDefaultDoubleArray:
+    ignore: true
+  GetDoubleArray:
+    overloads:
+      NT_Handle, std::span<const double>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<double>&, std::span<const double>:
+        ignore: true
+  GetAtomicDoubleArray:
+    overloads:
+      NT_Handle, std::span<const double>:
+        ignore: true
+      NT_Handle, wpi::SmallVectorImpl<double>&, std::span<const double>:
+        ignore: true
+  ReadQueueDoubleArray:
+    ignore: true
+  ReadQueueValuesDoubleArray:
+    ignore: true
+  SetStringArray:
+    ignore: true
+  SetDefaultStringArray:
+    ignore: true
+  GetStringArray:
+    ignore: true
+  GetAtomicStringArray:
+    ignore: true
+  ReadQueueStringArray:
+    ignore: true
+  ReadQueueValuesStringArray:
+    ignore: true
+classes:
+  TimestampedBoolean:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedBoolean:
+        overloads:
+          "":
+          int64_t, int64_t, bool:
+    inline_code: |
+      .def_readwrite("value", &TimestampedBoolean::value)
+      .def("__repr__", [](const TimestampedBoolean& self) -> py::str {
+        return py::str("TimestampedBoolean(time={}, serverTime={}, value={})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedInteger:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedInteger:
+        overloads:
+          "":
+          int64_t, int64_t, int64_t:
+    inline_code: |
+      .def_readwrite("value", &TimestampedInteger::value)
+      .def("__repr__", [](const TimestampedInteger& self) -> py::str {
+        return py::str("TimestampedInteger(time={}, serverTime={}, value={})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedFloat:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedFloat:
+        overloads:
+          "":
+          int64_t, int64_t, float:
+    inline_code: |
+      .def_readwrite("value", &TimestampedFloat::value)
+      .def("__repr__", [](const TimestampedFloat& self) -> py::str {
+        return py::str("TimestampedFloat(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedDouble:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedDouble:
+        overloads:
+          "":
+          int64_t, int64_t, double:
+    inline_code: |
+      .def_readwrite("value", &TimestampedDouble::value)
+      .def("__repr__", [](const TimestampedDouble& self) -> py::str {
+        return py::str("TimestampedDouble(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedString:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedString:
+        overloads:
+          "":
+          int64_t, int64_t, std::string:
+    inline_code: |
+      .def_readwrite("value", &TimestampedString::value)
+      .def("__repr__", [](const TimestampedString& self) -> py::str {
+        return py::str("TimestampedString(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedStringView:
+    ignore: true
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedStringView:
+        overloads:
+          "":
+          int64_t, int64_t, std::string_view:
+  TimestampedRaw:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedRaw:
+        overloads:
+          "":
+          int64_t, int64_t, std::vector<uint8_t>:
+    inline_code: |
+      .def_readwrite("value", &TimestampedRaw::value)
+      .def("__repr__", [](const TimestampedRaw& self) -> py::str {
+        return py::str("TimestampedRaw(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedRawView:
+    ignore: true
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedRawView:
+        overloads:
+          "":
+          int64_t, int64_t, std::span<uint8_t>:
+  TimestampedBooleanArray:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedBooleanArray:
+        overloads:
+          "":
+          int64_t, int64_t, std::vector<int>:
+    inline_code: |
+      .def_readwrite("value", &TimestampedBooleanArray::value)
+      .def("__repr__", [](const TimestampedBooleanArray& self) -> py::str {
+        return py::str("TimestampedBooleanArray(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedBooleanArrayView:
+    ignore: true
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedBooleanArrayView:
+        overloads:
+          "":
+          int64_t, int64_t, std::span<int>:
+  TimestampedIntegerArray:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedIntegerArray:
+        overloads:
+          "":
+          int64_t, int64_t, std::vector<int64_t>:
+    inline_code: |
+      .def_readwrite("value", &TimestampedIntegerArray::value)
+      .def("__repr__", [](const TimestampedIntegerArray& self) -> py::str {
+        return py::str("TimestampedIntegerArray(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedIntegerArrayView:
+    ignore: true
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedIntegerArrayView:
+        overloads:
+          "":
+          int64_t, int64_t, std::span<int64_t>:
+  TimestampedFloatArray:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedFloatArray:
+        overloads:
+          "":
+          int64_t, int64_t, std::vector<float>:
+    inline_code: |
+      .def_readwrite("value", &TimestampedFloatArray::value)
+      .def("__repr__", [](const TimestampedFloatArray& self) -> py::str {
+        return py::str("TimestampedFloatArray(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedFloatArrayView:
+    ignore: true
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedFloatArrayView:
+        overloads:
+          "":
+          int64_t, int64_t, std::span<float>:
+  TimestampedDoubleArray:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedDoubleArray:
+        overloads:
+          "":
+          int64_t, int64_t, std::vector<double>:
+    inline_code: |
+      .def_readwrite("value", &TimestampedDoubleArray::value)
+      .def("__repr__", [](const TimestampedDoubleArray& self) -> py::str {
+        return py::str("TimestampedDoubleArray(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })
+  TimestampedDoubleArrayView:
+    ignore: true
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedDoubleArrayView:
+        overloads:
+          "":
+          int64_t, int64_t, std::span<double>:
+  TimestampedStringArray:
+    attributes:
+      time:
+      serverTime:
+    methods:
+      TimestampedStringArray:
+        overloads:
+          "":
+          int64_t, int64_t, std::vector<std::string>:
+    inline_code: |
+      .def_readwrite("value", &TimestampedStringArray::value)
+      .def("__repr__", [](const TimestampedStringArray& self) -> py::str {
+        return py::str("TimestampedStringArray(time={}, serverTime={}, value={!r})")
+          .format(self.time, self.serverTime, self.value);
+      })

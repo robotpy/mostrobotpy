@@ -46,6 +46,7 @@ def do(nt1, nt2, t):
         t1.putBooleanArray("ba", (True, False))
         t1.putNumberArray("na", (1, 2))
         t1.putStringArray("sa", ("s", "t"))
+        logger.info("put is done")
 
     t2 = nt2.getTable(t)
     assert t2.getBoolean("bool", None) is True
@@ -95,12 +96,6 @@ def do(nt1, nt2, t):
     assert t2.getBooleanArray("ba", None) == [False, True, False]
     assert t2.getNumberArray("na", None) == [2, 1]
     assert t2.getStringArray("sa", None) == ["t", "s"]
-
-    # Try out deletes
-    with nt2.expect_changes(1):
-        t1.delete("bool")
-
-    assert t2.getBoolean("bool", None) == None
 
 
 def test_basic(nt_live):

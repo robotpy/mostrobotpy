@@ -10,8 +10,10 @@ __pycache__
 /build
 /dist
 
-/_pyntcore/include
-/_pyntcore/lib
-/_pyntcore/_init_ntcore.py
-/_pyntcore/pkgcfg.py
-/_pyntcore/version.py
+/ntcore/include
+/ntcore/lib
+/ntcore/_init_ntcore.py
+/ntcore/pkgcfg.py
+/ntcore/version.py
+/ntcore/py.typed
+/ntcore/rpy-include

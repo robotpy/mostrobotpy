@@ -1,0 +1,73 @@
+---
+
+classes:
+  StringArraySubscriber:
+    methods:
+      StringArraySubscriber:
+        overloads:
+          "":
+            ignore: true
+          NT_Subscriber, std::span<const std::string>:
+            ignore: true
+      Get:
+        overloads:
+          '[const]':
+          std::span<const std::string> [const]:
+      GetAtomic:
+        overloads:
+          '[const]':
+          std::span<const std::string> [const]:
+      ReadQueue:
+      GetTopic:
+  StringArrayPublisher:
+    methods:
+      StringArrayPublisher:
+        overloads:
+          "":
+            ignore: true
+          NT_Publisher:
+            ignore: true
+      Set:
+      SetDefault:
+      GetTopic:
+  StringArrayEntry:
+    methods:
+      StringArrayEntry:
+        overloads:
+          "":
+            ignore: true
+          NT_Entry, std::span<const std::string>:
+            ignore: true
+      GetHandle:
+        ignore: true
+      GetTopic:
+      Unpublish:
+    inline_code: |
+      .def("close", [](StringArrayEntry *self) {
+        py::gil_scoped_release release;
+        *self = StringArrayEntry();
+      }, py::doc("Destroys the entry"))
+      .def("__enter__", [](StringArrayEntry *self) {
+        return self;
+      })
+      .def("__exit__", [](StringArrayEntry *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = StringArrayEntry();
+      })
+  StringArrayTopic:
+    attributes:
+      kTypeString:
+    methods:
+      StringArrayTopic:
+        overloads:
+          "":
+            ignore: true
+          NT_Topic:
+            ignore: true
+          Topic:
+      Subscribe:
+      SubscribeEx:
+      Publish:
+      PublishEx:
+      GetEntry:
+      GetEntryEx:

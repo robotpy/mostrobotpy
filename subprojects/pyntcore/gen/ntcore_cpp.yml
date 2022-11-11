@@ -1,5 +1,8 @@
+---
+
 extra_includes:
-- wpi/DataLog.h
+- pybind11/stl.h
+- networktables/Topic.h
 
 functions:
   GetDefaultInstance:
@@ -11,9 +14,11 @@ functions:
   GetInstanceFromHandle:
     ignore: true
   GetEntry:
-    ignore: true
-  GetEntries:
-    ignore: true
+    overloads:
+      NT_Inst, std::string_view:
+        ignore: true
+      NT_Topic, NT_Type, std::string_view, std::span<const PubSubOption>:
+        ignore: true
   GetEntryName:
     ignore: true
   GetEntryType:
@@ -21,366 +26,332 @@ functions:
   GetEntryLastChange:
     ignore: true
   GetEntryValue:
-    overloads:
-      std::string_view:
-        ignore: true
-      NT_Entry:
-        ignore: true
+    ignore: true
   SetDefaultEntryValue:
-    overloads:
-      std::string_view, std::shared_ptr<Value>:
-        ignore: true
-      NT_Entry, std::shared_ptr<Value>:
-        ignore: true
+    ignore: true
   SetEntryValue:
-    overloads:
-      std::string_view, std::shared_ptr<Value>:
-        ignore: true
-      NT_Entry, std::shared_ptr<Value>:
-        ignore: true
-  SetEntryTypeValue:
-    overloads:
-      std::string_view, std::shared_ptr<Value>:
-        ignore: true
-      NT_Entry, std::shared_ptr<Value>:
-        ignore: true
+    ignore: true
   SetEntryFlags:
-    overloads:
-      std::string_view, unsigned int:
-        ignore: true
-      NT_Entry, unsigned int:
-        ignore: true
+    ignore: true
   GetEntryFlags:
+    ignore: true
+  ReadQueueValue:
+    ignore: true
+  GetTopics:
     overloads:
-      std::string_view:
-        ignore: true
-      NT_Entry:
-        ignore: true
-  DeleteEntry:
-    overloads:
-      std::string_view:
-        ignore: true
-      NT_Entry:
-        ignore: true
-  DeleteAllEntries:
-    overloads:
-      "":
-        ignore: true
-      NT_Inst:
-        ignore: true
-  GetEntryInfo:
-    overloads:
-      std::string_view, unsigned int:
-        ignore: true
       NT_Inst, std::string_view, unsigned int:
         ignore: true
-      NT_Entry:
+      NT_Inst, std::string_view, std::span<const std::string_view>:
         ignore: true
-  AddEntryListener:
+  GetTopicInfo:
     overloads:
-      std::string_view, nt::EntryListenerCallback, unsigned int:
+      NT_Inst, std::string_view, unsigned int:
         ignore: true
-      NT_Inst, std::string_view, std::function<void ( const EntryNotification & event )>, unsigned int:
+      NT_Inst, std::string_view, std::span<const std::string_view>:
         ignore: true
-      NT_Entry, std::function<void ( const EntryNotification & event )>, unsigned int:
+      NT_Topic:
         ignore: true
-  CreateEntryListenerPoller:
+  GetTopic:
     ignore: true
-  DestroyEntryListenerPoller:
+  GetTopicName:
     ignore: true
-  AddPolledEntryListener:
+  GetTopicType:
+    ignore: true
+  GetTopicTypeString:
+    ignore: true
+  SetTopicPersistent:
+    ignore: true
+  GetTopicPersistent:
+    ignore: true
+  SetTopicRetained:
+    ignore: true
+  GetTopicRetained:
+    ignore: true
+  GetTopicExists:
+    ignore: true
+  GetTopicProperty:
+    ignore: true
+  SetTopicProperty:
+    ignore: true
+  DeleteTopicProperty:
+    ignore: true
+  GetTopicProperties:
+    ignore: true
+  SetTopicProperties:
+    ignore: true
+  Subscribe:
+    ignore: true
+  Unsubscribe:
+    ignore: true
+  Publish:
+    ignore: true
+  PublishEx:
+    ignore: true
+  Unpublish:
+    ignore: true
+  ReleaseEntry:
+    ignore: true
+  Release:
+    ignore: true
+  GetTopicFromHandle:
+    ignore: true
+  SubscribeMultiple:
+    ignore: true
+  UnsubscribeMultiple:
+    ignore: true
+  CreateListenerPoller:
+    ignore: true
+  DestroyListenerPoller:
+    ignore: true
+  ReadListenerQueue:
+    ignore: true
+  RemoveListener:
+    internal: true
+  WaitForListenerQueue:
+    ignore: true
+  AddListener:
     overloads:
-      NT_EntryListenerPoller, std::string_view, unsigned int:
+      NT_Inst, std::span<const std::string_view>, unsigned int, std::function<void ( const Event & )>:
         ignore: true
-      NT_EntryListenerPoller, NT_Entry, unsigned int:
+      NT_Handle, unsigned int, std::function<void ( const Event & )>:
         ignore: true
-  PollEntryListener:
+  AddPolledListener:
     overloads:
-      NT_EntryListenerPoller:
+      NT_ListenerPoller, std::span<const std::string_view>, unsigned int:
         ignore: true
-      NT_EntryListenerPoller, double, bool*:
-        ignore: true
-  CancelPollEntryListener:
-    ignore: true
-  RemoveEntryListener:
-    ignore: true
-  WaitForEntryListenerQueue:
-    ignore: true
-  AddConnectionListener:
-    overloads:
-      nt::ConnectionListenerCallback, bool:
-        ignore: true
-      NT_Inst, std::function<void ( const ConnectionNotification & event )>, bool:
-        ignore: true
-  CreateConnectionListenerPoller:
-    ignore: true
-  DestroyConnectionListenerPoller:
-    ignore: true
-  AddPolledConnectionListener:
-    ignore: true
-  PollConnectionListener:
-    overloads:
-      NT_ConnectionListenerPoller:
-        ignore: true
-      NT_ConnectionListenerPoller, double, bool*:
-        ignore: true
-  CancelPollConnectionListener:
-    ignore: true
-  RemoveConnectionListener:
-    ignore: true
-  WaitForConnectionListenerQueue:
-    ignore: true
-  CreateRpc:
-    ignore: true
-  CreateRpcCallPoller:
-    ignore: true
-  DestroyRpcCallPoller:
-    ignore: true
-  CreatePolledRpc:
-    ignore: true
-  PollRpc:
-    overloads:
-      NT_RpcCallPoller:
-        ignore: true
-      NT_RpcCallPoller, double, bool*:
-        ignore: true
-  CancelPollRpc:
-    ignore: true
-  WaitForRpcCallQueue:
-    ignore: true
-  PostRpcResponse:
-    ignore: true
-  CallRpc:
-    ignore: true
-  GetRpcResult:
-    overloads:
-      NT_Entry, NT_RpcCall, std::string*:
-        ignore: true
-      NT_Entry, NT_RpcCall, std::string*, double, bool*:
-        ignore: true
-  CancelRpcResult:
-    ignore: true
-  PackRpcDefinition:
-    ignore: true
-  UnpackRpcDefinition:
-    ignore: true
-  PackRpcValues:
-    ignore: true
-  UnpackRpcValues:
-    ignore: true
-  SetNetworkIdentity:
-    overloads:
-      std::string_view:
-        ignore: true
-      NT_Inst, std::string_view:
+      NT_ListenerPoller, NT_Handle, unsigned int:
         ignore: true
   GetNetworkMode:
-    overloads:
-      "":
-        ignore: true
-      NT_Inst:
-        ignore: true
+    ignore: true
   StartLocal:
     ignore: true
   StopLocal:
     ignore: true
   StartServer:
-    overloads:
-      std::string_view, char*, unsigned int:
-        ignore: true
-      NT_Inst, std::string_view, char*, unsigned int:
-        ignore: true
+    ignore: true
   StopServer:
-    overloads:
-      "":
-        ignore: true
-      NT_Inst:
-        ignore: true
-  StartClient:
-    overloads:
-      "":
-        ignore: true
-      char*, unsigned int:
-        ignore: true
-      wpi::span<const std::pair<std::string_view, unsigned int>>:
-        ignore: true
-      NT_Inst:
-        ignore: true
-      NT_Inst, char*, unsigned int:
-        ignore: true
-      NT_Inst, wpi::span<const std::pair<std::string_view, unsigned int>>:
-        ignore: true
-  StartClientTeam:
+    ignore: true
+  StartClient3:
+    ignore: true
+  StartClient4:
     ignore: true
   StopClient:
-    overloads:
-      "":
-        ignore: true
-      NT_Inst:
-        ignore: true
+    ignore: true
   SetServer:
     overloads:
-      char*, unsigned int:
+      NT_Inst, char*, unsigned int: 
         ignore: true
-      wpi::span<const std::pair<std::string_view, unsigned int>>:
-        ignore: true
-      NT_Inst, char*, unsigned int:
-        ignore: true
-      NT_Inst, wpi::span<const std::pair<std::string_view, unsigned int>>:
+      NT_Inst, std::span<const std::pair<std::string_view, unsigned int>>:
         ignore: true
   SetServerTeam:
     ignore: true
   StartDSClient:
-    overloads:
-      unsigned int:
-        ignore: true
-      NT_Inst, unsigned int:
-        ignore: true
-  StopDSClient:
-    overloads:
-      "":
-        ignore: true
-      NT_Inst:
-        ignore: true
-  StopRpcServer:
     ignore: true
-  SetUpdateRate:
-    overloads:
-      double:
-        ignore: true
-      NT_Inst, double:
-        ignore: true
+  StopDSClient:
+    ignore: true
+  FlushLocal:
+    ignore: true
   Flush:
-    overloads:
-      "":
-        ignore: true
-      NT_Inst:
-        ignore: true
+    ignore: true
   GetConnections:
-    overloads:
-      "":
-        ignore: true
-      NT_Inst:
-        ignore: true
+    ignore: true
   IsConnected:
     ignore: true
-  SavePersistent:
-    overloads:
-      std::string_view:
-        ignore: true
-      NT_Inst, std::string_view:
-        ignore: true
-  LoadPersistent:
-    overloads:
-      std::string_view, std::function<void ( size_t line, const char * msg )>:
-        ignore: true
-      NT_Inst, std::string_view, std::function<void ( size_t line, const char * msg )>:
-        ignore: true
-  SaveEntries:
-    ignore: true
-  LoadEntries:
-    ignore: true
   Now:
+    internal: true
+  SetNow:
+    internal: true
+  GetTypeFromString:
     ignore: true
-  SetLogger:
+  GetStringFromType:
+    ignore: true
+  StartEntryDataLog:
+    ignore: true
+  StopEntryDataLog:
+    ignore: true
+  StartConnectionDataLog:
+    ignore: true
+  StopConnectionDataLog:
     ignore: true
   AddLogger:
     ignore: true
-  CreateLoggerPoller:
-    internal: true
-  DestroyLoggerPoller:
-    internal: true
   AddPolledLogger:
     internal: true
-  PollLogger:
-    overloads:
-      NT_LoggerPoller:
-        internal: true
-      NT_LoggerPoller, double, bool*:
-        ignore: true
-  CancelPollLogger:
-    internal: true
-  RemoveLogger:
-    internal: true
-  WaitForLoggerQueue:
-    ignore: true
 classes:
-  EntryInfo:
-    shared_ptr: true
+  EventFlags:
     attributes:
-      entry:
+      kNone:
+      kImmediate:
+      kConnected:
+      kDisconnected:
+      kConnection:
+      kPublish:
+      kUnpublish:
+      kProperties:
+      kTopic:
+      kValueRemote:
+      kValueLocal:
+      kValueAll:
+      kLogMessage:
+  TopicInfo:
+    attributes:
       name:
-      type:
-      flags:
-      last_change:
+      type_str:
+      properties:
     methods:
+      GetProperties:
       swap:
         ignore: true
+    inline_code: |
+      .def_property_readonly("topic", [](const TopicInfo &self) {
+        return std::make_shared<nt::Topic>(self.topic);
+      })
+      .def("__repr__", [](const TopicInfo &self) -> py::str {
+        return py::str("<TopicInfo name={} type={}>")
+          .format(self.name, self.type_str);
+      })
   ConnectionInfo:
-    shared_ptr: true
     attributes:
       remote_id:
       remote_ip:
     methods:
       swap:
         ignore: true
-  RpcParamDef:
-    ignore: true
-  RpcResultDef:
-    ignore: true
-  RpcDefinition:
-    ignore: true
-  RpcAnswer:
-    ignore: true
-  EntryNotification:
-    shared_ptr: true
+    inline_code: |
+      .def_readwrite("remote_port", &ConnectionInfo::remote_port)
+      .def_readwrite("last_update", &ConnectionInfo::last_update)
+      .def_readwrite("protocol_version", &ConnectionInfo::protocol_version)
+      .def("__repr__", [](const ConnectionInfo &self) -> py::str {
+        return py::str("<ConnectionInfo id={} addr={}:{} last_update={} protocol={}>")
+          .format(self.remote_id, self.remote_ip, self.remote_port, 
+                  self.last_update, self.protocol_version);
+      })
+  ValueEventData:
     attributes:
-      listener:
-      entry:
-      name:
       value:
-      flags:
     methods:
-      EntryNotification:
+      ValueEventData:
         overloads:
           "":
-          NT_EntryListener, NT_Entry, std::string_view, std::shared_ptr<Value>, unsigned int:
-      swap:
-        ignore: true
-  ConnectionNotification:
-    shared_ptr: true
-    attributes:
-      listener:
-      connected:
-      conn:
-    methods:
-      ConnectionNotification:
-        overloads:
-          "":
-          NT_ConnectionListener, bool, nt::ConnectionInfo:
-      swap:
-        ignore: true
+            ignore: true
+          NT_Topic, NT_Handle, Value:
+            ignore: true
+    inline_code: |
+      .def_property_readonly("topic", [](const ValueEventData &self) {
+        return std::make_shared<nt::Topic>(self.topic);
+      })
+      .def("__repr__", [](const ValueEventData &self) -> py::str {
+        auto topicInfo = nt::GetTopicInfo(self.topic);
+        return py::str("<ValueEventData topic_name=\"{}\" topic_type={} value={}>")
+          .format(topicInfo.name, topicInfo.type_str, self.value);
+      })
   LogMessage:
-    shared_ptr: true
     attributes:
-      logger:
-      level:
       filename:
-      line:
       message:
     methods:
       LogMessage:
         overloads:
           "":
-          NT_Logger, unsigned int, std::string_view, unsigned int, std::string_view:
-      swap:
-        ignore: true
+            ignore: true
+          unsigned int, std::string_view, unsigned int, std::string_view:
+            ignore: true
+    inline_code: |
+      .def_readwrite("level", &nt::LogMessage::level)
+      .def_readwrite("line", &nt::LogMessage::line)
+  Event:
+    attributes:
+      data:
+    methods:
+      Event:
+        overloads:
+          "":
+            ignore: true
+          NT_Listener, unsigned int, nt::ConnectionInfo:
+            ignore: true
+          NT_Listener, unsigned int, nt::TopicInfo:
+            ignore: true
+          NT_Listener, unsigned int, nt::ValueEventData:
+            ignore: true
+          NT_Listener, unsigned int, nt::LogMessage:
+            ignore: true
+          NT_Listener, unsigned int, NT_Topic, NT_Handle, Value:
+            ignore: true
+          NT_Listener, unsigned int, unsigned int, std::string_view, unsigned int, std::string_view:
+            ignore: true
+      Is:
+        rename: is_
+      GetConnectionInfo:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+      GetTopicInfo:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+      GetValueEventData:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+      GetLogMessage:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+    inline_code: |
+      .def_readwrite("listener", &nt::Event::listener)
+      .def_readwrite("flags", &nt::Event::flags)
+      .def_readwrite("data", &nt::Event::data)
+      .def("__repr__", [](const nt::Event &self) -> py::str {
+        return py::str("<Event listener={} flags={} data={}>")
+          .format(self.listener, self.flags, self.data);
+      })
+  PubSubOption:
+    attributes:
+      type:
+      value:
+    methods:
+      PubSubOption:
+      Periodic:
+      SendAll:
+      TopicsOnly:
+      KeepDuplicates:
+      PollStorage:
+    inline_code: |
+      .def("__repr__", [](const PubSubOption& self) -> py::str {
+        const char * tname = "kNone";
+        switch (self.type) {
+        case NT_PUBSUB_PERIODIC:
+          tname = "kPeriodic";
+          break;
+        case NT_PUBSUB_SENDALL:
+          tname = "kSendAll";
+          break;
+        case NT_PUBSUB_TOPICSONLY:
+          tname = "kTopicsOnly";
+          break;
+        case NT_PUBSUB_POLLSTORAGE:
+          tname = "kPollStorage";
+          break;
+        case NT_PUBSUB_KEEPDUPLICATES:
+          tname = "kKeepDuplicates";
+          break;
+        }
+        return py::str("PubSubOption(type=PubSubOption.Type.{}, value={})")
+          .format(tname, self.value);
+      });
 
-# TODO: remove this once robotpy-build is upgraded to cxxheaderparser
-inline_code: |
-  cls_LogMessage
-    .def_readwrite("level", &nt::LogMessage::level)
-    .def_readwrite("filename", &nt::LogMessage::filename)
-    .def_readwrite("line", &nt::LogMessage::line)
-    .def_readwrite("message", &nt::LogMessage::message);
-
+      py::enum_<NT_PubSubOptionType>(cls_PubSubOption, "Type")
+        .value("kNone", (NT_PubSubOptionType)0)
+        .value("kPeriodic", NT_PUBSUB_PERIODIC)
+        .value("kSendAll", NT_PUBSUB_SENDALL)
+        .value("kTopicsOnly", NT_PUBSUB_TOPICSONLY)
+        .value("kPollStorage", NT_PUBSUB_POLLSTORAGE)
+        .value("kKeepDuplicates", NT_PUBSUB_KEEPDUPLICATES)

@@ -1,0 +1,5 @@
+# This file is intended for use on readthedocs
+sphinx >= 3.0
+sphinx-rtd-theme
+robotpy-sphinx-plugin
+-e docs

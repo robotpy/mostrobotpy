@@ -2,10 +2,16 @@
 
 classes:
   NTSendableBuilder:
+    force_type_casters:
+    - std::function
+    typealias:
+    - BackendKind = wpi::SendableBuilder::BackendKind
     methods:
       SetUpdateTable:
-      GetEntry:
-      AddValueProperty:
+        cpp_code: |
+          [](NTSendableBuilder *self, std::function<void()> func) {
+            self->SetUpdateTable(std::move(func));
+          }
+      GetTopic:
       GetTable:
       GetBackendKind:
-        ignore: true  # TODO: unqualified return type

@@ -16,13 +16,17 @@ cls_NetworkTable
         return self->PutValue(key, nt::Value::MakeBoolean(value));
     }, py::arg("key"), py::arg("value"), release_gil())
     .def("putValue", [](nt::NetworkTable *self, std::string_view key, py::bytes value) {
-        return self->PutValue(key, nt::Value::MakeRaw(value.cast<std::string>()));
+        auto v = nt::Value::MakeRaw(value.cast<std::span<const uint8_t>>());
+        py::gil_scoped_release release;
+        return self->PutValue(key, v);
     }, py::arg("key"), py::arg("value"))
     .def("putValue", [](nt::NetworkTable *self, std::string_view key, std::string value) {
-        return self->PutValue(key, nt::Value::MakeString(value));
+        return self->PutValue(key, nt::Value::MakeString(std::move(value)));
     }, py::arg("key"), py::arg("value"), release_gil())
     .def("putValue", [](nt::NetworkTable *self, std::string_view key, py::sequence value) {
-        return self->PutValue(key, pyntcore::py2ntvalue(value));
+        auto v = pyntcore::py2ntvalue(value);
+        py::gil_scoped_release release;
+        return self->PutValue(key, v);
     }, py::arg("key"), py::arg("value"))
 
     // double overload must come before boolean version
@@ -33,16 +37,20 @@ cls_NetworkTable
         return self->SetDefaultValue(key, nt::Value::MakeBoolean(value));
     }, py::arg("key"), py::arg("value"), release_gil())
     .def("setDefaultValue", [](nt::NetworkTable *self, std::string_view key, py::bytes value) {
-        return self->SetDefaultValue(key, nt::Value::MakeRaw(value.cast<std::string>()));
+        auto v = nt::Value::MakeRaw(value.cast<std::span<const uint8_t>>());
+        py::gil_scoped_release release;
+        return self->SetDefaultValue(key, v);
     }, py::arg("key"), py::arg("value"))
     .def("setDefaultValue", [](nt::NetworkTable *self, std::string_view key, std::string value) {
-        return self->SetDefaultValue(key, nt::Value::MakeString(value));
+        return self->SetDefaultValue(key, nt::Value::MakeString(std::move(value)));
     }, py::arg("key"), py::arg("value"), release_gil())
     .def("setDefaultValue", [](nt::NetworkTable *self, std::string_view key, py::sequence value) {
-        return self->SetDefaultValue(key, pyntcore::py2ntvalue(value));
+        auto v = pyntcore::py2ntvalue(value);
+        py::gil_scoped_release release;
+        return self->SetDefaultValue(key, v);
     }, py::arg("key"), py::arg("value"))
 
     .def("__contains__", [](const nt::NetworkTable &self, std::string_view key) -> bool {
         return self.ContainsKey(key);
-    })
+    }, release_gil())
 ;

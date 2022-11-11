@@ -1,19 +1,34 @@
 ---
 
 extra_includes:
+- networktables/BooleanArrayTopic.h
+- networktables/BooleanTopic.h
+- networktables/DoubleArrayTopic.h
+- networktables/DoubleTopic.h
+- networktables/FloatArrayTopic.h
+- networktables/FloatTopic.h
+- networktables/IntegerArrayTopic.h
+- networktables/IntegerTopic.h
+- networktables/MultiSubscriber.h
+- networktables/RawTopic.h
+- networktables/StringArrayTopic.h
+- networktables/StringTopic.h
+- networktables/Topic.h
 - src/py2value.h
 - src/nt_logging.h
 - wpi/DataLog.h
 
-inline_code: |
-  #include <src/NetworkTableInstance.cpp.inl>
-
 classes:
   NetworkTableInstance:
-    shared_ptr: false
-    rename: NetworkTablesInstance
+    force_type_casters:
+    - std::function
+    attributes:
+      kDefaultPort3:
+      kDefaultPort4:
     enums:
       NetworkMode:
+        inline_code: |
+          .value("kNetModeStarting", (nt::NetworkTableInstance::NetworkMode)NT_NET_MODE_STARTING)
       LogLevel:
     methods:
       NetworkTableInstance:
@@ -26,142 +41,115 @@ classes:
       Create:
       Destroy:
         cpp_code: |
-          [](NetworkTableInstance * that) {
-            pyntcore::detachLogging(that->GetHandle());
-            NetworkTableInstance::Destroy(*that);
+          [](NetworkTableInstance * self) {
+            pyntcore::detachLogging(self);
+            py::gil_scoped_release release;
+            NetworkTableInstance::Destroy(*self);
           }
       GetHandle:
+        internal: true
+      GetTopic:
+      GetBooleanTopic:
+      GetIntegerTopic:
+      GetFloatTopic:
+      GetDoubleTopic:
+      GetStringTopic:
+      GetRawTopic:
+      GetBooleanArrayTopic:
+      GetIntegerArrayTopic:
+      GetFloatArrayTopic:
+      GetDoubleArrayTopic:
+      GetStringArrayTopic:
+      GetTopics:
+        overloads:
+          "":
+          std::string_view:
+          std::string_view, unsigned int:
+          std::string_view, std::span<std::string_view>:
+      GetTopicInfo:
+        overloads:
+          "":
+          std::string_view:
+          std::string_view, unsigned int:
+          std::string_view, std::span<std::string_view>:
       GetEntry:
-      GetEntries:
-      GetEntryInfo:
       GetTable:
-      DeleteAllEntries:
-      AddEntryListener:
-      RemoveEntryListener:
-      WaitForEntryListenerQueue:
+      RemoveListener:
+      WaitForListenerQueue:
       AddConnectionListener:
-        param_override:
-          immediate_notify:
-            # pynetworktables compat
-            name: immediateNotify
-        cpp_code: |
-          [](NetworkTableInstance * that,
-             std::function<void(bool, const ConnectionInfo &)> listener,
-             bool immediateNotify) {
-            that->AddConnectionListener([listener](const ConnectionNotification& event){
-              listener(event.connected, event.conn);
-            }, immediateNotify);
-          }
-      RemoveConnectionListener:
-      WaitForConnectionListenerQueue:
-      WaitForRpcCallQueue:
-      SetNetworkIdentity:
+      AddListener:
+        overloads:
+          nt::Topic, unsigned int, ListenerCallback:
+          nt::Subscriber&, unsigned int, ListenerCallback:
+          nt::MultiSubscriber&, int, ListenerCallback:
+          NetworkTableEntry&, int, ListenerCallback:
+          std::span<const std::string_view>, int, ListenerCallback:
       GetNetworkMode:
       StartLocal:
         cpp_code: |
-          [](NetworkTableInstance * that) {
-            pyntcore::attachLogging(that->GetHandle());
-            that->StartLocal();
+          [](NetworkTableInstance * self) {
+            pyntcore::attachLogging(self);
+            py::gil_scoped_release release;
+            self->StartLocal();
           }
       StopLocal:
       StartServer:
-        param_override:
-          persist_filename:
-            name: persistFilename
-          listen_address:
-            name: listenAddress
-          port:
-            default: "NT_DEFAULT_PORT"
         cpp_code: |
-          [](NetworkTableInstance * that,
-             std::string_view persist_filename,
-             const char* listen_address,
-             unsigned int port) {
-            pyntcore::attachLogging(that->GetHandle());
-            that->StartServer(persist_filename, listen_address, port);
+          [](NetworkTableInstance * self, std::string_view persist_filename,  const char* listen_address,
+             unsigned int port3, unsigned int port4) {
+            pyntcore::attachLogging(self);
+            py::gil_scoped_release release;
+            self->StartServer(persist_filename, listen_address, port3, port4);
           }
       StopServer:
-      StartClient:
-        overloads:
-          "":
-            cpp_code: |
-              [](NetworkTableInstance * that) {
-                pyntcore::attachLogging(that->GetHandle());
-                that->StartClient();
-              }
-          char*, unsigned int:
-            param_override:
-              port:
-                default: "NT_DEFAULT_PORT"
-            cpp_code: |
-              [](NetworkTableInstance * that,
-                 const char* server_name, unsigned int port) {
-                pyntcore::attachLogging(that->GetHandle());
-                that->StartClient(server_name, port);
-              }
-          wpi::span<const std::pair<std::string_view, unsigned int>>:
-            cpp_code: |
-              [](NetworkTableInstance * that,
-                 wpi::span<const std::pair<std::string_view, unsigned int>> servers) {
-                pyntcore::attachLogging(that->GetHandle());
-                that->StartClient(servers);
-              }
-          wpi::span<const std::string_view>, unsigned int:
-            param_override:
-              port:
-                default: "NT_DEFAULT_PORT"
-            cpp_code: |
-              [](NetworkTableInstance * that,
-                 wpi::span<const std::string_view> servers, unsigned int port) {
-                pyntcore::attachLogging(that->GetHandle());
-                that->StartClient(servers, port);
-              }
-      StartClientTeam:
-        param_override:
-          port:
-            default: "NT_DEFAULT_PORT"
+      StartClient3:
         cpp_code: |
-          [](NetworkTableInstance * that,
-             unsigned int team, unsigned int port) {
-            pyntcore::attachLogging(that->GetHandle());
-            that->StartClientTeam(team, port);
+          [](NetworkTableInstance * self, std::string_view identity) {
+            pyntcore::attachLogging(self);
+            py::gil_scoped_release release;
+            self->StartClient3(identity);
+          }
+      StartClient4:
+        cpp_code: |
+          [](NetworkTableInstance * self, std::string_view identity) {
+            pyntcore::attachLogging(self);
+            py::gil_scoped_release release;
+            self->StartClient4(identity);
           }
       StopClient:
       SetServer:
         overloads:
           char*, unsigned int:
-            param_override:
-              port:
-                default: "NT_DEFAULT_PORT"
-          wpi::span<const std::pair<std::string_view, unsigned int>>:
-          wpi::span<const std::string_view>, unsigned int:
-            param_override:
-              port:
-                default: "NT_DEFAULT_PORT"
+          std::span<const std::pair<std::string_view, unsigned int>>:
+          std::span<const std::string_view>, unsigned int:
       SetServerTeam:
-        param_override:
-          port:
-            default: "NT_DEFAULT_PORT"
       StartDSClient:
-        param_override:
-          port:
-            default: "NT_DEFAULT_PORT"
-        cpp_code: |
-          [](NetworkTableInstance * that, unsigned int port) {
-            pyntcore::attachLogging(that->GetHandle());
-            that->StartDSClient(port);
-          }
       StopDSClient:
-      SetUpdateRate:
+      FlushLocal:
       Flush:
       GetConnections:
       IsConnected:
-      SavePersistent:
-      LoadPersistent:
-      SaveEntries:
-      LoadEntries:
+      StartEntryDataLog:
+      StopEntryDataLog:
+      StartConnectionDataLog:
+      StopConnectionDataLog:
       AddLogger:
       RemoveLogger:
-      WaitForLoggerQueue:
       operator==:
       operator!=:
+    inline_code: |
+      .def("configPythonLogging", [](NetworkTableInstance * self, 
+        NetworkTableInstance::LogLevel minLevel, NetworkTableInstance::LogLevel maxLevel, py::str logName) {
+          py::module::import("ntcore._logutil").attr("_config_logging")(self, minLevel, maxLevel, logName);
+        }, py::kw_only(),
+          py::arg("min") = NetworkTableInstance::LogLevel::kLogInfo,
+          py::arg("max") = NetworkTableInstance::LogLevel::kLogCritical,
+          py::arg("name") = "nt",
+        py::doc("Configure python logging for this instance.\n"
+                "\n"
+                ":param min:  Minimum NT level to log\n"
+                ":param max:  Maximum NT level to log\n"
+                ":param name: Name of python logger\n"
+                "\n"
+                ".. note:: This must be called before the instance is started")
+      )
