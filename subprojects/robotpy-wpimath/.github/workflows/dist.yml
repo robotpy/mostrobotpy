@@ -12,6 +12,8 @@ on:
 jobs:
   ci:
     uses: robotpy/build-actions/.github/workflows/package-ci.yml@v2023
+    with:
+      enable_sphinx_check: false
     secrets:
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
