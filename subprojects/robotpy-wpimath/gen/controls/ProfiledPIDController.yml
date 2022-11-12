@@ -29,6 +29,8 @@ classes:
       GetI:
       GetD:
       GetPeriod:
+      GetPositionTolerance:
+      GetVelocityTolerance:
       SetGoal:
         overloads:
           typename TrapezoidProfile<Distance>::State:

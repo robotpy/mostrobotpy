@@ -1,0 +1,9 @@
+---
+
+classes:
+  MecanumDriveWheelPositions:
+    attributes:
+      frontLeft:
+      frontRight:
+      rearLeft:
+      rearRight:

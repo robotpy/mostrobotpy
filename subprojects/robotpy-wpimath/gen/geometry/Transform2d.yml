@@ -23,6 +23,7 @@ classes:
       Y:
       Inverse:
       operator*:
+      operator/:
       operator==:
       operator!=:
       operator+:
@@ -35,5 +36,13 @@ inline_code: |
     .def(py::init([](units::meter_t x, units::meter_t y, units::radian_t angle) {
       return std::make_unique<Transform2d>(Translation2d(x, y), Rotation2d(angle));
     }), py::arg("x"), py::arg("y"), py::arg("angle"))
+    .def_property_readonly("x", &Transform2d::X)
+    .def_property_readonly("y", &Transform2d::Y)
+    .def_property_readonly("x_feet", [](Transform2d * self) -> units::foot_t {
+      return self->X();
+    })
+    .def_property_readonly("y_feet", [](Transform2d * self) -> units::foot_t {
+      return self->Y();
+    })
     .def("__repr__", py::overload_cast<const Transform2d&>(&rpy::toString));
   ;

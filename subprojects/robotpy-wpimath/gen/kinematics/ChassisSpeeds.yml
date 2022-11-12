@@ -10,6 +10,9 @@ classes:
       omega:
     methods:
       FromFieldRelativeSpeeds:
+        overloads:
+          units::meters_per_second_t, units::meters_per_second_t, units::radians_per_second_t, Rotation2d&:
+          frc::ChassisSpeeds&, Rotation2d&:
 
 inline_code: |
   cls_ChassisSpeeds

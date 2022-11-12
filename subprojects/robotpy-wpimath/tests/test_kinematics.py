@@ -5,6 +5,7 @@ from wpimath.kinematics import (
     ChassisSpeeds,
     SwerveDrive4Kinematics,
     SwerveDrive4Odometry,
+    SwerveModulePosition,
     SwerveModuleState,
 )
 
@@ -50,24 +51,23 @@ def test_swerve4_normalize():
 
 
 def test_swerve4_odometry(s4: SwerveDrive4Kinematics):
-    odometry = SwerveDrive4Odometry(s4, Rotation2d(0))
-    odometry.resetPosition(Pose2d(), Rotation2d.fromDegrees(90))
+    zero = SwerveModulePosition()
+    odometry = SwerveDrive4Odometry(s4, Rotation2d(0), (zero, zero, zero, zero))
+    odometry.resetPosition(Pose2d(), Rotation2d(0), zero, zero, zero, zero)
 
-    state = SwerveModuleState(5)
+    position = SwerveModulePosition(0.5)
 
-    odometry.updateWithTime(
-        0,
-        Rotation2d.fromDegrees(90),
-        SwerveModuleState(),
-        SwerveModuleState(),
-        SwerveModuleState(),
-        SwerveModuleState(),
+    odometry.update(
+        Rotation2d(0),
+        zero,
+        zero,
+        zero,
+        zero,
     )
 
-    pose = odometry.updateWithTime(
-        0.1, Rotation2d.fromDegrees(90), state, state, state, state
-    )
+    pose = odometry.update(Rotation2d(0), position, position, position, position)
 
-    assert pose.translation().x == pytest.approx(0.5)
-    assert pose.translation().y == pytest.approx(0.0)
+    print(pose)
+    assert pose.x == pytest.approx(0.5)
+    assert pose.y == pytest.approx(0.0)
     assert pose.rotation().degrees() == pytest.approx(0)

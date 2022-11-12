@@ -18,6 +18,8 @@ classes:
       GetI:
       GetD:
       GetPeriod:
+      GetPositionTolerance:
+      GetVelocityTolerance:
       SetSetpoint:
       GetSetpoint:
       AtSetpoint:

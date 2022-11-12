@@ -10,20 +10,15 @@ classes:
     methods:
       ExtendedKalmanFilter:
         overloads:
-          ? std::function<Eigen::Vector<double, States> ( const Eigen::Vector<double,
-            States> &, const Eigen::Vector<double, Inputs> & )>, std::function<Eigen::Vector<double,
-            Outputs> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
-            Inputs> & )>, wpi::array<double, States>&, wpi::array<double, Outputs>&,
-            units::second_t
+          ? std::function<StateVector ( const StateVector &, const InputVector & )>,
+            std::function<OutputVector ( const StateVector &, const InputVector &
+            )>, wpi::array<double, States>&, wpi::array<double, Outputs>&, units::second_t
           :
-          ? std::function<Eigen::Vector<double, States> ( const Eigen::Vector<double,
-            States> &, const Eigen::Vector<double, Inputs> & )>, std::function<Eigen::Vector<double,
-            Outputs> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
-            Inputs> & )>, wpi::array<double, States>&, wpi::array<double, Outputs>&,
-            std::function<Eigen::Vector<double, Outputs> ( const Eigen::Vector<double,
-            Outputs> &, const Eigen::Vector<double, Outputs> & )>, std::function<Eigen::Vector<double,
-            States> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
-            States> & )>, units::second_t
+          ? std::function<StateVector ( const StateVector &, const InputVector & )>,
+            std::function<OutputVector ( const StateVector &, const InputVector &
+            )>, wpi::array<double, States>&, wpi::array<double, Outputs>&, std::function<OutputVector
+            ( const OutputVector &, const OutputVector & )>, std::function<StateVector
+            ( const StateVector &, const StateVector & )>, units::second_t
           :
       P:
         overloads:
@@ -36,26 +31,24 @@ classes:
           int [const]:
       SetXhat:
         overloads:
-          Eigen::Vector<double, States>&:
+          Vectord<States>&:
           int, double:
       Reset:
       Predict:
       Correct:
         overloads:
-          Eigen::Vector<double, Inputs>&, Eigen::Vector<double, Outputs>&:
-          ? Eigen::Vector<double, Inputs>&, Eigen::Vector<double, Rows>&, std::function<Eigen::Vector<double,
-            Rows> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
-            Inputs> & )>, Eigen::Matrix<double, Rows, Rows>&
+          Vectord<Inputs>&, Vectord<Outputs>&:
+          ? Vectord<Inputs>&, Vectord<Rows>&, std::function<Vectord<Rows> ( const
+            StateVector &, const InputVector & )>, Matrixd<Rows, Rows>&
           :
             ignore: true
-          ? Eigen::Vector<double, Inputs>&, Eigen::Vector<double, Rows>&, std::function<Eigen::Vector<double,
-            Rows> ( const Eigen::Vector<double, States> &, const Eigen::Vector<double,
-            Inputs> & )>, Eigen::Matrix<double, Rows, Rows>&, std::function<Eigen::Vector<double,
-            Rows> ( const Eigen::Vector<double, Rows> &, const Eigen::Vector<double,
-            Rows> & )>, std::function<Eigen::Vector<double, States> ( const Eigen::Vector<double,
-            States> &, const Eigen::Vector<double, States> )>
+          ? Vectord<Inputs>&, Vectord<Rows>&, std::function<Vectord<Rows> ( const
+            StateVector &, const InputVector & )>, Matrixd<Rows, Rows>&, std::function<Vectord<Rows>
+            ( const Vectord<Rows> &, const Vectord<Rows> & )>, std::function<StateVector
+            ( const StateVector &, const StateVector & )>
           :
             ignore: true
+
 
 templates:
   ExtendedKalmanFilter_1_1_1:

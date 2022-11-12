@@ -1,0 +1,31 @@
+---
+extra_includes:
+  - rpy/geometryToString.h
+
+functions:
+  to_json:
+    ignore: true
+  from_json:
+    ignore: true
+classes:
+  Quaternion:
+    shared_ptr: false
+    methods:
+      Quaternion:
+        overloads:
+          "":
+          double, double, double, double:
+      operator*:
+      operator==:
+      operator!=:
+      Inverse:
+      Normalize:
+      W:
+      X:
+      Y:
+      Z:
+      ToRotationVector:
+
+inline_code: |
+  cls_Quaternion
+    .def("__repr__", py::overload_cast<const Quaternion&>(&rpy::toString));

@@ -20,6 +20,14 @@ template <> struct handle_type_name<units::degrees_per_second> {
   static constexpr auto name = _("degrees_per_second");
 };
 
+template <> struct handle_type_name<units::turns_per_second_t> {
+  static constexpr auto name = _("turns_per_second");
+};
+
+template <> struct handle_type_name<units::turns_per_second> {
+  static constexpr auto name = _("turns_per_second");
+};
+
 template <> struct handle_type_name<units::revolutions_per_minute_t> {
   static constexpr auto name = _("revolutions_per_minute");
 };

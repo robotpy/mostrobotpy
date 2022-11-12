@@ -2,6 +2,12 @@
 
 functions:
   InputModulus:
-    ignore: true
+    template_impls:
+    - [double]
   AngleModulus:
   ApplyDeadband:
+    param_override:
+      maxMagnitude:
+        default: '1.0'
+    template_impls:
+    - [double]

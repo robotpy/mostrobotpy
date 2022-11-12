@@ -1,0 +1,23 @@
+---
+
+classes:
+  LTVUnicycleController:
+    subpackage: controller
+    methods:
+      LTVUnicycleController:
+        overloads:
+          units::second_t, units::meters_per_second_t:
+            param_override:
+              maxVelocity:
+                default: 9_mps
+          wpi::array<double, 3>&, wpi::array<double, 2>&, units::second_t, units::meters_per_second_t:
+            param_override:
+              maxVelocity:
+                default: 9_mps
+      AtReference:
+      SetTolerance:
+      Calculate:
+        overloads:
+          Pose2d&, Pose2d&, units::meters_per_second_t, units::radians_per_second_t:
+          Pose2d&, Trajectory::State&:
+      SetEnabled:

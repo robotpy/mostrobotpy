@@ -1,0 +1,54 @@
+---
+extra_includes:
+  - rpy/geometryToString.h
+
+functions:
+  to_json:
+    ignore: true
+  from_json:
+    ignore: true
+classes:
+  Pose3d:
+    shared_ptr: false
+    methods:
+      Pose3d:
+        overloads:
+          "":
+          Translation3d, Rotation3d:
+          units::meter_t, units::meter_t, units::meter_t, Rotation3d:
+          Pose2d&:
+      operator+:
+      operator-:
+      operator==:
+      operator!=:
+      Translation:
+      X:
+      Y:
+      Z:
+      Rotation:
+      operator*:
+      operator/:
+      TransformBy:
+      RelativeTo:
+      Exp:
+      Log:
+      ToPose2d:
+
+inline_code: |
+  cls_Pose3d
+    .def_static("fromFeet", [](units::foot_t x, units::foot_t y, units::foot_t z, Rotation3d r) {
+      return std::make_unique<Pose3d>(x, y, z, r);
+    }, py::arg("x"), py::arg("y"), py::arg("z"), py::arg("r"))
+    .def_property_readonly("x", &Pose3d::X)
+    .def_property_readonly("y", &Pose3d::Y)
+    .def_property_readonly("z", &Pose3d::Z)
+    .def_property_readonly("x_feet", [](const Pose3d * self) -> units::foot_t {
+      return self->X();
+    })
+    .def_property_readonly("y_feet", [](const Pose3d * self) -> units::foot_t {
+      return self->Y();
+    })
+    .def_property_readonly("z_feet", [](const Pose3d * self) -> units::foot_t {
+      return self->Z();
+    })
+    .def("__repr__", py::overload_cast<const Pose3d&>(&rpy::toString));

@@ -8,6 +8,48 @@ classes:
     methods:
       SwerveDriveOdometry:
       ResetPosition:
+        overloads:
+          Pose2d&, Rotation2d&, ModulePositions ...&&:
+            param_override:
+              pose:
+                ignore: true
+              gyroAngle:
+                ignore: true
+              wheelPositions:
+                ignore: true
+            cpp_code: |
+              []() {
+                if constexpr (NumModules == 2) {
+                  return [](SwerveDriveOdometry<NumModules> * self,
+                            const Pose2d& pose, const Rotation2d& gyroAngle,
+                            SwerveModulePosition s1, SwerveModulePosition s2) {
+                    return self->ResetPosition(pose, gyroAngle, s1, s2);
+                  };
+                } else if constexpr (NumModules == 3) {
+                  return [](SwerveDriveOdometry<NumModules> * self,
+                            const Pose2d& pose, const Rotation2d& gyroAngle,
+                            SwerveModulePosition s1, SwerveModulePosition s2, SwerveModulePosition s3) {
+                    return self->ResetPosition(pose, gyroAngle, s1, s2, s3);
+                  };
+                } else if constexpr (NumModules == 4) {
+                  return [](SwerveDriveOdometry<NumModules> * self,
+                            const Pose2d& pose, const Rotation2d& gyroAngle,
+                            SwerveModulePosition s1, SwerveModulePosition s2,
+                            SwerveModulePosition s3, SwerveModulePosition s4) {
+                    return self->ResetPosition(pose, gyroAngle, s1, s2, s3, s4);
+                  };
+                } else if constexpr (NumModules == 6) {
+                  return [](SwerveDriveOdometry<NumModules> * self,
+                            const Pose2d& pose, const Rotation2d& gyroAngle,
+                            SwerveModulePosition s1, SwerveModulePosition s2,
+                            SwerveModulePosition s3, SwerveModulePosition s4,
+                            SwerveModulePosition s5, SwerveModulePosition s6) {
+                    return self->ResetPosition(pose, gyroAngle, s1, s2, s3, s4, s5, s6);
+                  };
+                }
+              }()
+          Pose2d&, Rotation2d&, wpi::array<SwerveModulePosition, NumModules>:
+            ignore: true
       GetPose:
       UpdateWithTime:
         param_override:
@@ -49,39 +91,42 @@ classes:
             }
           }()
       Update:
-        param_override:
-          gyroAngle:
+        overloads:
+          Rotation2d&, ModulePositions ...&&:
+            param_override:
+              gyroAngle:
+                ignore: true
+              wheelPositions:
+                ignore: true
+            cpp_code: |
+              []() {
+                if constexpr (NumModules == 2) {
+                  return [](SwerveDriveOdometry<NumModules> * self, const Rotation2d& gyroAngle,
+                            SwerveModulePosition s1, SwerveModulePosition s2) {
+                    return self->Update(gyroAngle, s1, s2);
+                  };
+                } else if constexpr (NumModules == 3) {
+                  return [](SwerveDriveOdometry<NumModules> * self, const Rotation2d& gyroAngle,
+                            SwerveModulePosition s1, SwerveModulePosition s2, SwerveModulePosition s3) {
+                    return self->Update(gyroAngle, s1, s2, s3);
+                  };
+                } else if constexpr (NumModules == 4) {
+                  return [](SwerveDriveOdometry<NumModules> * self, const Rotation2d& gyroAngle,
+                            SwerveModulePosition s1, SwerveModulePosition s2,
+                            SwerveModulePosition s3, SwerveModulePosition s4) {
+                    return self->Update(gyroAngle, s1, s2, s3, s4);
+                  };
+                } else if constexpr (NumModules == 6) {
+                  return [](SwerveDriveOdometry<NumModules> * self, const Rotation2d& gyroAngle,
+                            SwerveModulePosition s1, SwerveModulePosition s2,
+                            SwerveModulePosition s3, SwerveModulePosition s4,
+                            SwerveModulePosition s5, SwerveModulePosition s6) {
+                    return self->Update(gyroAngle, s1, s2, s3, s4, s5, s6);
+                  };
+                }
+              }()
+          Rotation2d&, wpi::array<SwerveModulePosition, NumModules>:
             ignore: true
-          moduleStates:
-            ignore: true
-        cpp_code: |
-          []() {
-            if constexpr (NumModules == 2) {
-              return [](SwerveDriveOdometry<NumModules> * self, const Rotation2d& gyroAngle,
-                        SwerveModuleState s1, SwerveModuleState s2) {
-                return self->Update(gyroAngle, s1, s2);
-              };
-            } else if constexpr (NumModules == 3) {
-              return [](SwerveDriveOdometry<NumModules> * self, const Rotation2d& gyroAngle,
-                        SwerveModuleState s1, SwerveModuleState s2, SwerveModuleState s3) {
-                return self->Update(gyroAngle, s1, s2, s3);
-              };
-            } else if constexpr (NumModules == 4) {
-              return [](SwerveDriveOdometry<NumModules> * self, const Rotation2d& gyroAngle,
-                        SwerveModuleState s1, SwerveModuleState s2,
-                        SwerveModuleState s3, SwerveModuleState s4) {
-                return self->Update(gyroAngle, s1, s2, s3, s4);
-              };
-            } else if constexpr (NumModules == 6) {
-              return [](SwerveDriveOdometry<NumModules> * self, const Rotation2d& gyroAngle,
-                        SwerveModuleState s1, SwerveModuleState s2,
-                        SwerveModuleState s3, SwerveModuleState s4,
-                        SwerveModuleState s5, SwerveModuleState s6) {
-                return self->Update(gyroAngle, s1, s2, s3, s4, s5, s6);
-              };
-            }
-          }()
-
 templates:
   SwerveDrive2Odometry:
     qualname: frc::SwerveDriveOdometry

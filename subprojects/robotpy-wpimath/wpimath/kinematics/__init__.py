@@ -8,6 +8,7 @@ from ._kinematics import (
     DifferentialDriveWheelSpeeds,
     MecanumDriveKinematics,
     MecanumDriveOdometry,
+    MecanumDriveWheelPositions,
     MecanumDriveWheelSpeeds,
     SwerveDrive2Kinematics,
     SwerveDrive2Odometry,
@@ -17,6 +18,7 @@ from ._kinematics import (
     SwerveDrive4Odometry,
     SwerveDrive6Kinematics,
     SwerveDrive6Odometry,
+    SwerveModulePosition,
     SwerveModuleState,
 )
 
@@ -27,6 +29,7 @@ __all__ = [
     "DifferentialDriveWheelSpeeds",
     "MecanumDriveKinematics",
     "MecanumDriveOdometry",
+    "MecanumDriveWheelPositions",
     "MecanumDriveWheelSpeeds",
     "SwerveDrive2Kinematics",
     "SwerveDrive2Odometry",
@@ -36,5 +39,6 @@ __all__ = [
     "SwerveDrive4Odometry",
     "SwerveDrive6Kinematics",
     "SwerveDrive6Odometry",
+    "SwerveModulePosition",
     "SwerveModuleState",
 ]

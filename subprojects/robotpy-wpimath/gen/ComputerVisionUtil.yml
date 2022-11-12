@@ -1,0 +1,16 @@
+---
+
+functions:
+  CalculateDistanceToTarget:
+  EstimateFieldToRobot:
+    overloads:
+      ? units::meter_t, units::meter_t, units::radian_t, units::radian_t, frc::Rotation2d&,
+        frc::Rotation2d&, frc::Pose2d&, frc::Transform2d&
+      :
+      ? units::meter_t, units::meter_t, units::radian_t, units::radian_t, frc::Rotation2d&,
+        frc::Rotation2d&, frc::Pose3d&, frc::Transform3d&
+      :
+      frc::Transform2d&, frc::Pose2d&, frc::Transform2d&:
+      frc::Transform3d&, frc::Pose3d&, frc::Transform3d&:
+  EstimateCameraToTarget:
+  EstimateFieldToCamera:

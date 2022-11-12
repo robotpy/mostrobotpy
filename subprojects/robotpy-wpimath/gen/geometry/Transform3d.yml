@@ -1,0 +1,46 @@
+---
+extra_includes:
+  - rpy/geometryToString.h
+
+functions:
+  to_json:
+    ignore: true
+  from_json:
+    ignore: true
+classes:
+  Transform3d:
+    shared_ptr: false
+    methods:
+      Transform3d:
+        overloads:
+          frc::Pose3d, frc::Pose3d:
+          Translation3d, Rotation3d:
+          "":
+      Translation:
+      X:
+      Y:
+      Z:
+      Rotation:
+      Inverse:
+      operator*:
+      operator/:
+      operator+:
+      operator==:
+      operator!=:
+
+
+inline_code: |
+  cls_Transform3d
+    .def_property_readonly("x", &Transform3d::X)
+    .def_property_readonly("y", &Transform3d::Y)
+    .def_property_readonly("z", &Transform3d::Z)
+    .def_property_readonly("x_feet", [](const Transform3d * self) -> units::foot_t {
+      return self->X();
+    })
+    .def_property_readonly("y_feet", [](const Transform3d * self) -> units::foot_t {
+      return self->Y();
+    })
+    .def_property_readonly("z_feet", [](const Transform3d * self) -> units::foot_t {
+      return self->Z();
+    })
+    .def("__repr__", py::overload_cast<const Transform3d&>(&rpy::toString));

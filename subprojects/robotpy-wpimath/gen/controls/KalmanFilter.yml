@@ -1,14 +1,14 @@
 ---
 
 classes:
-  KalmanFilterImpl:
+  KalmanFilter:
     shared_ptr: true
     template_params:
     - int States
     - int Inputs
     - int Outputs
     methods:
-      KalmanFilterImpl:
+      KalmanFilter:
       K:
         overloads:
           '[const]':
@@ -19,26 +19,11 @@ classes:
           int [const]:
       SetXhat:
         overloads:
-          Eigen::Vector<double, States>&:
+          Vectord<States>&:
           int, double:
       Reset:
       Predict:
       Correct:
-  KalmanFilter:
-    shared_ptr: true
-    template_params:
-    - int States
-    - int Inputs
-    - int Outputs
-    force_no_trampoline: true
-    ignored_bases:
-    - detail::KalmanFilterImpl<States,Inputs,Outputs>
-    methods:
-      KalmanFilter:
-  KalmanFilter<1,1,1>:
-    ignore: true
-  KalmanFilter<2,1,1>:
-    ignore: true
 
 templates:
   KalmanFilter_1_1_1:

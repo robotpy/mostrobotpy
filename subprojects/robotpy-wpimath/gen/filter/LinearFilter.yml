@@ -8,7 +8,7 @@ classes:
     methods:
       LinearFilter:
         overloads:
-          wpi::span<const double>, wpi::span<const double>:
+          std::span<const double>, std::span<const double>:
           std::initializer_list<double>, std::initializer_list<double>:
             ignore: true
       SinglePoleIIR:

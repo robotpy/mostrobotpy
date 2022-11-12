@@ -33,3 +33,4 @@ classes:
 
                       fl, fr, bl, br = kinematics.toWheelSpeeds(chassisSpeeds)
       ToChassisSpeeds:
+      ToTwist2d:

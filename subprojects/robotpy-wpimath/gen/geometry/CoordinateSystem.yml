@@ -1,0 +1,15 @@
+---
+
+classes:
+  CoordinateSystem:
+    methods:
+      CoordinateSystem:
+      NWU:
+      EDN:
+      NED:
+      Convert:
+        overloads:
+          Translation3d&, frc::CoordinateSystem&, frc::CoordinateSystem&:
+          Rotation3d&, frc::CoordinateSystem&, frc::CoordinateSystem&:
+          Pose3d&, frc::CoordinateSystem&, frc::CoordinateSystem&:
+          Transform3d&, frc::CoordinateSystem&, frc::CoordinateSystem&:
