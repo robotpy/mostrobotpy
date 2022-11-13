@@ -7,6 +7,7 @@ url = "https://github.com/robotpy/robotpy-halsim-gui"
 license = "BSD-3-Clause"
 install_requires = [
     "robotpy-hal<2024.0.0,>=2023.0.0b3.post1",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b3",
 ]
 
 [tool.robotpy-build.metadata.entry_points]
@@ -16,6 +17,7 @@ robotpysimext = ["ds-socket = halsim_ds_socket"]
 requires = [
     "robotpy-build<2024.0.0,>=2023.0.0b12",
     "robotpy-hal<2024.0.0,>=2023.0.0b3.post1",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b3",
 ]
 
 [tool.robotpy-build]
@@ -32,6 +34,6 @@ dlopenlibs = ["halsim_ds_socket"]
 
 [tool.robotpy-build.wrappers."halsim_ds_socket"]
 name = "halsim_ds_socket"
-depends = ["wpiHal"]
+depends = ["wpiHal", "wpinet"]
 
 
