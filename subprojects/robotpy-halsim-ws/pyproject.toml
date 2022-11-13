@@ -7,6 +7,7 @@ url = "https://github.com/robotpy/robotpy-halsim-gui"
 license = "BSD-3-Clause"
 install_requires = [
     "robotpy-hal<2024.0.0,>=2023.0.0b3.post1",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b3",
 ]
 
 [tool.robotpy-build.metadata.entry_points]
@@ -20,6 +21,7 @@ robotpysimext = [
 requires = [
     "robotpy-build<2024.0.0,>=2023.0.0b12",
     "robotpy-hal<2024.0.0,>=2023.0.0b3.post1",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b3",
 ]
 
 [tool.robotpy-build]
@@ -36,7 +38,7 @@ dlopenlibs = ["halsim_ws_server"]
 
 [tool.robotpy-build.wrappers."halsim_ws.server"]
 name = "server"
-depends = ["wpiHal"]
+depends = ["wpiHal", "wpinet"]
 
 [tool.robotpy-build.wrappers."halsim_ws.client".maven_lib_download]
 artifact_id = "halsim_ws_client"
@@ -49,5 +51,5 @@ dlopenlibs = ["halsim_ws_client"]
 
 [tool.robotpy-build.wrappers."halsim_ws.client"]
 name = "client"
-depends = ["wpiHal", "wpiutil"]
+depends = ["wpiHal", "wpinet", "wpiutil"]
 
