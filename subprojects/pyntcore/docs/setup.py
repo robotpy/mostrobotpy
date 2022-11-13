@@ -13,7 +13,7 @@ except ImportError:
         return subprocess.check_output(["git", "describe", "--tags"], encoding="utf-8")
 
 
-package = "robotpy-wpiutil"
+package = "pyntcore"
 version = get_version(root="..", relative_to=__file__)
 
 setup(

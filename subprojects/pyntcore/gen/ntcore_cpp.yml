@@ -348,7 +348,7 @@ classes:
           .format(tname, self.value);
       });
 
-      py::enum_<NT_PubSubOptionType>(cls_PubSubOption, "Type")
+      py::enum_<NT_PubSubOptionType>(cls_PubSubOption, "Type", py::arithmetic())
         .value("kNone", (NT_PubSubOptionType)0)
         .value("kPeriodic", NT_PUBSUB_PERIODIC)
         .value("kSendAll", NT_PUBSUB_SENDALL)

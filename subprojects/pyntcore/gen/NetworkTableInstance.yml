@@ -27,6 +27,7 @@ classes:
       kDefaultPort4:
     enums:
       NetworkMode:
+        arithmetic: true
         inline_code: |
           .value("kNetModeStarting", (nt::NetworkTableInstance::NetworkMode)NT_NET_MODE_STARTING)
       LogLevel:
