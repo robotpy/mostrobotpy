@@ -299,7 +299,7 @@ safe) semantics.
   /**
    * Schedules this command.
    */
-  // void Schedule();
+  void Schedule();
 
   /**
    * Cancels this command. Will call End(true). Commands will be canceled

@@ -10,7 +10,6 @@ classes:
       Periodic:
       SimulationPeriodic:
       SetDefaultCommand:
-        ignore: true # in Subsystem.cpp.inl
       GetDefaultCommand:
       GetCurrentCommand:
       Register:
