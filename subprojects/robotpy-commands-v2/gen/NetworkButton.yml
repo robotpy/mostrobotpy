@@ -2,12 +2,15 @@
 
 classes:
   NetworkButton:
-    shared_ptr: true
     force_no_trampoline: true
     subpackage: button
     methods:
       NetworkButton:
         overloads:
-          nt::NetworkTableEntry:
-          std::shared_ptr<nt::NetworkTable>, wpi::Twine&:
-          wpi::Twine&, wpi::Twine&:
+          nt::BooleanTopic:
+            ignore: true # TODO
+          nt::BooleanSubscriber:
+            ignore: true # TODO
+          std::shared_ptr<nt::NetworkTable>, std::string_view:
+          std::string_view, std::string_view:
+          nt::NetworkTableInstance, std::string_view, std::string_view:

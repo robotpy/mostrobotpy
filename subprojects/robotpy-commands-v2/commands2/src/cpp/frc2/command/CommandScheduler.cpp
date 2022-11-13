@@ -12,8 +12,9 @@
 #include <frc/livewindow/LiveWindow.h>
 #include <hal/FRCUsageReporting.h>
 #include <hal/HALBase.h>
+#include <networktables/IntegerArrayTopic.h>
 #include <networktables/NTSendableBuilder.h>
-#include <networktables/NetworkTableEntry.h>
+#include <networktables/StringArrayTopic.h>
 #include <wpi/DenseMap.h>
 #include <wpi/SmallVector.h>
 #include <wpi/sendable/SendableRegistry.h>
@@ -21,16 +22,15 @@
 #include "frc2/command/DenseMapInfo.h"
 
 #include "frc2/command/CommandGroupBase.h"
-#include "frc2/command/CommandState.h"
+#include "frc2/command/CommandPtr.h"
 #include "frc2/command/Subsystem.h"
 
 using namespace frc2;
 
 class CommandScheduler::Impl {
  public:
-  // A map from commands to their scheduling state.  Also used as a set of the
-  // currently-running commands.
-  wpi::DenseMap<std::shared_ptr<Command>, CommandState> scheduledCommands;
+  // A set of the currently-running commands.
+  wpi::DenseMap<std::shared_ptr<Command>, bool> scheduledCommands;
 
   // A map from required subsystems to their requiring commands.  Also used as a
   // set of the currently-required subsystems.
@@ -40,9 +40,10 @@ class CommandScheduler::Impl {
   // commands.  Also used as a list of currently-registered subsystems.
   wpi::DenseMap<Subsystem*, std::shared_ptr<Command>> subsystems;
 
+  frc::EventLoop defaultButtonLoop;
   // The set of currently-registered buttons that will be polled every
   // iteration.
-  wpi::SmallVector<std::function<void()>, 4> buttons;
+  frc::EventLoop* activeButtonLoop{&defaultButtonLoop};
 
   bool disabled{false};
 
@@ -57,7 +58,7 @@ class CommandScheduler::Impl {
   // scheduled/canceled during run
 
   bool inRunLoop = false;
-  wpi::DenseMap<std::shared_ptr<Command>, bool> toSchedule;
+  wpi::SmallVector<std::shared_ptr<Command>, 4> toSchedule;
   wpi::SmallVector<std::shared_ptr<Command>, 4> toCancel;
 };
 
@@ -102,22 +103,30 @@ void CommandScheduler::SetPeriod(units::second_t period) {
   m_watchdog.SetTimeout(period);
 }
 
-void CommandScheduler::AddButton(std::function<void()> button) {
-  m_impl->buttons.emplace_back(std::move(button));
+frc::EventLoop* CommandScheduler::GetActiveButtonLoop() const {
+  return m_impl->activeButtonLoop;
+}
+
+void CommandScheduler::SetActiveButtonLoop(frc::EventLoop* loop) {
+  m_impl->activeButtonLoop = loop;
+}
+
+frc::EventLoop* CommandScheduler::GetDefaultButtonLoop() const {
+  return &(m_impl->defaultButtonLoop);
 }
 
 void CommandScheduler::ClearButtons() {
-  m_impl->buttons.clear();
+  m_impl->activeButtonLoop->Clear();
 }
 
-void CommandScheduler::Schedule(bool interruptible, std::shared_ptr<Command> command) {
+void CommandScheduler::Schedule(std::shared_ptr<Command> command) {
   if (m_impl->inRunLoop) {
-    m_impl->toSchedule.try_emplace(command, interruptible);
+    m_impl->toSchedule.emplace_back(command);
     return;
   }
 
   if (command->IsGrouped()) {
-    throw FRC_MakeError(frc::err::CommandIllegalUse, "{}",
+    throw FRC_MakeError(frc::err::CommandIllegalUse,
                         "A command that is part of a command group "
                         "cannot be independently scheduled");
     return;
@@ -138,8 +147,8 @@ void CommandScheduler::Schedule(bool interruptible, std::shared_ptr<Command> com
     // if (requirements.find(i1.first) != requirements.end()) {
     if (requirements.count(i1.first) != 0) {
       isDisjoint = false;
-      allInterruptible &=
-          m_impl->scheduledCommands[i1.second].IsInterruptible();
+      allInterruptible &= (i1.second->GetInterruptionBehavior() ==
+                           Command::InterruptionBehavior::kCancelSelf);
       intersection.emplace_back(i1.second);
     }
   }
@@ -150,11 +159,11 @@ void CommandScheduler::Schedule(bool interruptible, std::shared_ptr<Command> com
         Cancel(cmdToCancel);
       }
     }
-    command->Initialize();
-    m_impl->scheduledCommands[command] = CommandState{interruptible};
+    m_impl->scheduledCommands[command] = true;
     for (auto&& requirement : requirements) {
       m_impl->requirements[requirement] = command;
     }
+    command->Initialize();
     for (auto&& action : m_impl->initActions) {
       action(command);
     }
@@ -162,35 +171,23 @@ void CommandScheduler::Schedule(bool interruptible, std::shared_ptr<Command> com
   }
 }
 
-void CommandScheduler::Schedule(std::shared_ptr<Command> command) {
-  Schedule(true, command);
-}
-
-void CommandScheduler::Schedule(bool interruptible,
-                                wpi::span<std::shared_ptr<Command>> commands) {
+void CommandScheduler::Schedule(std::span<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
-    Schedule(interruptible, command);
-  }
-}
-
-void CommandScheduler::Schedule(bool interruptible,
-                                std::initializer_list<std::shared_ptr<Command>> commands) {
-  for (auto command : commands) {
-    Schedule(interruptible, command);
-  }
-}
-
-void CommandScheduler::Schedule(wpi::span<std::shared_ptr<Command>> commands) {
-  for (auto command : commands) {
-    Schedule(true, command);
+    Schedule(command);
   }
 }
 
 void CommandScheduler::Schedule(std::initializer_list<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
-    Schedule(true, command);
+    Schedule(command);
   }
 }
+
+/*
+void CommandScheduler::Schedule(const CommandPtr& command) {
+  Schedule(command.get());
+}
+*/
 
 void CommandScheduler::Run() {
   if (m_impl->disabled) {
@@ -208,18 +205,17 @@ void CommandScheduler::Run() {
     m_watchdog.AddEpoch("Subsystem Periodic()");
   }
 
+  // Cache the active instance to avoid concurrency problems if SetActiveLoop()
+  // is called from inside the button bindings.
+  frc::EventLoop* loopCache = m_impl->activeButtonLoop;
   // Poll buttons for new commands to add.
-  for (auto&& button : m_impl->buttons) {
-    button();
-  }
+  loopCache->Poll();
   m_watchdog.AddEpoch("buttons.Run()");
 
   m_impl->inRunLoop = true;
   // Run scheduled commands, remove finished commands.
-  for (auto iterator = m_impl->scheduledCommands.begin();
-       iterator != m_impl->scheduledCommands.end(); iterator++) {
-    std::shared_ptr<Command> command = iterator->getFirst();
-
+  for (auto&& iter : m_impl->scheduledCommands) {
+    auto command = iter.first;
     if (!command->RunsWhenDisabled() && frc::RobotState::IsDisabled()) {
       Cancel(command);
       continue;
@@ -241,14 +237,14 @@ void CommandScheduler::Run() {
         m_impl->requirements.erase(requirement);
       }
 
-      m_impl->scheduledCommands.erase(iterator);
+      m_impl->scheduledCommands.erase(command);
       m_watchdog.AddEpoch(command->GetName() + ".End(false)");
     }
   }
   m_impl->inRunLoop = false;
 
-  for (auto&& commandInterruptible : m_impl->toSchedule) {
-    Schedule(commandInterruptible.second, commandInterruptible.first);
+  for (auto&& command : m_impl->toSchedule) {
+    Schedule(command);
   }
 
   for (auto&& command : m_impl->toCancel) {
@@ -291,7 +287,7 @@ void CommandScheduler::RegisterSubsystem(
 }
 
 void CommandScheduler::RegisterSubsystem(
-    wpi::span<Subsystem*> subsystems) {
+    std::span<Subsystem*> subsystems) {
   for (auto* subsystem : subsystems) {
     RegisterSubsystem(subsystem);
   }
@@ -305,17 +301,33 @@ void CommandScheduler::UnregisterSubsystem(
 }
 
 void CommandScheduler::UnregisterSubsystem(
-    wpi::span<Subsystem*> subsystems) {
+    std::span<Subsystem*> subsystems) {
   for (auto* subsystem : subsystems) {
     UnregisterSubsystem(subsystem);
   }
 }
 
+/*
+void CommandScheduler::SetDefaultCommand(Subsystem* subsystem,
+                                         CommandPtr&& defaultCommand) {
+  if (!defaultCommand.get()->HasRequirement(subsystem)) {
+    throw FRC_MakeError(frc::err::CommandIllegalUse, "{}",
+                        "Default commands must require their subsystem!");
+  }
+  if (defaultCommand.get()->IsFinished()) {
+    throw FRC_MakeError(frc::err::CommandIllegalUse, "{}",
+                        "Default commands should not end!");
+  }
+
+  SetDefaultCommandImpl(subsystem, std::move(defaultCommand).Unwrap());
+}
+*/
+
 std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const std::shared_ptr<Subsystem> subsystem) const {
   return GetDefaultCommand(subsystem.get());
 }
 
-std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const Subsystem *subsystem) const {
+std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const Subsystem* subsystem) const {
   auto&& find = m_impl->subsystems.find(subsystem);
   if (find != m_impl->subsystems.end()) {
     return find->second;
@@ -338,17 +350,17 @@ void CommandScheduler::Cancel(std::shared_ptr<Command> command) {
   if (find == m_impl->scheduledCommands.end()) {
     return;
   }
-  command->End(true);
-  for (auto&& action : m_impl->interruptActions) {
-    action(command);
-  }
-  m_watchdog.AddEpoch(command->GetName() + ".End(true)");
   m_impl->scheduledCommands.erase(find);
   for (auto&& requirement : m_impl->requirements) {
     if (requirement.second == command) {
       m_impl->requirements.erase(requirement.first);
     }
   }
+  command->End(true);
+  for (auto&& action : m_impl->interruptActions) {
+    action(command);
+  }
+  m_watchdog.AddEpoch(command->GetName() + ".End(true)");
 }
 
 void CommandScheduler::Cancel(Command *command) {
@@ -363,7 +375,13 @@ void CommandScheduler::Cancel(Command *command) {
   Cancel(found->first);
 }
 
-void CommandScheduler::Cancel(wpi::span<std::shared_ptr<Command>> commands) {
+/*
+void CommandScheduler::Cancel(const CommandPtr& command) {
+  Cancel(command.get());
+}
+*/
+
+void CommandScheduler::Cancel(std::span<std::shared_ptr<Command>> commands) {
   for (auto command : commands) {
     Cancel(command);
   }
@@ -383,17 +401,8 @@ void CommandScheduler::CancelAll() {
   Cancel(commands);
 }
 
-units::second_t CommandScheduler::TimeSinceScheduled(
-    const std::shared_ptr<Command> command) const {
-  auto find = m_impl->scheduledCommands.find(command);
-  if (find != m_impl->scheduledCommands.end()) {
-    return find->second.TimeSinceInitialized();
-  } else {
-    return -1_s;
-  }
-}
 bool CommandScheduler::IsScheduled(
-    wpi::span<const std::shared_ptr<Command>> commands) const {
+    std::span<std::shared_ptr<Command>> commands) const {
   for (auto command : commands) {
     if (!IsScheduled(command)) {
       return false;
@@ -412,15 +421,19 @@ bool CommandScheduler::IsScheduled(
   return true;
 }
 
-bool CommandScheduler::IsScheduled(const std::shared_ptr<Command> command) const {
-  return m_impl->scheduledCommands.find(command) !=
-         m_impl->scheduledCommands.end();
+bool CommandScheduler::IsScheduled(std::shared_ptr<Command> command) const {
+  return ContainsKey(m_impl->scheduledCommands, command);
 }
 
 bool CommandScheduler::IsScheduled(const Command* command) const {
   return m_impl->scheduledCommands.find_as(command) !=
          m_impl->scheduledCommands.end();
 }
+
+/*
+bool CommandScheduler::IsScheduled(const CommandPtr& command) const {
+  return m_impl->scheduledCommands.contains(command.get());
+}*/
 
 std::shared_ptr<Command> CommandScheduler::Requiring(const std::shared_ptr<Subsystem> subsystem) const {
   auto find = m_impl->requirements.find(subsystem);
@@ -466,37 +479,46 @@ void CommandScheduler::OnCommandFinish(Action action) {
 
 void CommandScheduler::InitSendable(nt::NTSendableBuilder& builder) {
   builder.SetSmartDashboardType("Scheduler");
-  auto namesEntry = builder.GetEntry("Names");
-  auto idsEntry = builder.GetEntry("Ids");
-  auto cancelEntry = builder.GetEntry("Cancel");
+  builder.SetUpdateTable(
+      [this,
+       namesPub = nt::StringArrayTopic{builder.GetTopic("Names")}.Publish(),
+       idsPub = nt::IntegerArrayTopic{builder.GetTopic("Ids")}.Publish(),
+       cancelEntry = nt::IntegerArrayTopic{builder.GetTopic("Cancel")}.GetEntry(
+           {})]() mutable {
+        auto toCancel = cancelEntry.Get();
+        if (!toCancel.empty()) {
+          for (auto cancel : cancelEntry.Get()) {
+            uintptr_t ptrTmp = static_cast<uintptr_t>(cancel);
+            Command* command = reinterpret_cast<Command*>(ptrTmp);
+            if (m_impl->scheduledCommands.find_as(command) !=
+                m_impl->scheduledCommands.end()) {
+              Cancel(command);
+            }
+          }
+          cancelEntry.Set({});
+        }
 
-  builder.SetUpdateTable([=] {
-    double tmp[1];
-    tmp[0] = 0;
-    auto toCancel = cancelEntry.GetDoubleArray(tmp);
-    for (auto cancel : toCancel) {
-      uintptr_t ptrTmp = static_cast<uintptr_t>(cancel);
-      Command* command = reinterpret_cast<Command*>(ptrTmp);
-      if (m_impl->scheduledCommands.find_as(command) !=
-          m_impl->scheduledCommands.end()) {
-        Cancel(command);
-      }
-      nt::NetworkTableEntry(cancelEntry).SetDoubleArray({});
-    }
-
-    wpi::SmallVector<std::string, 8> names;
-    wpi::SmallVector<double, 8> ids;
-    for (auto&& command : m_impl->scheduledCommands) {
-      names.emplace_back(command.first->GetName());
-      uintptr_t ptrTmp = reinterpret_cast<uintptr_t>(command.first.get());
-      ids.emplace_back(static_cast<double>(ptrTmp));
-    }
-    nt::NetworkTableEntry(namesEntry).SetStringArray(names);
-    nt::NetworkTableEntry(idsEntry).SetDoubleArray(ids);
-  });
+        wpi::SmallVector<std::string, 8> names;
+        wpi::SmallVector<int64_t, 8> ids;
+        for (auto &&command : m_impl->scheduledCommands) {
+          names.emplace_back(command.first->GetName());
+          uintptr_t ptrTmp = reinterpret_cast<uintptr_t>(command.first.get());
+          ids.emplace_back(static_cast<int64_t>(ptrTmp));
+        }
+        namesPub.Set(names);
+        idsPub.Set(ids);
+      });
 }
 
-void CommandScheduler::SetDefaultCommandImpl(std::shared_ptr<Subsystem> subsystem,
+void CommandScheduler::SetDefaultCommandImpl(Subsystem* subsystem,
                                              std::shared_ptr<Command> command) {
-  m_impl->subsystems[subsystem.get()] = std::move(command);
+  if (command->GetInterruptionBehavior() ==
+      Command::InterruptionBehavior::kCancelIncoming) {
+    std::puts(
+        "Registering a non-interruptible default command!\n"
+        "This will likely prevent any other commands from "
+        "requiring this subsystem.");
+    // Warn, but allow -- there might be a use case for this.
+  }
+  m_impl->subsystems[subsystem] = std::move(command);
 }

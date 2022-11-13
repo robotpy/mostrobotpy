@@ -8,4 +8,5 @@ from wpilib.simulation import DriverStationSim
 def scheduler():
     commands2.CommandScheduler.resetInstance()
     DriverStationSim.setEnabled(True)
+    DriverStationSim.notifyNewData()
     return commands2.CommandScheduler.getInstance()

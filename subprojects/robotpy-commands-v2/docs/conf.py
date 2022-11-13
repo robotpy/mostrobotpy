@@ -156,3 +156,4 @@ root = abspath(dirname(__file__))
 
 gen_package(root, "commands2")
 gen_package(root, "commands2.button")
+gen_package(root, "commands2.cmd")

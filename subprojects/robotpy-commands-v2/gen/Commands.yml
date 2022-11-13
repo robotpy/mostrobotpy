@@ -1,0 +1,58 @@
+---
+
+extra_includes:
+- frc2/command/Command.h
+- frc2/command/Subsystem.h
+
+typealias:
+- frc2::Command
+- frc2::Subsystem
+
+functions:
+  None:
+    rename: nothing
+    subpackage: cmd
+  RunOnce:
+    overloads:
+      std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+        ignore: true
+      std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
+        subpackage: cmd
+  Run:
+    overloads:
+      std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+        ignore: true
+      std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
+        subpackage: cmd
+  StartEnd:
+    overloads:
+      std::function<void ( )>, std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+        ignore: true
+      std::function<void ( )>, std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
+        subpackage: cmd
+  RunEnd:
+    overloads:
+      std::function<void ( )>, std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
+        ignore: true
+      std::function<void ( )>, std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
+        subpackage: cmd
+  Print:
+    subpackage: cmd
+  Wait:
+    subpackage: cmd
+  WaitUntil:
+    subpackage: cmd
+  Either:
+    subpackage: cmd
+  Select:
+    ignore: true # py::object isn't hashable
+  Sequence:
+    subpackage: cmd
+  RepeatingSequence:
+    subpackage: cmd
+  Parallel:
+    subpackage: cmd
+  Race:
+    subpackage: cmd
+  Deadline:
+    subpackage: cmd

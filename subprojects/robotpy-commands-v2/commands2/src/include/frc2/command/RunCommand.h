@@ -6,11 +6,10 @@
 
 #include <functional>
 #include <initializer_list>
+#include <span>
 
-#include <wpi/span.h>
-
-#include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"
+#include "frc2/command/FunctionalCommand.h"
 
 namespace frc2 {
 /**
@@ -19,7 +18,7 @@ namespace frc2 {
  * Command.Until() to give it one.  If you only wish
  * to execute a Runnable once, use InstantCommand.
  */
-class RunCommand : public CommandBase {
+class RunCommand : public FunctionalCommand {
  public:
   /**
    * Creates a new RunCommand.  The Runnable will be run continuously until the
@@ -39,15 +38,10 @@ class RunCommand : public CommandBase {
    * @param requirements the subsystems to require
    */
   explicit RunCommand(std::function<void()> toRun,
-                      wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                      std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   RunCommand(RunCommand&& other) = default;
 
   RunCommand(const RunCommand& other) = default;
-
-  void Execute() override;
-
- protected:
-  std::function<void()> m_toRun;
 };
 }  // namespace frc2

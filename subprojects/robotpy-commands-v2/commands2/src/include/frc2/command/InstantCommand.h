@@ -6,11 +6,10 @@
 
 #include <functional>
 #include <initializer_list>
+#include <span>
 
-#include <wpi/span.h>
-
-#include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"
+#include "frc2/command/FunctionalCommand.h"
 
 namespace frc2 {
 /**
@@ -18,7 +17,7 @@ namespace frc2 {
  * the same iteration of the scheduler.  Users can either pass in a Runnable and
  * a set of requirements, or else subclass this command if desired.
  */
-class InstantCommand : public CommandBase {
+class InstantCommand : public FunctionalCommand {
  public:
   /**
    * Creates a new InstantCommand that runs the given Runnable with the given
@@ -38,7 +37,7 @@ class InstantCommand : public CommandBase {
    * @param requirements the subsystems required by this command
    */
   explicit InstantCommand(std::function<void()> toRun,
-                          wpi::span<std::shared_ptr<Subsystem>> requirements = {});
+                          std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   InstantCommand(InstantCommand&& other) = default;
 
@@ -49,12 +48,5 @@ class InstantCommand : public CommandBase {
    * only as a no-arg constructor to call implicitly from subclass constructors.
    */
   InstantCommand();
-
-  void Initialize() override;
-
-  bool IsFinished() final;
-
- private:
-  std::function<void()> m_toRun;
 };
 }  // namespace frc2

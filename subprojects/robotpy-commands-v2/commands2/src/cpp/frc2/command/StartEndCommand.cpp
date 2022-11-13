@@ -9,26 +9,15 @@ using namespace frc2;
 StartEndCommand::StartEndCommand(std::function<void()> onInit,
                                  std::function<void()> onEnd,
                                  std::initializer_list<std::shared_ptr<Subsystem>> requirements)
-    : m_onInit{std::move(onInit)}, m_onEnd{std::move(onEnd)} {
-  AddRequirements(requirements);
-}
+    : FunctionalCommand(
+          std::move(onInit), [] {},
+          [onEnd = std::move(onEnd)](bool interrupted) { onEnd(); },
+          [] { return false; }, requirements) {}
 
 StartEndCommand::StartEndCommand(std::function<void()> onInit,
                                  std::function<void()> onEnd,
-                                 wpi::span<std::shared_ptr<Subsystem>> requirements)
-    : m_onInit{std::move(onInit)}, m_onEnd{std::move(onEnd)} {
-  AddRequirements(requirements);
-}
-
-StartEndCommand::StartEndCommand(const StartEndCommand& other) {
-  m_onInit = other.m_onInit;
-  m_onEnd = other.m_onEnd;
-}
-
-void StartEndCommand::Initialize() {
-  m_onInit();
-}
-
-void StartEndCommand::End(bool interrupted) {
-  m_onEnd();
-}
+                                 std::span<std::shared_ptr<Subsystem>> requirements)
+    : FunctionalCommand(
+          std::move(onInit), [] {},
+          [onEnd = std::move(onEnd)](bool interrupted) { onEnd(); },
+          [] { return false; }, requirements) {}

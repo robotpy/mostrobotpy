@@ -12,6 +12,6 @@ classes:
         overloads:
           std::function<void ( )>, units::second_t, std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
-          std::function<void ( )>, units::second_t, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, units::second_t, std::span<std::shared_ptr<Subsystem>>:
       Initialize:
       End:

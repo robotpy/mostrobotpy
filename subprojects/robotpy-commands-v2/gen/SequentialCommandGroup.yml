@@ -16,7 +16,7 @@ classes:
   SequentialCommandGroup:
     shared_ptr: true
     force_type_casters:
-    - wpi::span
+    - std::span
     - std::function
     attributes:
       m_commands:
@@ -26,9 +26,9 @@ classes:
           std::vector<std::shared_ptr<Command>>&&:
           Types ...&&:
             cpp_code: |
-              .def(py::init([](py::args cmds) {
+              [](py::args cmds) {
                 return std::make_shared<SequentialCommandGroup_Trampoline>(std::move(pyargs2cmdList(cmds)));
-              })
+              }
             param_override:
               commands:
                 ignore: true
@@ -48,6 +48,4 @@ inline_code: |
     .def("addCommands", [](SequentialCommandGroup * self, py::args cmds) {
       self->AddCommands(std::move(pyargs2cmdList(cmds)));
     })
-    .def("beforeStarting", &frc2::SequentialCommandGroup_BeforeStarting)
-    .def("andThen", &frc2::SequentialCommandGroup_AndThen)
   ;

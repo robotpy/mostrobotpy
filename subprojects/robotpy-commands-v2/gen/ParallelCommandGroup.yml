@@ -14,9 +14,9 @@ classes:
           std::vector<std::shared_ptr<Command>>&&:
           Types ...&&:
             cpp_code: |
-              .def(py::init([](py::args cmds) {
+              [](py::args cmds) {
                 return std::make_shared<ParallelCommandGroup_Trampoline>(std::move(pyargs2cmdList(cmds)));
-              })
+              }
             param_override:
               commands:
                 ignore: true

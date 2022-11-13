@@ -21,7 +21,7 @@ FunctionalCommand::FunctionalCommand(std::function<void()> onInit,
                                      std::function<void()> onExecute,
                                      std::function<void(bool)> onEnd,
                                      std::function<bool()> isFinished,
-                                     wpi::span<std::shared_ptr<Subsystem>> requirements)
+                                     std::span<std::shared_ptr<Subsystem>> requirements)
     : m_onInit{std::move(onInit)},
       m_onExecute{std::move(onExecute)},
       m_onEnd{std::move(onEnd)},

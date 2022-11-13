@@ -8,68 +8,98 @@ using namespace frc2;
 
 Button::Button(std::function<bool()> isPressed) : Trigger(isPressed) {}
 
-Button Button::WhenPressed(std::shared_ptr<Command> command, bool interruptible) {
-  WhenActive(command, interruptible);
+Button Button::WhenPressed(std::shared_ptr<Command> command) {
+  WPI_IGNORE_DEPRECATED
+  WhenActive(command);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }
 
-// Button Button::WhenPressed(std::function<void()> toRun,
-//                            std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
-//   WhenActive(std::move(toRun), requirements);
-//   return *this;
-// }
+/*
+Button Button::WhenPressed(std::function<void()> toRun,
+                           std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  WPI_IGNORE_DEPRECATED
+  WhenActive(std::move(toRun), requirements);
+  WPI_UNIGNORE_DEPRECATED
+  return *this;
+}
+*/
 
 Button Button::WhenPressed(std::function<void()> toRun,
-                           wpi::span<std::shared_ptr<Subsystem>> requirements) {
+                           std::span<std::shared_ptr<Subsystem>> requirements) {
+  WPI_IGNORE_DEPRECATED
   WhenActive(std::move(toRun), requirements);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }
 
-Button Button::WhileHeld(std::shared_ptr<Command> command, bool interruptible) {
-  WhileActiveContinous(command, interruptible);
+Button Button::WhileHeld(std::shared_ptr<Command> command) {
+  WPI_IGNORE_DEPRECATED
+  WhileActiveContinous(command);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }
 
-// Button Button::WhileHeld(std::function<void()> toRun,
-//                          std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
-//   WhileActiveContinous(std::move(toRun), requirements);
-//   return *this;
-// }
+/*
+Button Button::WhileHeld(std::function<void()> toRun,
+                         std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  WPI_IGNORE_DEPRECATED
+  WhileActiveContinous(std::move(toRun), requirements);
+  WPI_UNIGNORE_DEPRECATED
+  return *this;
+}
+*/
 
 Button Button::WhileHeld(std::function<void()> toRun,
-                         wpi::span<std::shared_ptr<Subsystem>> requirements) {
+                         std::span<std::shared_ptr<Subsystem>> requirements) {
+  WPI_IGNORE_DEPRECATED
   WhileActiveContinous(std::move(toRun), requirements);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }
 
-Button Button::WhenHeld(std::shared_ptr<Command> command, bool interruptible) {
-  WhileActiveOnce(command, interruptible);
+Button Button::WhenHeld(std::shared_ptr<Command> command) {
+  WPI_IGNORE_DEPRECATED
+  WhileActiveOnce(command);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }
 
-Button Button::WhenReleased(std::shared_ptr<Command> command, bool interruptible) {
-  WhenInactive(command, interruptible);
+Button Button::WhenReleased(std::shared_ptr<Command> command) {
+  WPI_IGNORE_DEPRECATED
+  WhenInactive(command);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }
 
-// Button Button::WhenReleased(std::function<void()> toRun,
-//                             std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
-//   WhenInactive(std::move(toRun), requirements);
-//   return *this;
-// }
+/*
+Button Button::WhenReleased(std::function<void()> toRun,
+                            std::initializer_list<std::shared_ptr<Subsystem>> requirements) {
+  WPI_IGNORE_DEPRECATED
+  WhenInactive(std::move(toRun), requirements);
+  WPI_UNIGNORE_DEPRECATED
+  return *this;
+}
+*/
 
 Button Button::WhenReleased(std::function<void()> toRun,
-                            wpi::span<std::shared_ptr<Subsystem>> requirements) {
+                            std::span<std::shared_ptr<Subsystem>> requirements) {
+  WPI_IGNORE_DEPRECATED
   WhenInactive(std::move(toRun), requirements);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }
 
-Button Button::ToggleWhenPressed(std::shared_ptr<Command> command, bool interruptible) {
-  ToggleWhenActive(command, interruptible);
+Button Button::ToggleWhenPressed(std::shared_ptr<Command> command) {
+  WPI_IGNORE_DEPRECATED
+  ToggleWhenActive(command);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }
 
 Button Button::CancelWhenPressed(std::shared_ptr<Command> command) {
+  WPI_IGNORE_DEPRECATED
   CancelWhenActive(command);
+  WPI_UNIGNORE_DEPRECATED
   return *this;
 }

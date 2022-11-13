@@ -1,0 +1,22 @@
+---
+
+classes:
+  CommandXboxController:
+    subpackage: button
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    force_no_default_constructor: true
+    methods:
+      Button:
+      LeftBumper:
+      RightBumper:
+      LeftStick:
+      RightStick:
+      A:
+      B:
+      X:
+      Y:
+      Back:
+      Start:
+    inline_code: |
+      .def(py::init<int>())

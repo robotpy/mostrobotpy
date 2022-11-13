@@ -13,13 +13,8 @@ classes:
         overloads:
           std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       Execute:
-      function<void:
-        ignore: true
-    
-    trampoline_inline_code: |
-      using frc2::RunCommand::m_toRun;
 
 inline_code: |
   cls_RunCommand
@@ -27,5 +22,4 @@ inline_code: |
       auto reqs = pyargs2SharedSubsystemList(requirements);
       return std::make_shared<RunCommand_Trampoline>(toRun, reqs);
     }))
-    .def_readwrite("_toRun", &RunCommand_Trampoline::m_toRun)
   ;

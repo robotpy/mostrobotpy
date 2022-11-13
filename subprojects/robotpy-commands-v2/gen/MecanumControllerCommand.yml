@@ -33,14 +33,14 @@ classes:
             ( )>, units::meters_per_second_t, std::function<frc::MecanumDriveWheelSpeeds
             ( )>, frc2::PIDController, frc2::PIDController, frc2::PIDController, frc2::PIDController,
             std::function<void ( units::volt_t, units::volt_t, units::volt_t, units::volt_t
-            )>, wpi::span<std::shared_ptr<Subsystem>>
+            )>, std::span<std::shared_ptr<Subsystem>>
           :
           ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::SimpleMotorFeedforward<units::meters>,
             frc::MecanumDriveKinematics, frc2::PIDController, frc2::PIDController,
             frc::ProfiledPIDController<units::radians>, units::meters_per_second_t,
             std::function<frc::MecanumDriveWheelSpeeds ( )>, frc2::PIDController,
             frc2::PIDController, frc2::PIDController, frc2::PIDController, std::function<void
-            ( units::volt_t, units::volt_t, units::volt_t, units::volt_t )>, wpi::span<std::shared_ptr<Subsystem>>
+            ( units::volt_t, units::volt_t, units::volt_t, units::volt_t )>, std::span<std::shared_ptr<Subsystem>>
           :
           ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::MecanumDriveKinematics,
             frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
@@ -58,13 +58,13 @@ classes:
             frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
             std::function<frc::Rotation2d ( )>, units::meters_per_second_t, std::function<void
             ( units::meters_per_second_t, units::meters_per_second_t, units::meters_per_second_t,
-            units::meters_per_second_t )>, wpi::span<std::shared_ptr<Subsystem>>
+            units::meters_per_second_t )>, std::span<std::shared_ptr<Subsystem>>
           :
           ? frc::Trajectory, std::function<frc::Pose2d ( )>, frc::MecanumDriveKinematics,
             frc2::PIDController, frc2::PIDController, frc::ProfiledPIDController<units::radians>,
             units::meters_per_second_t, std::function<void ( units::meters_per_second_t,
             units::meters_per_second_t, units::meters_per_second_t, units::meters_per_second_t
-            )>, wpi::span<std::shared_ptr<Subsystem>>
+            )>, std::span<std::shared_ptr<Subsystem>>
           :
       Initialize:
       Execute:

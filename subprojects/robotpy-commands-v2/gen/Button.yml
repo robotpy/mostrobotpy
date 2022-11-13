@@ -6,9 +6,8 @@ extra_includes:
 
 classes:
   Button:
-    shared_ptr: true
-    force_no_trampoline: true
     subpackage: button
+    force_no_trampoline: true
     methods:
       Button:
         overloads:
@@ -16,36 +15,30 @@ classes:
           "":
       WhenPressed:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
-          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
-            ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       WhileHeld:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
-          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
-            ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       WhenHeld:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
       WhenReleased:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
-          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
-            ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       ToggleWhenPressed:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
       CancelWhenPressed:

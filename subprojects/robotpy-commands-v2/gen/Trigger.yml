@@ -5,51 +5,102 @@ extra_includes:
 
 classes:
   Trigger:
-    shared_ptr: true
     methods:
       Trigger:
         overloads:
           std::function<bool ( )>:
+          frc::EventLoop*, std::function<bool ( )>:
           "":
+      OnTrue:
+        overloads:
+          std::shared_ptr<Command>:
+          CommandPtr&&:
+            ignore: true
+      OnFalse:
+        overloads:
+          std::shared_ptr<Command>:
+          CommandPtr&&:
+            ignore: true
+      WhileTrue:
+        overloads:
+          std::shared_ptr<Command>:
+          CommandPtr&&:
+            ignore: true
+      WhileFalse:
+        overloads:
+          std::shared_ptr<Command>:
+          CommandPtr&&:
+            ignore: true
+      ToggleOnTrue:
+        overloads:
+          std::shared_ptr<Command>:
+          CommandPtr&&:
+            ignore: true
+      ToggleOnFalse:
+        overloads:
+          std::shared_ptr<Command>:
+          CommandPtr&&:
+            ignore: true
       WhenActive:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
-          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
-            ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       WhileActiveContinous:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
-          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
-            ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       WhileActiveOnce:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
       WhenInactive:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
-          std::function<void ( )>, std::initializer_list<std::shared_ptr<Subsystem>>:
-            ignore: true
-          std::function<void ( )>, wpi::span<std::shared_ptr<Subsystem>>:
+          std::function<void ( )>, std::span<std::shared_ptr<Subsystem>>:
       ToggleWhenActive:
         overloads:
-          std::shared_ptr<Command>, bool:
-          T&&, bool:
+          std::shared_ptr<Command>:
+          T&&:
             ignore: true
       CancelWhenActive:
-      Debounce:
+      Rising:
+      Falling:
       Get:
         rename: __bool__
-
-
-inline_code: |
-  #include "src/Trigger.cpp.inl"
+      Debounce:
+      GetEvent:
+    inline_code: |
+      .def("and_", [](Trigger * self, Trigger * other) {
+              return *self && *other;
+          }, py::arg("other"),
+          "Composes this trigger with another trigger, returning a new trigger that is active when both\n"
+          "triggers are active.\n"
+          "\n"
+          ":param trigger: the trigger to compose with\n"
+          "\n"
+          ":returns: the trigger that is active when both triggers are active\n")
+      .def("or_", [](Trigger * self, Trigger * other) {
+              return *self || *other;
+          }, py::arg("other"),
+          "Composes this trigger with another trigger, returning a new trigger that is active when either\n"
+          "triggers are active.\n"
+          "\n"
+          ":param trigger: the trigger to compose with\n"
+          "\n"
+          ":returns: the trigger that is active when both triggers are active\n")
+      .def("not_", [](Trigger * self) {
+              return !*self;
+          },
+          "Creates a new trigger that is active when this trigger is inactive, i.e. that acts as the\n"
+          "negation of this trigger.\n"
+          "\n"
+          ":param trigger: the trigger to compose with\n"
+          "\n"
+          ":returns: the trigger that is active when both triggers are active\n")

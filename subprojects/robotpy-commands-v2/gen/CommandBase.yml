@@ -18,7 +18,7 @@ classes:
           std::shared_ptr<Subsystem>:
           std::initializer_list<std::shared_ptr<Subsystem>>:
             ignore: true
-          wpi::span<std::shared_ptr<Subsystem>>:
+          std::span<std::shared_ptr<Subsystem>>:
           wpi::SmallSet<std::shared_ptr<Subsystem>, 4>:
       GetRequirements:
       SetName:
@@ -28,9 +28,9 @@ classes:
       InitSendable:
       CommandBase:
         cpp_code: |
-          .def(py::init([]() {
+          []() {
             return std::make_shared<CommandBase_Trampoline>();
-          })
+          }
 
 
 inline_code: |

@@ -4,8 +4,9 @@
 
 #pragma once
 
+#include <span>
+
 #include <wpi/SmallVector.h>
-#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"
@@ -26,7 +27,7 @@ class ScheduleCommand : public CommandBase {
    *
    * @param toSchedule the commands to schedule
    */
-  explicit ScheduleCommand(wpi::span<std::shared_ptr<Command>> toSchedule);
+  explicit ScheduleCommand(std::span<std::shared_ptr<Command>> toSchedule);
 
   explicit ScheduleCommand(std::shared_ptr<Command> toSchedule);
 

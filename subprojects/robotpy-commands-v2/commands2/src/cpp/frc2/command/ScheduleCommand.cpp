@@ -6,12 +6,13 @@
 
 using namespace frc2;
 
-ScheduleCommand::ScheduleCommand(wpi::span<std::shared_ptr<Command>> toSchedule) {
+ScheduleCommand::ScheduleCommand(std::span<std::shared_ptr<Command>> toSchedule) {
   SetInsert(m_toSchedule, toSchedule);
 }
 
 ScheduleCommand::ScheduleCommand(std::shared_ptr<Command> toSchedule) {
-  SetInsert(m_toSchedule, {&toSchedule, 1});
+  std::shared_ptr<Command> v[] = {toSchedule};
+  SetInsert(m_toSchedule, {v, 1});
 }
 
 void ScheduleCommand::Initialize() {

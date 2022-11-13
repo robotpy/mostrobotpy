@@ -1,0 +1,25 @@
+---
+
+classes:
+  CommandPS4Controller:
+    subpackage: button
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    force_no_default_constructor: true
+    methods:
+      Button:
+      Square:
+      Cross:
+      Circle:
+      Triangle:
+      L1:
+      R1:
+      L2:
+      R2:
+      Options:
+      L3:
+      R3:
+      PS:
+      Touchpad:
+    inline_code: |
+      .def(py::init<int>())

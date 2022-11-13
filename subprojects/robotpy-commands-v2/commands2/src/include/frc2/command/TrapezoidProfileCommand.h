@@ -6,10 +6,10 @@
 
 #include <functional>
 #include <initializer_list>
+#include <span>
 
 #include <frc/Timer.h>
 #include <frc/trajectory/TrapezoidProfile.h>
-#include <wpi/span.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"
@@ -56,7 +56,7 @@ public:
    */
   TrapezoidProfileCommand(frc::TrapezoidProfile<Distance> profile,
                           std::function<void(State)> output,
-                          wpi::span<std::shared_ptr<Subsystem>> requirements = {})
+                          std::span<std::shared_ptr<Subsystem>> requirements = {})
       : m_profile(profile), m_output(output) {
     this->AddRequirements(requirements);
   }
