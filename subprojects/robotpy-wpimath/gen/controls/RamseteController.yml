@@ -6,9 +6,13 @@ classes:
     methods:
       RamseteController:
         overloads:
-          double, double:
           units::unit_t<b_unit>, units::unit_t<zeta_unit>:
-            ignore: true
+            cpp_code: |
+              [](double b, double zeta) {
+                return std::make_shared<RamseteController>(
+                  units::unit_t<RamseteController::b_unit>{b},
+                  units::unit_t<RamseteController::zeta_unit>{zeta});
+              }
           "":
       AtReference:
       SetTolerance:
