@@ -11,6 +11,7 @@ classes:
   NetworkTableEntry:
     enums:
       Flags:
+        arithmetic: true
     methods:
       NetworkTableEntry:
         overloads:

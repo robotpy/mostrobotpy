@@ -1,4 +1,3 @@
-from asyncore import poll
 import atexit
 import logging
 import threading
