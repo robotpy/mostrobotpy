@@ -109,7 +109,6 @@ name = "hal_simulation"
 extension = "_simulation"
 sources = [
     "hal/simulation/main.cpp",
-    "hal/simulation/resetdata.cpp",
     "hal/simulation/resethandles.cpp",
 ]
 
