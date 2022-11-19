@@ -9,6 +9,8 @@ functions:
     ignore: true
   CreateInstance:
     ignore: true
+  ResetInstance:
+    ignore: true
   DestroyInstance:
     ignore: true
   GetInstanceFromHandle:

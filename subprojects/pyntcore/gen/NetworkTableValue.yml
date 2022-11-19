@@ -83,30 +83,39 @@ classes:
           std::initializer_list<bool>, int64_t:
             ignore: true
           std::span<const int>, int64_t:
+            ignore: true
           std::initializer_list<int>, int64_t:
+            ignore: true
+          std::vector<int>&&, int64_t:
             ignore: true
       MakeIntegerArray:
         overloads:
           std::span<const int64_t>, int64_t:
+            ignore: true
           std::initializer_list<int64_t>, int64_t:
             ignore: true
+          std::vector<int64_t>&&, int64_t:
       MakeFloatArray:
         overloads:
           std::span<const float>, int64_t:
+            ignore: true
           std::initializer_list<float>, int64_t:
             ignore: true
+          std::vector<float>&&, int64_t:
       MakeDoubleArray:
         overloads:
           std::span<const double>, int64_t:
+            ignore: true
           std::initializer_list<double>, int64_t:
             ignore: true
+          std::vector<double>&&, int64_t:
       MakeStringArray:
         overloads:
           std::span<const std::string>, int64_t:
+            ignore: true
           std::initializer_list<std::string>, int64_t:
             ignore: true
           std::vector<std::string>&&, int64_t:
-            ignore: true
       operator==:
     inline_code: |
       .def_static("makeValue", [](py::handle value) {
