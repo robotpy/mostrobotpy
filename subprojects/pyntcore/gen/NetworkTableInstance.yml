@@ -15,7 +15,7 @@ extra_includes:
 - networktables/StringTopic.h
 - networktables/Topic.h
 - src/py2value.h
-- src/nt_logging.h
+- src/nt_instance.h
 - wpi/DataLog.h
 
 classes:
@@ -43,7 +43,7 @@ classes:
       Destroy:
         cpp_code: |
           [](NetworkTableInstance * self) {
-            pyntcore::detachLogging(self);
+            pyntcore::onInstanceDestroy(self);
             py::gil_scoped_release release;
             NetworkTableInstance::Destroy(*self);
           }
@@ -89,7 +89,7 @@ classes:
       StartLocal:
         cpp_code: |
           [](NetworkTableInstance * self) {
-            pyntcore::attachLogging(self);
+            pyntcore::onInstanceStart(self);
             py::gil_scoped_release release;
             self->StartLocal();
           }
@@ -98,7 +98,7 @@ classes:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view persist_filename,  const char* listen_address,
              unsigned int port3, unsigned int port4) {
-            pyntcore::attachLogging(self);
+            pyntcore::onInstanceStart(self);
             py::gil_scoped_release release;
             self->StartServer(persist_filename, listen_address, port3, port4);
           }
@@ -106,14 +106,14 @@ classes:
       StartClient3:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view identity) {
-            pyntcore::attachLogging(self);
+            pyntcore::onInstanceStart(self);
             py::gil_scoped_release release;
             self->StartClient3(identity);
           }
       StartClient4:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view identity) {
-            pyntcore::attachLogging(self);
+            pyntcore::onInstanceStart(self);
             py::gil_scoped_release release;
             self->StartClient4(identity);
           }
@@ -154,3 +154,11 @@ classes:
                 "\n"
                 ".. note:: This must be called before the instance is started")
       )
+      .def("_reset", [](NetworkTableInstance *self) {
+        pyntcore::onInstancePreReset(self);
+        {
+          py::gil_scoped_release release;
+          nt::ResetInstance(self->GetHandle());
+        }
+        pyntcore::onInstancePostReset(self);
+      })
