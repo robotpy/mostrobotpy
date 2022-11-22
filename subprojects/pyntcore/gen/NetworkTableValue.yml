@@ -43,15 +43,46 @@ classes:
       IsDoubleArray:
       IsStringArray:
       GetBoolean:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_BOOLEAN, self);
+            return self->GetBoolean();
+          }
       GetInteger:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_INTEGER, self);
+            return self->GetInteger();
+          }
       GetFloat:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_FLOAT, self);
+            return self->GetFloat();
+          }
       GetDouble:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_DOUBLE, self);
+            return self->GetDouble();
+          }
       GetString:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_STRING, self);
+            return self->GetString();
+          }
       GetRaw:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_RAW, self);
+            return self->GetRaw();
+          }
       GetBooleanArray:
         cpp_code: |
-            [](Value *t) -> py::object {
-              auto v = t->value();
+            [](Value *self) -> py::object {
+              pyntcore::ensure_value_is(NT_BOOLEAN_ARRAY, self);
+              auto v = self->value();
               py::list l(v.data.arr_boolean.size);
               for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
                 auto b = py::bool_(v.data.arr_boolean.arr[i]);
@@ -60,9 +91,29 @@ classes:
               return std::move(l);
             }
       GetIntegerArray:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_INTEGER_ARRAY, self);
+            return self->GetIntegerArray();
+          }
       GetFloatArray:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_FLOAT_ARRAY, self);
+            return self->GetFloatArray();
+          }
       GetDoubleArray:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_DOUBLE_ARRAY, self);
+            return self->GetDoubleArray();
+          }
       GetStringArray:
+        cpp_code: |
+          [](Value *self) {
+            pyntcore::ensure_value_is(NT_STRING_ARRAY, self);
+            return self->GetStringArray();
+          }
       MakeBoolean:
       MakeInteger:
       MakeFloat:

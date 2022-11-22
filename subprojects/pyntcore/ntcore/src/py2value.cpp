@@ -54,7 +54,7 @@ py::object ntvalue2py(const nt::Value &ntvalue) {
     return py::str(v.data.v_string.str, v.data.v_string.len);
 
   case NT_RAW:
-    return py::bytes(v.data.v_string.str, v.data.v_string.len);
+    return py::bytes((const char *)v.data.v_raw.data, v.data.v_raw.size);
 
   case NT_BOOLEAN_ARRAY: {
     py::list l(v.data.arr_boolean.size);
