@@ -15,7 +15,6 @@
 #include "frc2/command/ProxyScheduleCommand.h"
 #include "frc2/command/RepeatCommand.h"
 #include "frc2/command/RunCommand.h"
-#include "frc2/command/SelectCommand.h"
 #include "frc2/command/SequentialCommandGroup.h"
 #include "frc2/command/WaitCommand.h"
 #include "frc2/command/WaitUntilCommand.h"
@@ -95,16 +94,6 @@ std::shared_ptr<Command> cmd::Either(std::shared_ptr<Command> onTrue, std::share
   return std::make_shared<ConditionalCommand>(std::move(onTrue),
                             std::move(onFalse), std::move(selector));
 }
-
-/*
-template <typename Key>
-CommandPtr cmd::Select(std::function<Key()> selector,
-                       std::vector<std::pair<Key, CommandPtr>> commands) {
-  return SelectCommand(std::move(selector),
-                       CommandPtr::UnwrapVector(std::move(commands)))
-      .ToPtr();
-}
-*/
 
 std::shared_ptr<Command> cmd::Sequence(std::vector<std::shared_ptr<Command> >&& commands) {
   return std::make_shared<SequentialCommandGroup>(std::move(commands));
