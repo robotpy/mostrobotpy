@@ -38,7 +38,7 @@ class NtLogForwarder:
             cls._instcfg[handle] = (minLevel, maxLevel, logName)
 
     @classmethod
-    def attach(cls, instance: _ntcore.NetworkTableInstance):
+    def onInstanceStart(cls, instance: _ntcore.NetworkTableInstance):
         handle = instance._getHandle()
         with cls._instlock:
             if handle in cls._instances:
@@ -54,7 +54,7 @@ class NtLogForwarder:
             cls._instances[handle] = cls(instance, logName, minLevel, maxLevel)
 
     @classmethod
-    def detach(cls, instance: _ntcore.NetworkTableInstance):
+    def onInstanceDestroy(cls, instance: _ntcore.NetworkTableInstance):
         handle = instance._getHandle()
         with cls._instlock:
             lfwd = cls._instances.pop(handle, None)
@@ -121,6 +121,4 @@ class NtLogForwarder:
             self.poller = None
 
 
-_attach = NtLogForwarder.attach
-_detach = NtLogForwarder.detach
 _config_logging = NtLogForwarder.config_logging

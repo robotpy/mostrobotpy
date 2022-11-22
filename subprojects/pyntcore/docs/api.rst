@@ -9,3 +9,4 @@ TODO
 .. toctree::
 
   ntcore
+  ntcore.util
