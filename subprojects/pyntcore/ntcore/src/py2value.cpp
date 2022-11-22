@@ -147,30 +147,31 @@ nt::Value py2ntvalue(py::handle h) {
   }
 }
 
-py::cpp_function valueFactoryByType(nt::NetworkTableType type) {
+py::function valueFactoryByType(nt::NetworkTableType type) {
+  py::object PyNtValue = py::module::import("ntcore").attr("Value");
   switch (type) {
   case nt::NetworkTableType::kBoolean:
-    return py::cpp_function([](bool v) { return nt::Value::MakeBoolean(v); });
+    return PyNtValue.attr("makeBoolean");
   case nt::NetworkTableType::kDouble:
-    return py::cpp_function([](double v) { return nt::Value::MakeDouble(v); });
+    return PyNtValue.attr("makeDouble");
   case nt::NetworkTableType::kString:
-    return py::cpp_function([](std::string_view v) { return nt::Value::MakeString(v); });
+    return PyNtValue.attr("makeString");
   case nt::NetworkTableType::kRaw:
-    return py::cpp_function([](std::string_view v) { return nt::Value::MakeString(v); });
+    return PyNtValue.attr("makeRaw");
   case nt::NetworkTableType::kBooleanArray: 
-    return py::cpp_function([](std::span<const bool> v) { return nt::Value::MakeBooleanArray(v); });
+    return PyNtValue.attr("makeBooleanArray");
   case nt::NetworkTableType::kDoubleArray: 
-    return py::cpp_function([](std::span<const double> v) { return nt::Value::MakeDoubleArray(v); });
+    return PyNtValue.attr("makeDoubleArray");
   case nt::NetworkTableType::kStringArray:
-    return py::cpp_function([](std::vector<std::string> v) { return nt::Value::MakeStringArray(std::move(v)); });
+    return PyNtValue.attr("makeStringArray");
   case nt::NetworkTableType::kInteger:
-    return py::cpp_function([](int64_t v) { return nt::Value::MakeInteger(v); });
+    return PyNtValue.attr("makeInteger");
   case nt::NetworkTableType::kFloat:
-    return py::cpp_function([](float v) { return nt::Value::MakeFloat(v); });
+    return PyNtValue.attr("makeFloat");
   case nt::NetworkTableType::kIntegerArray:
-    return py::cpp_function([](std::span<const int64_t> v) { return nt::Value::MakeIntegerArray(v); });
+    return PyNtValue.attr("makeIntegerArray");
   case nt::NetworkTableType::kFloatArray:
-    return py::cpp_function([](std::span<const float> v) { return nt::Value::MakeFloatArray(v); });
+    return PyNtValue.attr("makeFloatArray");
   default:
     throw py::type_error("empty nt value");
   }

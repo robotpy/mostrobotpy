@@ -123,7 +123,7 @@ classes:
         }, py::arg("value"))
       .def_static("getFactoryByType", [](nt::NetworkTableType type) {
         return pyntcore::valueFactoryByType(type);
-      })
+      }, py::arg("type"))
       .def("__repr__", [](const Value &self) -> py::str {
           auto typestr = pyntcore::nttype2str(self.type());
           auto valrepr = py::repr(pyntcore::ntvalue2py(self));

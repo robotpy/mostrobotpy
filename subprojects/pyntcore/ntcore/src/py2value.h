@@ -11,6 +11,6 @@ py::object ntvalue2py(const nt::Value &ntvalue);
 
 nt::Value py2ntvalue(py::handle h);
 
-py::cpp_function valueFactoryByType(nt::NetworkTableType type);
+py::function valueFactoryByType(nt::NetworkTableType type);
 
 };
