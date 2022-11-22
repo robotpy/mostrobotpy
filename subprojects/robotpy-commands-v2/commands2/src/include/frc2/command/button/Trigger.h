@@ -515,10 +515,6 @@ class Trigger {
     return m_event.operator&&(rhs).CastTo<Trigger>();
   }
 
-  Trigger operator&&(Trigger &rhs) {
-    return (m_event && rhs.m_event).CastTo<Trigger>();
-  }
-
   /**
    * Composes two triggers with logical AND.
    *
@@ -535,10 +531,6 @@ class Trigger {
    */
   Trigger operator||(std::function<bool()> rhs) {
     return m_event.operator||(rhs).CastTo<Trigger>();
-  }
-
-  Trigger operator||(Trigger &rhs) {
-    return (m_event || rhs.m_event).CastTo<Trigger>();
   }
 
   /**

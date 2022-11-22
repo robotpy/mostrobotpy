@@ -50,3 +50,5 @@ classes:
       RunsWhenDisabled:
       GetInterruptionBehavior:
       GetName:
+      ToPtr:
+        ignore: true

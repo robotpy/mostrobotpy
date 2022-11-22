@@ -27,10 +27,12 @@ class CommandHelper : public Base {
  public:
   CommandHelper() = default;
 
+  /*
   CommandPtr ToPtr() && override {
     return CommandPtr(
         std::make_unique<CRTP>(std::move(*static_cast<CRTP*>(this))));
   }
+  */
 
  protected:
   std::unique_ptr<Command> TransferOwnership() && override {

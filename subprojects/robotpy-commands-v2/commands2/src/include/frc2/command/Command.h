@@ -363,7 +363,9 @@ safe) semantics.
    * Transfers ownership of this command to a unique pointer.  Used for
    * decorator methods.
    */
+  /*
   virtual CommandPtr ToPtr() && = 0;
+  */
 
  protected:
   /**
