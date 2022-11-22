@@ -53,7 +53,7 @@ def test_swerve4_normalize():
 def test_swerve4_odometry(s4: SwerveDrive4Kinematics):
     zero = SwerveModulePosition()
     odometry = SwerveDrive4Odometry(s4, Rotation2d(0), (zero, zero, zero, zero))
-    odometry.resetPosition(Pose2d(), Rotation2d(0), zero, zero, zero, zero)
+    odometry.resetPosition(Rotation2d(0), Pose2d(), zero, zero, zero, zero)
 
     position = SwerveModulePosition(0.5)
 
