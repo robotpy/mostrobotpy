@@ -102,11 +102,23 @@ classes:
           wpi::array<SwerveModulePosition, NumModules> [const]:
             ignore: true
       DesaturateWheelSpeeds:
-        cpp_code: |
-          [](wpi::array<SwerveModuleState, NumModules> moduleStates, units::meters_per_second_t attainableMaxSpeed) {
-            frc::SwerveDriveKinematics<NumModules>::DesaturateWheelSpeeds(&moduleStates, attainableMaxSpeed);
-            return moduleStates;
-          }
+        overloads:
+          wpi::array<SwerveModuleState, NumModules>*, units::meters_per_second_t:
+            cpp_code: |
+              [](wpi::array<SwerveModuleState, NumModules> moduleStates, units::meters_per_second_t attainableMaxSpeed) {
+                frc::SwerveDriveKinematics<NumModules>::DesaturateWheelSpeeds(&moduleStates, attainableMaxSpeed);
+                return moduleStates;
+              }
+          ? wpi::array<SwerveModuleState, NumModules>*, ChassisSpeeds, units::meters_per_second_t,
+            units::meters_per_second_t, units::radians_per_second_t
+              [](wpi::array<SwerveModuleState, NumModules> moduleStates,
+                  ChassisSpeeds currentChassisSpeed,
+                  units::meters_per_second_t attainableMaxModuleSpeed,
+                  units::meters_per_second_t attainableMaxRobotTranslationSpeed,
+                  units::radians_per_second_t attainableMaxRobotRotationSpeed) {
+                frc::SwerveDriveKinematics<NumModules>::DesaturateWheelSpeeds(&moduleStates, currentChassisSpeed, attainableMaxSpeed, attainableMaxRobotTranslationSpeed, attainableMaxRobotRotationSpeed);
+                return moduleStates;
+              }
 
     template_inline_code: |
       if constexpr (NumModules == 2) {
