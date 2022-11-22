@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-#include "frc2/command/Command.h"
+#include "frc2/command/CommandBase.h"
 
 namespace frc2 {
 /**
@@ -26,7 +26,7 @@ namespace frc2 {
  */
 class CommandPtr final {
  public:
-  explicit CommandPtr(std::unique_ptr<Command>&& command)
+  explicit CommandPtr(std::unique_ptr<CommandBase>&& command)
       : m_ptr(std::move(command)) {}
 
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
@@ -222,12 +222,12 @@ class CommandPtr final {
   /**
    * Get a raw pointer to the held command.
    */
-  Command* get() const;
+  CommandBase* get() const;
 
   /**
    * Convert to the underlying unique_ptr.
    */
-  std::unique_ptr<Command> Unwrap() &&;
+  std::unique_ptr<CommandBase> Unwrap() &&;
 
   /**
    * Schedules this command.
@@ -260,13 +260,19 @@ class CommandPtr final {
   bool HasRequirement(Subsystem* requirement) const;
 
   /**
+   * Check if this CommandPtr object is valid and wasn't moved-from.
+   */
+  explicit operator bool() const;
+
+  /**
    * Convert a vector of CommandPtr objects to their underlying unique_ptrs.
    */
   static std::vector<std::unique_ptr<Command>> UnwrapVector(
       std::vector<CommandPtr>&& vec);
 
  private:
-  std::unique_ptr<Command> m_ptr;
+  std::unique_ptr<CommandBase> m_ptr;
+  void AssertValid() const;
 };
 
 }  // namespace frc2
