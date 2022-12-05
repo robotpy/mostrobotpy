@@ -8,18 +8,18 @@
 # in the same program as your robot code!
 #
 
-from cscore import CameraServer, UsbCamera
-import networktables
+from cscore import CameraServer as CS
+from cscore import UsbCamera
+import ntcore
 
 
 def main():
-    cs = CameraServer.getInstance()
-    cs.enableLogging()
+    CS.enableLogging()
 
     usb0 = UsbCamera("Camera 0", 0)
     usb1 = UsbCamera("Camera 1", 1)
 
-    server = cs.addSwitchedCamera("Switched")
+    server = CS.addSwitchedCamera("Switched")
     server.setSource(usb0)
 
     # Use networktables to switch the source
@@ -30,11 +30,11 @@ def main():
         elif str(value) == "1":
             server.setSource(usb1)
 
-    table = networktables.NetworkTables.getTable("/CameraPublisher")
+    table = ntcore.NetworkTableInstance.getDefault().getTable("/CameraPublisher")
     table.putString("selected", "0")
     table.addEntryListener(_listener, key="selected")
 
-    cs.waitForever()
+    CS.waitForever()
 
 
 if __name__ == "__main__":
@@ -45,6 +45,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
     # You should change this to connect to the RoboRIO
-    networktables.NetworkTables.initialize(server="localhost")
+    nt = ntcore.NetworkTableInstance.getDefault()
+    nt.setServer("localhost")
+    nt.startClient4(__file__)
 
     main()

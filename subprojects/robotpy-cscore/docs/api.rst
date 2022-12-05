@@ -6,6 +6,5 @@ RobotPy CSCore
 
 .. toctree::
     
-    cameraserver
-    objects
+    cscore
     utilities

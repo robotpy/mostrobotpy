@@ -1,0 +1,69 @@
+---
+
+extra_includes:
+- optional
+
+classes:
+  CameraServer:
+    attributes:
+      kBasePort:
+      kSize640x480:
+      kSize320x240:
+      kSize160x120:
+    methods:
+      StartAutomaticCapture:
+        overloads:
+          "":
+          int:
+          std::string_view, int:
+          std::string_view, std::string_view:
+          cs::VideoSource&:
+      AddAxisCamera:
+        overloads:
+          std::string_view:
+          char*:
+            ignore: true
+          std::string&:
+            ignore: true
+          std::span<const std::string>:
+          std::initializer_list<T>:
+            ignore: true
+          std::string_view, std::string_view:
+          std::string_view, char*:
+            ignore: true
+          std::string_view, std::string&:
+            ignore: true
+          std::string_view, std::span<const std::string>:
+          std::string_view, std::initializer_list<T>:
+            ignore: true
+      AddSwitchedCamera:
+      GetVideo:
+        overloads:
+          "":
+          cs::VideoSource&:
+          std::string_view:
+      PutVideo:
+      AddServer:
+        overloads:
+          std::string_view:
+          std::string_view, int:
+          cs::VideoSink&:
+      RemoveServer:
+      GetServer:
+        overloads:
+          "":
+          std::string_view:
+      AddCamera:
+      RemoveCamera:
+      SetSize:
+    inline_code: |
+      .def_static("waitForever", []() {
+        auto time_module = py::module::import("time");
+        while (true) {
+          time_module.attr("sleep")(1);
+        }
+      }, py::doc("Infinitely loops until the process dies"))
+      .def_static("enableLogging", [](std::optional<int> level) {
+        auto lm = py::module::import("cscore._logging");
+        lm.attr("enableLogging")(level);
+      }, py::arg("level") = py::none(), py::doc("Enable cscore logging"))

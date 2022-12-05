@@ -1,20 +1,78 @@
-[build-system]
-requires = ["distro; platform_system == 'Linux'"]
+[tool.robotpy-build.metadata]
+name = "robotpy-cscore"
+description = "RobotPy bindings for cscore image processing library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-cscore"
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil<2024.0.0,>=2023.0.0b4",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b4",
+    "pyntcore<2024.0.0,>=2023.0.0b4",
+    
+    # basic CameraServer works without NumPy/OpenCV installed, so only require
+    # them on a RoboRIO -- for other platforms there are a lot of ways to
+    # install OpenCV and we shouldn't dictate it
+    'numpy; platform_machine == "armv7l"',
+    'robotpy-opencv; platform_machine == "armv7l"'
+]
 
-[tool.black]
-exclude = '''
-/(
-    \.eggs
-  | \.git
-  | \.hg
-  | \.mypy_cache
-  | \.tox
-  | \.venv
-  | _build
-  | buck-out
-  | build
-  | dist
-  | pybind11
-  | cscore_src
-)/
-'''
+[build-system]
+requires = [
+    "robotpy-build<2024.0.0,>=2023.0.0b15",
+    "robotpy-wpiutil<2024.0.0,>=2023.0.0b4",
+    "robotpy-wpinet<2024.0.0,>=2023.0.0b4",
+    "pyntcore<2024.0.0,>=2023.0.0b4",
+]
+
+[tool.robotpy-build]
+base_package = "cscore"
+
+[tool.robotpy-build.static_libs."cscore_cpp".maven_lib_download]
+artifact_id = "cscore-cpp"
+group_id = "edu.wpi.first.cscore"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2023.1.1-beta-4"
+
+libs = ["cscore"]
+
+[tool.robotpy-build.static_libs."cameraserver_cpp".maven_lib_download]
+artifact_id = "cameraserver-cpp"
+group_id = "edu.wpi.first.cameraserver"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2023.1.1-beta-4"
+
+libs = ["cameraserver"]
+
+[tool.robotpy-build.static_libs."opencv_cpp".maven_lib_download]
+artifact_id = "opencv-cpp"
+group_id = "edu.wpi.first.thirdparty.frc2023.opencv"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "4.6.0-4"
+
+libs = ["opencv460"]
+
+[tool.robotpy-build.wrappers."cscore"]
+name = "cscore"
+
+sources = [
+  "cscore/src/main.cpp",
+  "cscore/cvnp/cvnp.cpp",
+  "cscore/cvnp/cvnp_synonyms.cpp",
+]
+
+depends = ["wpiutil", "wpinet", "ntcore", "opencv_cpp", "cscore_cpp", "cameraserver_cpp", ]
+generation_data = "gen"
+
+[tool.robotpy-build.wrappers."cscore".autogen_headers]
+# cameraserver
+CameraServer = "cameraserver/CameraServer.h"
+
+# cscore
+cscore_cpp = "cscore_cpp.h"
+cscore_oo = "cscore_oo.h"
+cscore_cv = "cscore_cv.h"
+
+[[tool.robotpy-build.wrappers."cscore".type_casters]]
+header = "cvnp/cvnp.h"
+types = ["cv::Mat"]

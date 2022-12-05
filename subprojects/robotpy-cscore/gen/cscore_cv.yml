@@ -1,0 +1,63 @@
+---
+
+extra_includes:
+- opencv2/core/core.hpp
+- cvnp/cvnp.h
+
+functions:
+  CS_PutSourceFrame:
+    ignore: true
+  CS_GrabSinkFrame:
+    ignore: true
+  CS_GrabSinkFrameTimeout:
+    ignore: true
+  CS_GrabSinkFrameCpp:
+    ignore: true
+  CS_GrabSinkFrameTimeoutCpp:
+    ignore: true
+  CS_PutSourceFrameCpp:
+    ignore: true
+  PutSourceFrame:
+    ignore: true
+  GrabSinkFrame:
+    ignore: true
+  GrabSinkFrameTimeout:
+    ignore: true
+classes:
+  CvSource:
+    doc: A source for user code to provide OpenCV images as video frames.
+    force_no_trampoline: true
+    methods:
+      CvSource:
+        overloads:
+          "":
+            ignore: true
+          std::string_view, VideoMode&:
+          std::string_view, VideoMode::PixelFormat, int, int, int:
+      PutFrame:
+  CvSink:
+    doc: A sink for user code to accept video frames as OpenCV images.
+    force_no_trampoline: true
+    methods:
+      CvSink:
+        overloads:
+          "":
+            ignore: true
+          std::string_view:
+          std::string_view, std::function<void ( uint64_t time )>:
+            ignore: true
+      GrabFrame:
+        cpp_code: |
+          [](cs::CvSink &self, cv::Mat& image, double timeout) -> std::tuple<uint64_t, cv::Mat> {
+            py::gil_scoped_release unlock;
+            auto result = self.GrabFrame(image, timeout);
+            return std::make_tuple(result, image);
+          }
+      GrabFrameNoTimeout:
+        cpp_code: |
+          [](cs::CvSink &self, cv::Mat& image) -> std::tuple<uint64_t, cv::Mat> {
+            py::gil_scoped_release unlock;
+            auto result = self.GrabFrameNoTimeout(image);
+            return std::make_tuple(result, image);
+          }
+

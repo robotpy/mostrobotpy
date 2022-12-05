@@ -1,7 +1,0 @@
-[submodule "cscore_src"]
-	path = cscore_src
-	url = https://github.com/robotpy/cscore.git
-[submodule "pybind11"]
-	path = pybind11
-	url = https://github.com/robotpy/pybind11.git
-	branch = stable

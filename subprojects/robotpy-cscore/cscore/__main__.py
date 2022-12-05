@@ -7,8 +7,9 @@ import signal
 import stat
 import sys
 import threading
+import time
 
-from networktables import NetworkTables
+from ntcore import NetworkTableInstance
 
 log_datefmt = "%H:%M:%S"
 log_format = "%(asctime)s:%(msecs)03d %(levelname)-8s: %(name)-20s: %(message)s"
@@ -50,6 +51,16 @@ def main():
         "--team", help="Team number to specify robot", type=int
     )
     parser.add_argument(
+        "--nt-protocol",
+        choices=[3, 4],
+        type=int,
+        help="NetworkTables protocol",
+        default=4,
+    )
+    parser.add_argument(
+        "--nt-identity", default="cscore", help="NetworkTables identity"
+    )
+    parser.add_argument(
         "vision_py",
         nargs="?",
         help="A string indicating the filename and object/function to call"
@@ -70,10 +81,16 @@ def main():
     logger = logging.getLogger("cscore")
 
     # Initialize NetworkTables next
+    ntinst = NetworkTableInstance.getDefault()
     if args.team:
-        NetworkTables.startClientTeam(args.team)
+        ntinst.setServerTeam(args.team)
     else:
-        NetworkTables.initialize(server=args.robot)
+        ntinst.setServer(args.robot)
+
+    if args.nt_protocol == 3:
+        ntinst.startClient3(args.nt_identity)
+    else:
+        ntinst.startClient4(args.nt_identity)
 
     # If stdin is a pipe, then die when the pipe goes away
     # -> this allows us to detect if a parent process exits
@@ -88,11 +105,10 @@ def main():
 
         # If no python file specified, then just start the automatic capture
         if args.vision_py is None:
-            from .cameraserver import CameraServer
+            from ._cscore import CameraServer
 
-            cs = CameraServer.getInstance()
-            cs.startAutomaticCapture()
-            cs.waitForever()
+            CameraServer.startAutomaticCapture()
+            CameraServer.waitForever()
 
         else:
             s = args.vision_py.split(":", 1)

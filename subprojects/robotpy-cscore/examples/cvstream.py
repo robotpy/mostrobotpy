@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # WARNING: You should only use this approach for testing cscore on platforms that
-#          it doesn't support using UsbCamera (Windows or OSX).
+#          it doesn't support using UsbCamera
 #
 
 import cscore as cs
