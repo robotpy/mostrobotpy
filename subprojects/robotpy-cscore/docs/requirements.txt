@@ -1,4 +1,5 @@
-sphinx-autodoc-typehints
+# This file is intended for use on readthedocs
+sphinx >= 3.0
 sphinx-rtd-theme
-numpy
-pynetworktables
+robotpy-sphinx-plugin
+-e docs

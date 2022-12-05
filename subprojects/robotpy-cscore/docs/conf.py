@@ -6,53 +6,9 @@ import os
 
 from os.path import abspath, join, dirname
 
-# Insert module path here
-sys.path.insert(0, abspath(dirname(__file__)))
-sys.path.insert(0, abspath(join(dirname(__file__), "..")))
-
-if os.environ.get("GENERATING_CPP") is None:
-    from unittest.mock import Mock
-
-    class FakeType(type):
-        def __getattr__(cls, name):
-            if name.startswith("_"):
-                raise AttributeError(name)
-            return FakeType(
-                name,
-                (),
-                {
-                    "__module__": cls.__module__,
-                    "__qualname__": "%s.%s" % (cls.__name__, name),
-                },
-            )
-
-    class FakeModule:
-        def __init__(self, name):
-            self.__name__ = name
-
-        def __getattr__(self, name):
-            if name.startswith("_"):
-                raise AttributeError(name)
-            if name[0].isupper():
-                return FakeType(name, (), {"__module__": self.__name__})
-            else:
-                return Mock(name=name)
-
-    class Importer:
-        def find_module(self, module_name, package_path):
-            print("%s | %s |" % (module_name, package_path))
-
-        def load_module(self, module_name):
-            print("Load?")
-
-    # print("WT")
-    # sys.meta_path.append(Importer())
-
-    sys.modules["_cscore"] = FakeModule(name="cscore")
-    sys.modules["cscore._init_cscore"] = FakeModule(name="init_cscore")
-    sys.modules["cv2"] = Mock()
-
+# Project must be built+installed to generate docs
 import cscore
+import cscore.version
 
 # -- RTD configuration ------------------------------------------------
 
@@ -71,9 +27,10 @@ if rtd_version not in ["stable", "latest"]:
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
-    "sphinx.ext.viewcode",
+    "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
-    "sphinx_autodoc_typehints",
+    "sphinx.ext.viewcode",
+    "robotpy_sphinx.all",
 ]
 
 # The suffix of source filenames.
@@ -84,11 +41,11 @@ master_doc = "index"
 
 # General information about the project.
 project = "RobotPy CSCore"
-copyright = "2017, RobotPy development team"
+copyright = "2022, RobotPy development team"
 
 intersphinx_mapping = {
-    "networktables": (
-        "http://pynetworktables.readthedocs.io/en/%s/" % rtd_version,
+    "ntcore": (
+        "https://robotpy.readthedocs.io/projects/pyntcore/en/%s/" % rtd_version,
         None,
     )
 }
@@ -98,9 +55,9 @@ intersphinx_mapping = {
 # built documents.
 #
 # The short X.Y version.
-version = ".".join(cscore.__version__.split(".")[:2])
+version = ".".join(cscore.version.version.split(".")[:2])
 # The full version, including alpha/beta/rc tags.
-release = cscore.__version__
+release = cscore.version.version
 
 autoclass_content = "both"
 
@@ -169,6 +126,15 @@ epub_exclude_files = ["search.html"]
 
 # -- Custom Document processing ----------------------------------------------
 
-import gensidebar
+from robotpy_sphinx.regen import gen_package
+from robotpy_sphinx.sidebar import generate_sidebar
 
-gensidebar.generate_sidebar(globals(), "cscore")
+generate_sidebar(
+    globals(),
+    "cscore",
+    "https://raw.githubusercontent.com/robotpy/docs-sidebar/master/sidebar.toml",
+)
+
+root = abspath(dirname(__file__))
+
+gen_package(root, "cscore")

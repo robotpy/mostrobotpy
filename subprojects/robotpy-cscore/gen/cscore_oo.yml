@@ -1,0 +1,215 @@
+---
+
+classes:
+  VideoProperty:
+    enums:
+      Kind:
+    methods:
+      VideoProperty:
+        overloads:
+          "":
+      GetName:
+      GetKind:
+      IsBoolean:
+      IsInteger:
+      IsString:
+      IsEnum:
+      Get:
+      Set:
+      GetMin:
+      GetMax:
+      GetStep:
+      GetDefault:
+      GetString:
+        overloads:
+          '[const]':
+          wpi::SmallVectorImpl<char>& [const]:
+      SetString:
+      GetChoices:
+      GetLastStatus:
+  VideoSource:
+    enums:
+      Kind:
+      ConnectionStrategy:
+    methods:
+      VideoSource:
+        overloads:
+          "":
+          CS_Source:
+      GetHandle:
+      operator==:
+      operator!=:
+      GetKind:
+      GetName:
+      GetDescription:
+      GetLastFrameTime:
+      SetConnectionStrategy:
+      IsConnected:
+      IsEnabled:
+      GetProperty:
+      EnumerateProperties:
+      GetVideoMode:
+      SetVideoMode:
+        overloads:
+          VideoMode&:
+          VideoMode::PixelFormat, int, int, int:
+      SetPixelFormat:
+      SetResolution:
+      SetFPS:
+      SetConfigJson:
+        overloads:
+          std::string_view:
+          wpi::json&:
+      GetConfigJson:
+      GetConfigJsonObject:
+      GetActualFPS:
+      GetActualDataRate:
+      EnumerateVideoModes:
+      GetLastStatus:
+      EnumerateSinks:
+      EnumerateSources:
+      swap:
+        ignore: true
+  VideoCamera:
+    force_no_trampoline: true
+    enums:
+      WhiteBalance:
+    methods:
+      VideoCamera:
+        overloads:
+          "":
+          CS_Source:
+      SetBrightness:
+      GetBrightness:
+      SetWhiteBalanceAuto:
+      SetWhiteBalanceHoldCurrent:
+      SetWhiteBalanceManual:
+      SetExposureAuto:
+      SetExposureHoldCurrent:
+      SetExposureManual:
+  UsbCamera:
+    force_no_trampoline: true
+    methods:
+      UsbCamera:
+        overloads:
+          "":
+          std::string_view, int:
+          std::string_view, std::string_view:
+      EnumerateUsbCameras:
+      SetPath:
+      GetPath:
+      GetInfo:
+      SetConnectVerbose:
+  HttpCamera:
+    force_no_trampoline: true
+    constants:
+    - cs::HttpCamera::HttpCameraKind::kUnknown
+    enums:
+      HttpCameraKind:
+    methods:
+      HttpCamera:
+        overloads:
+          std::string_view, std::string_view, cs::HttpCamera::HttpCameraKind:
+          std::string_view, char*, cs::HttpCamera::HttpCameraKind:
+          std::string_view, std::string&, cs::HttpCamera::HttpCameraKind:
+          std::string_view, std::span<const std::string>, cs::HttpCamera::HttpCameraKind:
+          std::string_view, std::initializer_list<T>, cs::HttpCamera::HttpCameraKind:
+            ignore: true
+      GetHttpCameraKind:
+      SetUrls:
+        overloads:
+          std::span<const std::string>:
+          std::initializer_list<T>:
+            ignore: true
+      GetUrls:
+  AxisCamera:
+    force_no_trampoline: true
+    methods:
+      AxisCamera:
+        overloads:
+          std::string_view, std::string_view:
+          std::string_view, char*:
+          std::string_view, std::string&:
+          std::string_view, std::span<const std::string>:
+          std::string_view, std::initializer_list<T>:
+            ignore: true
+  ImageSource:
+    force_no_trampoline: true
+    methods:
+      NotifyError:
+      SetConnected:
+      SetDescription:
+      CreateProperty:
+      CreateIntegerProperty:
+      CreateBooleanProperty:
+      CreateStringProperty:
+      SetEnumPropertyChoices:
+        overloads:
+          cs::VideoProperty&, std::span<const std::string>:
+          cs::VideoProperty&, std::initializer_list<T>:
+            ignore: true
+      ImageSource:
+  VideoSink:
+    enums:
+      Kind:
+    methods:
+      VideoSink:
+        overloads:
+          "":
+          CS_Sink:
+      GetHandle:
+      operator==:
+      operator!=:
+      GetKind:
+      GetName:
+      GetDescription:
+      GetProperty:
+      EnumerateProperties:
+      SetConfigJson:
+        overloads:
+          std::string_view:
+          wpi::json&:
+      GetConfigJson:
+      GetConfigJsonObject:
+      SetSource:
+      GetSource:
+      GetSourceProperty:
+      GetLastStatus:
+      EnumerateSinks:
+      swap:
+        ignore: true
+  MjpegServer:
+    force_no_trampoline: true
+    methods:
+      MjpegServer:
+        overloads:
+          "":
+          std::string_view, std::string_view, int:
+          std::string_view, int:
+      GetListenAddress:
+      GetPort:
+      SetResolution:
+      SetFPS:
+      SetCompression:
+      SetDefaultCompression:
+  ImageSink:
+    force_no_trampoline: true
+    methods:
+      SetDescription:
+      GetError:
+      SetEnabled:
+      ImageSink:
+  VideoEvent:
+    force_no_trampoline: true
+    methods:
+      GetSource:
+      GetSink:
+      GetProperty:
+  VideoListener:
+    methods:
+      VideoListener:
+        overloads:
+          "":
+          std::function<void ( const VideoEvent & event )>, int, bool:
+      swap:
+        ignore: true

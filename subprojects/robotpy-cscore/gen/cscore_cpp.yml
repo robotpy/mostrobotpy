@@ -1,0 +1,306 @@
+---
+
+functions:
+  GetPropertyKind:
+    ignore: true
+  GetPropertyName:
+    overloads:
+      CS_Property, CS_Status*:
+        ignore: true
+      CS_Property, wpi::SmallVectorImpl<char>&, CS_Status*:
+        ignore: true
+  GetProperty:
+    ignore: true
+  SetProperty:
+    ignore: true
+  GetPropertyMin:
+    ignore: true
+  GetPropertyMax:
+    ignore: true
+  GetPropertyStep:
+    ignore: true
+  GetPropertyDefault:
+    ignore: true
+  GetStringProperty:
+    overloads:
+      CS_Property, CS_Status*:
+        ignore: true
+      CS_Property, wpi::SmallVectorImpl<char>&, CS_Status*:
+        ignore: true
+  SetStringProperty:
+    ignore: true
+  GetEnumPropertyChoices:
+    ignore: true
+  CreateUsbCameraDev:
+    ignore: true
+  CreateUsbCameraPath:
+    ignore: true
+  CreateHttpCamera:
+    overloads:
+      std::string_view, std::string_view, CS_HttpCameraKind, CS_Status*:
+        ignore: true
+      std::string_view, std::span<const std::string>, CS_HttpCameraKind, CS_Status*:
+        ignore: true
+  CreateCvSource:
+    ignore: true
+  GetSourceKind:
+    ignore: true
+  GetSourceName:
+    overloads:
+      CS_Source, CS_Status*:
+        ignore: true
+      CS_Source, wpi::SmallVectorImpl<char>&, CS_Status*:
+        ignore: true
+  GetSourceDescription:
+    overloads:
+      CS_Source, CS_Status*:
+        ignore: true
+      CS_Source, wpi::SmallVectorImpl<char>&, CS_Status*:
+        ignore: true
+  GetSourceLastFrameTime:
+    ignore: true
+  SetSourceConnectionStrategy:
+    ignore: true
+  IsSourceConnected:
+    ignore: true
+  IsSourceEnabled:
+    ignore: true
+  GetSourceProperty:
+    ignore: true
+  EnumerateSourceProperties:
+    ignore: true
+  GetSourceVideoMode:
+    ignore: true
+  SetSourceVideoMode:
+    ignore: true
+  SetSourcePixelFormat:
+    ignore: true
+  SetSourceResolution:
+    ignore: true
+  SetSourceFPS:
+    ignore: true
+  SetSourceConfigJson:
+    overloads:
+      CS_Source, std::string_view, CS_Status*:
+        ignore: true
+      CS_Source, wpi::json&, CS_Status*:
+        ignore: true
+  GetSourceConfigJson:
+    ignore: true
+  GetSourceConfigJsonObject:
+    ignore: true
+  EnumerateSourceVideoModes:
+    ignore: true
+  EnumerateSourceSinks:
+    ignore: true
+  CopySource:
+    ignore: true
+  ReleaseSource:
+    ignore: true
+  SetCameraBrightness:
+    ignore: true
+  GetCameraBrightness:
+    ignore: true
+  SetCameraWhiteBalanceAuto:
+    ignore: true
+  SetCameraWhiteBalanceHoldCurrent:
+    ignore: true
+  SetCameraWhiteBalanceManual:
+    ignore: true
+  SetCameraExposureAuto:
+    ignore: true
+  SetCameraExposureHoldCurrent:
+    ignore: true
+  SetCameraExposureManual:
+    ignore: true
+  SetUsbCameraPath:
+    ignore: true
+  GetUsbCameraPath:
+    ignore: true
+  GetUsbCameraInfo:
+    ignore: true
+  GetHttpCameraKind:
+    ignore: true
+  SetHttpCameraUrls:
+    ignore: true
+  GetHttpCameraUrls:
+    ignore: true
+  NotifySourceError:
+    ignore: true
+  SetSourceConnected:
+    ignore: true
+  SetSourceDescription:
+    ignore: true
+  CreateSourceProperty:
+    ignore: true
+  SetSourceEnumPropertyChoices:
+    ignore: true
+  CreateMjpegServer:
+    ignore: true
+  CreateCvSink:
+    ignore: true
+  CreateCvSinkCallback:
+    ignore: true
+  GetSinkKind:
+    ignore: true
+  GetSinkName:
+    overloads:
+      CS_Sink, CS_Status*:
+        ignore: true
+      CS_Sink, wpi::SmallVectorImpl<char>&, CS_Status*:
+        ignore: true
+  GetSinkDescription:
+    overloads:
+      CS_Sink, CS_Status*:
+        ignore: true
+      CS_Sink, wpi::SmallVectorImpl<char>&, CS_Status*:
+        ignore: true
+  GetSinkProperty:
+    ignore: true
+  EnumerateSinkProperties:
+    ignore: true
+  SetSinkSource:
+    ignore: true
+  GetSinkSourceProperty:
+    ignore: true
+  SetSinkConfigJson:
+    overloads:
+      CS_Sink, std::string_view, CS_Status*:
+        ignore: true
+      CS_Sink, wpi::json&, CS_Status*:
+        ignore: true
+  GetSinkConfigJson:
+    ignore: true
+  GetSinkConfigJsonObject:
+    ignore: true
+  GetSinkSource:
+    ignore: true
+  CopySink:
+    ignore: true
+  ReleaseSink:
+    ignore: true
+  GetMjpegServerListenAddress:
+    ignore: true
+  GetMjpegServerPort:
+    ignore: true
+  SetSinkDescription:
+    ignore: true
+  GetSinkError:
+    overloads:
+      CS_Sink, CS_Status*:
+        ignore: true
+      CS_Sink, wpi::SmallVectorImpl<char>&, CS_Status*:
+        ignore: true
+  SetSinkEnabled:
+    ignore: true
+  SetListenerOnStart:
+    ignore: true
+  SetListenerOnExit:
+    ignore: true
+  AddListener:
+    ignore: true
+  RemoveListener:
+    ignore: true
+  CreateListenerPoller:
+    ignore: true
+  DestroyListenerPoller:
+    ignore: true
+  AddPolledListener:
+    ignore: true
+  PollListener:
+    overloads:
+      CS_ListenerPoller:
+        ignore: true
+      CS_ListenerPoller, double, bool*:
+        ignore: true
+  CancelPollListener:
+    ignore: true
+  NotifierDestroyed:
+    ignore: true
+  SetTelemetryPeriod:
+    ignore: true
+  GetTelemetryElapsedTime:
+    ignore: true
+  GetTelemetryValue:
+    ignore: true
+  GetTelemetryAverageValue:
+    ignore: true
+  SetLogger:
+    internal: true
+  SetDefaultLogger:
+    ignore: true
+  Shutdown:
+    ignore: true
+  EnumerateUsbCameras:
+    ignore: true
+  EnumerateSourceHandles:
+    ignore: true
+  EnumerateSinkHandles:
+    ignore: true
+  GetHostname:
+    ignore: true
+  GetNetworkInterfaces:
+    ignore: true
+classes:
+  UsbCameraInfo:
+    attributes:
+      dev:
+      path:
+      name:
+      otherPaths:
+      vendorId:
+      productId:
+  VideoMode:
+    force_no_trampoline: true
+    ignored_bases:
+    - CS_VideoMode
+    enums:
+      PixelFormat:
+    methods:
+      VideoMode:
+        overloads:
+          "":
+          cs::VideoMode::PixelFormat, int, int, int:
+      operator==:
+      operator!=:
+    inline_code: |
+      .def_readwrite("pixelFormat", &VideoMode::pixelFormat)
+      .def_readwrite("width", &VideoMode::width)
+      .def_readwrite("height", &VideoMode::height)
+      .def_readwrite("fps", &VideoMode::fps)
+  RawEvent:
+    attributes:
+      kind:
+        ignore: true
+      sourceHandle:
+        ignore: true
+      sinkHandle:
+        ignore: true
+      name:
+        ignore: true
+      mode:
+        ignore: true
+      propertyHandle:
+        ignore: true
+      propertyKind:
+        ignore: true
+      value:
+        ignore: true
+      valueStr:
+        ignore: true
+    enums:
+      Kind:
+        ignore: true
+    methods:
+      RawEvent:
+        overloads:
+          "":
+            ignore: true
+          cs::RawEvent::Kind:
+            ignore: true
+          std::string_view, CS_Handle, cs::RawEvent::Kind:
+            ignore: true
+          std::string_view, CS_Source, cs::VideoMode&:
+            ignore: true
+          std::string_view, CS_Source, cs::RawEvent::Kind, CS_Property, CS_PropertyKind, int, std::string_view:
+            ignore: true
