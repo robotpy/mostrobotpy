@@ -9,12 +9,6 @@ install_requires = [
     "robotpy-wpiutil<2024.0.0,>=2023.0.0b4",
     "robotpy-wpinet<2024.0.0,>=2023.0.0b4",
     "pyntcore<2024.0.0,>=2023.0.0b4",
-    
-    # basic CameraServer works without NumPy/OpenCV installed, so only require
-    # them on a RoboRIO -- for other platforms there are a lot of ways to
-    # install OpenCV and we shouldn't dictate it
-    'numpy; platform_machine == "armv7l"',
-    'robotpy-opencv; platform_machine == "armv7l"'
 ]
 
 [build-system]
