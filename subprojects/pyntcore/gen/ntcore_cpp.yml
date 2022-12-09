@@ -326,6 +326,11 @@ classes:
       TopicsOnly:
       KeepDuplicates:
       PollStorage:
+      LocalOnly:
+      RemoteOnly:
+      AllUpdates:
+      ExcludePublisher:
+      ExcludeSelf:
     inline_code: |
       .def("__repr__", [](const PubSubOption& self) -> py::str {
         const char * tname = "kNone";
@@ -345,6 +350,15 @@ classes:
         case NT_PUBSUB_KEEPDUPLICATES:
           tname = "kKeepDuplicates";
           break;
+        case NT_PUBSUB_LOCALREMOTE:
+          tname = "kLocalRemote";
+          break;
+        case NT_PUBSUB_EXCLUDEPUB:
+          tname = "kExcludePub";
+          break;
+        case NT_PUBSUB_EXCLUDESELF:
+          tname = "kExcludeSelf";
+          break;
         }
         return py::str("PubSubOption(type=PubSubOption.Type.{}, value={})")
           .format(tname, self.value);
@@ -357,3 +371,6 @@ classes:
         .value("kTopicsOnly", NT_PUBSUB_TOPICSONLY)
         .value("kPollStorage", NT_PUBSUB_POLLSTORAGE)
         .value("kKeepDuplicates", NT_PUBSUB_KEEPDUPLICATES)
+        .value("kLocalRemote", NT_PUBSUB_LOCALREMOTE)
+        .value("kExcludePub", NT_PUBSUB_EXCLUDEPUB)
+        .value("kExcludeSelf", NT_PUBSUB_EXCLUDESELF)
