@@ -85,5 +85,10 @@ functions:
   HALSIM_CancelRoboRioBrownoutVoltageCallback:
   HALSIM_GetRoboRioBrownoutVoltage:
   HALSIM_SetRoboRioBrownoutVoltage:
+  HALSIM_RegisterRoboRioSerialNumberCallback:
+    ignore: true
+  HALSIM_CancelRoboRioSerialNumberCallback:
+  HALSIM_GetRoboRioSerialNumber:
+  HALSIM_SetRoboRioSerialNumber:
   HALSIM_RegisterRoboRioAllCallbacks:
     ignore: true

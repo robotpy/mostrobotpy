@@ -5,6 +5,8 @@ strip_prefixes:
 
 functions:
   HAL_SendError:
+  HAL_SetPrintErrorImpl:
+    ignore: true
   HAL_SendConsoleLine:
   HAL_GetControlWord:
   HAL_GetAllianceStation:
