@@ -8,6 +8,7 @@
 #include <initializer_list>
 #include <memory>
 #include <span>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -48,7 +49,7 @@ class CommandPtr final {
 
   /**
    * Decorates this command to run "by proxy" by wrapping it in a
-   * ProxyScheduleCommand. This is useful for "forking off" from command groups
+   * ProxyCommand. This is useful for "forking off" from command groups
    * when the user does not wish to extend the command's requirements to the
    * entire command group.
    *
@@ -220,6 +221,15 @@ class CommandPtr final {
   [[nodiscard]] CommandPtr HandleInterrupt(std::function<void()> handler) &&;
 
   /**
+   * Decorates this Command with a name. Is an inline function for
+   * Command::SetName(std::string_view);
+   *
+   * @param name name
+   * @return the decorated Command
+   */
+  [[nodiscard]] CommandPtr WithName(std::string_view name) &&;
+
+  /**
    * Get a raw pointer to the held command.
    */
   CommandBase* get() const;
@@ -242,8 +252,8 @@ class CommandPtr final {
 
   /**
    * Whether or not the command is currently scheduled. Note that this does not
-   * detect whether the command is being run by a CommandGroup, only whether it
-   * is directly being run by the scheduler.
+   * detect whether the command is in a composition, only whether it is directly
+   * being run by the scheduler.
    *
    * @return Whether the command is scheduled.
    */

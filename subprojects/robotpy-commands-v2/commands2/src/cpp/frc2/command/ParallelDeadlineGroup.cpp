@@ -53,11 +53,14 @@ bool ParallelDeadlineGroup::RunsWhenDisabled() const {
   return m_runWhenDisabled;
 }
 
+Command::InterruptionBehavior ParallelDeadlineGroup::GetInterruptionBehavior()
+    const {
+  return m_interruptBehavior;
+}
+
 void ParallelDeadlineGroup::AddCommands(
     std::vector<std::unique_ptr<Command>>&& commands) {
-  if (!RequireUngrouped(commands)) {
-    return;
-  }
+  CommandScheduler::GetInstance().RequireUngrouped(commands);
 
   if (!m_finished) {
     throw FRC_MakeError(frc::err::CommandIllegalUse,
@@ -67,9 +70,13 @@ void ParallelDeadlineGroup::AddCommands(
 
   for (auto&& command : commands) {
     if (RequirementsDisjoint(this, command.get())) {
-      command->SetGrouped(true);
+      command->SetComposed(true);
       AddRequirements(command->GetRequirements());
       m_runWhenDisabled &= command->RunsWhenDisabled();
+      if (command->GetInterruptionBehavior() ==
+          Command::InterruptionBehavior::kCancelSelf) {
+        m_interruptBehavior = Command::InterruptionBehavior::kCancelSelf;
+      }
       m_commands.emplace_back(std::move(command), false);
     } else {
       throw FRC_MakeError(frc::err::CommandIllegalUse,
@@ -81,7 +88,7 @@ void ParallelDeadlineGroup::AddCommands(
 
 void ParallelDeadlineGroup::SetDeadline(std::unique_ptr<Command>&& deadline) {
   m_deadline = deadline.get();
-  m_deadline->SetGrouped(true);
+  m_deadline->SetComposed(true);
   m_commands.emplace_back(std::move(deadline), false);
   AddRequirements(m_deadline->GetRequirements());
   m_runWhenDisabled &= m_deadline->RunsWhenDisabled();
