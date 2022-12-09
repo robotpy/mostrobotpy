@@ -9,7 +9,7 @@ install_requires = []
 
 [build-system]
 requires = [
-    "robotpy-build<2024.0.0,>=2023.0.0b14",
+    "robotpy-build<2024.0.0,>=2023.0.0b15",
 ]
 
 [tool.robotpy-build]
@@ -30,7 +30,7 @@ artifact_id = "wpiutil-cpp"
 group_id = "edu.wpi.first.wpiutil"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.1.1-beta-4"
+version = "2023.1.1-beta-5"
 
 libs = ["wpiutil"]
 
