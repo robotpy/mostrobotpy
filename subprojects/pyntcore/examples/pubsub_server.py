@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     # keep the last 10 values for this topic
     sub2 = table.getDoubleTopic("2").subscribe(
-        -2.0, [ntcore.PubSubOption.pollStorage(10)]
+        -2.0, ntcore.PubSubOptions(pollStorage=10)
     )
 
     # Periodically read from them

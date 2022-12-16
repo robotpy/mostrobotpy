@@ -32,14 +32,14 @@ classes:
       GetInfo:
       GenericSubscribe:
         overloads:
-          std::span<const PubSubOption>:
-          std::string_view, std::span<const PubSubOption>:
+          PubSubOptions&:
+          std::string_view, PubSubOptions&:
       GenericPublish:
       GenericPublishEx:
       GetGenericEntry:
         overloads:
-          std::span<const PubSubOption>:
-          std::string_view, std::span<const PubSubOption>:
+          PubSubOptions&:
+          std::string_view, PubSubOptions&:
       operator==:
       operator!=:
   Subscriber:
