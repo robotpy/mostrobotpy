@@ -18,7 +18,7 @@ def test_externally_scheduled(scheduler: commands2.CommandScheduler):
     _ = commands2.SequentialCommandGroup([cmd1, cmd2])
     with pytest.raises(
         RuntimeError,
-        match="A command that is part of a command group cannot be independently scheduled",
+        match="Illegal use of Command: Commands cannot be added to more than one CommandGroup",
     ):
         scheduler.schedule(cmd1)
 

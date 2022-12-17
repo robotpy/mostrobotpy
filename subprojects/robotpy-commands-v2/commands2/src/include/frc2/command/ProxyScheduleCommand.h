@@ -8,6 +8,7 @@
 #include <span>
 
 #include <wpi/SmallVector.h>
+#include <wpi/deprecated.h>
 
 #include "frc2/command/CommandBase.h"
 #include "frc2/command/CommandHelper.h"
@@ -28,7 +29,10 @@ class ProxyScheduleCommand
    * initialized, and ends when they are all no longer scheduled.
    *
    * @param toSchedule the commands to schedule
+   * @deprecated Replace with {@link ProxyCommand},
+   * composing multiple of them in a {@link ParallelRaceGroup} if needed.
    */
+  WPI_DEPRECATED("Replace with ProxyCommand")
   explicit ProxyScheduleCommand(std::span<std::shared_ptr<Command>> toSchedule);
 
   /**

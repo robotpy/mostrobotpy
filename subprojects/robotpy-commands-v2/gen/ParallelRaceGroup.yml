@@ -30,6 +30,7 @@ classes:
       End:
       IsFinished:
       RunsWhenDisabled:
+      GetInterruptionBehavior:
 
 inline_code: |
   cls_ParallelRaceGroup

@@ -41,14 +41,11 @@ classes:
           std::initializer_list<Subsystem *>:
             ignore: true
           std::span<Subsystem *>:
+      RemoveDefaultCommand:
       SetDefaultCommand:
         template_impls:
         - ["std::shared_ptr<Command>"]        
       GetDefaultCommand:
-        overloads:
-          std::shared_ptr<Subsystem> [const]:
-          frc2::Subsystem* [const]:
-            ignore: true
       Cancel:
         overloads:
           std::shared_ptr<Command>:
@@ -62,7 +59,7 @@ classes:
       CancelAll:
       IsScheduled:
         overloads:
-          std::span<const std::shared_ptr<Command>> [const]:
+          std::span<std::shared_ptr<Command>> [const]:
           std::initializer_list<const std::shared_ptr<Command>> [const]:
             ignore: true
           std::shared_ptr<Command> [const]:
@@ -81,6 +78,12 @@ classes:
       OnCommandExecute:
       OnCommandInterrupt:
       OnCommandFinish:
+      RequireUngrouped:
+        overloads:
+          const std::shared_ptr<Command>:
+          std::span<const std::shared_ptr<Command>>:
+          std::initializer_list<const std::shared_ptr<Command>>:
+            ignore: true
       InitSendable:
     inline_code: |
       .def("registerSubsystem", [](CommandScheduler * self, py::args args){
