@@ -165,10 +165,33 @@ template <typename Key>
 
 // Command Groups
 
+namespace impl {
+
+/**
+ * Create a vector of commands.
+ */
+template <typename... Args>
+std::vector<CommandPtr> MakeVector(Args&&... args) {
+  std::vector<CommandPtr> data;
+  data.reserve(sizeof...(Args));
+  (data.emplace_back(std::forward<Args>(args)), ...);
+  return data;
+}
+
+}  // namespace impl
+
 /**
  * Runs a group of commands in series, one after the other.
  */
 [[nodiscard]] std::shared_ptr<Command> Sequence(std::vector<std::shared_ptr<Command>>&& commands);
+
+/**
+ * Runs a group of commands in series, one after the other.
+ */
+template <typename... Args>
+[[nodiscard]] CommandPtr Sequence(Args&&... commands) {
+  return Sequence(impl::MakeVector(std::forward<Args>(commands)...));
+}
 
 /**
  * Runs a group of commands in series, one after the other. Once the last
@@ -177,10 +200,28 @@ template <typename Key>
 [[nodiscard]] std::shared_ptr<Command> RepeatingSequence(std::vector<std::shared_ptr<Command>>&& commands);
 
 /**
+ * Runs a group of commands in series, one after the other. Once the last
+ * command ends, the group is restarted.
+ */
+template <typename... Args>
+[[nodiscard]] CommandPtr RepeatingSequence(Args&&... commands) {
+  return RepeatingSequence(impl::MakeVector(std::forward<Args>(commands)...));
+}
+
+/**
  * Runs a group of commands at the same time. Ends once all commands in the
  * group finish.
  */
 [[nodiscard]] std::shared_ptr<Command> Parallel(std::vector<std::shared_ptr<Command>>&& commands);
+
+/**
+ * Runs a group of commands at the same time. Ends once all commands in the
+ * group finish.
+ */
+template <typename... Args>
+[[nodiscard]] CommandPtr Parallel(Args&&... commands) {
+  return Parallel(impl::MakeVector(std::forward<Args>(commands)...));
+}
 
 /**
  * Runs a group of commands at the same time. Ends once any command in the group
@@ -189,11 +230,31 @@ template <typename Key>
 [[nodiscard]] std::shared_ptr<Command> Race(std::vector<std::shared_ptr<Command>>&& commands);
 
 /**
+ * Runs a group of commands at the same time. Ends once any command in the group
+ * finishes, and cancels the others.
+ */
+template <typename... Args>
+[[nodiscard]] CommandPtr Race(Args&&... commands) {
+  return Race(impl::MakeVector(std::forward<Args>(commands)...));
+}
+
+/**
  * Runs a group of commands at the same time. Ends once a specific command
  * finishes, and cancels the others.
  */
 [[nodiscard]] std::shared_ptr<Command> Deadline(std::shared_ptr<Command> deadline,
                                   std::vector<std::shared_ptr<Command>>&& others);
+
+/**
+ * Runs a group of commands at the same time. Ends once a specific command
+ * finishes, and cancels the others.
+ */
+template <typename... Args>
+[[nodiscard]] CommandPtr Deadline(CommandPtr&& deadline, Args&&... commands) {
+  return Deadline(std::move(deadline),
+                  impl::MakeVector(std::forward<Args>(commands)...));
+}
+
 }  // namespace cmd
 
 }  // namespace frc2

@@ -18,21 +18,23 @@
 
 namespace frc2 {
 /**
- * A CommandGroup that runs a set of commands in parallel, ending when any one
- * of the commands ends and interrupting all the others.
+ * A composition that runs a set of commands in parallel, ending when any one of
+ * the commands ends and interrupting all the others.
  *
- * <p>As a rule, CommandGroups require the union of the requirements of their
- * component commands.
+ * <p>The rules for command compositions apply: command instances that are
+ * passed to it are owned by the composition and cannot be added to any other
+ * composition or scheduled individually, and the composition requires all
+ * subsystems its components require.
  */
 class ParallelRaceGroup
     : public CommandGroupBase {
  public:
   /**
-   * Creates a new ParallelCommandRace.  The given commands will be executed
+   * Creates a new ParallelCommandRace. The given commands will be executed
    * simultaneously, and will "race to the finish" - the first command to finish
    * ends the entire command, with all other commands being interrupted.
    *
-   * @param commands the commands to include in this group.
+   * @param commands the commands to include in this composition.
    */
   explicit ParallelRaceGroup(std::vector<std::shared_ptr<Command>>&& commands);
 
@@ -70,11 +72,16 @@ class ParallelRaceGroup
 
   bool RunsWhenDisabled() const override;
 
+  Command::InterruptionBehavior GetInterruptionBehavior() const override;
+
  public:
   void AddCommands(std::vector<std::shared_ptr<Command>>&& commands) final;
+  
  private:
   std::vector<std::shared_ptr<Command>> m_commands;
   bool m_runWhenDisabled{true};
+  Command::InterruptionBehavior m_interruptBehavior{
+      Command::InterruptionBehavior::kCancelIncoming};
   bool m_finished{false};
   bool isRunning = false;
 };

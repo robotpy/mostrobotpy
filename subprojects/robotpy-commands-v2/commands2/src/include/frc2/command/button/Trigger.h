@@ -42,7 +42,7 @@ class Trigger {
    * @param condition the condition represented by this trigger
    */
   explicit Trigger(std::function<bool()> condition)
-      : m_event{CommandScheduler::GetInstance().GetDefaultButtonLoop(),
+      : Trigger{CommandScheduler::GetInstance().GetDefaultButtonLoop(),
                 std::move(condition)} {}
 
   /**
@@ -52,7 +52,7 @@ class Trigger {
    * @param condition the condition represented by this trigger
    */
   Trigger(frc::EventLoop* loop, std::function<bool()> condition)
-      : m_event{loop, std::move(condition)} {}
+      : m_loop{loop}, m_condition{std::move(condition)} {}
 
   /**
    * Create a new trigger that is always `false`.
@@ -70,7 +70,6 @@ class Trigger {
    *
    * @param command the command to start
    * @return this trigger, so calls can be chained
-   * @see #Rising()
    */
   Trigger OnTrue(std::shared_ptr<Command> command);
 
@@ -94,7 +93,6 @@ class Trigger {
    *
    * @param command the command to start
    * @return this trigger, so calls can be chained
-   * @see #Falling()
    */
   Trigger OnFalse(std::shared_ptr<Command> command);
 
@@ -245,10 +243,17 @@ class Trigger {
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED("Use OnTrue(Command) instead")
   Trigger WhenActive(T&& command) {
-    m_event.Rising().IfHigh(
-        [command = std::make_shared<std::remove_reference_t<T>>(
-             std::forward<T>(command))] { Command_Schedule(command); });
+    m_loop->Bind([condition = m_condition, previous = m_condition(),
+                  command = std::make_unique<std::remove_reference_t<T>>(
+                      std::forward<T>(command))]() mutable {
+      bool current = condition();
 
+      if (!previous && current) {
+        command->Schedule();
+      }
+
+      previous = current;
+    });
     return *this;
   }
 
@@ -312,10 +317,19 @@ class Trigger {
       "Use WhileTrue(Command) with RepeatCommand, or bind command::Schedule "
       "with IfHigh(std::function<void()>).")
   Trigger WhileActiveContinous(T&& command) {
-    std::shared_ptr<T> ptr =
-        std::make_shared<std::remove_reference_t<T>>(std::forward<T>(command));
-    m_event.IfHigh([ptr] { Command_Schedule(ptr); });
-    m_event.Falling().IfHigh([ptr] { ptr->Cancel(); });
+    m_loop->Bind([condition = m_condition, previous = m_condition(),
+                  command = std::make_unique<std::remove_reference_t<T>>(
+                      std::forward<T>(command))]() mutable {
+      bool current = condition();
+
+      if (current) {
+        command->Schedule();
+      } else if (previous && !current) {
+        command->Cancel();
+      }
+
+      previous = current;
+    });
 
     return *this;
   }
@@ -370,12 +384,19 @@ class Trigger {
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED("Use WhileTrue(Command) instead.")
   Trigger WhileActiveOnce(T&& command) {
-    std::shared_ptr<T> ptr =
-        std::make_shared<std::remove_reference_t<T>>(std::forward<T>(command));
+    m_loop->Bind([condition = m_condition, previous = m_condition(),
+                  command = std::make_unique<std::remove_reference_t<T>>(
+                      std::forward<T>(command))]() mutable {
+      bool current = condition();
 
-    m_event.Rising().IfHigh([ptr] { Command_Schedule(ptr); });
-    m_event.Falling().IfHigh([ptr] { ptr->Cancel(); });
+      if (!previous && current) {
+        command->Schedule();
+      } else if (previous && !current) {
+        command->Cancel();
+      }
 
+      previous = current;
+    });
     return *this;
   }
 
@@ -405,10 +426,17 @@ class Trigger {
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED("Use OnFalse(Command) instead.")
   Trigger WhenInactive(T&& command) {
-    m_event.Falling().IfHigh(
-        [command = std::make_shared<std::remove_reference_t<T>>(
-             std::forward<T>(command))] { Command_Schedule(command); });
+    m_loop->Bind([condition = m_condition, previous = m_condition(),
+                  command = std::make_unique<std::remove_reference_t<T>>(
+                      std::forward<T>(command))]() mutable {
+      bool current = condition();
 
+      if (previous && !current) {
+        command->Schedule();
+      }
+
+      previous = current;
+    });
     return *this;
   }
 
@@ -466,15 +494,21 @@ class Trigger {
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED("Use ToggleOnTrue(Command) instead.")
   Trigger ToggleWhenActive(T&& command) {
-    m_event.Rising().IfHigh(
-        [command = std::make_shared<std::remove_reference_t<T>>(
-             std::forward<T>(command))] {
-          if (!command->IsScheduled()) {
-            Command_Schedule(command);
-          } else {
-            command->Cancel();
-          }
-        });
+    m_loop->Bind([condition = m_condition, previous = m_condition(),
+                  command = std::make_unique<std::remove_reference_t<T>>(
+                      std::forward<T>(command))]() mutable {
+      bool current = condition();
+
+      if (!previous && current) {
+        if (command->IsScheduled()) {
+          command->Cancel();
+        } else {
+          command->Schedule();
+        }
+      }
+
+      previous = current;
+    });
 
     return *this;
   }
@@ -486,25 +520,10 @@ class Trigger {
    *
    * @param command The command to bind.
    * @return The trigger, for chained calls.
-   * @deprecated Use Rising() as a command end condition with Until() instead.
+   * @deprecated Pass this as a command end condition with Until() instead.
    */
-  WPI_DEPRECATED(
-      "Use Rising() as a command end condition with Until() instead.")
-  Trigger CancelWhenActive(std::shared_ptr<Command> command);
-
-  /**
-   * Get a new event that events only when this one newly changes to true.
-   *
-   * @return a new event representing when this one newly changes to true.
-   */
-  Trigger Rising() { return m_event.Rising().CastTo<Trigger>(); }
-
-  /**
-   * Get a new event that triggers only when this one newly changes to false.
-   *
-   * @return a new event representing when this one newly changes to false.
-   */
-  Trigger Falling() { return m_event.Falling().CastTo<Trigger>(); }
+  WPI_DEPRECATED("Pass this as a command end condition with Until() instead.")
+  Trigger CancelWhenActive(Command* command);
 
   /**
    * Composes two triggers with logical AND.
@@ -512,7 +531,9 @@ class Trigger {
    * @return A trigger which is active when both component triggers are active.
    */
   Trigger operator&&(std::function<bool()> rhs) {
-    return m_event.operator&&(rhs).CastTo<Trigger>();
+    return Trigger(m_loop, [condition = m_condition, rhs = std::move(rhs)] {
+      return condition() && rhs();
+    });
   }
 
   /**
@@ -520,8 +541,10 @@ class Trigger {
    *
    * @return A trigger which is active when both component triggers are active.
    */
-  Trigger operator&&(Trigger& rhs) {
-    return (m_event && rhs.m_event).CastTo<Trigger>();
+  Trigger operator&&(Trigger rhs) {
+    return Trigger(m_loop, [condition = m_condition, rhs] {
+      return condition() && rhs.m_condition();
+    });
   }
 
   /**
@@ -530,7 +553,9 @@ class Trigger {
    * @return A trigger which is active when either component trigger is active.
    */
   Trigger operator||(std::function<bool()> rhs) {
-    return m_event.operator||(rhs).CastTo<Trigger>();
+    return Trigger(m_loop, [condition = m_condition, rhs = std::move(rhs)] {
+      return condition() || rhs();
+    });
   }
 
   /**
@@ -538,8 +563,10 @@ class Trigger {
    *
    * @return A trigger which is active when either component trigger is active.
    */
-  Trigger operator||(Trigger& rhs) {
-    return (m_event || rhs.m_event).CastTo<Trigger>();
+  Trigger operator||(Trigger rhs) {
+    return Trigger(m_loop, [condition = m_condition, rhs] {
+      return condition() || rhs.m_condition();
+    });
   }
 
   /**
@@ -548,7 +575,9 @@ class Trigger {
    * @return A trigger which is active when the component trigger is inactive,
    * and vice-versa.
    */
-  Trigger operator!() { return m_event.operator!().CastTo<Trigger>(); }
+  Trigger operator!() {
+    return Trigger(m_loop, [condition = m_condition] { return !condition(); });
+  }
 
   /**
    * Returns whether or not the trigger is currently active
@@ -567,16 +596,10 @@ class Trigger {
    */
   Trigger Debounce(units::second_t debounceTime,
                    frc::Debouncer::DebounceType type =
-                       frc::Debouncer::DebounceType::kRising) {
-    return m_event.Debounce(debounceTime, type).CastTo<Trigger>();
-  }
-
-  /**
-   * Get the wrapped BooleanEvent instance.
-   */
-  frc::BooleanEvent GetEvent() const;
+                       frc::Debouncer::DebounceType::kRising);
 
  private:
-  frc::BooleanEvent m_event;
+  frc::EventLoop* m_loop;
+  std::function<bool()> m_condition;
 };
 }  // namespace frc2
