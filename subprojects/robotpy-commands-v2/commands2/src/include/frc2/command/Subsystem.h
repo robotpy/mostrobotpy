@@ -107,7 +107,7 @@ class Subsystem {
    *
    * @param action the action to run
    */
-  [[nodiscard]] CommandPtr RunOnce(std::function<void()> action);
+  [[nodiscard]] std::shared_ptr<Command> RunOnce(std::function<void()> action);
 
   /**
    * Constructs a command that runs an action every iteration until interrupted.
@@ -115,7 +115,7 @@ class Subsystem {
    *
    * @param action the action to run
    */
-  [[nodiscard]] CommandPtr Run(std::function<void()> action);
+  [[nodiscard]] std::shared_ptr<Command> Run(std::function<void()> action);
 
   /**
    * Constructs a command that runs an action once and another action when the
@@ -124,7 +124,7 @@ class Subsystem {
    * @param start the action to run on start
    * @param end the action to run on interrupt
    */
-  [[nodiscard]] CommandPtr StartEnd(std::function<void()> start,
+  [[nodiscard]] std::shared_ptr<Command> StartEnd(std::function<void()> start,
                                     std::function<void()> end);
 
   /**
@@ -134,7 +134,7 @@ class Subsystem {
    * @param run the action to run every iteration
    * @param end the action to run on interrupt
    */
-  [[nodiscard]] CommandPtr RunEnd(std::function<void()> run,
+  [[nodiscard]] std::shared_ptr<Command> RunEnd(std::function<void()> run,
                                   std::function<void()> end);
 };
 }  // namespace frc2

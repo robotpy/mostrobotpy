@@ -29,7 +29,7 @@ classes:
     - units::second_t
     shared_ptr: true
     attributes:
-      m_isGrouped:
+      m_isComposed:
     enums:
       InterruptionBehavior:
     methods:
@@ -45,10 +45,13 @@ classes:
       Cancel:
       IsScheduled:
       HasRequirement:
+      IsComposed:
+      SetComposed:
       IsGrouped:
       SetGrouped:
       RunsWhenDisabled:
       GetInterruptionBehavior:
       GetName:
+      SetName:
       ToPtr:
         ignore: true

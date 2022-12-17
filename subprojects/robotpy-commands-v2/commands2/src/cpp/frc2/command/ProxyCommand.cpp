@@ -8,27 +8,29 @@
 
 using namespace frc2;
 
-ProxyCommand::ProxyCommand(wpi::unique_function<Command*()> supplier)
+ProxyCommand::ProxyCommand(std::function<std::shared_ptr<Command>()> supplier)
     : m_supplier(std::move(supplier)) {}
 
-ProxyCommand::ProxyCommand(Command* command)
+ProxyCommand::ProxyCommand(std::shared_ptr<Command> command)
     : m_supplier([command] { return command; }) {
   SetName(std::string{"Proxy("}.append(command->GetName()).append(")"));
 }
 
+/*
 ProxyCommand::ProxyCommand(std::unique_ptr<Command> command)
     : m_supplier([command = std::move(command)] { return command.get(); }) {}
+*/
 
 void ProxyCommand::Initialize() {
   m_command = m_supplier();
-  m_command->Schedule();
+  Command_Schedule(m_command);;
 }
 
 void ProxyCommand::End(bool interrupted) {
   if (interrupted) {
     m_command->Cancel();
   }
-  m_command = nullptr;
+  m_command.reset();
 }
 
 void ProxyCommand::Execute() {}

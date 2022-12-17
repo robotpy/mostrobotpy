@@ -42,6 +42,8 @@ classes:
       End:
       IsFinished:
       RunsWhenDisabled:
+      GetInterruptionBehavior:
+      InitSendable:
 
 inline_code: |
   cls_SequentialCommandGroup

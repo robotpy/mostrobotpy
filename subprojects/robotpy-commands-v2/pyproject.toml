@@ -6,13 +6,13 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-commands-v2"
 license = "BSD-3-Clause"
 install_requires = [
-    "wpilib<2024.0.0,>=2023.0.0b4",
+    "wpilib<2024.0.0,>=2023.0.0b7",
 ]
 
 [build-system]
 requires = [
-    "robotpy-build<2024.0.0,>=2023.0.0b14",
-    "wpilib<2024.0.0,>=2023.0.0b4",
+    "robotpy-build<2024.0.0,>=2023.0.0b16",
+    "wpilib<2024.0.0,>=2023.0.0b7",
 ]
 
 [tool.robotpy-build]
@@ -51,6 +51,7 @@ sources = [
     "commands2/src/cpp/frc2/command/PIDCommand.cpp",
     "commands2/src/cpp/frc2/command/PIDSubsystem.cpp",
     "commands2/src/cpp/frc2/command/PrintCommand.cpp",
+    "commands2/src/cpp/frc2/command/ProxyCommand.cpp",
     "commands2/src/cpp/frc2/command/ProxyScheduleCommand.cpp",
     "commands2/src/cpp/frc2/command/RamseteCommand.cpp",
     "commands2/src/cpp/frc2/command/RepeatCommand.cpp",
@@ -62,7 +63,7 @@ sources = [
     "commands2/src/cpp/frc2/command/SubsystemBase.cpp",
     "commands2/src/cpp/frc2/command/WaitCommand.cpp",
     "commands2/src/cpp/frc2/command/WaitUntilCommand.cpp",
-    "commands2/src/cpp/frc2/command/WrapperCommand.cpp",
+    # "commands2/src/cpp/frc2/command/WrapperCommand.cpp",
 ]
 depends = [
     "wpilib_core", "wpilibc_interfaces", "wpilibc",
@@ -102,6 +103,7 @@ PerpetualCommand = "frc2/command/PerpetualCommand.h"
 PrintCommand = "frc2/command/PrintCommand.h"
 ProfiledPIDCommand = "frc2/command/ProfiledPIDCommand.h"
 ProfiledPIDSubsystem = "frc2/command/ProfiledPIDSubsystem.h"
+ProxyCommand = "frc2/command/ProxyCommand.h"
 ProxyScheduleCommand = "frc2/command/ProxyScheduleCommand.h"
 RamseteCommand = "frc2/command/RamseteCommand.h"
 RepeatCommand = "frc2/command/RepeatCommand.h"

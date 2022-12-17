@@ -239,6 +239,7 @@ class Trigger {
    * @return The trigger, for chained calls.
    * @deprecated Use OnTrue(Command) instead
    */
+   /*
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED("Use OnTrue(Command) instead")
@@ -256,6 +257,7 @@ class Trigger {
     });
     return *this;
   }
+  */
 
   /**
    * Binds a runnable to execute when the trigger becomes active.
@@ -311,6 +313,7 @@ class Trigger {
    * @deprecated Use WhileTrue(Command) with RepeatCommand, or bind
    command::Schedule with IfHigh(std::function<void()>).
    */
+   /*
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED(
@@ -333,6 +336,7 @@ class Trigger {
 
     return *this;
   }
+  */
 
   /**
    * Binds a runnable to execute repeatedly while the trigger is active.
@@ -380,6 +384,7 @@ class Trigger {
    * @return The trigger, for chained calls.
    * @deprecated Use WhileTrue(Command) instead.
    */
+   /*
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED("Use WhileTrue(Command) instead.")
@@ -399,6 +404,7 @@ class Trigger {
     });
     return *this;
   }
+  */
 
   /**
    * Binds a command to start when the trigger becomes inactive.  Takes a
@@ -422,6 +428,7 @@ class Trigger {
    * @return The trigger, for chained calls.
    * @deprecated Use OnFalse(Command) instead.
    */
+   /*
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED("Use OnFalse(Command) instead.")
@@ -439,6 +446,7 @@ class Trigger {
     });
     return *this;
   }
+  */
 
   /**
    * Binds a runnable to execute when the trigger becomes inactive.
@@ -490,6 +498,7 @@ class Trigger {
    * @return The trigger, for chained calls.
    * @deprecated Use ToggleOnTrue(Command) instead.
    */
+   /*
   template <class T, typename = std::enable_if_t<std::is_base_of_v<
                          Command, std::remove_reference_t<T>>>>
   WPI_DEPRECATED("Use ToggleOnTrue(Command) instead.")
@@ -512,6 +521,7 @@ class Trigger {
 
     return *this;
   }
+  */
 
   /**
    * Binds a command to be canceled when the trigger becomes active.  Takes a
@@ -523,7 +533,7 @@ class Trigger {
    * @deprecated Pass this as a command end condition with Until() instead.
    */
   WPI_DEPRECATED("Pass this as a command end condition with Until() instead.")
-  Trigger CancelWhenActive(Command* command);
+  Trigger CancelWhenActive(std::shared_ptr<Command> command);
 
   /**
    * Composes two triggers with logical AND.
@@ -583,8 +593,9 @@ class Trigger {
    * Returns whether or not the trigger is currently active
    */
   bool Get() {
-    return m_event.GetAsBoolean();
+    return m_condition();
   }
+
 
   /**
    * Creates a new debounced trigger from this trigger - it will become active

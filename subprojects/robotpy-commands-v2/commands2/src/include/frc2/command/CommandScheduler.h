@@ -220,8 +220,6 @@ class CommandScheduler final : public nt::NTSendable,
    * @param subsystem the subsystem to inquire about
    * @return the default command associated with the subsystem
    */
-  std::shared_ptr<Command> GetDefaultCommand(const std::shared_ptr<Subsystem> subsystem) const;
-
   std::shared_ptr<Command> GetDefaultCommand(const Subsystem* subsystem) const;
 
   /**
@@ -380,7 +378,7 @@ class CommandScheduler final : public nt::NTSendable,
    * @param command The command to check
    * @throws if the given commands have already been composed.
    */
-  void RequireUngrouped(const Command* command);
+  void RequireUngrouped(const std::shared_ptr<Command> command);
 
   /**
    * Requires that the specified commands not have been already added to a
@@ -389,7 +387,7 @@ class CommandScheduler final : public nt::NTSendable,
    * @param commands The commands to check
    * @throws if the given commands have already been composed.
    */
-  void RequireUngrouped(std::span<const std::unique_ptr<Command>> commands);
+  void RequireUngrouped(std::span<const std::shared_ptr<Command>> commands);
 
   /**
    * Requires that the specified commands not have been already added to a
@@ -399,7 +397,7 @@ class CommandScheduler final : public nt::NTSendable,
    * @throws IllegalArgumentException if the given commands have already been
    * composed.
    */
-  void RequireUngrouped(std::initializer_list<const Command*> commands);
+  void RequireUngrouped(std::initializer_list<const std::shared_ptr<Command>> commands);
 
   void InitSendable(nt::NTSendableBuilder& builder) override;
 

@@ -230,7 +230,7 @@ Trigger Trigger::WhenActive(std::shared_ptr<Command> command) {
 
 Trigger Trigger::WhenActive(std::function<void()> toRun,
                             std::span<std::shared_ptr<Subsystem>> requirements) {
-  return WhenActive(InstantCommand(std::move(toRun), requirements));
+  return WhenActive(std::make_shared<InstantCommand>(std::move(toRun), requirements));
 }
 
 Trigger Trigger::WhileActiveContinous(std::shared_ptr<Command> command) {
@@ -258,7 +258,7 @@ Trigger Trigger::WhileActiveContinous(std::shared_ptr<Command> command) {
 
 Trigger Trigger::WhileActiveContinous(
     std::function<void()> toRun, std::span<std::shared_ptr<Subsystem>> requirements) {
-  return WhileActiveContinous(InstantCommand(std::move(toRun), requirements));
+  return WhileActiveContinous(std::make_shared<InstantCommand>(std::move(toRun), requirements));
 }
 
 Trigger Trigger::WhileActiveOnce(std::shared_ptr<Command> command) {
@@ -299,7 +299,7 @@ Trigger Trigger::WhenInactive(std::shared_ptr<Command> command) {
 
 Trigger Trigger::WhenInactive(std::function<void()> toRun,
                               std::span<std::shared_ptr<Subsystem>> requirements) {
-  return WhenInactive(InstantCommand(std::move(toRun), requirements));
+  return WhenInactive(std::make_shared<InstantCommand>(std::move(toRun), requirements));
 }
 
 Trigger Trigger::ToggleWhenActive(std::shared_ptr<Command> command) {

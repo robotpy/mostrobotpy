@@ -33,20 +33,22 @@ void Subsystem::Register() {
   return CommandScheduler::GetInstance().RegisterSubsystem(this);
 }
 
-CommandPtr Subsystem::RunOnce(std::function<void()> action) {
+/*
+std::shared_ptr<Command> Subsystem::RunOnce(std::function<void()> action) {
   return cmd::RunOnce(std::move(action), {this});
 }
 
-CommandPtr Subsystem::Run(std::function<void()> action) {
+std::shared_ptr<Command> Subsystem::Run(std::function<void()> action) {
   return cmd::Run(std::move(action), {this});
 }
 
-CommandPtr Subsystem::StartEnd(std::function<void()> start,
+std::shared_ptr<Command> Subsystem::StartEnd(std::function<void()> start,
                                std::function<void()> end) {
   return cmd::StartEnd(std::move(start), std::move(end), {this});
 }
 
-CommandPtr Subsystem::RunEnd(std::function<void()> run,
+std::shared_ptr<Command> Subsystem::RunEnd(std::function<void()> run,
                              std::function<void()> end) {
   return cmd::RunEnd(std::move(run), std::move(end), {this});
 }
+*/

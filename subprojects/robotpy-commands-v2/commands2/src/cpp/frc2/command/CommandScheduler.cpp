@@ -320,11 +320,11 @@ void CommandScheduler::SetDefaultCommand(Subsystem* subsystem,
 }
 */
 
-void CommandScheduler::RemoveDefaultCommand(const std::shared_ptr<Subsystem> subsystem) {
+void CommandScheduler::RemoveDefaultCommand(Subsystem* subsystem) {
   m_impl->subsystems[subsystem] = std::shared_ptr<Command>();
 }
 
-Command* CommandScheduler::GetDefaultCommand(const Subsystem* subsystem) const {
+std::shared_ptr<Command> CommandScheduler::GetDefaultCommand(const Subsystem* subsystem) const {
   auto&& find = m_impl->subsystems.find(subsystem);
   if (find != m_impl->subsystems.end()) {
     return find->second;
@@ -474,7 +474,7 @@ void CommandScheduler::OnCommandFinish(Action action) {
   m_impl->finishActions.emplace_back(std::move(action));
 }
 
-void CommandScheduler::RequireUngrouped(const Command* command) {
+void CommandScheduler::RequireUngrouped(const std::shared_ptr<Command> command) {
   if (command->IsComposed()) {
     throw FRC_MakeError(
         frc::err::CommandIllegalUse,
@@ -483,14 +483,14 @@ void CommandScheduler::RequireUngrouped(const Command* command) {
 }
 
 void CommandScheduler::RequireUngrouped(
-    std::span<const std::unique_ptr<Command>> commands) {
+    std::span<const std::shared_ptr<Command>> commands) {
   for (auto&& command : commands) {
-    RequireUngrouped(command.get());
+    RequireUngrouped(command);
   }
 }
 
 void CommandScheduler::RequireUngrouped(
-    std::initializer_list<const Command*> commands) {
+    std::initializer_list<const std::shared_ptr<Command>> commands) {
   for (auto&& command : commands) {
     RequireUngrouped(command);
   }

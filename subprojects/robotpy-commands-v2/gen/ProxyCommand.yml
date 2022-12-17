@@ -1,17 +1,14 @@
 ---
 
 classes:
-  RepeatCommand:
+  ProxyCommand:
     methods:
-      RepeatCommand:
+      ProxyCommand:
         overloads:
+          std::function<std::shared_ptr<Command> ( )>:
           std::shared_ptr<Command>:
-          T&&:
-            ignore: true
       Initialize:
+      End:
       Execute:
       IsFinished:
-      End:
-      RunsWhenDisabled:
-      GetInterruptionBehavior:
       InitSendable:

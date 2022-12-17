@@ -10,7 +10,7 @@ using namespace frc2;
 
 RepeatCommand::RepeatCommand(std::shared_ptr<Command> command) {
   CommandScheduler::GetInstance().RequireUngrouped(command);
-  m_command = std::move(command);
+  m_command = command;
   m_command->SetComposed(true);
   AddRequirements(m_command->GetRequirements());
   SetName(std::string{"Repeat("}.append(m_command->GetName()).append(")"));

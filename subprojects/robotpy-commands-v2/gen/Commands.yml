@@ -46,6 +46,8 @@ functions:
     subpackage: cmd
   Select:
     ignore: true # py::object isn't hashable
+  MakeVector:
+    ignore: true
   Sequence:
     subpackage: cmd
   RepeatingSequence:

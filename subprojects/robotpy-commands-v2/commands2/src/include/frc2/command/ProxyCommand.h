@@ -21,7 +21,7 @@ namespace frc2 {
  *
  * <p>This class is provided by the NewCommands VendorDep
  */
-class ProxyCommand : public CommandHelper<CommandBase, ProxyCommand> {
+class ProxyCommand : public CommandBase {
  public:
   /**
    * Creates a new ProxyCommand that schedules the supplied command when
@@ -30,7 +30,7 @@ class ProxyCommand : public CommandHelper<CommandBase, ProxyCommand> {
    *
    * @param supplier the command supplier
    */
-  explicit ProxyCommand(wpi::unique_function<Command*()> supplier);
+  explicit ProxyCommand(std::function<std::shared_ptr<Command>()> supplier);
 
   /**
    * Creates a new ProxyCommand that schedules the given command when
@@ -38,7 +38,7 @@ class ProxyCommand : public CommandHelper<CommandBase, ProxyCommand> {
    *
    * @param command the command to run by proxy
    */
-  explicit ProxyCommand(Command* command);
+  explicit ProxyCommand(std::shared_ptr<Command> command);
 
   /**
    * Creates a new ProxyCommand that schedules the given command when
@@ -49,7 +49,9 @@ class ProxyCommand : public CommandHelper<CommandBase, ProxyCommand> {
    *
    * @param command the command to schedule
    */
+   /*
   explicit ProxyCommand(std::unique_ptr<Command> command);
+  */
 
   ProxyCommand(ProxyCommand&& other) = default;
 
@@ -64,7 +66,7 @@ class ProxyCommand : public CommandHelper<CommandBase, ProxyCommand> {
   void InitSendable(wpi::SendableBuilder& builder) override;
 
  private:
-  wpi::unique_function<Command*()> m_supplier;
-  Command* m_command = nullptr;
+  std::function<std::shared_ptr<Command>()> m_supplier;
+  std::shared_ptr<Command> m_command = nullptr;
 };
 }  // namespace frc2

@@ -170,6 +170,7 @@ namespace impl {
 /**
  * Create a vector of commands.
  */
+/*
 template <typename... Args>
 std::vector<CommandPtr> MakeVector(Args&&... args) {
   std::vector<CommandPtr> data;
@@ -177,6 +178,7 @@ std::vector<CommandPtr> MakeVector(Args&&... args) {
   (data.emplace_back(std::forward<Args>(args)), ...);
   return data;
 }
+*/
 
 }  // namespace impl
 
@@ -188,10 +190,12 @@ std::vector<CommandPtr> MakeVector(Args&&... args) {
 /**
  * Runs a group of commands in series, one after the other.
  */
+/*
 template <typename... Args>
 [[nodiscard]] CommandPtr Sequence(Args&&... commands) {
   return Sequence(impl::MakeVector(std::forward<Args>(commands)...));
 }
+*/
 
 /**
  * Runs a group of commands in series, one after the other. Once the last
@@ -203,10 +207,12 @@ template <typename... Args>
  * Runs a group of commands in series, one after the other. Once the last
  * command ends, the group is restarted.
  */
+/*
 template <typename... Args>
 [[nodiscard]] CommandPtr RepeatingSequence(Args&&... commands) {
   return RepeatingSequence(impl::MakeVector(std::forward<Args>(commands)...));
 }
+*/
 
 /**
  * Runs a group of commands at the same time. Ends once all commands in the
@@ -218,10 +224,12 @@ template <typename... Args>
  * Runs a group of commands at the same time. Ends once all commands in the
  * group finish.
  */
+/*
 template <typename... Args>
 [[nodiscard]] CommandPtr Parallel(Args&&... commands) {
   return Parallel(impl::MakeVector(std::forward<Args>(commands)...));
 }
+*/
 
 /**
  * Runs a group of commands at the same time. Ends once any command in the group
@@ -233,10 +241,12 @@ template <typename... Args>
  * Runs a group of commands at the same time. Ends once any command in the group
  * finishes, and cancels the others.
  */
+/*
 template <typename... Args>
 [[nodiscard]] CommandPtr Race(Args&&... commands) {
   return Race(impl::MakeVector(std::forward<Args>(commands)...));
 }
+*/
 
 /**
  * Runs a group of commands at the same time. Ends once a specific command
@@ -249,11 +259,13 @@ template <typename... Args>
  * Runs a group of commands at the same time. Ends once a specific command
  * finishes, and cancels the others.
  */
+/*
 template <typename... Args>
 [[nodiscard]] CommandPtr Deadline(CommandPtr&& deadline, Args&&... commands) {
   return Deadline(std::move(deadline),
                   impl::MakeVector(std::forward<Args>(commands)...));
 }
+*/
 
 }  // namespace cmd
 
