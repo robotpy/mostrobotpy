@@ -74,7 +74,7 @@ class SelectCommand : public CommandBase {
       std::vector<std::pair<Key, std::shared_ptr<Command>>>&& commands)
       : m_selector{std::move(selector)} {
     for (auto&& command : commands) {
-      CommandScheduler::GetInstance().RequireUngrouped(command.second.get());
+      CommandScheduler::GetInstance().RequireUngrouped(command.second);
     }
 
     for (auto&& command : commands) {
