@@ -3,6 +3,7 @@
 extra_includes:
 - frc2/command/Command.h
 - frc2/command/Subsystem.h
+- src/SelectCommandKey.h
 
 functions:
   Initialize:
@@ -29,4 +30,4 @@ templates:
   SelectCommand:
     qualname: frc2::SelectCommand
     params:
-      - py::object
+      - SelectCommandKey

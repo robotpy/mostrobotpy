@@ -110,7 +110,7 @@ RepeatCommand = "frc2/command/RepeatCommand.h"
 RunCommand = "frc2/command/RunCommand.h"
 ScheduleCommand = "frc2/command/ScheduleCommand.h"
 # TODO
-# SelectCommand = "frc2/command/SelectCommand.h"
+SelectCommand = "frc2/command/SelectCommand.h"
 SequentialCommandGroup = "frc2/command/SequentialCommandGroup.h"
 # SetUtilities = "frc2/command/SetUtilities.h"
 StartEndCommand = "frc2/command/StartEndCommand.h"
