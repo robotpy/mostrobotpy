@@ -11,7 +11,7 @@ struct SelectCommandKey {
   SelectCommandKey &operator=(const py::handle src) {
     py::gil_scoped_acquire gil;
     m_v = py::reinterpret_borrow<py::object>(src);
-    m_hash = m_v.attr("__hash__")().cast<std::size_t>();
+    m_hash = py::hash(m_v);
     return *this;
   }
 
