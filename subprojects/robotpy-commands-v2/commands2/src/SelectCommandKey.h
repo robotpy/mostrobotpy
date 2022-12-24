@@ -24,7 +24,7 @@ struct SelectCommandKey {
 inline bool operator==(const SelectCommandKey &lhs,
                        const SelectCommandKey &rhs) {
   py::gil_scoped_acquire gil;
-  return lhs.m_v.attr("__eq__")(rhs.m_v).cast<bool>();
+  return lhs.m_v == rhs.m_v;
 }
 
 template <> struct std::hash<SelectCommandKey> {
