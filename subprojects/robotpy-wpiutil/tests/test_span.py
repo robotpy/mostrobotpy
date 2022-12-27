@@ -66,3 +66,10 @@ def test_span_cast():
 
 def test_string_span():
     assert module.cast_string_span() == ["hi", "there"]
+
+
+def test_fixed_double_span():
+    assert module.load_span_fixed_double([1, 2, 3]) == (1, 2, 3)
+
+    with pytest.raises(TypeError):
+        assert module.load_span_fixed_double([1, 2, 3, 4])
