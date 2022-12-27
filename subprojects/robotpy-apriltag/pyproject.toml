@@ -1,0 +1,50 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-apriltag"
+description = "RobotPy bindings for WPILib's AprilTag library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-cscore"
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil<2024.0.0,>=2023.0.0b7.post1",
+    "robotpy-wpimath<2024.0.0,>=2023.0.0b7",
+]
+
+[build-system]
+requires = [
+    "robotpy-build<2024.0.0,>=2023.0.0b17",
+    "robotpy-wpiutil<2024.0.0,>=2023.0.0b7.post1",
+    "robotpy-wpimath<2024.0.0,>=2023.0.0b7",
+]
+
+[tool.robotpy-build]
+base_package = "robotpy_apriltag"
+
+[tool.robotpy-build.wrappers."robotpy_apriltag".maven_lib_download]
+artifact_id = "apriltag-cpp"
+group_id = "edu.wpi.first.apriltag"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2023.1.1"
+
+libs = ["apriltag"]
+
+[tool.robotpy-build.wrappers."robotpy_apriltag"]
+name = "apriltag"
+
+sources = [
+  "robotpy_apriltag/src/main.cpp",
+]
+
+depends = ["wpiutil", "wpimath_cpp"]
+generation_data = "gen"
+
+[tool.robotpy-build.wrappers."robotpy_apriltag".autogen_headers]
+# frc/apriltag
+AprilTag = "frc/apriltag/AprilTag.h"
+AprilTagDetection = "frc/apriltag/AprilTagDetection.h"
+AprilTagDetector = "frc/apriltag/AprilTagDetector.h"
+# AprilTagDetector_cv = "frc/apriltag/AprilTagDetector_cv.h"
+AprilTagFieldLayout = "frc/apriltag/AprilTagFieldLayout.h"
+AprilTagFields = "frc/apriltag/AprilTagFields.h"
+AprilTagPoseEstimate = "frc/apriltag/AprilTagPoseEstimate.h"
+AprilTagPoseEstimator = "frc/apriltag/AprilTagPoseEstimator.h"

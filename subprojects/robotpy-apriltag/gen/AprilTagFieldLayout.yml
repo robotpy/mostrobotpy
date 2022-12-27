@@ -1,0 +1,24 @@
+---
+
+functions:
+  to_json:
+    ignore: true
+  from_json:
+    ignore: true
+classes:
+  AprilTagFieldLayout:
+    enums:
+      OriginPosition:
+    methods:
+      AprilTagFieldLayout:
+        overloads:
+          "":
+          std::string_view:
+          std::vector<AprilTag>, units::meter_t, units::meter_t:
+      SetOrigin:
+        overloads:
+          frc::AprilTagFieldLayout::OriginPosition:
+          Pose3d&:
+      GetTagPose:
+      Serialize:
+      operator==:

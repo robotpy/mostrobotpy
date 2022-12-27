@@ -1,0 +1,34 @@
+---
+
+extra_includes:
+- pybind11/eigen.h
+
+classes:
+  AprilTagDetection:
+    methods:
+      GetFamily:
+      GetId:
+      GetHamming:
+      GetDecisionMargin:
+      GetHomography:
+      GetHomographyMatrix:
+      GetCenter:
+      GetCorner:
+      GetCorners:
+    inline_code: |
+      .def("__repr__", [](const AprilTagDetection &self) {
+        return py::str("<AprilTagDetection tag_family={} tag_id={} hamming={} decision_margin={} center={}>")
+          .format(self.GetFamily(), self.GetId(), self.GetHamming(), self.GetDecisionMargin(), self.GetCenter());
+      })
+  AprilTagDetection::Point:
+    attributes:
+      x:
+      y:
+    inline_code: |
+      .def(py::init([](double x, double y) {
+        AprilTagDetection::Point pt{x, y};
+        return std::make_unique<AprilTagDetection::Point>(std::move(pt));
+      }), py::arg("x"), py::arg("y"))
+      .def("__repr__", [](const AprilTagDetection::Point &self) {
+        return py::str("Point(x={}, y={})").format(self.x, self.y);
+      })

@@ -1,0 +1,14 @@
+---
+
+functions:
+  to_json:
+    ignore: true
+  from_json:
+    ignore: true
+classes:
+  AprilTag:
+    attributes:
+      ID:
+      pose:
+    methods:
+      operator==:
