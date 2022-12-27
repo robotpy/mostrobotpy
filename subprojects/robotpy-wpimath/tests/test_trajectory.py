@@ -1,7 +1,8 @@
-from wpimath.trajectory import TrajectoryGenerator
-from wpimath.geometry import Transform2d
+from wpimath.trajectory import TrajectoryGenerator, TrajectoryParameterizer
+from wpimath.geometry import Pose2d, Transform2d
 import wpimath.trajectory
 import wpimath.trajectory.constraint
+from wpimath.spline import CubicHermiteSpline, SplineHelper
 
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
 
@@ -12,6 +13,9 @@ from wpimath.trajectory.constraint import (
     EllipticalRegionConstraint,
     RectangularRegionConstraint,
 )
+
+import math
+import typing
 
 
 def getTestTrajectory(config: TrajectoryConfig) -> Trajectory:
@@ -113,3 +117,27 @@ def test_rectangular_region_is_pose_in_region():
     )
     assert not regionConstraint.isPoseInRegion(Pose2d())
     assert regionConstraint.isPoseInRegion(Pose2d.fromFeet(3, 14.5, Rotation2d()))
+
+
+#
+# TrajectoryParameterizer
+#
+
+
+def test_trajectory_parameterizer():
+    start = Pose2d(1, 1, 0)
+    end = Pose2d(2, 2, math.pi / 2)
+
+    # generate the spline from start and end poses
+    vec1, vec2 = SplineHelper.cubicControlVectorsFromWaypoints(start, [], end)
+    spline = CubicHermiteSpline(vec1.x, vec2.x, vec1.y, vec2.y)
+
+    # sample the pose and curvature along the spline
+    points: typing.Tuple[Pose2d, float] = []
+    for i in range(100):
+        points.append(spline.getPoint(i / 100))
+
+    trajectory = TrajectoryParameterizer.timeParameterizeTrajectory(
+        points, [], 0, 0, 4, 3, False
+    )
+    assert trajectory is not None
