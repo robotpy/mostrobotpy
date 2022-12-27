@@ -52,6 +52,11 @@ std::span<std::vector<std::string>> load_span_vector(std::span<std::vector<std::
     return ref;
 }
 
+std::span<const double, 3> load_span_fixed_double(std::span<const double, 3> ref) {
+    return ref;
+}
+
+
 std::span<int> cast_span() {
     static std::vector<int> vec{1, 2, 3};
     return vec;
@@ -148,6 +153,7 @@ RPYBUILD_PYBIND11_MODULE(m) {
     // span
     m.def("load_span_int", &load_span_int);
     m.def("load_span_bool", &load_span_bool);
+    m.def("load_span_fixed_double", &load_span_fixed_double);
     m.def("load_span_string", &load_span_string);
     m.def("load_span_string_const", &load_span_string_const);
     m.def("load_span_string_view", &load_span_string_view);
