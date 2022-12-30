@@ -11,4 +11,6 @@ void onInstancePreReset(nt::NetworkTableInstance *instance);
 void onInstancePostReset(nt::NetworkTableInstance *instance);
 void onInstanceDestroy(nt::NetworkTableInstance *instance);
 
+void resetAllInstances();
+
 }; // namespace pyntcore
