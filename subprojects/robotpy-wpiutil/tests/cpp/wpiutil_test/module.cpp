@@ -144,8 +144,12 @@ wpi::json cast_json_val(std::function<wpi::json()> fn) {
     return fn();
 }
 
+void sendable_test(py::module &m);
+
 
 RPYBUILD_PYBIND11_MODULE(m) {
+
+    sendable_test(m);
 
     // array
     m.def("load_array_int", &load_array_int);
