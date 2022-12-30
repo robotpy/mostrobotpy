@@ -10,6 +10,7 @@ extension = "module"
 depends = ["wpiutil"]
 sources = [
     "wpiutil_test/module.cpp",
+    "wpiutil_test/sendable_test.cpp",
 ]
 
 [tool.robotpy-build.metadata]
