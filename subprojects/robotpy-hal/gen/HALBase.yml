@@ -9,6 +9,8 @@ functions:
   HAL_GetErrorMessage:
   HAL_GetFPGAVersion:
   HAL_GetFPGARevision:
+  HAL_GetSerialNumber:
+  HAL_GetComments:
   HAL_GetRuntimeType:
   HAL_GetFPGAButton:
   HAL_GetSystemActive:

@@ -12,6 +12,7 @@ functions:
   HAL_FreeDigitalPWM:
   HAL_SetDigitalPWMRate:
   HAL_SetDigitalPWMDutyCycle:
+  HAL_SetDigitalPWMPPS:
   HAL_SetDigitalPWMOutputChannel:
   HAL_SetDIO:
   HAL_SetDIODirection:

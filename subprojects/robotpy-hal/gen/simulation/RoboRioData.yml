@@ -90,5 +90,10 @@ functions:
   HALSIM_CancelRoboRioSerialNumberCallback:
   HALSIM_GetRoboRioSerialNumber:
   HALSIM_SetRoboRioSerialNumber:
+  HALSIM_RegisterRoboRioCommentsCallback:
+    ignore: true
+  HALSIM_CancelRoboRioCommentsCallback:
+  HALSIM_GetRoboRioComments:
+  HALSIM_SetRoboRioComments:
   HALSIM_RegisterRoboRioAllCallbacks:
     ignore: true
