@@ -31,8 +31,8 @@ base_package = "halsim_ws"
 artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.1.1-beta-7"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2023.1.1-beta-7-32-gc11bd27"
 
 dlopenlibs = ["halsim_ws_server"]
 
@@ -44,8 +44,8 @@ depends = ["wpiHal", "wpinet"]
 artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.1.1-beta-7"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2023.1.1-beta-7-32-gc11bd27"
 
 dlopenlibs = ["halsim_ws_client"]
 
