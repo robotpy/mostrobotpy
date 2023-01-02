@@ -66,6 +66,7 @@ CameraServer = "cameraserver/CameraServer.h"
 cscore_cpp = "cscore_cpp.h"
 cscore_oo = "cscore_oo.h"
 cscore_cv = "cscore_cv.h"
+cscore_runloop = "cscore_runloop.h"
 
 [[tool.robotpy-build.wrappers."cscore".type_casters]]
 header = "cvnp/cvnp.h"

@@ -22,6 +22,9 @@ from ._cscore import (
     VideoProperty,
     VideoSink,
     VideoSource,
+    runMainRunLoop,
+    runMainRunLoopTimeout,
+    stopMainRunLoop,
 )
 
 __all__ = [
@@ -43,6 +46,9 @@ __all__ = [
     "VideoProperty",
     "VideoSink",
     "VideoSource",
+    "runMainRunLoop",
+    "runMainRunLoopTimeout",
+    "stopMainRunLoop",
     "enableLogging",
 ]
 

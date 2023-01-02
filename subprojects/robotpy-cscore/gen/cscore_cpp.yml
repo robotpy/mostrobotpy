@@ -263,6 +263,7 @@ classes:
           cs::VideoMode::PixelFormat, int, int, int:
       operator==:
       operator!=:
+      CompareWithoutFps:
     inline_code: |
       .def_readwrite("pixelFormat", &VideoMode::pixelFormat)
       .def_readwrite("width", &VideoMode::width)
