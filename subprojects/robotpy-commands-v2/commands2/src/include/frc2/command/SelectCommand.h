@@ -36,7 +36,7 @@ template <typename Key>
 class SelectCommand : public CommandBase {
  public:
   /**
-   * Creates a new selectcommand.
+   * Creates a new SelectCommand.
    *
    * @param commands the map of commands to choose from
    * @param selector the selector to determine which command to run

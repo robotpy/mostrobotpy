@@ -7,6 +7,23 @@
 struct SelectCommandKey {
 
   SelectCommandKey() = default;
+  ~SelectCommandKey() {
+    py::gil_scoped_acquire gil;
+    m_v.release().dec_ref();
+  }
+
+  SelectCommandKey(const SelectCommandKey& other) {
+    py::gil_scoped_acquire gil;
+    m_v = other.m_v;
+    m_hash = py::hash(m_v);
+  }
+
+  SelectCommandKey &operator=(const SelectCommandKey& other) {
+    py::gil_scoped_acquire gil;
+    m_v = other.m_v;
+    m_hash = py::hash(m_v);
+    return *this;
+  }
 
   SelectCommandKey &operator=(const py::handle src) {
     py::gil_scoped_acquire gil;

@@ -56,3 +56,17 @@ Trigger CommandGenericHID::POVUpLeft(std::optional<frc::EventLoop*> loop_arg) co
 Trigger CommandGenericHID::POVCenter(std::optional<frc::EventLoop*> loop_arg) const {
   return POV(360, loop);
 }
+
+Trigger CommandGenericHID::AxisLessThan(int axis, double threshold,
+                                        std::optional<frc::EventLoop*> loop_arg) const {
+  return Trigger(loop, [this, axis, threshold]() {
+    return this->GetRawAxis(axis) < threshold;
+  });
+}
+
+Trigger CommandGenericHID::AxisGreaterThan(int axis, double threshold,
+                                           std::optional<frc::EventLoop*> loop_arg) const {
+  return Trigger(loop, [this, axis, threshold]() {
+    return this->GetRawAxis(axis) > threshold;
+  });
+}
