@@ -7,20 +7,29 @@ void cleanup_stack_trace_hook();
 void setup_safethread_gil();
 void cleanup_safethread_gil();
 
+#ifndef __FRC_ROBORIO__
+
 namespace wpi::impl {
 void ResetSendableRegistry();
 } // namespace wpi::impl
+
+void cleanup_sendable_registry() {
+  py::gil_scoped_release unlock;
+  wpi::impl::ResetSendableRegistry();
+}
+
+#else
+
+void cleanup_sendable_registry() {}
+
+#endif
 
 RPYBUILD_PYBIND11_MODULE(m) {
   initWrapper(m);
 
   static int unused;
   py::capsule cleanup(&unused, [](void *) {
-    {
-      py::gil_scoped_release unlock;
-      wpi::impl::ResetSendableRegistry();
-    }
-
+    cleanup_sendable_registry();
     cleanup_stack_trace_hook();
     cleanup_safethread_gil();
   });
