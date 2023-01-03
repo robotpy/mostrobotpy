@@ -25,6 +25,9 @@ classes:
       End:
       IsFinished:
       RunsWhenDisabled:
+      GetInterruptionBehavior:
+      InitSendable:
+
 
 templates:
   SelectCommand:

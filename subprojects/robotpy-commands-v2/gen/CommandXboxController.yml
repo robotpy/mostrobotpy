@@ -18,5 +18,7 @@ classes:
       Y:
       Back:
       Start:
+      LeftTrigger:
+      RightTrigger:
     inline_code: |
       .def(py::init<int>())

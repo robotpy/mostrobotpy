@@ -86,7 +86,7 @@ SwerveControllerCommand<NumModules>::SwerveControllerCommand(
     frc::HolonomicDriveController controller,
     std::function<frc::Rotation2d()> desiredRotation,
     std::function<void(std::array<frc::SwerveModuleState, NumModules>)> output,
-    std::initializer_list<Subsystem*> requirements)
+    std::initializer_list<std::shared_ptr<Subsystem>> requirements)
     : m_trajectory(std::move(trajectory)),
       m_pose(std::move(pose)),
       m_kinematics(kinematics),
@@ -102,7 +102,7 @@ SwerveControllerCommand<NumModules>::SwerveControllerCommand(
     frc::SwerveDriveKinematics<NumModules> kinematics,
     frc::HolonomicDriveController controller,
     std::function<void(std::array<frc::SwerveModuleState, NumModules>)> output,
-    std::initializer_list<Subsystem*> requirements)
+    std::initializer_list<std::shared_ptr<Subsystem>> requirements)
     : m_trajectory(std::move(trajectory)),
       m_pose(std::move(pose)),
       m_kinematics(kinematics),
@@ -118,7 +118,7 @@ SwerveControllerCommand<NumModules>::SwerveControllerCommand(
     frc::HolonomicDriveController controller,
     std::function<frc::Rotation2d()> desiredRotation,
     std::function<void(std::array<frc::SwerveModuleState, NumModules>)> output,
-    std::span<Subsystem* const> requirements)
+    std::span<std::shared_ptr<Subsystem>> requirements)
     : m_trajectory(std::move(trajectory)),
       m_pose(std::move(pose)),
       m_kinematics(kinematics),
@@ -134,7 +134,7 @@ SwerveControllerCommand<NumModules>::SwerveControllerCommand(
     frc::SwerveDriveKinematics<NumModules> kinematics,
     frc::HolonomicDriveController controller,
     std::function<void(std::array<frc::SwerveModuleState, NumModules>)> output,
-    std::span<Subsystem* const> requirements)
+    std::span<std::shared_ptr<Subsystem>> requirements)
     : m_trajectory(std::move(trajectory)),
       m_pose(std::move(pose)),
       m_kinematics(kinematics),

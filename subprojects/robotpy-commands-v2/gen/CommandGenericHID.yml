@@ -21,5 +21,7 @@ classes:
       POVLeft:
       POVUpLeft:
       POVCenter:
+      AxisLessThan:
+      AxisGreaterThan:
     inline_code: |
       .def(py::init<int>())

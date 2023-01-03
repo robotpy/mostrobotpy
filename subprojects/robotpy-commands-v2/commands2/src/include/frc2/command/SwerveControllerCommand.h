@@ -235,7 +235,7 @@ class SwerveControllerCommand
       std::function<frc::Rotation2d()> desiredRotation,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      std::initializer_list<Subsystem*> requirements);
+      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Constructs a new SwerveControllerCommand that when executed will follow the
@@ -267,7 +267,7 @@ class SwerveControllerCommand
       frc::HolonomicDriveController controller,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      std::initializer_list<Subsystem*> requirements);
+      std::initializer_list<std::shared_ptr<Subsystem>> requirements);
 
   /**
    * Constructs a new SwerveControllerCommand that when executed will follow the
@@ -298,7 +298,7 @@ class SwerveControllerCommand
       std::function<frc::Rotation2d()> desiredRotation,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      std::span<Subsystem* const> requirements = {});
+      std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   /**
    * Constructs a new SwerveControllerCommand that when executed will follow the
@@ -330,7 +330,7 @@ class SwerveControllerCommand
       frc::HolonomicDriveController controller,
       std::function<void(std::array<frc::SwerveModuleState, NumModules>)>
           output,
-      std::span<Subsystem* const> requirements = {});
+      std::span<std::shared_ptr<Subsystem>> requirements = {});
 
   void Initialize() override;
 
