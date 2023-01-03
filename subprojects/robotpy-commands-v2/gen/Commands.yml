@@ -3,6 +3,7 @@
 extra_includes:
 - frc2/command/Command.h
 - frc2/command/Subsystem.h
+- src/helpers.h
 - src/SelectCommandKey.h
 
 typealias:
@@ -61,3 +62,16 @@ functions:
     subpackage: cmd
   Deadline:
     subpackage: cmd
+inline_code: |
+  pkg_cmd.def("sequence", [](py::args cmds) {
+        return frc2::cmd::Sequence(pyargs2cmdList(cmds));
+  });
+  pkg_cmd.def("repeatingSequence", [](py::args cmds) {
+        return frc2::cmd::RepeatingSequence(pyargs2cmdList(cmds));
+  });
+  pkg_cmd.def("parallel", [](py::args cmds) {
+        return frc2::cmd::Parallel(pyargs2cmdList(cmds));
+  });
+  pkg_cmd.def("race", [](py::args cmds) {
+        return frc2::cmd::Race(pyargs2cmdList(cmds));
+  });
