@@ -160,7 +160,7 @@ template <typename Key>
 [[nodiscard]] std::shared_ptr<Command> Select(
     std::function<Key()> selector,
     std::vector<std::pair<Key, std::shared_ptr<Command>>> commands) {
-  return SelectCommand(std::move(selector), std::move(commands));
+  return std::make_shared<SelectCommand<Key>>(std::move(selector), std::move(commands));
 }
 
 // Command Groups

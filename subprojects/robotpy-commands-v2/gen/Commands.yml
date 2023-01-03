@@ -3,6 +3,7 @@
 extra_includes:
 - frc2/command/Command.h
 - frc2/command/Subsystem.h
+- src/SelectCommandKey.h
 
 typealias:
 - frc2::Command
@@ -45,7 +46,9 @@ functions:
   Either:
     subpackage: cmd
   Select:
-    ignore: true # py::object isn't hashable
+    subpackage: cmd
+    template_impls:
+    - [SelectCommandKey]
   MakeVector:
     ignore: true
   Sequence:
