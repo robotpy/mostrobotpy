@@ -6,8 +6,8 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-halsim-gui"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-hal<2024.0.0,>=2023.0.0b7",
-    "robotpy-wpinet<2024.0.0,>=2023.0.0b7",
+    "robotpy-hal~=2023.1.1",
+    "robotpy-wpinet~=2023.1.1",
 ]
 
 [tool.robotpy-build.metadata.entry_points]
@@ -19,9 +19,9 @@ robotpysimext = [
 
 [build-system]
 requires = [
-    "robotpy-build<2024.0.0,>=2023.0.0b16",
-    "robotpy-hal<2024.0.0,>=2023.0.0b7",
-    "robotpy-wpinet<2024.0.0,>=2023.0.0b7",
+    "robotpy-build<2024.0.0,>=2023.0.0",
+    "robotpy-hal~=2023.1.1",
+    "robotpy-wpinet~=2023.1.1",
 ]
 
 [tool.robotpy-build]
@@ -31,8 +31,8 @@ base_package = "halsim_ws"
 artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2023.1.1-beta-7-32-gc11bd27"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2023.1.1"
 
 dlopenlibs = ["halsim_ws_server"]
 
@@ -44,8 +44,8 @@ depends = ["wpiHal", "wpinet"]
 artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2023.1.1-beta-7-32-gc11bd27"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2023.1.1"
 
 dlopenlibs = ["halsim_ws_client"]
 
