@@ -31,7 +31,7 @@ artifact_id = "wpiutil-cpp"
 group_id = "edu.wpi.first.wpiutil"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2023.1.1"
+version = "2023.2.1"
 
 libs = ["wpiutil"]
 
