@@ -476,9 +476,10 @@ void CommandScheduler::OnCommandFinish(Action action) {
 
 void CommandScheduler::RequireUngrouped(const std::shared_ptr<Command> command) {
   if (command->IsComposed()) {
-    throw FRC_MakeError(
-        frc::err::CommandIllegalUse,
-        "Commands cannot be added to more than one CommandGroup");
+    throw FRC_MakeError(frc::err::CommandIllegalUse,
+                        "Commands that have been composed may not be added to "
+                        "another composition or scheduled "
+                        "individually!");
   }
 }
 
