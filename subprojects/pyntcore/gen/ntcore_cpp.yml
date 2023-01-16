@@ -312,7 +312,9 @@ classes:
     inline_code: |
       .def_readwrite("listener", &nt::Event::listener)
       .def_readwrite("flags", &nt::Event::flags)
-      .def_readwrite("data", &nt::Event::data)
+      .def_property_readonly("data", [](nt::Event *self){
+        return self->data;
+      })
       .def("__repr__", [](const nt::Event &self) -> py::str {
         return py::str("<Event listener={} flags={} data={}>")
           .format(self.listener, self.flags, self.data);
