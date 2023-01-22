@@ -45,3 +45,9 @@ def test_entry_persistence(nt):
         assert not e.isPersistent()
 
         e.delete()
+
+
+def test_entry_publish_empty_double_array(nt):
+    topic = nt.getDoubleArrayTopic("/Topic")
+    pub = topic.publish()
+    pub.set([])
