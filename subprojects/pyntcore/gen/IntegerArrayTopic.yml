@@ -27,6 +27,18 @@ classes:
             ignore: true
       ReadQueue:
       GetTopic:
+    inline_code: |
+      .def("close", [](IntegerArraySubscriber *self) {
+        py::gil_scoped_release release;
+        *self = IntegerArraySubscriber();
+      }, py::doc("Destroys the subscriber"))
+      .def("__enter__", [](IntegerArraySubscriber *self) {
+        return self;
+      })
+      .def("__exit__", [](IntegerArraySubscriber *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = IntegerArraySubscriber();
+      })
   IntegerArrayPublisher:
     methods:
       IntegerArrayPublisher:
@@ -38,6 +50,18 @@ classes:
       Set:
       SetDefault:
       GetTopic:
+    inline_code: |
+      .def("close", [](IntegerArrayPublisher *self) {
+        py::gil_scoped_release release;
+        *self = IntegerArrayPublisher();
+      }, py::doc("Destroys the publisher"))
+      .def("__enter__", [](IntegerArrayPublisher *self) {
+        return self;
+      })
+      .def("__exit__", [](IntegerArrayPublisher *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = IntegerArrayPublisher();
+      })
   IntegerArrayEntry:
     methods:
       IntegerArrayEntry:
@@ -79,3 +103,15 @@ classes:
       PublishEx:
       GetEntry:
       GetEntryEx:
+    inline_code: |
+      .def("close", [](IntegerArrayTopic *self) {
+        py::gil_scoped_release release;
+        *self = IntegerArrayTopic();
+      }, py::doc("Destroys the topic"))
+      .def("__enter__", [](IntegerArrayTopic *self) {
+        return self;
+      })
+      .def("__exit__", [](IntegerArrayTopic *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = IntegerArrayTopic();
+      })
