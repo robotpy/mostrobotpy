@@ -27,6 +27,18 @@ classes:
             ignore: true
       ReadQueue:
       GetTopic:
+    inline_code: |
+      .def("close", [](StringSubscriber *self) {
+        py::gil_scoped_release release;
+        *self = StringSubscriber();
+      }, py::doc("Destroys the subscriber"))
+      .def("__enter__", [](StringSubscriber *self) {
+        return self;
+      })
+      .def("__exit__", [](StringSubscriber *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = StringSubscriber();
+      })
   StringPublisher:
     methods:
       StringPublisher:
@@ -38,6 +50,18 @@ classes:
       Set:
       SetDefault:
       GetTopic:
+    inline_code: |
+      .def("close", [](StringPublisher *self) {
+        py::gil_scoped_release release;
+        *self = StringPublisher();
+      }, py::doc("Destroys the publisher"))
+      .def("__enter__", [](StringPublisher *self) {
+        return self;
+      })
+      .def("__exit__", [](StringPublisher *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = StringPublisher();
+      })
   StringEntry:
     methods:
       StringEntry:
@@ -79,3 +103,15 @@ classes:
       PublishEx:
       GetEntry:
       GetEntryEx:
+    inline_code: |
+      .def("close", [](StringTopic *self) {
+        py::gil_scoped_release release;
+        *self = StringTopic();
+      }, py::doc("Destroys the topic"))
+      .def("__enter__", [](StringTopic *self) {
+        return self;
+      })
+      .def("__exit__", [](StringTopic *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = StringTopic();
+      })

@@ -27,6 +27,18 @@ classes:
             ignore: true
       ReadQueue:
       GetTopic:
+    inline_code: |
+      .def("close", [](RawSubscriber *self) {
+        py::gil_scoped_release release;
+        *self = RawSubscriber();
+      }, py::doc("Destroys the subscriber"))
+      .def("__enter__", [](RawSubscriber *self) {
+        return self;
+      })
+      .def("__exit__", [](RawSubscriber *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = RawSubscriber();
+      })
   RawPublisher:
     methods:
       RawPublisher:
@@ -38,6 +50,18 @@ classes:
       Set:
       SetDefault:
       GetTopic:
+    inline_code: |
+      .def("close", [](RawPublisher *self) {
+        py::gil_scoped_release release;
+        *self = RawPublisher();
+      }, py::doc("Destroys the publisher"))
+      .def("__enter__", [](RawPublisher *self) {
+        return self;
+      })
+      .def("__exit__", [](RawPublisher *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = RawPublisher();
+      })
   RawEntry:
     methods:
       RawEntry:
@@ -75,3 +99,15 @@ classes:
       Publish:
       PublishEx:
       GetEntry:
+    inline_code: |
+      .def("close", [](RawTopic *self) {
+        py::gil_scoped_release release;
+        *self = RawTopic();
+      }, py::doc("Destroys the topic"))
+      .def("__enter__", [](RawTopic *self) {
+        return self;
+      })
+      .def("__exit__", [](RawTopic *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = RawTopic();
+      })
