@@ -5,7 +5,6 @@ import time
 import wpinet
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
     parser.add_argument("port", type=int, help="Local port number")
     parser.add_argument("remoteHost", help="Remote IP address / DNS name")
