@@ -7,7 +7,6 @@ from wpiutil.log import DataLog, BooleanLogEntry, StringArrayLogEntry, RawLogEnt
 
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=pathlib.Path)
     args = parser.parse_args()
