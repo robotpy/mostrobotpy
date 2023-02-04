@@ -163,7 +163,6 @@ def test_cancel_when_pressed(scheduler: commands2.CommandScheduler):
 
 
 def test_function_bindings(scheduler: commands2.CommandScheduler):
-
     buttonWhenPressed = MyButton()
     buttonWhileHeld = MyButton()
     buttonWhenReleased = MyButton()
@@ -187,7 +186,6 @@ def test_function_bindings(scheduler: commands2.CommandScheduler):
 
 
 def test_button_composition(scheduler: commands2.CommandScheduler):
-
     button1 = MyButton()
     button2 = MyButton()
 

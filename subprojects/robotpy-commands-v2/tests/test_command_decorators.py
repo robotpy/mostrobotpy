@@ -4,7 +4,6 @@ import commands2
 
 def test_with_timeout(scheduler: commands2.CommandScheduler):
     with ManualSimTime() as tm:
-
         cmd = commands2.WaitCommand(10)
         timeout = cmd.withTimeout(2)
 
@@ -21,7 +20,6 @@ def test_with_timeout(scheduler: commands2.CommandScheduler):
 
 
 def test_with_interrupt(scheduler: commands2.CommandScheduler):
-
     cond = ConditionHolder()
 
     cmd = commands2.WaitCommand(10)
@@ -40,7 +38,6 @@ def test_with_interrupt(scheduler: commands2.CommandScheduler):
 
 
 def test_before_starting(scheduler: commands2.CommandScheduler):
-
     cond = ConditionHolder()
 
     cmd = commands2.InstantCommand().beforeStarting(cond.setTrue)
@@ -138,7 +135,6 @@ def test_race_with(scheduler: commands2.CommandScheduler):
 
 
 def test_perpetually(scheduler: commands2.CommandScheduler):
-
     cmd = commands2.InstantCommand().perpetually()
 
     scheduler.schedule(cmd)
