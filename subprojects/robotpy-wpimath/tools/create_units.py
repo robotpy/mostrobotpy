@@ -51,7 +51,6 @@ for f in sorted(pathlib.Path(sys.argv[1]).glob("*.h")):
             ofp.write("\nnamespace pybind11 { namespace detail {\n")
 
             for single, double in names:
-
                 ofp.write(
                     inspect.cleandoc(
                         f"""

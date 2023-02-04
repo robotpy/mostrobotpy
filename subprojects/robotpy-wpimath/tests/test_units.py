@@ -3,7 +3,6 @@ import wpimath_test
 
 
 def test_units_attributes():
-
     assert wpimath_test.SomeClass.s_constant == 2
     assert wpimath_test.SomeClass.ms_constant1 == 20  # the unit is ms, not seconds
     assert wpimath_test.SomeClass.ms_constant2 == 0.050
