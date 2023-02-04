@@ -26,6 +26,11 @@ classes:
       RelativeTo:
       Exp:
       Log:
+      Nearest:
+        overloads:
+          std::span<const Pose2d> [const]:
+          std::initializer_list<Pose2d> [const]:
+            ignore: true
       X:
       Y:
       operator+:

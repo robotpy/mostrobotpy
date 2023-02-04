@@ -22,6 +22,11 @@ classes:
       Norm:
       Angle:
       RotateBy:
+      Nearest:
+        overloads:
+          std::span<const Translation2d> [const]:
+          std::initializer_list<Translation2d> [const]:
+            ignore: true
       operator+:
       operator+=:
       operator-:
