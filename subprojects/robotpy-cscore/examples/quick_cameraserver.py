@@ -19,7 +19,6 @@ def main():
 
 
 if __name__ == "__main__":
-
     # To see messages from networktables, you must setup logging
     import logging
 

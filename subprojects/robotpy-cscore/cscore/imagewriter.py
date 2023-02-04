@@ -102,7 +102,6 @@ class ImageWriter:
     @property
     def location(self):
         if self._location is None:
-
             # This assures that we only log when a USB memory stick is plugged in
             if not os.path.exists(self.location_root):
                 raise IOError(
@@ -120,13 +119,11 @@ class ImageWriter:
         return self._location
 
     def _run(self):
-
         last = time.time()
 
         logger.info("Storage thread started")
 
         try:
-
             while True:
                 with self.lock:
                     now = time.time()

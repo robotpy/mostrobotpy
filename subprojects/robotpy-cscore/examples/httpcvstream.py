@@ -26,7 +26,6 @@ def main():
     flip = np.zeros(shape=(240, 320, 3), dtype=np.uint8)
 
     while True:
-
         time, test = cvsink.grabFrame(test)
         if time == 0:
             print("error:", cvsink.getError())

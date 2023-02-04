@@ -66,7 +66,6 @@ def _run_user_thread(vision_py: str, vision_fn: str) -> None:
 
 
 def main():
-
     parser = argparse.ArgumentParser()
 
     parser.add_argument(

@@ -12,7 +12,6 @@ def _usage():
 
 
 def main():
-
     if not hasattr(cs, "UsbCamera"):
         print("ERROR: This platform does not currently have cscore UsbCamera support")
         exit(1)
