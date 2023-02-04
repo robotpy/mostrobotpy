@@ -50,7 +50,6 @@ class _NtProperty:
         type: Optional[NetworkTableType],
         inst: NetworkTableInstance,
     ) -> None:
-
         # Autodetect the type if not provided, and store the default
         # value as that specific type
         if type is None:

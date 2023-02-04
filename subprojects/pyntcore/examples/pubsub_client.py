@@ -33,7 +33,6 @@ if __name__ == "__main__":
     i = 3
 
     while True:
-
         # These values are being published fast than the server is polling
         pub1.set(i)
         pub2.set(i + 100)

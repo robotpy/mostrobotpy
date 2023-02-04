@@ -85,7 +85,6 @@ class NtLogForwarder:
     def _logging_thread(
         self, poller: _ntcore.NetworkTableListenerPoller, logName: str, ntLogger: int
     ):
-
         logger = logging.getLogger(logName)
 
         _waitForObject = wpiutil.sync.waitForObject

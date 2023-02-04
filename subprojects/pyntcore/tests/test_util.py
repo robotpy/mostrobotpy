@@ -138,7 +138,6 @@ def test_ntproperty_multitest(nt: NetworkTableInstance):
 
 
 def test_chooser_control(nt: NetworkTableInstance):
-
     c = ChooserControl("Autonomous Mode", inst=nt)
 
     assert c.getChoices() == []

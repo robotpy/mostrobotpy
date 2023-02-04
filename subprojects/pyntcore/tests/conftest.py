@@ -122,7 +122,6 @@ class NtTestBase:
 @pytest.fixture()
 def nt_server(request, cfg_logging):
     class NtServer(NtTestBase):
-
         _test_saved_port3 = None
         _test_saved_port4 = None
 

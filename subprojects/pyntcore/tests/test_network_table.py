@@ -16,7 +16,6 @@ def table2(nt):
 
 
 def test_put_double(table1):
-
     table1.putNumber("double", 42.42)
     assert table1.getNumber("double", None) == 42.42
 
@@ -24,7 +23,6 @@ def test_put_double(table1):
 
 
 def test_put_boolean(table1):
-
     table1.putBoolean("boolean", True)
     assert table1.getBoolean("boolean", None) == True
 
@@ -32,7 +30,6 @@ def test_put_boolean(table1):
 
 
 def test_put_string(table1):
-
     table1.putString("String", "Test 1")
     assert table1.getString("String", None) == "Test 1"
 
@@ -40,7 +37,6 @@ def test_put_string(table1):
 
 
 def test_getvalue_overloads(table1):
-
     table1.putValue("float", 35.5)
     assert table1.getValue("float", None) == pytest.approx(35.5)
 
@@ -52,7 +48,6 @@ def test_getvalue_overloads(table1):
 
 
 def test_multi_data_type(table1):
-
     table1.putNumber("double1", 1)
     table1.putNumber("double2", 2)
     table1.putNumber("double3", 3)
@@ -91,7 +86,6 @@ def test_multi_data_type(table1):
 
 
 def test_multi_table(table1, table2):
-
     table1.putNumber("table1double", 1)
     table1.putBoolean("table1boolean", True)
     table1.putString("table1string", "Table 1")

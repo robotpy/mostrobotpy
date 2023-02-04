@@ -33,7 +33,6 @@ def test_entry_persistence(nt):
     e = nt.getEntry("/k2")
 
     for _ in range(2):
-
         assert not e.isPersistent()
         # persistent flag cannot be set unless the entry has a value
         e.setString("value")

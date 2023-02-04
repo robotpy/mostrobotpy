@@ -10,7 +10,6 @@ if __name__ == "__main__":
 
     for c in data.namespace.namespaces["nt"].classes:
         if str(c.class_decl.typename) == "struct PubSubOptions":
-
             params = []
             docs = []
 

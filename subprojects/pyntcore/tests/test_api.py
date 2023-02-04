@@ -35,7 +35,6 @@ def doc(nt):
 
 
 def do(nt1, nt2, t):
-
     t1 = nt1.getTable(t)
     with nt2.expect_changes(8):
         t1.putBoolean("bool", True)
@@ -99,7 +98,6 @@ def do(nt1, nt2, t):
 
 
 def test_basic(nt_live):
-
     nt_server, nt_client = nt_live
 
     # assert nt_server.isServer()
