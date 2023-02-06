@@ -23,7 +23,7 @@ artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.3.1"
+version = "2023.3.2"
 
 
 libs = ["wpimath"]
