@@ -6,15 +6,15 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/pyntcore"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil~=2023.3.1",
-    "robotpy-wpinet~=2023.3.1",
+    "robotpy-wpiutil~=2023.3.2",
+    "robotpy-wpinet~=2023.3.2",
 ]
 
 [build-system]
 requires = [
     "robotpy-build<2024.0.0,>=2023.0.1",
-    "robotpy-wpiutil~=2023.3.1",
-    "robotpy-wpinet~=2023.3.1",
+    "robotpy-wpiutil~=2023.3.2",
+    "robotpy-wpinet~=2023.3.2",
 ]
 
 [tool.robotpy-build]
