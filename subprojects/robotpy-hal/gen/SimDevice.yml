@@ -11,6 +11,7 @@ enums:
 functions:
   HAL_CreateSimDevice:
   HAL_FreeSimDevice:
+  HAL_GetSimDeviceName:
   HAL_CreateSimValue:
     overloads:
       HAL_SimDeviceHandle, char*, int32_t, struct HAL_Value*:
@@ -196,6 +197,7 @@ classes:
           char*, int:
           char*, int, int:
           HAL_SimDeviceHandle:
+      GetName:
       CreateValue:
         ignore: true
       CreateDouble:
