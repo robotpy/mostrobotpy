@@ -146,6 +146,12 @@ classes:
       GetValue:
         ignore: true
       GetPath:
+      AddListener:
+        overloads:
+          int, std::function<void ( NetworkTable * table, std::string_view key, const Event & event )>:
+          std::string_view, int, std::function<void ( NetworkTable * table, std::string_view key, const Event & event )>:
+      AddSubTableListener:
+      RemoveListener:
 
 inline_code: |
   #include <src/NetworkTable.cpp.inl>

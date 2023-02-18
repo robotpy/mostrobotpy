@@ -16,6 +16,7 @@ classes:
           nt::MultiSubscriber&, unsigned int, ListenerCallback:
           nt::NetworkTableEntry&, unsigned int, ListenerCallback:
       CreateConnectionListener:
+      CreateTimeSyncListener:
       CreateLogger:
       GetHandle:
       WaitForQueue:
@@ -46,6 +47,7 @@ classes:
           nt::MultiSubscriber&, unsigned int:
           nt::NetworkTableEntry&, unsigned int:
       AddConnectionListener:
+      AddTimeSyncListener:
       AddLogger:
       RemoveListener:
       ReadQueue:

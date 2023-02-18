@@ -78,6 +78,7 @@ classes:
       RemoveListener:
       WaitForListenerQueue:
       AddConnectionListener:
+      AddTimeSyncListener:
       AddListener:
         overloads:
           nt::Topic, unsigned int, ListenerCallback:
@@ -124,12 +125,14 @@ classes:
           std::span<const std::pair<std::string_view, unsigned int>>:
           std::span<const std::string_view>, unsigned int:
       SetServerTeam:
+      Disconnect:
       StartDSClient:
       StopDSClient:
       FlushLocal:
       Flush:
       GetConnections:
       IsConnected:
+      GetServerTimeOffset:
       StartEntryDataLog:
       StopEntryDataLog:
       StartConnectionDataLog:

@@ -149,6 +149,8 @@ functions:
         ignore: true
   SetServerTeam:
     ignore: true
+  Disconnect:
+    ignore: true
   StartDSClient:
     ignore: true
   StopDSClient:
@@ -160,6 +162,8 @@ functions:
   GetConnections:
     ignore: true
   IsConnected:
+    ignore: true
+  GetServerTimeOffset:
     ignore: true
   Now:
     internal: true
@@ -181,6 +185,16 @@ functions:
     ignore: true
   AddPolledLogger:
     internal: true
+  DecodeTopicPublishers:
+    subpackage: meta
+  DecodeTopicSubscribers:
+    subpackage: meta
+  DecodeClientPublishers:
+    subpackage: meta
+  DecodeClientSubscribers:
+    subpackage: meta
+  DecodeClients:
+    subpackage: meta
 classes:
   EventFlags:
     attributes:
@@ -197,6 +211,7 @@ classes:
       kValueLocal:
       kValueAll:
       kLogMessage:
+      kTimeSync:
   TopicInfo:
     attributes:
       name:
@@ -263,6 +278,17 @@ classes:
     inline_code: |
       .def_readwrite("level", &nt::LogMessage::level)
       .def_readwrite("line", &nt::LogMessage::line)
+  TimeSyncEventData:
+    attributes:
+      serverTimeOffset:
+      rtt2:
+      valid:
+    methods:
+      TimeSyncEventData:
+        overloads:
+          "":
+            ignore: true
+          int64_t, int64_t, bool:
   Event:
     attributes:
       data:
@@ -282,6 +308,8 @@ classes:
           NT_Listener, unsigned int, NT_Topic, NT_Handle, Value:
             ignore: true
           NT_Listener, unsigned int, unsigned int, std::string_view, unsigned int, std::string_view:
+            ignore: true
+          NT_Listener, unsigned int, int64_t, int64_t, bool:
             ignore: true
       Is:
         rename: is_
@@ -304,6 +332,12 @@ classes:
           "":
             ignore: true
       GetLogMessage:
+        overloads:
+          '[const]':
+            ignore: true
+          "":
+            ignore: true
+      GetTimeSyncEventData:
         overloads:
           '[const]':
             ignore: true
@@ -400,3 +434,38 @@ classes:
                                      internal publisher.
         )"
       )
+  SubscriberOptions:
+    subpackage: meta
+    attributes:
+      periodic:
+      topicsOnly:
+      sendAll:
+      prefixMatch:
+  TopicPublisher:
+    subpackage: meta
+    attributes:
+      client:
+      pubuid:
+  TopicSubscriber:
+    subpackage: meta
+    attributes:
+      client:
+      subuid:
+      options:
+  ClientPublisher:
+    subpackage: meta
+    attributes:
+      uid:
+      topic:
+  ClientSubscriber:
+    subpackage: meta
+    attributes:
+      uid:
+      topics:
+      options:
+  Client:
+    subpackage: meta
+    attributes:
+      id:
+      conn:
+      version:
