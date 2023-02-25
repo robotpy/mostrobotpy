@@ -21,6 +21,10 @@ void Subsystem::SetDefaultCommand(std::shared_ptr<Command> defaultCommand) {
                                                     defaultCommand);
 }
 
+void Subsystem::RemoveDefaultCommand() {
+  CommandScheduler::GetInstance().RemoveDefaultCommand(this);
+}
+
 std::shared_ptr<Command> Subsystem::GetDefaultCommand() {
   return CommandScheduler::GetInstance().GetDefaultCommand(this);
 }
