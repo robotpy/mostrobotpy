@@ -21,6 +21,10 @@ templates:
     qualname: frc::TimeInterpolatableBuffer
     params:
       - frc::Pose2d
+  TimeInterpolatableRotation2dBuffer:
+    qualname: frc::TimeInterpolatableBuffer
+    params:
+      - frc::Rotation2d
   TimeInterpolatableFloatBuffer:
     qualname: frc::TimeInterpolatableBuffer
     params:
