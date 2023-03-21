@@ -24,6 +24,8 @@ classes:
           py::arg("plant"), py::arg("plantRef"))
         .def(py::init<const frc::LinearSystem<States, Inputs, 2>&, const frc::LinearSystem<States, Inputs, 2>&>(),
           py::arg("plant"), py::arg("plantRef"))
+        .def(py::init<const frc::LinearSystem<States, Inputs, 3>&, const frc::LinearSystem<States, Inputs, 3>&>(),
+          py::arg("plant"), py::arg("plantRef"))
         ;
 
 templates:
