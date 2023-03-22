@@ -77,3 +77,10 @@ templates:
     - 2
     - 2
     - 2
+  LinearSystemLoop_3_2_3:
+    qualname: frc::LinearSystemLoop
+    subpackage: system
+    params:
+    - 3
+    - 2
+    - 3

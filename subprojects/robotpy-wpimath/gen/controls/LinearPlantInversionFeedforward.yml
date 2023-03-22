@@ -31,7 +31,8 @@ classes:
     template_inline_code: |
       cls_LinearPlantInversionFeedforward
         .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, units::second_t>())
-        .def(py::init<const frc::LinearSystem<States, Inputs, 2>&, units::second_t>());
+        .def(py::init<const frc::LinearSystem<States, Inputs, 2>&, units::second_t>())
+        .def(py::init<const frc::LinearSystem<States, Inputs, 3>&, units::second_t>());
 
 templates:
   LinearPlantInversionFeedforward_1_1:
@@ -51,4 +52,10 @@ templates:
     subpackage: controller
     params:
     - 2
+    - 2
+  LinearPlantInversionFeedforward_3_2:
+    qualname: frc::LinearPlantInversionFeedforward
+    subpackage: controller
+    params:
+    - 3
     - 2
