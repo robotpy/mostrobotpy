@@ -9,6 +9,8 @@ classes:
     force_type_casters:
     - units::meters_per_second
     - units::meters_per_second_squared
+    - units::radians_per_second
+    - units::radians_per_second_squared
     typealias:
     - typename frc::SimpleMotorFeedforward<Distance>::Velocity
     - typename frc::SimpleMotorFeedforward<Distance>::Acceleration
@@ -42,9 +44,15 @@ templates:
   #   subpackage: controller
   #   params:
   #     - units::dimensionless::scalar
-  
+
   SimpleMotorFeedforwardMeters:
     qualname: frc::SimpleMotorFeedforward
     subpackage: controller
     params:
       - units::meter
+
+  SimpleMotorFeedforwardRadians:
+    qualname: frc::SimpleMotorFeedforward
+    subpackage: controller
+    params:
+      - units::radian
