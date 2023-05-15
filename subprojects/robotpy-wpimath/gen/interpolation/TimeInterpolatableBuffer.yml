@@ -1,4 +1,6 @@
 ---
+extra_includes:
+  - "frc/geometry/Pose3d.h"
 
 functions:
   TimeInterpolatableBuffer:
@@ -21,10 +23,26 @@ templates:
     qualname: frc::TimeInterpolatableBuffer
     params:
       - frc::Pose2d
+  TimeInterpolatablePose3dBuffer:
+    qualname: frc::TimeInterpolatableBuffer
+    params:
+      - frc::Pose3d
   TimeInterpolatableRotation2dBuffer:
     qualname: frc::TimeInterpolatableBuffer
     params:
       - frc::Rotation2d
+  TimeInterpolatableRotation3dBuffer:
+    qualname: frc::TimeInterpolatableBuffer
+    params:
+      - frc::Rotation3d
+  TimeInterpolatableTranslation2dBuffer:
+    qualname: frc::TimeInterpolatableBuffer
+    params:
+      - frc::Translation2d
+  TimeInterpolatableTranslation3dBuffer:
+    qualname: frc::TimeInterpolatableBuffer
+    params:
+      - frc::Translation3d
   TimeInterpolatableFloatBuffer:
     qualname: frc::TimeInterpolatableBuffer
     params:
