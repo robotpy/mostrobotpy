@@ -5,7 +5,6 @@
 # Imports
 #
 
-import sys
 import os
 from os.path import abspath, dirname
 

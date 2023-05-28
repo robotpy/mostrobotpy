@@ -1,7 +1,0 @@
----
-
-classes:
-  TimedCommandRobot:
-    methods:
-      TimedCommandRobot:
-      RobotPeriodic:

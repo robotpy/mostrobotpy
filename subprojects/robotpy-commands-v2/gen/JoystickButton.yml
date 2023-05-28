@@ -1,9 +1,0 @@
----
-
-classes:
-  JoystickButton:
-    shared_ptr: true
-    force_no_trampoline: true
-    subpackage: button
-    methods:
-      JoystickButton:

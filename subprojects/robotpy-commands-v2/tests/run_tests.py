@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import os
-from os.path import abspath, dirname
-import sys
 import subprocess
+import sys
+from os.path import abspath, dirname
 
 if __name__ == "__main__":
     root = abspath(dirname(__file__))

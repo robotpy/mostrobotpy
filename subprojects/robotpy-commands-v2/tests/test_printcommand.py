@@ -9,13 +9,9 @@ if TYPE_CHECKING:
 import pytest
 
 
-def test_instantCommandSchedule(scheduler: commands2.CommandScheduler):
-    cond = OOBoolean()
-
-    command = commands2.InstantCommand(lambda: cond.set(True))
-
+def test_printCommandSchedule(capsys, scheduler: commands2.CommandScheduler):
+    command = commands2.PrintCommand("Test!")
     scheduler.schedule(command)
     scheduler.run()
-
-    assert cond
     assert not scheduler.isScheduled(command)
+    assert capsys.readouterr().out == "Test!\n"
