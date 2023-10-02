@@ -7,7 +7,7 @@ classes:
     methods:
       InitSendable:
         overloads:
-          nt::NTSendableBuilder&:
+          NTSendableBuilder&:
             virtual_xform: |
               [&](py::function fn) {
                 auto builderHandle = py::cast(builder, py::return_value_policy::reference);

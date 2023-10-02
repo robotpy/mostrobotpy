@@ -7,23 +7,23 @@ classes:
         overloads:
           "":
             ignore: true
-          NT_Subscriber, std::span<const float>:
+          NT_Subscriber, ParamType:
             ignore: true
       Get:
         overloads:
           '[const]':
-          std::span<const float> [const]:
+          ParamType [const]:
           wpi::SmallVectorImpl<SmallElemType>& [const]:
             ignore: true
-          wpi::SmallVectorImpl<SmallElemType>&, std::span<const float> [const]:
+          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
             ignore: true
       GetAtomic:
         overloads:
           '[const]':
-          std::span<const float> [const]:
+          ParamType [const]:
           wpi::SmallVectorImpl<SmallElemType>& [const]:
             ignore: true
-          wpi::SmallVectorImpl<SmallElemType>&, std::span<const float> [const]:
+          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
             ignore: true
       ReadQueue:
       GetTopic:
@@ -68,7 +68,7 @@ classes:
         overloads:
           "":
             ignore: true
-          NT_Entry, std::span<const float>:
+          NT_Entry, ParamType:
             ignore: true
       GetHandle:
         ignore: true

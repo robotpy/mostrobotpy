@@ -7,23 +7,23 @@ classes:
         overloads:
           "":
             ignore: true
-          NT_Subscriber, std::string_view:
+          NT_Subscriber, ParamType:
             ignore: true
       Get:
         overloads:
           '[const]':
-          std::string_view [const]:
+          ParamType [const]:
           wpi::SmallVectorImpl<SmallElemType>& [const]:
             ignore: true
-          wpi::SmallVectorImpl<SmallElemType>&, std::string_view [const]:
+          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
             ignore: true
       GetAtomic:
         overloads:
           '[const]':
-          std::string_view [const]:
+          ParamType [const]:
           wpi::SmallVectorImpl<SmallElemType>& [const]:
             ignore: true
-          wpi::SmallVectorImpl<SmallElemType>&, std::string_view [const]:
+          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
             ignore: true
       ReadQueue:
       GetTopic:
@@ -68,7 +68,7 @@ classes:
         overloads:
           "":
             ignore: true
-          NT_Entry, std::string_view:
+          NT_Entry, ParamType:
             ignore: true
       GetHandle:
         ignore: true

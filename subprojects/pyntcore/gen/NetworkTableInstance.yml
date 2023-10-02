@@ -81,10 +81,10 @@ classes:
       AddTimeSyncListener:
       AddListener:
         overloads:
-          nt::Topic, unsigned int, ListenerCallback:
-          nt::Subscriber&, unsigned int, ListenerCallback:
-          nt::MultiSubscriber&, int, ListenerCallback:
-          NetworkTableEntry&, int, ListenerCallback:
+          Topic, unsigned int, ListenerCallback:
+          Subscriber&, unsigned int, ListenerCallback:
+          MultiSubscriber&, int, ListenerCallback:
+          const NetworkTableEntry&, int, ListenerCallback:
           std::span<const std::string_view>, int, ListenerCallback:
       GetNetworkMode:
       StartLocal:
@@ -121,7 +121,7 @@ classes:
       StopClient:
       SetServer:
         overloads:
-          char*, unsigned int:
+          const char*, unsigned int:
           std::span<const std::pair<std::string_view, unsigned int>>:
           std::span<const std::string_view>, unsigned int:
       SetServerTeam:

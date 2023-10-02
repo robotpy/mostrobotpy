@@ -7,16 +7,16 @@ classes:
         overloads:
           "":
             ignore: true
-          NT_Subscriber, double:
+          NT_Subscriber, ParamType:
             ignore: true
       Get:
         overloads:
           '[const]':
-          double [const]:
+          ParamType [const]:
       GetAtomic:
         overloads:
           '[const]':
-          double [const]:
+          ParamType [const]:
       ReadQueue:
       GetTopic:
     inline_code: |
@@ -60,7 +60,7 @@ classes:
         overloads:
           "":
             ignore: true
-          NT_Entry, double:
+          NT_Entry, ParamType:
             ignore: true
       GetHandle:
         ignore: true

@@ -10,11 +10,11 @@ classes:
           "":
       CreateListener:
         overloads:
-          nt::NetworkTableInstance, std::span<const std::string_view>, unsigned int, ListenerCallback:
-          nt::Topic, unsigned int, ListenerCallback:
-          nt::Subscriber&, unsigned int, ListenerCallback:
-          nt::MultiSubscriber&, unsigned int, ListenerCallback:
-          nt::NetworkTableEntry&, unsigned int, ListenerCallback:
+          NetworkTableInstance, std::span<const std::string_view>, unsigned int, ListenerCallback:
+          Topic, unsigned int, ListenerCallback:
+          Subscriber&, unsigned int, ListenerCallback:
+          MultiSubscriber&, unsigned int, ListenerCallback:
+          NetworkTableEntry&, unsigned int, ListenerCallback:
       CreateConnectionListener:
       CreateTimeSyncListener:
       CreateLogger:
@@ -37,15 +37,15 @@ classes:
       NetworkTableListenerPoller:
         overloads:
           "":
-          nt::NetworkTableInstance:
+          NetworkTableInstance:
       GetHandle:
       AddListener:
         overloads:
           std::span<const std::string_view>, unsigned int:
-          nt::Topic, unsigned int:
-          nt::Subscriber&, unsigned int:
-          nt::MultiSubscriber&, unsigned int:
-          nt::NetworkTableEntry&, unsigned int:
+          Topic, unsigned int:
+          Subscriber&, unsigned int:
+          MultiSubscriber&, unsigned int:
+          NetworkTableEntry&, unsigned int:
       AddConnectionListener:
       AddTimeSyncListener:
       AddLogger:

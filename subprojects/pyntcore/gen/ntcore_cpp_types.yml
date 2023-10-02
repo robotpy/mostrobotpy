@@ -186,6 +186,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedBoolean:
         overloads:
@@ -201,6 +202,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedInteger:
         overloads:
@@ -216,6 +218,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedFloat:
         overloads:
@@ -231,6 +234,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedDouble:
         overloads:
@@ -246,6 +250,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedString:
         overloads:
@@ -262,6 +267,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedStringView:
         overloads:
@@ -271,6 +277,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedRaw:
         overloads:
@@ -287,6 +294,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedRawView:
         overloads:
@@ -296,6 +304,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedBooleanArray:
         overloads:
@@ -312,6 +321,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedBooleanArrayView:
         overloads:
@@ -321,6 +331,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedIntegerArray:
         overloads:
@@ -337,6 +348,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedIntegerArrayView:
         overloads:
@@ -346,6 +358,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedFloatArray:
         overloads:
@@ -362,6 +375,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedFloatArrayView:
         overloads:
@@ -371,6 +385,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedDoubleArray:
         overloads:
@@ -387,6 +402,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedDoubleArrayView:
         overloads:
@@ -396,6 +412,7 @@ classes:
     attributes:
       time:
       serverTime:
+      value:
     methods:
       TimestampedStringArray:
         overloads:

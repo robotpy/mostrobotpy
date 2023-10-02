@@ -7,7 +7,7 @@ classes:
         overloads:
           "":
             ignore: true
-          NetworkTableInstance, std::span<const std::string_view>, PubSubOptions&:
+          NetworkTableInstance, std::span<const std::string_view>, const PubSubOptions&:
       GetHandle:
         ignore: true
     inline_code: |

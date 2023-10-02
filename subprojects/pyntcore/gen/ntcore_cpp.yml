@@ -21,7 +21,7 @@ functions:
     overloads:
       NT_Inst, std::string_view:
         ignore: true
-      NT_Topic, NT_Type, std::string_view, nt::PubSubOptions&:
+      NT_Topic, NT_Type, std::string_view, const PubSubOptions&:
         ignore: true
   GetEntryName:
     ignore: true
@@ -115,9 +115,9 @@ functions:
     ignore: true
   AddListener:
     overloads:
-      NT_Inst, std::span<const std::string_view>, unsigned int, std::function<void ( const Event & )>:
+      NT_Inst, std::span<const std::string_view>, unsigned int, ListenerCallback:
         ignore: true
-      NT_Handle, unsigned int, std::function<void ( const Event & )>:
+      NT_Handle, unsigned int, ListenerCallback:
         ignore: true
   AddPolledListener:
     overloads:
@@ -143,7 +143,7 @@ functions:
     ignore: true
   SetServer:
     overloads:
-      NT_Inst, char*, unsigned int: 
+      NT_Inst, const char*, unsigned int: 
         ignore: true
       NT_Inst, std::span<const std::pair<std::string_view, unsigned int>>:
         ignore: true
@@ -217,6 +217,9 @@ classes:
       name:
       type_str:
       properties:
+      topic:
+        ignore: true
+      type:
     methods:
       GetProperties:
       swap:
@@ -233,13 +236,13 @@ classes:
     attributes:
       remote_id:
       remote_ip:
+      remote_port:
+      last_update:
+      protocol_version:
     methods:
       swap:
         ignore: true
     inline_code: |
-      .def_readwrite("remote_port", &ConnectionInfo::remote_port)
-      .def_readwrite("last_update", &ConnectionInfo::last_update)
-      .def_readwrite("protocol_version", &ConnectionInfo::protocol_version)
       .def("__repr__", [](const ConnectionInfo &self) -> py::str {
         return py::str("<ConnectionInfo id={} addr={}:{} last_update={} protocol={}>")
           .format(self.remote_id, self.remote_ip, self.remote_port, 
@@ -247,6 +250,10 @@ classes:
       })
   ValueEventData:
     attributes:
+      topic:
+        ignore: true
+      subentry:
+        ignore: true
       value:
     methods:
       ValueEventData:
@@ -266,7 +273,9 @@ classes:
       })
   LogMessage:
     attributes:
+      level:
       filename:
+      line:
       message:
     methods:
       LogMessage:
@@ -291,19 +300,22 @@ classes:
           int64_t, int64_t, bool:
   Event:
     attributes:
+      listener:
+      flags:
       data:
+        ignore: true
     methods:
       Event:
         overloads:
           "":
             ignore: true
-          NT_Listener, unsigned int, nt::ConnectionInfo:
+          NT_Listener, unsigned int, ConnectionInfo:
             ignore: true
-          NT_Listener, unsigned int, nt::TopicInfo:
+          NT_Listener, unsigned int, TopicInfo:
             ignore: true
-          NT_Listener, unsigned int, nt::ValueEventData:
+          NT_Listener, unsigned int, ValueEventData:
             ignore: true
-          NT_Listener, unsigned int, nt::LogMessage:
+          NT_Listener, unsigned int, LogMessage:
             ignore: true
           NT_Listener, unsigned int, NT_Topic, NT_Handle, Value:
             ignore: true
@@ -344,8 +356,6 @@ classes:
           "":
             ignore: true
     inline_code: |
-      .def_readwrite("listener", &nt::Event::listener)
-      .def_readwrite("flags", &nt::Event::flags)
       .def_property_readonly("data", [](nt::Event *self){
         return self->data;
       })

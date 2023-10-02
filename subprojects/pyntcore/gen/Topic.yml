@@ -32,17 +32,19 @@ classes:
       GetInfo:
       GenericSubscribe:
         overloads:
-          PubSubOptions&:
-          std::string_view, PubSubOptions&:
+          const PubSubOptions&:
+          std::string_view, const PubSubOptions&:
       GenericPublish:
       GenericPublishEx:
       GetGenericEntry:
         overloads:
-          PubSubOptions&:
-          std::string_view, PubSubOptions&:
+          const PubSubOptions&:
+          std::string_view, const PubSubOptions&:
       operator==:
       operator!=:
   Subscriber:
+    attributes:
+      m_subHandle:
     methods:
       GetHandle:
         ignore: true
@@ -56,6 +58,8 @@ classes:
           NT_Subscriber:
             ignore: true
   Publisher:
+    attributes:
+      m_pubHandle:
     methods:
       GetHandle:
         ignore: true
