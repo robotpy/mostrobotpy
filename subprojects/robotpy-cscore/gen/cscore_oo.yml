@@ -6,8 +6,6 @@ classes:
       Kind:
     methods:
       VideoProperty:
-        overloads:
-          "":
       GetName:
       GetKind:
       IsBoolean:
@@ -33,12 +31,8 @@ classes:
       ConnectionStrategy:
     methods:
       VideoSource:
-        overloads:
-          "":
-          CS_Source:
       GetHandle:
       operator==:
-      operator!=:
       GetKind:
       GetName:
       GetDescription:
@@ -51,7 +45,7 @@ classes:
       GetVideoMode:
       SetVideoMode:
         overloads:
-          VideoMode&:
+          const VideoMode&:
           VideoMode::PixelFormat, int, int, int:
       SetPixelFormat:
       SetResolution:
@@ -59,7 +53,7 @@ classes:
       SetConfigJson:
         overloads:
           std::string_view:
-          wpi::json&:
+          const wpi::json&:
       GetConfigJson:
       GetConfigJsonObject:
       GetActualFPS:
@@ -68,8 +62,6 @@ classes:
       GetLastStatus:
       EnumerateSinks:
       EnumerateSources:
-      swap:
-        ignore: true
   VideoCamera:
     force_no_trampoline: true
     enums:
@@ -109,11 +101,11 @@ classes:
     methods:
       HttpCamera:
         overloads:
-          std::string_view, std::string_view, cs::HttpCamera::HttpCameraKind:
-          std::string_view, char*, cs::HttpCamera::HttpCameraKind:
-          std::string_view, std::string&, cs::HttpCamera::HttpCameraKind:
-          std::string_view, std::span<const std::string>, cs::HttpCamera::HttpCameraKind:
-          std::string_view, std::initializer_list<T>, cs::HttpCamera::HttpCameraKind:
+          std::string_view, std::string_view, HttpCameraKind:
+          std::string_view, const char*, HttpCameraKind:
+          std::string_view, const std::string&, HttpCameraKind:
+          std::string_view, std::span<const std::string>, HttpCameraKind:
+          std::string_view, std::initializer_list<T>, HttpCameraKind:
             ignore: true
       GetHttpCameraKind:
       SetUrls:
@@ -128,8 +120,8 @@ classes:
       AxisCamera:
         overloads:
           std::string_view, std::string_view:
-          std::string_view, char*:
-          std::string_view, std::string&:
+          std::string_view, const char*:
+          std::string_view, const std::string&:
           std::string_view, std::span<const std::string>:
           std::string_view, std::initializer_list<T>:
             ignore: true
@@ -145,8 +137,8 @@ classes:
       CreateStringProperty:
       SetEnumPropertyChoices:
         overloads:
-          cs::VideoProperty&, std::span<const std::string>:
-          cs::VideoProperty&, std::initializer_list<T>:
+          const VideoProperty&, std::span<const std::string>:
+          const VideoProperty&, std::initializer_list<T>:
             ignore: true
       ImageSource:
   VideoSink:
@@ -154,12 +146,8 @@ classes:
       Kind:
     methods:
       VideoSink:
-        overloads:
-          "":
-          CS_Sink:
       GetHandle:
       operator==:
-      operator!=:
       GetKind:
       GetName:
       GetDescription:
@@ -168,7 +156,7 @@ classes:
       SetConfigJson:
         overloads:
           std::string_view:
-          wpi::json&:
+          const wpi::json&:
       GetConfigJson:
       GetConfigJsonObject:
       SetSource:
@@ -176,8 +164,6 @@ classes:
       GetSourceProperty:
       GetLastStatus:
       EnumerateSinks:
-      swap:
-        ignore: true
   MjpegServer:
     force_no_trampoline: true
     methods:
@@ -210,6 +196,4 @@ classes:
       VideoListener:
         overloads:
           "":
-          std::function<void ( const VideoEvent & event )>, int, bool:
-      swap:
-        ignore: true
+          std::function<void (const VideoEvent& event)>, int, bool:

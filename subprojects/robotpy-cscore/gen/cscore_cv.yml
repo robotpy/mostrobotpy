@@ -32,7 +32,7 @@ classes:
         overloads:
           "":
             ignore: true
-          std::string_view, VideoMode&:
+          std::string_view, const VideoMode&:
           std::string_view, VideoMode::PixelFormat, int, int, int:
       PutFrame:
   CvSink:
@@ -44,7 +44,7 @@ classes:
           "":
             ignore: true
           std::string_view:
-          std::string_view, std::function<void ( uint64_t time )>:
+          std::string_view, std::function<void (uint64_t time)>:
             ignore: true
       GrabFrame:
         cpp_code: |

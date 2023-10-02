@@ -83,7 +83,7 @@ functions:
     overloads:
       CS_Source, std::string_view, CS_Status*:
         ignore: true
-      CS_Source, wpi::json&, CS_Status*:
+      CS_Source, const wpi::json&, CS_Status*:
         ignore: true
   GetSourceConfigJson:
     ignore: true
@@ -167,7 +167,7 @@ functions:
     overloads:
       CS_Sink, std::string_view, CS_Status*:
         ignore: true
-      CS_Sink, wpi::json&, CS_Status*:
+      CS_Sink, const wpi::json&, CS_Status*:
         ignore: true
   GetSinkConfigJson:
     ignore: true
@@ -260,7 +260,7 @@ classes:
       VideoMode:
         overloads:
           "":
-          cs::VideoMode::PixelFormat, int, int, int:
+          PixelFormat, int, int, int:
       operator==:
       operator!=:
       CompareWithoutFps:
@@ -289,6 +289,8 @@ classes:
         ignore: true
       valueStr:
         ignore: true
+      listener:
+        ignore: true
     enums:
       Kind:
         ignore: true
@@ -297,11 +299,11 @@ classes:
         overloads:
           "":
             ignore: true
-          cs::RawEvent::Kind:
+          RawEvent::Kind:
             ignore: true
-          std::string_view, CS_Handle, cs::RawEvent::Kind:
+          std::string_view, CS_Handle, RawEvent::Kind:
             ignore: true
-          std::string_view, CS_Source, cs::VideoMode&:
+          std::string_view, CS_Source, const VideoMode&:
             ignore: true
-          std::string_view, CS_Source, cs::RawEvent::Kind, CS_Property, CS_PropertyKind, int, std::string_view:
+          std::string_view, CS_Source, RawEvent::Kind, CS_Property, CS_PropertyKind, int, std::string_view:
             ignore: true

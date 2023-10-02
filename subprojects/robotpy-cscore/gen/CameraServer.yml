@@ -17,21 +17,21 @@ classes:
           int:
           std::string_view, int:
           std::string_view, std::string_view:
-          cs::VideoSource&:
+          const cs::VideoSource&:
       AddAxisCamera:
         overloads:
           std::string_view:
-          char*:
+          const char*:
             ignore: true
-          std::string&:
+          const std::string&:
             ignore: true
           std::span<const std::string>:
           std::initializer_list<T>:
             ignore: true
           std::string_view, std::string_view:
-          std::string_view, char*:
+          std::string_view, const char*:
             ignore: true
-          std::string_view, std::string&:
+          std::string_view, const std::string&:
             ignore: true
           std::string_view, std::span<const std::string>:
           std::string_view, std::initializer_list<T>:
@@ -40,14 +40,14 @@ classes:
       GetVideo:
         overloads:
           "":
-          cs::VideoSource&:
+          const cs::VideoSource&:
           std::string_view:
       PutVideo:
       AddServer:
         overloads:
           std::string_view:
           std::string_view, int:
-          cs::VideoSink&:
+          const cs::VideoSink&:
       RemoveServer:
       GetServer:
         overloads:
