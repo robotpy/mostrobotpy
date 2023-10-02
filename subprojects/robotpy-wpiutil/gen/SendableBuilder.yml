@@ -2,7 +2,6 @@
 
 classes:
   SendableBuilder:
-    shared_ptr: true
     enums:
       BackendKind:
     methods:
@@ -10,14 +9,20 @@ classes:
       SetActuator:
       SetSafeState:
       AddBooleanProperty:
+      AddIntegerProperty:
+      AddFloatProperty:
       AddDoubleProperty:
       AddStringProperty:
       AddBooleanArrayProperty:
+      AddIntegerArrayProperty:
+      AddFloatArrayProperty:
       AddDoubleArrayProperty:
       AddStringArrayProperty:
       AddRawProperty:
       AddSmallStringProperty:
       AddSmallBooleanArrayProperty:
+      AddSmallIntegerArrayProperty:
+      AddSmallFloatArrayProperty:
       AddSmallDoubleArrayProperty:
       AddSmallStringArrayProperty:
       AddSmallRawProperty:
