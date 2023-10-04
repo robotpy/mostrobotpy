@@ -12,8 +12,6 @@ classes:
       MinMaxAcceleration:
   TrajectoryConstraint::MinMax:
     shared_ptr: false
-
-inline_code: |
-  cls_MinMax
-    .def_readwrite("minAcceleration", &frc::TrajectoryConstraint::MinMax::minAcceleration)
-    .def_readwrite("maxAcceleration", &frc::TrajectoryConstraint::MinMax::maxAcceleration);
+    attributes:
+      minAcceleration:
+      maxAcceleration:

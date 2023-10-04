@@ -12,11 +12,12 @@ classes:
     methods:
       TimeInterpolatableBuffer:
         overloads:
-          units::second_t, std::function<T ( const T &, const T &, double )>:
+          units::second_t, std::function<T (const T&, const T&, double)>:
           units::second_t:
       AddSample:
       Clear:
       Sample:
+      GetInternalBuffer:
 
 templates:
   TimeInterpolatablePose2dBuffer:

@@ -13,10 +13,10 @@ classes:
     methods:
       Pose3d:
         overloads:
-          "":
+          '[constexpr]':
           Translation3d, Rotation3d:
           units::meter_t, units::meter_t, units::meter_t, Rotation3d:
-          Pose2d&:
+          const Pose2d&:
       operator+:
       operator-:
       operator==:

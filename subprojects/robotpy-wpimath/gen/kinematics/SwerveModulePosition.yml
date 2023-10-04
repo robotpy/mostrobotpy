@@ -6,6 +6,8 @@ classes:
     attributes:
       distance:
       angle:
+    methods:
+      operator==:
     inline_code: |
       .def(
         py::init<

@@ -8,9 +8,9 @@ classes:
     methods:
       ImplicitModelFollower:
         overloads:
-          LinearSystem<States, Inputs, Outputs>&, LinearSystem<States, Inputs, Outputs>&:
+          const LinearSystem<States, Inputs, Outputs>&, const LinearSystem<States, Inputs, Outputs>&:
             ignore: true
-          Matrixd<States, States>&, Matrixd<States, Inputs>&, Matrixd<States, States>&, Matrixd<States, Inputs>&:
+          const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const Matrixd<States, States>&, const Matrixd<States, Inputs>&:
       U:
         overloads:
           '[const]':

@@ -65,12 +65,15 @@ classes:
         });
   TrapezoidProfile::Constraints:
     shared_ptr: false
+    attributes:
+      maxVelocity:
+      maxAcceleration:
     methods:
       Constraints:
         overloads:
           "":
             ignore: true
-          units::unit_t<Velocity>, units::unit_t<Acceleration>:
+          Velocity_t, Acceleration_t:
             param_override:
               maxVelocity_:
                 name: maxVelocity
@@ -81,6 +84,9 @@ classes:
   TrapezoidProfile::State:
     force_no_default_constructor: true
     shared_ptr: false
+    attributes:
+      position:
+      velocity:
     methods:
       operator==:
         cpp_code: .def(py::self == State()

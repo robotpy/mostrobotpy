@@ -13,11 +13,11 @@ classes:
     methods:
       Rotation2d:
         overloads:
-          "":
-          units::radian_t:
-          units::degree_t:
+          '[constexpr]':
+          units::radian_t [constexpr]:
+          units::degree_t [constexpr]:
             ignore: true
-          double, double:
+          double, double [constexpr]:
       RotateBy:
       Radians:
       Degrees:
@@ -28,7 +28,7 @@ classes:
       operator+=:
       operator-:
         overloads:
-          frc::Rotation2d& [const]:
+          const Rotation2d& [const]:
           '[const]':
       operator-=:
       operator*:

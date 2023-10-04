@@ -8,9 +8,9 @@ classes:
     methods:
       SwerveDriveKinematics:
         overloads:
-          Translation2d, Wheels ...&&:
+          Translation2d, Wheels&&...:
             ignore: true
-          wpi::array<Translation2d, NumModules>&:
+          const wpi::array<Translation2d, NumModules>&:
             ignore: true
 
       ToSwerveModuleStates:
@@ -41,7 +41,7 @@ classes:
 
       ToChassisSpeeds:
         overloads:
-          ModuleStates ...&& [const]:
+          ModuleStates&&... [const]:
             param_override:
               wheelStates:
                 ignore: true
@@ -72,7 +72,7 @@ classes:
             ignore: true
       ToTwist2d:
         overloads:
-          ModuleDeltas ...&& [const]:
+          ModuleDeltas&&... [const]:
             param_override:
               wheelDeltas:
                 ignore: true
@@ -111,12 +111,14 @@ classes:
               }
           ? wpi::array<SwerveModuleState, NumModules>*, ChassisSpeeds, units::meters_per_second_t,
             units::meters_per_second_t, units::radians_per_second_t
+          :
+            cpp_code: |
               [](wpi::array<SwerveModuleState, NumModules> moduleStates,
                   ChassisSpeeds currentChassisSpeed,
                   units::meters_per_second_t attainableMaxModuleSpeed,
                   units::meters_per_second_t attainableMaxRobotTranslationSpeed,
                   units::radians_per_second_t attainableMaxRobotRotationSpeed) {
-                frc::SwerveDriveKinematics<NumModules>::DesaturateWheelSpeeds(&moduleStates, currentChassisSpeed, attainableMaxSpeed, attainableMaxRobotTranslationSpeed, attainableMaxRobotRotationSpeed);
+                frc::SwerveDriveKinematics<NumModules>::DesaturateWheelSpeeds(&moduleStates, currentChassisSpeed, attainableMaxModuleSpeed, attainableMaxRobotTranslationSpeed, attainableMaxRobotRotationSpeed);
                 return moduleStates;
               }
 

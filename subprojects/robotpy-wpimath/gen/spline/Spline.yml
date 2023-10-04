@@ -29,16 +29,12 @@ classes:
             wpi::array<double, (Degree + 1) / 2>>(),
           py::arg("x"),
           py::arg("y")
-        )
-        .def_readwrite("x", &frc::Spline<Degree>::ControlVector::x)
-        .def_readwrite("y", &frc::Spline<Degree>::ControlVector::y);
+        );
   Spline::ControlVector:
     force_no_default_constructor: true
-    shared_ptr: false
-    methods:
-      ',':
-        # CppHeaderParser bug
-        ignore: true
+    attributes:
+      x:
+      y:
 
 templates:
   Spline3:

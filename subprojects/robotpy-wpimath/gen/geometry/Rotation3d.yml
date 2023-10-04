@@ -14,15 +14,16 @@ classes:
       Rotation3d:
         overloads:
           "":
-          Quaternion&:
+          const Quaternion&:
           units::radian_t, units::radian_t, units::radian_t:
-          Vectord<3>&, units::radian_t:
-          Matrixd<3, 3>&:
-          Vectord<3>&, Vectord<3>&:
+          const Vectord<3>&, units::radian_t:
+          const Eigen::Vector3d&:
+          const Eigen::Matrix3d&:
+          const Vectord<3>&, const Vectord<3>&:
       operator+:
       operator-:
         overloads:
-          frc::Rotation3d& [const]:
+          const Rotation3d& [const]:
           '[const]':
       operator*:
       operator/:

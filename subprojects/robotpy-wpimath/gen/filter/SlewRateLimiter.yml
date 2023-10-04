@@ -10,9 +10,9 @@ classes:
     methods:
       SlewRateLimiter:
         overloads:
-          units::unit_t<Rate>, units::unit_t<Rate>, units::unit_t<Unit>:
-          units::unit_t<Rate>:
-          units::unit_t<Rate>, units::unit_t<Unit>:
+          Rate_t, Rate_t, Unit_t:
+          Rate_t:
+          Rate_t, Unit_t:
       Calculate:
       Reset:
 

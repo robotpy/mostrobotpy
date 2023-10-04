@@ -18,11 +18,15 @@ classes:
     - typename frc::SimpleMotorFeedforward<Distance>::ka_unit
     template_params:
     - Distance
+    attributes:
+      kS:
+      kV:
+      kA:
     methods:
       SimpleMotorFeedforward:
         overloads:
-          "":
-          units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit>:
+          '[constexpr]':
+          units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit> [constexpr]:
       Calculate:
         overloads:
           units::unit_t<Velocity>, units::unit_t<Acceleration> [const]:

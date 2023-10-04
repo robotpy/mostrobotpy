@@ -18,6 +18,6 @@ classes:
       SetTolerance:
       Calculate:
         overloads:
-          Pose2d&, Pose2d&, units::meters_per_second_t, units::radians_per_second_t:
-          Pose2d&, Trajectory::State&:
+          const Pose2d&, const Pose2d&, units::meters_per_second_t, units::radians_per_second_t:
+          const Pose2d&, const Trajectory::State&:
       SetEnabled:

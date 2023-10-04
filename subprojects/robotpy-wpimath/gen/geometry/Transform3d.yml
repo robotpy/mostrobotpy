@@ -13,9 +13,9 @@ classes:
     methods:
       Transform3d:
         overloads:
-          frc::Pose3d, frc::Pose3d:
+          Pose3d, Pose3d:
           Translation3d, Rotation3d:
-          "":
+          '[constexpr]':
       Translation:
       X:
       Y:

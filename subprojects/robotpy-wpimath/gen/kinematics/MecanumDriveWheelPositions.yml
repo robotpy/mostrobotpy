@@ -7,3 +7,6 @@ classes:
       frontRight:
       rearLeft:
       rearRight:
+    methods:
+      operator==:
+      operator!=:

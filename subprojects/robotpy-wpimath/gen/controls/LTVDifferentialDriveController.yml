@@ -9,7 +9,7 @@ classes:
       SetTolerance:
       Calculate:
         overloads:
-          ? Pose2d&, units::meters_per_second_t, units::meters_per_second_t, Pose2d&,
+          ? const Pose2d&, units::meters_per_second_t, units::meters_per_second_t, const Pose2d&,
             units::meters_per_second_t, units::meters_per_second_t
           :
-          Pose2d&, units::meters_per_second_t, units::meters_per_second_t, Trajectory::State&:
+          const Pose2d&, units::meters_per_second_t, units::meters_per_second_t, const Trajectory::State&:

@@ -9,3 +9,4 @@ classes:
       DifferentialDriveKinematics:
       ToChassisSpeeds:
       ToWheelSpeeds:
+      ToTwist2d:

@@ -9,6 +9,9 @@ classes:
       SetTolerance:
       Calculate:
         overloads:
-          Pose2d&, Pose2d&, units::meters_per_second_t, Rotation2d&:
-          Pose2d&, Trajectory::State&, Rotation2d&:
+          const Pose2d&, const Pose2d&, units::meters_per_second_t, const Rotation2d&:
+          const Pose2d&, const Trajectory::State&, const Rotation2d&:
       SetEnabled:
+      getThetaController:
+      getXController:
+      getYController:

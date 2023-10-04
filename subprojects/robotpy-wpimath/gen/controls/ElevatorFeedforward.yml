@@ -6,18 +6,18 @@ classes:
     - units::meters_per_second
     - meters_per_second_squared
     subpackage: controller
+    attributes:
+      kS:
+      kG:
+      kV:
+      kA:
     methods:
       ElevatorFeedforward:
         overloads:
           "":
-          units::volt_t, units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit>:
+          units::volt_t, units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit> [constexpr]:
       Calculate:
       MaxAchievableVelocity:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
       MinAchievableAcceleration:
-    inline_code: |
-        .def_readwrite("kS", &ElevatorFeedforward::kS)
-        .def_readwrite("kG", &ElevatorFeedforward::kG)
-        .def_readwrite("kV", &ElevatorFeedforward::kV)
-        .def_readwrite("kA", &ElevatorFeedforward::kA)

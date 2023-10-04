@@ -1,6 +1,8 @@
 ---
 
 functions:
+  IncrementAndGetProfiledPIDControllerInstances:
+    ignore: true
   ReportProfiledPIDController:
     ignore: true
 classes:
@@ -33,11 +35,8 @@ classes:
       GetVelocityTolerance:
       SetGoal:
         overloads:
-          typename TrapezoidProfile<Distance>::State:
-            param_override:
-              goal:
-                x_type: typename TrapezoidProfile<Distance>::State
-          units::unit_t<Distance>:
+          State:
+          Distance_t:
       GetGoal:
       AtGoal:
       SetConstraints:
@@ -51,24 +50,18 @@ classes:
       GetVelocityError:
       Calculate:
         overloads:
-          units::unit_t<Distance>:
-          units::unit_t<Distance>, typename TrapezoidProfile<Distance>::State:
-            param_override:
-              goal:
-                x_type: typename TrapezoidProfile<Distance>::State
-          units::unit_t<Distance>, units::unit_t<Distance>:
-          units::unit_t<Distance>, units::unit_t<Distance>, typename frc::TrapezoidProfile<Distance>::Constraints:
+          Distance_t:
+          Distance_t, State:
+          Distance_t, Distance_t:
+          Distance_t, Distance_t, typename frc::TrapezoidProfile<Distance>::Constraints:
             param_override:
               constraints:
                 x_type: typename TrapezoidProfile<Distance>::Constraints
       Reset:
         overloads:
-          typename TrapezoidProfile<Distance>::State&:
-            param_override:
-              measurement:
-                x_type: typename TrapezoidProfile<Distance>::State
-          units::unit_t<Distance>, units::unit_t<Velocity>:
-          units::unit_t<Distance>:
+          const State&:
+          Distance_t, Velocity_t:
+          Distance_t:
       InitSendable:
 
 templates:

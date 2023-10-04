@@ -13,9 +13,9 @@ classes:
     methods:
       Translation3d:
         overloads:
-          "":
-          units::meter_t, units::meter_t, units::meter_t:
-          units::meter_t, Rotation3d&:
+          '[constexpr]':
+          units::meter_t, units::meter_t, units::meter_t [constexpr]:
+          units::meter_t, const Rotation3d&:
       Distance:
       X:
       Y:
@@ -26,7 +26,7 @@ classes:
       operator+:
       operator-:
         overloads:
-          frc::Translation3d& [const]:
+          const Translation3d& [const]:
           '[const]':
       operator*:
       operator/:

@@ -9,14 +9,15 @@ classes:
     methods:
       LinearQuadraticRegulator:
         overloads:
-          LinearSystem<States, Inputs, Outputs>&, wpi::array<double, States>&, wpi::array<double, Inputs>&, units::second_t:
+          const LinearSystem<States, Inputs, Outputs>&, const StateArray&, const InputArray&, units::second_t:
             ignore: true
-          ? Matrixd<States, States>&, Matrixd<States, Inputs>&, wpi::array<double,
-            States>&, wpi::array<double, Inputs>&, units::second_t
+          const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const StateArray&, const InputArray&, units::second_t:
+          ? const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const
+            Matrixd<States, States>&, const Matrixd<Inputs, Inputs>&, units::second_t
           :
-          Matrixd<States, States>&, Matrixd<States, Inputs>&, Matrixd<States, States>&, Matrixd<Inputs, Inputs>&, units::second_t:
-          ? Matrixd<States, States>&, Matrixd<States, Inputs>&, Matrixd<States, States>&,
-            Matrixd<Inputs, Inputs>&, Matrixd<States, Inputs>&, units::second_t
+          ? const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const
+            Matrixd<States, States>&, const Matrixd<Inputs, Inputs>&, const Matrixd<States,
+            Inputs>&, units::second_t
           :
       K:
         overloads:
@@ -33,8 +34,8 @@ classes:
       Reset:
       Calculate:
         overloads:
-          Vectord<States>&:
-          Vectord<States>&, Vectord<States>&:
+          const StateVector&:
+          const StateVector&, const StateVector&:
       LatencyCompensate:
         template_impls:
         - [1]

@@ -19,7 +19,7 @@ classes:
           int [const]:
       SetXhat:
         overloads:
-          Vectord<States>&:
+          const StateVector&:
           int, double:
       Reset:
       Predict:

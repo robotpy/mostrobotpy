@@ -9,8 +9,8 @@ classes:
     methods:
       ControlAffinePlantInversionFeedforward:
         overloads:
-          std::function<StateVector ( const StateVector &, const InputVector & )>, units::second_t:
-          std::function<StateVector ( const StateVector & )>, Matrixd<States, Inputs>&, units::second_t:
+          std::function<StateVector (const StateVector&, const InputVector&)>, units::second_t:
+          std::function<StateVector (const StateVector&)>, const Matrixd<States, Inputs>&, units::second_t:
       Uff:
         overloads:
           '[const]':
@@ -21,12 +21,12 @@ classes:
           int [const]:
       Reset:
         overloads:
-          Vectord<States>&:
+          const StateVector&:
           "":
       Calculate:
         overloads:
-          Vectord<States>&:
-          Vectord<States>&, Vectord<States>&:
+          const StateVector&:
+          const StateVector&, const StateVector&:
 
 templates:
   ControlAffinePlantInversionFeedforward_1_1:

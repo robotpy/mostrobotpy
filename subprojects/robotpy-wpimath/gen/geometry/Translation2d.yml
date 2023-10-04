@@ -13,9 +13,9 @@ classes:
     methods:
       Translation2d:
         overloads:
-          "":
-          units::meter_t, units::meter_t:
-          units::meter_t, Rotation2d&:
+          '[constexpr]':
+          units::meter_t, units::meter_t [constexpr]:
+          units::meter_t, const Rotation2d& [constexpr]:
       Distance:
       X:
       Y:
@@ -31,7 +31,7 @@ classes:
       operator+=:
       operator-:
         overloads:
-          frc::Translation2d& [const]:
+          const Translation2d& [const]:
           '[const]':
       operator-=:
       operator*:

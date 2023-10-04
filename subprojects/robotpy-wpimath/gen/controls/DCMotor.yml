@@ -16,6 +16,10 @@ classes:
     methods:
       DCMotor:
       Current:
+      Torque:
+      Voltage:
+      Speed:
+      WithReduction:
       CIM:
       MiniCIM:
       Bag:

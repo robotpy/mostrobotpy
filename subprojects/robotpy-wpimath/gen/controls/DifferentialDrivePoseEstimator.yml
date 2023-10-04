@@ -47,7 +47,7 @@ classes:
       GetEstimatedPosition:
       AddVisionMeasurement:
         overloads:
-          Pose2d&, units::second_t:
-          Pose2d&, units::second_t, wpi::array<double, 3>&:
+          const Pose2d&, units::second_t:
+          const Pose2d&, units::second_t, const wpi::array<double, 3>&:
       Update:
       UpdateWithTime:

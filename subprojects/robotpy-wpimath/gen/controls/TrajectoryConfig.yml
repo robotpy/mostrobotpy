@@ -17,7 +17,7 @@ classes:
         - [PyTrajectoryConstraint]
       SetKinematics:
         overloads:
-          DifferentialDriveKinematics&:
+          const DifferentialDriveKinematics&:
           MecanumDriveKinematics:
           SwerveDriveKinematics<NumModules>&:
             ignore: true

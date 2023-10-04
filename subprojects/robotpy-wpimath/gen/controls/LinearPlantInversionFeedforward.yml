@@ -9,9 +9,9 @@ classes:
     methods:
       LinearPlantInversionFeedforward:
         overloads:
-          LinearSystem<States, Inputs, Outputs>&, units::second_t:
+          const LinearSystem<States, Inputs, Outputs>&, units::second_t:
             ignore: true
-          Matrixd<States, States>&, Matrixd<States, Inputs>&, units::second_t:
+          const Matrixd<States, States>&, const Matrixd<States, Inputs>&, units::second_t:
       Uff:
         overloads:
           '[const]':
@@ -22,12 +22,12 @@ classes:
           int [const]:
       Reset:
         overloads:
-          Vectord<States>&:
+          const StateVector&:
           "":
       Calculate:
         overloads:
-          Vectord<States>&:
-          Vectord<States>&, Vectord<States>&:
+          const StateVector&:
+          const StateVector&, const StateVector&:
     template_inline_code: |
       cls_LinearPlantInversionFeedforward
         .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, units::second_t>())

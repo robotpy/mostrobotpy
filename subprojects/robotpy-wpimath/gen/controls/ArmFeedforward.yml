@@ -10,21 +10,18 @@ classes:
     - frc::ArmFeedforward::Acceleration
     - frc::ArmFeedforward::kv_unit
     - frc::ArmFeedforward::ka_unit
+    attributes:
+      kS:
+      kG:
+      kV:
+      kA:
     methods:
       ArmFeedforward:
         overloads:
-          "":
-          units::volt_t, units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit>:
+          '[constexpr]':
+          units::volt_t, units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit> [constexpr]:
       Calculate:
       MaxAchievableVelocity:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
       MinAchievableAcceleration:
-    
-
-inline_code:
-  cls_ArmFeedforward
-    .def_readwrite("kS", &ArmFeedforward::kS)
-    .def_readwrite("kG", &ArmFeedforward::kG)
-    .def_readwrite("kV", &ArmFeedforward::kV)
-    .def_readwrite("kA", &ArmFeedforward::kA);

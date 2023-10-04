@@ -15,14 +15,14 @@ classes:
           :
           ? LinearSystem<States, Inputs, Outputs>&, LinearQuadraticRegulator<States,
             Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<InputVector
-            ( const InputVector & )>, units::second_t
+            (const InputVector&)>, units::second_t
           :
-          ? LinearQuadraticRegulator<States, Inputs>&, LinearPlantInversionFeedforward<States,
+          ? LinearQuadraticRegulator<States, Inputs>&, const LinearPlantInversionFeedforward<States,
             Inputs>&, KalmanFilter<States, Inputs, Outputs>&, units::volt_t
           :
-          ? LinearQuadraticRegulator<States, Inputs>&, LinearPlantInversionFeedforward<States,
+          ? LinearQuadraticRegulator<States, Inputs>&, const LinearPlantInversionFeedforward<States,
             Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<InputVector
-            ( const InputVector & )>
+            (const InputVector&)>
           :
       Xhat:
         overloads:
@@ -38,7 +38,7 @@ classes:
           int [const]:
       SetXhat:
         overloads:
-          Vectord<States>&:
+          const StateVector&:
           int, double:
       SetNextR:
       Controller:
