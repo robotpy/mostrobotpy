@@ -11,15 +11,15 @@ classes:
       GetConfig:
       EstimateHomography:
         overloads:
-          frc::AprilTagDetection& [const]:
+          const AprilTagDetection& [const]:
           std::span<const double, 9> [const]:
       EstimateOrthogonalIteration:
         overloads:
-          frc::AprilTagDetection&, int [const]:
+          const AprilTagDetection&, int [const]:
           std::span<const double, 9>, std::span<const double, 8>, int [const]:
       Estimate:
         overloads:
-          frc::AprilTagDetection& [const]:
+          const AprilTagDetection& [const]:
           std::span<const double, 9>, std::span<const double, 8> [const]:
   AprilTagPoseEstimator::Config:
     force_no_default_constructor: true

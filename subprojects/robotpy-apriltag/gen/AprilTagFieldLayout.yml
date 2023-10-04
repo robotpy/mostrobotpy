@@ -17,8 +17,8 @@ classes:
           std::vector<AprilTag>, units::meter_t, units::meter_t:
       SetOrigin:
         overloads:
-          frc::AprilTagFieldLayout::OriginPosition:
-          Pose3d&:
+          OriginPosition:
+          const Pose3d&:
       GetTagPose:
       Serialize:
       operator==:
