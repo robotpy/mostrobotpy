@@ -2,7 +2,54 @@
 
 enums:
   ControlRecordType:
+functions:
+  WPI_DataLog_Create:
+    ignore: true
+  WPI_DataLog_Create_Func:
+    ignore: true
+  WPI_DataLog_Release:
+    ignore: true
+  WPI_DataLog_SetFilename:
+    ignore: true
+  WPI_DataLog_Flush:
+    ignore: true
+  WPI_DataLog_Pause:
+    ignore: true
+  WPI_DataLog_Resume:
+    ignore: true
+  WPI_DataLog_Start:
+    ignore: true
+  WPI_DataLog_Finish:
+    ignore: true
+  WPI_DataLog_SetMetadata:
+    ignore: true
+  WPI_DataLog_AppendRaw:
+    ignore: true
+  WPI_DataLog_AppendBoolean:
+    ignore: true
+  WPI_DataLog_AppendInteger:
+    ignore: true
+  WPI_DataLog_AppendFloat:
+    ignore: true
+  WPI_DataLog_AppendDouble:
+    ignore: true
+  WPI_DataLog_AppendString:
+    ignore: true
+  WPI_DataLog_AppendBooleanArray:
+    ignore: true
+  WPI_DataLog_AppendBooleanArrayByte:
+    ignore: true
+  WPI_DataLog_AppendIntegerArray:
+    ignore: true
+  WPI_DataLog_AppendFloatArray:
+    ignore: true
+  WPI_DataLog_AppendDoubleArray:
+    ignore: true
+  WPI_DataLog_AppendStringArray:
+    ignore: true
 classes:
+  WPI_DataLog_String:
+    ignore: true
   DataLog:
     subpackage: log
     methods:
@@ -43,6 +90,8 @@ classes:
           int, std::span<const std::string>, int64_t:
             ignore: true
           int, std::span<const std::string_view>, int64_t:
+          int, std::span<const WPI_DataLog_String>, int64_t:
+            ignore: true
   DataLogEntry:
     subpackage: log
     force_no_trampoline: true
