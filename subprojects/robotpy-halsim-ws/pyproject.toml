@@ -32,7 +32,7 @@ artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.4.3"
+version = "2024.1.1-beta-1"
 
 dlopenlibs = ["halsim_ws_server"]
 
@@ -45,7 +45,7 @@ artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.4.3"
+version = "2024.1.1-beta-1"
 
 dlopenlibs = ["halsim_ws_client"]
 
