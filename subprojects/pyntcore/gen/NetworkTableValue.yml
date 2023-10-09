@@ -11,9 +11,9 @@ classes:
         overloads:
           "":
             ignore: true
-          NT_Type, int64_t, const private_init&:
+          NT_Type, size_t, int64_t, const private_init&:
             ignore: true
-          NT_Type, int64_t, int64_t, const private_init&:
+          NT_Type, size_t, int64_t, int64_t, const private_init&:
             ignore: true
       type:
         cpp_code: |
@@ -27,6 +27,7 @@ classes:
           }
       last_change:
       time:
+      size:
       SetTime:
       server_time:
       SetServerTime:
