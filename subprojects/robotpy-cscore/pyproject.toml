@@ -26,7 +26,7 @@ base_package = "cscore"
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.4.3"
+version = "2024.1.1-beta-1"
 
 libs = ["cscore"]
 
@@ -34,17 +34,17 @@ libs = ["cscore"]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2023.4.3"
+version = "2024.1.1-beta-1"
 
 libs = ["cameraserver"]
 
 [tool.robotpy-build.static_libs."opencv_cpp".maven_lib_download]
 artifact_id = "opencv-cpp"
-group_id = "edu.wpi.first.thirdparty.frc2023.opencv"
+group_id = "edu.wpi.first.thirdparty.frc2024.opencv"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "4.6.0-4"
+version = "4.8.0-1"
 
-libs = ["opencv460"]
+libs = ["opencv480"]
 
 [tool.robotpy-build.wrappers."cscore"]
 name = "cscore"
