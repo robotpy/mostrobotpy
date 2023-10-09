@@ -99,6 +99,10 @@ HandlesInternal = "hal/handles/HandlesInternal.h"
 # LimitedHandleResource = "hal/handles/LimitedHandleResource.h"
 # UnlimitedHandleResource = "hal/handles/UnlimitedHandleResource.h"
 
+# hal/roborio
+# HMB = "hal/roborio/HMB.h"
+# InterruptManager = "hal/roborio/InterruptManager.h"
+
 [tool.robotpy-build.wrappers."hal".autogen_headers.override.platform_linux_athena]
 SerialHelper = "hal/cpp/SerialHelper.h"
 

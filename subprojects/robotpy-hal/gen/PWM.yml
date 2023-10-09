@@ -7,11 +7,15 @@ functions:
   HAL_InitializePWMPort:
   HAL_FreePWMPort:
   HAL_CheckPWMChannel:
+  HAL_SetPWMConfigMicroseconds:
+  HAL_GetPWMConfigMicroseconds:
   HAL_SetPWMConfig:
   HAL_SetPWMConfigRaw:
   HAL_GetPWMConfigRaw:
   HAL_SetPWMEliminateDeadband:
   HAL_GetPWMEliminateDeadband:
+  HAL_SetPWMPulseTimeMicroseconds:
+  HAL_GetPWMPulseTimeMicroseconds:
   HAL_SetPWMRaw:
   HAL_SetPWMSpeed:
   HAL_SetPWMPosition:
@@ -21,5 +25,6 @@ functions:
   HAL_GetPWMPosition:
   HAL_LatchPWMZero:
   HAL_SetPWMPeriodScale:
+  HAL_SetPWMAlwaysHighMode:
   HAL_GetPWMLoopTiming:
   HAL_GetPWMCycleStartTime:

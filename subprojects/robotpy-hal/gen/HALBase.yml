@@ -11,6 +11,7 @@ functions:
   HAL_GetFPGARevision:
   HAL_GetSerialNumber:
   HAL_GetComments:
+  HAL_GetTeamNumber:
   HAL_GetRuntimeType:
   HAL_GetFPGAButton:
   HAL_GetSystemActive:
@@ -19,6 +20,8 @@ functions:
   HAL_GetPortWithModule:
   HAL_GetFPGATime:
   HAL_ExpandFPGATime:
+  HAL_GetRSLState:
+  HAL_GetSystemTimeValid:
   HAL_Initialize:
   HAL_Shutdown:
   HAL_SimPeriodicBefore:

@@ -10,6 +10,12 @@ functions:
   HALSIM_CancelPWMInitializedCallback:
   HALSIM_GetPWMInitialized:
   HALSIM_SetPWMInitialized:
+  HALSIM_RegisterPWMPulseMicrosecondCallback:
+    ignore: true
+  HALSIM_CancelPWMPulseMicrosecondCallback:
+    ignore: true
+  HALSIM_GetPWMPulseMicrosecond:
+  HALSIM_SetPWMPulseMicrosecond:
   HALSIM_RegisterPWMRawValueCallback:
     ignore: true
   HALSIM_CancelPWMRawValueCallback:
