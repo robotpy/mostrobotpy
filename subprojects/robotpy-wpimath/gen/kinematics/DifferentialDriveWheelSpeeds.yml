@@ -10,6 +10,13 @@ classes:
     methods:
       Normalize:
       Desaturate:
+      operator+:
+      operator-:
+        overloads:
+          const DifferentialDriveWheelSpeeds& [const]:
+          '[const]':
+      operator*:
+      operator/:
 
 
 inline_code: |

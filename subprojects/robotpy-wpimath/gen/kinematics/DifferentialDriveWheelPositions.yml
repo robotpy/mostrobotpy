@@ -1,12 +1,10 @@
 ---
 
 classes:
-  MecanumDriveWheelPositions:
+  DifferentialDriveWheelPositions:
     attributes:
-      frontLeft:
-      frontRight:
-      rearLeft:
-      rearRight:
+      left:
+      right:
     methods:
       operator==:
       operator!=:

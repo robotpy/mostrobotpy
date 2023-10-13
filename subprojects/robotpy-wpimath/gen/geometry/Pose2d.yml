@@ -22,6 +22,7 @@ classes:
           units::meter_t, units::meter_t, Rotation2d [constexpr]:
       Translation:
       Rotation:
+      RotateBy:
       TransformBy:
       RelativeTo:
       Exp:

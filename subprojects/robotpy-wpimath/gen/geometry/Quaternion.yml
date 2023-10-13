@@ -15,16 +15,32 @@ classes:
         overloads:
           "":
           double, double, double, double:
+      operator+:
+      operator-:
       operator*:
+      operator/:
       operator==:
       operator!=:
+      Dot:
+      Conjugate:
       Inverse:
       Normalize:
+      Norm:
+      Pow:
+      Exp:
+        overloads:
+          const Quaternion& [const]:
+          '[const]':
+      Log:
+        overloads:
+          const Quaternion& [const]:
+          '[const]':
       W:
       X:
       Y:
       Z:
       ToRotationVector:
+      FromRotationVector:
 
 inline_code: |
   cls_Quaternion

@@ -89,9 +89,9 @@ classes:
       velocity:
     methods:
       operator==:
-        cpp_code: .def(py::self == State()
+        cpp_code: py::self == State()
       operator!=:
-        cpp_code: .def(py::self != State()
+        cpp_code: py::self != State()
 
 templates:
   TrapezoidProfile:

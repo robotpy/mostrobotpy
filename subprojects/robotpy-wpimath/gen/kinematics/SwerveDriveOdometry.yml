@@ -2,7 +2,7 @@
 
 classes:
   SwerveDriveOdometry:
-    shared_ptr: false
+    force_no_trampoline: true
     template_params:
     - size_t NumModules
     methods:

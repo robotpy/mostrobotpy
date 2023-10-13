@@ -2,8 +2,8 @@
 
 classes:
   DifferentialDrivePoseEstimator:
-    shared_ptr: false
     subpackage: estimator
+    force_no_trampoline: true
     doc: |
       This class wraps an Unscented Kalman Filter to fuse latency-compensated
       vision measurements with differential drive encoder measurements. It will

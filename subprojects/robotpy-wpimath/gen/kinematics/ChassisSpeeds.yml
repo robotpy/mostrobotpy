@@ -9,10 +9,21 @@ classes:
       vy:
       omega:
     methods:
+      Discretize:
+        overloads:
+          units::meters_per_second_t, units::meters_per_second_t, units::radians_per_second_t, units::second_t:
+          const ChassisSpeeds&, units::second_t:
       FromFieldRelativeSpeeds:
         overloads:
           units::meters_per_second_t, units::meters_per_second_t, units::radians_per_second_t, const Rotation2d&:
           const ChassisSpeeds&, const Rotation2d&:
+      operator+:
+      operator-:
+        overloads:
+          const ChassisSpeeds& [const]:
+          '[const]':
+      operator*:
+      operator/:
 
 inline_code: |
   cls_ChassisSpeeds

@@ -28,6 +28,7 @@ classes:
       Rotation:
       operator*:
       operator/:
+      RotateBy:
       TransformBy:
       RelativeTo:
       Exp:

@@ -11,3 +11,13 @@ functions:
         default: '1.0'
     template_impls:
     - [double]
+  IsNear:
+    overloads:
+      T, T, T [constexpr]:
+        ignore: true
+        template_impls:
+        - [double]
+      T, T, T, T, T [constexpr]:
+        ignore: true
+        template_impls:
+        - [double]

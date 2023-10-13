@@ -12,6 +12,13 @@ classes:
     methods:
       Normalize:
       Desaturate:
+      operator+:
+      operator-:
+        overloads:
+          const MecanumDriveWheelSpeeds& [const]:
+          '[const]':
+      operator*:
+      operator/:
 
 inline_code: |
   cls_MecanumDriveWheelSpeeds

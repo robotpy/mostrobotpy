@@ -31,4 +31,5 @@ classes:
       NEO:
       NEO550:
       Falcon500:
+      Falcon500FOC:
       RomiBuiltIn:

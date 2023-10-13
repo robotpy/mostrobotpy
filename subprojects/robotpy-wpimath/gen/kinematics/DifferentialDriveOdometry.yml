@@ -2,7 +2,7 @@
 
 classes:
   DifferentialDriveOdometry:
-    shared_ptr: true
+    force_no_trampoline: true
     methods:
       DifferentialDriveOdometry:
       ResetPosition:

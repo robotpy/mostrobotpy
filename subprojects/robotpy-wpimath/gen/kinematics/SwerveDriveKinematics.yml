@@ -2,15 +2,50 @@
 
 classes:
   SwerveDriveKinematics:
-    shared_ptr: false
+    force_type_casters:
+    - wpi::array
     template_params:
     - size_t NumModules
     methods:
       SwerveDriveKinematics:
         overloads:
+          ModuleTranslations&&...:
+            ignore: true
           Translation2d, Wheels&&...:
             ignore: true
           const wpi::array<Translation2d, NumModules>&:
+            ignore: true
+      
+      ResetHeadings:
+        overloads:
+          ModuleHeadings&&...:
+            param_override:
+              moduleHeadings:
+                ignore: true
+            cpp_code: |
+              []() {
+                if constexpr (NumModules == 2) {
+                  return [](SwerveDriveKinematics<NumModules> *self, Rotation2d r0, Rotation2d r1) {
+                    return self->ResetHeadings(r0, r1);
+                  };
+                } else if constexpr (NumModules == 3) {
+                  return [](SwerveDriveKinematics<NumModules> *self, Rotation2d r0, Rotation2d r1, Rotation2d r2) {
+                    return self->ResetHeadings(r0, r1, r2);
+                  };
+                } else if constexpr (NumModules == 4) {
+                  return [](SwerveDriveKinematics<NumModules> *self, Rotation2d r0, Rotation2d r1,
+                    Rotation2d r2, Rotation2d r3) {
+                    return self->ResetHeadings(r0, r1, r2, r3);
+                  };
+                } else if constexpr (NumModules == 6) {
+                  return [](SwerveDriveKinematics<NumModules> *self,
+                    Rotation2d r0, Rotation2d r1, Rotation2d r2,
+                    Rotation2d r3, Rotation2d r4, Rotation2d r5) {
+                    return self->ResetHeadings(r0, r1, r2, r3, r4, r5);
+                  };
+                }
+              }()
+          wpi::array<Rotation2d, NumModules>:
             ignore: true
 
       ToSwerveModuleStates:
@@ -38,12 +73,12 @@ classes:
                     to directly assign the module states to variables::
 
                       fl, fr, bl, br = kinematics.toSwerveModuleStates(chassisSpeeds)
-
+      ToWheelSpeeds:
       ToChassisSpeeds:
         overloads:
           ModuleStates&&... [const]:
             param_override:
-              wheelStates:
+              moduleStates:
                 ignore: true
             cpp_code: |
               []() {
@@ -68,13 +103,13 @@ classes:
                   };
                 }
               }()
-          wpi::array<SwerveModuleState, NumModules> [const]:
+          const wpi::array<SwerveModuleState, NumModules>& [const]:
             ignore: true
       ToTwist2d:
         overloads:
           ModuleDeltas&&... [const]:
             param_override:
-              wheelDeltas:
+              moduleDeltas:
                 ignore: true
             cpp_code: |
               []() {
@@ -100,6 +135,8 @@ classes:
                 }
               }()
           wpi::array<SwerveModulePosition, NumModules> [const]:
+            ignore: true
+          const SwerveDriveWheelPositions<NumModules>&, const SwerveDriveWheelPositions<NumModules>& [const]:
             ignore: true
       DesaturateWheelSpeeds:
         overloads:

@@ -1,0 +1,47 @@
+---
+
+classes:
+  SwerveDriveWheelPositions:
+    template_params:
+    - size_t NumModules
+    force_type_casters:
+    - wpi::array
+    force_no_default_constructor: true
+    attributes:
+      positions:
+    methods:
+      operator==:
+        cpp_code: |
+          "__eq__", [](frc::SwerveDriveWheelPositions<NumModules> &self, frc::SwerveDriveWheelPositions<NumModules> &other) {
+              return self == other;
+          }, py::is_operator()
+      operator!=:
+        cpp_code: |
+          "__ne__", [](frc::SwerveDriveWheelPositions<NumModules> &self, frc::SwerveDriveWheelPositions<NumModules> &other) {
+              return self != other;
+          }, py::is_operator()
+      Interpolate:
+
+    template_inline_code: |
+      cls_SwerveDriveWheelPositions
+        .def(py::init<wpi::array<SwerveModulePosition, NumModules>>(),
+          py::arg("positions") = wpi::array<SwerveModulePosition, NumModules>(wpi::empty_array)
+        );
+
+templates:
+  SwerveDrive2WheelPositions:
+    qualname: frc::SwerveDriveWheelPositions
+    params:
+    - 2
+  SwerveDrive3WheelPositions:
+    qualname: frc::SwerveDriveWheelPositions
+    params:
+    - 3
+  SwerveDrive4WheelPositions:
+    qualname: frc::SwerveDriveWheelPositions
+    params:
+    - 4
+  SwerveDrive6WheelPositions:
+    qualname: frc::SwerveDriveWheelPositions
+    params:
+    - 6

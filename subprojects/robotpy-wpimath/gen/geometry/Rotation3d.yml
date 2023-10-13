@@ -16,10 +16,10 @@ classes:
           "":
           const Quaternion&:
           units::radian_t, units::radian_t, units::radian_t:
-          const Vectord<3>&, units::radian_t:
+          const Eigen::Vector3d&, units::radian_t:
           const Eigen::Vector3d&:
           const Eigen::Matrix3d&:
-          const Vectord<3>&, const Vectord<3>&:
+          const Eigen::Vector3d&, const Eigen::Vector3d&:
       operator+:
       operator-:
         overloads:

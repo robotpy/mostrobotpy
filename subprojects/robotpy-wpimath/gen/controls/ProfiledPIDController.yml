@@ -27,9 +27,11 @@ classes:
       SetP:
       SetI:
       SetD:
+      SetIZone:
       GetP:
       GetI:
       GetD:
+      GetIZone:
       GetPeriod:
       GetPositionTolerance:
       GetVelocityTolerance:
@@ -40,6 +42,7 @@ classes:
       GetGoal:
       AtGoal:
       SetConstraints:
+      GetConstraints:
       GetSetpoint:
       AtSetpoint:
       EnableContinuousInput:
