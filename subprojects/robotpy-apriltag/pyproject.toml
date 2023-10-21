@@ -24,7 +24,7 @@ base_package = "robotpy_apriltag"
 artifact_id = "apriltag-cpp"
 group_id = "edu.wpi.first.apriltag"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1-beta-1"
+version = "2024.1.1-beta-2"
 
 libs = ["apriltag"]
 
