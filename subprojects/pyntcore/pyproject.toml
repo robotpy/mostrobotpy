@@ -24,7 +24,7 @@ base_package = "ntcore"
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1-beta-1"
+version = "2024.1.1-beta-2"
 
 libs = ["ntcore"]
 
