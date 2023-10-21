@@ -1,55 +1,10 @@
 ---
-
+defaults:
+  ignore: true
+  report_ignored_missing: false
 enums:
   ControlRecordType:
-functions:
-  WPI_DataLog_Create:
-    ignore: true
-  WPI_DataLog_Create_Func:
-    ignore: true
-  WPI_DataLog_Release:
-    ignore: true
-  WPI_DataLog_SetFilename:
-    ignore: true
-  WPI_DataLog_Flush:
-    ignore: true
-  WPI_DataLog_Pause:
-    ignore: true
-  WPI_DataLog_Resume:
-    ignore: true
-  WPI_DataLog_Start:
-    ignore: true
-  WPI_DataLog_Finish:
-    ignore: true
-  WPI_DataLog_SetMetadata:
-    ignore: true
-  WPI_DataLog_AppendRaw:
-    ignore: true
-  WPI_DataLog_AppendBoolean:
-    ignore: true
-  WPI_DataLog_AppendInteger:
-    ignore: true
-  WPI_DataLog_AppendFloat:
-    ignore: true
-  WPI_DataLog_AppendDouble:
-    ignore: true
-  WPI_DataLog_AppendString:
-    ignore: true
-  WPI_DataLog_AppendBooleanArray:
-    ignore: true
-  WPI_DataLog_AppendBooleanArrayByte:
-    ignore: true
-  WPI_DataLog_AppendIntegerArray:
-    ignore: true
-  WPI_DataLog_AppendFloatArray:
-    ignore: true
-  WPI_DataLog_AppendDoubleArray:
-    ignore: true
-  WPI_DataLog_AppendStringArray:
-    ignore: true
 classes:
-  WPI_DataLog_String:
-    ignore: true
   DataLog:
     subpackage: log
     methods:
@@ -65,6 +20,15 @@ classes:
       Flush:
       Pause:
       Resume:
+      HasSchema:
+      AddSchema:
+        overloads:
+          std::string_view, std::string_view, std::span<const uint8_t>, int64_t:
+          std::string_view, std::string_view, std::string_view, int64_t:
+      AddProtobufSchema:
+        ignore: true
+      AddStructSchema:
+        ignore: true
       Start:
       Finish:
       SetMetadata:
@@ -276,3 +240,39 @@ classes:
           std::span<const std::string_view>, int64_t:
           std::initializer_list<std::string_view>, int64_t:
             ignore: true
+  StructLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    ignore: true
+    methods:
+      StructLogEntry:
+        overloads:
+          "":
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+  StructArrayLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    ignore: true
+    methods:
+      StructArrayLogEntry:
+        overloads:
+          "":
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+        overloads:
+          U&&, int64_t:
+          std::span<const T>, int64_t:
+  ProtobufLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    ignore: true
+    methods:
+      ProtobufLogEntry:
+        overloads:
+          "":
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
