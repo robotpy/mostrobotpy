@@ -17,6 +17,7 @@ requires = [
     "robotpy-wpiutil~=2023.4.3",
     "robotpy-wpinet~=2023.4.3",
     "pyntcore~=2023.4.3",
+    "numpy", # required for pybind11-stubgen to not complain
 ]
 
 [tool.robotpy-build]
