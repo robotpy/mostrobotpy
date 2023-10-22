@@ -232,7 +232,7 @@ namespace pybind11
         template <> struct type_caster<wpi::json>
         {
         public:
-            PYBIND11_TYPE_CASTER(wpi::json, _("json"));
+            PYBIND11_TYPE_CASTER(wpi::json, _("wpiutil.json"));
 
             bool load(handle src, bool convert)
             {
