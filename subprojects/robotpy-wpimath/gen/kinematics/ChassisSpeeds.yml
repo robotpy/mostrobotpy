@@ -17,6 +17,10 @@ classes:
         overloads:
           units::meters_per_second_t, units::meters_per_second_t, units::radians_per_second_t, const Rotation2d&:
           const ChassisSpeeds&, const Rotation2d&:
+      FromRobotRelativeSpeeds:
+        overloads:
+          units::meters_per_second_t, units::meters_per_second_t, units::radians_per_second_t, const Rotation2d&:
+          const ChassisSpeeds&, const Rotation2d&:
       operator+:
       operator-:
         overloads:

@@ -33,3 +33,6 @@ classes:
       Falcon500:
       Falcon500FOC:
       RomiBuiltIn:
+      KrakenX60:
+      KrakenX60FOC:
+      NeoVortex:

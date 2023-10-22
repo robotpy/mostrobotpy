@@ -2,7 +2,6 @@
 
 classes:
   LinearSystemId:
-    shared_ptr: true
     subpackage: plant
     typealias:
     - kv_meters = units::unit_t<units::compound_unit<units::volts, units::inverse<units::meters_per_second>>>
@@ -38,9 +37,21 @@ classes:
               }
       FlywheelSystem:
       DCMotorSystem:
+        overloads:
+          DCMotor, units::kilogram_square_meter_t, double:
+          decltype(1_V/Velocity_t<Distance> (1)), decltype(1_V/Acceleration_t<Distance> (1)):
+            cpp_code: |
+              [](kv_meters kv, ka_meters ka) {
+                return frc::LinearSystemId::DCMotorSystem<units::meter>(kv, ka);
+              }
       DrivetrainVelocitySystem:
 
     inline_code: |
+      .def_static("DCMotorSystemRadians", [](kv_radians kV, ka_radians kA) {
+          return frc::LinearSystemId::DCMotorSystem<units::radian>(kV, kA);
+        }, py::arg("kV"), py::arg("kA"), release_gil()
+      )
+
       .def_static("identifyVelocitySystemRadians", [](kv_radians kV, ka_radians kA) {
           return frc::LinearSystemId::IdentifyVelocitySystem<units::radian>(kV, kA);
         }, py::arg("kV"), py::arg("kA"), release_gil()

@@ -16,6 +16,7 @@ classes:
         overloads:
           Pose2d, Pose2d:
           Translation2d, Rotation2d [constexpr]:
+          units::meter_t, units::meter_t, Rotation2d [constexpr]:
           '[constexpr]':
       Translation:
       Rotation:
