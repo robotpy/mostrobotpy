@@ -1,6 +1,5 @@
 #pragma once
 #include "cvnp/cvnp_synonyms.h"
-#include "cvnp/cvnp_shared_mat.h"
 
 #include <opencv2/core/core.hpp>
 #include <pybind11/numpy.h>
@@ -18,12 +17,15 @@ namespace cvnp
     //
     // Public interface
     //
-    pybind11::array mat_to_nparray(const cv::Mat& m, bool share_memory);
+
+    // For cv::Mat (*with* shared memory)
+    pybind11::array mat_to_nparray(const cv::Mat& m);
     cv::Mat         nparray_to_mat(pybind11::array& a);
 
-        template<typename _Tp, int _rows, int _cols>
-    pybind11::array matx_to_nparray(const cv::Matx<_Tp, _rows, _cols>& m, bool share_memory);
-        template<typename _Tp, int _rows, int _cols>
+    // For cv::Matx (*without* shared memory)
+    template<typename _Tp, int _rows, int _cols>
+    pybind11::array matx_to_nparray(const cv::Matx<_Tp, _rows, _cols>& m);
+    template<typename _Tp, int _rows, int _cols>
     void            nparray_to_matx(pybind11::array &a, cv::Matx<_Tp, _rows, _cols>& out_matrix);
 
 
@@ -42,21 +44,13 @@ namespace cvnp
     } // namespace detail
 
     template<typename _Tp, int _rows, int _cols>
-    pybind11::array matx_to_nparray(const cv::Matx<_Tp, _rows, _cols>& m, bool share_memory)
+    pybind11::array matx_to_nparray(const cv::Matx<_Tp, _rows, _cols>& m)
     {
-        if (share_memory)
-            return pybind11::array(
-                pybind11::dtype::of<_Tp>()
-                , std::vector<std::size_t> {_rows, _cols}
-                , m.val
-                , detail::make_capsule_matx<_Tp, _rows, _cols>(m)
-                );
-        else
-            return pybind11::array(
-                pybind11::dtype::of<_Tp>()
-                , std::vector<std::size_t> {_rows, _cols}
-                , m.val
-            );
+        return pybind11::array(
+            pybind11::dtype::of<_Tp>()
+            , std::vector<std::size_t> {_rows, _cols}
+            , m.val
+        );
     }
 
     template<typename _Tp, int _rows, int _cols>
@@ -84,55 +78,11 @@ namespace pybind11
     namespace detail
     {
         //
-        // Cast between cvnp::Mat_shared and numpy.ndarray
+        // Cast between cv::Mat and numpy.ndarray
         // The cast between cv::Mat and numpy.ndarray works
         //   - *with* shared memory when going from C++ to Python
         //   - *with* shared memory when going from Python to C++
-        //   any modification to the Matrix size, type, and values is immediately
-        //   impacted on both sides.
-        //
-        template<>
-        struct type_caster<cvnp::Mat_shared>
-        {
-        public:
-        PYBIND11_TYPE_CASTER(cvnp::Mat_shared, _("numpy.ndarray"));
-
-            /**
-             * Conversion part 1 (Python->C++):
-             * Return false upon failure.
-             * The second argument indicates whether implicit conversions should be applied.
-             */
-            bool load(handle src, bool)
-            {
-                if (!isinstance<array>(src)) {
-                    return false;
-                }
-                auto a = reinterpret_borrow<array>(src);
-                auto new_mat = cv::Mat(cvnp::nparray_to_mat(a));
-                value.Value = new_mat;
-                return true;
-            }
-
-            /**
-             * Conversion part 2 (C++ -> Python):
-             * The second and third arguments are used to indicate the return value policy and parent object
-             * (for ``return_value_policy::reference_internal``) and are generally
-             * ignored by implicit casters.
-             */
-            static handle cast(const cvnp::Mat_shared &m, return_value_policy, handle defval)
-            {
-                auto a = cvnp::mat_to_nparray(m.Value, true);
-                return a.release();
-            }
-        };
-
-
-        //
-        // Cast between cv::Mat and numpy.ndarray
-        // The cast between cv::Mat and numpy.ndarray works *without* shared memory.
-        //   - *without* shared memory when going from C++ to Python
-        //   - *with* shared memory when going from Python to C++
-        //
+        //   any modification to the Matrix size, type, and values is immediately impacted on both sides.
         template<>
         struct type_caster<cv::Mat>
         {
@@ -146,9 +96,9 @@ namespace pybind11
              */
             bool load(handle src, bool)
             {
-                if (!isinstance<array>(src)) {
+                if (!isinstance<array>(src))
                     return false;
-                }
+
                 auto a = reinterpret_borrow<array>(src);
                 auto new_mat = cvnp::nparray_to_mat(a);
                 value = new_mat;
@@ -163,55 +113,57 @@ namespace pybind11
              */
             static handle cast(const cv::Mat &m, return_value_policy, handle defval)
             {
-                auto a = cvnp::mat_to_nparray(m, false);
+                auto a = cvnp::mat_to_nparray(m);
                 return a.release();
             }
         };
 
-
         //
-        // Cast between cvnp::Matx_shared<_rows,_cols> (aka Matx33d, Matx21d, etc) + Vec<_rows> (aka Vec1d, Vec2f, etc) and numpy.ndarray
-        // The cast between cvnp::Matx_shared, cvnp::Vec_shared and numpy.ndarray works *with* shared memory:
-        //   any modification to the Matrix size, type, and values is immediately
-        //   impacted on both sides.
+        // Cast between cv::Mat_ and numpy.ndarray
+        // The cast between cv::Mat_ and numpy.ndarray works
         //   - *with* shared memory when going from C++ to Python
         //   - *with* shared memory when going from Python to C++
-        //
-        template<typename _Tp, int _rows, int _cols>
-        struct type_caster<cvnp::Matx_shared<_Tp, _rows, _cols> >
+        //   any modification to the Matrix size, type, and values is immediately impacted on both sides.
+        template<typename _Tp>
+        struct type_caster<cv::Mat_<_Tp>>
         {
-            using Matshared_xxx = cvnp::Matx_shared<_Tp, _rows, _cols>;
-
+            using MatTp = cv::Mat_<_Tp>;
         public:
-        PYBIND11_TYPE_CASTER(Matshared_xxx, _("numpy.ndarray"));
+        PYBIND11_TYPE_CASTER(MatTp, _("numpy.ndarray"));
 
-            // Conversion part 1 (Python->C++)
+            /**
+             * Conversion part 1 (Python->C++):
+             * Return false upon failure.
+             * The second argument indicates whether implicit conversions should be applied.
+             */
             bool load(handle src, bool)
             {
-                if (!isinstance<array>(src)) {
+                if (!isinstance<array>(src))
                     return false;
-                }
 
                 auto a = reinterpret_borrow<array>(src);
-                cvnp::nparray_to_matx<_Tp, _rows, _cols>(a, value.Value);
+                auto new_mat = cvnp::nparray_to_mat(a);
+                value = new_mat;
                 return true;
             }
 
-            // Conversion part 2 (C++ -> Python)
-            static handle cast(const Matshared_xxx &m, return_value_policy, handle defval)
+            /**
+             * Conversion part 2 (C++ -> Python):
+             * The second and third arguments are used to indicate the return value policy and parent object
+             * (for ``return_value_policy::reference_internal``) and are generally
+             * ignored by implicit casters.
+             */
+            static handle cast(const MatTp &m, return_value_policy, handle defval)
             {
-                auto a = cvnp::matx_to_nparray<_Tp, _rows, _cols>(m.Value, true);
+                auto a = cvnp::mat_to_nparray(m);
                 return a.release();
             }
         };
 
 
-        //
-        // Cast between cv::Matx<_rows,_cols> (aka Matx33d, Matx21d, etc) + Vec<_rows> (aka Vec1d, Vec2f, etc) and numpy.ndarray
-        // The cast between cv::Matx, cv::Vec and numpy.ndarray works *without* shared memory.
-        //   - *without* shared memory when going from C++ to Python
-        //   - *with* shared memory when going from Python to C++
-        //
+
+        // Cast between cv::Matx<_rows,_cols> (aka Matx33d, Matx21d, etc) and numpy.ndarray
+        // *without* shared memory.
         template<typename _Tp, int _rows, int _cols>
         struct type_caster<cv::Matx<_Tp, _rows, _cols> >
         {
@@ -223,9 +175,8 @@ namespace pybind11
             // Conversion part 1 (Python->C++)
             bool load(handle src, bool)
             {
-                if (!isinstance<array>(src)) {
+                if (!isinstance<array>(src))
                     return false;
-                }
 
                 auto a = reinterpret_borrow<array>(src);
                 cvnp::nparray_to_matx<_Tp, _rows, _cols>(a, value);
@@ -235,11 +186,40 @@ namespace pybind11
             // Conversion part 2 (C++ -> Python)
             static handle cast(const Matxxx &m, return_value_policy, handle defval)
             {
-                auto a = cvnp::matx_to_nparray<_Tp, _rows, _cols>(m, false);
+                auto a = cvnp::matx_to_nparray<_Tp, _rows, _cols>(m);
                 return a.release();
             }
         };
 
+
+        // Cast between cv::Vec<_rows> and numpy.ndarray
+        // *without* shared memory.
+        template<typename _Tp, int _rows>
+        struct type_caster<cv::Vec<_Tp, _rows> >
+        {
+            using Vecxxx = cv::Vec<_Tp, _rows>;
+
+        public:
+        PYBIND11_TYPE_CASTER(Vecxxx, _("numpy.ndarray"));
+
+            // Conversion part 1 (Python->C++)
+            bool load(handle src, bool)
+            {
+                if (!isinstance<array>(src))
+                    return false;
+
+                auto a = reinterpret_borrow<array>(src);
+                cvnp::nparray_to_matx<_Tp, _rows, 1>(a, value);
+                return true;
+            }
+
+            // Conversion part 2 (C++ -> Python)
+            static handle cast(const Vecxxx &m, return_value_policy, handle defval)
+            {
+                auto a = cvnp::matx_to_nparray<_Tp, _rows, 1>(m);
+                return a.release();
+            }
+        };
 
 
         //
@@ -258,9 +238,8 @@ namespace pybind11
             // Conversion part 1 (Python->C++, i.e tuple -> Size)
             bool load(handle src, bool)
             {
-                if (!isinstance<pybind11::tuple>(src)) {
+                if (!isinstance<pybind11::tuple>(src))
                     return false;
-                }
 
                 auto tuple = pybind11::reinterpret_borrow<pybind11::tuple>(src);
                 if (tuple.size() != 2)
@@ -299,9 +278,8 @@ namespace pybind11
             // Conversion part 1 (Python->C++)
             bool load(handle src, bool)
             {
-                if (!isinstance<pybind11::tuple>(src)) {
+                if (!isinstance<pybind11::tuple>(src))
                     return false;
-                }
 
                 auto tuple = pybind11::reinterpret_borrow<pybind11::tuple>(src);
                 if (tuple.size() != 2)
@@ -324,7 +302,6 @@ namespace pybind11
         };
 
 
-
         //
         // Point3
         // No shared memory
@@ -340,9 +317,8 @@ namespace pybind11
             // Conversion part 1 (Python->C++)
             bool load(handle src, bool)
             {
-                if (!isinstance<pybind11::tuple>(src)) {
+                if (!isinstance<pybind11::tuple>(src))
                     return false;
-                }
 
                 auto tuple = pybind11::reinterpret_borrow<pybind11::tuple>(src);
                 if (tuple.size() != 3)
@@ -361,6 +337,92 @@ namespace pybind11
             static handle cast(const PointTp &value, return_value_policy, handle defval)
             {
                 auto result = pybind11::make_tuple(value.x, value.y, value.z);
+                return result.release();
+            }
+        };
+
+        //
+        // Scalar
+        // No shared memory
+        //
+        template<typename _Tp>
+        struct type_caster<cv::Scalar_<_Tp>>
+        {
+            using ScalarTp = cv::Scalar_<_Tp>;
+
+        public:
+        PYBIND11_TYPE_CASTER(ScalarTp , _("tuple"));
+
+            // Conversion part 1 (Python->C++)
+            bool load(handle src, bool)
+            {
+                if (!isinstance<pybind11::tuple>(src))
+                    return false;
+
+                auto tuple = pybind11::reinterpret_borrow<pybind11::tuple>(src);
+                const auto tupleSize = tuple.size();
+                if (tupleSize > 4)
+                    throw std::invalid_argument("Scalar should be a tuple with at most 4 elements. Got " + std::to_string(tupleSize));
+
+                ScalarTp r;
+                if (tupleSize == 1)
+                    r = ScalarTp(tuple[0].cast<_Tp>());
+                else if (tupleSize == 2)
+                    r = ScalarTp(tuple[0].cast<_Tp>(), tuple[1].cast<_Tp>());
+                else if (tupleSize == 3)
+                    r = ScalarTp(tuple[0].cast<_Tp>(), tuple[1].cast<_Tp>(), tuple[2].cast<_Tp>());
+                else if (tupleSize == 4)
+                    r = ScalarTp(tuple[0].cast<_Tp>(), tuple[1].cast<_Tp>(), tuple[2].cast<_Tp>(), tuple[3].cast<_Tp>());
+
+                value = r;
+                return true;
+            }
+
+            // Conversion part 2 (C++ -> Python)
+            static handle cast(const ScalarTp &value, return_value_policy, handle defval)
+            {
+                auto result = pybind11::make_tuple(value[0], value[1], value[2], value[3]);
+                return result.release();
+            }
+        };
+
+        //
+        // Rect_
+        // No shared memory
+        //
+        template<typename _Tp>
+        struct type_caster<cv::Rect_<_Tp>>
+        {
+            using RectTp = cv::Rect_<_Tp>;
+
+        public:
+        PYBIND11_TYPE_CASTER(RectTp , _("tuple"));
+
+            // Conversion part 1 (Python->C++)
+            bool load(handle src, bool)
+            {
+                if (!isinstance<pybind11::tuple>(src))
+                    return false;
+
+                auto tuple = pybind11::reinterpret_borrow<pybind11::tuple>(src);
+                const auto tupleSize = tuple.size();
+                if (tupleSize != 4)
+                    throw std::invalid_argument("Rect should be a tuple with 4 elements. Got " + std::to_string(tupleSize));
+
+                RectTp r;
+                r.x = tuple[0].cast<_Tp>();
+                r.y = tuple[1].cast<_Tp>();
+                r.width = tuple[2].cast<_Tp>();
+                r.height = tuple[3].cast<_Tp>();
+
+                value = r;
+                return true;
+            }
+
+            // Conversion part 2 (C++ -> Python)
+            static handle cast(const RectTp &value, return_value_policy, handle defval)
+            {
+                auto result = pybind11::make_tuple(value.x, value.y, value.width, value.height);
                 return result.release();
             }
         };
