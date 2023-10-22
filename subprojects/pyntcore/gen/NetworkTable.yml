@@ -45,6 +45,12 @@ classes:
       GetFloatArrayTopic:
       GetDoubleArrayTopic:
       GetStringArrayTopic:
+      GetProtobufTopic:
+        ignore: true
+      GetStructTopic:
+        ignore: true
+      GetStructArrayTopic:
+        ignore: true
       GetSubTable:
       ContainsKey:
       ContainsSubTable:

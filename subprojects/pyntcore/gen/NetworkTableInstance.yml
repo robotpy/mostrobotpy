@@ -61,6 +61,12 @@ classes:
       GetFloatArrayTopic:
       GetDoubleArrayTopic:
       GetStringArrayTopic:
+      GetProtobufTopic:
+        ignore: true
+      GetStructTopic:
+        ignore: true
+      GetStructArrayTopic:
+        ignore: true
       GetTopics:
         overloads:
           "":
@@ -138,7 +144,15 @@ classes:
       StartConnectionDataLog:
       StopConnectionDataLog:
       AddLogger:
-      RemoveLogger:
+      HasSchema:
+      AddSchema:
+        overloads:
+          std::string_view, std::string_view, std::span<const uint8_t>:
+          std::string_view, std::string_view, std::string_view:
+      AddProtobufSchema:
+        ignore: true
+      AddStructSchema:
+        ignore: true
       operator==:
       operator!=:
     inline_code: |

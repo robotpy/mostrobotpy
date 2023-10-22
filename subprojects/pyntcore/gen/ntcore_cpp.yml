@@ -1,5 +1,9 @@
 ---
 
+defaults:
+  ignore: true
+  report_ignored_missing: false
+
 extra_includes:
 - pybind11/stl.h
 - networktables/Topic.h
@@ -7,184 +11,16 @@ extra_includes:
 attributes:
   kDefaultPubSubOptions:
 functions:
-  GetDefaultInstance:
-    ignore: true
-  CreateInstance:
-    ignore: true
-  ResetInstance:
-    ignore: true
-  DestroyInstance:
-    ignore: true
-  GetInstanceFromHandle:
-    ignore: true
-  GetEntry:
-    overloads:
-      NT_Inst, std::string_view:
-        ignore: true
-      NT_Topic, NT_Type, std::string_view, const PubSubOptions&:
-        ignore: true
-  GetEntryName:
-    ignore: true
-  GetEntryType:
-    ignore: true
-  GetEntryLastChange:
-    ignore: true
-  GetEntryValue:
-    ignore: true
-  SetDefaultEntryValue:
-    ignore: true
-  SetEntryValue:
-    ignore: true
-  SetEntryFlags:
-    ignore: true
-  GetEntryFlags:
-    ignore: true
-  ReadQueueValue:
-    ignore: true
-  GetTopics:
-    overloads:
-      NT_Inst, std::string_view, unsigned int:
-        ignore: true
-      NT_Inst, std::string_view, std::span<const std::string_view>:
-        ignore: true
-  GetTopicInfo:
-    overloads:
-      NT_Inst, std::string_view, unsigned int:
-        ignore: true
-      NT_Inst, std::string_view, std::span<const std::string_view>:
-        ignore: true
-      NT_Topic:
-        ignore: true
-  GetTopic:
-    ignore: true
-  GetTopicName:
-    ignore: true
-  GetTopicType:
-    ignore: true
-  GetTopicTypeString:
-    ignore: true
-  SetTopicPersistent:
-    ignore: true
-  GetTopicPersistent:
-    ignore: true
-  SetTopicRetained:
-    ignore: true
-  GetTopicRetained:
-    ignore: true
-  GetTopicExists:
-    ignore: true
-  GetTopicProperty:
-    ignore: true
-  SetTopicProperty:
-    ignore: true
-  DeleteTopicProperty:
-    ignore: true
-  GetTopicProperties:
-    ignore: true
-  SetTopicProperties:
-    ignore: true
-  Subscribe:
-    ignore: true
-  Unsubscribe:
-    ignore: true
-  Publish:
-    ignore: true
-  PublishEx:
-    ignore: true
-  Unpublish:
-    ignore: true
-  ReleaseEntry:
-    ignore: true
-  Release:
-    ignore: true
-  GetTopicFromHandle:
-    ignore: true
-  SubscribeMultiple:
-    ignore: true
-  UnsubscribeMultiple:
-    ignore: true
-  CreateListenerPoller:
-    ignore: true
-  DestroyListenerPoller:
-    ignore: true
-  ReadListenerQueue:
-    ignore: true
   RemoveListener:
     internal: true
-  WaitForListenerQueue:
-    ignore: true
-  AddListener:
-    overloads:
-      NT_Inst, std::span<const std::string_view>, unsigned int, ListenerCallback:
-        ignore: true
-      NT_Handle, unsigned int, ListenerCallback:
-        ignore: true
-  AddPolledListener:
-    overloads:
-      NT_ListenerPoller, std::span<const std::string_view>, unsigned int:
-        ignore: true
-      NT_ListenerPoller, NT_Handle, unsigned int:
-        ignore: true
-  GetNetworkMode:
-    ignore: true
-  StartLocal:
-    ignore: true
-  StopLocal:
-    ignore: true
-  StartServer:
-    ignore: true
-  StopServer:
-    ignore: true
-  StartClient3:
-    ignore: true
-  StartClient4:
-    ignore: true
-  StopClient:
-    ignore: true
-  SetServer:
-    overloads:
-      NT_Inst, const char*, unsigned int: 
-        ignore: true
-      NT_Inst, std::span<const std::pair<std::string_view, unsigned int>>:
-        ignore: true
-  SetServerTeam:
-    ignore: true
-  Disconnect:
-    ignore: true
-  StartDSClient:
-    ignore: true
-  StopDSClient:
-    ignore: true
-  FlushLocal:
-    ignore: true
-  Flush:
-    ignore: true
-  GetConnections:
-    ignore: true
-  IsConnected:
-    ignore: true
-  GetServerTimeOffset:
-    ignore: true
   Now:
     internal: true
   SetNow:
     internal: true
-  GetTypeFromString:
-    ignore: true
-  GetStringFromType:
-    ignore: true
-  StartEntryDataLog:
-    ignore: true
-  StopEntryDataLog:
-    ignore: true
-  StartConnectionDataLog:
-    ignore: true
-  StopConnectionDataLog:
-    ignore: true
-  AddLogger:
-    ignore: true
   AddPolledLogger:
     internal: true
+  HasSchema:
+    ignore: true
   DecodeTopicPublishers:
     subpackage: meta
   DecodeTopicSubscribers:
@@ -220,6 +56,7 @@ classes:
       topic:
         ignore: true
       type:
+        ignore: true
     methods:
       GetProperties:
       swap:
@@ -227,6 +64,9 @@ classes:
     inline_code: |
       .def_property_readonly("topic", [](const TopicInfo &self) {
         return std::make_shared<nt::Topic>(self.topic);
+      })
+      .def_property_readonly("type", [](const TopicInfo &self) {
+        return nt::NetworkTableType(self.type);
       })
       .def("__repr__", [](const TopicInfo &self) -> py::str {
         return py::str("<TopicInfo name={} type={}>")
@@ -284,9 +124,6 @@ classes:
             ignore: true
           unsigned int, std::string_view, unsigned int, std::string_view:
             ignore: true
-    inline_code: |
-      .def_readwrite("level", &nt::LogMessage::level)
-      .def_readwrite("line", &nt::LogMessage::line)
   TimeSyncEventData:
     attributes:
       serverTimeOffset:
