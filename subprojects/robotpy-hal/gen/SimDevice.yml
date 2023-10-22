@@ -1,5 +1,9 @@
 ---
 
+defaults:
+  ignore: true
+  report_ignored_missing: false
+
 extra_includes:
 - "hal/simulation/SimDeviceData.h"
 
@@ -8,53 +12,6 @@ strip_prefixes:
 
 enums:
   HAL_SimValueDirection:
-functions:
-  HAL_CreateSimDevice:
-  HAL_FreeSimDevice:
-  HAL_GetSimDeviceName:
-  HAL_CreateSimValue:
-    overloads:
-      HAL_SimDeviceHandle, const char*, int32_t, const struct HAL_Value*:
-        ignore: true
-      HAL_SimDeviceHandle, const char*, int32_t, const HAL_Value&:
-  HAL_CreateSimValueDouble:
-  HAL_CreateSimValueEnum:
-    cpp_code: |
-      [](HAL_SimDeviceHandle device, const char* name, bool readonly,
-         std::vector<const char*> options, int32_t initialValue) {
-        return HAL_CreateSimValueEnum(device, name, readonly, options.size(),
-                                      const_cast<const char**>(options.data()),
-                                      initialValue);
-      }
-    param_override:
-      numOptions:
-        ignore: true
-  HAL_CreateSimValueEnumDouble:
-    ignore: true  # TODO
-  HAL_CreateSimValueBoolean:
-  HAL_GetSimValue:
-    overloads:
-      HAL_SimValueHandle, struct HAL_Value*:
-        ignore: true  # out param
-      HAL_SimValueHandle:
-  HAL_GetSimValueDouble:
-  HAL_GetSimValueEnum:
-  HAL_GetSimValueBoolean:
-  HAL_SetSimValue:
-    overloads:
-      HAL_SimValueHandle, const struct HAL_Value*:
-        ignore: true
-      HAL_SimValueHandle, const HAL_Value&:
-  HAL_SetSimValueDouble:
-  HAL_SetSimValueEnum:
-  HAL_SetSimValueBoolean:
-  HAL_CreateSimValueInt:
-  HAL_CreateSimValueLong:
-  HAL_GetSimValueInt:
-  HAL_GetSimValueLong:
-  HAL_SetSimValueInt:
-  HAL_SetSimValueLong:
-  HAL_ResetSimValue:
 classes:
   SimValue:
     doc: |

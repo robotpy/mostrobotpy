@@ -10,15 +10,6 @@ using namespace pybind11::literals;
 static py::module_ sys_module;
 
 RPYBUILD_PYBIND11_MODULE(m) {
-  initWrapper(m);
-
-#ifdef __FRC_ROBORIO__
-  m.attr("__halplatform__") = "roboRIO";
-  m.attr("__hal_simulation__") = false;
-#else
-  m.attr("__halplatform__") = "sim";
-  m.attr("__hal_simulation__") = true;
-#endif
 
   // Add this manually so it can be used from SimValue
   py::enum_<HAL_Type>(m, "Type")
@@ -28,6 +19,16 @@ RPYBUILD_PYBIND11_MODULE(m) {
     .value("ENUM", HAL_Type::HAL_ENUM)
     .value("INT", HAL_Type::HAL_INT)
     .value("LONG", HAL_Type::HAL_LONG);
+
+  initWrapper(m);
+
+#ifdef __FRC_ROBORIO__
+  m.attr("__halplatform__") = "roboRIO";
+  m.attr("__hal_simulation__") = false;
+#else
+  m.attr("__halplatform__") = "sim";
+  m.attr("__hal_simulation__") = true;
+#endif
 
   // Redirect stderr to python stderr
   sys_module = py::module_::import("sys");
