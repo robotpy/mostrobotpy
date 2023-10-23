@@ -120,7 +120,7 @@ public:
 // span specialization: accepts any readonly buffers
 template <> struct type_caster<std::span<const uint8_t, std::dynamic_extent>> {
   using span_type = typename  std::span<const uint8_t, std::dynamic_extent>;
-  PYBIND11_TYPE_CASTER(span_type, _("buffer"));
+  PYBIND11_TYPE_CASTER(span_type, _("Buffer"));
 
   bool load(handle src, bool convert) {
     if (!isinstance<buffer>(src))
@@ -145,7 +145,7 @@ public:
 // span specialization: writeable buffer
 template <> struct type_caster<std::span<uint8_t, std::dynamic_extent>> {
   using span_type = typename  std::span<const uint8_t, std::dynamic_extent>;
-  PYBIND11_TYPE_CASTER(std::span<uint8_t>, _("buffer"));
+  PYBIND11_TYPE_CASTER(std::span<uint8_t>, _("Buffer"));
 
   bool load(handle src, bool convert) {
     if (!isinstance<buffer>(src))
