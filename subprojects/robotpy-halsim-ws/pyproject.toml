@@ -6,8 +6,8 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-halsim-gui"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-hal~=2023.4.3",
-    "robotpy-wpinet~=2023.4.3",
+    "robotpy-hal~=2024.0.0b2",
+    "robotpy-wpinet~=2024.0.0b2",
 ]
 
 [tool.robotpy-build.metadata.entry_points]
@@ -20,8 +20,8 @@ robotpysimext = [
 [build-system]
 requires = [
     "robotpy-build<2025.0.0,~=2024.0.0b1",
-    "robotpy-hal~=2023.4.3",
-    "robotpy-wpinet~=2023.4.3",
+    "robotpy-hal~=2024.0.0b2",
+    "robotpy-wpinet~=2024.0.0b2",
 ]
 
 [tool.robotpy-build]
