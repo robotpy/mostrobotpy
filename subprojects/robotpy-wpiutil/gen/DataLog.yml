@@ -1,5 +1,7 @@
 ---
-
+defaults:
+  ignore: true
+  report_ignored_missing: false
 enums:
   ControlRecordType:
 classes:
@@ -11,13 +13,22 @@ classes:
           std::string_view, std::string_view, double, std::string_view:
           wpi::Logger&, std::string_view, std::string_view, double, std::string_view:
             ignore: true
-          std::function<void ( std::span<const uint8_t> data )>, double, std::string_view:
-          wpi::Logger&, std::function<void ( std::span<const uint8_t> data )>, double, std::string_view:
+          std::function<void (std::span<const uint8_t> data)>, double, std::string_view:
+          wpi::Logger&, std::function<void (std::span<const uint8_t> data)>, double, std::string_view:
             ignore: true
       SetFilename:
       Flush:
       Pause:
       Resume:
+      HasSchema:
+      AddSchema:
+        overloads:
+          std::string_view, std::string_view, std::span<const uint8_t>, int64_t:
+          std::string_view, std::string_view, std::string_view, int64_t:
+      AddProtobufSchema:
+        ignore: true
+      AddStructSchema:
+        ignore: true
       Start:
       Finish:
       SetMetadata:
@@ -43,6 +54,8 @@ classes:
           int, std::span<const std::string>, int64_t:
             ignore: true
           int, std::span<const std::string_view>, int64_t:
+          int, std::span<const WPI_DataLog_String>, int64_t:
+            ignore: true
   DataLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -53,7 +66,7 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
   RawLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -64,9 +77,9 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
       Append:
   BooleanLogEntry:
     subpackage: log
@@ -78,8 +91,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
   IntegerLogEntry:
     subpackage: log
@@ -91,8 +104,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
   FloatLogEntry:
     subpackage: log
@@ -104,8 +117,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
   DoubleLogEntry:
     subpackage: log
@@ -117,8 +130,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
   StringLogEntry:
     subpackage: log
@@ -130,9 +143,9 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
       Append:
   BooleanArrayLogEntry:
     subpackage: log
@@ -144,8 +157,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
         overloads:
           std::span<const bool>, int64_t:
@@ -167,8 +180,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
         overloads:
           std::span<const int64_t>, int64_t:
@@ -184,8 +197,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
         overloads:
           std::span<const float>, int64_t:
@@ -201,8 +214,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
         overloads:
           std::span<const double>, int64_t:
@@ -218,8 +231,8 @@ classes:
         overloads:
           "":
             ignore: true
-          wpi::log::DataLog&, std::string_view, int64_t:
-          wpi::log::DataLog&, std::string_view, std::string_view, int64_t:
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
       Append:
         overloads:
           std::span<const std::string>, int64_t:
@@ -227,3 +240,39 @@ classes:
           std::span<const std::string_view>, int64_t:
           std::initializer_list<std::string_view>, int64_t:
             ignore: true
+  StructLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    ignore: true
+    methods:
+      StructLogEntry:
+        overloads:
+          "":
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+  StructArrayLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    ignore: true
+    methods:
+      StructArrayLogEntry:
+        overloads:
+          "":
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
+        overloads:
+          U&&, int64_t:
+          std::span<const T>, int64_t:
+  ProtobufLogEntry:
+    subpackage: log
+    force_no_trampoline: true
+    ignore: true
+    methods:
+      ProtobufLogEntry:
+        overloads:
+          "":
+          DataLog&, std::string_view, int64_t:
+          DataLog&, std::string_view, std::string_view, int64_t:
+      Append:
