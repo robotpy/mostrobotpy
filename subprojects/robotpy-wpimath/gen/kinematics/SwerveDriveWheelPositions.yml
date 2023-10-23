@@ -25,7 +25,7 @@ classes:
     template_inline_code: |
       cls_SwerveDriveWheelPositions
         .def(py::init<wpi::array<SwerveModulePosition, NumModules>>(),
-          py::arg("positions") = wpi::array<SwerveModulePosition, NumModules>(wpi::empty_array)
+          py::arg("positions")
         );
 
 templates:

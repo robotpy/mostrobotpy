@@ -31,7 +31,7 @@ namespace detail {
 template <> struct type_caster<frc::PyTrajectoryConstraint> {
   using value_conv = make_caster<std::shared_ptr<frc::TrajectoryConstraint>>;
 
-  PYBIND11_TYPE_CASTER(frc::PyTrajectoryConstraint, _("TrajectoryConstraint"));
+  PYBIND11_TYPE_CASTER(frc::PyTrajectoryConstraint, _("wpimath._controls._controls.constraint.TrajectoryConstraint"));
 
   bool load(handle src, bool convert) {
     value_conv conv;
