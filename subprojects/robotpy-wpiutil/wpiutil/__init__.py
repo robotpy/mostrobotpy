@@ -26,4 +26,5 @@ from . import _stacktrace
 
 # Type alias
 import typing
+
 json = typing.Union[None, bool, int, float, str, typing.List, typing.Dict]
