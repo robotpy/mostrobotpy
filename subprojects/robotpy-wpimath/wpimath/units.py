@@ -156,3 +156,384 @@ def lbsToKilograms(lbs: float) -> float:
     :returns: Kilograms converted from lbs (pound-mass).
     """
     return lbs * kKilogramsPerLb
+
+
+#
+# type aliases to make type checkers happier
+# - None of these types do any enforcement of unit related things
+#
+
+# acceleration
+meters_per_second_squared = float
+feet_per_second_squared = float
+standard_gravity = float
+
+# angle
+radians = float
+nanoradians = float
+microradians = float
+milliradians = float
+kiloradians = float
+degrees = float
+arcminutes = float
+arcseconds = float
+milliarcseconds = float
+turns = float
+gradians = float
+
+# angular acceleration
+radians_per_second_squared = float
+radians_per_second = float
+degrees_per_second_squared = float
+
+# angular velocity
+radians_per_second = float
+degrees_per_second = float
+turns_per_second = float
+revolutions_per_minute = float
+milliarcseconds_per_year = float
+
+# area
+square_meters = float
+square_feet = float
+square_inches = float
+square_miles = float
+square_kilometers = float
+hectares = float
+acres = float
+
+# capacitance
+farads = float
+nanofarads = float
+microfarads = float
+millifarads = float
+kilofarads = float
+
+# compound types
+radians_per_meter = float
+radians_per_second_per_volt = float
+units_per_second = float
+units_per_second_squared = float
+volt_seconds = float
+volt_seconds_squared = float
+volt_seconds_per_meter = float
+volt_seconds_squared_per_meter = float
+volt_seconds_per_feet = float
+volt_seconds_squared_per_feet = float
+volt_seconds_per_radian = float
+volt_seconds_squared_per_radian = float
+
+# charge
+coulombs = float
+nanocoulombs = float
+microcoulombs = float
+millicoulombs = float
+kilocoulombs = float
+ampere_hours = float
+nanoampere_hours = float
+microampere_hours = float
+milliampere_hours = float
+kiloampere_hours = float
+
+# concentration
+parts_per_million = float
+parts_per_billion = float
+parts_per_trillion = float
+percent = float
+
+# conductance
+siemens = float
+nanosiemens = float
+microsiemens = float
+millisiemens = float
+kilosiemens = float
+
+# current
+amperes = float
+nanoamperes = float
+microamperes = float
+milliamperes = float
+kiloamperes = float
+
+# data
+exabytes = float
+exabits = float
+
+# data transfer
+exabytes_per_second = float
+exabits_per_second = float
+
+# density
+kilograms_per_cubic_meter = float
+grams_per_milliliter = float
+kilograms_per_liter = float
+ounces_per_cubic_foot = float
+ounces_per_cubic_inch = float
+ounces_per_gallon = float
+pounds_per_cubic_foot = float
+pounds_per_cubic_inch = float
+pounds_per_gallon = float
+slugs_per_cubic_foot = float
+
+# energy
+joules = float
+nanojoules = float
+microjoules = float
+millijoules = float
+kilojoules = float
+calories = float
+nanocalories = float
+microcalories = float
+millicalories = float
+kilocalories = float
+kilowatt_hours = float
+watt_hours = float
+british_thermal_units = float
+british_thermal_units_iso = float
+british_thermal_units_59 = float
+therms = float
+foot_pounds = float
+
+# force
+newtons = float
+nanonewtons = float
+micronewtons = float
+millinewtons = float
+kilonewtons = float
+pounds = float
+dynes = float
+kiloponds = float
+poundals = float
+
+# frequency
+hertz = float
+nanohertz = float
+microhertz = float
+millihertz = float
+kilohertz = float
+
+# illuminance
+luxes = float
+nanoluxes = float
+microluxes = float
+milliluxes = float
+kiloluxes = float
+footcandles = float
+lumens_per_square_inch = float
+phots = float
+
+# inductance
+henries = float
+nanohenries = float
+microhenries = float
+millihenries = float
+kilohenries = float
+
+# length
+meters = float
+nanometers = float
+micrometers = float
+millimeters = float
+kilometers = float
+feet = float
+mils = float
+inches = float
+miles = float
+nauticalMiles = float
+astronicalUnits = float
+lightyears = float
+parsecs = float
+angstroms = float
+cubits = float
+fathoms = float
+chains = float
+furlongs = float
+hands = float
+leagues = float
+nauticalLeagues = float
+yards = float
+
+# luminous flux
+lumens = float
+nanolumens = float
+microlumens = float
+millilumens = float
+kilolumens = float
+
+# luminous intensity
+candelas = float
+nanocandelas = float
+microcandelas = float
+millicandelas = float
+kilocandelas = float
+
+# magnetic flux
+webers = float
+nanowebers = float
+microwebers = float
+milliwebers = float
+kilowebers = float
+maxwells = float
+
+# magnetic strength
+teslas = float
+nanoteslas = float
+microteslas = float
+milliteslas = float
+kiloteslas = float
+gauss = float
+
+# mass
+grams = float
+nanograms = float
+micrograms = float
+milligrams = float
+kilograms = float
+metric_tons = float
+pounds = float
+long_tons = float
+short_tons = float
+stone = float
+ounces = float
+carats = float
+slugs = float
+
+# moment of inertia
+kilogram_square_meters = float
+
+# power
+watts = float
+nanowatts = float
+microwatts = float
+milliwatts = float
+kilowatts = float
+horsepower = float
+
+# pressure
+pascals = float
+nanopascals = float
+micropascals = float
+millipascals = float
+kilopascals = float
+bars = float
+mbars = float
+atmospheres = float
+pounds_per_square_inch = float
+torrs = float
+
+# radiation
+becquerels = float
+nanobecquerels = float
+microbecquerels = float
+millibecquerels = float
+kilobecquerels = float
+grays = float
+nanograys = float
+micrograys = float
+milligrays = float
+kilograys = float
+sieverts = float
+nanosieverts = float
+microsieverts = float
+millisieverts = float
+kilosieverts = float
+curies = float
+rutherfords = float
+rads = float
+
+# resistance
+ohms = float
+nanoohms = float
+microohms = float
+milliohms = float
+kiloohms = float
+
+# solid angle
+steradians = float
+nanosteradians = float
+microsteradians = float
+millisteradians = float
+kilosteradians = float
+degrees_squared = float
+spats = float
+
+# substance
+moles = float
+
+# temperature
+kelvin = float
+celsius = float
+fahrenheit = float
+reaumur = float
+rankine = float
+
+# time
+seconds = float
+nanoseconds = float
+microseconds = float
+milliseconds = float
+kiloseconds = float
+minutes = float
+hours = float
+days = float
+weeks = float
+years = float
+julian_years = float
+gregorian_years = float
+
+# torque
+newton_meters = float
+foot_poundals = float
+inch_pounds = float
+meter_kilograms = float
+
+# velocity
+meters_per_second = float
+feet_per_second = float
+miles_per_hour = float
+kilometers_per_hour = float
+knots = float
+
+# voltage
+volts = float
+nanovolts = float
+microvolts = float
+millivolts = float
+kilovolts = float
+statvolts = float
+abvolts = float
+
+# volume
+cubic_meters = float
+cubic_millimeters = float
+cubic_kilometers = float
+liters = float
+nanoliters = float
+microliters = float
+milliliters = float
+kiloliters = float
+cubic_inches = float
+cubic_feet = float
+cubic_yards = float
+cubic_miles = float
+gallons = float
+quarts = float
+pints = float
+cups = float
+fluid_ounces = float
+barrels = float
+bushels = float
+cords = float
+cubic_fathoms = float
+tablespoons = float
+teaspoons = float
+pinches = float
+dashes = float
+drops = float
+fifths = float
+drams = float
+gills = float
+pecks = float
+sacks = float
+shots = float
+strikes = float
