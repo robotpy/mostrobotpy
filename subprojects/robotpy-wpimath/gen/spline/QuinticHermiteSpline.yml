@@ -1,0 +1,9 @@
+---
+
+classes:
+  QuinticHermiteSpline:
+    shared_ptr: false
+    methods:
+      QuinticHermiteSpline:
+      Coefficients:
+        ignore: true

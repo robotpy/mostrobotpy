@@ -1,0 +1,25 @@
+[build-system]
+requires = ["robotpy-build"]
+
+[tool.robotpy-build]
+base_package = "wpimath_test"
+
+[tool.robotpy-build.wrappers."wpimath_test"]
+name = "wpimath_test"
+depends = ["wpimath_cpp"]
+sources = [
+    "wpimath_test/src/module.cpp",
+]
+generation_data = "gen"
+
+[tool.robotpy-build.wrappers."wpimath_test".autogen_headers]
+module = "module.h"
+
+[tool.robotpy-build.metadata]
+name = "wpimath_test"
+description = "Test project for verifying robotpy-build behavior"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+license = "BSD-3-Clause"
+install_requires = []
+url = ""

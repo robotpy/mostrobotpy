@@ -1,0 +1,19 @@
+---
+
+classes:
+  MaxVelocityConstraint:
+    subpackage: constraint
+    shared_ptr: true
+    typealias:
+    - frc::TrajectoryConstraint::MinMax
+    methods:
+      MaxVelocityConstraint:
+      MaxVelocity:
+      MinMaxAcceleration:
+
+inline_code:
+  cls_MaxVelocityConstraint
+    .def_static("fromFps", [](units::feet_per_second_t maxVelocity) {
+      return std::make_shared<frc::MaxVelocityConstraint>(maxVelocity);
+    }, py::arg("maxVelocity"))
+  ;

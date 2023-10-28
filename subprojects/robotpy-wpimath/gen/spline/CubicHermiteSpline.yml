@@ -1,0 +1,10 @@
+---
+
+classes:
+  CubicHermiteSpline:
+    shared_ptr: false
+    methods:
+      CubicHermiteSpline:
+      Coefficients:
+        # otherwise we have to depend on numpy
+        ignore: true

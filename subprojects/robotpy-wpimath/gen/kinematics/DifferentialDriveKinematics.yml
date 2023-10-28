@@ -1,0 +1,11 @@
+---
+
+classes:
+  DifferentialDriveKinematics:
+    attributes:
+      trackWidth:
+    methods:
+      DifferentialDriveKinematics:
+      ToChassisSpeeds:
+      ToWheelSpeeds:
+      ToTwist2d:

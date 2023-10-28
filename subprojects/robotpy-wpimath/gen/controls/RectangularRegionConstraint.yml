@@ -1,0 +1,24 @@
+---
+
+extra_includes:
+- PyTrajectoryConstraint.h
+
+classes:
+  RectangularRegionConstraint:
+    shared_ptr: true
+    template_params:
+      - typename Constraint
+    typealias:
+      - frc::TrajectoryConstraint::MinMax
+    methods:
+      RectangularRegionConstraint:
+      MaxVelocity:
+      MinMaxAcceleration:
+      IsPoseInRegion:
+
+templates:
+  RectangularRegionConstraint:
+    subpackage: constraint
+    qualname: frc::RectangularRegionConstraint
+    params:
+    - frc::PyTrajectoryConstraint

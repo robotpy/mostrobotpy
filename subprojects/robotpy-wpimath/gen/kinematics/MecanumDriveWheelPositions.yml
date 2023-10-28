@@ -1,0 +1,13 @@
+---
+
+classes:
+  MecanumDriveWheelPositions:
+    attributes:
+      frontLeft:
+      frontRight:
+      rearLeft:
+      rearRight:
+    methods:
+      operator==:
+      operator!=:
+      Interpolate:

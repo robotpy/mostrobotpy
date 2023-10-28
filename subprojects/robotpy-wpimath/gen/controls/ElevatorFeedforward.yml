@@ -1,0 +1,23 @@
+---
+
+classes:
+  ElevatorFeedforward:
+    force_type_casters:
+    - units::meters_per_second
+    - meters_per_second_squared
+    subpackage: controller
+    attributes:
+      kS:
+      kG:
+      kV:
+      kA:
+    methods:
+      ElevatorFeedforward:
+        overloads:
+          "":
+          units::volt_t, units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit> [constexpr]:
+      Calculate:
+      MaxAchievableVelocity:
+      MinAchievableVelocity:
+      MaxAchievableAcceleration:
+      MinAchievableAcceleration:
