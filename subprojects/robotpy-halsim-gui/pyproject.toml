@@ -1,0 +1,47 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-halsim-gui"
+description = "WPILib command framework"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-halsim-gui"
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil~=2024.0.0b2",
+    "robotpy-wpimath~=2024.0.0b2",
+    "robotpy-hal~=2024.0.0b2",
+    "pyntcore~=2024.0.0b2",
+]
+
+[build-system]
+requires = [
+    "robotpy-build<2025.0.0,~=2024.0.0b1",
+    "robotpy-wpiutil~=2024.0.0b2",
+    "robotpy-wpimath~=2024.0.0b2",
+    "robotpy-hal~=2024.0.0b2",
+    "pyntcore~=2024.0.0b2",
+]
+
+[tool.robotpy-build]
+base_package = "halsim_gui"
+
+
+[tool.robotpy-build.wrappers."halsim_gui".maven_lib_download]
+artifact_id = "halsim_gui"
+group_id = "edu.wpi.first.halsim"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1-beta-2"
+
+dlopenlibs = ["halsim_gui"]
+
+# TODO: make this a namespace package?
+[tool.robotpy-build.wrappers."halsim_gui"]
+name = "halsim_gui"
+depends = ["wpiutil", "wpiHal", "ntcore", "wpimath_cpp"]
+
+[tool.robotpy-build.wrappers."halsim_gui._ext"]
+name = "halsim_gui_ext"
+sources = [
+    "halsim_gui/_ext/main.cpp"
+]
+depends = ["wpiutil", "wpiHal", "ntcore", "wpimath_cpp", "halsim_gui"]
