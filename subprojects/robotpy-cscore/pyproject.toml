@@ -1,0 +1,74 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-cscore"
+description = "RobotPy bindings for cscore image processing library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-cscore"
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil~=2024.0.0b2",
+    "robotpy-wpinet~=2024.0.0b2",
+    "pyntcore~=2024.0.0b2",
+]
+
+[build-system]
+requires = [
+    "robotpy-build<2025.0.0,~=2024.0.0b1",
+    "robotpy-wpiutil~=2024.0.0b2",
+    "robotpy-wpinet~=2024.0.0b2",
+    "pyntcore~=2024.0.0b2",
+    "numpy", # required for pybind11-stubgen to not complain
+]
+
+[tool.robotpy-build]
+base_package = "cscore"
+
+[tool.robotpy-build.static_libs."cscore_cpp".maven_lib_download]
+artifact_id = "cscore-cpp"
+group_id = "edu.wpi.first.cscore"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1-beta-2"
+
+libs = ["cscore"]
+
+[tool.robotpy-build.static_libs."cameraserver_cpp".maven_lib_download]
+artifact_id = "cameraserver-cpp"
+group_id = "edu.wpi.first.cameraserver"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1-beta-2"
+
+libs = ["cameraserver"]
+
+[tool.robotpy-build.static_libs."opencv_cpp".maven_lib_download]
+artifact_id = "opencv-cpp"
+group_id = "edu.wpi.first.thirdparty.frc2024.opencv"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "4.8.0-1"
+
+libs = ["opencv480"]
+
+[tool.robotpy-build.wrappers."cscore"]
+name = "cscore"
+
+sources = [
+  "cscore/src/main.cpp",
+  "cscore/cvnp/cvnp.cpp",
+  "cscore/cvnp/cvnp_synonyms.cpp",
+]
+
+depends = ["wpiutil", "wpinet", "ntcore", "opencv_cpp", "cscore_cpp", "cameraserver_cpp", ]
+generation_data = "gen"
+
+[tool.robotpy-build.wrappers."cscore".autogen_headers]
+# cameraserver
+CameraServer = "cameraserver/CameraServer.h"
+
+# cscore
+cscore_cpp = "cscore_cpp.h"
+cscore_oo = "cscore_oo.h"
+cscore_cv = "cscore_cv.h"
+cscore_runloop = "cscore_runloop.h"
+
+[[tool.robotpy-build.wrappers."cscore".type_casters]]
+header = "cvnp/cvnp.h"
+types = ["cv::Mat"]
