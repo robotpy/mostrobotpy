@@ -1,0 +1,41 @@
+---
+
+classes:
+  TopicListenerFlags:
+    attributes:
+      kImmediate:
+      kPublish:
+      kUnpublish:
+      kProperties:
+  TopicListener:
+    methods:
+      TopicListener:
+        overloads:
+          "":
+            ignore: true
+          ? nt::NetworkTableInstance, std::span<const std::string_view>, unsigned
+            int, std::function<void ( const TopicNotification & )>
+          :
+          nt::Topic, unsigned int, std::function<void ( const TopicNotification & )>:
+          nt::Subscriber&, unsigned int, std::function<void ( const TopicNotification & )>:
+          nt::MultiSubscriber&, unsigned int, std::function<void ( const TopicNotification & )>:
+          nt::NetworkTableEntry&, unsigned int, std::function<void ( const TopicNotification & )>:
+      GetHandle:
+  TopicListenerPoller:
+    methods:
+      TopicListenerPoller:
+        overloads:
+          "":
+            ignore: true
+          nt::NetworkTableInstance:
+      GetHandle:
+        ignore: true
+      Add:
+        overloads:
+          std::span<const std::string_view>, unsigned int:
+          nt::Topic, unsigned int:
+          nt::Subscriber&, unsigned int:
+          nt::MultiSubscriber&, unsigned int:
+          nt::NetworkTableEntry&, unsigned int:
+      Remove:
+      ReadQueue:

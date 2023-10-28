@@ -1,0 +1,20 @@
+---
+
+classes:
+  ConnectionListener:
+    methods:
+      ConnectionListener:
+        overloads:
+          "":
+          nt::NetworkTableInstance, bool, std::function<void ( const ConnectionNotification & )>:
+      GetHandle:
+  ConnectionListenerPoller:
+    methods:
+      ConnectionListenerPoller:
+        overloads:
+          "":
+          nt::NetworkTableInstance:
+      GetHandle:
+      Add:
+      Remove:
+      ReadQueue:
