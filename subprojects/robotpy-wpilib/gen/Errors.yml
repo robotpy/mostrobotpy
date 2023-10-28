@@ -1,0 +1,15 @@
+---
+
+functions:
+  GetErrorMessage:
+  ReportErrorV:
+    ignore: true
+  ReportError:
+    ignore: true
+  MakeErrorV:
+    ignore: true
+  MakeError:
+    ignore: true
+classes:
+  RuntimeError:
+    ignore: true

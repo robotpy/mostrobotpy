@@ -1,0 +1,31 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+- wpi/SmallString.h
+
+classes:
+  Relay:
+    shared_ptr: true
+    ignored_bases:
+    - wpi::SendableHelper<Relay>
+    enums:
+      Value:
+      Direction:
+    methods:
+      Relay:
+        param_override:
+          direction:
+            default: frc::Relay::Direction::kBothDirections
+      Set:
+      Get:
+      GetChannel:
+      StopMotor:
+      GetDescription:
+      InitSendable:
+
+inline_code: |
+  cls_Relay
+    .def("__repr__", [](const Relay &self) {
+      return py::str("<Relay {}>").format(self.GetChannel());
+    });

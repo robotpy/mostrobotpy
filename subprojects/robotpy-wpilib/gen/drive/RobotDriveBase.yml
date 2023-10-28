@@ -1,0 +1,23 @@
+---
+
+extra_includes:
+- frc/motorcontrol/MotorController.h
+- wpi/SmallString.h
+
+classes:
+  RobotDriveBase:
+    shared_ptr: true
+    attributes:
+      m_deadband:
+      m_maxOutput:
+    enums:
+      MotorType:
+    methods:
+      RobotDriveBase:
+      SetDeadband:
+      SetMaxOutput:
+      FeedWatchdog:
+      StopMotor:
+      GetDescription:
+      ApplyDeadband:
+      Desaturate:

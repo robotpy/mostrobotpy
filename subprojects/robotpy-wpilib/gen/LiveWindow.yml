@@ -1,0 +1,24 @@
+---
+
+extra_includes:
+- wpi/sendable/Sendable.h
+- pybind11/functional.h
+
+classes:
+  LiveWindow:
+    methods:
+      GetInstance:
+        ignore: true
+      SetEnabledCallback:
+      SetDisabledCallback:
+      EnableTelemetry:
+        keepalive:
+        - [1, 2]
+      DisableTelemetry:
+        keepalive:
+        - [1, 2]
+      DisableAllTelemetry:
+      EnableAllTelemetry:
+      IsEnabled:
+      SetEnabled:
+      UpdateValues:

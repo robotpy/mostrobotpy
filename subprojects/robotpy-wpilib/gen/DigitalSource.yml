@@ -1,0 +1,19 @@
+---
+
+classes:
+  DigitalSource:
+    shared_ptr: true
+    methods:
+      DigitalSource:
+      GetPortHandleForRouting:
+      GetAnalogTriggerTypeForRouting:
+      IsAnalogTrigger:
+      GetChannel:
+
+inline_code: |
+  cls_DigitalSource
+    .def("__repr__", [](py::handle self) {
+      py::object type_name = self.get_type().attr("__qualname__");
+      int channel = self.cast<DigitalSource&>().GetChannel();
+      return py::str("<{} {}>").format(type_name, channel);
+    });

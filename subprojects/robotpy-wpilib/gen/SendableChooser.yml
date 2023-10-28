@@ -1,0 +1,33 @@
+---
+
+classes:
+  SendableChooser:
+    shared_ptr: true
+    template_params:
+    - T
+    methods:
+      SendableChooser:
+      AddOption:
+      SetDefaultOption:
+      AddObject:
+        ignore: true
+      AddDefault:
+        ignore: true
+      GetSelected:
+        # weirdness because return type
+        cpp_code: |
+          [](frc::SendableChooser<T> * __that) -> py::object {
+            auto v = __that->GetSelected();
+            if (!v) {
+              return py::none();
+            }
+            return v;
+          }
+      OnChange:
+      InitSendable:
+
+templates:
+  SendableChooser:
+    qualname: frc::SendableChooser
+    params:
+    - py::object

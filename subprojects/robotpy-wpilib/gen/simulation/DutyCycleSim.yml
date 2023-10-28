@@ -1,0 +1,26 @@
+---
+
+extra_includes:
+- frc/DutyCycle.h
+
+classes:
+  DutyCycleSim:
+    shared_ptr: true
+    force_type_casters:
+    - std::function
+    methods:
+      DutyCycleSim:
+        overloads:
+          frc::DutyCycle&:
+      CreateForChannel:
+      CreateForIndex:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterFrequencyCallback:
+      GetFrequency:
+      SetFrequency:
+      RegisterOutputCallback:
+      GetOutput:
+      SetOutput:
+      ResetData:

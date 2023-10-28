@@ -1,0 +1,39 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+- frc/motorcontrol/MotorController.h
+
+classes:
+  MecanumDrive:
+    force_type_casters:
+    - units::radian_t
+    ignored_bases:
+    - wpi::SendableHelper<MecanumDrive>
+    methods:
+      MecanumDrive:
+        keepalive:
+        - [1, 2]
+        - [1, 3]
+        - [1, 4]
+        - [1, 5]
+      DriveCartesian:
+        param_override:
+          gyroAngle:
+            default: frc::Rotation2d(0_rad)
+      DrivePolar:
+      DriveCartesianIK:
+        param_override:
+          gyroAngle:
+            default: frc::Rotation2d(0_rad)
+      IsRightSideInverted:
+      SetRightSideInverted:
+      StopMotor:
+      GetDescription:
+      InitSendable:
+  MecanumDrive::WheelSpeeds:
+    attributes:
+      frontLeft:
+      frontRight:
+      rearLeft:
+      rearRight:

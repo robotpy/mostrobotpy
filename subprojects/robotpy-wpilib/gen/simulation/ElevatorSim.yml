@@ -1,0 +1,47 @@
+---
+
+classes:
+  ElevatorSim:
+    shared_ptr: true
+    typealias:
+    - frc::DCMotor
+    - template <int S, int I, int O> using LinearSystem = frc::LinearSystem<S, I, O>
+    - template <int I> using Vectord = frc::Vectord<I>
+    methods:
+      ElevatorSim:
+        overloads:
+          ? const LinearSystem<2, 1, 1>&, const DCMotor&, double, units::meter_t,
+            units::meter_t, units::meter_t, bool, units::meter_t, const std::array<double,
+            1>&
+          :
+            param_override:
+              measurementStdDevs:
+                default: std::array<double, 1>{0.0}
+          ? const DCMotor&, double, units::kilogram_t, units::meter_t, units::meter_t,
+            units::meter_t, bool, units::meter_t, const std::array<double, 1>&
+          :
+            param_override:
+              measurementStdDevs:
+                default: std::array<double, 1>{0.0}
+      WouldHitLowerLimit:
+      WouldHitUpperLimit:
+      HasHitLowerLimit:
+      HasHitUpperLimit:
+      GetPosition:
+      GetVelocity:
+      GetCurrentDraw:
+      SetInputVoltage:
+      UpdateX:
+
+inline_code: |
+  cls_ElevatorSim
+    .def("getPositionFeet", [](ElevatorSim * self) -> units::foot_t {
+      return self->GetPosition();
+    })
+    .def("getPositionInches", [](ElevatorSim * self) -> units::inch_t {
+      return self->GetPosition();
+    })
+    .def("getVelocityFps", [](ElevatorSim * self) -> units::feet_per_second_t {
+      return self->GetVelocity();
+    })
+  ;

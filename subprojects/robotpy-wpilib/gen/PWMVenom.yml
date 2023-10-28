@@ -1,0 +1,10 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  PWMVenom:
+    shared_ptr: true
+    methods:
+      PWMVenom:

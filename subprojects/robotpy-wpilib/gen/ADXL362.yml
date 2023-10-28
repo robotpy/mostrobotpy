@@ -1,0 +1,34 @@
+---
+
+extra_includes:
+- networktables/NTSendableBuilder.h
+- frc/DigitalSource.h
+
+classes:
+  ADXL362:
+    constants:
+    - frc::ADXL362::Range::kRange_2G
+    ignored_bases:
+    - wpi::SendableHelper<ADXL362>
+    enums:
+      Axes:
+      Range:
+    methods:
+      ADXL362:
+        overloads:
+          Range:
+          SPI::Port, Range:
+      GetSpiPort:
+      SetRange:
+      GetX:
+      GetY:
+      GetZ:
+      GetAcceleration:
+      GetAccelerations:
+      InitSendable:
+  ADXL362::AllAxes:
+    shared_ptr: false
+    attributes:
+      XAxis:
+      YAxis:
+      ZAxis:

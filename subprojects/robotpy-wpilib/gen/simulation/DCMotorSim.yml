@@ -1,0 +1,19 @@
+---
+
+classes:
+  DCMotorSim:
+    typealias:
+    - frc::DCMotor
+    methods:
+      DCMotorSim:
+        overloads:
+          const LinearSystem<2, 1, 2>&, const DCMotor&, double, const std::array<double, 2>&:
+            param_override:
+              plant:
+                x_type: frc::LinearSystem<2,1,2>
+          const DCMotor&, double, units::kilogram_square_meter_t, const std::array<double, 2>&:
+      SetState:
+      GetAngularPosition:
+      GetAngularVelocity:
+      GetCurrentDraw:
+      SetInputVoltage:

@@ -1,0 +1,9 @@
+---
+
+functions:
+  GetThreadPriority:
+    ignore: true
+  GetCurrentThreadPriority:
+  SetThreadPriority:
+    ignore: true
+  SetCurrentThreadPriority:

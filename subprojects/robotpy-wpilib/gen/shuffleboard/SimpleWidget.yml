@@ -1,0 +1,18 @@
+---
+
+extra_includes:
+- frc/shuffleboard/ShuffleboardContainer.h
+
+classes:
+  SimpleWidget:
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    methods:
+      SimpleWidget:
+      GetEntry:
+        overloads:
+          "":
+            return_value_policy: reference_internal
+          std::string_view:
+            return_value_policy: reference_internal
+      BuildInto:

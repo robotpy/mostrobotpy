@@ -1,0 +1,9 @@
+---
+
+classes:
+  ShuffleboardLayout:
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    methods:
+      ShuffleboardLayout:
+      BuildInto:

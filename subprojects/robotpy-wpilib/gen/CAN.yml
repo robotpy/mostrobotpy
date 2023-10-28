@@ -1,0 +1,38 @@
+---
+
+classes:
+  CANData:
+    shared_ptr: true
+    attributes:
+      data:
+      length:
+      timestamp:
+  CAN:
+    shared_ptr: true
+    attributes:
+      kTeamManufacturer:
+      kTeamDeviceType:
+    methods:
+      CAN:
+        overloads:
+          int:
+          int, int, int:
+      WritePacket:
+        buffers:
+        - { type: in, src: data, len: length }
+      WritePacketNoError:
+        buffers:
+        - { type: in, src: data, len: length }
+      WritePacketRepeating:
+        buffers:
+        - { type: in, src: data, len: length }
+      WritePacketRepeatingNoError:
+        buffers:
+        - { type: in, src: data, len: length }
+      WriteRTRFrame:
+      WriteRTRFrameNoError:
+      StopPacketRepeating:
+      ReadPacketNew:
+      ReadPacketLatest:
+      ReadPacketTimeout:
+      GetTimestampBaseTime:

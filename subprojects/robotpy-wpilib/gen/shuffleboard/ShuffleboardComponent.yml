@@ -1,0 +1,81 @@
+---
+
+extra_includes:
+- frc/shuffleboard/ShuffleboardContainer.h
+
+classes:
+  ShuffleboardComponent:
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    template_params:
+    - Derived
+    methods:
+      ShuffleboardComponent:
+        ignore: true
+      WithProperties:
+        return_value_policy: reference_internal
+      WithPosition:
+        return_value_policy: reference_internal
+      WithSize:
+        return_value_policy: reference_internal
+
+
+templates:
+  _SimpleComponent:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SimpleWidget
+  _ComplexComponent:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::ComplexWidget
+
+  _LayoutComponent:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::ShuffleboardLayout
+  
+  _SuppliedValueComponent_string:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<std::string>
+  _SuppliedValueComponent_double:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<double>
+  _SuppliedValueComponent_float:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<float>
+  _SuppliedValueComponent_integer:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<int64_t>
+  _SuppliedValueComponent_bool:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<bool>
+  _SuppliedValueComponent_vector_string:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<std::vector<std::string>>
+  _SuppliedValueComponent_vector_double:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<std::vector<double>>
+  _SuppliedValueComponent_vector_float:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<std::vector<float>>
+  _SuppliedValueComponent_vector_int:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<std::vector<int64_t>>
+  _SuppliedValueComponent_vector_bool:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<std::vector<int>>
+  _SuppliedValueComponent_vector_raw:
+    qualname: frc::ShuffleboardComponent
+    params:
+    - frc::SuppliedValueWidget<std::vector<uint8_t>>

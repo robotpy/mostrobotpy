@@ -1,0 +1,7 @@
+---
+
+classes:
+  LayoutType:
+    methods:
+      LayoutType:
+      GetLayoutName:

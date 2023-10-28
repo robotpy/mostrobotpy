@@ -1,0 +1,26 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  AnalogOutput:
+    shared_ptr: true
+    ignored_bases:
+    - wpi::SendableHelper<AnalogOutput>
+    attributes:
+      m_channel:
+      m_port:
+        ignore: true
+    methods:
+      AnalogOutput:
+      SetVoltage:
+      GetVoltage:
+      GetChannel:
+      InitSendable:
+
+inline_code: |
+  cls_AnalogOutput
+    .def("__repr__", [](const AnalogOutput &self) {
+      return py::str("<AnalogOutput {}>").format(self.GetChannel());
+    });

@@ -1,0 +1,59 @@
+---
+
+classes:
+  SuppliedValueWidget:
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    template_params:
+    - T
+    methods:
+      SuppliedValueWidget:
+        ignore: true
+      BuildInto:
+
+
+templates:
+  SuppliedStringValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - std::string
+  SuppliedDoubleValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - double
+  SuppliedFloatValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - float
+  SuppliedIntegerValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - int64_t
+  SuppliedBoolValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - bool
+  SuppliedStringListValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - std::vector<std::string>
+  SuppliedDoubleListValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - std::vector<double>
+  SuppliedFloatListValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - std::vector<float>
+  SuppliedIntListValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - std::vector<int64_t>
+  SuppliedBoolListValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - std::vector<int>
+  SuppliedRawValueWidget:
+    qualname: frc::SuppliedValueWidget
+    params:
+    - std::vector<uint8_t>

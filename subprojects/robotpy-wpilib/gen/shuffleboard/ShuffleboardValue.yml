@@ -1,0 +1,13 @@
+---
+
+classes:
+  ShuffleboardValue:
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    methods:
+      ShuffleboardValue:
+        ignore: true
+      GetTitle:
+      BuildInto:
+      EnableIfActuator:
+      DisableIfActuator:

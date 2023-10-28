@@ -1,0 +1,21 @@
+---
+
+extra_includes:
+- networktables/NetworkTableInstance.h
+
+classes:
+  ShuffleboardInstance:
+    rename: _ShuffleboardInstance
+    base_qualnames:
+      ShuffleboardRoot: frc::ShuffleboardRoot
+    methods:
+      ShuffleboardInstance:
+      GetTab:
+        return_value_policy: reference_internal
+      Update:
+      EnableActuatorWidgets:
+      DisableActuatorWidgets:
+      SelectTab:
+        overloads:
+          int:
+          std::string_view:

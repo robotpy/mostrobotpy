@@ -1,0 +1,23 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  Solenoid:
+    shared_ptr: true
+    ignored_bases:
+    - wpi::SendableHelper<Solenoid>
+    methods:
+      Solenoid:
+        overloads:
+          int, PneumaticsModuleType, int:
+          PneumaticsModuleType, int:
+      Set:
+      Get:
+      Toggle:
+      GetChannel:
+      IsDisabled:
+      SetPulseDuration:
+      StartPulse:
+      InitSendable:

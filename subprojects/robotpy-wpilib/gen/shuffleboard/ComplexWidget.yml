@@ -1,0 +1,16 @@
+---
+
+extra_includes:
+- wpi/sendable/Sendable.h
+- wpi/sendable/SendableBuilder.h
+- frc/shuffleboard/ShuffleboardContainer.h
+
+classes:
+  ComplexWidget:
+    # virtual base issue: robotpy-build/166
+    force_no_trampoline: true
+    methods:
+      ComplexWidget:
+      EnableIfActuator:
+      DisableIfActuator:
+      BuildInto:

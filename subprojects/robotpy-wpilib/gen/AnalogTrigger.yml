@@ -1,0 +1,31 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+- frc/AnalogInput.h
+- frc/DutyCycle.h
+
+
+classes:
+  AnalogTrigger:
+    shared_ptr: true
+    ignored_bases:
+    - wpi::SendableHelper<AnalogTrigger>
+    methods:
+      AnalogTrigger:
+        overloads:
+          int:
+          AnalogInput*:
+          DutyCycle*:
+      SetLimitsVoltage:
+      SetLimitsDutyCycle:
+      SetLimitsRaw:
+      SetAveraged:
+      SetDutyCycle:
+        ignore: true # not implemented
+      SetFiltered:
+      GetIndex:
+      GetInWindow:
+      GetTriggerState:
+      CreateOutput:
+      InitSendable:

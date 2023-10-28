@@ -1,0 +1,29 @@
+---
+
+classes:
+  I2C:
+    shared_ptr: true
+    enums:
+      Port:
+    methods:
+      I2C:
+      GetPort:
+      GetDeviceAddress:
+      Transaction:
+        buffers:
+        - { type: in, src: dataToSend, len: sendSize }
+        - { type: out, src: dataReceived, len: receiveSize }
+      AddressOnly:
+      Write:
+      WriteBulk:
+        buffers:
+        - { type: in, src: data, len: count }
+      Read:
+        buffers:
+        - { type: out, src: data, len: count }
+      ReadOnly:
+        buffers:
+        - { type: out, src: buffer, len: count }
+      VerifySensor:
+        buffers:
+        - { type: in, src: expected, len: count }

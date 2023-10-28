@@ -1,0 +1,20 @@
+---
+
+classes:
+  TimedRobot:
+    shared_ptr: false
+    attributes:
+      kDefaultPeriod:
+    methods:
+      StartCompetition:
+      EndCompetition:
+      GetPeriod:
+      AddPeriodic:
+        param_override:
+          offset:
+            default: "0_s"
+      TimedRobot:
+        overloads:
+          double:
+            ignore: true
+          units::second_t:

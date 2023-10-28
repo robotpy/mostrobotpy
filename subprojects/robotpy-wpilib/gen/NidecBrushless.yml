@@ -1,0 +1,25 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+- wpi/SmallString.h
+
+classes:
+  NidecBrushless:
+    shared_ptr: true
+    ignored_bases:
+    - wpi::SendableHelper<NidecBrushless>
+    methods:
+      NidecBrushless:
+      Set:
+      Get:
+      SetInverted:
+      GetInverted:
+      Disable:
+      Enable:
+      PIDWrite:
+        rename: pidWrite
+      StopMotor:
+      GetDescription:
+      GetChannel:
+      InitSendable:

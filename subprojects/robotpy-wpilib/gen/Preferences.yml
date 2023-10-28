@@ -1,0 +1,35 @@
+---
+
+classes:
+  Preferences:
+    methods:
+      GetInstance:
+        ignore: true
+      GetKeys:
+      GetString:
+      GetInt:
+      GetDouble:
+      GetFloat:
+      GetBoolean:
+      GetLong:
+      SetString:
+      PutString:
+      InitString:
+      SetInt:
+      PutInt:
+      InitInt:
+      SetDouble:
+      PutDouble:
+      InitDouble:
+      SetFloat:
+      PutFloat:
+      InitFloat:
+      SetBoolean:
+      PutBoolean:
+      InitBoolean:
+      SetLong:
+      PutLong:
+      InitLong:
+      ContainsKey:
+      Remove:
+      RemoveAll:

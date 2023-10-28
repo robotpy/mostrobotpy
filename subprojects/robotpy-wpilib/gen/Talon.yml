@@ -1,0 +1,10 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  Talon:
+    shared_ptr: true
+    methods:
+      Talon:

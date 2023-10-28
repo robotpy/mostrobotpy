@@ -1,0 +1,27 @@
+---
+
+extra_includes:
+- frc/shuffleboard/ShuffleboardTab.h
+
+classes:
+  Shuffleboard:
+    attributes:
+      kBaseTableName:
+    methods:
+      Update:
+      GetTab:
+        return_value_policy: reference_internal
+      SelectTab:
+        overloads:
+          int:
+          std::string_view:
+      EnableActuatorWidgets:
+      DisableActuatorWidgets:
+      StartRecording:
+      StopRecording:
+      SetRecordingFileNameFormat:
+      ClearRecordingFileNameFormat:
+      AddEventMarker:
+        overloads:
+          std::string_view, std::string_view, ShuffleboardEventImportance:
+          std::string_view, ShuffleboardEventImportance:

@@ -1,0 +1,10 @@
+---
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  Victor:
+    shared_ptr: true
+    methods:
+      Victor:

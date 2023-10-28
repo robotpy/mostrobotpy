@@ -1,0 +1,12 @@
+---
+
+extra_includes:
+- frc/ADXRS450_Gyro.h
+
+classes:
+  ADXRS450_GyroSim:
+    shared_ptr: true
+    methods:
+      ADXRS450_GyroSim:
+      SetAngle:
+      SetRate:

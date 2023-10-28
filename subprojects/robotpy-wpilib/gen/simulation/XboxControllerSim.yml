@@ -1,0 +1,31 @@
+---
+
+extra_includes:
+- frc/XboxController.h
+
+classes:
+  XboxControllerSim:
+    force_no_trampoline: true
+    typealias:
+    - frc::XboxController
+    methods:
+      XboxControllerSim:
+        overloads:
+          const XboxController&:
+          int:
+      SetLeftX:
+      SetRightX:
+      SetLeftY:
+      SetRightY:
+      SetLeftTriggerAxis:
+      SetRightTriggerAxis:
+      SetLeftBumper:
+      SetRightBumper:
+      SetLeftStickButton:
+      SetRightStickButton:
+      SetAButton:
+      SetBButton:
+      SetXButton:
+      SetYButton:
+      SetBackButton:
+      SetStartButton:
