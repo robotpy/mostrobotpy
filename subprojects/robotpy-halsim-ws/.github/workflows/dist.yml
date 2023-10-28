@@ -1,0 +1,14 @@
+---
+name: dist
+
+on:
+  pull_request:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  ci:
+    uses: robotpy/build-actions/.github/workflows/package-hal-extension.yml@v2024
+    secrets:
+      META_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
