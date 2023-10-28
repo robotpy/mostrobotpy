@@ -1,0 +1,24 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetAnalogGyroData:
+  HALSIM_RegisterAnalogGyroAngleCallback:
+    ignore: true
+  HALSIM_CancelAnalogGyroAngleCallback:
+  HALSIM_GetAnalogGyroAngle:
+  HALSIM_SetAnalogGyroAngle:
+  HALSIM_RegisterAnalogGyroRateCallback:
+    ignore: true
+  HALSIM_CancelAnalogGyroRateCallback:
+  HALSIM_GetAnalogGyroRate:
+  HALSIM_SetAnalogGyroRate:
+  HALSIM_RegisterAnalogGyroInitializedCallback:
+    ignore: true
+  HALSIM_CancelAnalogGyroInitializedCallback:
+  HALSIM_GetAnalogGyroInitialized:
+  HALSIM_SetAnalogGyroInitialized:
+  HALSIM_RegisterAnalogGyroAllCallbacks:
+    ignore: true

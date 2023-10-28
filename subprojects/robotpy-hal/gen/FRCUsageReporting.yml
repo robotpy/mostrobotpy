@@ -1,0 +1,11 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_Report:
+
+enums:
+  tResourceType:
+  tInstances:

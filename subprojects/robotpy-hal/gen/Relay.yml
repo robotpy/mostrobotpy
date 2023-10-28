@@ -1,0 +1,11 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_InitializeRelayPort:
+  HAL_FreeRelayPort:
+  HAL_CheckRelayChannel:
+  HAL_SetRelay:
+  HAL_GetRelay:

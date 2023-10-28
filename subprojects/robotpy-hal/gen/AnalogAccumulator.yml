@@ -1,0 +1,14 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_IsAccumulatorChannel:
+  HAL_InitAccumulator:
+  HAL_ResetAccumulator:
+  HAL_SetAccumulatorCenter:
+  HAL_SetAccumulatorDeadband:
+  HAL_GetAccumulatorValue:
+  HAL_GetAccumulatorCount:
+  HAL_GetAccumulatorOutput:

@@ -1,0 +1,18 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetI2CData:
+  HALSIM_RegisterI2CInitializedCallback:
+    ignore: true
+  HALSIM_CancelI2CInitializedCallback:
+  HALSIM_GetI2CInitialized:
+  HALSIM_SetI2CInitialized:
+  HALSIM_RegisterI2CReadCallback:
+    ignore: true
+  HALSIM_CancelI2CReadCallback:
+  HALSIM_RegisterI2CWriteCallback:
+    ignore: true
+  HALSIM_CancelI2CWriteCallback:

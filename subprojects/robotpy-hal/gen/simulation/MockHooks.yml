@@ -1,0 +1,33 @@
+---
+
+strip_prefixes:
+  - HALSIM_
+
+functions:
+  HALSIM_SetRuntimeType:
+  HALSIM_WaitForProgramStart:
+  HALSIM_SetProgramStarted:
+  HALSIM_GetProgramStarted:
+  HALSIM_RestartTiming:
+  HALSIM_PauseTiming:
+  HALSIM_ResumeTiming:
+  HALSIM_IsTimingPaused:
+  HALSIM_StepTiming:
+  HALSIM_StepTimingAsync:
+
+  # following functions are ignored for raw function pointers
+
+  HALSIM_SetSendError:
+    ignore: true
+  HALSIM_SetSendConsoleLine:
+    ignore: true
+
+  HALSIM_RegisterSimPeriodicBeforeCallback:
+    ignore: true
+  HALSIM_CancelSimPeriodicBeforeCallback:
+
+  HALSIM_RegisterSimPeriodicAfterCallback:
+    ignore: true
+  HALSIM_CancelSimPeriodicAfterCallback:
+
+  HALSIM_CancelAllSimPeriodicCallbacks:

@@ -1,0 +1,21 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetSPIData:
+  HALSIM_RegisterSPIInitializedCallback:
+    ignore: true
+  HALSIM_CancelSPIInitializedCallback:
+  HALSIM_GetSPIInitialized:
+  HALSIM_SetSPIInitialized:
+  HALSIM_RegisterSPIReadCallback:
+    ignore: true
+  HALSIM_CancelSPIReadCallback:
+  HALSIM_RegisterSPIWriteCallback:
+    ignore: true
+  HALSIM_CancelSPIWriteCallback:
+  HALSIM_RegisterSPIReadAutoReceivedDataCallback:
+    ignore: true
+  HALSIM_CancelSPIReadAutoReceivedDataCallback:

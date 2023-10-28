@@ -1,0 +1,24 @@
+---
+
+strip_prefixes:
+- HAL_
+
+attributes:
+  InvalidHandleIndex:
+enums:
+  HAL_HandleEnum:
+functions:
+  getHandleIndex:
+  getHandleType:
+  isHandleType:
+  isHandleCorrectVersion:
+  getHandleTypedIndex:
+  getPortHandleChannel:
+  getPortHandleModule:
+  getPortHandleSPIEnable:
+  createPortHandle:
+  createPortHandleForSPI:
+  createHandle:
+classes:
+  HandleBase:
+    ignore: true

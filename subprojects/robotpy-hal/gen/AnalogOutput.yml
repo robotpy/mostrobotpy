@@ -1,0 +1,11 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_InitializeAnalogOutputPort:
+  HAL_FreeAnalogOutputPort:
+  HAL_SetAnalogOutput:
+  HAL_GetAnalogOutput:
+  HAL_CheckAnalogOutputChannel:

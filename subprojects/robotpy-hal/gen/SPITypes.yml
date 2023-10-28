@@ -1,0 +1,10 @@
+---
+
+strip_prefixes:
+- HAL_
+
+enums:
+  HAL_SPIPort:
+    value_prefix: HAL_SPI
+  HAL_SPIMode:
+    value_prefix: HAL_SPI

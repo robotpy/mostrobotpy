@@ -1,0 +1,10 @@
+---
+
+strip_prefixes:
+- HAL_
+
+enums:
+  HAL_CANDeviceType:
+    value_prefix: HAL_CAN_Dev
+  HAL_CANManufacturer:
+    value_prefix: HAL_CAN_Man

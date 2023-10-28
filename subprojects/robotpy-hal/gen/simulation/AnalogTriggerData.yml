@@ -1,0 +1,32 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+enums:
+  HALSIM_AnalogTriggerMode:
+functions:
+  HALSIM_FindAnalogTriggerForChannel:
+  HALSIM_ResetAnalogTriggerData:
+  HALSIM_RegisterAnalogTriggerInitializedCallback:
+    ignore: true
+  HALSIM_CancelAnalogTriggerInitializedCallback:
+  HALSIM_GetAnalogTriggerInitialized:
+  HALSIM_SetAnalogTriggerInitialized:
+  HALSIM_RegisterAnalogTriggerTriggerLowerBoundCallback:
+    ignore: true
+  HALSIM_CancelAnalogTriggerTriggerLowerBoundCallback:
+  HALSIM_GetAnalogTriggerTriggerLowerBound:
+  HALSIM_SetAnalogTriggerTriggerLowerBound:
+  HALSIM_RegisterAnalogTriggerTriggerUpperBoundCallback:
+    ignore: true
+  HALSIM_CancelAnalogTriggerTriggerUpperBoundCallback:
+  HALSIM_GetAnalogTriggerTriggerUpperBound:
+  HALSIM_SetAnalogTriggerTriggerUpperBound:
+  HALSIM_RegisterAnalogTriggerTriggerModeCallback:
+    ignore: true
+  HALSIM_CancelAnalogTriggerTriggerModeCallback:
+  HALSIM_GetAnalogTriggerTriggerMode:
+  HALSIM_SetAnalogTriggerTriggerMode:
+  HALSIM_RegisterAnalogTriggerAllCallbacks:
+    ignore: true

@@ -1,0 +1,21 @@
+---
+
+strip_prefixes:
+- HAL_
+
+enums:
+  HAL_AnalogTriggerType:
+    value_prefix: HAL_Trigger
+functions:
+  HAL_InitializeAnalogTrigger:
+  HAL_InitializeAnalogTriggerDutyCycle:
+  HAL_CleanAnalogTrigger:
+  HAL_SetAnalogTriggerLimitsRaw:
+  HAL_SetAnalogTriggerLimitsVoltage:
+  HAL_SetAnalogTriggerLimitsDutyCycle:
+  HAL_SetAnalogTriggerAveraged:
+  HAL_SetAnalogTriggerFiltered:
+  HAL_GetAnalogTriggerInWindow:
+  HAL_GetAnalogTriggerTriggerState:
+  HAL_GetAnalogTriggerOutput:
+  HAL_GetAnalogTriggerFPGAIndex:

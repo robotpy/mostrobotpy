@@ -1,0 +1,18 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_InitializeAnalogGyro:
+  HAL_SetupAnalogGyro:
+  HAL_FreeAnalogGyro:
+  HAL_SetAnalogGyroParameters:
+  HAL_SetAnalogGyroVoltsPerDegreePerSecond:
+  HAL_ResetAnalogGyro:
+  HAL_CalibrateAnalogGyro:
+  HAL_SetAnalogGyroDeadband:
+  HAL_GetAnalogGyroAngle:
+  HAL_GetAnalogGyroRate:
+  HAL_GetAnalogGyroOffset:
+  HAL_GetAnalogGyroCenter:

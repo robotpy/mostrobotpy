@@ -1,0 +1,40 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_InitializeSPI:
+  HAL_TransactionSPI:
+    buffers:
+    - { type: in, src: dataToSend, len: size }
+    - { type: out, src: dataReceived, len: size }
+    # TODO: dataToSend buffer must be at least as long as dataReceived buffer
+  HAL_WriteSPI:
+    buffers:
+    - { type: in, src: dataToSend, len: sendSize }
+  HAL_ReadSPI:
+    buffers:
+    - { type: out, src: buffer, len: count }
+  HAL_CloseSPI:
+  HAL_SetSPISpeed:
+  HAL_SetSPIMode:
+  HAL_GetSPIMode:
+  HAL_SetSPIChipSelectActiveHigh:
+  HAL_SetSPIChipSelectActiveLow:
+  HAL_GetSPIHandle:
+  HAL_SetSPIHandle:
+  HAL_InitSPIAuto:
+  HAL_FreeSPIAuto:
+  HAL_StartSPIAutoRate:
+  HAL_StartSPIAutoTrigger:
+  HAL_StopSPIAuto:
+  HAL_SetSPIAutoTransmitData:
+    buffers:
+    - { type: in, src: dataToSend, len: dataSize }
+  HAL_ForceSPIAutoRead:
+  HAL_ReadSPIAutoReceivedData:
+    buffers:
+    - { type: out, src: buffer, len: numToRead }
+  HAL_GetSPIAutoDroppedCount:
+  HAL_ConfigureSPIAutoStall:

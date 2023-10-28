@@ -1,0 +1,11 @@
+
+
+# Doc-related stuffs
+/_build
+/_sidebar.rst.inc
+/_sidebar.toml
+
+/hal.rst
+/hal
+/hal.simulation.rst
+/hal.simulation

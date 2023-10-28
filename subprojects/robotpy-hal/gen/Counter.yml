@@ -1,0 +1,33 @@
+---
+
+strip_prefixes:
+- HAL_
+
+enums:
+  HAL_Counter_Mode:
+    rename: CounterMode
+    value_prefix: HAL_Counter
+functions:
+  HAL_InitializeCounter:
+  HAL_FreeCounter:
+  HAL_SetCounterAverageSize:
+  HAL_SetCounterUpSource:
+  HAL_SetCounterUpSourceEdge:
+  HAL_ClearCounterUpSource:
+  HAL_SetCounterDownSource:
+  HAL_SetCounterDownSourceEdge:
+  HAL_ClearCounterDownSource:
+  HAL_SetCounterUpDownMode:
+  HAL_SetCounterExternalDirectionMode:
+  HAL_SetCounterSemiPeriodMode:
+  HAL_SetCounterPulseLengthMode:
+  HAL_GetCounterSamplesToAverage:
+  HAL_SetCounterSamplesToAverage:
+  HAL_ResetCounter:
+  HAL_GetCounter:
+  HAL_GetCounterPeriod:
+  HAL_SetCounterMaxPeriod:
+  HAL_SetCounterUpdateWhenEmpty:
+  HAL_GetCounterStopped:
+  HAL_GetCounterDirection:
+  HAL_SetCounterReverseDirection:

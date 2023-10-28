@@ -1,0 +1,56 @@
+---
+
+strip_prefixes:
+- HAL_
+
+enums:
+  HAL_AllianceStationID:
+    value_prefix: HAL_AllianceStationID
+  HAL_MatchType:
+    value_prefix: HAL_kMatchType
+classes:
+  HAL_ControlWord:
+    shared_ptr: false
+    attributes:
+      enabled:
+      autonomous:
+      test:
+      eStop:
+      fmsAttached:
+      dsAttached:
+      control_reserved:
+  HAL_JoystickAxes:
+    shared_ptr: false
+    attributes:
+      count:
+      axes:
+      raw:
+  HAL_JoystickPOVs:
+    shared_ptr: false
+    attributes:
+      count:
+      povs:
+  HAL_JoystickButtons:
+    shared_ptr: false
+    attributes:
+      buttons:
+      count:
+  HAL_JoystickDescriptor:
+    shared_ptr: false
+    attributes:
+      isXbox:
+      type:
+      name:
+      axisCount:
+      axisTypes:
+      buttonCount:
+      povCount:
+  HAL_MatchInfo:
+    shared_ptr: false
+    attributes:
+      eventName:
+      matchType:
+      matchNumber:
+      replayNumber:
+      gameSpecificMessage:
+      gameSpecificMessageSize:

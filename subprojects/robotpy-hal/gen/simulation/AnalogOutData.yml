@@ -1,0 +1,19 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+functions:
+  HALSIM_ResetAnalogOutData:
+  HALSIM_RegisterAnalogOutVoltageCallback:
+    ignore: true
+  HALSIM_CancelAnalogOutVoltageCallback:
+  HALSIM_GetAnalogOutVoltage:
+  HALSIM_SetAnalogOutVoltage:
+  HALSIM_RegisterAnalogOutInitializedCallback:
+    ignore: true
+  HALSIM_CancelAnalogOutInitializedCallback:
+  HALSIM_GetAnalogOutInitialized:
+  HALSIM_SetAnalogOutInitialized:
+  HALSIM_RegisterAnalogOutAllCallbacks:
+    ignore: true
