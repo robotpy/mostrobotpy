@@ -1,0 +1,23 @@
+[build-system]
+requires = ["robotpy-build"]
+
+[tool.robotpy-build]
+base_package = "wpiutil_test"
+
+[tool.robotpy-build.wrappers."wpiutil_test"]
+name = "wpiutil_test"
+extension = "module"
+depends = ["wpiutil"]
+sources = [
+    "wpiutil_test/module.cpp",
+    "wpiutil_test/sendable_test.cpp",
+]
+
+[tool.robotpy-build.metadata]
+name = "wpiutil_test"
+description = "Test project for verifying robotpy-build behavior"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+license = "BSD-3-Clause"
+install_requires = []
+url = ""

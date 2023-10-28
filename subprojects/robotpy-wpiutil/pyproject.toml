@@ -1,0 +1,77 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-wpiutil"
+description = "Binary wrapper for FRC WPIUtil library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-wpiutil"
+license = "BSD-3-Clause"
+install_requires = []
+
+[build-system]
+requires = [
+    "robotpy-build<2025.0.0,~=2024.0.0b2",
+]
+
+[tool.robotpy-build]
+base_package = "wpiutil"
+
+[tool.robotpy-build.wrappers."wpiutil"]
+name = "wpiutil"
+sources = [
+    "wpiutil/src/main.cpp",
+    "wpiutil/src/safethread_gil.cpp",
+    "wpiutil/src/stacktracehook.cpp"
+]
+extra_includes = ["wpiutil/src/type_casters"]
+
+generation_data = "gen"
+
+[tool.robotpy-build.wrappers."wpiutil".maven_lib_download]
+artifact_id = "wpiutil-cpp"
+group_id = "edu.wpi.first.wpiutil"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2024.1.1-beta-2"
+
+libs = ["wpiutil"]
+
+[tool.robotpy-build.wrappers."wpiutil".autogen_headers]
+# wpi
+DataLog = "wpi/DataLog.h"
+DataLogReader = "wpi/DataLogReader.h"
+StackTrace = "wpi/StackTrace.h"
+Synchronization = "wpi/Synchronization.h"
+
+# wpi/sendable
+Sendable = "wpi/sendable/Sendable.h"
+SendableBuilder = "wpi/sendable/SendableBuilder.h"
+#SendableHelper = "wpi/sendable/SendableHelper.h"
+SendableRegistry = "wpi/sendable/SendableRegistry.h"
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_array_type_caster.h"
+types = ["wpi::array"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_json_type_caster.h"
+types = ["wpi::json"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_span_type_caster.h"
+types = ["std::span"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_smallset_type_caster.h"
+types = ["wpi::SmallSet"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_smallvector_type_caster.h"
+types = ["wpi::SmallVector"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_smallvectorimpl_type_caster.h"
+types = ["wpi::SmallVectorImpl"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_string_map_caster.h"
+types = ["wpi::StringMap"]
