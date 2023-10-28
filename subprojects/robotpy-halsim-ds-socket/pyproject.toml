@@ -1,0 +1,39 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-halsim-ds-socket"
+description = "WPILib simulator DS Socket Extension"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/robotpy-halsim-gui"
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-hal~=2024.0.0b2",
+    "robotpy-wpinet~=2024.0.0b2",
+]
+
+[tool.robotpy-build.metadata.entry_points]
+robotpysimext = ["ds-socket = halsim_ds_socket"]
+
+[build-system]
+requires = [
+    "robotpy-build<2025.0.0,~=2024.0.0b1",
+    "robotpy-hal~=2024.0.0b2",
+    "robotpy-wpinet~=2024.0.0b2",
+]
+
+[tool.robotpy-build]
+base_package = "halsim_ds_socket"
+
+[tool.robotpy-build.wrappers."halsim_ds_socket".maven_lib_download]
+artifact_id = "halsim_ds_socket"
+group_id = "edu.wpi.first.halsim"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1-beta-2"
+
+dlopenlibs = ["halsim_ds_socket"]
+
+[tool.robotpy-build.wrappers."halsim_ds_socket"]
+name = "halsim_ds_socket"
+depends = ["wpiHal", "wpinet"]
+
+
