@@ -13,6 +13,7 @@ install_requires = [
 requires = [
     "robotpy-build<2025.0.0,~=2024.0.0b1",
     "robotpy-wpiutil~=2024.0.0b2",
+    # "numpy", # broken in raspbian CI
 ]
 
 [tool.robotpy-build]

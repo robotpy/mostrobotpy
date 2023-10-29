@@ -99,6 +99,11 @@ jobs:
       run: |
         python -m pip --disable-pip-version-check install -r rdev_requirements.txt
 
+    - name: Install numpy (needed for stubgen but broken in raspbian CI)
+      shell: bash
+      run: |
+        python -m pip --disable-pip-version-check install 'numpy<2'
+
     - name: Build + test wheels
       shell: bash
       run: |
