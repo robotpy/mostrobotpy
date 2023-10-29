@@ -19,11 +19,11 @@ if __name__ == "__main__":
             "pip",
             "--disable-pip-version-check",
             "install",
+            "--force-reinstall",
             "--no-build-isolation",
-            "-e",
-            "cpp",
+            "./cpp",
         ],
         env=env,
     )
 
-    subprocess.check_call([sys.executable, "-m", "pytest"])
+    subprocess.check_call([sys.executable, "-m", "pytest", "--ignore=cpp"])
