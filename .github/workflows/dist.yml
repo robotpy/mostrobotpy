@@ -69,6 +69,10 @@ jobs:
       with:
         python-version: ${{ matrix.python_version }}
 
+    #
+    # Setup build caching
+    #
+
     - name: Set ccache variant
       shell: bash
       id: ccache
@@ -82,7 +86,7 @@ jobs:
         fi
 
     - name: Setup ccache
-      uses: hendrikmuhs/ccache-action@v1.2
+      uses: hendrikmuhs/ccache-action@v1.2.10
       with:
           key: ${{ matrix.os }}-${{ matrix.python_version }}
           variant: ${{ steps.ccache.outputs.variant }}
