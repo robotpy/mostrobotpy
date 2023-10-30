@@ -45,7 +45,7 @@ class Subproject:
             "--disable-pip-version-check",
             "--find-links",
             str(wheel_path),
-            *[str(req) for req in self.requires]
+            *[str(req) for req in self.requires],
         )
 
     def develop(self):
@@ -95,7 +95,7 @@ class Subproject:
 
             tdp = pathlib.Path(td)
             twhl = list(tdp.glob("*.whl"))[0]
-            dst_whl = wheel_path / twhl.name
+            dst_whl = wheel_path / self._fix_wheel_name(twhl.name)
             shutil.move(twhl, dst_whl)
 
         # Setuptools is dumb
@@ -115,3 +115,18 @@ class Subproject:
                 str(wheel_path),
                 str(dst_whl),
             )
+
+    _adjust_wheel_tags = {
+        # pypi only accepts manylinux wheels, and we know we're compatible
+        "linux_x86_64": "manylinux_2_35_x86_64",
+        # needed for compatibility with python compiled with older xcode
+        "macosx_11_0_x86_64": "macosx_10_16_x86_64",
+    }
+
+    def _fix_wheel_name(self, name: str) -> str:
+        for old, new in self._adjust_wheel_tags.items():
+            old_whl = f"{old}.whl"
+            new_whl = f"{new}.whl"
+            if name.endswith(old_whl):
+                name = f"{name[:-len(old_whl)]}{new_whl}"
+        return name
