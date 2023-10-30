@@ -15,9 +15,11 @@ class Subproject:
     def __init__(self, cfg: SubprojectConfig, path: pathlib.Path) -> None:
         self.cfg = cfg
         self.path = path
+        self.pyproject_path = self.path / "pyproject.toml"
         self.name = path.name
 
-        with open(self.path / "pyproject.toml", "rb") as fp:
+        # Use tomli here because it's faster and we just need the data
+        with open(self.pyproject_path, "rb") as fp:
             self.pyproject_data = tomli.load(fp)
 
         self.requires = [

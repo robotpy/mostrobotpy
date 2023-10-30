@@ -1,4 +1,5 @@
 import pathlib
+import subprocess
 import sysconfig
 import typing
 
@@ -40,3 +41,23 @@ class Context:
             subprojects[i].name: subprojects[i]
             for i in toposort.toposort_flatten(ti, sort=False)
         }
+
+    def git_commit(self, msg: str, *relpath: str):
+        subprocess.run(
+            ["git", "commit", "-F", "-", "--"] + list(relpath),
+            check=True,
+            cwd=self.root_path,
+            input=msg,
+            text=True,
+        )
+        subprocess.run(
+            ["git", "--no-pager", "log", "-1", "--stat"],
+            check=True,
+            cwd=self.root_path,
+        )
+
+    def git_is_file_dirty(self, relpath: str) -> bool:
+        output = subprocess.check_output(
+            ["git", "status", "--porcelain", relpath], cwd=self.root_path
+        ).decode("utf-8")
+        return output != ""
