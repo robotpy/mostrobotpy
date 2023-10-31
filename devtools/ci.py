@@ -2,18 +2,36 @@
 # CI commands
 #
 
-import inspect
-import pathlib
-import typing
+import sys
 
 import click
 
 from .ctx import Context
+from .update_pyproject import ProjectUpdater
 
 
 @click.group()
 def ci():
     """CI commands"""
+
+
+@ci.command()
+@click.pass_obj
+def check_pyproject(ctx: Context):
+    """
+    Ensures that all pyproject.toml files are in sync with rdev.toml
+    """
+    print("Checking for changes..")
+    updater = ProjectUpdater(ctx)
+    updater.update()
+    if updater.changed:
+        print(
+            "ERROR: please use ./rdev.sh update-pyproject to synchronize pyproject.toml and rdev.toml",
+            file=sys.stderr,
+        )
+        exit(1)
+    else:
+        print("OK")
 
 
 @ci.command()

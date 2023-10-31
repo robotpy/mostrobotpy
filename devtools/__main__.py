@@ -2,6 +2,7 @@ import click
 
 from .ctx import Context
 from . import ci
+from . import update_pyproject
 
 
 @click.group()
@@ -12,6 +13,7 @@ def main(ctx: click.Context):
 
 
 main.add_command(ci.ci)
+main.add_command(update_pyproject.update_pyproject)
 
 
 @main.command()

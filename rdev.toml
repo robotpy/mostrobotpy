@@ -8,7 +8,12 @@ wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
 wpilib_bin_version = "2024.1.1-beta-2"
 # wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
 
-# robotpy_build = "2024.0.0b2"
+# Don't update these artifacts
+exclude_artifacts = [
+    "opencv-cpp"
+]
+
+robotpy_build_req = "<2025.0.0,~=2024.0.0b2"
 
 #
 # Subproject configuration

@@ -21,6 +21,10 @@ class Parameters(Model):
     wpilib_bin_version: str
     wpilib_bin_url: str
 
+    robotpy_build_req: str
+
+    exclude_artifacts: typing.Set[str]
+
 
 class UpdateConfig(Model):
     params: Parameters
