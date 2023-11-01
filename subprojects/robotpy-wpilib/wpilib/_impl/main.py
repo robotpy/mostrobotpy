@@ -64,7 +64,7 @@ def _log_versions():
             # Don't actually load the entry points -- just print the
             # packages unless we need to load them
             dist = entry_point.dist
-            versions[dist.project_name] = dist.version
+            versions[dist.name] = dist.version
 
     for k, v in versions.items():
         if k not in ("wpilib", "robotpy-hal"):
