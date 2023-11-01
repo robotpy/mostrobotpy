@@ -6,7 +6,7 @@ import os
 import sys
 
 from os.path import exists
-from pkg_resources import iter_entry_points
+from importlib.metadata import entry_points
 
 from .logconfig import configure_logging
 
@@ -60,7 +60,7 @@ def _log_versions():
     # Log third party versions
     # -> TODO: in the future, expand 3rd party HAL support here?
     for group in ("robotpylib", "robotpybuild"):
-        for entry_point in iter_entry_points(group=group, name=None):
+        for entry_point in entry_points(group=group):
             # Don't actually load the entry points -- just print the
             # packages unless we need to load them
             dist = entry_point.dist
@@ -173,7 +173,7 @@ def run(robot_class, **kwargs):
 
     has_cmd = False
 
-    for entry_point in iter_entry_points(group="robotpy", name=None):
+    for entry_point in entry_points(group="robotpy"):
         try:
             cmd_class = entry_point.load()
         except ImportError:
