@@ -43,6 +43,9 @@ class CommandScheduler:
         Resets the scheduler instance, which is useful for testing purposes. This should not be
         called by user code.
         """
+        inst = CommandScheduler._instance
+        if inst:
+            inst._defaultButtonLoop.clear()
         CommandScheduler._instance = None
 
     def __init__(self) -> None:
