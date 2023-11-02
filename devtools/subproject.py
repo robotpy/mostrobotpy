@@ -45,6 +45,7 @@ class Subproject:
             "pip",
             "install",
             "--disable-pip-version-check",
+            "--prefer-binary",
             "--find-links",
             str(wheel_path),
             *[str(req) for req in self.requires],
