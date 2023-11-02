@@ -91,3 +91,19 @@ __all__ = [
     # "deadline",
     "Trigger",  # was here in 2023
 ]
+
+
+def __getattr__(attr):
+    if attr == "SubsystemBase":
+        import warnings
+
+        warnings.warn("SubsystemBase is deprecated", DeprecationWarning, stacklevel=2)
+        return Subsystem
+
+    if attr == "CommandBase":
+        import warnings
+
+        warnings.warn("CommandBase is deprecated", DeprecationWarning, stacklevel=2)
+        return Command
+
+    raise AttributeError("module {!r} has no attribute " "{!r}".format(__name__, attr))
