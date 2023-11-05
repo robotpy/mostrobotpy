@@ -14,7 +14,7 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b2",
+    "robotpy-build<2025.0.0,~=2024.0.0b3",
     "robotpy-wpiutil~=2024.0.0b2",
     "robotpy-wpimath~=2024.0.0b2",
     "robotpy-hal~=2024.0.0b2",

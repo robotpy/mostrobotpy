@@ -49,7 +49,7 @@ classes:
         py::object py_result = py::cast(c_result);
         auto len = c_result->size();
         auto get = py_result.attr("get");
-        py::List<AprilTagDetection> l(len);
+        py::typing::List<AprilTagDetection> l(len);
         for (size_t i = 0; i < len; i++) {
           l[i] = get(i);
         }
