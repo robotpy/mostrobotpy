@@ -100,17 +100,15 @@ jobs:
         fi
 
     - name: Setup ccache
+      if: steps.ccache.outputs.variant == 'ccache'
       uses: hendrikmuhs/ccache-action@v1.2.10
       with:
           key: ${{ matrix.os }}-${{ matrix.python_version }}
-          variant: ${{ steps.ccache.outputs.variant }}
+          variant: ccache
 
-    - name: Set robotpy-build environment
-      shell: bash
-      run: |
-        echo "RPYBUILD_PARALLEL=1" >> $GITHUB_ENV
-        echo "RPYBUILD_STRIP_LIBPYTHON=1"  >> $GITHUB_ENV
-        echo "MACOSX_DEPLOYMENT_TARGET=11.7" >> $GITHUB_ENV
+    - name: Setup sccache
+      if: steps.ccache.outputs.variant == 'sccache'
+      uses: mozilla-actions/sccache-action@v0.0.3
 
     - name: Install deps
       shell: bash
@@ -126,6 +124,11 @@ jobs:
       shell: bash
       run: |
         ./rdev.sh ci run
+      env:
+        RPYBUILD_PARALLEL: "1"
+        RPYBUILD_STRIP_LIBPYTHON: "1"
+        MACOSX_DEPLOYMENT_TARGET: "11.7"
+        SCCACHE_GHA_ENABLED: "true"
 
     - uses: actions/upload-artifact@v3
       with:
