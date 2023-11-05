@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- gilsafe_object.h
+
 classes:
   SendableChooser:
     shared_ptr: true
@@ -9,10 +12,6 @@ classes:
       SendableChooser:
       AddOption:
       SetDefaultOption:
-      AddObject:
-        ignore: true
-      AddDefault:
-        ignore: true
       GetSelected:
         # weirdness because return type
         cpp_code: |
@@ -24,10 +23,23 @@ classes:
             return v;
           }
       OnChange:
+        # more weirdness
+        cpp_code: |
+          [](frc::SendableChooser<T> *self, std::function<void(T)> fn) {
+            self->OnChange([fn](T v) {
+              py::gil_scoped_acquire lock;
+              if (v) {
+                fn(v);
+              } else {
+                fn(py::none());
+              }
+            });
+          }
+
       InitSendable:
 
 templates:
   SendableChooser:
     qualname: frc::SendableChooser
     params:
-    - py::object
+    - rpy::gilsafe_object
