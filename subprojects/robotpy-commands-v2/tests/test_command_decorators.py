@@ -1,92 +1,91 @@
-from util import ConditionHolder, ManualSimTime
+from typing import TYPE_CHECKING
+
+from util import *  # type: ignore
+
+if TYPE_CHECKING:
+    from .util import *
+
 import commands2
+import pytest
 
 
-def test_with_timeout(scheduler: commands2.CommandScheduler):
-    with ManualSimTime() as tm:
-        cmd = commands2.WaitCommand(10)
-        timeout = cmd.withTimeout(2)
-
+def test_timeout(scheduler: commands2.CommandScheduler):
+    with ManualSimTime() as sim:
+        command1 = commands2.WaitCommand(1)
+        timeout = command1.withTimeout(2)
         scheduler.schedule(timeout)
         scheduler.run()
-
-        assert not scheduler.isScheduled(cmd)
-        assert scheduler.isScheduled(timeout)
-
-        tm.step(3)
-
+        assert not command1.isScheduled()
+        assert timeout.isScheduled()
+        sim.step(3)
         scheduler.run()
-        assert not scheduler.isScheduled(timeout)
+        assert not timeout.isScheduled()
 
 
-def test_with_interrupt(scheduler: commands2.CommandScheduler):
-    cond = ConditionHolder()
-
-    cmd = commands2.WaitCommand(10)
-    timeout = cmd.withInterrupt(cond.getCondition)
-
-    scheduler.schedule(timeout)
+def test_until(scheduler: commands2.CommandScheduler):
+    condition = OOBoolean(False)
+    command = commands2.WaitCommand(10).until(condition)
+    scheduler.schedule(command)
     scheduler.run()
-
-    assert not scheduler.isScheduled(cmd)
-    assert scheduler.isScheduled(timeout)
-
-    cond.setTrue()
-
+    assert command.isScheduled()
+    condition.set(True)
     scheduler.run()
-    assert not scheduler.isScheduled(cmd)
+    assert not command.isScheduled()
 
 
-def test_before_starting(scheduler: commands2.CommandScheduler):
-    cond = ConditionHolder()
-
-    cmd = commands2.InstantCommand().beforeStarting(cond.setTrue)
-
-    scheduler.schedule(cmd)
-
-    assert cond.getCondition()
-
+@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
+def test_only_while(scheduler: commands2.CommandScheduler):
+    condition = OOBoolean(True)
+    command = commands2.WaitCommand(10).onlyWhile(condition)
+    scheduler.schedule(command)
     scheduler.run()
+    assert command.isScheduled()
+    condition.set(False)
     scheduler.run()
+    assert not command.isScheduled()
 
-    assert not scheduler.isScheduled(cmd)
 
-
-def test_and_then_fn(scheduler: commands2.CommandScheduler):
-    cond = ConditionHolder()
-
-    cmd = commands2.InstantCommand().andThen(cond.setTrue)
-
-    scheduler.schedule(cmd)
-
-    assert not cond.getCondition()
-
+@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
+def test_ignoringDisable(scheduler: commands2.CommandScheduler):
+    command = commands2.RunCommand(lambda: None).ignoringDisable(True)
+    DriverStationSim.setEnabled(False)
+    DriverStationSim.notifyNewData()
+    scheduler.schedule(command)
     scheduler.run()
+    assert command.isScheduled()
+
+
+def test_beforeStarting(scheduler: commands2.CommandScheduler):
+    condition = OOBoolean(False)
+    condition.set(False)
+    command = commands2.InstantCommand()
+    scheduler.schedule(
+        command.beforeStarting(commands2.InstantCommand(lambda: condition.set(True)))
+    )
+    assert condition == True
+
+
+@pytest.mark.skip
+def test_andThenLambda(scheduler: commands2.CommandScheduler):
+    ...
+
+
+def test_andThen(scheduler: commands2.CommandScheduler):
+    condition = OOBoolean(False)
+    condition.set(False)
+    command1 = commands2.InstantCommand()
+    command2 = commands2.InstantCommand(lambda: condition.set(True))
+    scheduler.schedule(command1.andThen(command2))
+    assert condition == False
     scheduler.run()
-
-    assert not scheduler.isScheduled(cmd)
-    assert cond.getCondition()
+    assert condition == True
 
 
-def test_and_then_commands(scheduler: commands2.CommandScheduler):
-    cond = ConditionHolder()
+def test_deadlineWith(scheduler: commands2.CommandScheduler):
+    condition = OOBoolean(False)
+    condition.set(False)
 
-    cmd1 = commands2.InstantCommand()
-    cmd2 = commands2.InstantCommand(cond.setTrue)
-
-    scheduler.schedule(cmd1.andThen(cmd2))
-
-    assert not cond.getCondition()
-
-    scheduler.run()
-
-    assert cond.getCondition()
-
-
-def test_deadline_with(scheduler: commands2.CommandScheduler):
-    cond = ConditionHolder()
-
-    dictator = commands2.WaitUntilCommand(cond.getCondition)
+    dictator = commands2.WaitUntilCommand(condition)
     endsBefore = commands2.InstantCommand()
     endsAfter = commands2.WaitUntilCommand(lambda: False)
 
@@ -94,52 +93,130 @@ def test_deadline_with(scheduler: commands2.CommandScheduler):
 
     scheduler.schedule(group)
     scheduler.run()
-
-    assert scheduler.isScheduled(group)
-
-    cond.setTrue()
+    assert group.isScheduled()
+    condition.set(True)
     scheduler.run()
+    assert not group.isScheduled()
 
-    assert not scheduler.isScheduled(group)
 
+def test_alongWith(scheduler: commands2.CommandScheduler):
+    condition = OOBoolean()
+    condition.set(False)
 
-def test_along_with(scheduler: commands2.CommandScheduler):
-    cond = ConditionHolder(False)
+    command1 = commands2.WaitUntilCommand(condition)
+    command2 = commands2.InstantCommand()
 
-    cmd1 = commands2.WaitUntilCommand(cond.getCondition)
-    cmd2 = commands2.InstantCommand()
-
-    group = cmd1.alongWith(cmd2)
+    group = command1.alongWith(command2)
 
     scheduler.schedule(group)
     scheduler.run()
-
-    assert scheduler.isScheduled(group)
-
-    cond.setTrue()
+    assert group.isScheduled()
+    condition.set(True)
     scheduler.run()
+    assert not group.isScheduled()
 
-    assert not scheduler.isScheduled(group)
 
+def test_raceWith(scheduler: commands2.CommandScheduler):
+    command1 = commands2.WaitUntilCommand(lambda: False)
+    command2 = commands2.InstantCommand()
 
-def test_race_with(scheduler: commands2.CommandScheduler):
-    cmd1 = commands2.WaitUntilCommand(lambda: False)
-    cmd2 = commands2.InstantCommand()
-
-    group = cmd1.raceWith(cmd2)
+    group = command1.raceWith(command2)
 
     scheduler.schedule(group)
     scheduler.run()
-
-    assert not scheduler.isScheduled(group)
+    assert not group.isScheduled()
 
 
 def test_perpetually(scheduler: commands2.CommandScheduler):
-    cmd = commands2.InstantCommand().perpetually()
-
-    scheduler.schedule(cmd)
-
+    command = commands2.InstantCommand()
+    perpetual = command.perpetually()
+    scheduler.schedule(perpetual)
     scheduler.run()
     scheduler.run()
+    scheduler.run()
+    assert perpetual.isScheduled()
 
-    assert scheduler.isScheduled(cmd)
+
+@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
+def test_unless(scheduler: commands2.CommandScheduler):
+    unlessCondition = OOBoolean(True)
+    hasRunCondition = OOBoolean(False)
+
+    command = commands2.InstantCommand(lambda: hasRunCondition.set(True)).unless(
+        unlessCondition
+    )
+
+    scheduler.schedule(command)
+    scheduler.run()
+    assert hasRunCondition == False
+    unlessCondition.set(False)
+    scheduler.schedule(command)
+    scheduler.run()
+    assert hasRunCondition == True
+
+
+@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
+def test_onlyIf(scheduler: commands2.CommandScheduler):
+    onlyIfCondition = OOBoolean(False)
+    hasRunCondition = OOBoolean(False)
+
+    command = commands2.InstantCommand(lambda: hasRunCondition.set(True)).onlyIf(
+        onlyIfCondition
+    )
+
+    scheduler.schedule(command)
+    scheduler.run()
+    assert hasRunCondition == False
+    onlyIfCondition.set(True)
+    scheduler.schedule(command)
+    scheduler.run()
+    assert hasRunCondition == True
+
+
+@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
+def test_finallyDo(scheduler: commands2.CommandScheduler):
+    first = OOInteger(0)
+    second = OOInteger(0)
+
+    command = commands2.FunctionalCommand(
+        lambda: None,
+        lambda: None,
+        lambda interrupted: first.incrementAndGet() if not interrupted else None,
+        lambda: True,
+    ).finallyDo(lambda interrupted: second.addAndGet(1 + first()))
+
+    scheduler.schedule(command)
+    assert first == 0
+    assert second == 0
+    scheduler.run()
+    assert first == 1
+    assert second == 2
+
+
+@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
+def test_handleInterrupt(scheduler: commands2.CommandScheduler):
+    first = OOInteger(0)
+    second = OOInteger(0)
+
+    command = commands2.FunctionalCommand(
+        lambda: None,
+        lambda: None,
+        lambda interrupted: first.incrementAndGet() if interrupted else None,
+        lambda: False,
+    ).handleInterrupt(lambda: second.addAndGet(1 + first()))
+
+    scheduler.schedule(command)
+    scheduler.run()
+    assert first == 0
+    assert second == 0
+    scheduler.cancel(command)
+    assert first == 1
+    assert second == 2
+
+
+@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
+def test_withName(scheduler: commands2.CommandScheduler):
+    command = commands2.InstantCommand()
+    name = "Named"
+    named = command.withName(name)
+    assert named.getName() == name
