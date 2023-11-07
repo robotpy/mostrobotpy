@@ -103,8 +103,9 @@ jobs:
       if: steps.ccache.outputs.variant == 'ccache'
       uses: hendrikmuhs/ccache-action@v1.2.10
       with:
-          key: ${{ matrix.os }}-${{ matrix.python_version }}
-          variant: ccache
+        key: ${{ matrix.os }}-${{ matrix.python_version }}
+        variant: ccache
+        save: ${{ github.ref_name == 'main' }}
 
     - name: Setup sccache
       if: steps.ccache.outputs.variant == 'sccache'
@@ -188,8 +189,9 @@ jobs:
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:
-          key: ${{ matrix.os.container }}
-          variant: ccache
+        key: ${{ matrix.os.container }}
+        variant: ccache
+        save: ${{ github.ref_name == 'main' }}
 
     - name: Install setuptools + wheel
       run: |
