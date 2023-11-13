@@ -3,6 +3,7 @@ click
 packaging
 pydantic<2
 requests
+rich
 setuptools
 tomlkit
 tomli
