@@ -1,8 +1,9 @@
-RobotPy AprilTag API Documentation
-==================================
+
+RobotPy API Documentation
+=========================
 
 .. include:: _sidebar.rst.inc
-    
+
 Indices and tables
 ==================
 

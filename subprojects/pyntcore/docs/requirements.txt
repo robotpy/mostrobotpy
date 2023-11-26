@@ -1,4 +1,0 @@
-# This file is intended for use on readthedocs
-sphinx >= 3
-sphinx-rtd-theme
-robotpy-sphinx-plugin~=0.1.6
