@@ -80,6 +80,16 @@ class Subproject:
             cwd=tests_path,
         )
 
+    def clean(self):
+        self._cmd(
+            sys.executable,
+            "setup.py",
+            "clean",
+            "--all",
+            cwd=self.path,
+        )
+        shutil.rmtree(self.path / "build", ignore_errors=True)
+
     def bdist_wheel(self, *, wheel_path: pathlib.Path, install: bool):
         wheel_path.mkdir(parents=True, exist_ok=True)
 

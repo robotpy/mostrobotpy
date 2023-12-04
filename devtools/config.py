@@ -25,6 +25,11 @@ class Parameters(Model):
 
     exclude_artifacts: typing.Set[str]
 
+    parallel: typing.Optional[bool]
+    cc_launcher: typing.Optional[str]
+    strip_libpython: typing.Optional[bool]
+    macosx_deployment_target: typing.Optional[str]
+
 
 class UpdateConfig(Model):
     params: Parameters

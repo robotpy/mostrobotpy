@@ -4,6 +4,12 @@
 
 [params]
 
+parallel = true
+cc_launcher = "ccache"
+# strip_libpython = true
+# macosx_deployment_target = "12"
+
+
 wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
 wpilib_bin_version = "2024.1.1-beta-3"
 # wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
