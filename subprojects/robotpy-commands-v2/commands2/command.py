@@ -64,9 +64,9 @@ class Command(Sendable):
         instance = super().__new__(
             cls,
         )
-        instance.requirements = set()
-        SendableRegistry.add(instance, cls.__name__)
         super().__init__(instance)
+        SendableRegistry.add(instance, cls.__name__)
+        instance.requirements = set()
         return instance
 
     def __init__(self):
