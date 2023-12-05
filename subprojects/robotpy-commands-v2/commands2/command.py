@@ -6,7 +6,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import TYPE_CHECKING, Any, Callable, Set
 
-from typing_extensions import Self
+from typing_extensions import Self, TypeAlias
 
 if TYPE_CHECKING:
     from .instantcommand import InstantCommand
@@ -54,7 +54,9 @@ class Command(Sendable):
     This class is provided by the NewCommands VendorDep
     """
 
-    InterruptionBehavior = InterruptionBehavior  # type alias for 2023 location
+    InterruptionBehavior: TypeAlias = (
+        InterruptionBehavior  # type alias for 2023 location
+    )
 
     requirements: Set[Subsystem]
 

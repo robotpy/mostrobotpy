@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-from typing import Iterable, Tuple, Union
+from typing import Iterable, List, Tuple, Union
 
 from .command import Command
 
 
 def flatten_args_commands(
     *commands: Union[Command, Iterable[Command]]
-) -> Tuple[Command]:
-    flattened_commands = []
+) -> Tuple[Command, ...]:
+    flattened_commands: List[Command] = []
     for command in commands:
         if isinstance(command, Command):
             flattened_commands.append(command)

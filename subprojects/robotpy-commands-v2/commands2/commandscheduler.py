@@ -21,9 +21,9 @@ class CommandScheduler:
     methods to be called and for their default commands to be scheduled.
     """
 
-    _instance: Optional[Self] = None
+    _instance: Optional[CommandScheduler] = None
 
-    def __new__(cls) -> Self:
+    def __new__(cls) -> CommandScheduler:
         if cls._instance is None:
             return super().__new__(cls)
         return cls._instance
