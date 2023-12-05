@@ -13,6 +13,8 @@ class CommandJoystick(CommandGenericHID):
     A version of Joystick with Trigger factories for command-based.
     """
 
+    _hid: Joystick
+
     def __init__(self, port: int):
         """
         Construct an instance of a controller.

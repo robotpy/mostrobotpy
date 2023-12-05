@@ -13,6 +13,8 @@ class CommandPS4Controller(CommandGenericHID):
     A version of PS4Controller with Trigger factories for command-based.
     """
 
+    _hid: PS4Controller
+
     def __init__(self, port: int):
         """
         Construct an instance of a device.

@@ -13,6 +13,8 @@ class CommandXboxController(CommandGenericHID):
     A version of XboxController with Trigger factories for command-based.
     """
 
+    _hid: XboxController
+
     def __init__(self, port: int):
         """
         Construct an instance of a controller.

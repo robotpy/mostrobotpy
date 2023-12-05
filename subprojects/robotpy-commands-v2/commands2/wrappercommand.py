@@ -26,6 +26,7 @@ class WrapperCommand(Command):
 
         CommandScheduler.getInstance().registerComposedCommands([command])
         self._command = command
+        self.setName(self._command.getName())
 
     def initialize(self):
         """The initial subroutine of a command. Called once when the command is initially scheduled."""
