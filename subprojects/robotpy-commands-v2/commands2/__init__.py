@@ -30,6 +30,7 @@ from .parallelcommandgroup import ParallelCommandGroup
 from .paralleldeadlinegroup import ParallelDeadlineGroup
 from .parallelracegroup import ParallelRaceGroup
 from .perpetualcommand import PerpetualCommand
+from .pidcommand import PIDCommand
 from .printcommand import PrintCommand
 from .proxycommand import ProxyCommand
 from .proxyschedulecommand import ProxyScheduleCommand
@@ -60,6 +61,7 @@ __all__ = [
     "ParallelDeadlineGroup",
     "ParallelRaceGroup",
     "PerpetualCommand",
+    "PIDCommand",
     "PrintCommand",
     "ProxyCommand",
     "ProxyScheduleCommand",
