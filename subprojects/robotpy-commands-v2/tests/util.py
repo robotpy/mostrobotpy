@@ -141,6 +141,37 @@ class InternalButton(commands2.button.Trigger):
         return self.pressed
 
 
+class OOFloat:
+    def __init__(self, value: float = 0.0) -> None:
+        self.value = value
+
+    def get(self) -> float:
+        return self.value
+
+    def set(self, value: float):
+        self.value = value
+
+    def incrementAndGet(self) -> float:
+        self.value += 1
+        return self.value
+
+    def addAndGet(self, value: float) -> float:
+        self.value += value
+        return self.value
+
+    def __eq__(self, value: float) -> bool:
+        return self.value == value
+
+    def __lt__(self, value: float) -> bool:
+        return self.value < value
+
+    def __call__(self) -> float:
+        return self.value
+
+    def __name__(self) -> str:
+        return "OOFloat"
+
+
 ##########################################
 # Fakito Framework
 
