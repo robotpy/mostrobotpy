@@ -12,8 +12,8 @@
 /dist
 *.egg-info
 
-/halsim_gui/_init_halsim_gui.py
-/halsim_gui/pkgcfg.py
-/halsim_gui/version.py
-/halsim_gui/include
-/halsim_gui/lib
+/halsim_ds_socket/_init_halsim_ds_socket.py
+/halsim_ds_socket/pkgcfg.py
+/halsim_ds_socket/version.py
+/halsim_ds_socket/include
+/halsim_ds_socket/lib

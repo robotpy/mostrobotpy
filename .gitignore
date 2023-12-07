@@ -1,3 +1,6 @@
 
-*.py[cod]
+*.py[ciod]
 /dist
+
+rpy-include
+py.typed

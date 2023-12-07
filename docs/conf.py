@@ -1,0 +1,100 @@
+# Configuration file for the Sphinx documentation builder.
+#
+# For the full list of built-in configuration values, see the documentation:
+# https://www.sphinx-doc.org/en/master/usage/configuration.html
+
+# -- Project information -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
+
+project = "mostrobotpy"
+copyright = "2023, RobotPy Development Team"
+author = "RobotPy Development Team"
+
+# -- General configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
+
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.viewcode",
+    "robotpy_sphinx.all",
+]
+
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+
+
+# -- Options for HTML output -------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
+
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]
+
+
+# -- Custom Document processing ----------------------------------------------
+
+import os
+from os.path import abspath, dirname
+from robotpy_sphinx.regen import gen_package
+from robotpy_sphinx.sidebar import generate_sidebar
+
+# on_rtd is whether we are on readthedocs.org, this line of code grabbed from docs.readthedocs.org
+on_rtd = os.environ.get("READTHEDOCS", None) == "True"
+
+# This is used for linking and such so we link to the thing we're building
+rtd_version = os.environ.get("READTHEDOCS_VERSION", "latest")
+if rtd_version not in ["stable", "latest"]:
+    rtd_version = "stable"
+
+
+generate_sidebar(
+    globals(),
+    "mostrobotpy",
+    "https://raw.githubusercontent.com/robotpy/docs-sidebar/master/sidebar.toml",
+)
+
+root = abspath(dirname(__file__))
+
+# WPILib
+gen_package(root, "wpilib", exclude=["wpi_*"])
+gen_package(root, "wpilib.counter")
+gen_package(root, "wpilib.event")
+gen_package(root, "wpilib.drive")
+gen_package(root, "wpilib.interfaces")
+gen_package(root, "wpilib.shuffleboard")
+gen_package(root, "wpilib.simulation")
+
+# NTCore
+gen_package(root, "ntcore")
+
+# CSCore
+gen_package(root, "cscore")
+# Apriltag
+gen_package(root, "robotpy_apriltag")
+
+# WPIMath
+gen_package(root, "wpimath")
+gen_package(root, "wpimath.controller")
+gen_package(root, "wpimath.estimator")
+gen_package(root, "wpimath.filter")
+gen_package(root, "wpimath.geometry")
+gen_package(root, "wpimath.interpolation")
+gen_package(root, "wpimath.kinematics")
+gen_package(root, "wpimath.spline")
+gen_package(root, "wpimath.system")
+gen_package(root, "wpimath.system.plant")
+gen_package(root, "wpimath.trajectory")
+gen_package(root, "wpimath.trajectory.constraint")
+
+# WPINet
+gen_package(root, "wpinet")
+
+# WPIUtil
+gen_package(root, "wpiutil")
+gen_package(root, "wpiutil.log")
+gen_package(root, "wpiutil.sync")
+
+# HAL
+gen_package(root, "hal", include=["Sim*"])
+gen_package(root, "hal.simulation")
