@@ -31,6 +31,7 @@ from .paralleldeadlinegroup import ParallelDeadlineGroup
 from .parallelracegroup import ParallelRaceGroup
 from .perpetualcommand import PerpetualCommand
 from .pidcommand import PIDCommand
+from .pidsubsystem import PIDSubsystem
 from .printcommand import PrintCommand
 from .proxycommand import ProxyCommand
 from .proxyschedulecommand import ProxyScheduleCommand
@@ -42,6 +43,7 @@ from .sequentialcommandgroup import SequentialCommandGroup
 from .startendcommand import StartEndCommand
 from .subsystem import Subsystem
 from .timedcommandrobot import TimedCommandRobot
+from .trapezoidprofilesubsystem import TrapezoidProfileSubsystem
 from .waitcommand import WaitCommand
 from .waituntilcommand import WaitUntilCommand
 from .wrappercommand import WrapperCommand
@@ -62,6 +64,7 @@ __all__ = [
     "ParallelRaceGroup",
     "PerpetualCommand",
     "PIDCommand",
+    "PIDSubsystem",
     "PrintCommand",
     "ProxyCommand",
     "ProxyScheduleCommand",
@@ -73,6 +76,7 @@ __all__ = [
     "StartEndCommand",
     "Subsystem",
     "TimedCommandRobot",
+    "TrapezoidProfileSubsystem",
     "WaitCommand",
     "WaitUntilCommand",
     "WrapperCommand",
