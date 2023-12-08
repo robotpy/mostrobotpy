@@ -30,5 +30,7 @@ jobs:
         pip --disable-pip-version-check install mypy setuptools wheel setuptools_scm
         pip --disable-pip-version-check install --no-build-isolation -e .
     - name: Run mypy
-      run: |
-        mypy commands2
+      uses: liskin/gh-problem-matcher-wrap@v2
+      with:
+        linters: mypy
+        run: mypy --show-column-numbers commands2
