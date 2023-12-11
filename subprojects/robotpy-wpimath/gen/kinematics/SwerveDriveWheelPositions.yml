@@ -23,10 +23,15 @@ classes:
       Interpolate:
 
     template_inline_code: |
-      cls_SwerveDriveWheelPositions
-        .def(py::init<wpi::array<SwerveModulePosition, NumModules>>(),
-          py::arg("positions")
-        );
+      if constexpr (NumModules == 2) {
+        cls_SwerveDriveWheelPositions.def(py::init<SwerveModulePosition, SwerveModulePosition>());
+      } else if constexpr (NumModules == 3) {
+        cls_SwerveDriveWheelPositions.def(py::init<SwerveModulePosition, SwerveModulePosition, SwerveModulePosition>());
+      } else if constexpr (NumModules == 4) {
+        cls_SwerveDriveWheelPositions.def(py::init<SwerveModulePosition, SwerveModulePosition, SwerveModulePosition, SwerveModulePosition>());
+      } else if constexpr (NumModules == 6) {
+        cls_SwerveDriveWheelPositions.def(py::init<SwerveModulePosition, SwerveModulePosition, SwerveModulePosition, SwerveModulePosition, SwerveModulePosition, SwerveModulePosition>());
+      }
 
 templates:
   SwerveDrive2WheelPositions:
