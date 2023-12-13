@@ -19,34 +19,8 @@ classes:
       ResetHeadings:
         overloads:
           ModuleHeadings&&...:
-            param_override:
-              moduleHeadings:
-                ignore: true
-            cpp_code: |
-              []() {
-                if constexpr (NumModules == 2) {
-                  return [](SwerveDriveKinematics<NumModules> *self, Rotation2d r0, Rotation2d r1) {
-                    return self->ResetHeadings(r0, r1);
-                  };
-                } else if constexpr (NumModules == 3) {
-                  return [](SwerveDriveKinematics<NumModules> *self, Rotation2d r0, Rotation2d r1, Rotation2d r2) {
-                    return self->ResetHeadings(r0, r1, r2);
-                  };
-                } else if constexpr (NumModules == 4) {
-                  return [](SwerveDriveKinematics<NumModules> *self, Rotation2d r0, Rotation2d r1,
-                    Rotation2d r2, Rotation2d r3) {
-                    return self->ResetHeadings(r0, r1, r2, r3);
-                  };
-                } else if constexpr (NumModules == 6) {
-                  return [](SwerveDriveKinematics<NumModules> *self,
-                    Rotation2d r0, Rotation2d r1, Rotation2d r2,
-                    Rotation2d r3, Rotation2d r4, Rotation2d r5) {
-                    return self->ResetHeadings(r0, r1, r2, r3, r4, r5);
-                  };
-                }
-              }()
-          wpi::array<Rotation2d, NumModules>:
             ignore: true
+          wpi::array<Rotation2d, NumModules>:
 
       ToSwerveModuleStates:
         doc: |
@@ -77,65 +51,13 @@ classes:
       ToChassisSpeeds:
         overloads:
           ModuleStates&&... [const]:
-            param_override:
-              moduleStates:
-                ignore: true
-            cpp_code: |
-              []() {
-                if constexpr (NumModules == 2) {
-                  return [](SwerveDriveKinematics<NumModules> *self, SwerveModuleState p0, SwerveModuleState p1) {
-                    return self->ToChassisSpeeds(p0, p1);
-                  };
-                } else if constexpr (NumModules == 3) {
-                  return [](SwerveDriveKinematics<NumModules> *self, SwerveModuleState p0, SwerveModuleState p1, SwerveModuleState p2) {
-                    return self->ToChassisSpeeds(p0, p1, p2);
-                  };
-                } else if constexpr (NumModules == 4) {
-                  return [](SwerveDriveKinematics<NumModules> *self, SwerveModuleState p0, SwerveModuleState p1,
-                    SwerveModuleState p2, SwerveModuleState p3) {
-                    return self->ToChassisSpeeds(p0, p1, p2, p3);
-                  };
-                } else if constexpr (NumModules == 6) {
-                  return [](SwerveDriveKinematics<NumModules> *self,
-                    SwerveModuleState p0, SwerveModuleState p1, SwerveModuleState p2,
-                    SwerveModuleState p3, SwerveModuleState p4, SwerveModuleState p5) {
-                    return self->ToChassisSpeeds(p0, p1, p2, p3, p4, p5);
-                  };
-                }
-              }()
-          const wpi::array<SwerveModuleState, NumModules>& [const]:
             ignore: true
+          const wpi::array<SwerveModuleState, NumModules>& [const]:
       ToTwist2d:
         overloads:
           ModuleDeltas&&... [const]:
-            param_override:
-              moduleDeltas:
-                ignore: true
-            cpp_code: |
-              []() {
-                if constexpr (NumModules == 2) {
-                  return [](SwerveDriveKinematics<NumModules> *self, SwerveModulePosition p0, SwerveModulePosition p1) {
-                    return self->ToTwist2d(p0, p1);
-                  };
-                } else if constexpr (NumModules == 3) {
-                  return [](SwerveDriveKinematics<NumModules> *self, SwerveModulePosition p0, SwerveModulePosition p1, SwerveModulePosition p2) {
-                    return self->ToTwist2d(p0, p1, p2);
-                  };
-                } else if constexpr (NumModules == 4) {
-                  return [](SwerveDriveKinematics<NumModules> *self, SwerveModulePosition p0, SwerveModulePosition p1,
-                    SwerveModulePosition p2, SwerveModulePosition p3) {
-                    return self->ToTwist2d(p0, p1, p2, p3);
-                  };
-                } else if constexpr (NumModules == 6) {
-                  return [](SwerveDriveKinematics<NumModules> *self,
-                    SwerveModulePosition p0, SwerveModulePosition p1, SwerveModulePosition p2,
-                    SwerveModulePosition p3, SwerveModulePosition p4, SwerveModulePosition p5) {
-                    return self->ToTwist2d(p0, p1, p2, p3, p4, p5);
-                  };
-                }
-              }()
-          wpi::array<SwerveModulePosition, NumModules> [const]:
             ignore: true
+          wpi::array<SwerveModulePosition, NumModules> [const]:
           const SwerveDriveWheelPositions<NumModules>&, const SwerveDriveWheelPositions<NumModules>& [const]:
             ignore: true
       DesaturateWheelSpeeds:

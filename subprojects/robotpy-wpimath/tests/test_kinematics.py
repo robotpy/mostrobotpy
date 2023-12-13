@@ -40,7 +40,7 @@ def test_swerve4_normalize():
     s3 = SwerveModuleState(4)
     s4 = SwerveModuleState(7)
 
-    states = SwerveDrive4Kinematics.desaturateWheelSpeeds([s1, s2, s3, s4], 5.5)
+    states = SwerveDrive4Kinematics.desaturateWheelSpeeds((s1, s2, s3, s4), 5.5)
 
     kFactor = 5.5 / 7.0
 
@@ -53,19 +53,21 @@ def test_swerve4_normalize():
 def test_swerve4_odometry(s4: SwerveDrive4Kinematics):
     zero = SwerveModulePosition()
     odometry = SwerveDrive4Odometry(s4, Rotation2d(0), (zero, zero, zero, zero))
-    odometry.resetPosition(Rotation2d(0), Pose2d(), zero, zero, zero, zero)
+    odometry.resetPosition(Rotation2d(0), (zero, zero, zero, zero), Pose2d())
 
     position = SwerveModulePosition(0.5)
 
     odometry.update(
         Rotation2d(0),
-        zero,
-        zero,
-        zero,
-        zero,
+        (
+            zero,
+            zero,
+            zero,
+            zero,
+        ),
     )
 
-    pose = odometry.update(Rotation2d(0), position, position, position, position)
+    pose = odometry.update(Rotation2d(0), (position, position, position, position))
 
     print(pose)
     assert pose.x == pytest.approx(0.5)
