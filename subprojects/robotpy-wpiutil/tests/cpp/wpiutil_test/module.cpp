@@ -8,6 +8,7 @@
 #include <wpi_smallvectorimpl_type_caster.h>
 #include <wpi_string_map_caster.h>
 #include <wpi_json_type_caster.h>
+#include <wpi_ct_string_type_caster.h>
 
 #include <limits>
 #include <functional>
@@ -144,6 +145,10 @@ wpi::json cast_json_val(std::function<wpi::json()> fn) {
     return fn();
 }
 
+constexpr auto const_string() {
+    return wpi::ct_string<char, std::char_traits<char>, 3>{{'#', '1', '2'}};
+}
+
 void sendable_test(py::module &m);
 
 
@@ -183,4 +188,6 @@ RPYBUILD_PYBIND11_MODULE(m) {
     m.attr("max_uint64") = std::numeric_limits<uint64_t>::max();
     m.attr("max_int64") = std::numeric_limits<int64_t>::max();
     m.attr("min_int64") = std::numeric_limits<int64_t>::min();
+    // ct_string
+    m.def("const_string", &const_string);
 };
