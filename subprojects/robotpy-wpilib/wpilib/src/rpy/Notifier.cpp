@@ -14,6 +14,8 @@
 #include "frc/Errors.h"
 #include "frc/Timer.h"
 
+#include <pybind11/functional.h>
+
 using namespace frc;
 using namespace pybind11::literals;
 
@@ -26,7 +28,7 @@ PyNotifier::PyNotifier(std::function<void()> handler) {
   m_notifier = HAL_InitializeNotifier(&status);
   FRC_CheckErrorStatus(status, "InitializeNotifier");
 
-  std::function<void()> target([=] {
+  std::function<void()> target([this] {
     py::gil_scoped_release release;
     for (;;) {
       int32_t status = 0;
@@ -60,6 +62,8 @@ PyNotifier::PyNotifier(std::function<void()> handler) {
       release.disarm();
     }
   });
+
+  py::gil_scoped_acquire acquire;
 
   // create a python thread and start it
   auto Thread = py::module::import("threading").attr("Thread");
