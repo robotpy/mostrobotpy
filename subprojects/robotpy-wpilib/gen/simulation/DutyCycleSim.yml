@@ -11,7 +11,7 @@ classes:
     methods:
       DutyCycleSim:
         overloads:
-          frc::DutyCycle&:
+          const frc::DutyCycle&:
       CreateForChannel:
       CreateForIndex:
       RegisterInitializedCallback:

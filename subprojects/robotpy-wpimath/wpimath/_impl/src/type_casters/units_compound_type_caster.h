@@ -1,5 +1,6 @@
 #pragma once
 
+#include <units/acceleration.h>
 #include <units/angle.h>
 #include <units/angular_velocity.h>
 #include <units/length.h>
@@ -72,6 +73,21 @@ template <>
 struct handle_type_name<units::unit_t<units::compound_unit<
     volt_seconds_squared, units::inverse<units::radian>>>> {
   static constexpr auto name = _("wpimath.units.volt_seconds_squared_per_radian");
+};
+
+using unit_seconds = units::compound_unit<units::dimensionless::scalar, units::seconds>;
+using unit_seconds_squared = units::compound_unit<unit_seconds, units::seconds>;
+
+template <>
+struct handle_type_name<units::unit_t<
+    units::compound_unit<unit_seconds_squared, units::inverse<units::dimensionless::scalar>>>> {
+  static constexpr auto name = _("wpimath.units.unit_seconds_squared_per_unit");
+};
+
+template <>
+struct handle_type_name<units::unit_t<
+    units::compound_unit<units::meters_per_second_squared, units::inverse<units::volts>>>> {
+  static constexpr auto name = _("wpimath.units.meters_per_second_squared_per_volt");
 };
 
 } // namespace detail

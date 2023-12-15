@@ -11,4 +11,8 @@ classes:
       ID:
       pose:
     methods:
+      Generate36h11AprilTagImage:
+        ignore: true
+      Generate16h5AprilTagImage:
+        ignore: true
       operator==:

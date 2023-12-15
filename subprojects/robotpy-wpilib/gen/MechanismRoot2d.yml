@@ -11,6 +11,10 @@ classes:
       MechanismRoot2d:
         ignore: true
       SetPosition:
+      GetName:
+        ignore: true
+      Append:
+        ignore: true
 
 # keep this in sync with MechanismRoot2d.h
 inline_code: |

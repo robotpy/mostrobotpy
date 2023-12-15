@@ -15,10 +15,14 @@ classes:
           "":
           std::string_view:
           std::vector<AprilTag>, units::meter_t, units::meter_t:
+      GetFieldLength:
+      GetFieldWidth:
+      GetTags:
       SetOrigin:
         overloads:
           OriginPosition:
           const Pose3d&:
+      GetOrigin:
       GetTagPose:
       Serialize:
       operator==:

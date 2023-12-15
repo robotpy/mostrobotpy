@@ -26,6 +26,14 @@ functions:
   HAL_GetPowerDistributionVersion:
   HAL_GetPowerDistributionFaults:
   HAL_GetPowerDistributionStickyFaults:
+  HAL_StartPowerDistributionStream:
+    ifdef: __FRC_ROBORIO__
+  HAL_GetPowerDistributionStreamData:
+    ifdef: __FRC_ROBORIO__
+  HAL_FreePowerDistributionStreamData:
+    ifdef: __FRC_ROBORIO__
+  HAL_StopPowerDistributionStream:
+    ifdef: __FRC_ROBORIO__
 classes:
   HAL_PowerDistributionVersion:
     shared_ptr: true

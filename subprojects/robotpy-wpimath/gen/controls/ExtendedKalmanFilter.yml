@@ -37,6 +37,7 @@ classes:
       Correct:
         overloads:
           const InputVector&, const OutputVector&:
+          const InputVector&, const OutputVector&, const Matrixd<Outputs, Outputs>&:
           ? const InputVector&, const Vectord<Rows>&, std::function<Vectord<Rows>
             (const StateVector&, const InputVector&)>, const Matrixd<Rows, Rows>&
           :
