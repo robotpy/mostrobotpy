@@ -6,7 +6,7 @@ license = "BSD-3-Clause"
 name = "robotpy-wpimath"
 url = "https://github.com/robotpy/robotpy-wpimath"
 install_requires = [
-    "robotpy-wpiutil~=2024.0.0b4",
+    "robotpy-wpiutil==THIS_VERSION",
 ]
 
 [build-system]

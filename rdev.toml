@@ -13,7 +13,7 @@ exclude_artifacts = [
     "opencv-cpp"
 ]
 
-robotpy_build_req = "<2025.0.0,~=2024.0.0b5"
+robotpy_build_req = "<2025.0.0,~=2024.0.0b7"
 
 #
 # Subproject configuration

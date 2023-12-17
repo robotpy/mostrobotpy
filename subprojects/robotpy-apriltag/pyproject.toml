@@ -6,8 +6,8 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-cscore"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil~=2024.0.0b4",
-    "robotpy-wpimath~=2024.0.0b4",
+    "robotpy-wpiutil==THIS_VERSION",
+    "robotpy-wpimath==THIS_VERSION",
 ]
 
 [build-system]

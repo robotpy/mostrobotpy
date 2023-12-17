@@ -6,10 +6,10 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-halsim-gui"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil~=2024.0.0b4",
-    "robotpy-wpimath~=2024.0.0b4",
-    "robotpy-hal~=2024.0.0b4",
-    "pyntcore~=2024.0.0b4",
+    "robotpy-wpiutil==THIS_VERSION",
+    "robotpy-wpimath==THIS_VERSION",
+    "robotpy-hal==THIS_VERSION",
+    "pyntcore==THIS_VERSION",
 ]
 
 [build-system]

@@ -32,6 +32,8 @@ class ProjectUpdater:
         # The required versions for everything
         # - in theory projects could have different requirements, but in
         #   practice this is simpler and we haven't had issues
+        # - .. and to make life easier, we only use this for build-system.requires,
+        #   which we happen to override in CI anyways
         self.version_specs: typing.Dict[str, SpecifierSet] = {}
 
         # robotpy-build is special
@@ -76,6 +78,10 @@ class ProjectUpdater:
         requires = list(reqs)
         changes = []
         for i, req_str in enumerate(requires):
+            # special case
+            if req_str.endswith("==THIS_VERSION"):
+                continue
+
             req = Requirement(req_str)
             # see if the requirement is in our list of managed dependencies; if so
             # then change it if its different

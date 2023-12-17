@@ -5,6 +5,8 @@
 import sys
 
 import click
+from packaging.requirements import Requirement
+import setuptools_scm
 
 from .ctx import Context
 from .update_pyproject import ProjectUpdater
@@ -42,7 +44,16 @@ def run(ctx: Context, no_test: bool):
     Builds wheels, runs tests
     """
 
-    # TODO: Fix build dependencies to be == what we are building
+    # Get the current build version
+    version = setuptools_scm.get_version()
+
+    # Fix build dependencies to be == what we are building
+    # - install_requires already has this via ==THIS_VERSION in robotpy-build
+    for project in ctx.subprojects.values():
+        for i in range(len(project.requires)):
+            req = project.requires[i]
+            if req.name in ctx.subprojects:
+                project.requires[i] = Requirement(f"{req.name}=={version}")
 
     for project in ctx.subprojects.values():
         project.install_build_deps(wheel_path=ctx.wheel_path)

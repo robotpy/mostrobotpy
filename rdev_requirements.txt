@@ -4,6 +4,7 @@ packaging
 pydantic<2
 requests
 setuptools
+setuptools_scm >= 6.2, < 8
 tomlkit
 tomli
 toposort

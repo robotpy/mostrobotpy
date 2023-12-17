@@ -6,8 +6,8 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-halsim-gui"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-hal~=2024.0.0b4",
-    "robotpy-wpinet~=2024.0.0b4",
+    "robotpy-hal==THIS_VERSION",
+    "robotpy-wpinet==THIS_VERSION",
 ]
 
 [tool.robotpy-build.metadata.entry_points]
