@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- src/nt_type_caster.h
+
 classes:
   GenericSubscriber:
     methods:
