@@ -27,6 +27,7 @@ classes:
             const std::array<double, 1>&
           :
             ignore: true
+      SetState:
       WouldHitLowerLimit:
       WouldHitUpperLimit:
       HasHitLowerLimit:

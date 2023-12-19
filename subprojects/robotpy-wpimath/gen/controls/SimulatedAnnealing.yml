@@ -1,0 +1,19 @@
+---
+
+extra_includes:
+- gilsafe_object.h
+
+classes:
+  SimulatedAnnealing:
+    template_params:
+    - State
+    methods:
+      SimulatedAnnealing:
+      Solve:
+
+templates:
+  SimulatedAnnealing:
+    qualname: frc::SimulatedAnnealing
+    subpackage: optimization
+    params:
+    - rpy::gilsafe_object

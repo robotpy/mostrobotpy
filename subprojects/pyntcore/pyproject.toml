@@ -6,15 +6,15 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/pyntcore"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil~=2024.0.0b2",
-    "robotpy-wpinet~=2024.0.0b2",
+    "robotpy-wpiutil==THIS_VERSION",
+    "robotpy-wpinet==THIS_VERSION",
 ]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b3",
-    "robotpy-wpiutil~=2024.0.0b2",
-    "robotpy-wpinet~=2024.0.0b2",
+    "robotpy-build<2025.0.0,~=2024.0.0b8",
+    "robotpy-wpiutil~=2024.0.0b4",
+    "robotpy-wpinet~=2024.0.0b4",
 ]
 
 [tool.robotpy-build]
@@ -24,7 +24,7 @@ base_package = "ntcore"
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1-beta-3"
+version = "2024.1.1-beta-4"
 
 libs = ["ntcore"]
 

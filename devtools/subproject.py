@@ -123,6 +123,7 @@ class Subproject:
         "linux_x86_64": "manylinux_2_35_x86_64",
         # needed for compatibility with python compiled with older xcode
         "macosx_11_0_x86_64": "macosx_10_16_x86_64",
+        "macosx_12_0_x86_64": "macosx_10_16_x86_64",
     }
 
     def _fix_wheel_name(self, name: str) -> str:

@@ -9,7 +9,7 @@ install_requires = []
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b3",
+    "robotpy-build<2025.0.0,~=2024.0.0b8",
 ]
 
 [tool.robotpy-build]
@@ -31,7 +31,7 @@ artifact_id = "wpiutil-cpp"
 group_id = "edu.wpi.first.wpiutil"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.1.1-beta-3"
+version = "2024.1.1-beta-4"
 
 libs = ["wpiutil"]
 
@@ -75,3 +75,7 @@ types = ["wpi::SmallVectorImpl"]
 [[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_string_map_caster.h"
 types = ["wpi::StringMap"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpi_ct_string_type_caster.h"
+types = ["wpi::ct_string"]

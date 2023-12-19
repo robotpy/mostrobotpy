@@ -5,7 +5,8 @@ extra_includes:
 
 classes:
   Color8Bit:
-    shared_ptr: true
+    force_type_casters:
+    - wpi::ct_string
     attributes:
       red:
         access: readonly
@@ -26,11 +27,15 @@ classes:
               b:
                 name: blue
           const Color& [constexpr]:
+          std::string_view [constexpr]:
       HexString:
       operator==:
 
 inline_code: |
   cls_Color8Bit
+    .def("toColor", [](const Color8Bit &self) -> frc::Color {
+      return self;
+    })
     .def("__hash__", [](Color8Bit *self) -> size_t {
       return (self->red) | (self->green << 8) | (self->blue << 16);
     })

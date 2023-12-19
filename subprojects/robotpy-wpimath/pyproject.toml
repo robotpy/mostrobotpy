@@ -6,13 +6,13 @@ license = "BSD-3-Clause"
 name = "robotpy-wpimath"
 url = "https://github.com/robotpy/robotpy-wpimath"
 install_requires = [
-    "robotpy-wpiutil~=2024.0.0b2",
+    "robotpy-wpiutil==THIS_VERSION",
 ]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b3",
-    "robotpy-wpiutil~=2024.0.0b2",
+    "robotpy-build<2025.0.0,~=2024.0.0b8",
+    "robotpy-wpiutil~=2024.0.0b4",
     # "numpy", # broken in raspbian CI
 ]
 
@@ -23,7 +23,7 @@ base_package = "wpimath"
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1-beta-3"
+version = "2024.1.1-beta-4"
 
 
 libs = ["wpimath"]
@@ -1429,6 +1429,12 @@ SwerveDrivePoseEstimator = "frc/estimator/SwerveDrivePoseEstimator.h"
 # UnscentedKalmanFilter = "frc/estimator/UnscentedKalmanFilter.h"
 # UnscentedTransform = "frc/estimator/UnscentedTransform.h"
 
+# frc/optimization
+SimulatedAnnealing = "frc/optimization/SimulatedAnnealing.h"
+
+# frc/path
+TravelingSalesman = "frc/path/TravelingSalesman.h"
+
 # frc/system
 # Discretization = "frc/system/Discretization.h"
 LinearSystem = "frc/system/LinearSystem.h"
@@ -1441,6 +1447,7 @@ DCMotor = "frc/system/plant/DCMotor.h"
 LinearSystemId = "frc/system/plant/LinearSystemId.h"
 
 # frc/trajectory
+ExponentialProfile = "frc/trajectory/ExponentialProfile.h"
 Trajectory = "frc/trajectory/Trajectory.h"
 TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h"
 TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h"

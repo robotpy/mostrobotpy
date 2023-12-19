@@ -15,7 +15,7 @@ artifact_id = "wpinet-cpp"
 group_id = "edu.wpi.first.wpinet"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1-beta-3"
+version = "2024.1.1-beta-4"
 
 libs = ["wpinet"]
 
@@ -31,11 +31,11 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-wpinet"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil~=2024.0.0b2",
+    "robotpy-wpiutil==THIS_VERSION",
 ]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b3",
-    "robotpy-wpiutil~=2024.0.0b2",
+    "robotpy-build<2025.0.0,~=2024.0.0b8",
+    "robotpy-wpiutil~=2024.0.0b4",
 ]

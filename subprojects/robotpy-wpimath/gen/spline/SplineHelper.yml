@@ -9,4 +9,5 @@ classes:
       QuinticSplinesFromWaypoints:
       CubicSplinesFromControlVectors:
       QuinticSplinesFromControlVectors:
+      OptimizeCurvature:
       

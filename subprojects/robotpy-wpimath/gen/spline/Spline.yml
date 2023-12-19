@@ -5,7 +5,6 @@ extra_includes:
 
 classes:
   Spline:
-    shared_ptr: false
     is_polymorphic: true
     force_type_casters:
     - units::curvature_t
@@ -16,6 +15,10 @@ classes:
       Spline:
       GetPoint:
       Coefficients:
+        ignore_pure: true
+      GetInitialControlVector:
+        ignore_pure: true
+      GetFinalControlVector:
         ignore_pure: true
       ToVector:
         ignore: true

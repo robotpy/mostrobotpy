@@ -23,6 +23,8 @@ classes:
       IsPersistent:
       SetRetained:
       IsRetained:
+      SetCached:
+      IsCached:
       Exists:
       GetProperty:
       SetProperty:

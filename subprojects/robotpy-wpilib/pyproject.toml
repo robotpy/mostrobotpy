@@ -6,10 +6,10 @@ author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-wpilib"
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-wpiutil~=2024.0.0b2",
-    "robotpy-wpimath~=2024.0.0b2",
-    "robotpy-hal~=2024.0.0b2",
-    "pyntcore~=2024.0.0b2",
+    "robotpy-wpiutil==THIS_VERSION",
+    "robotpy-wpimath==THIS_VERSION",
+    "robotpy-hal==THIS_VERSION",
+    "pyntcore==THIS_VERSION",
 ]
 
 [tool.robotpy-build.metadata.entry_points]
@@ -17,11 +17,11 @@ robotpy = ["run = wpilib._impl.start:Main"]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b3",
-    "robotpy-wpiutil~=2024.0.0b2",
-    "robotpy-wpimath~=2024.0.0b2",
-    "robotpy-hal~=2024.0.0b2",
-    "pyntcore~=2024.0.0b2",
+    "robotpy-build<2025.0.0,~=2024.0.0b8",
+    "robotpy-wpiutil~=2024.0.0b4",
+    "robotpy-wpimath~=2024.0.0b4",
+    "robotpy-hal~=2024.0.0b4",
+    "pyntcore~=2024.0.0b4",
 ]
 
 [tool.robotpy-build]
@@ -31,7 +31,7 @@ base_package = "wpilib"
 artifact_id = "wpilibc-cpp"
 group_id = "edu.wpi.first.wpilibc"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1-beta-3"
+version = "2024.1.1-beta-4"
 
 libs = ["wpilibc"]
 
@@ -117,6 +117,7 @@ MotorSafety = "frc/MotorSafety.h"
 # Notifier = "frc/Notifier.h"
 Notifier = "rpy/Notifier.h"
 PS4Controller = "frc/PS4Controller.h"
+PS5Controller = "frc/PS5Controller.h"
 PWM = "frc/PWM.h"
 PneumaticHub = "frc/PneumaticHub.h"
 PneumaticsBase = "frc/PneumaticsBase.h"
@@ -346,6 +347,7 @@ GenericHIDSim = "frc/simulation/GenericHIDSim.h"
 JoystickSim = "frc/simulation/JoystickSim.h"
 LinearSystemSim = "frc/simulation/LinearSystemSim.h"
 PS4ControllerSim = "frc/simulation/PS4ControllerSim.h"
+PS5ControllerSim = "frc/simulation/PS5ControllerSim.h"
 PWMSim = "frc/simulation/PWMSim.h"
 PneumaticsBaseSim = "frc/simulation/PneumaticsBaseSim.h"
 PowerDistributionSim = "frc/simulation/PowerDistributionSim.h"
