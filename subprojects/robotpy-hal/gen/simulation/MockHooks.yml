@@ -1,5 +1,9 @@
 ---
 
+extra_includes:
+- sim_cb.h
+- pybind11/functional.h
+
 strip_prefixes:
   - HALSIM_
 
@@ -23,11 +27,35 @@ functions:
     ignore: true
 
   HALSIM_RegisterSimPeriodicBeforeCallback:
-    ignore: true
+    param_override:
+      param:
+        ignore: true
+    cpp_code: |
+      [](std::function<void(void)> fn) -> std::unique_ptr<SimCB> {
+        auto cb = std::make_unique<SimCB>(fn, HALSIM_CancelSimPeriodicBeforeCallback);
+        auto uid = HALSIM_RegisterSimPeriodicBeforeCallback([](void *param) {
+          ((SimCB*)param)->m_fn();
+        }, cb.get());
+        cb->SetUID(uid);
+        return std::move(cb);
+      }
   HALSIM_CancelSimPeriodicBeforeCallback:
+    ignore: true
 
   HALSIM_RegisterSimPeriodicAfterCallback:
-    ignore: true
+    param_override:
+      param:
+        ignore: true
+    cpp_code: |
+      [](std::function<void(void)> fn) -> std::unique_ptr<SimCB> {
+        auto cb = std::make_unique<SimCB>(fn, HALSIM_CancelSimPeriodicAfterCallback);
+        auto uid = HALSIM_RegisterSimPeriodicAfterCallback([](void *param) {
+          ((SimCB*)param)->m_fn();
+        }, cb.get());
+        cb->SetUID(uid);
+        return std::move(cb);
+      }
   HALSIM_CancelSimPeriodicAfterCallback:
+    ignore: true
 
   HALSIM_CancelAllSimPeriodicCallbacks:
