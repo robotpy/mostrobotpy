@@ -1,8 +1,22 @@
+import os
+import sys
+
 import click
 
 from .ctx import Context
 from . import ci
 from . import update_pyproject
+
+#
+# Environment variables for configuring the builds
+#
+
+# Always run robotpy-build in parallel
+os.environ["RPYBUILD_PARALLEL"] = "1"
+
+# MACOSX_DEPLOYMENT_TARGET is required for linking to WPILib
+if sys.platform == "darwin":
+    os.environ["MACOSX_DEPLOYMENT_TARGET"] = "12"
 
 
 @click.group()

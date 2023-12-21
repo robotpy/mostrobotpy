@@ -125,9 +125,7 @@ jobs:
       run: |
         ./rdev.sh ci run
       env:
-        RPYBUILD_PARALLEL: "1"
         RPYBUILD_STRIP_LIBPYTHON: "1"
-        MACOSX_DEPLOYMENT_TARGET: "12"
         SCCACHE_GHA_ENABLED: "true"
 
     - uses: actions/upload-artifact@v3
@@ -215,7 +213,6 @@ jobs:
       run: |
         /build/venv/bin/cross-python -m devtools ci run --no-test
       env:
-        RPYBUILD_PARALLEL: "1"
         RPYBUILD_STRIP_LIBPYTHON: "1"
       
     - uses: actions/upload-artifact@v3
