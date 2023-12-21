@@ -2,7 +2,10 @@
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
 
+from __future__ import annotations
+
 import math
+import typing
 
 kInchesPerFoot = 12.0
 kMetersPerInch = 0.0254
@@ -11,81 +14,81 @@ kMillisecondsPerSecond = 1000
 kKilogramsPerLb = 0.453592
 
 
-def metersToFeet(meters: float) -> float:
+def metersToFeet(m: meters) -> feet:
     """Converts given meters to feet.
 
-    :param meters: The meters to convert to feet.
+    :param m: The meters to convert to feet.
 
     :returns: Feet converted from meters.
     """
-    return metersToInches(meters) / kInchesPerFoot
+    return metersToInches(m) / kInchesPerFoot
 
 
-def feetToMeters(feet: float) -> float:
+def feetToMeters(ft: feet) -> meters:
     """Converts given feet to meters.
 
-    :param feet: The feet to convert to meters.
+    :param ft: The feet to convert to meters.
 
     :returns: Meters converted from feet.
     """
-    return inchesToMeters(feet * kInchesPerFoot)
+    return inchesToMeters(ft * kInchesPerFoot)
 
 
-def metersToInches(meters: float) -> float:
+def metersToInches(m: meters) -> inches:
     """Converts given meters to inches.
 
-    :param meters: The meters to convert to inches.
+    :param m: The meters to convert to inches.
 
     :returns: Inches converted from meters.
     """
-    return meters / kMetersPerInch
+    return m / kMetersPerInch
 
 
-def inchesToMeters(inches: float) -> float:
+def inchesToMeters(i: inches) -> meters:
     """Converts given inches to meters.
 
-    :param inches: The inches to convert to meters.
+    :param i: The inches to convert to meters.
 
     :returns: Meters converted from inches.
     """
-    return inches * kMetersPerInch
+    return i * kMetersPerInch
 
 
 # Converts given degrees to radians.
-degreesToRadians = math.radians
+degreesToRadians: typing.Callable[[degrees], radians] = math.radians
 
 # Converts given radians to degrees.
-radiansToDegrees = math.degrees
+radiansToDegrees: typing.Callable[[radians], degrees] = math.degrees
 
 
-def radiansToRotations(radians: float) -> float:
+def radiansToRotations(rad: radians) -> float:
     """Converts given radians to rotations.
 
-    :param radians: The radians to convert.
+    :param rad: The radians to convert.
 
     :returns: rotations Converted from radians.
     """
-    return radians / math.tau
+    return rad / math.tau
 
 
-def degreesToRotations(degrees: float) -> float:
+def degreesToRotations(deg: degrees) -> float:
     """Converts given degrees to rotations.
 
-    :param degrees: The degrees to convert.
+    :param deg: The degrees to convert.
 
     :returns: rotations Converted from degrees.
     """
-    return degrees / 360
+    return deg / 360.0
 
 
-def rotationsToDegrees(rotations: float) -> float:
+def rotationsToDegrees(rotations: float) -> degrees:
     """Converts given rotations to degrees.
 
     :param rotations: The rotations to convert.
 
     :returns: degrees Converted from rotations.
     """
-    return rotations * 360
+    return rotations * 360.0
 
 
 def rotationsToRadians(rotations: float) -> float:
@@ -98,7 +101,9 @@ def rotationsToRadians(rotations: float) -> float:
     return rotations * math.tau
 
 
-def rotationsPerMinuteToRadiansPerSecond(rpm: float) -> float:
+def rotationsPerMinuteToRadiansPerSecond(
+    rpm: revolutions_per_minute,
+) -> radians_per_second:
     """Converts rotations per minute to radians per second.
 
     :param rpm: The rotations per minute to convert to radians per second.
@@ -108,47 +113,49 @@ def rotationsPerMinuteToRadiansPerSecond(rpm: float) -> float:
     return (rpm / kSecondsPerMinute) * math.tau
 
 
-def radiansPerSecondToRotationsPerMinute(radiansPerSecond: float) -> float:
+def radiansPerSecondToRotationsPerMinute(
+    rps: radians_per_second,
+) -> revolutions_per_minute:
     """Converts radians per second to rotations per minute.
 
-    :param radiansPerSecond: The radians per second to convert to from rotations per minute.
+    :param rps: The radians per second to convert to from rotations per minute.
 
     :returns: Rotations per minute converted from radians per second.
     """
-    return (radiansPerSecond * kSecondsPerMinute) / math.tau
+    return (rps * kSecondsPerMinute) / math.tau
 
 
-def millisecondsToSeconds(milliseconds: float) -> float:
+def millisecondsToSeconds(ms: milliseconds) -> seconds:
     """Converts given milliseconds to seconds.
 
-    :param milliseconds: The milliseconds to convert to seconds.
+    :param ms: The milliseconds to convert to seconds.
 
     :returns: Seconds converted from milliseconds.
     """
-    return milliseconds / kMillisecondsPerSecond
+    return ms / kMillisecondsPerSecond
 
 
-def secondsToMilliseconds(seconds: float) -> float:
+def secondsToMilliseconds(s: seconds) -> milliseconds:
     """Converts given seconds to milliseconds.
 
-    :param seconds: The seconds to convert to milliseconds.
+    :param s: The seconds to convert to milliseconds.
 
     :returns: Milliseconds converted from seconds.
     """
-    return seconds * kMillisecondsPerSecond
+    return s * kMillisecondsPerSecond
 
 
-def kilogramsToLbs(kilograms: float) -> float:
+def kilogramsToLbs(kg: kilograms) -> pounds:
     """Converts kilograms into lbs (pound-mass).
 
-    :param kilograms: The kilograms to convert to lbs (pound-mass).
+    :param kg: The kilograms to convert to lbs (pound-mass).
 
     :returns: Lbs (pound-mass) converted from kilograms.
     """
-    return kilograms / kKilogramsPerLb
+    return kg / kKilogramsPerLb
 
 
-def lbsToKilograms(lbs: float) -> float:
+def lbsToKilograms(lbs: pounds) -> kilograms:
     """Converts lbs (pound-mass) into kilograms.
 
     :param lbs: The lbs (pound-mass) to convert to kilograms.
