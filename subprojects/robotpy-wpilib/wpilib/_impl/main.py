@@ -23,7 +23,6 @@ else:
 def _log_versions():
     import wpilib
     import wpilib.deployinfo
-    import hal
 
     import logging
 
@@ -45,14 +44,14 @@ def _log_versions():
 
     logger = logging.getLogger("wpilib")
 
-    logger.info("WPILib version %s", wpilib.__version__)
-    logger.info("HAL version %s", hal.__version__)
+    try:
+        import robotpy.version
+    except ImportError:
+        robotpy_version = None
+    else:
+        logger.info("RobotPy version %s", robotpy.version.__version__)
 
-    # should we just die here?
-    if hal.__version__.split(".")[:3] != wpilib.__version__.split(".")[:3]:
-        logger.warning(
-            "Core component versions are not identical! This is not a supported configuration, and you may run into errors!"
-        )
+    logger.info("WPILib version %s", wpilib.__version__)
 
     if wpilib.RobotBase.isSimulation():
         logger.info("Running with simulated HAL.")
@@ -64,20 +63,20 @@ def _log_versions():
                 "Running simulation HAL on actual roboRIO! This probably isn't what you want, and will probably cause difficult-to-debug issues!"
             )
 
-    versions = {}
+    if logger.isEnabledFor(logging.DEBUG):
+        versions = {}
 
-    # Log third party versions
-    # -> TODO: in the future, expand 3rd party HAL support here?
-    for group in ("robotpylib", "robotpybuild"):
-        for entry_point in entry_points(group=group):
-            # Don't actually load the entry points -- just print the
-            # packages unless we need to load them
-            dist = entry_point.dist
-            versions[dist.name] = dist.version
+        # Log third party versions
+        for group in ("robotpylib", "robotpybuild"):
+            for entry_point in entry_points(group=group):
+                # Don't actually load the entry points -- just print the
+                # packages unless we need to load them
+                dist = entry_point.dist
+                versions[dist.name] = dist.version
 
-    for k, v in versions.items():
-        if k not in ("wpilib", "robotpy-hal"):
-            logger.info("%s version %s", k, v)
+        for k, v in versions.items():
+            if k != "wpilib":
+                logger.debug("%s version %s", k, v)
 
 
 def _enable_faulthandler():
