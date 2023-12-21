@@ -6,9 +6,18 @@ import os
 import sys
 
 from os.path import exists
-from importlib.metadata import entry_points
+import importlib.metadata
 
 from .logconfig import configure_logging
+
+if sys.version_info < (3, 10):
+
+    def entry_points(group):
+        eps = importlib.metadata.entry_points()
+        return eps.get(group)
+
+else:
+    entry_points = importlib.metadata.entry_points
 
 
 def _log_versions():
