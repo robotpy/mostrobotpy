@@ -1,3 +1,4 @@
 sphinx
 sphinx-rtd-theme
 robotpy-sphinx-plugin~=0.2
+opencv-python

@@ -45,6 +45,10 @@
 /wpimath.interpolation/
 /wpimath.kinematics.rst
 /wpimath.kinematics/
+/wpimath.optimization.rst
+/wpimath.optimization/
+/wpimath.path.rst
+/wpimath.path/
 /wpimath.rst
 /wpimath.spline.rst
 /wpimath.spline/
@@ -67,3 +71,5 @@
 /wpiutil.log/
 /wpiutil.sync.rst
 /wpiutil.sync/
+/wpiutil.wpistruct.rst
+/wpiutil.wpistruct/
