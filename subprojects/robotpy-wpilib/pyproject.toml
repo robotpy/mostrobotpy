@@ -17,7 +17,7 @@ robotpy = ["run = wpilib._impl.start:Main"]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b8",
+    "robotpy-build<2025.0.0,~=2024.0.0b9",
     "robotpy-wpiutil~=2024.0.0b4",
     "robotpy-wpimath~=2024.0.0b4",
     "robotpy-hal~=2024.0.0b4",
@@ -30,8 +30,8 @@ base_package = "wpilib"
 [tool.robotpy-build.wrappers."wpilib._impl".maven_lib_download]
 artifact_id = "wpilibc-cpp"
 group_id = "edu.wpi.first.wpilibc"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1-beta-4"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2024.1.1-beta-4-37-g6a2d3c3"
 
 libs = ["wpilibc"]
 

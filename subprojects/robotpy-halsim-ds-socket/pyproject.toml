@@ -15,7 +15,7 @@ robotpysimext = ["ds-socket = halsim_ds_socket"]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b8",
+    "robotpy-build<2025.0.0,~=2024.0.0b9",
     "robotpy-hal~=2024.0.0b4",
     "robotpy-wpinet~=2024.0.0b4",
 ]
@@ -27,8 +27,8 @@ base_package = "halsim_ds_socket"
 artifact_id = "halsim_ds_socket"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1-beta-4"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2024.1.1-beta-4-37-g6a2d3c3"
 
 dlopenlibs = ["halsim_ds_socket"]
 
