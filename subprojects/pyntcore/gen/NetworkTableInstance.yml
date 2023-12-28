@@ -13,10 +13,13 @@ extra_includes:
 - networktables/RawTopic.h
 - networktables/StringArrayTopic.h
 - networktables/StringTopic.h
+- networktables/StructArrayTopic.h
+- networktables/StructTopic.h
 - networktables/Topic.h
 - src/py2value.h
 - src/nt_instance.h
 - wpi/DataLog.h
+- wpystruct.h
 
 classes:
   NetworkTableInstance:
@@ -64,9 +67,23 @@ classes:
       GetProtobufTopic:
         ignore: true
       GetStructTopic:
-        ignore: true
+        param_override:
+          info:
+            name: type
+        cpp_code: |
+          [](const NetworkTableInstance &self, std::string_view name, const py::type &t) {
+            WPyStructInfo info(t);
+            return self.GetStructTopic<WPyStruct, WPyStructInfo>(name, info);
+          }
       GetStructArrayTopic:
-        ignore: true
+        param_override:
+          info:
+            name: type
+        cpp_code: |
+          [](const NetworkTableInstance &self, std::string_view name, const py::type &t) {
+            WPyStructInfo info(t);
+            return self.GetStructArrayTopic<WPyStruct, WPyStructInfo>(name, info);
+          }
       GetTopics:
         overloads:
           "":

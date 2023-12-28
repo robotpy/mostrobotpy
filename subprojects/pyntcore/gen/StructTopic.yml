@@ -1,0 +1,97 @@
+---
+
+classes:
+  StructSubscriber:
+    template_params:
+    - T
+    - I
+    methods:
+      StructSubscriber:
+        overloads:
+          "":
+            ignore: true
+          NT_Subscriber, T, I...:
+            ignore: true
+      Get:
+        overloads:
+          '[const]':
+          const T& [const]:
+      GetInto:
+        ignore: true
+      GetAtomic:
+        overloads:
+          '[const]':
+          const T& [const]:
+      ReadQueue:
+      GetTopic:
+  StructPublisher:
+    template_params:
+    - T
+    - I
+    methods:
+      StructPublisher:
+        overloads:
+          "":
+            ignore: true
+          NT_Publisher, I...:
+            ignore: true
+      Set:
+      SetDefault:
+      GetTopic:
+  StructEntry:
+    template_params:
+    - T
+    - I
+    base_qualnames:
+      StructSubscriber: nt::StructSubscriber<T, I>
+      StructPublisher: nt::StructPublisher<T, I>
+    methods:
+      StructEntry:
+        overloads:
+          "":
+            ignore: true
+          NT_Entry, T, const I&...:
+            ignore: true
+      GetHandle:
+        ignore: true
+      GetTopic:
+      Unpublish:
+  StructTopic:
+    template_params:
+    - T
+    - I
+    methods:
+      StructTopic:
+        overloads:
+          "":
+            ignore: true
+          NT_Topic, I...:
+            ignore: true
+          Topic, I...:
+            ignore: true
+      Subscribe:
+      Publish:
+      PublishEx:
+      GetEntry:
+
+templates:
+  StructSubscriber:
+    qualname: nt::StructSubscriber
+    params:
+    - WPyStruct
+    - WPyStructInfo
+  StructPublisher:
+    qualname: nt::StructPublisher
+    params:
+    - WPyStruct
+    - WPyStructInfo
+  StructEntry:
+    qualname: nt::StructEntry
+    params:
+    - WPyStruct
+    - WPyStructInfo
+  StructTopic:
+    qualname: nt::StructTopic
+    params:
+    - WPyStruct
+    - WPyStructInfo

@@ -29,7 +29,15 @@ classes:
       AddProtobufSchema:
         ignore: true
       AddStructSchema:
-        ignore: true
+        param_override:
+          info:
+            name: type
+        cpp_code: |
+          [](DataLog &self, const py::type &t, int64_t timestamp) {
+            WPyStructInfo info(t);
+            return self.AddStructSchema<WPyStruct, WPyStructInfo>(info, timestamp);
+          }
+
       Start:
       Finish:
       SetMetadata:
@@ -242,29 +250,66 @@ classes:
           std::initializer_list<std::string_view>, int64_t:
             ignore: true
   StructLogEntry:
-    subpackage: log
     force_no_trampoline: true
-    ignore: true
+    template_params:
+    - T
+    - I
     methods:
       StructLogEntry:
         overloads:
           "":
-          DataLog&, std::string_view, int64_t:
-          DataLog&, std::string_view, std::string_view, int64_t:
+            ignore: true
+          DataLog&, std::string_view, I..., int64_t:
+            param_override:
+              info:
+                name: type
+            cpp_code: |
+              [](DataLog &log, std::string_view name, const py::type &t, int64_t timestamp) {
+                WPyStructInfo info(t);
+                return std::make_shared<StructLogEntry<WPyStruct, WPyStructInfo>>(log, name, info, timestamp);
+              }
+          DataLog&, std::string_view, std::string_view, I..., int64_t:
+            param_override:
+              info:
+                name: type
+            cpp_code: |
+              [](DataLog &log, std::string_view name, std::string_view metadata, const py::type &t, int64_t timestamp) {
+                WPyStructInfo info(t);
+                return std::make_shared<StructLogEntry<WPyStruct, WPyStructInfo>>(log, name, metadata, info, timestamp);
+              }
       Append:
   StructArrayLogEntry:
-    subpackage: log
     force_no_trampoline: true
-    ignore: true
+    template_params:
+    - T
+    - I
     methods:
       StructArrayLogEntry:
         overloads:
           "":
-          DataLog&, std::string_view, int64_t:
-          DataLog&, std::string_view, std::string_view, int64_t:
+            ignore: true
+          DataLog&, std::string_view, I..., int64_t:
+            param_override:
+              info:
+                name: type
+            cpp_code: |
+              [](DataLog &log, std::string_view name, const py::type &t, int64_t timestamp) {
+                WPyStructInfo info(t);
+                return std::make_shared<StructArrayLogEntry<WPyStruct, WPyStructInfo>>(log, name, info, timestamp);
+              }
+          DataLog&, std::string_view, std::string_view, I..., int64_t:
+            param_override:
+              info:
+                name: type
+            cpp_code: |
+              [](DataLog &log, std::string_view name, std::string_view metadata, const py::type &t, int64_t timestamp) {
+                WPyStructInfo info(t);
+                return std::make_shared<StructArrayLogEntry<WPyStruct, WPyStructInfo>>(log, name, metadata, info, timestamp);
+              }
       Append:
         overloads:
           U&&, int64_t:
+            ignore: true
           std::span<const T>, int64_t:
   ProtobufLogEntry:
     subpackage: log
@@ -277,3 +322,17 @@ classes:
           DataLog&, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
+
+templates:
+  StructLogEntry:
+    qualname: wpi::log::StructLogEntry
+    subpackage: log
+    params:
+    - WPyStruct
+    - WPyStructInfo
+  StructArrayLogEntry:
+    qualname: wpi::log::StructArrayLogEntry
+    subpackage: log
+    params:
+    - WPyStruct
+    - WPyStructInfo

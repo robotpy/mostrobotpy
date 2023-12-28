@@ -20,9 +20,13 @@ name = "wpiutil"
 sources = [
     "wpiutil/src/main.cpp",
     "wpiutil/src/safethread_gil.cpp",
-    "wpiutil/src/stacktracehook.cpp"
+    "wpiutil/src/stacktracehook.cpp",
+    "wpiutil/src/wpistruct/wpystruct_fns.cpp",
 ]
-extra_includes = ["wpiutil/src/type_casters"]
+extra_includes = [
+    "wpiutil/src/wpistruct",
+    "wpiutil/src/type_casters",
+]
 
 generation_data = "gen"
 
@@ -47,6 +51,8 @@ Sendable = "wpi/sendable/Sendable.h"
 SendableBuilder = "wpi/sendable/SendableBuilder.h"
 #SendableHelper = "wpi/sendable/SendableHelper.h"
 SendableRegistry = "wpi/sendable/SendableRegistry.h"
+
+WPyStruct = "src/wpistruct/wpystruct_fns.h"
 
 [[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_array_type_caster.h"
@@ -79,3 +85,7 @@ types = ["wpi::StringMap"]
 [[tool.robotpy-build.wrappers."wpiutil".type_casters]]
 header = "wpi_ct_string_type_caster.h"
 types = ["wpi::ct_string"]
+
+[[tool.robotpy-build.wrappers."wpiutil".type_casters]]
+header = "wpystruct.h"
+types = ["WPyStruct"]

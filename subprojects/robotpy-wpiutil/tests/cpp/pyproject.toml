@@ -11,6 +11,7 @@ depends = ["wpiutil"]
 sources = [
     "wpiutil_test/module.cpp",
     "wpiutil_test/sendable_test.cpp",
+    "wpiutil_test/struct_test.cpp",
 ]
 
 [tool.robotpy-build.metadata]

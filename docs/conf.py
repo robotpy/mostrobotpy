@@ -98,6 +98,7 @@ gen_package(root, "wpinet")
 gen_package(root, "wpiutil")
 gen_package(root, "wpiutil.log")
 gen_package(root, "wpiutil.sync")
+gen_package(root, "wpiutil.wpistruct")
 
 # HAL
 gen_package(root, "hal", include=["Sim*"])

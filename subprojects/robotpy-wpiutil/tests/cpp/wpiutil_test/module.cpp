@@ -150,11 +150,13 @@ constexpr auto const_string() {
 }
 
 void sendable_test(py::module &m);
+void struct_test(py::module &m);
 
 
 RPYBUILD_PYBIND11_MODULE(m) {
 
     sendable_test(m);
+    struct_test(m);
 
     // array
     m.def("load_array_int", &load_array_int);

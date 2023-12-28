@@ -1,0 +1,115 @@
+---
+
+classes:
+  StructArraySubscriber:
+    template_params:
+    - T
+    - I
+    methods:
+      StructArraySubscriber:
+        overloads:
+          "":
+            ignore: true
+          NT_Subscriber, U&&, I...:
+            ignore: true
+      Get:
+        overloads:
+          '[const]':
+          U&& [const]:
+            ignore: true
+          std::span<const T> [const]:
+      GetAtomic:
+        overloads:
+          '[const]':
+          U&& [const]:
+            ignore: true
+          std::span<const T> [const]:
+      ReadQueue:
+      GetTopic:
+  StructArrayPublisher:
+    template_params:
+    - T
+    - I
+    methods:
+      StructArrayPublisher:
+        overloads:
+          "":
+            ignore: true
+          NT_Publisher, I...:
+            ignore: true
+      Set:
+        overloads:
+          U&&, int64_t:
+            ignore: true
+          std::span<const T>, int64_t:
+      SetDefault:
+        overloads:
+          U&&:
+            ignore: true
+          std::span<const T>:
+      GetTopic:
+  StructArrayEntry:
+    template_params:
+    - T
+    - I
+    base_qualnames:
+      StructArraySubscriber: nt::StructArraySubscriber<T, I>
+      StructArrayPublisher: nt::StructArrayPublisher<T, I>
+    methods:
+      StructArrayEntry:
+        overloads:
+          "":
+            ignore: true
+          NT_Entry, U&&, const I&...:
+            ignore: true
+      GetHandle:
+        ignore: true
+      GetTopic:
+      Unpublish:
+  StructArrayTopic:
+    template_params:
+    - T
+    - I
+    methods:
+      StructArrayTopic:
+        overloads:
+          "":
+            ignore: true
+          NT_Topic, I...:
+            ignore: true
+          Topic, I...:
+            ignore: true
+      Subscribe:
+        overloads:
+          U&&, const PubSubOptions&:
+            ignore: true
+          std::span<const T>, const PubSubOptions&:
+      Publish:
+      PublishEx:
+      GetEntry:
+        overloads:
+          U&&, const PubSubOptions&:
+            ignore: true
+          std::span<const T>, const PubSubOptions&:
+
+templates:
+  StructArraySubscriber:
+    qualname: nt::StructArraySubscriber
+    params:
+    - WPyStruct
+    - WPyStructInfo
+  StructArrayPublisher:
+    qualname: nt::StructArrayPublisher
+    params:
+    - WPyStruct
+    - WPyStructInfo
+  StructArrayEntry:
+    qualname: nt::StructArrayEntry
+    params:
+    - WPyStruct
+    - WPyStructInfo
+  StructArrayTopic:
+    qualname: nt::StructArrayTopic
+    params:
+    - WPyStruct
+    - WPyStructInfo
