@@ -28,11 +28,6 @@ classes:
         overloads:
           const StateVector&:
           const StateVector&, const StateVector&:
-    template_inline_code: |
-      cls_LinearPlantInversionFeedforward
-        .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, units::second_t>())
-        .def(py::init<const frc::LinearSystem<States, Inputs, 2>&, units::second_t>())
-        .def(py::init<const frc::LinearSystem<States, Inputs, 3>&, units::second_t>());
 
 templates:
   LinearPlantInversionFeedforward_1_1:

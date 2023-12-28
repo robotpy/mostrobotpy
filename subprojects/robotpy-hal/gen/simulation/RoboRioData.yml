@@ -107,3 +107,8 @@ functions:
   HALSIM_CancelRoboRioCPUTempCallback:
   HALSIM_GetRoboRioCPUTemp:
   HALSIM_SetRoboRioCPUTemp:
+  HALSIM_RegisterRoboRioRadioLEDStateCallback:
+    ignore: true
+  HALSIM_CancelRoboRioRadioLEDStateCallback:
+  HALSIM_GetRoboRioRadioLEDState:
+  HALSIM_SetRoboRioRadioLEDState:

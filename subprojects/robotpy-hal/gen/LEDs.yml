@@ -1,0 +1,7 @@
+---
+
+enums:
+  HAL_RadioLEDState:
+functions:
+  HAL_SetRadioLEDState:
+  HAL_GetRadioLEDState:
