@@ -1,6 +1,7 @@
 ---
 extra_includes:
   - rpy/geometryToString.h
+  - wpystruct.h
 
 functions:
   to_json:
@@ -60,3 +61,5 @@ inline_code: |
       return self->Angle();
     })
     .def("__repr__", py::overload_cast<const Rotation3d&>(&rpy::toString));
+
+  SetupWPyStruct<frc::Rotation3d>(cls_Rotation3d);

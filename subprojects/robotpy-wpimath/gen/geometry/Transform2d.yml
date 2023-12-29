@@ -3,6 +3,7 @@
 extra_includes:
 - frc/geometry/Pose2d.h
 - rpy/geometryToString.h
+- wpystruct.h
 
 classes:
   Transform2d:
@@ -47,3 +48,5 @@ inline_code: |
     })
     .def("__repr__", py::overload_cast<const Transform2d&>(&rpy::toString));
   ;
+
+  SetupWPyStruct<frc::Transform2d>(cls_Transform2d);

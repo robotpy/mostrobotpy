@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- wpystruct.h
+
 classes:
   ChassisSpeeds:
     force_no_default_constructor: true
@@ -71,3 +74,5 @@ inline_code: |
                            "omega=" + std::to_string(cs.omega()) + ")";
     })
   ;
+
+  SetupWPyStruct<frc::ChassisSpeeds>(cls_ChassisSpeeds);

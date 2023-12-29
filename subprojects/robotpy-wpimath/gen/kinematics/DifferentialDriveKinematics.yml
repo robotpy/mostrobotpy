@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- wpystruct.h
+
 classes:
   DifferentialDriveKinematics:
     attributes:
@@ -9,3 +12,6 @@ classes:
       ToChassisSpeeds:
       ToWheelSpeeds:
       ToTwist2d:
+
+inline_code: |
+  SetupWPyStruct<frc::DifferentialDriveKinematics>(cls_DifferentialDriveKinematics);

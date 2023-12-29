@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- wpystruct.h
+
 classes:
   Twist2d:
     force_no_default_constructor: true
@@ -53,3 +56,5 @@ inline_code: |
                      "dtheta=" + std::to_string(tw.dtheta()) + ")";
     })
   ;
+
+  SetupWPyStruct<frc::Twist2d>(cls_Twist2d);
