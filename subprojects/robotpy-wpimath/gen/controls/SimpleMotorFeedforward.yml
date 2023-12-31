@@ -35,11 +35,6 @@ classes:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
       MinAchievableAcceleration:
-    template_inline_code: |
-      cls_SimpleMotorFeedforward
-        .def_readwrite("kS", &SimpleMotorFeedforward<Distance>::kS)
-        .def_readwrite("kV", &SimpleMotorFeedforward<Distance>::kV)
-        .def_readwrite("kA", &SimpleMotorFeedforward<Distance>::kA);
 
 templates:
   # Unfortunately this is broken because calculate requires an SI unit

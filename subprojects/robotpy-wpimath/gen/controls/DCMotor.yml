@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- wpystruct.h
+
 classes:
   DCMotor:
     shared_ptr: true
@@ -36,3 +39,6 @@ classes:
       KrakenX60:
       KrakenX60FOC:
       NeoVortex:
+
+inline_code: |
+  SetupWPyStruct<frc::DCMotor>(cls_DCMotor);

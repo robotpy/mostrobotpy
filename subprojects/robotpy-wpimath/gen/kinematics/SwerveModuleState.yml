@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- wpystruct.h
+
 classes:
   SwerveModuleState:
     force_no_default_constructor: true
@@ -32,3 +35,5 @@ inline_code: |
                                "angle=" + std::to_string(ss.angle.Radians()()) + ")";
     })
   ;
+
+  SetupWPyStruct<frc::SwerveModuleState>(cls_SwerveModuleState);

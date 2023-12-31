@@ -1,6 +1,7 @@
 ---
 extra_includes:
   - rpy/geometryToString.h
+  - wpystruct.h
 
 functions:
   to_json:
@@ -62,3 +63,5 @@ inline_code: |
       return self->Y();
     })
     .def("__repr__", py::overload_cast<const Pose2d&>(&rpy::toString));
+
+  SetupWPyStruct<frc::Pose2d>(cls_Pose2d);

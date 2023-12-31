@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- wpystruct.h
+
 classes:
   DifferentialDriveWheelSpeeds:
     force_no_default_constructor: true
@@ -49,4 +52,6 @@ inline_code: |
                                           "right=" + std::to_string(dds.right()) + ")";
     })
   ;
+
+  SetupWPyStruct<frc::DifferentialDriveWheelSpeeds>(cls_DifferentialDriveWheelSpeeds);
 

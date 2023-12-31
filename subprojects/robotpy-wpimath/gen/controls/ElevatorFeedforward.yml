@@ -21,3 +21,9 @@ classes:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
       MinAchievableAcceleration:
+
+extra_includes:
+- wpystruct.h
+
+inline_code: |
+  SetupWPyStruct<frc::ElevatorFeedforward>(cls_ElevatorFeedforward);

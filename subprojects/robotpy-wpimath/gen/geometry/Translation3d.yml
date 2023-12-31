@@ -1,6 +1,7 @@
 ---
 extra_includes:
   - rpy/geometryToString.h
+  - wpystruct.h
 
 functions:
   to_json:
@@ -71,3 +72,5 @@ inline_code: |
       }
     })
     .def("__repr__", py::overload_cast<const Translation3d&>(&rpy::toString));
+
+  SetupWPyStruct<frc::Translation3d>(cls_Translation3d);

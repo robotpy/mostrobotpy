@@ -64,6 +64,8 @@ tailored to the needs of robotics applications.
   wpimath.geometry
   wpimath.interpolation
   wpimath.kinematics
+  wpimath.optimization
+  wpimath.path
   wpimath.spline
   wpimath.system
   wpimath.system.plant
@@ -101,6 +103,7 @@ of things in it.
   wpiutil
   wpiutil.log
   wpiutil.sync
+  wpiutil.wpistruct
 
 
 .. _hal_api:

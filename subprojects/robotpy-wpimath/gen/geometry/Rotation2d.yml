@@ -1,6 +1,7 @@
 ---
 extra_includes:
   - rpy/geometryToString.h
+  - wpystruct.h
 
 functions:
   to_json:
@@ -42,3 +43,5 @@ inline_code: |
       return std::make_unique<Rotation2d>(value);
     }, py::arg("value"))
     .def("__repr__", py::overload_cast<const Rotation2d&>(&rpy::toString));
+
+  SetupWPyStruct<frc::Rotation2d>(cls_Rotation2d);

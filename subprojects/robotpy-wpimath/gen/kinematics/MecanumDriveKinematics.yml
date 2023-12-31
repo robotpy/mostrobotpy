@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+- wpystruct.h
+
 classes:
   MecanumDriveKinematics:
     methods:
@@ -37,3 +40,6 @@ classes:
       GetFrontRightWheel:
       GetRearLeftWheel:
       GetRearRightWheel:
+
+inline_code: |
+  SetupWPyStruct<frc::MecanumDriveKinematics>(cls_MecanumDriveKinematics);
