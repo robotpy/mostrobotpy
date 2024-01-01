@@ -24,6 +24,18 @@ classes:
           const T& [const]:
       ReadQueue:
       GetTopic:
+    inline_code: |
+      .def("close", [](nt::StructSubscriber<T, I> *self) {
+        py::gil_scoped_release release;
+        *self = nt::StructSubscriber<T, I>();
+      }, py::doc("Destroys the subscriber"))
+      .def("__enter__", [](nt::StructSubscriber<T, I> *self) {
+        return self;
+      })
+      .def("__exit__", [](nt::StructSubscriber<T, I> *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = nt::StructSubscriber<T, I>();
+      })
   StructPublisher:
     template_params:
     - T
@@ -38,6 +50,18 @@ classes:
       Set:
       SetDefault:
       GetTopic:
+    inline_code: |
+      .def("close", [](nt::StructPublisher<T, I> *self) {
+        py::gil_scoped_release release;
+        *self = nt::StructPublisher<T, I>();
+      }, py::doc("Destroys the publisher"))
+      .def("__enter__", [](nt::StructPublisher<T, I> *self) {
+        return self;
+      })
+      .def("__exit__", [](nt::StructPublisher<T, I> *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = nt::StructPublisher<T, I>();
+      })
   StructEntry:
     template_params:
     - T
@@ -56,6 +80,18 @@ classes:
         ignore: true
       GetTopic:
       Unpublish:
+    inline_code: |
+      .def("close", [](nt::StructEntry<T, I> *self) {
+        py::gil_scoped_release release;
+        *self = nt::StructEntry<T, I>();
+      }, py::doc("Destroys the entry"))
+      .def("__enter__", [](nt::StructEntry<T, I> *self) {
+        return self;
+      })
+      .def("__exit__", [](nt::StructEntry<T, I> *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = nt::StructEntry<T, I>();
+      })
   StructTopic:
     template_params:
     - T
@@ -73,7 +109,18 @@ classes:
       Publish:
       PublishEx:
       GetEntry:
-
+    inline_code: |
+      .def("close", [](nt::StructTopic<T, I> *self) {
+        py::gil_scoped_release release;
+        *self = nt::StructTopic<T, I>();
+      }, py::doc("Destroys the topic"))
+      .def("__enter__", [](nt::StructTopic<T, I> *self) {
+        return self;
+      })
+      .def("__exit__", [](nt::StructTopic<T, I> *self, py::args args) {
+        py::gil_scoped_release release;
+        *self = nt::StructTopic<T, I>();
+      })
 templates:
   StructSubscriber:
     qualname: nt::StructSubscriber

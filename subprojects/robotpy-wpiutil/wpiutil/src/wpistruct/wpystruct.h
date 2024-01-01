@@ -225,7 +225,7 @@ struct WPyStructPyConverter : WPyStructConverter {
 
 // passed as I... to the wpi::Struct methods
 struct WPyStructInfo {
-
+  WPyStructInfo() = default;
   WPyStructInfo(const py::type &t) {
     if (!py::hasattr(t, "WPIStruct")) {
 
@@ -258,6 +258,17 @@ struct WPyStructInfo {
 
   WPyStructInfo(const WPyStruct &v) : WPyStructInfo(py::type::of(v.py)) {}
 
+  const WPyStructConverter* operator->() const {
+    const auto *c = cvt.get();
+    if (c == nullptr) {
+      // TODO: would be nice to have a better error here, but we don't have
+      // a good way to know our current context
+      throw py::value_error("Object is closed");
+    }
+    return c;
+  }
+
+private:
   // holds something used to do serialization
   std::shared_ptr<WPyStructConverter> cvt;
 };
@@ -265,36 +276,36 @@ struct WPyStructInfo {
 // Leverages the converter stored in WPyStructInfo to do the actual work
 template <> struct wpi::Struct<WPyStruct, WPyStructInfo> {
   static std::string_view GetTypeString(const WPyStructInfo &info) {
-    return info.cvt->GetTypeString();
+    return info->GetTypeString();
   }
 
   static size_t GetSize(const WPyStructInfo &info) {
-    return info.cvt->GetSize();
+    return info->GetSize();
   }
 
   static std::string_view GetSchema(const WPyStructInfo &info) {
-    return info.cvt->GetSchema();
+    return info->GetSchema();
   }
 
   static WPyStruct Unpack(std::span<const uint8_t> data,
                           const WPyStructInfo &info) {
-    return info.cvt->Unpack(data);
+    return info->Unpack(data);
   }
 
   // static void UnpackInto(WPyStruct *v, std::span<const uint8_t> data,
   //                        const WPyStructInfo &info) {
-  //   info.cvt->UnpackInto(v, data);
+  //   info->UnpackInto(v, data);
   // }
 
   static void Pack(std::span<uint8_t> data, const WPyStruct &value,
                    const WPyStructInfo &info) {
-    info.cvt->Pack(data, value);
+    info->Pack(data, value);
   }
 
   static void
   ForEachNested(std::invocable<std::string_view, std::string_view> auto fn,
                 const WPyStructInfo &info) {
-    info.cvt->ForEachNested(fn);
+    info->ForEachNested(fn);
   }
 };
 
