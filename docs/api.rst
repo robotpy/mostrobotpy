@@ -25,6 +25,7 @@ NTCore API
   :maxdepth: 1
 
   ntcore
+  ntcore.meta
   ntcore.util
 
 CSCore API
