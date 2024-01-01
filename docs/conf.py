@@ -69,6 +69,7 @@ gen_package(root, "wpilib.simulation")
 
 # NTCore
 gen_package(root, "ntcore")
+gen_package(root, "ntcore.meta")
 
 # CSCore
 gen_package(root, "cscore")
