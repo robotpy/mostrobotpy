@@ -10,9 +10,9 @@ Usage
 First, install pyfrc. Then run your robot with the 'sim' argument and --ds-socket flag:
 
     # Windows
-    py -3 ./robot.py sim --ds-socket
+    py -3 -m robotpy sim --ds-socket
 
     # Linux/OSX
-    python3 robot.py sim --ds-socket
+    python3 -m robotpy sim --ds-socket
 
 WPILib's documentation for using the simulator can be found at http://docs.wpilib.org/en/latest/docs/software/wpilib-tools/robot-simulation/
