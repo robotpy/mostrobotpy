@@ -68,6 +68,19 @@ inline_code: |
         self->omega = omega;
       }
     )
+    .def("__len__", [](const ChassisSpeeds &self) { return 3; })
+    .def("__getitem__", [](const ChassisSpeeds &self, int index) {
+      switch (index) {
+        case 0:
+          return self.vx();
+        case 1:
+          return self.vy();
+        case 2:
+          return self.omega();
+        default:
+          throw std::out_of_range("ChassisSpeeds index out of range");
+      }
+    })
     .def("__repr__", [](const ChassisSpeeds &cs) -> std::string {
       return "ChassisSpeeds(vx=" + std::to_string(cs.vx()) + ", "
                            "vy=" + std::to_string(cs.vy()) + ", "
