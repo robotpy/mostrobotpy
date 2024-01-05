@@ -10,9 +10,9 @@ Usage
 First, install pyfrc. Then run your robot with the 'sim' argument:
 
     # Windows
-    py -3 ./robot.py sim
+    py -3 -m robotpy sim
 
     # Linux/OSX
-    python3 robot.py sim
+    python3 -m robotpy sim
 
 WPILib's documentation for using the simulator can be found at http://docs.wpilib.org/en/latest/docs/software/wpilib-tools/robot-simulation/simulation-gui.html

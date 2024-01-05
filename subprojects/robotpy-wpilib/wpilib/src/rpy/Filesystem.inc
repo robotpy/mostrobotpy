@@ -10,11 +10,20 @@ static fs::path getMainPath() {
   py::gil_scoped_acquire gil;
   py::dict locals;
   py::exec(R"(
-        import sys, os.path
-        main = sys.modules['__main__'];
-        if hasattr(main, '__file__'):
-            main_path = os.path.abspath(os.path.dirname(main.__file__))
+        found = False
+        try:
+            from robotpy.main import robot_py_path
+            if robot_py_path:
+                main_path = str(robot_py_path.parent.absolute())
+                found = True
+        except ImportError:
+            pass
 
+        if not found:
+            import sys, os.path
+            main = sys.modules['__main__'];
+            if hasattr(main, '__file__'):
+                main_path = os.path.abspath(os.path.dirname(main.__file__))
     )",
            py::globals(), locals);
 

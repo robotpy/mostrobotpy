@@ -1,10 +1,80 @@
 import hal
 import wpilib
 import logging
+import os.path
+import sys
 import threading
 import time
+import typing
+
+import importlib.metadata
+
+if sys.version_info < (3, 10):
+
+    def entry_points(group):
+        eps = importlib.metadata.entry_points()
+        return eps.get(group, [])
+
+else:
+    entry_points = importlib.metadata.entry_points
+
 
 from .report_error import reportError, reportErrorInternal
+
+
+def _log_versions(robotpy_version: typing.Optional[str]):
+    import wpilib
+    import wpilib.deployinfo
+
+    import logging
+
+    data = wpilib.deployinfo.getDeployData()
+    if data:
+        logger = logging.getLogger("deploy-info")
+        logger.info(
+            "%s@%s at %s",
+            data.get("deploy-user", "<unknown>"),
+            data.get("deploy-host", "<unknown>"),
+            data.get("deploy-date", "<unknown>"),
+        )
+        if "git-hash" in data:
+            logger.info(
+                "- git info: %s (branch=%s)",
+                data.get("git-desc", "<unknown>"),
+                data.get("git-branch", "<unknown>"),
+            )
+
+    logger = logging.getLogger("wpilib")
+
+    if robotpy_version:
+        logger.info("RobotPy version %s", robotpy_version)
+
+    logger.info("WPILib version %s", wpilib.__version__)
+
+    if wpilib.RobotBase.isSimulation():
+        logger.info("Running with simulated HAL.")
+
+        # check to see if we're on a RoboRIO
+        # NOTE: may have false positives, but it should work well enough
+        if os.path.exists("/etc/natinst/share/scs_imagemetadata.ini"):
+            logger.warning(
+                "Running simulation HAL on actual roboRIO! This probably isn't what you want, and will probably cause difficult-to-debug issues!"
+            )
+
+    if logger.isEnabledFor(logging.DEBUG):
+        versions = {}
+
+        # Log third party versions
+        for group in ("robotpylib", "robotpybuild"):
+            for entry_point in entry_points(group=group):
+                # Don't actually load the entry points -- just print the
+                # packages unless we need to load them
+                dist = entry_point.dist
+                versions[dist.name] = dist.version
+
+        for k, v in versions.items():
+            if k != "wpilib":
+                logger.debug("%s version %s", k, v)
 
 
 class Main:
@@ -24,8 +94,23 @@ class RobotStarter:
         self.logger = logging.getLogger("robotpy")
         self.robot = None
         self.suppressExitWarning = False
+        self._robotpy_version = None
+
+    @property
+    def robotpy_version(self) -> typing.Optional[str]:
+        if not self._robotpy_version:
+            try:
+                pkg = importlib.metadata.metadata("robotpy")
+            except importlib.metadata.PackageNotFoundError:
+                pass
+            else:
+                self._robotpy_version = pkg.get("Version", None)
+
+        return self._robotpy_version
 
     def run(self, robot_cls: wpilib.RobotBase) -> bool:
+        _log_versions(self.robotpy_version)
+
         retval = False
         if hal.hasMain():
             rval = [False]
@@ -52,11 +137,11 @@ class RobotStarter:
                 try:
                     robot.endCompetition()
                 except:
-                    self.logger.warn("endCompetition raised an exception")
+                    self.logger.warning("endCompetition raised an exception")
 
             th.join(1)
             if th.is_alive():
-                self.logger.warn("robot thread didn't die, crash may occur next!")
+                self.logger.warning("robot thread didn't die, crash may occur next!")
             retval = rval[0]
         else:
             retval = self.start(robot_cls)
@@ -146,11 +231,10 @@ class RobotStarter:
         #     return False
 
         if not isSimulation:
-            try:
-                from robotpy.version import __version__ as robotpy_version
-
+            robotpy_version = self.robotpy_version
+            if robotpy_version:
                 version_string = f"RobotPy {robotpy_version}"
-            except ImportError:
+            else:
                 version_string = f"robotpy-wpilib {wpilib.__version__}"
 
             try:
