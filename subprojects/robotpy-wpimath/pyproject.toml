@@ -23,7 +23,7 @@ base_package = "wpimath"
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.1.1-beta-4-37-g6a2d3c3"
+version = "2024.1.1-beta-4-81-g4595f84"
 
 
 libs = ["wpimath"]

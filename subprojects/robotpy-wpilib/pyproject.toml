@@ -10,6 +10,7 @@ install_requires = [
     "robotpy-wpimath==THIS_VERSION",
     "robotpy-hal==THIS_VERSION",
     "pyntcore==THIS_VERSION",
+    "robotpy-cli~=2024.0b",
 ]
 
 [tool.robotpy-build.metadata.entry_points]
@@ -31,7 +32,7 @@ base_package = "wpilib"
 artifact_id = "wpilibc-cpp"
 group_id = "edu.wpi.first.wpilibc"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.1.1-beta-4-37-g6a2d3c3"
+version = "2024.1.1-beta-4-81-g4595f84"
 
 libs = ["wpilibc"]
 

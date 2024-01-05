@@ -27,7 +27,7 @@ base_package = "cscore"
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.1.1-beta-4-37-g6a2d3c3"
+version = "2024.1.1-beta-4-81-g4595f84"
 
 libs = ["cscore"]
 
@@ -35,7 +35,7 @@ libs = ["cscore"]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.1.1-beta-4-37-g6a2d3c3"
+version = "2024.1.1-beta-4-81-g4595f84"
 
 libs = ["cameraserver"]
 
