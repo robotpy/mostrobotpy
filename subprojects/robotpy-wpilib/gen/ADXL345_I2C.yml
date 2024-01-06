@@ -12,11 +12,10 @@ classes:
     enums:
       Axes:
       Range:
+    attributes:
+      kAddress:
     methods:
       ADXL345_I2C:
-        param_override:
-          deviceAddress:
-            default: 0x1d
       GetI2CPort:
       GetI2CDeviceAddress:
       SetRange:
