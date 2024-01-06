@@ -66,6 +66,7 @@ gen_package(root, "wpilib.drive")
 gen_package(root, "wpilib.interfaces")
 gen_package(root, "wpilib.shuffleboard")
 gen_package(root, "wpilib.simulation")
+gen_package(root, "wpilib.sysid")
 
 # NTCore
 gen_package(root, "ntcore")

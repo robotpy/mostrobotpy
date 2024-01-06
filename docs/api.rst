@@ -15,6 +15,7 @@ WPILib API
   wpilib.interfaces
   wpilib.shuffleboard
   wpilib.simulation
+  wpilib.sysid
 
 .. _ntcore_api:
 
