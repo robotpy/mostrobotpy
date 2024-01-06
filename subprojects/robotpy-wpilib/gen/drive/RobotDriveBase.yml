@@ -10,6 +10,8 @@ classes:
     attributes:
       m_deadband:
       m_maxOutput:
+      kDefaultDeadband:
+      kDefaultMaxOutput:
     enums:
       MotorType:
     methods:

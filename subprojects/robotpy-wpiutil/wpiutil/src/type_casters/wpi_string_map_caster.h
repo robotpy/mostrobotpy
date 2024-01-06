@@ -49,9 +49,9 @@ struct type_caster<wpi::StringMap<Value>> {
         for (auto &&kv : src) {
             // getKey/getValue is different from pybind11/stl.h map_caster
             auto key = reinterpret_steal<object>(
-                key_conv::cast(detail::forward_like<T>(kv.getKey()), policy_key, parent));
+                key_conv::cast(forward_like<T>(kv.getKey()), policy_key, parent));
             auto value = reinterpret_steal<object>(
-                value_conv::cast(detail::forward_like<T>(kv.getValue()), policy_value, parent));
+                value_conv::cast(forward_like<T>(kv.getValue()), policy_value, parent));
             if (!key || !value) {
                 return handle();
             }

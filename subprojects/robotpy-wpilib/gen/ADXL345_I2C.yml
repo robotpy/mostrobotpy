@@ -9,19 +9,6 @@ classes:
     - frc::ADXL345_I2C::Range::kRange_2G
     ignored_bases:
     - wpi::SendableHelper<ADXL345_I2C>
-    attributes:
-      m_i2c:
-        ignore: true
-      m_simDevice:
-      m_simRange:
-      m_simX:
-      m_simY:
-      m_simZ:
-      kAddress:
-      kPowerCtlRegister:
-      kDataFormatRegister:
-      kDataRegister:
-      kGsPerLSB:
     enums:
       Axes:
       Range:
@@ -29,7 +16,7 @@ classes:
       ADXL345_I2C:
         param_override:
           deviceAddress:
-            default: ADXL345_I2C_Trampoline::kAddress
+            default: 0x1d
       GetI2CPort:
       GetI2CDeviceAddress:
       SetRange:

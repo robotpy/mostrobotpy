@@ -192,6 +192,7 @@ gradians = float
 radians_per_second_squared = float
 radians_per_second = float
 degrees_per_second_squared = float
+turns_per_second_squared = float
 
 # angular velocity
 radians_per_second = float

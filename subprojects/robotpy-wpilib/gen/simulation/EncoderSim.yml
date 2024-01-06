@@ -11,7 +11,7 @@ classes:
     methods:
       EncoderSim:
         overloads:
-          const frc::Encoder&:
+          const Encoder&:
       CreateForChannel:
       CreateForIndex:
       RegisterInitializedCallback:

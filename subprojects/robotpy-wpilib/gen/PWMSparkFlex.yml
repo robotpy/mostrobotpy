@@ -1,0 +1,6 @@
+---
+
+classes:
+  PWMSparkFlex:
+    methods:
+      PWMSparkFlex:

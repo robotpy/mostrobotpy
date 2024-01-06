@@ -77,6 +77,8 @@ classes:
       Brownout:
       CanWarning:
       HardwareFault:
+    methods:
+      GetChannelFault:
   PneumaticHub::StickyFaults:
     attributes:
       CompressorOverCurrent:

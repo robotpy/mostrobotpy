@@ -64,4 +64,7 @@ classes:
       SetSerialNumber:
       GetComments:
       SetComments:
+      RegisterRadioLEDStateCallback:
+      GetRadioLEDState:
+      SetRadioLEDState:
       ResetData:

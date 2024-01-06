@@ -36,10 +36,10 @@ classes:
                       fl, fr, bl, br = kinematics.toWheelSpeeds(chassisSpeeds)
       ToChassisSpeeds:
       ToTwist2d:
-      GetFrontLeftWheel:
-      GetFrontRightWheel:
-      GetRearLeftWheel:
-      GetRearRightWheel:
+      GetFrontLeft:
+      GetFrontRight:
+      GetRearLeft:
+      GetRearRight:
 
 inline_code: |
   SetupWPyStruct<frc::MecanumDriveKinematics>(cls_MecanumDriveKinematics);

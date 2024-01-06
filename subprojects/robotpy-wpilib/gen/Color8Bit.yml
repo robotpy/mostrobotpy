@@ -28,6 +28,7 @@ classes:
                 name: blue
           const Color& [constexpr]:
           std::string_view [constexpr]:
+      FromHexString:
       HexString:
       operator==:
 

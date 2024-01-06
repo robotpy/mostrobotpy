@@ -1,5 +1,8 @@
 ---
 
+enums:
+  RadioLEDState:
+
 classes:
   CANStatus:
     shared_ptr: false
@@ -47,4 +50,6 @@ classes:
       GetBrownoutVoltage:
       SetBrownoutVoltage:
       GetCPUTemp:
+      SetRadioLEDState:
+      GetRadioLEDState:
       GetCANStatus:

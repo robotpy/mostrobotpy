@@ -16,11 +16,16 @@ classes:
       ADIS16470_IMU:
         overloads:
           "":
-          IMUAxis, SPI::Port, CalibrationTime:
+          IMUAxis, IMUAxis, IMUAxis:
+          IMUAxis, IMUAxis, IMUAxis, frc::SPI::Port, CalibrationTime:
       ConfigDecRate:
       Calibrate:
       ConfigCalTime:
       Reset:
+      SetGyroAngle:
+      SetGyroAngleX:
+      SetGyroAngleY:
+      SetGyroAngleZ:
       GetAngle:
       GetRate:
       GetAccelX:
@@ -31,7 +36,8 @@ classes:
       GetXFilteredAccelAngle:
       GetYFilteredAccelAngle:
       GetYawAxis:
-      SetYawAxis:
+      GetPitchAxis:
+      GetRollAxis:
       IsConnected:
       GetPort:
       InitSendable:

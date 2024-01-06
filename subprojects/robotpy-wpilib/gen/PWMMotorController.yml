@@ -12,6 +12,7 @@ classes:
       m_pwm:
     methods:
       Set:
+      SetVoltage:
       Get:
       SetInverted:
       GetInverted:
@@ -20,5 +21,10 @@ classes:
       GetDescription:
       GetChannel:
       EnableDeadbandElimination:
+      AddFollower:
+        overloads:
+          PWMMotorController&:
+          T&&:
+            ignore: true
       PWMMotorController:
       InitSendable:

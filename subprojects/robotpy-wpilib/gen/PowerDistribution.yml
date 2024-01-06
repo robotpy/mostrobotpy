@@ -69,6 +69,8 @@ classes:
       Brownout:
       CanWarning:
       HardwareFault:
+    methods:
+      GetBreakerFault:
   PowerDistribution::StickyFaults:
     attributes:
       Channel0BreakerFault:
@@ -99,3 +101,5 @@ classes:
       CanWarning:
       CanBusOff:
       HasReset:
+    methods:
+      GetBreakerFault:

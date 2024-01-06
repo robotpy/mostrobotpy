@@ -11,7 +11,7 @@ classes:
     methods:
       AnalogTriggerSim:
         overloads:
-          const frc::AnalogTrigger&:
+          const AnalogTrigger&:
       CreateForChannel:
       CreateForIndex:
       RegisterInitializedCallback:

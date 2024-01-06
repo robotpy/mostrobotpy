@@ -140,6 +140,7 @@ Servo = "frc/Servo.h"
 Solenoid = "frc/Solenoid.h"
 # SpeedController = "frc/SpeedController.h" # interfaces
 # SpeedControllerGroup = "frc/SpeedControllerGroup.h"
+StadiaController = "frc/StadiaController.h"
 SynchronousInterrupt = "frc/SynchronousInterrupt.h"
 Threads = "frc/Threads.h"
 TimedRobot = "frc/TimedRobot.h"
@@ -187,6 +188,9 @@ SendableBuilderImpl = "frc/smartdashboard/SendableBuilderImpl.h"
 SendableChooser = "frc/smartdashboard/SendableChooser.h"
 SendableChooserBase = "frc/smartdashboard/SendableChooserBase.h"
 SmartDashboard = "frc/smartdashboard/SmartDashboard.h"
+
+# frc/sysid
+SysIdRoutineLog = "frc/sysid/SysIdRoutineLog.h"
 
 # frc/util
 Color = "frc/util/Color.h"
