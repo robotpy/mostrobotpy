@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "mostrobotpy"
+project = "RobotPy API"
 copyright = "2023, RobotPy Development Team"
 author = "RobotPy Development Team"
 

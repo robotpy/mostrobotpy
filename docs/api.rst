@@ -29,6 +29,8 @@ NTCore API
   ntcore.meta
   ntcore.util
 
+.. _cscore_api:
+
 CSCore API
 ----------
 
