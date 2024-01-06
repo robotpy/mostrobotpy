@@ -13,10 +13,10 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b9",
-    "robotpy-wpiutil~=2024.0.0b4",
-    "robotpy-wpinet~=2024.0.0b4",
-    "pyntcore~=2024.0.0b4",
+    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-wpiutil~=2024.1.1",
+    "robotpy-wpinet~=2024.1.1",
+    "pyntcore~=2024.1.1",
     # "numpy", # required for pybind11-stubgen to not complain, broken in raspbian CI
 ]
 
@@ -26,16 +26,16 @@ base_package = "cscore"
 [tool.robotpy-build.static_libs."cscore_cpp".maven_lib_download]
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.1.1-beta-4-81-g4595f84"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1"
 
 libs = ["cscore"]
 
 [tool.robotpy-build.static_libs."cameraserver_cpp".maven_lib_download]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.1.1-beta-4-81-g4595f84"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1"
 
 libs = ["cameraserver"]
 

@@ -12,9 +12,9 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0b9",
-    "robotpy-wpiutil~=2024.0.0b4",
-    "robotpy-wpinet~=2024.0.0b4",
+    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-wpiutil~=2024.1.1",
+    "robotpy-wpinet~=2024.1.1",
 ]
 
 [tool.robotpy-build]
@@ -23,8 +23,8 @@ base_package = "ntcore"
 [tool.robotpy-build.wrappers."ntcore".maven_lib_download]
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.1.1-beta-4-81-g4595f84"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1"
 
 libs = ["ntcore"]
 
