@@ -68,3 +68,7 @@ roborio = false
 [subprojects."robotpy-halsim-gui"]
 min_version = "2024.1.1"
 roborio = false
+
+[subprojects."robotpy-romi"]
+min_version = "2024.1.1"
+roborio = false

@@ -1,0 +1,12 @@
+*.py[cod]
+*.so
+*.dll
+*.egg-info
+
+/build
+
+/romi/include
+/romi/lib
+/romi/_init_romi.py
+/romi/pkgcfg.py
+/romi/version.py
