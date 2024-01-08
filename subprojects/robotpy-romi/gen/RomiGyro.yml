@@ -1,0 +1,16 @@
+---
+
+classes:
+  RomiGyro:
+    methods:
+      RomiGyro:
+      GetAngle:
+      GetRate:
+      Calibrate:
+      GetRateX:
+      GetRateY:
+      GetRateZ:
+      GetAngleX:
+      GetAngleY:
+      GetAngleZ:
+      Reset:
