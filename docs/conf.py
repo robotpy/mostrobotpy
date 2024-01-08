@@ -108,3 +108,6 @@ gen_package(root, "hal.simulation")
 
 # ROMI
 gen_package(root, "romi")
+
+# XRP
+gen_package(root, "xrp")

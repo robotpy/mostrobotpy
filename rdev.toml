@@ -72,3 +72,7 @@ roborio = false
 [subprojects."robotpy-romi"]
 min_version = "2024.1.1"
 roborio = false
+
+[subprojects."robotpy-xrp"]
+min_version = "2024.1.1"
+roborio = false
