@@ -105,3 +105,6 @@ gen_package(root, "wpiutil.wpistruct")
 # HAL
 gen_package(root, "hal", include=["Sim*"])
 gen_package(root, "hal.simulation")
+
+# ROMI
+gen_package(root, "romi")
