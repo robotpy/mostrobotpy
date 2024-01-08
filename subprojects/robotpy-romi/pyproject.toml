@@ -1,7 +1,18 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-romi"
+description = "Binary wrapper for WPILib Romi Vendor library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/mostrobotpy"
+license = "BSD-3-Clause"
+install_requires = [
+    "wpilib==THIS_VERSION"
+]
+
 [build-system]
 requires = [
-    "robotpy-build<2023.0.0,>=2022.2.0",
-    "wpilib<2023.0.0,>=2022.2.1.3"
+    "robotpy-build<2025.0.0,~=2024.0.0",
+    "wpilib~=2024.1.1"
 ]
 
 [tool.robotpy-build]
@@ -27,18 +38,6 @@ RomiMotor = "frc/romi/RomiMotor.h"
 artifact_id = "romi-vendordep-cpp"
 group_id = "edu.wpi.first.romi"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2023.1.1-beta-3-9-g2a8e0e1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1"
 libs = ["Romi"]
-
-
-[tool.robotpy-build.metadata]
-name = "robotpy-romi"
-description = "Binary wrapper for WPILib Romi Vendor library"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/robotpy-romi"
-license = "BSD-3-Clause"
-install_requires = [
-    "wpilib<2023.0.0,>=2022.2.1.3"
-]
