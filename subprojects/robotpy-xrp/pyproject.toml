@@ -1,0 +1,47 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-xrp"
+description = "Binary wrapper for WPILib XRP Vendor library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/mostrobotpy"
+license = "BSD-3-Clause"
+install_requires = [
+    "wpilib==THIS_VERSION"
+]
+
+[build-system]
+requires = [
+    "robotpy-build<2025.0.0,~=2024.0.0",
+    "wpilib~=2024.1.1"
+]
+
+[tool.robotpy-build]
+base_package = "xrp"
+
+[tool.robotpy-build.wrappers."xrp"]
+name = "xrp"
+sources = ["xrp/src/main.cpp"]
+generation_data = "gen"
+depends = [
+    "wpilib_core", "wpilibc_interfaces", "wpilibc",
+    "wpimath_cpp", "wpimath_geometry",
+    "wpiHal", "wpiutil", "ntcore",
+]
+
+[tool.robotpy-build.wrappers."xrp".autogen_headers]
+# frc/xrp
+XRPGyro = "frc/xrp/XRPGyro.h"
+XRPMotor = "frc/xrp/XRPMotor.h"
+XRPOnBoardIO = "frc/xrp/XRPOnBoardIO.h"
+XRPRangefinder = "frc/xrp/XRPRangefinder.h"
+XRPReflectanceSensor = "frc/xrp/XRPReflectanceSensor.h"
+XRPServo = "frc/xrp/XRPServo.h"
+
+
+[tool.robotpy-build.wrappers."xrp".maven_lib_download]
+artifact_id = "xrpVendordep-cpp"
+group_id = "edu.wpi.first.xrpVendordep"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1"
+libs = ["xrpVendordep"]

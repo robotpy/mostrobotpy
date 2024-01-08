@@ -1,0 +1,7 @@
+---
+
+classes:
+  XRPReflectanceSensor:
+    methods:
+      GetLeftReflectanceValue:
+      GetRightReflectanceValue:

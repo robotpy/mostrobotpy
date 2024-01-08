@@ -1,0 +1,43 @@
+[tool.robotpy-build.metadata]
+name = "robotpy-romi"
+description = "Binary wrapper for WPILib Romi Vendor library"
+author = "RobotPy Development Team"
+author_email = "robotpy@googlegroups.com"
+url = "https://github.com/robotpy/mostrobotpy"
+license = "BSD-3-Clause"
+install_requires = [
+    "wpilib==THIS_VERSION"
+]
+
+[build-system]
+requires = [
+    "robotpy-build<2025.0.0,~=2024.0.0",
+    "wpilib~=2024.1.1"
+]
+
+[tool.robotpy-build]
+base_package = "romi"
+
+[tool.robotpy-build.wrappers."romi"]
+name = "romi"
+sources = ["romi/src/main.cpp"]
+generation_data = "gen"
+depends = [
+    "wpilib_core", "wpilibc_interfaces", "wpilibc",
+    "wpimath_cpp", "wpimath_geometry",
+    "wpiHal", "wpiutil", "ntcore",
+]
+
+[tool.robotpy-build.wrappers."romi".autogen_headers]
+# frc/romi
+OnBoardIO = "frc/romi/OnBoardIO.h"
+RomiGyro = "frc/romi/RomiGyro.h"
+RomiMotor = "frc/romi/RomiMotor.h"
+
+[tool.robotpy-build.wrappers."romi".maven_lib_download]
+artifact_id = "romiVendordep-cpp"
+group_id = "edu.wpi.first.romiVendordep"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.1.1"
+libs = ["romiVendordep"]

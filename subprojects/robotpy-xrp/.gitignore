@@ -1,0 +1,12 @@
+*.py[cod]
+*.so
+*.dll
+*.egg-info
+
+/build
+
+/xrp/include
+/xrp/lib
+/xrp/_init_xrp.py
+/xrp/pkgcfg.py
+/xrp/version.py

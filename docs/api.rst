@@ -125,3 +125,23 @@ Generally, RobotPy users should avoid interacting with the HAL directly.
 
   hal
   hal.simulation
+
+ROMI API
+--------
+
+These are special devices for use with the ROMI product.
+
+.. toctree::
+  :maxdepth: 1
+
+  romi
+
+XRP API
+-------
+
+These are special devices for use with the XRP product.
+
+.. toctree::
+  :maxdepth: 1
+
+  xrp

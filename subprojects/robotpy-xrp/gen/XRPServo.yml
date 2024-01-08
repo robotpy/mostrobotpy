@@ -1,0 +1,10 @@
+---
+
+classes:
+  XRPServo:
+    methods:
+      XRPServo:
+      SetAngle:
+      GetAngle:
+      SetPosition:
+      GetPosition:
