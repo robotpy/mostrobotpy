@@ -11,6 +11,9 @@ build:
     post_install:
     - python -m robotpy_sphinx.download_and_install robotpy mostrobotpy main dist dist-Linux
 
+formats:
+  - htmlzip
+
 python:
   install:
   - requirements: docs/requirements.txt
