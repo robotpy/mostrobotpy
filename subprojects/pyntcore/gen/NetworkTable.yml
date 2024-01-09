@@ -16,6 +16,7 @@ extra_includes:
 - networktables/Topic.h
 - src/py2value.h
 - src/pyentry.h
+- wpystruct.h
 
 classes:
   NetworkTable:
@@ -48,9 +49,23 @@ classes:
       GetProtobufTopic:
         ignore: true
       GetStructTopic:
-        ignore: true
+        param_override:
+          info:
+            name: type
+        cpp_code: |
+          [](const NetworkTable &self, std::string_view name, const py::type &t) {
+            WPyStructInfo info(t);
+            return self.GetStructTopic<WPyStruct, WPyStructInfo>(name, info);
+          }
       GetStructArrayTopic:
-        ignore: true
+        param_override:
+          info:
+            name: type
+        cpp_code: |
+          [](const NetworkTable &self, std::string_view name, const py::type &t) {
+            WPyStructInfo info(t);
+            return self.GetStructArrayTopic<WPyStruct, WPyStructInfo>(name, info);
+          }
       GetSubTable:
       ContainsKey:
       ContainsSubTable:
