@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Callable, Optional
+from typing_extensions import Self
 
 if TYPE_CHECKING:
     from .command import Command
@@ -28,7 +29,7 @@ class Subsystem(Sendable):
     base for user implementations that handles this.
     """
 
-    def __new__(cls, *arg, **kwargs) -> "Subsystem":
+    def __new__(cls, *arg, **kwargs) -> Self:
         instance = super().__new__(cls)
         super().__init__(instance)
         SendableRegistry.addLW(instance, cls.__name__, cls.__name__)

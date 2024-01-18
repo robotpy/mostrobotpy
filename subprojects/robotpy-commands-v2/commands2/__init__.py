@@ -48,6 +48,8 @@ from .waitcommand import WaitCommand
 from .waituntilcommand import WaitUntilCommand
 from .wrappercommand import WrapperCommand
 
+from typing import TYPE_CHECKING
+
 __all__ = [
     "cmd",
     "Command",
@@ -98,18 +100,21 @@ __all__ = [
     "Trigger",  # was here in 2023
 ]
 
+if not TYPE_CHECKING:
 
-def __getattr__(attr):
-    if attr == "SubsystemBase":
-        import warnings
+    def __getattr__(attr):
+        if attr == "SubsystemBase":
+            import warnings
 
-        warnings.warn("SubsystemBase is deprecated", DeprecationWarning, stacklevel=2)
-        return Subsystem
+            warnings.warn(
+                "SubsystemBase is deprecated", DeprecationWarning, stacklevel=2
+            )
+            return Subsystem
 
-    if attr == "CommandBase":
-        import warnings
+        if attr == "CommandBase":
+            import warnings
 
-        warnings.warn("CommandBase is deprecated", DeprecationWarning, stacklevel=2)
-        return Command
+            warnings.warn("CommandBase is deprecated", DeprecationWarning, stacklevel=2)
+            return Command
 
-    raise AttributeError("module {!r} has no attribute " "{!r}".format(__name__, attr))
+        raise AttributeError(f"module {__name__!r} has no attribute {attr!r}")
