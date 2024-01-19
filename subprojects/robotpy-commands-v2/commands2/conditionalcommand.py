@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Callable
 
 from .command import Command
-from .commandgroup import *
 from .commandscheduler import CommandScheduler
 
 

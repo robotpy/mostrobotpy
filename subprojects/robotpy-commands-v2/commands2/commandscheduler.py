@@ -8,7 +8,7 @@ from wpilib import RobotBase, RobotState, TimedRobot, Watchdog
 from wpilib.event import EventLoop
 
 from .command import Command, InterruptionBehavior
-from .commandgroup import *
+from .exceptions import IllegalCommandUse
 from .subsystem import Subsystem
 
 

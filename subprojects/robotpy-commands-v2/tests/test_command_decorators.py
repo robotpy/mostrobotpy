@@ -127,16 +127,6 @@ def test_raceWith(scheduler: commands2.CommandScheduler):
     assert not group.isScheduled()
 
 
-def test_perpetually(scheduler: commands2.CommandScheduler):
-    command = commands2.InstantCommand()
-    perpetual = command.perpetually()
-    scheduler.schedule(perpetual)
-    scheduler.run()
-    scheduler.run()
-    scheduler.run()
-    assert perpetual.isScheduled()
-
-
 @pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_unless(scheduler: commands2.CommandScheduler):
     unlessCondition = OOBoolean(True)

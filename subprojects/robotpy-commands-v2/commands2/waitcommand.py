@@ -3,7 +3,6 @@ from __future__ import annotations
 from wpilib import Timer
 
 from .command import Command
-from .commandgroup import *
 
 
 class WaitCommand(Command):

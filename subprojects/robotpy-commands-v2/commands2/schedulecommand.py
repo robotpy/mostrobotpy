@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from .command import Command
-from .commandgroup import *
 
 
 class ScheduleCommand(Command):

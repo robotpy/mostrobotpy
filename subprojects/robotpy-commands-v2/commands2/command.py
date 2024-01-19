@@ -15,7 +15,6 @@ if TYPE_CHECKING:
     from .sequentialcommandgroup import SequentialCommandGroup
     from .paralleldeadlinegroup import ParallelDeadlineGroup
     from .parallelcommandgroup import ParallelCommandGroup
-    from .perpetualcommand import PerpetualCommand
     from .repeatcommand import RepeatCommand
     from .proxycommand import ProxyCommand
     from .conditionalcommand import ConditionalCommand
@@ -340,27 +339,6 @@ class Command(Sendable):
         from .parallelracegroup import ParallelRaceGroup
 
         return ParallelRaceGroup(self, *parallel)
-
-    def perpetually(self) -> PerpetualCommand:
-        """
-        Decorates this command to run perpetually, ignoring its ordinary end conditions. The decorated
-        command can still be interrupted or canceled.
-
-        Note: This decorator works by adding this command to a composition. The command the
-        decorator was called on cannot be scheduled independently or be added to a different
-        composition (namely, decorators), unless it is manually cleared from the list of composed
-        commands with CommandScheduler#removeComposedCommand(Command). The command composition
-        returned from this method can be further decorated without issue.
-
-        :returns: the decorated command
-        @deprecated PerpetualCommand violates the assumption that execute() doesn't get called after
-            isFinished() returns true -- an assumption that should be valid. This was unsafe/undefined
-            behavior from the start, and RepeatCommand provides an easy way to achieve similar end
-            results with slightly different (and safe) semantics.
-        """
-        from .perpetualcommand import PerpetualCommand
-
-        return PerpetualCommand(self)
 
     def repeatedly(self) -> RepeatCommand:
         """

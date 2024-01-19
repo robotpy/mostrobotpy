@@ -2,15 +2,13 @@ from __future__ import annotations
 
 from typing import Dict
 
-from commands2.command import Command, InterruptionBehavior
-
 from .command import Command, InterruptionBehavior
-from .commandgroup import *
 from .commandscheduler import CommandScheduler
+from .exceptions import IllegalCommandUse
 from .util import flatten_args_commands
 
 
-class ParallelDeadlineGroup(CommandGroup):
+class ParallelDeadlineGroup(Command):
     """
     A command composition that runs one of a selection of commands, either using a selector and a key
     to command mapping, or a supplier that returns the command directly at runtime.

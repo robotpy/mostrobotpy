@@ -5,7 +5,6 @@ from typing import Any, Callable
 from wpilib import Notifier
 
 from .command import Command
-from .commandgroup import *
 from .subsystem import Subsystem
 
 

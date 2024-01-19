@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Any, Callable
 
 from .command import Command
-from .commandgroup import *
 from .subsystem import Subsystem
 
 

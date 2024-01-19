@@ -2,15 +2,13 @@ from __future__ import annotations
 
 from typing import Dict
 
-from commands2.command import Command, InterruptionBehavior
-
 from .command import Command, InterruptionBehavior
-from .commandgroup import *
 from .commandscheduler import CommandScheduler
+from .exceptions import IllegalCommandUse
 from .util import flatten_args_commands
 
 
-class ParallelCommandGroup(CommandGroup):
+class ParallelCommandGroup(Command):
     """
     A command composition that runs a set of commands in parallel, ending when the last command ends.
 

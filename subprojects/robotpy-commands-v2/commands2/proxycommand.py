@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Callable, overload
 
 from .command import Command
-from .commandgroup import *
 from .util import format_args_kwargs
 
 

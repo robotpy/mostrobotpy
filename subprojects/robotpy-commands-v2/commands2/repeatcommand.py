@@ -1,9 +1,6 @@
 from __future__ import annotations
 
-from commands2.command import InterruptionBehavior
-
-from .command import Command
-from .commandgroup import *
+from .command import Command, InterruptionBehavior
 
 
 class RepeatCommand(Command):

@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import Set
 
 from .command import Command, InterruptionBehavior
-from .commandgroup import *
 from .commandscheduler import CommandScheduler
 
 

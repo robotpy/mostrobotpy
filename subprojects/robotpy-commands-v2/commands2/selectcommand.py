@@ -2,10 +2,7 @@ from __future__ import annotations
 
 from typing import Callable, Dict, Hashable
 
-from commands2.command import InterruptionBehavior
-
 from .command import Command, InterruptionBehavior
-from .commandgroup import *
 from .commandscheduler import CommandScheduler
 from .printcommand import PrintCommand
 
