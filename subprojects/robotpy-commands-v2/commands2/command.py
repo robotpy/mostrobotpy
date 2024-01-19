@@ -50,8 +50,6 @@ class Command(Sendable):
 
     Commands are run synchronously from the main robot loop; no multithreading is used, unless
     specified explicitly from the command implementation.
-
-    This class is provided by the NewCommands VendorDep
     """
 
     InterruptionBehavior: TypeAlias = (

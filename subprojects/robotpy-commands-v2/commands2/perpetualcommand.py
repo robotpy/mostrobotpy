@@ -14,8 +14,6 @@ class PerpetualCommand(Command):
 
     As a rule, CommandGroups require the union of the requirements of their component commands.
 
-    This class is provided by the NewCommands VendorDep
-
     @deprecated PerpetualCommand violates the assumption that execute() doesn't get called after
         isFinished() returns true -- an assumption that should be valid. This was unsafe/undefined
         behavior from the start, and RepeatCommand provides an easy way to achieve similar end

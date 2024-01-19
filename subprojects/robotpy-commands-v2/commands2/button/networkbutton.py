@@ -9,8 +9,6 @@ from .trigger import Trigger
 class NetworkButton(Trigger):
     """
     A Button that uses a NetworkTable boolean field.
-
-    This class is provided by the NewCommands VendorDep
     """
 
     @overload

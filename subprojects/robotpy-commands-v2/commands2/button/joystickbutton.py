@@ -6,8 +6,6 @@ from .trigger import Trigger
 class JoystickButton(Trigger):
     """
     A Button that gets its state from a GenericHID.
-
-    This class is provided by the NewCommands VendorDep
     """
 
     def __init__(self, joystick: GenericHID, buttonNumber: int):

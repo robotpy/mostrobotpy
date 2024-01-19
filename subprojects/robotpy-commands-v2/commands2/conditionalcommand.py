@@ -15,8 +15,7 @@ class ConditionalCommand(Command):
     The rules for command compositions apply: command instances that are passed to it cannot be
     added to any other composition or scheduled individually, and the composition requires all
     subsystems its components require.
-
-    This class is provided by the NewCommands VendorDep"""
+    """
 
     selectedCommand: Command
 

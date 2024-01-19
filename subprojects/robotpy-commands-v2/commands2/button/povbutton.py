@@ -6,8 +6,6 @@ from .trigger import Trigger
 class POVButton(Trigger):
     """
     A Button that gets its state from a POV on a GenericHID.
-
-    This class is provided by the NewCommands VendorDep
     """
 
     def __init__(self, joystick: GenericHID, angle: int, povNumber: int = 0):
