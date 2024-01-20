@@ -9,7 +9,6 @@ if TYPE_CHECKING:
 import pytest
 
 
-@pytest.mark.skip(reason="NotifierCommand is broken")
 def test_notifierCommandScheduler(scheduler: commands2.CommandScheduler):
     with ManualSimTime() as sim:
         counter = OOInteger(0)

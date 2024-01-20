@@ -1,3 +1,4 @@
+# validated: 2024-01-19 DS aaea85ff1656 ParallelCommandGroup.java
 from __future__ import annotations
 
 from typing import Dict
@@ -14,7 +15,8 @@ class ParallelCommandGroup(Command):
 
     The rules for command compositions apply: command instances that are passed to it cannot be
     added to any other composition or scheduled individually, and the composition requires all
-    subsystems its components require."""
+    subsystems its components require.
+    """
 
     def __init__(self, *commands: Command):
         """
@@ -22,7 +24,8 @@ class ParallelCommandGroup(Command):
         command composition will finish when the last command finishes. If the composition is
         interrupted, only the commands that are still running will be interrupted.
 
-        :param commands: the commands to include in this composition."""
+        :param commands: the commands to include in this composition.
+        """
         super().__init__()
         self._commands: Dict[Command, bool] = {}
         self._runsWhenDisabled = True
@@ -30,6 +33,11 @@ class ParallelCommandGroup(Command):
         self.addCommands(*commands)
 
     def addCommands(self, *commands: Command):
+        """
+        Adds the given commands to the group.
+
+        :param commands: Commands to add to the group
+        """
         commands = flatten_args_commands(commands)
         if True in self._commands.values():
             raise IllegalCommandUse(

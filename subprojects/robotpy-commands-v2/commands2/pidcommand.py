@@ -1,3 +1,4 @@
+# validated: 2024-01-19 DS f29a7d2e501b PIDCommand.java
 # Copyright (c) FIRST and other WPILib contributors.
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
@@ -13,7 +14,7 @@ from wpimath.controller import PIDController
 
 class PIDCommand(Command):
     """
-    A command that controls an output with a PIDController. Runs forever by default - to add
+    A command that controls an output with a :class:`wpimath.controller.PIDController`. Runs forever by default - to add
     exit conditions and/or other behavior, subclass this class. The controller calculation and output
     are performed synchronously in the command's execute() method.
     """
@@ -27,7 +28,7 @@ class PIDCommand(Command):
         *requirements: Subsystem,
     ):
         """
-        Creates a new PIDCommand, which controls the given output with a PIDController.
+        Creates a new PIDCommand, which controls the given output with a :class:`wpimath.controller.PIDController`.
 
         :param controller: the controller that controls the output.
         :param measurementSource: the measurement of the process variable

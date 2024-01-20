@@ -1,3 +1,4 @@
+# notrack
 class IllegalCommandUse(Exception):
     """
     This exception is raised when a command is used in a way that it shouldn't be.

@@ -1,3 +1,4 @@
+# validated: 2024-01-20 DS 3ba501f9478a button/CommandXboxController.java
 from typing import Optional
 
 from wpilib import XboxController
@@ -24,7 +25,7 @@ class CommandXboxController(CommandGenericHID):
         super().__init__(port)
         self._hid = XboxController(port)
 
-    def getHID(self):
+    def getHID(self) -> XboxController:
         """
         Get the underlying GenericHID object.
 
@@ -36,9 +37,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the left bumper's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the right bumper's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -48,9 +51,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the right bumper's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the left bumper's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -60,9 +65,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the left stick button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the left stick button's digital signal attached to the
-            given loop.
+                  given loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -72,9 +79,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the right stick button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the right stick button's digital signal attached to the
-            given loop.
+                  given loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -84,9 +93,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the A button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the A button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -96,9 +107,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the B button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the B button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -108,9 +121,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the X button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the X button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -120,9 +135,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the Y button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the Y button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -132,9 +149,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the start button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the start button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -144,9 +163,11 @@ class CommandXboxController(CommandGenericHID):
         """
         Constructs an event instance around the back button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the back button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -160,8 +181,10 @@ class CommandXboxController(CommandGenericHID):
         will be true when the axis value is greater than {@code threshold}.
 
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
-            should be in the range [0, 1] where 0 is the unpressed state of the axis.
-        :param loop: the event loop instance to attach the Trigger to.
+                          should be in the range [0, 1] where 0 is the unpressed state of the axis.
+        :param loop: the event loop instance to attach the Trigger to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: a Trigger instance that is true when the left trigger's axis exceeds the provided
             threshold, attached to the given event loop
         """
@@ -177,10 +200,12 @@ class CommandXboxController(CommandGenericHID):
         will be true when the axis value is greater than {@code threshold}.
 
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
-            should be in the range [0, 1] where 0 is the unpressed state of the axis.
-        :param loop: the event loop instance to attach the Trigger to.
+                          should be in the range [0, 1] where 0 is the unpressed state of the axis.
+        :param loop: the event loop instance to attach the Trigger to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: a Trigger instance that is true when the right trigger's axis exceeds the provided
-            threshold, attached to the given event loop
+                  threshold, attached to the given event loop
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()

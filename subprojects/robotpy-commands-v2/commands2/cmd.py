@@ -1,4 +1,7 @@
+# validated: 2024-01-20 DS 8aeee0362672 Commands.java
 from typing import Any, Callable, Dict, Hashable
+
+from wpimath import units
 
 from .command import Command
 from .conditionalcommand import ConditionalCommand
@@ -26,6 +29,16 @@ def none() -> Command:
     :returns: the command
     """
     return InstantCommand()
+
+
+def idle(*requirements: Subsystem) -> Command:
+    """
+    Constructs a command that does nothing until interrupted.
+
+    :param requirements: Subsystems to require
+    :return: the command
+    """
+    return run(lambda: None, *requirements)
 
 
 def runOnce(action: Callable[[], Any], *requirements: Subsystem) -> Command:
@@ -62,7 +75,7 @@ def startEnd(
     :param requirements: subsystems the action requires
     :returns: the command
     """
-    return StartEndCommand(run, lambda: end(), *requirements)
+    return StartEndCommand(run, end, *requirements)
 
 
 def runEnd(
@@ -92,7 +105,7 @@ def print_(message: str) -> Command:
     return PrintCommand(message)
 
 
-def waitSeconds(seconds: float) -> Command:
+def waitSeconds(seconds: units.seconds) -> Command:
     """
     Constructs a command that does nothing, finishing after a specified duration.
 

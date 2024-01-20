@@ -1,3 +1,4 @@
+# validated: 2024-01-20 DS 92149efa11fa button/CommandGenericHID.java
 from typing import Optional
 
 from wpilib.event import EventLoop
@@ -9,7 +10,7 @@ from .trigger import Trigger
 
 class CommandGenericHID:
     """
-    A version of GenericHID with Trigger factories for command-based.
+    A version of :class:`wpilib.interfaces.GenericHID` with :class:`.Trigger` factories for command-based.
     """
 
     def __init__(self, port: int):
@@ -31,7 +32,10 @@ class CommandGenericHID:
         Constructs an event instance around this button's digital signal.
 
         :param button: The button index
-        :param loop: the event loop instance to attache the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
+        :returns: A trigger instance attached to the event loop
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -48,8 +52,9 @@ class CommandGenericHID:
 
         :param angle: POV angle in degrees, or -1 for the center / not pressed.
         :param pov: index of the POV to read (starting at 0). Defaults to 0.
-        :param loop: the event loop instance to attach the event to. Defaults to {@link
-            CommandScheduler#getDefaultButtonLoop() the default command scheduler button loop}.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: a Trigger instance based around this angle of a POV on the HID.
         """
         if loop is None:
@@ -59,8 +64,7 @@ class CommandGenericHID:
     def povUp(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 0 degree angle (up) of the default (index 0) POV
-        on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the default command
-        scheduler button loop}.
+        on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
 
         :returns: a Trigger instance based around the 0 degree angle of a POV on the HID.
         """
@@ -69,8 +73,7 @@ class CommandGenericHID:
     def povUpRight(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 45 degree angle (right up) of the default (index
-        0) POV on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the default
-        command scheduler button loop}.
+        0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
 
         :returns: a Trigger instance based around the 45 degree angle of a POV on the HID.
         """
@@ -79,8 +82,7 @@ class CommandGenericHID:
     def povRight(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 90 degree angle (right) of the default (index 0)
-        POV on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the default command
-        scheduler button loop}.
+        POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
 
         :returns: a Trigger instance based around the 90 degree angle of a POV on the HID.
         """
@@ -89,8 +91,7 @@ class CommandGenericHID:
     def povDownRight(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 135 degree angle (right down) of the default
-        (index 0) POV on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the
-        default command scheduler button loop}.
+        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
 
         :returns: a Trigger instance based around the 135 degree angle of a POV on the HID.
         """
@@ -99,8 +100,7 @@ class CommandGenericHID:
     def povDown(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 180 degree angle (down) of the default (index 0)
-        POV on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the default command
-        scheduler button loop}.
+        POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
 
         :returns: a Trigger instance based around the 180 degree angle of a POV on the HID.
         """
@@ -109,8 +109,7 @@ class CommandGenericHID:
     def povDownLeft(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 225 degree angle (down left) of the default
-        (index 0) POV on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the
-        default command scheduler button loop}.
+        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
 
         :returns: a Trigger instance based around the 225 degree angle of a POV on the HID.
         """
@@ -119,8 +118,7 @@ class CommandGenericHID:
     def povLeft(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 270 degree angle (left) of the default (index 0)
-        POV on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the default command
-        scheduler button loop}.
+        POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
 
         :returns: a Trigger instance based around the 270 degree angle of a POV on the HID.
         """
@@ -129,8 +127,7 @@ class CommandGenericHID:
     def povUpLeft(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 315 degree angle (left up) of the default (index
-        0) POV on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the default
-        command scheduler button loop}.
+        0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
 
         :returns: a Trigger instance based around the 315 degree angle of a POV on the HID.
         """
@@ -139,8 +136,7 @@ class CommandGenericHID:
     def povCenter(self) -> Trigger:
         """
         Constructs a Trigger instance based around the center (not pressed) position of the default
-        (index 0) POV on the HID, attached to {@link CommandScheduler#getDefaultButtonLoop() the
-        default command scheduler button loop}.
+        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
 
         :returns: a Trigger instance based around the center position of a POV on the HID.
         """
@@ -150,14 +146,15 @@ class CommandGenericHID:
         self, axis: int, threshold: float, loop: Optional[EventLoop] = None
     ) -> Trigger:
         """
-        Constructs a Trigger instance that is true when the axis value is less than {@code threshold},
+        Constructs a Trigger instance that is true when the axis value is less than ``threshold``,
         attached to the given loop.
 
         :param axis: The axis to read, starting at 0
         :param threshold: The value below which this trigger should return true.
         :param loop: the event loop instance to attach the trigger to
+
         :returns: a Trigger instance that is true when the axis value is less than the provided
-            threshold.
+                  threshold.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -167,14 +164,15 @@ class CommandGenericHID:
         self, axis: int, threshold: float, loop: Optional[EventLoop] = None
     ) -> Trigger:
         """
-        Constructs a Trigger instance that is true when the axis value is greater than {@code
-        threshold}, attached to the given loop.
+        Constructs a Trigger instance that is true when the axis value is greater than
+        ``threshold``, attached to the given loop.
 
         :param axis: The axis to read, starting at 0
         :param threshold: The value above which this trigger should return true.
         :param loop: the event loop instance to attach the trigger to.
+
         :returns: a Trigger instance that is true when the axis value is greater than the provided
-            threshold.
+                  threshold.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()

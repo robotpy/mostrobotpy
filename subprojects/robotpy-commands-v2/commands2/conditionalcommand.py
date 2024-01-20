@@ -29,7 +29,8 @@ class ConditionalCommand(Command):
 
         :param onTrue: the command to run if the condition is true
         :param onFalse: the command to run if the condition is false
-        :param condition: the condition to determine which command to run"""
+        :param condition: the condition to determine which command to run
+        """
         super().__init__()
 
         CommandScheduler.getInstance().registerComposedCommands([onTrue, onFalse])

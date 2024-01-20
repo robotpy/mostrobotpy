@@ -1,3 +1,4 @@
+# validated: 2024-01-19 DS 6e58db398d63 FunctionalCommand.java
 from __future__ import annotations
 
 from typing import Any, Callable
@@ -11,7 +12,8 @@ class FunctionalCommand(Command):
     A command that allows the user to pass in functions for each of the basic command methods through
     the constructor. Useful for inline definitions of complex commands - note, however, that if a
     command is beyond a certain complexity it is usually better practice to write a proper class for
-    it than to inline it."""
+    it than to inline it.
+    """
 
     def __init__(
         self,
@@ -28,7 +30,8 @@ class FunctionalCommand(Command):
         :param onExecute: the function to run on command execution
         :param onEnd: the function to run on command end
         :param isFinished: the function that determines whether the command has finished
-        :param requirements: the subsystems required by this command"""
+        :param requirements: the subsystems required by this command
+        """
         super().__init__()
 
         assert callable(onInit)

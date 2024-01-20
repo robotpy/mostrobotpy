@@ -1,3 +1,4 @@
+# validated: 2024-01-20 DS 192a28af4731 TrapezoidProfileSubsystem.java
 # Copyright (c) FIRST and other WPILib contributors.
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
@@ -5,8 +6,11 @@ from __future__ import annotations
 
 from typing import Union
 
-from .subsystem import Subsystem
+from wpimath import units
 from wpimath.trajectory import TrapezoidProfile
+
+
+from .subsystem import Subsystem
 
 
 class TrapezoidProfileSubsystem(Subsystem):
@@ -19,7 +23,7 @@ class TrapezoidProfileSubsystem(Subsystem):
         self,
         constraints: TrapezoidProfile.Constraints,
         initial_position: float = 0.0,
-        period: float = 0.02,
+        period: units.seconds = 0.02,
     ):
         """
         Creates a new TrapezoidProfileSubsystem.
@@ -49,8 +53,8 @@ class TrapezoidProfileSubsystem(Subsystem):
         Sets the goal state for the subsystem. Goal velocity assumed to be zero.
 
         :param goal: The goal position for the subsystem's motion profile. The goal
-        can either be a `TrapezoidProfile.State` or `float`. If float is provided,
-        the assumed velocity for the goal will be 0.
+                     can either be a `TrapezoidProfile.State` or `float`. If float is provided,
+                     the assumed velocity for the goal will be 0.
         """
         # If we got a float, instantiate the state
         if isinstance(goal, (float, int)):
