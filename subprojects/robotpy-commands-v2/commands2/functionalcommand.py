@@ -31,6 +31,11 @@ class FunctionalCommand(Command):
         :param requirements: the subsystems required by this command"""
         super().__init__()
 
+        assert callable(onInit)
+        assert callable(onExecute)
+        assert callable(onEnd)
+        assert callable(isFinished)
+
         self._onInit = onInit
         self._onExecute = onExecute
         self._onEnd = onEnd
