@@ -63,7 +63,6 @@ __all__ = [
     "WaitCommand",
     "WaitUntilCommand",
     "WrapperCommand",
-    "Trigger",  # was here in 2023
 ]
 
 if not TYPE_CHECKING:
