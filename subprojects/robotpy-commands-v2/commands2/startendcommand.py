@@ -27,6 +27,8 @@ class StartEndCommand(FunctionalCommand):
         :param onInit: the Runnable to run on command init
         :param onEnd: the Runnable to run on command end
         :param requirements: the subsystems required by this command"""
+        assert callable(onInit)
+        assert callable(onEnd)
         super().__init__(
             onInit, lambda: None, lambda _: onEnd(), lambda: False, *requirements
         )

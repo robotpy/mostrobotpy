@@ -36,6 +36,7 @@ class ProxyCommand(Command):
         super().__init__()
 
         def init_supplier(supplier: Callable[[], Command]):
+            assert callable(supplier)
             self._supplier = supplier
 
         def init_command(command: Command):

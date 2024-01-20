@@ -39,6 +39,7 @@ class WaitUntilCommand(Command):
         super().__init__()
 
         def init_condition(condition: Callable[[], bool]) -> None:
+            assert callable(condition)
             self._condition = condition
 
         def init_time(time: float) -> None:

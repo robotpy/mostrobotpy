@@ -20,6 +20,7 @@ class InstantCommand(FunctionalCommand):
 
         :param toRun: the Runnable to run
         :param requirements: the subsystems required by this command"""
+        assert toRun is None or callable(toRun)
         super().__init__(
             toRun or (lambda: None),
             lambda: None,

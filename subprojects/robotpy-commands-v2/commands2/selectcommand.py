@@ -28,6 +28,8 @@ class SelectCommand(Command):
         :param selector: the selector to determine which command to run"""
         super().__init__()
 
+        assert callable(selector)
+
         self._commands = commands
         self._selector = selector
 

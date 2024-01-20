@@ -19,6 +19,7 @@ class RunCommand(FunctionalCommand):
 
         :param toRun: the Runnable to run
         :param requirements: the subsystems to require"""
+        assert callable(toRun)
         super().__init__(
             lambda: None, toRun, lambda interrupted: None, lambda: False, *requirements
         )

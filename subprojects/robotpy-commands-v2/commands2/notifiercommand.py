@@ -29,6 +29,8 @@ class NotifierCommand(Command):
         :param requirements: the subsystems required by this command"""
         super().__init__()
 
+        assert callable(toRun)
+
         self.notifier = Notifier(toRun)
         self.period = period
         self.addRequirements(*requirements)

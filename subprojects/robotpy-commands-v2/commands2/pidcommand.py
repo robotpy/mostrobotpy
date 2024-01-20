@@ -38,6 +38,9 @@ class PIDCommand(Command):
         """
         super().__init__()
 
+        assert callable(measurementSource)
+        assert callable(useOutput)
+
         self._controller = controller
         self._useOutput = useOutput
         self._measurement = measurementSource
