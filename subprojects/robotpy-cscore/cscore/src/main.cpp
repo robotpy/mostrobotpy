@@ -3,6 +3,12 @@
 
 #include "cscore_cpp.h"
 
+#ifdef __FRC_ROBORIO__
+extern "C" {
+    void WPI_Impl_SetupNowUseDefaultOnRio(void);
+}
+#endif
+
 RPYBUILD_PYBIND11_MODULE(m) {
     initWrapper(m);
 
@@ -16,4 +22,8 @@ RPYBUILD_PYBIND11_MODULE(m) {
         CS_Shutdown();
     });
     m.add_object("_cleanup", cleanup);
+
+    #ifdef __FRC_ROBORIO__
+    m.def("_setupWpiNow", WPI_Impl_SetupNowUseDefaultOnRio);
+    #endif
 }

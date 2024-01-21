@@ -159,4 +159,12 @@ def main():
 
 
 if __name__ == "__main__":
+    # Setup wpi::now on roborio when executed as __main__
+    try:
+        from ._cscore import _setupWpiNow  # type: ignore
+
+        _setupWpiNow()
+    except ImportError:
+        pass
+
     main()
