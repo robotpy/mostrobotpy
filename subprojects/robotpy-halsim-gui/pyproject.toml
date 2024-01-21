@@ -15,10 +15,10 @@ install_requires = [
 [build-system]
 requires = [
     "robotpy-build<2025.0.0,~=2024.0.0",
-    "robotpy-wpiutil~=2024.1.1",
-    "robotpy-wpimath~=2024.1.1",
-    "robotpy-hal~=2024.1.1",
-    "pyntcore~=2024.1.1",
+    "robotpy-wpiutil~=2024.2.1",
+    "robotpy-wpimath~=2024.2.1",
+    "robotpy-hal~=2024.2.1",
+    "pyntcore~=2024.2.1",
 ]
 
 [tool.robotpy-build]
@@ -30,7 +30,7 @@ artifact_id = "halsim_gui"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.1.1"
+version = "2024.2.1"
 
 dlopenlibs = ["halsim_gui"]
 
