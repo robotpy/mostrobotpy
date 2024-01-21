@@ -21,10 +21,6 @@ extensions = [
     "robotpy_sphinx.all",
 ]
 
-local_extensions = [
-    "_extensions.rtd_patch",
-]
-extensions += local_extensions
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
