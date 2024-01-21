@@ -24,6 +24,8 @@ classes:
       AddFollower:
         overloads:
           PWMMotorController&:
+            keepalive:
+            - [1, 2]
           T&&:
             ignore: true
       PWMMotorController:
