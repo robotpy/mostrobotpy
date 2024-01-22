@@ -34,5 +34,5 @@ def test_redecoratedCommandError(scheduler: commands2.CommandScheduler):
     command.withTimeout(10).until(lambda: False)
     with pytest.raises(commands2.IllegalCommandUse):
         command.withTimeout(10)
-    scheduler.removeComposedCommands([command])
+    scheduler.removeComposedCommand(command)
     command.withTimeout(10)

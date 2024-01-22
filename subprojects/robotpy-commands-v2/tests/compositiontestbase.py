@@ -40,6 +40,30 @@ if not IS_OLD_COMMANDS:
             )
             assert command.runsWhenDisabled() == runsWhenDisabled
 
+        def test_command_in_other_composition(self):
+            command = commands2.InstantCommand()
+            wrapped = commands2.WrapperCommand(command)
+            with pytest.raises(commands2.IllegalCommandUse):
+                self.composeSingle(command)
+
+        def test_command_in_multiple_compositions(self):
+            command = commands2.InstantCommand()
+            self.composeSingle(command)
+            with pytest.raises(commands2.IllegalCommandUse):
+                self.composeSingle(command)
+
+        def test_compose_then_schedule(self, scheduler: commands2.CommandScheduler):
+            command = commands2.InstantCommand()
+            self.composeSingle(command)
+            with pytest.raises(commands2.IllegalCommandUse):
+                scheduler.schedule(command)
+
+        def test_schedule_then_compose(self, scheduler: commands2.CommandScheduler):
+            command = commands2.RunCommand(lambda: None)
+            scheduler.schedule(command)
+            with pytest.raises(commands2.IllegalCommandUse):
+                self.composeSingle(command)
+
     class MultiCompositionTestBase(SingleCompositionTestBase):
         def compose(self, *members: commands2.Command):
             raise NotImplementedError
