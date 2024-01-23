@@ -22,3 +22,11 @@ classes:
       IsEnabled:
       SetEnabled:
       UpdateValues:
+
+inline_code: |
+  static int unused;
+  py::capsule cleanup(&unused, [](void *) {
+    frc::LiveWindow::SetEnabledCallback(nullptr);
+    frc::LiveWindow::SetDisabledCallback(nullptr);
+  });
+  m.add_object("_lw_cleanup", cleanup);
