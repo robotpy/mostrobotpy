@@ -49,9 +49,11 @@ class ParallelRaceGroup(Command):
         CommandScheduler.getInstance().registerComposedCommands(commands)
 
         for command in commands:
-            if not command.getRequirements().isdisjoint(self.requirements):
+            in_common = command.getRequirements().intersection(self.requirements)
+            if in_common:
                 raise IllegalCommandUse(
-                    "Multiple comands in a parallel composition cannot require the same subsystems."
+                    "Multiple commands in a parallel composition cannot require the same subsystems.",
+                    common=in_common,
                 )
 
             self._commands.add(command)

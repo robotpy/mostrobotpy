@@ -76,4 +76,4 @@ class TrapezoidProfileSubsystem(Subsystem):
 
         :param state: The current state of the motion profile.
         """
-        raise NotImplementedError("Subclasses must implement this method")
+        raise NotImplementedError(f"{self.__class__} must implement useState")

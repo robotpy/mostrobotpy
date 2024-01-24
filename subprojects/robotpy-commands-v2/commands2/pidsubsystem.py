@@ -71,7 +71,7 @@ class PIDSubsystem(Subsystem):
         :param output: The output of the PIDController.
         :param setpoint: The setpoint of the PIDController (for feedforward).
         """
-        raise NotImplementedError("Subclasses must implement this method")
+        raise NotImplementedError(f"{self.__class__} must implement useOutput")
 
     def getMeasurement(self) -> float:
         """
@@ -79,7 +79,7 @@ class PIDSubsystem(Subsystem):
 
         :return: The measurement of the process variable.
         """
-        raise NotImplementedError("Subclasses must implement this method")
+        raise NotImplementedError(f"{self.__class__} must implement getMeasurement")
 
     def enable(self):
         """Enables the PID control. Resets the controller."""
