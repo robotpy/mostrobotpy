@@ -12,7 +12,7 @@ setuptools.setup(
     url="https://github.com/robotpy/robotpy-commands-v2",
     packages=["commands2"],
     install_requires=[
-        "wpilib<2025,>=2024.0.0b2",
+        "wpilib<2025,>=2024.2.1.2",
         "typing_extensions>=4.1.0,<5",
     ],
     license="BSD-3-Clause",
