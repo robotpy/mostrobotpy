@@ -16,6 +16,7 @@ from .parallelracegroup import ParallelRaceGroup
 from .pidcommand import PIDCommand
 from .pidsubsystem import PIDSubsystem
 from .printcommand import PrintCommand
+from .profiledpidcommand import ProfiledPIDCommand
 from .profiledpidsubsystem import ProfiledPIDSubsystem
 from .proxycommand import ProxyCommand
 from .repeatcommand import RepeatCommand
@@ -53,6 +54,7 @@ __all__ = [
     "PIDCommand",
     "PIDSubsystem",
     "PrintCommand",
+    "ProfiledPIDCommand",
     "ProfiledPIDSubsystem",
     "ProxyCommand",
     "RepeatCommand",
