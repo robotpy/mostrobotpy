@@ -29,43 +29,6 @@ def full_subclass_of(cls: Type[Y]) -> Type[Y]:
     return retlist[0]
 
 
-###################
-# Compat for wrapped commands
-IS_OLD_COMMANDS = False
-try:
-    if commands2.__version__ == "2023.4.3.0":  # type: ignore
-        IS_OLD_COMMANDS = True
-except AttributeError:
-    pass
-
-if IS_OLD_COMMANDS:
-    # not needed for pure but works in pure
-    import commands2.button
-
-    # In Java, Trigger is in the same package as Button
-    # I did rexport it in commands so using
-    # the incorrect `commands2.Trigger` instead of `commands2.button.Trigger` works
-    commands2.button.Trigger = commands2.Trigger
-
-    # I moved this so its not a nested Enum.
-    # The old one is still there for compat
-    commands2.InterruptionBehavior = commands2.Command.InterruptionBehavior
-
-    commands2.Command = commands2.CommandBase
-
-    for name in dir(commands2):
-        if name == "CommandScheduler":
-            continue
-        value = getattr(commands2, name)
-        if inspect.isclass(value):
-            setattr(commands2, name, full_subclass_of(value))
-
-    commands2.IllegalCommandUse = RuntimeError
-
-
-###################
-
-
 class ManualSimTime:
     def __enter__(self) -> "ManualSimTime":
         pauseTiming()

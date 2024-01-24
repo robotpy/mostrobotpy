@@ -28,7 +28,6 @@ def test_commandInGroupExternallyScheduled(scheduler: commands2.CommandScheduler
         scheduler.schedule(command1)
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_redecoratedCommandError(scheduler: commands2.CommandScheduler):
     command = commands2.InstantCommand()
     command.withTimeout(10).until(lambda: False)

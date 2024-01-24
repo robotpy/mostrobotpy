@@ -34,7 +34,6 @@ def test_requirementInterrupt(scheduler: commands2.CommandScheduler):
     assert interrupter.isScheduled()
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_requirementUninterruptible(scheduler: commands2.CommandScheduler):
     requirement = commands2.Subsystem()
     notInterrupted = commands2.RunCommand(
