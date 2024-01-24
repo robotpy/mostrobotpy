@@ -5,6 +5,7 @@ from . import cmd
 
 from .commandscheduler import CommandScheduler
 from .conditionalcommand import ConditionalCommand
+from .deferredcommand import DeferredCommand
 from .exceptions import IllegalCommandUse
 from .functionalcommand import FunctionalCommand
 from .instantcommand import InstantCommand
@@ -38,6 +39,7 @@ __all__ = [
     "Command",
     "CommandScheduler",
     "ConditionalCommand",
+    "DeferredCommand",
     "FunctionalCommand",
     "IllegalCommandUse",
     "InstantCommand",
