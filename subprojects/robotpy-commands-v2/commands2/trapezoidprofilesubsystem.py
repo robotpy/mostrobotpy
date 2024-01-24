@@ -1,13 +1,15 @@
 # validated: 2024-01-20 DS 192a28af4731 TrapezoidProfileSubsystem.java
+#
 # Copyright (c) FIRST and other WPILib contributors.
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
+#
 from __future__ import annotations
 
-from typing import Union
+from typing import Any, Union
 
 from wpimath import units
-from wpimath.trajectory import TrapezoidProfile
+from wpimath.trajectory import TrapezoidProfile, TrapezoidProfileRadians
 
 
 from .subsystem import Subsystem
@@ -19,9 +21,14 @@ class TrapezoidProfileSubsystem(Subsystem):
     how to use the current state of the motion profile by overriding the `useState` method.
     """
 
+    _profile: Any
+    _stateCls: Any
+
     def __init__(
         self,
-        constraints: TrapezoidProfile.Constraints,
+        constraints: Union[
+            TrapezoidProfile.Constraints, TrapezoidProfileRadians.Constraints
+        ],
         initial_position: float = 0.0,
         period: units.seconds = 0.02,
     ):
@@ -32,8 +39,16 @@ class TrapezoidProfileSubsystem(Subsystem):
         :param initial_position: The initial position of the controlled mechanism when the subsystem is constructed.
         :param period: The period of the main robot loop, in seconds.
         """
-        self._profile = TrapezoidProfile(constraints)
-        self._state = TrapezoidProfile.State(initial_position, 0)
+        if isinstance(constraints, TrapezoidProfile.Constraints):
+            self._profile = TrapezoidProfile(constraints)
+            self._stateCls = TrapezoidProfile.State
+        elif isinstance(constraints, TrapezoidProfileRadians.Constraints):
+            self._profile = TrapezoidProfileRadians(constraints)
+            self._stateCls = TrapezoidProfileRadians.State
+        else:
+            raise ValueError(f"Invalid constraints {constraints}")
+
+        self._state = self._stateCls(initial_position, 0)
         self.setGoal(initial_position)
         self._period = period
         self._enabled = True
@@ -44,11 +59,11 @@ class TrapezoidProfileSubsystem(Subsystem):
 
         This method is called synchronously from the subsystem's periodic() method.
         """
-        self._state = self._profile.calculate(self._period, self._goal, self._state)
+        self._state = self._profile.calculate(self._period, self._state, self._goal)
         if self._enabled:
             self.useState(self._state)
 
-    def setGoal(self, goal: Union[TrapezoidProfile.State, float]):
+    def setGoal(self, goal):
         """
         Sets the goal state for the subsystem. Goal velocity assumed to be zero.
 
@@ -58,7 +73,7 @@ class TrapezoidProfileSubsystem(Subsystem):
         """
         # If we got a float, instantiate the state
         if isinstance(goal, (float, int)):
-            goal = TrapezoidProfile.State(goal, 0)
+            goal = self._stateCls(goal, 0)
 
         self._goal = goal
 
@@ -70,7 +85,7 @@ class TrapezoidProfileSubsystem(Subsystem):
         """Disable the TrapezoidProfileSubsystem's output."""
         self._enabled = False
 
-    def useState(self, state: TrapezoidProfile.State):
+    def useState(self, state):
         """
         Users should override this to consume the current state of the motion profile.
 
