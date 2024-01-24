@@ -360,7 +360,11 @@ class CommandScheduler(Sendable):
         self.requireNotComposed(defaultCommand)
 
         if subsystem not in defaultCommand.getRequirements():
-            raise IllegalCommandUse("Default commands must require their subsystem!")
+            raise IllegalCommandUse(
+                "Default commands must require their subsystem!",
+                command=defaultCommand,
+                subsystem=subsystem,
+            )
 
         if (
             defaultCommand.getInterruptionBehavior()
@@ -589,7 +593,8 @@ class CommandScheduler(Sendable):
             if location is not None:
                 raise IllegalCommandUse(
                     "Commands that have been composed may not be added to another"
-                    f"composition or scheduled individually (originally composed at {location})"
+                    f"composition or scheduled individually (originally composed at {location})",
+                    command=command,
                 )
 
     def requireNotComposedOrScheduled(self, *commands: Command) -> None:
@@ -604,7 +609,8 @@ class CommandScheduler(Sendable):
         for command in commands:
             if self.isScheduled(command):
                 raise IllegalCommandUse(
-                    "Commands that have been scheduled individually may not be added to a composition!"
+                    "Commands that have been scheduled individually may not be added to a composition!",
+                    command=command,
                 )
             self.requireNotComposed(command)
 

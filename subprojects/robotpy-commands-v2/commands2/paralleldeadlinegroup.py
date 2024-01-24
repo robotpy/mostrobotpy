@@ -60,7 +60,8 @@ class ParallelDeadlineGroup(Command):
 
         if deadline in self._commands:
             raise IllegalCommandUse(
-                f"The deadline command cannot also be in the other commands!"
+                f"The deadline command cannot also be in the other commands!",
+                deadline=deadline,
             )
         self.addCommands(deadline)
         self._deadline = deadline
@@ -82,9 +83,11 @@ class ParallelDeadlineGroup(Command):
         CommandScheduler.getInstance().registerComposedCommands(commands)
 
         for command in commands:
-            if not command.getRequirements().isdisjoint(self.requirements):
+            in_common = command.getRequirements().intersection(self.requirements)
+            if in_common:
                 raise IllegalCommandUse(
-                    "Multiple commands in a parallel composition cannot require the same subsystems."
+                    "Multiple commands in a parallel composition cannot require the same subsystems.",
+                    common=in_common,
                 )
 
             self._commands[command] = False
