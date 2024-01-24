@@ -1,7 +1,7 @@
+# validated: 2024-01-19 DS aaea85ff1656 ScheduleCommand.java
 from __future__ import annotations
 
 from .command import Command
-from .commandgroup import *
 
 
 class ScheduleCommand(Command):
@@ -15,12 +15,13 @@ class ScheduleCommand(Command):
         """
         Creates a new ScheduleCommand that schedules the given commands when initialized.
 
-        :param toSchedule: the commands to schedule"""
+        :param toSchedule: the commands to schedule
+        """
         super().__init__()
-        self.toSchedule = set(commands)
+        self._toSchedule = set(commands)
 
     def initialize(self):
-        for command in self.toSchedule:
+        for command in self._toSchedule:
             command.schedule()
 
     def isFinished(self) -> bool:

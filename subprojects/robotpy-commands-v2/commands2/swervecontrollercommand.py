@@ -1,9 +1,10 @@
+# validated: 2024-01-20 DS 192a28af4731 SwerveControllerCommand.java
 # Copyright (c) FIRST and other WPILib contributors.
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
 from __future__ import annotations
 from typing import Callable, Optional, Union, Tuple, Sequence
-from typing_extensions import overload
+
 from wpimath.controller import (
     HolonomicDriveController,
 )
@@ -24,10 +25,11 @@ from .subsystem import Subsystem
 
 class SwerveControllerCommand(Command):
     """
-    A command that uses two PID controllers (PIDController) and a ProfiledPIDController
-    (ProfiledPIDController) to follow a trajectory (Trajectory) with a swerve drive.
+    A command that uses two PID controllers (:class:`wpimath.controller.PIDController`)
+    and a HolonomicDriveController (:class:`wpimath.controller.HolonomicDriveController`)
+    to follow a trajectory (:class:`wpimath.trajectory.Trajectory`) with a swerve drive.
 
-    This command outputs the raw desired Swerve Module States (SwerveModuleState) in an
+    This command outputs the raw desired Swerve Module States (:class:`wpimath.kinematics.SwerveModuleState`) in an
     array. The desired wheel and module rotation velocities should be taken from those and used in
     velocity PIDs.
 

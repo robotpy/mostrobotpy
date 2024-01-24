@@ -1,3 +1,4 @@
+# validated: 2024-01-19 DS f29a7d2e501b PIDSubsystem.java
 # Copyright (c) FIRST and other WPILib contributors.
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
@@ -10,7 +11,7 @@ from .subsystem import Subsystem
 
 class PIDSubsystem(Subsystem):
     """
-    A subsystem that uses a {@link PIDController} to control an output. The
+    A subsystem that uses a :class:`wpimath.controller.PIDController` to control an output. The
     controller is run synchronously from the subsystem's periodic() method.
     """
 

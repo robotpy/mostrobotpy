@@ -1,3 +1,4 @@
+# validated: 2024-01-20 DS d426873ed15b button/CommandPS4Controller.java
 from typing import Optional
 
 from wpilib import PS4Controller
@@ -24,7 +25,7 @@ class CommandPS4Controller(CommandGenericHID):
         super().__init__(port)
         self._hid = PS4Controller(port)
 
-    def getHID(self):
+    def getHID(self) -> PS4Controller:
         """
         Get the underlying GenericHID object.
 
@@ -36,9 +37,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the L2 button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the L2 button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -48,9 +51,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the R2 button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the R2 button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -60,9 +65,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the L1 button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the L1 button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -72,7 +79,9 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the R1 button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the R1 button's digital signal attached to the given
             loop.
         """
@@ -84,9 +93,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the L3 button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the L3 button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -96,9 +107,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the R3 button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the R3 button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -108,9 +121,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the square button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the square button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -120,9 +135,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the cross button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the cross button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -132,9 +149,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the triangle button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the triangle button's digital signal attached to the
-            given loop.
+                  given loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -144,7 +163,9 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the circle button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the circle button's digital signal attached to the given
             loop.
         """
@@ -156,9 +177,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the share button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the share button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -168,9 +191,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the PS button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the PS button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -180,9 +205,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the options button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the options button's digital signal attached to the
-            given loop.
+                  given loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -192,9 +219,11 @@ class CommandPS4Controller(CommandGenericHID):
         """
         Constructs an event instance around the touchpad's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the touchpad's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()

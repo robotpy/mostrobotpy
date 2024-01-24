@@ -1,3 +1,4 @@
+# validated: 2024-01-20 DS 7a099cb02a33 button/NetworkButton.java
 from typing import overload
 
 from ntcore import BooleanSubscriber, BooleanTopic, NetworkTable, NetworkTableInstance
@@ -8,9 +9,7 @@ from .trigger import Trigger
 
 class NetworkButton(Trigger):
     """
-    A Button that uses a NetworkTable boolean field.
-
-    This class is provided by the NewCommands VendorDep
+    A Button that uses a :class:`ntcore.NetworkTable` boolean field.
     """
 
     @overload
@@ -121,7 +120,7 @@ TypeError: NetworkButton(): incompatible function arguments. The following argum
     3. (self: NetworkButton, table: NetworkTable, field: str)
     4. (self: NetworkButton, table: str, field: str)
     5. (self: NetworkButton, inst: NetworkTableInstance, table: str, field: str)
-                        
+
 Invoked with: {format_args_kwargs(self, *args, **kwargs)}
 """
         )

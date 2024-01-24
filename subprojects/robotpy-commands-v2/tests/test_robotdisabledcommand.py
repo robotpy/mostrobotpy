@@ -6,9 +6,6 @@ from util import *  # type: ignore
 if TYPE_CHECKING:
     from .util import *
 
-if IS_OLD_COMMANDS:
-    import commands2.cmd
-
 import pytest
 from wpilib import RobotState
 

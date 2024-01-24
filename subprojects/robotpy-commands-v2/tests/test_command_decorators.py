@@ -33,7 +33,6 @@ def test_until(scheduler: commands2.CommandScheduler):
     assert not command.isScheduled()
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_only_while(scheduler: commands2.CommandScheduler):
     condition = OOBoolean(True)
     command = commands2.WaitCommand(10).onlyWhile(condition)
@@ -45,7 +44,6 @@ def test_only_while(scheduler: commands2.CommandScheduler):
     assert not command.isScheduled()
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_ignoringDisable(scheduler: commands2.CommandScheduler):
     command = commands2.RunCommand(lambda: None).ignoringDisable(True)
     DriverStationSim.setEnabled(False)
@@ -127,17 +125,6 @@ def test_raceWith(scheduler: commands2.CommandScheduler):
     assert not group.isScheduled()
 
 
-def test_perpetually(scheduler: commands2.CommandScheduler):
-    command = commands2.InstantCommand()
-    perpetual = command.perpetually()
-    scheduler.schedule(perpetual)
-    scheduler.run()
-    scheduler.run()
-    scheduler.run()
-    assert perpetual.isScheduled()
-
-
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_unless(scheduler: commands2.CommandScheduler):
     unlessCondition = OOBoolean(True)
     hasRunCondition = OOBoolean(False)
@@ -155,7 +142,6 @@ def test_unless(scheduler: commands2.CommandScheduler):
     assert hasRunCondition == True
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_onlyIf(scheduler: commands2.CommandScheduler):
     onlyIfCondition = OOBoolean(False)
     hasRunCondition = OOBoolean(False)
@@ -173,7 +159,6 @@ def test_onlyIf(scheduler: commands2.CommandScheduler):
     assert hasRunCondition == True
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_finallyDo(scheduler: commands2.CommandScheduler):
     first = OOInteger(0)
     second = OOInteger(0)
@@ -193,7 +178,6 @@ def test_finallyDo(scheduler: commands2.CommandScheduler):
     assert second == 2
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_handleInterrupt(scheduler: commands2.CommandScheduler):
     first = OOInteger(0)
     second = OOInteger(0)
@@ -214,7 +198,6 @@ def test_handleInterrupt(scheduler: commands2.CommandScheduler):
     assert second == 2
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_withName(scheduler: commands2.CommandScheduler):
     command = commands2.InstantCommand()
     name = "Named"

@@ -1,3 +1,4 @@
+# validated: 2024-01-23 DS 70b60e3a7465 button/Trigger.java
 from types import SimpleNamespace
 from typing import Callable, overload
 
@@ -44,6 +45,7 @@ class Trigger:
 
     def __init__(self, *args, **kwargs):
         def init_loop_condition(loop: EventLoop, condition: Callable[[], bool]):
+            assert callable(condition)
             self._loop = loop
             self._condition = condition
 
@@ -77,7 +79,7 @@ TypeError: Trigger(): incompatible function arguments. The following argument ty
     1. (self: Trigger)
     2. (self: Trigger, condition: () -> bool)
     3. (self: Trigger, loop: EventLoop, condition: () -> bool)
-                        
+
 Invoked with: {format_args_kwargs(self, *args, **kwargs)}
 """
         )
@@ -90,8 +92,10 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
+        state = SimpleNamespace(pressed_last=self._condition())
+
         @self._loop.bind
-        def _(state=SimpleNamespace(pressed_last=self._condition())):
+        def _():
             pressed = self._condition()
             if not state.pressed_last and pressed:
                 command.schedule()
@@ -107,8 +111,10 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
+        state = SimpleNamespace(pressed_last=self._condition())
+
         @self._loop.bind
-        def _(state=SimpleNamespace(pressed_last=self._condition())):
+        def _():
             pressed = self._condition()
             if state.pressed_last and not pressed:
                 command.schedule()
@@ -122,14 +128,16 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         changes to `False`.
 
         Doesn't re-start the command if it ends while the condition is still `True`. If the command
-        should restart, see RepeatCommand.
+        should restart, see :class:`commands2.RepeatCommand`.
 
         :param command: the command to start
         :returns: this trigger, so calls can be chained
         """
 
+        state = SimpleNamespace(pressed_last=self._condition())
+
         @self._loop.bind
-        def _(state=SimpleNamespace(pressed_last=self._condition())):
+        def _():
             pressed = self._condition()
             if not state.pressed_last and pressed:
                 command.schedule()
@@ -145,14 +153,16 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         condition changes to `True`.
 
         Doesn't re-start the command if it ends while the condition is still `False`. If the command
-        should restart, see RepeatCommand.
+        should restart, see :class:`commands2.RepeatCommand`.
 
         :param command: the command to start
         :returns: this trigger, so calls can be chained
         """
 
+        state = SimpleNamespace(pressed_last=self._condition())
+
         @self._loop.bind
-        def _(state=SimpleNamespace(pressed_last=self._condition())):
+        def _():
             pressed = self._condition()
             if state.pressed_last and not pressed:
                 command.schedule()
@@ -170,8 +180,10 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
+        state = SimpleNamespace(pressed_last=self._condition())
+
         @self._loop.bind
-        def _(state=SimpleNamespace(pressed_last=self._condition())):
+        def _():
             pressed = self._condition()
             if not state.pressed_last and pressed:
                 if command.isScheduled():
@@ -190,8 +202,10 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
+        state = SimpleNamespace(pressed_last=self._condition())
+
         @self._loop.bind
-        def _(state=SimpleNamespace(pressed_last=self._condition())):
+        def _():
             pressed = self._condition()
             if state.pressed_last and not pressed:
                 if command.isScheduled():
@@ -212,6 +226,7 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         return self._condition()
 
     def __and__(self, other: Callable[[], bool]) -> "Trigger":
+        assert callable(other)
         return Trigger(lambda: self() and other())
 
     def and_(self, other: Callable[[], bool]) -> "Trigger":
@@ -224,6 +239,7 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         return self & other
 
     def __or__(self, other: Callable[[], bool]) -> "Trigger":
+        assert callable(other)
         return Trigger(lambda: self() or other())
 
     def or_(self, other: Callable[[], bool]) -> "Trigger":

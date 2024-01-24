@@ -8,6 +8,8 @@
 import os
 from os.path import abspath, dirname
 
+from importlib.metadata import version as get_version
+
 # Project must be built+installed to generate docs
 import commands2
 
@@ -51,25 +53,15 @@ copyright = "2021, RobotPy development team"
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-#
-# The short X.Y version.
-version = ".".join(commands2.__version__.split(".")[:2])
-# The full version, including alpha/beta/rc tags.
-release = commands2.__version__
+
+release: str = get_version("robotpy-commands-v2")
+version: str = ".".join(release.split(".")[:2])
 
 autoclass_content = "both"
 
 intersphinx_mapping = {
-    "networktables": (
-        f"https://robotpy.readthedocs.io/projects/pynetworktables/en/{rtd_version}/",
-        None,
-    ),
-    "wpilib": (
-        f"https://robotpy.readthedocs.io/projects/wpilib/en/{rtd_version}/",
-        None,
-    ),
-    "wpimath": (
-        f"https://robotpy.readthedocs.io/projects/wpimath/en/{rtd_version}/",
+    "robotpy": (
+        f"https://robotpy.readthedocs.io/projects/robotpy/en/{rtd_version}/",
         None,
     ),
 }
@@ -83,13 +75,7 @@ pygments_style = "sphinx"
 
 # -- Options for HTML output ----------------------------------------------
 
-if not on_rtd:  # only import and set the theme if we're building docs locally
-    import sphinx_rtd_theme
-
-    html_theme = "sphinx_rtd_theme"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-else:
-    html_theme = "default"
+html_theme = "sphinx_rtd_theme"
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "RobotPyCommandDoc"
@@ -156,3 +142,4 @@ root = abspath(dirname(__file__))
 gen_package(root, "commands2")
 gen_package(root, "commands2.button")
 gen_package(root, "commands2.cmd")
+gen_package(root, "commands2.sysid")

@@ -22,3 +22,4 @@ using this pattern, we recommend that you consult the Java version of the
   commands2
   commands2.button
   commands2.cmd
+  commands2.sysid

@@ -1,3 +1,4 @@
+# validated: 2024-01-20 DS 92aecab2ef05 button/CommandJoystick.java
 from typing import Optional
 
 from wpilib import Joystick
@@ -10,7 +11,7 @@ from .trigger import Trigger
 
 class CommandJoystick(CommandGenericHID):
     """
-    A version of Joystick with Trigger factories for command-based.
+    A version of :class:`wpilib.Joystick` with :class:`.Trigger` factories for command-based.
     """
 
     _hid: Joystick
@@ -25,7 +26,7 @@ class CommandJoystick(CommandGenericHID):
         super().__init__(port)
         self._hid = Joystick(port)
 
-    def getHID(self):
+    def getHID(self) -> Joystick:
         """
         Get the underlying GenericHID object.
 
@@ -37,7 +38,9 @@ class CommandJoystick(CommandGenericHID):
         """
         Constructs an event instance around the trigger button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the trigger button's digital signal attached to the
             given loop.
         """
@@ -49,9 +52,11 @@ class CommandJoystick(CommandGenericHID):
         """
         Constructs an event instance around the top button's digital signal.
 
-        :param loop: the event loop instance to attach the event to.
+        :param loop: the event loop instance to attach the event to, defaults
+                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+
         :returns: an event instance representing the top button's digital signal attached to the given
-            loop.
+                  loop.
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
@@ -121,14 +126,6 @@ class CommandJoystick(CommandGenericHID):
         """
         return self._hid.getZChannel()
 
-    def getThrottleChannel(self) -> int:
-        """
-        Get the channel currently associated with the throttle axis.
-
-        :returns: The channel for the axis.
-        """
-        return self._hid.getThrottleChannel()
-
     def getTwistChannel(self) -> int:
         """
         Get the channel currently associated with the twist axis.
@@ -136,6 +133,14 @@ class CommandJoystick(CommandGenericHID):
         :returns: The channel for the axis.
         """
         return self._hid.getTwistChannel()
+
+    def getThrottleChannel(self) -> int:
+        """
+        Get the channel currently associated with the throttle axis.
+
+        :returns: The channel for the axis.
+        """
+        return self._hid.getThrottleChannel()
 
     def getX(self) -> float:
         """

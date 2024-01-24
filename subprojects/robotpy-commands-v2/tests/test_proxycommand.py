@@ -9,7 +9,6 @@ if TYPE_CHECKING:
 import pytest
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_proxyCommandSchedule(scheduler: commands2.CommandScheduler):
     command1 = commands2.Command()
     start_spying_on(command1)
@@ -21,7 +20,6 @@ def test_proxyCommandSchedule(scheduler: commands2.CommandScheduler):
     verify(command1).schedule()
 
 
-@pytest.mark.skipif(IS_OLD_COMMANDS, reason="not in old commands")
 def test_proxyCommandEnd(scheduler: commands2.CommandScheduler):
     cond = OOBoolean()
 

@@ -1,22 +1,22 @@
+# validated: 2024-01-19 DS aaea85ff1656 ParallelCommandGroup.java
 from __future__ import annotations
 
 from typing import Dict
 
-from commands2.command import Command, InterruptionBehavior
-
 from .command import Command, InterruptionBehavior
-from .commandgroup import *
 from .commandscheduler import CommandScheduler
+from .exceptions import IllegalCommandUse
 from .util import flatten_args_commands
 
 
-class ParallelCommandGroup(CommandGroup):
+class ParallelCommandGroup(Command):
     """
     A command composition that runs a set of commands in parallel, ending when the last command ends.
 
     The rules for command compositions apply: command instances that are passed to it cannot be
     added to any other composition or scheduled individually, and the composition requires all
-    subsystems its components require."""
+    subsystems its components require.
+    """
 
     def __init__(self, *commands: Command):
         """
@@ -24,7 +24,8 @@ class ParallelCommandGroup(CommandGroup):
         command composition will finish when the last command finishes. If the composition is
         interrupted, only the commands that are still running will be interrupted.
 
-        :param commands: the commands to include in this composition."""
+        :param commands: the commands to include in this composition.
+        """
         super().__init__()
         self._commands: Dict[Command, bool] = {}
         self._runsWhenDisabled = True
@@ -32,6 +33,11 @@ class ParallelCommandGroup(CommandGroup):
         self.addCommands(*commands)
 
     def addCommands(self, *commands: Command):
+        """
+        Adds the given commands to the group.
+
+        :param commands: Commands to add to the group
+        """
         commands = flatten_args_commands(commands)
         if True in self._commands.values():
             raise IllegalCommandUse(
