@@ -2,14 +2,15 @@
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
 
-from typing import Union, cast
+from typing import Generic
 
 from wpimath.trajectory import TrapezoidProfile
 
 from .subsystem import Subsystem
+from .typing import GenericProfiledPIDController
 
 
-class ProfiledPIDSubsystem(Subsystem):
+class ProfiledPIDSubsystem(Subsystem, Generic[GenericProfiledPIDController]):
     """
     A subsystem that uses a :class:`wpimath.controller.ProfiledPIDController`
     or :class:`wpimath.controller.ProfiledPIDControllerRadians` to
@@ -19,12 +20,12 @@ class ProfiledPIDSubsystem(Subsystem):
 
     def __init__(
         self,
-        controller,
+        controller: GenericProfiledPIDController,
         initial_position: float = 0,
     ):
         """Creates a new PIDSubsystem."""
         super().__init__()
-        self._controller = controller
+        self._controller: GenericProfiledPIDController = controller
         self._enabled = False
         self.setGoal(initial_position)
 
@@ -38,7 +39,7 @@ class ProfiledPIDSubsystem(Subsystem):
 
     def getController(
         self,
-    ):
+    ) -> GenericProfiledPIDController:
         """Returns the controller"""
         return self._controller
 
