@@ -1,0 +1,29 @@
+---
+name: cleanup branch caches
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - run: gh extension install actions/gh-actions-cache
+
+      - name: Cleanup
+        run: |
+          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH -L 100 | cut -f 1)
+
+          # Turn off errexit to not fail the workflow while deleting cache keys.
+          set +e
+          echo "Deleting caches..."
+          for cacheKey in $cacheKeysForPR
+          do
+              gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: refs/pull/${{ github.event.pull_request.number }}/merge
