@@ -1,4 +1,4 @@
-# validated: 2024-01-26 DV a2e4d0b15d4f sysid/SysIdRoutine.java
+# validated: 2024-01-26 DV 19c155647273 sysid/SysIdRoutine.java
 from dataclasses import dataclass
 from enum import Enum
 
@@ -96,7 +96,7 @@ class SysIdRoutine(SysIdRoutineLog):
         :param config:    Hardware-independent parameters for the SysId routine.
         :param mechanism: Hardware interface for the SysId routine.
         """
-        super().__init__(mechanism.subsystem.getName())
+        super().__init__(mechanism.name)
         self.config = config
         self.mechanism = mechanism
         self.outputVolts = 0.0
