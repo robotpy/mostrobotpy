@@ -4,9 +4,7 @@ enums:
   State:
     subpackage: sysid
     inline_code: |
-      .def("__str__", [](State self) {
-        return SysIdRoutineLog::StateEnumToString(self);
-      })
+      .def("__str__", &SysIdRoutineLog::StateEnumToString)
 
 classes:
   SysIdRoutineLog:
