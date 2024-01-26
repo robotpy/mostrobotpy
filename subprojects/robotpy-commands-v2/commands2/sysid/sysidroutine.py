@@ -1,5 +1,5 @@
 # validated: 2024-01-26 DV 19c155647273 sysid/SysIdRoutine.java
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum
 
 from wpilib.sysid import SysIdRoutineLog, State
@@ -78,10 +78,10 @@ class SysIdRoutine(SysIdRoutineLog):
         drive: Callable[[volts], None]
         log: Callable[[SysIdRoutineLog], None]
         subsystem: Subsystem
-        name: Optional[str] = None
+        name: str = None  # type: ignore[assignment]
 
         def __post_init__(self):
-            if self.name == None:
+            if self.name is None:
                 self.name = self.subsystem.getName()
 
     class Direction(Enum):
