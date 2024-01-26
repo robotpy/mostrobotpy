@@ -56,8 +56,10 @@ class DeferredCommand(Command):
         super().initSendable(builder)
         builder.addStringProperty(
             "deferred",
-            lambda: "null"
-            if self._command is self._null_command
-            else self._command.getName(),
+            lambda: (
+                "null"
+                if self._command is self._null_command
+                else self._command.getName()
+            ),
             lambda _: None,
         )

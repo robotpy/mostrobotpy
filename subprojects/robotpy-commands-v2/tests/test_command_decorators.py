@@ -64,8 +64,7 @@ def test_beforeStarting(scheduler: commands2.CommandScheduler):
 
 
 @pytest.mark.skip
-def test_andThenLambda(scheduler: commands2.CommandScheduler):
-    ...
+def test_andThenLambda(scheduler: commands2.CommandScheduler): ...
 
 
 def test_andThen(scheduler: commands2.CommandScheduler):
