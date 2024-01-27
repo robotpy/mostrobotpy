@@ -39,7 +39,7 @@ class CommandGenericHID:
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getRawButtonPressed(button))
+        return Trigger(loop, lambda: self._hid.getRawButton(button))
 
     def pov(
         self, angle: int, *, pov: int = 0, loop: Optional[EventLoop] = None
