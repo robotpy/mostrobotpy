@@ -22,8 +22,8 @@ base_package = "wpimath"
 [tool.robotpy-build.wrappers."wpimath._impl".maven_lib_download]
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.2.1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2024.2.1-10-g84ef71a"
 
 
 libs = ["wpimath"]

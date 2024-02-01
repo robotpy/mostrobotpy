@@ -26,16 +26,16 @@ base_package = "cscore"
 [tool.robotpy-build.static_libs."cscore_cpp".maven_lib_download]
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.2.1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2024.2.1-10-g84ef71a"
 
 libs = ["cscore"]
 
 [tool.robotpy-build.static_libs."cameraserver_cpp".maven_lib_download]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.2.1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2024.2.1-10-g84ef71a"
 
 libs = ["cameraserver"]
 

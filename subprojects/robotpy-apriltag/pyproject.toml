@@ -23,8 +23,8 @@ base_package = "robotpy_apriltag"
 [tool.robotpy-build.wrappers."robotpy_apriltag".maven_lib_download]
 artifact_id = "apriltag-cpp"
 group_id = "edu.wpi.first.apriltag"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.2.1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2024.2.1-10-g84ef71a"
 
 libs = ["apriltag"]
 

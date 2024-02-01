@@ -14,8 +14,8 @@ generation_data = "gen"
 artifact_id = "wpinet-cpp"
 group_id = "edu.wpi.first.wpinet"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.2.1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2024.2.1-10-g84ef71a"
 
 libs = ["wpinet"]
 
