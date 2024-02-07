@@ -9,6 +9,11 @@ install_requires = [
     "wpilib==THIS_VERSION"
 ]
 
+[tool.robotpy-build.metadata.entry_points]
+robotpysimext = [
+    "xrp = xrp.extension",
+]
+
 [build-system]
 requires = [
     "robotpy-build<2025.0.0,~=2024.0.0",
@@ -45,3 +50,16 @@ group_id = "edu.wpi.first.xrpVendordep"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2024.2.1"
 libs = ["xrpVendordep"]
+
+[tool.robotpy-build.wrappers."xrp.extension".maven_lib_download]
+artifact_id = "halsim_xrp"
+group_id = "edu.wpi.first.halsim"
+# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2024.2.1"
+
+dlopenlibs = ["halsim_xrp"]
+
+[tool.robotpy-build.wrappers."xrp.extension"]
+name = "xrp_ext"
+depends = ["wpiHal", "wpinet"]
