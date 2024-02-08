@@ -7,10 +7,10 @@ from typing import Generic
 from wpimath.trajectory import TrapezoidProfile
 
 from .subsystem import Subsystem
-from .typing import GenericProfiledPIDController
+from .typing import TProfiledPIDController
 
 
-class ProfiledPIDSubsystem(Subsystem, Generic[GenericProfiledPIDController]):
+class ProfiledPIDSubsystem(Subsystem, Generic[TProfiledPIDController]):
     """
     A subsystem that uses a :class:`wpimath.controller.ProfiledPIDController`
     or :class:`wpimath.controller.ProfiledPIDControllerRadians` to
@@ -20,12 +20,12 @@ class ProfiledPIDSubsystem(Subsystem, Generic[GenericProfiledPIDController]):
 
     def __init__(
         self,
-        controller: GenericProfiledPIDController,
+        controller: TProfiledPIDController,
         initial_position: float = 0,
     ):
         """Creates a new PIDSubsystem."""
         super().__init__()
-        self._controller: GenericProfiledPIDController = controller
+        self._controller: TProfiledPIDController = controller
         self._enabled = False
         self.setGoal(initial_position)
 
@@ -39,7 +39,7 @@ class ProfiledPIDSubsystem(Subsystem, Generic[GenericProfiledPIDController]):
 
     def getController(
         self,
-    ) -> GenericProfiledPIDController:
+    ) -> TProfiledPIDController:
         """Returns the controller"""
         return self._controller
 
