@@ -7,10 +7,12 @@ from typing import Generic
 from wpimath.trajectory import TrapezoidProfile
 
 from .subsystem import Subsystem
-from .typing import TProfiledPIDController
+from .typing import TProfiledPIDController, TTrapezoidProfileState
 
 
-class ProfiledPIDSubsystem(Subsystem, Generic[TProfiledPIDController]):
+class ProfiledPIDSubsystem(
+    Subsystem, Generic[TProfiledPIDController, TTrapezoidProfileState]
+):
     """
     A subsystem that uses a :class:`wpimath.controller.ProfiledPIDController`
     or :class:`wpimath.controller.ProfiledPIDControllerRadians` to
@@ -49,7 +51,7 @@ class ProfiledPIDSubsystem(Subsystem, Generic[TProfiledPIDController]):
         """
         self._controller.setGoal(goal)
 
-    def useOutput(self, output: float, setpoint: TrapezoidProfile.State):
+    def useOutput(self, output: float, setpoint: TTrapezoidProfileState):
         """
         Uses the output from the controller object.
         """
