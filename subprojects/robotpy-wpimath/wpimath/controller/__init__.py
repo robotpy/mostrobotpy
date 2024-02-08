@@ -27,6 +27,7 @@ from .._controls._controls.controller import (
     ProfiledPIDControllerRadians,
     RamseteController,
     SimpleMotorFeedforwardMeters,
+    SimpleMotorFeedforwardRadians
 )
 
 __all__ = [
@@ -57,4 +58,5 @@ __all__ = [
     "ProfiledPIDControllerRadians",
     "RamseteController",
     "SimpleMotorFeedforwardMeters",
+    "SimpleMotorFeedforwardRadians"
 ]
