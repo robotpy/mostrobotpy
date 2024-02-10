@@ -5,14 +5,19 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-from typing import Any, Callable, Generic, Union
+from typing import Any, Generic
 
 from wpimath.controller import ProfiledPIDController, ProfiledPIDControllerRadians
 from wpimath.trajectory import TrapezoidProfile, TrapezoidProfileRadians
 
 from .command import Command
 from .subsystem import Subsystem
-from .typing import TProfiledPIDController, UseOutputFunction
+from .typing import (
+    FloatOrFloatSupplier,
+    FloatSupplier,
+    TProfiledPIDController,
+    UseOutputFunction,
+)
 
 
 class ProfiledPIDCommand(Command, Generic[TProfiledPIDController]):
@@ -26,8 +31,8 @@ class ProfiledPIDCommand(Command, Generic[TProfiledPIDController]):
     def __init__(
         self,
         controller: TProfiledPIDController,
-        measurementSource: Callable[[], float],
-        goalSource: Union[float, Callable[[], float]],
+        measurementSource: FloatSupplier,
+        goalSource: FloatOrFloatSupplier,
         useOutput: UseOutputFunction,
         *requirements: Subsystem,
     ):

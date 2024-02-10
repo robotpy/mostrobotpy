@@ -25,7 +25,13 @@ class ProfiledPIDSubsystem(
         controller: TProfiledPIDController,
         initial_position: float = 0,
     ):
-        """Creates a new PIDSubsystem."""
+        """
+        Creates a new Profiled PID Subsystem using the provided PID Controller
+
+        :param controller:        the controller that controls the output
+        :param initial_position:  the initial value of the process variable
+
+        """
         super().__init__()
         self._controller: TProfiledPIDController = controller
         self._enabled = False
@@ -46,15 +52,11 @@ class ProfiledPIDSubsystem(
         return self._controller
 
     def setGoal(self, goal):
-        """
-        Sets the goal state for the subsystem.
-        """
+        """Sets the goal state for the subsystem."""
         self._controller.setGoal(goal)
 
     def useOutput(self, output: float, setpoint: TTrapezoidProfileState):
-        """
-        Uses the output from the controller object.
-        """
+        """Uses the output from the controller object."""
         raise NotImplementedError(f"{self.__class__} must implement useOutput")
 
     def getMeasurement(self) -> float:
@@ -75,7 +77,5 @@ class ProfiledPIDSubsystem(
         self.useOutput(0, TrapezoidProfile.State())
 
     def isEnabled(self) -> bool:
-        """
-        Returns whether the controller is enabled.
-        """
+        """Returns whether the controller is enabled."""
         return self._enabled
