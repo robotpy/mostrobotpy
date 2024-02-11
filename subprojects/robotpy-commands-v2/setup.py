@@ -10,6 +10,7 @@ setuptools.setup(
     author_email="robotpy@googlegroups.com",
     description="WPILib command framework v2",
     url="https://github.com/robotpy/robotpy-commands-v2",
+    package_data={"commands2": ["py.typed"]},
     packages=["commands2"],
     install_requires=[
         "wpilib<2025,>=2024.2.1.2",
