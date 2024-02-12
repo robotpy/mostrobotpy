@@ -2,7 +2,6 @@
 
 classes:
   AddressableLED:
-    shared_ptr: true
     methods:
       AddressableLED:
       SetLength:
@@ -16,10 +15,9 @@ classes:
       Start:
       Stop:
   AddressableLED::LEDData:
-    shared_ptr: true
-    ignored_bases:
-    - HAL_AddressableLEDData
     force_no_trampoline: true
+    base_qualnames:
+      HAL_AddressableLEDData: ::HAL_AddressableLEDData
     methods:
       LEDData:
         overloads:
