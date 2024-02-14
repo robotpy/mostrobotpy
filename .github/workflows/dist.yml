@@ -87,28 +87,23 @@ jobs:
     # Setup build caching
     #
 
-    - name: Set ccache variant
+    - name: Set ccache size
       shell: bash
       id: ccache
       run: |
         if [[ "${{ runner.os }}" == "Windows" ]]; then
-          echo "VARIANT=sccache" >> $GITHUB_OUTPUT
-          echo "RPYBUILD_CC_LAUNCHER=sccache" >> $GITHUB_ENV
+          echo "MAX_SIZE=1200M" >> $GITHUB_OUTPUT
         else
-          echo "VARIANT=ccache" >> $GITHUB_OUTPUT
-          echo "RPYBUILD_CC_LAUNCHER=ccache" >> $GITHUB_ENV
+          echo "MAX_SIZE=500M" >> $GITHUB_OUTPUT
         fi
 
     - name: Setup ccache
-      if: steps.ccache.outputs.variant == 'ccache'
-      uses: hendrikmuhs/ccache-action@v1.2.10
+      # uses: hendrikmuhs/ccache-action@v1.2.10
+      uses: robotpy/ccache-action@fork
       with:
           key: ${{ matrix.os }}-${{ matrix.python_version }}
           variant: ccache
-
-    - name: Setup sccache
-      if: steps.ccache.outputs.variant == 'sccache'
-      uses: mozilla-actions/sccache-action@v0.0.3
+          max-size: ${{ steps.ccache.outputs.max_size }}
 
     - name: Install deps
       shell: bash
@@ -126,7 +121,7 @@ jobs:
         ./rdev.sh ci run
       env:
         RPYBUILD_STRIP_LIBPYTHON: "1"
-        SCCACHE_GHA_ENABLED: "true"
+        RPYBUILD_CC_LAUNCHER: ccache
 
     - uses: actions/upload-artifact@v3
       with:
@@ -177,11 +172,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Set ccache env
-      shell: bash
-      run: |
-        echo "RPYBUILD_CC_LAUNCHER=ccache" >> $GITHUB_ENV
-
     - run: apt-get update
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
@@ -214,6 +204,7 @@ jobs:
         /build/venv/bin/cross-python -m devtools ci run --no-test
       env:
         RPYBUILD_STRIP_LIBPYTHON: "1"
+        RPYBUILD_CC_LAUNCHER: ccache
       
     - uses: actions/upload-artifact@v3
       with:
