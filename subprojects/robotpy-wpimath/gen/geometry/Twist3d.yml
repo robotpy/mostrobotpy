@@ -1,5 +1,8 @@
 ---
 
+extra_includes:
+  - wpystruct.h
+
 classes:
   Twist3d:
     force_no_default_constructor: true
@@ -87,3 +90,5 @@ inline_code: |
                      "rz=" + std::to_string(tw.rz()) + ")";
     })
   ;
+
+  SetupWPyStruct<frc::Twist3d>(cls_Twist3d);
