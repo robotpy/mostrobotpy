@@ -48,6 +48,7 @@ classes:
       TotalTime:
       IsFinished:
     template_inline_code: |
+      {
       std::string clsNameCopy = clsName;
 
       cls_State
@@ -56,13 +57,12 @@ classes:
           py::arg("position") = 0,
           py::arg("velocity") = 0
         )
-        .def_readwrite("position", &frc::TrapezoidProfile<Distance>::State::position)
-        .def_readwrite("velocity", &frc::TrapezoidProfile<Distance>::State::velocity)
         .def("__repr__", [clsNameCopy](const State &self) {
           return clsNameCopy + ".State("
             "position=" + std::to_string(self.position()) + ", "
             "velocity=" + std::to_string(self.velocity()) + ")";
         });
+      }
   TrapezoidProfile::Constraints:
     shared_ptr: false
     attributes:
@@ -81,6 +81,17 @@ classes:
               maxAcceleration_:
                 name: maxAcceleration
                 default: 0
+    template_inline_code: |
+      {
+      std::string clsNameCopy = clsName;
+
+      cls_Constraints
+        .def("__repr__", [clsNameCopy](const Constraints &self) {
+          return clsNameCopy + ".Constraints("
+            "maxVelocity=" + std::to_string(self.maxVelocity()) + ", "
+            "maxAcceleration=" + std::to_string(self.maxAcceleration()) + ")";
+        });
+      }
   TrapezoidProfile::State:
     force_no_default_constructor: true
     shared_ptr: false
