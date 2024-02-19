@@ -1,4 +1,4 @@
-# validated: 2024-01-26 DV 19c155647273 sysid/SysIdRoutine.java
+# validated: 2024-02-20 DV ee15cc172a5e sysid/SysIdRoutine.java
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -132,7 +132,7 @@ class SysIdRoutine(SysIdRoutineLog):
             timer.stop()
 
         return (
-            self.mechanism.subsystem.runOnce(timer.start)
+            self.mechanism.subsystem.runOnce(timer.restart)
             .andThen(self.mechanism.subsystem.run(execute))
             .finallyDo(end)
             .withName(
