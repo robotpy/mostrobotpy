@@ -9,7 +9,7 @@ if __name__ == "__main__":
         data = parse_string(fp.read())
 
     for c in data.namespace.namespaces["nt"].classes:
-        if str(c.class_decl.typename) == "struct PubSubOptions":
+        if c.class_decl.typename.format() == "struct PubSubOptions":
             params = []
             docs = []
 
@@ -17,17 +17,17 @@ if __name__ == "__main__":
                 if f.static or f.name == "structSize":
                     continue
 
-                if str(f.type) == "NT_Publisher":
+                if f.type.format() == "NT_Publisher":
                     params.append(
                         (
                             "std::optional<std::shared_ptr<nt::Publisher>>",
                             f.name,
-                            f"{f.name}.has_value() ? {f.name}.value()->GetHandle() : {f.value}",
+                            f"{f.name}.has_value() ? {f.name}.value()->GetHandle() : {f.value.format()}",
                             "std::nullopt",
                         )
                     )
                 else:
-                    v = str(f.value)
+                    v = f.value.format()
                     if v == "kDefaultPeriodic":
                         v = f"nt::PubSubOptions::{v}"
                     params.append((f.type, f.name, f.name, v))
@@ -35,7 +35,7 @@ if __name__ == "__main__":
                 if f.doxygen:
                     docs.append(f"@param {f.name} {f.doxygen}")
 
-            paramstr = ",\n        ".join(f"{t} {n}" for t, n, _, _ in params)
+            paramstr = ",\n        ".join(f"{t.format()} {n}" for t, n, _, _ in params)
             args = ",\n        ".join(f'py::arg("{n}") = {v}' for _, n, _, v in params)
             options = ",\n          ".join(f".{fn} = {n}" for _, fn, n, _ in params)
 
