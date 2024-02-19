@@ -135,9 +135,7 @@ class SysIdRoutine(SysIdRoutineLog):
             self.mechanism.subsystem.runOnce(timer.restart)
             .andThen(self.mechanism.subsystem.run(execute))
             .finallyDo(end)
-            .withName(
-                f"sysid-{SysIdRoutineLog.stateEnumToString(state)}-{self.mechanism.name}"
-            )
+            .withName(f"sysid-{state}-{self.mechanism.name}")
             .withTimeout(self.config.timeout)
         )
 
@@ -174,8 +172,6 @@ class SysIdRoutine(SysIdRoutineLog):
             self.mechanism.subsystem.runOnce(command)
             .andThen(self.mechanism.subsystem.run(execute))
             .finallyDo(end)
-            .withName(
-                f"sysid-{SysIdRoutineLog.stateEnumToString(state)}-{self.mechanism.name}"
-            )
+            .withName(f"sysid-{state}-{self.mechanism.name}")
             .withTimeout(self.config.timeout)
         )
