@@ -15,9 +15,15 @@ classes:
       Rotation2d:
         overloads:
           '[constexpr]':
-          units::radian_t [constexpr]:
-          units::degree_t [constexpr]:
-            ignore: true
+          auto [constexpr]:
+            doc: |
+              Constructs a Rotation2d with the given radian value.
+              :param value: The value of the angle in radians.
+            param_override:
+              value:
+                x_type: 'units::radian_t'
+            template_impls:
+              - ['units::radian_t']
           double, double [constexpr]:
       RotateBy:
       Radians:

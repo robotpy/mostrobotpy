@@ -14,6 +14,7 @@ classes:
           Rate_t:
           Rate_t, Unit_t:
       Calculate:
+      LastValue:
       Reset:
 
 templates:

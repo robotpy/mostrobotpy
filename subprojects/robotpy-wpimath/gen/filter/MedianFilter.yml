@@ -8,6 +8,7 @@ classes:
     methods:
       MedianFilter:
       Calculate:
+      LastValue:
       Reset:
 
 templates:
