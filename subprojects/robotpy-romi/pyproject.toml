@@ -39,5 +39,5 @@ artifact_id = "romiVendordep-cpp"
 group_id = "edu.wpi.first.romiVendordep"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.3.1"
+version = "2024.3.2"
 libs = ["romiVendordep"]
