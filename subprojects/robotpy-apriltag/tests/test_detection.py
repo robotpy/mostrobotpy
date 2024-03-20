@@ -7,6 +7,15 @@ import pathlib
 import pytest
 
 
+def test_point():
+    point = robotpy_apriltag.AprilTagDetection.Point()
+
+    x, y = point
+
+    assert x == 0
+    assert y == 0
+
+
 def _load_grayscale_image(fname):
     full_path = pathlib.Path(__file__).parent / fname
     img = cv2.imread(str(full_path))
