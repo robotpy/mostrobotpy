@@ -104,7 +104,14 @@ classes:
           NT_Topic, I...:
             ignore: true
           Topic, I...:
-            ignore: true
+            param_override:
+              info:
+                name: type
+            cpp_code: |
+              [](Topic topic, const py::type &t) {
+                WPyStructInfo info(t);
+                return nt::StructTopic<T, I>(topic, info);
+              }
       Subscribe:
       Publish:
       PublishEx:
