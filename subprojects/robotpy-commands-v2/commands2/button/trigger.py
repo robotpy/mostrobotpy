@@ -1,4 +1,4 @@
-# validated: 2024-01-23 DS 70b60e3a7465 button/Trigger.java
+# validated: 2024-04-02 DS 0b1345946950 button/Trigger.java
 from types import SimpleNamespace
 from typing import Callable, overload
 
@@ -227,7 +227,7 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
 
     def __and__(self, other: Callable[[], bool]) -> "Trigger":
         assert callable(other)
-        return Trigger(lambda: self() and other())
+        return Trigger(self._loop, lambda: self() and other())
 
     def and_(self, other: Callable[[], bool]) -> "Trigger":
         """
@@ -240,7 +240,7 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
 
     def __or__(self, other: Callable[[], bool]) -> "Trigger":
         assert callable(other)
-        return Trigger(lambda: self() or other())
+        return Trigger(self._loop, lambda: self() or other())
 
     def or_(self, other: Callable[[], bool]) -> "Trigger":
         """
@@ -252,7 +252,7 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         return self | other
 
     def __invert__(self) -> "Trigger":
-        return Trigger(lambda: not self())
+        return Trigger(self._loop, lambda: not self())
 
     def negate(self) -> "Trigger":
         """
@@ -280,4 +280,4 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: The debounced trigger.
         """
         debouncer = Debouncer(seconds, debounce_type)
-        return Trigger(lambda: debouncer.calculate(self()))
+        return Trigger(self._loop, lambda: debouncer.calculate(self()))
