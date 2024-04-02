@@ -2,14 +2,17 @@
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
 
-from typing import Union, cast
+from typing import Generic
 
 from wpimath.trajectory import TrapezoidProfile
 
 from .subsystem import Subsystem
+from .typing import TProfiledPIDController, TTrapezoidProfileState
 
 
-class ProfiledPIDSubsystem(Subsystem):
+class ProfiledPIDSubsystem(
+    Subsystem, Generic[TProfiledPIDController, TTrapezoidProfileState]
+):
     """
     A subsystem that uses a :class:`wpimath.controller.ProfiledPIDController`
     or :class:`wpimath.controller.ProfiledPIDControllerRadians` to
@@ -19,12 +22,18 @@ class ProfiledPIDSubsystem(Subsystem):
 
     def __init__(
         self,
-        controller,
+        controller: TProfiledPIDController,
         initial_position: float = 0,
     ):
-        """Creates a new PIDSubsystem."""
+        """
+        Creates a new Profiled PID Subsystem using the provided PID Controller
+
+        :param controller:        the controller that controls the output
+        :param initial_position:  the initial value of the process variable
+
+        """
         super().__init__()
-        self._controller = controller
+        self._controller: TProfiledPIDController = controller
         self._enabled = False
         self.setGoal(initial_position)
 
@@ -38,20 +47,16 @@ class ProfiledPIDSubsystem(Subsystem):
 
     def getController(
         self,
-    ):
+    ) -> TProfiledPIDController:
         """Returns the controller"""
         return self._controller
 
     def setGoal(self, goal):
-        """
-        Sets the goal state for the subsystem.
-        """
+        """Sets the goal state for the subsystem."""
         self._controller.setGoal(goal)
 
-    def useOutput(self, output: float, setpoint: TrapezoidProfile.State):
-        """
-        Uses the output from the controller object.
-        """
+    def useOutput(self, output: float, setpoint: TTrapezoidProfileState):
+        """Uses the output from the controller object."""
         raise NotImplementedError(f"{self.__class__} must implement useOutput")
 
     def getMeasurement(self) -> float:
@@ -72,7 +77,5 @@ class ProfiledPIDSubsystem(Subsystem):
         self.useOutput(0, TrapezoidProfile.State())
 
     def isEnabled(self) -> bool:
-        """
-        Returns whether the controller is enabled.
-        """
+        """Returns whether the controller is enabled."""
         return self._enabled

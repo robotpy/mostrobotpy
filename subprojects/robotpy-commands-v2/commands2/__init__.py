@@ -2,6 +2,7 @@ from .command import Command, InterruptionBehavior
 
 from . import button
 from . import cmd
+from . import typing
 
 from .commandscheduler import CommandScheduler
 from .conditionalcommand import ConditionalCommand

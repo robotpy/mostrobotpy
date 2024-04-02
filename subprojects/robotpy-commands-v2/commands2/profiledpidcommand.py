@@ -5,16 +5,22 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-from typing import Any, Callable, Union
-
-from .command import Command
-from .subsystem import Subsystem
+from typing import Any, Generic
 
 from wpimath.controller import ProfiledPIDController, ProfiledPIDControllerRadians
 from wpimath.trajectory import TrapezoidProfile, TrapezoidProfileRadians
 
+from .command import Command
+from .subsystem import Subsystem
+from .typing import (
+    FloatOrFloatSupplier,
+    FloatSupplier,
+    TProfiledPIDController,
+    UseOutputFunction,
+)
 
-class ProfiledPIDCommand(Command):
+
+class ProfiledPIDCommand(Command, Generic[TProfiledPIDController]):
     """A command that controls an output with a :class:`.ProfiledPIDController`. Runs forever by default -
     to add exit conditions and/or other behavior, subclass this class. The controller calculation and
     output are performed synchronously in the command's execute() method.
@@ -24,10 +30,10 @@ class ProfiledPIDCommand(Command):
 
     def __init__(
         self,
-        controller,
-        measurementSource: Callable[[], float],
-        goalSource: Union[float, Callable[[], float]],
-        useOutput: Callable[[float, Any], Any],
+        controller: TProfiledPIDController,
+        measurementSource: FloatSupplier,
+        goalSource: FloatOrFloatSupplier,
+        useOutput: UseOutputFunction,
         *requirements: Subsystem,
     ):
         """Creates a new ProfiledPIDCommand, which controls the given output with a ProfiledPIDController. Goal
@@ -40,6 +46,7 @@ class ProfiledPIDCommand(Command):
         :param requirements:      the subsystems required by this command
         """
 
+        super().__init__()
         if isinstance(controller, ProfiledPIDController):
             self._stateCls = TrapezoidProfile.State
         elif isinstance(controller, ProfiledPIDControllerRadians):
@@ -47,7 +54,7 @@ class ProfiledPIDCommand(Command):
         else:
             raise ValueError(f"unknown controller type {controller!r}")
 
-        self._controller = controller
+        self._controller: TProfiledPIDController = controller
         self._useOutput = useOutput
         self._measurement = measurementSource
         if isinstance(goalSource, (float, int)):
