@@ -85,10 +85,4 @@ if not TYPE_CHECKING:
             )
             return Subsystem
 
-        if attr == "CommandBase":
-            import warnings
-
-            warnings.warn("CommandBase is deprecated", DeprecationWarning, stacklevel=2)
-            return Command
-
         raise AttributeError(f"module {__name__!r} has no attribute {attr!r}")
