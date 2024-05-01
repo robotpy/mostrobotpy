@@ -156,6 +156,18 @@ class Subsystem(Sendable):
 
         return runEnd(run, end, self)
 
+    def startRun(self, start: Callable[[], None], run: Callable[[], None]) -> Command:
+        """
+        Constructs a command that runs an action once and another action every iteration until interrupted. Requires this subsystem.
+
+        :param start: the action to run on start
+        :param run: the action to run every iteration
+        :returns: the command
+        """
+        from .cmd import startRun
+
+        return startRun(start, run, self)
+
     #
     # From SubsystemBase
     #
