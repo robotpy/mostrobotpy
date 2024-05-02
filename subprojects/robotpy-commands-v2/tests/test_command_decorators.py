@@ -96,6 +96,24 @@ def test_deadlineWith(scheduler: commands2.CommandScheduler):
     assert not group.isScheduled()
 
 
+def test_deadlineFor(scheduler: commands2.CommandScheduler):
+    condition = OOBoolean(False)
+    condition.set(False)
+
+    dictator = commands2.WaitUntilCommand(condition)
+    endsBefore = commands2.InstantCommand()
+    endsAfter = commands2.WaitUntilCommand(lambda: False)
+
+    group = dictator.deadlineFor(endsBefore, endsAfter)
+
+    scheduler.schedule(group)
+    scheduler.run()
+    assert group.isScheduled()
+    condition.set(True)
+    scheduler.run()
+    assert not group.isScheduled()
+
+
 def test_alongWith(scheduler: commands2.CommandScheduler):
     condition = OOBoolean()
     condition.set(False)
