@@ -95,6 +95,22 @@ def runEnd(
     )
 
 
+def startRun(
+    start: Callable[[], Any], run: Callable[[], Any], *requirements: Subsystem
+) -> Command:
+    """
+    Constructs a command that runs an action once and another action every iteration until interrupted.
+
+    :param start: the action to run on start
+    :param run: the action to run every iteration
+    :param requirements: subsystems the action requires
+    :returns: the command
+    """
+    return FunctionalCommand(
+        start, run, lambda interrupt: None, lambda: False, *requirements
+    )
+
+
 def print_(message: str) -> Command:
     """
     Constructs a command that prints a message and finishes.
