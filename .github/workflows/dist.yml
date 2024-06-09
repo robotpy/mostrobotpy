@@ -83,11 +83,6 @@ jobs:
       with:
         python-version: ${{ matrix.python_version }}
 
-    - name: Setup msvc version
-      uses: ilammy/msvc-dev-cmd@v1
-      with:
-        toolset: "14.39"
-
     #
     # Setup build caching
     #
