@@ -373,9 +373,10 @@ class Command(Sendable):
 
     def asProxy(self) -> ProxyCommand:
         """
-        Decorates this command to run "by proxy" by wrapping it in a ProxyCommand. This is
-        useful for "forking off" from command compositions when the user does not wish to extend the
-        command's requirements to the entire command composition.
+        Decorates this command to run "by proxy" by wrapping it in a ProxyCommand. Use this for
+        "forking off" from command compositions when the user does not wish to extend the command's
+        requirements to the entire command composition. ProxyCommand has unique implications and
+        semantics, see the `WPILib docs <https://docs.wpilib.org/en/stable/docs/software/commandbased/command-compositions.html#scheduling-other-commands>`_ for a full explanation.
 
         :returns: the decorated command
         """
