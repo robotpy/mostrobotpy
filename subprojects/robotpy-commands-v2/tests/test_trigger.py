@@ -42,6 +42,23 @@ def test_onFalse(scheduler: commands2.CommandScheduler):
     assert not command1.isScheduled()
 
 
+def test_onChange(scheduler: commands2.CommandScheduler):
+    finished = OOBoolean(False)
+    command1 = commands2.WaitUntilCommand(finished)
+
+    button = InternalButton()
+    button.setPressed(True)
+    button.onChange(command1)
+    scheduler.run()
+    assert not command1.isScheduled()
+    button.setPressed(False)
+    scheduler.run()
+    assert command1.isScheduled()
+    finished.set(True)
+    scheduler.run()
+    assert not command1.isScheduled()
+
+
 def test_whileTrueRepeatedly(scheduler: commands2.CommandScheduler):
     inits = OOInteger(0)
     counter = OOInteger(0)

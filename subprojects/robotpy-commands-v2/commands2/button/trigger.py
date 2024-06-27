@@ -122,6 +122,27 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
 
         return self
 
+    def onChange(self, command: Command) -> Self:
+        """
+        Starts the command when the condition changes.
+
+        :param command: the command t start
+        :returns: this trigger, so calls can be chained
+        """
+
+        state = SimpleNamespace(pressed_last=self._condition())
+
+        @self._loop.bind
+        def _():
+            pressed = self._condition()
+
+            if state.pressed_last != pressed:
+                command.schedule()
+
+            state.pressed_last = pressed
+
+        return self
+
     def whileTrue(self, command: Command) -> Self:
         """
         Starts the given command when the condition changes to `True` and cancels it when the condition
