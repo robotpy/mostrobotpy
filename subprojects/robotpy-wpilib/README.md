@@ -6,8 +6,8 @@ the library used to interface with hardware for the FIRST Robotics Competition.
 Teams can use this library to write their robot code in Python, a powerful dynamic
 programming language.
 
-**Note**: RobotPy is a community project and is not officially supported by
-FIRST. Please see the [FAQ](https://robotpy.github.io/faq/) for more information.
+**Note**: RobotPy is officially supported by FIRST. Please see the 
+[FAQ](https://robotpy.github.io/faq/) for more information.
 
 Documentation
 =============
