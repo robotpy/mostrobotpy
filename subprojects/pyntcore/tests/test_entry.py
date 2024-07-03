@@ -10,7 +10,7 @@ def test_entry_string(nt):
     assert e.getString(None) == "value"
     assert e.getValue().value() == "value"
     assert e.value == "value"
-    e.delete()
+    e.unpublish()
     assert e.getString(None) is None
     e.setString("value")
     assert e.getString(None) == "value"
@@ -23,7 +23,7 @@ def test_entry_string_array(nt):
     assert e.getStringArray(None) == ["value"]
     assert e.getValue().value() == ["value"]
     assert e.value == ["value"]
-    e.delete()
+    e.unpublish()
     assert e.getStringArray(None) is None
     e.setStringArray(["value"])
     assert e.getStringArray(None) == ["value"]
@@ -43,7 +43,7 @@ def test_entry_persistence(nt):
         e.clearPersistent()
         assert not e.isPersistent()
 
-        e.delete()
+        e.unpublish()
 
 
 def test_entry_publish_empty_double_array(nt):
