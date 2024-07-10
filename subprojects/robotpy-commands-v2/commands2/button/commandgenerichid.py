@@ -186,3 +186,21 @@ class CommandGenericHID:
         :returns: The value of the axis.
         """
         return self._hid.getRawAxis(axis)
+
+    def setRumble(self, type: GenericHID.RumbleType, value: float):
+        """
+        Set the rumble output for the HID.
+        The DS currently supports 2 rumble values, left rumble and right rumble.
+
+        :param type: Which rumble value to set.
+        :param value: The normalized value (0 to 1) to set the rumble to.
+        """
+        self._hid.setRumble(type, value)
+
+    def isConnected(self):
+        """
+        Get if the HID is connected.
+
+        :returns: True if the HID is connected.
+        """
+        return self._hid.isConnected()
