@@ -23,8 +23,8 @@ base_package = "ntcore"
 [tool.robotpy-build.wrappers."ntcore".maven_lib_download]
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.3.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2025.0.0-alpha-1-154-gb12b83a"
 
 libs = ["ntcore"]
 

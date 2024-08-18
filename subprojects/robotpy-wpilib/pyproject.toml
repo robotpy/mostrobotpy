@@ -31,8 +31,8 @@ base_package = "wpilib"
 [tool.robotpy-build.wrappers."wpilib._impl".maven_lib_download]
 artifact_id = "wpilibc-cpp"
 group_id = "edu.wpi.first.wpilibc"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.3.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2025.0.0-alpha-1-154-gb12b83a"
 
 libs = ["wpilibc"]
 
