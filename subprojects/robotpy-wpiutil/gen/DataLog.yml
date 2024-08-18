@@ -7,16 +7,15 @@ enums:
 classes:
   DataLog:
     subpackage: log
+    attributes:
+      kBlockSize:
+      s_defaultMessageLog:
+        ignore: true
+      m_msglog:
+        ignore: true
     methods:
       DataLog:
-        overloads:
-          std::string_view, std::string_view, double, std::string_view:
-          wpi::Logger&, std::string_view, std::string_view, double, std::string_view:
-            ignore: true
-          std::function<void (std::span<const uint8_t> data)>, double, std::string_view:
-          wpi::Logger&, std::function<void (std::span<const uint8_t> data)>, double, std::string_view:
-            ignore: true
-      SetFilename:
+        ignore: true
       Flush:
       Pause:
       Resume:
@@ -63,8 +62,15 @@ classes:
           int, std::span<const std::string>, int64_t:
             ignore: true
           int, std::span<const std::string_view>, int64_t:
-          int, std::span<const WPI_DataLog_String>, int64_t:
+          int, std::span<const struct WPI_String>, int64_t:
             ignore: true
+      StartFile:
+      FlushBufs:
+        ignore: true
+      ReleaseBufs:
+        ignore: true
+      BufferHalfFull:
+      BufferFull:
   DataLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -72,6 +78,23 @@ classes:
       SetMetadata:
       Finish:
       DataLogEntry:
+        overloads:
+          "":
+            ignore: true
+          DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
+  DataLogValueEntryImpl:
+    template_params:
+    - T
+    force_no_trampoline: true
+    attributes:
+      m_mutex:
+        ignore: true
+      m_lastValue:
+        ignore: true
+    methods:
+      HasLastValue:
+      GetLastValue:
+      DataLogValueEntryImpl:
         overloads:
           "":
             ignore: true
@@ -90,6 +113,7 @@ classes:
           DataLog&, std::string_view, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
       Append:
+      Update:
   BooleanLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -103,6 +127,7 @@ classes:
           DataLog&, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
+      Update:
   IntegerLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -116,6 +141,7 @@ classes:
           DataLog&, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
+      Update:
   FloatLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -129,6 +155,7 @@ classes:
           DataLog&, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
+      Update:
   DoubleLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -142,6 +169,7 @@ classes:
           DataLog&, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
+      Update:
   StringLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -156,6 +184,7 @@ classes:
           DataLog&, std::string_view, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
       Append:
+      Update:
   BooleanArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -179,6 +208,16 @@ classes:
             ignore: true
           std::span<const uint8_t>, int64_t:
             ignore: true
+      Update:
+        overloads:
+          std::span<const bool>, int64_t:
+          std::initializer_list<bool>, int64_t:
+            ignore: true
+          std::span<const int>, int64_t:
+          std::initializer_list<int>, int64_t:
+            ignore: true
+          std::span<const uint8_t>, int64_t:
+            ignore: true
   IntegerArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -192,6 +231,11 @@ classes:
           DataLog&, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
+        overloads:
+          std::span<const int64_t>, int64_t:
+          std::initializer_list<int64_t>, int64_t:
+            ignore: true
+      Update:
         overloads:
           std::span<const int64_t>, int64_t:
           std::initializer_list<int64_t>, int64_t:
@@ -213,6 +257,11 @@ classes:
           std::span<const float>, int64_t:
           std::initializer_list<float>, int64_t:
             ignore: true
+      Update:
+        overloads:
+          std::span<const float>, int64_t:
+          std::initializer_list<float>, int64_t:
+            ignore: true
   DoubleArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -230,6 +279,11 @@ classes:
           std::span<const double>, int64_t:
           std::initializer_list<double>, int64_t:
             ignore: true
+      Update:
+        overloads:
+          std::span<const double>, int64_t:
+          std::initializer_list<double>, int64_t:
+            ignore: true
   StringArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
@@ -243,6 +297,13 @@ classes:
           DataLog&, std::string_view, int64_t:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
+        overloads:
+          std::span<const std::string>, int64_t:
+            ignore: true
+          std::span<const std::string_view>, int64_t:
+          std::initializer_list<std::string_view>, int64_t:
+            ignore: true
+      Update:
         overloads:
           std::span<const std::string>, int64_t:
             ignore: true
@@ -336,3 +397,59 @@ templates:
     params:
     - WPyStruct
     - WPyStructInfo
+
+  _RawLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - std::vector<uint8_t>
+  _BooleanLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - bool
+  _IntegerLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - int64_t
+  _FloatLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - float
+  _DoubleLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - double
+  _StringLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - std::string
+  _BooleanArrayLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - std::vector<int>
+  _IntegerArrayLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - std::vector<int64_t>
+  _FloatArrayLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - std::vector<float>
+  _DoubleArrayLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - std::vector<double>
+  _StringArrayLogEntryImpl:
+    qualname: wpi::log::DataLogValueEntryImpl
+    subpackage: log
+    params:
+    - std::vector<std::string>

@@ -43,6 +43,8 @@ libs = ["wpiutil"]
 # wpi
 DataLog = "wpi/DataLog.h"
 DataLogReader = "wpi/DataLogReader.h"
+DataLogBackgroundWriter = "wpi/DataLogBackgroundWriter.h"
+DataLogWriter = "wpi/DataLogWriter.h"
 StackTrace = "wpi/StackTrace.h"
 Synchronization = "wpi/Synchronization.h"
 

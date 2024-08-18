@@ -8,9 +8,9 @@ void forEachNested(
   wpi::ForEachStructSchema<WPyStruct, WPyStructInfo>(fn, info);
 }
 
-py::str getTypeString(const py::type &t) {
+py::str getTypeName(const py::type &t) {
   WPyStructInfo info(t);
-  return wpi::GetStructTypeString<WPyStruct, WPyStructInfo>(info);
+  return wpi::GetStructTypeName<WPyStruct, WPyStructInfo>(info);
 }
 
 py::str getSchema(const py::type &t) {

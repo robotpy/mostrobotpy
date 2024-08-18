@@ -20,8 +20,8 @@ class StructDescriptor(typing.NamedTuple):
     for defining custom structs using a dataclass.
     """
 
-    #: The type string
-    typeString: str
+    #: The type name
+    typename: str
 
     #: The struct schema
     schema: str
