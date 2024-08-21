@@ -5,6 +5,8 @@ functions:
     ignore: true
   from_json:
     ignore: true
+  LoadAprilTagLayoutField:
+    ignore: true
 classes:
   AprilTagFieldLayout:
     enums:
@@ -15,6 +17,7 @@ classes:
           "":
           std::string_view:
           std::vector<AprilTag>, units::meter_t, units::meter_t:
+      LoadField:
       GetFieldLength:
       GetFieldWidth:
       GetTags:
