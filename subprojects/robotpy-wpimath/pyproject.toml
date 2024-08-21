@@ -1495,9 +1495,11 @@ generation_data = "gen/geometry"
 # frc/geometry
 CoordinateAxis = "frc/geometry/CoordinateAxis.h"
 CoordinateSystem = "frc/geometry/CoordinateSystem.h"
+Ellipse2d = "frc/geometry/Ellipse2d.h"
 Pose2d = "frc/geometry/Pose2d.h"
 Pose3d = "frc/geometry/Pose3d.h"
 Quaternion = "frc/geometry/Quaternion.h"
+Rectangle2d = "frc/geometry/Rectangle2d.h"
 Rotation2d = "frc/geometry/Rotation2d.h"
 Rotation3d = "frc/geometry/Rotation3d.h"
 Transform2d = "frc/geometry/Transform2d.h"
@@ -1542,10 +1544,8 @@ MecanumDriveWheelSpeeds = "frc/kinematics/MecanumDriveWheelSpeeds.h"
 Odometry = "frc/kinematics/Odometry.h"
 SwerveDriveKinematics = "frc/kinematics/SwerveDriveKinematics.h"
 SwerveDriveOdometry = "frc/kinematics/SwerveDriveOdometry.h"
-SwerveDriveWheelPositions = "frc/kinematics/SwerveDriveWheelPositions.h"
 SwerveModulePosition = "frc/kinematics/SwerveModulePosition.h"
 SwerveModuleState = "frc/kinematics/SwerveModuleState.h"
-WheelPositions = "frc/kinematics/WheelPositions.h"
 
 [tool.robotpy-build.wrappers."wpimath.spline"]
 

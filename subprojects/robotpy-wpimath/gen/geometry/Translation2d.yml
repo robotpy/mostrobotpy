@@ -22,9 +22,11 @@ classes:
       Distance:
       X:
       Y:
+      ToVector:
       Norm:
       Angle:
       RotateBy:
+      RotateAround:
       Nearest:
         overloads:
           std::span<const Translation2d> [const]:

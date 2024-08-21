@@ -12,6 +12,7 @@ classes:
       ToChassisSpeeds:
       ToWheelSpeeds:
       ToTwist2d:
+      Interpolate:
 
 inline_code: |
   SetupWPyStruct<frc::DifferentialDriveKinematics>(cls_DifferentialDriveKinematics);

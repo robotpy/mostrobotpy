@@ -27,6 +27,9 @@ classes:
           int, int [const]:
       CalculateX:
       CalculateY:
+      Slice:
+        # TODO?
+        ignore: true
 
 templates:
   LinearSystem_1_1_1:

@@ -22,6 +22,7 @@ classes:
       GetPeriod:
       GetPositionTolerance:
       GetVelocityTolerance:
+      GetAccumulatedError:
       SetSetpoint:
       GetSetpoint:
       AtSetpoint:

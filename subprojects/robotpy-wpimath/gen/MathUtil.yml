@@ -5,6 +5,12 @@ functions:
     template_impls:
     - [double]
   AngleModulus:
+  FloorDiv:
+    template_impls:
+    - [int64_t, int64_t]
+  FloorMod:
+    template_impls:
+    - [int64_t, int64_t]
   ApplyDeadband:
     param_override:
       maxMagnitude:

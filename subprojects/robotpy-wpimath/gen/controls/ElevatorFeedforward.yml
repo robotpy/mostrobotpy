@@ -6,11 +6,6 @@ classes:
     - units::meters_per_second
     - meters_per_second_squared
     subpackage: controller
-    attributes:
-      kS:
-      kG:
-      kV:
-      kA:
     methods:
       ElevatorFeedforward:
         overloads:
@@ -21,6 +16,10 @@ classes:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
       MinAchievableAcceleration:
+      GetKs:
+      GetKg:
+      GetKv:
+      GetKa:
 
 extra_includes:
 - wpystruct.h
