@@ -24,6 +24,17 @@ classes:
           DigitalSource*:
             ignore: true
           std::shared_ptr<DigitalSource>:
+          int, double, double:
+          DutyCycle&, double, double:
+            ignore: true
+          DutyCycle*, double, double:
+            ignore: true
+          std::shared_ptr<DutyCycle>, double, double:
+          DigitalSource&, double, double:
+            ignore: true
+          DigitalSource*, double, double:
+            ignore: true
+          std::shared_ptr<DigitalSource>, double, double:
       GetFrequency:
       IsConnected:
       SetConnectedFrequencyThreshold:
@@ -38,6 +49,8 @@ classes:
       SetDutyCycleRange:
       GetFPGAIndex:
       GetSourceChannel:
+      SetAssumedFrequency:
+      SetInverted:
       InitSendable:
 
 inline_code: |

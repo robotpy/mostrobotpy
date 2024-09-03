@@ -53,3 +53,5 @@ classes:
       SetRadioLEDState:
       GetRadioLEDState:
       GetCANStatus:
+      GetCommsDisableCount:
+      ResetRailFaultCounts:

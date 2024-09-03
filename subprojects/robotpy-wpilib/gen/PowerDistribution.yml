@@ -31,6 +31,8 @@ classes:
       GetVersion:
       GetFaults:
       GetStickyFaults:
+      GetNumChannels:
+      GetAllCurrents:
       InitSendable:
   PowerDistribution::Version:
     attributes:
@@ -101,5 +103,7 @@ classes:
       CanWarning:
       CanBusOff:
       HasReset:
+      HardwareFault:
+      FirmwareFault:
     methods:
       GetBreakerFault:

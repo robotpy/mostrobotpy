@@ -18,6 +18,12 @@ classes:
           AnalogInput*:
             ignore: true
           std::shared_ptr<AnalogInput>:
+          int, double, double:
+          AnalogInput&, double, double:
+            ignore: true
+          AnalogInput*, double, double:
+            ignore: true
+          std::shared_ptr<AnalogInput>, double, double:
       Reset:
       Get:
       GetAbsolutePosition:
@@ -27,4 +33,6 @@ classes:
       GetDistancePerRotation:
       GetDistance:
       GetChannel:
+      SetVoltagePercentageRange:
+      SetInverted:
       InitSendable:

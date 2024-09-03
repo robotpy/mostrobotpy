@@ -27,6 +27,43 @@ requires = [
 
 [tool.robotpy-build]
 base_package = "wpilib"
+update_init = [
+    "wpilib",
+    "wpilib.counter",
+    "wpilib.drive",
+    "wpilib.event",
+    "wpilib.interfaces",
+    "wpilib.shuffleboard",
+    "wpilib.simulation",
+    "wpilib.sysid wpilib._wpilib.sysid",
+]
+scan_headers_ignore = [
+    "WPILibVersion.h",
+
+    # needs a python wrapper
+    "frc/AsynchronousInterrupt.h",
+
+    # Needs HAL object support, not sure if this is a good idea for python
+    "frc/DMA.h",
+    "frc/DMASample.h",
+
+    "frc/Filesystem.h",
+    "frc/Notifier.h", # wrapped separately
+    "frc/Resource.h",
+    "frc/ScopedTracer.h", # not useful for python
+
+    "frc/motorcontrol/MotorControllerGroup.h", # wrapped separately
+
+    # Not possible
+    "frc/shuffleboard/RecordingController.h",
+    "frc/shuffleboard/SendableCameraWrapper.h",
+
+    "frc/smartdashboard/ListenerExecutor.h",    # internal detail
+
+    # Internals
+    "rpy/ControlWord.h",
+    "rpy/SmartDashboardData.h",
+]
 
 [tool.robotpy-build.wrappers."wpilib._impl".maven_lib_download]
 artifact_id = "wpilibc-cpp"
@@ -66,8 +103,6 @@ pp_defines = [
 ]
 
 [tool.robotpy-build.wrappers."wpilib".autogen_headers]
-# WPILibVersion = "WPILibVersion.h"
-
 # frc
 ADIS16448_IMU = "frc/ADIS16448_IMU.h"
 ADIS16470_IMU = "frc/ADIS16470_IMU.h"
@@ -84,19 +119,13 @@ AnalogOutput = "frc/AnalogOutput.h"
 AnalogPotentiometer = "frc/AnalogPotentiometer.h"
 AnalogTrigger = "frc/AnalogTrigger.h"
 AnalogTriggerOutput = "frc/AnalogTriggerOutput.h"
-AnalogTriggerType = "frc/AnalogTriggerType.h"
-# AsynchronousInterrupt = "frc/AsynchronousInterrupt.h"     # needs a python wrapper
+AnalogTriggerType = "frc/AnalogTriggerType.h"  
 BuiltInAccelerometer = "frc/BuiltInAccelerometer.h"
 CAN = "frc/CAN.h"
 Compressor = "frc/Compressor.h"
 CompressorConfigType = "frc/CompressorConfigType.h"
-# Controller = "frc/Controller.h"   # deprecated
 Counter = "frc/Counter.h"
-# CounterBase = "frc/CounterBase.h" # interfaces
 DataLogManager = "frc/DataLogManager.h"
-# Needs HAL object support, not sure if this is a good idea for python
-#   DMA = "frc/DMA.h"
-#   DMASample = "frc/DMASample.h"
 DSControlWord = "frc/DSControlWord.h"
 DigitalGlitchFilter = "frc/DigitalGlitchFilter.h"
 DigitalInput = "frc/DigitalInput.h"
@@ -108,14 +137,12 @@ DutyCycle = "frc/DutyCycle.h"
 DutyCycleEncoder = "frc/DutyCycleEncoder.h"
 Encoder = "frc/Encoder.h"
 Errors = "frc/Errors.h"
-# Filesystem = "frc/Filesystem.h"
 Filesystem = "rpy/Filesystem.h"
-# GenericHID = "frc/GenericHID.h"   # interfaces
 I2C = "frc/I2C.h"
 IterativeRobotBase = "frc/IterativeRobotBase.h"
 Joystick = "frc/Joystick.h"
+LEDPattern = "frc/LEDPattern.h"
 MotorSafety = "frc/MotorSafety.h"
-# Notifier = "frc/Notifier.h"
 Notifier = "rpy/Notifier.h"
 PS4Controller = "frc/PS4Controller.h"
 PS5Controller = "frc/PS5Controller.h"
@@ -127,19 +154,16 @@ PneumaticsModuleType = "frc/PneumaticsModuleType.h"
 PowerDistribution = "frc/PowerDistribution.h"
 Preferences = "frc/Preferences.h"
 Relay = "frc/Relay.h"
-# Resource = "frc/Resource.h"
 RobotBase = "frc/RobotBase.h"
 RobotController = "frc/RobotController.h"
 RobotState = "frc/RobotState.h"
 RuntimeType = "frc/RuntimeType.h"
 SPI = "frc/SPI.h"
-# ScopedTracer = "frc/ScopedTracer.h" # Not useful for python
 SensorUtil = "frc/SensorUtil.h"
 SerialPort = "frc/SerialPort.h"
 Servo = "frc/Servo.h"
+SharpIR = "frc/SharpIR.h"
 Solenoid = "frc/Solenoid.h"
-# SpeedController = "frc/SpeedController.h" # interfaces
-# SpeedControllerGroup = "frc/SpeedControllerGroup.h"
 StadiaController = "frc/StadiaController.h"
 SynchronousInterrupt = "frc/SynchronousInterrupt.h"
 Threads = "frc/Threads.h"
@@ -160,7 +184,6 @@ LiveWindow = "frc/livewindow/LiveWindow.h"
 # frc/motorcontrol
 DMC60 = "frc/motorcontrol/DMC60.h"
 Jaguar = "frc/motorcontrol/Jaguar.h"
-# MotorController = "frc/motorcontrol/MotorController.h" # interfaces
 MotorControllerGroup = "rpy/MotorControllerGroup.h"
 NidecBrushless = "frc/motorcontrol/NidecBrushless.h"
 PWMMotorController = "frc/motorcontrol/PWMMotorController.h"
@@ -179,7 +202,6 @@ VictorSP = "frc/motorcontrol/VictorSP.h"
 # frc/smartdashboard
 Field2d = "frc/smartdashboard/Field2d.h"
 FieldObject2d = "frc/smartdashboard/FieldObject2d.h"
-# ListenerExecutor = "frc/smartdashboard/ListenerExecutor.h"    # internal detail
 Mechanism2d = "frc/smartdashboard/Mechanism2d.h"
 MechanismLigament2d = "frc/smartdashboard/MechanismLigament2d.h"
 MechanismObject2d = "frc/smartdashboard/MechanismObject2d.h"
@@ -263,10 +285,6 @@ generation_data = "gen"
 CounterBase = "frc/CounterBase.h"
 GenericHID = "frc/GenericHID.h"
 MotorController = "frc/motorcontrol/MotorController.h"
-
-# frc/interfaces
-Accelerometer = "frc/interfaces/Accelerometer.h"
-Gyro = "frc/interfaces/Gyro.h"
 
 [tool.robotpy-build.wrappers."wpilib.shuffleboard"]
 name = "wpilibc_shuffleboard"
@@ -361,9 +379,12 @@ REVPHSim = "frc/simulation/REVPHSim.h"
 RelaySim = "frc/simulation/RelaySim.h"
 RoboRioSim = "frc/simulation/RoboRioSim.h"
 SPIAccelerometerSim = "frc/simulation/SPIAccelerometerSim.h"
+SendableChooserSim = "frc/simulation/SendableChooserSim.h"
+SharpIRSim = "frc/simulation/SharpIRSim.h"
 SimDeviceSim = "frc/simulation/SimDeviceSim.h"
 SimHooks = "frc/simulation/SimHooks.h"
 SingleJointedArmSim = "frc/simulation/SingleJointedArmSim.h"
 SolenoidSim = "frc/simulation/SolenoidSim.h"
+StadiaControllerSim = "frc/simulation/StadiaControllerSim.h"
 UltrasonicSim = "frc/simulation/UltrasonicSim.h"
 XboxControllerSim = "frc/simulation/XboxControllerSim.h"

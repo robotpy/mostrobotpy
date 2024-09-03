@@ -19,6 +19,21 @@ requires = [
 
 [tool.robotpy-build]
 base_package = "robotpy_apriltag"
+update_init = [
+  "robotpy_apriltag robotpy_apriltag._apriltag"
+]
+scan_headers_ignore = [
+  "common/*",
+
+  "apriltag.h",
+  "apriltag_math.h",
+  "apriltag_pose.h",
+
+  "frc/apriltag/AprilTagDetector_cv.h",
+
+  "tag16h5.h",
+  "tag36h11.h",
+]
 
 [tool.robotpy-build.wrappers."robotpy_apriltag".maven_lib_download]
 artifact_id = "apriltag-cpp"

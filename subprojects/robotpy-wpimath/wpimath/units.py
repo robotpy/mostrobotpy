@@ -344,6 +344,7 @@ meters = float
 nanometers = float
 micrometers = float
 millimeters = float
+centimeters = float
 kilometers = float
 feet = float
 mils = float

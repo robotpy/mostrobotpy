@@ -1,11 +1,14 @@
 ---
 
 extra_includes:
+- wpi/sendable/SendableBuilder.h
 - frc/DriverStation.h
 - frc/event/BooleanEvent.h
 
 classes:
   XboxController:
+    ignored_bases:
+    - wpi::SendableHelper<XboxController>
     methods:
       XboxController:
       GetLeftX:
@@ -62,6 +65,13 @@ classes:
         overloads:
           double, EventLoop* [const]:
           EventLoop* [const]:
+      GetLeftBumperButton:
+      GetLeftBumperButtonPressed:
+      GetLeftBumperButtonReleased:
+      GetRightBumperButton:
+      GetRightBumperButtonPressed:
+      GetRightBumperButtonReleased:
+      InitSendable:
   XboxController::Button:
     attributes:
       kLeftBumper:

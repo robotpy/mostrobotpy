@@ -22,6 +22,9 @@ requires = [
 
 [tool.robotpy-build]
 base_package = "cscore"
+update_init = [
+  "cscore"
+]
 
 [tool.robotpy-build.static_libs."cscore_cpp".maven_lib_download]
 artifact_id = "cscore-cpp"

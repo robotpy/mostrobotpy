@@ -19,6 +19,19 @@ requires = [
 
 [tool.robotpy-build]
 base_package = "ntcore"
+update_init = [
+    "ntcore",
+    "ntcore.meta ntcore._ntcore.meta"
+]
+scan_headers_ignore = [
+    "networktables/ProtobufTopic.h",
+    "networktables/UnitTopic.h",
+
+    "ntcore.h",
+    "ntcore_c.h",
+    "ntcore_c_types.h",
+    "ntcore_test.h",
+]
 
 [tool.robotpy-build.wrappers."ntcore".maven_lib_download]
 artifact_id = "ntcore-cpp"
@@ -66,11 +79,6 @@ StructArrayTopic = "networktables/StructArrayTopic.h"
 StringArrayTopic = "networktables/StringArrayTopic.h"
 StringTopic = "networktables/StringTopic.h"
 Topic = "networktables/Topic.h"
-# UnitTopic = "networktables/UnitTopic.h"
 
-# ntcore = "ntcore.h"
-# ntcore_c = "ntcore_c.h"
-# ntcore_c_types = "ntcore_c_types.h"
 ntcore_cpp = "ntcore_cpp.h"
 ntcore_cpp_types = "ntcore_cpp_types.h"
-# ntcore_test = "ntcore_test.h"

@@ -19,6 +19,53 @@ requires = [
 [tool.robotpy-build]
 base_package = "wpimath"
 
+update_init = [
+    "wpimath"
+]
+
+scan_headers_ignore = [
+    
+    "frc/DARE.h",
+    "frc/EigenCore.h",
+    "frc/StateSpaceUtil.h",
+
+    "frc/fmt/Eigen.h",
+
+    "frc/estimator/AngleStatistics.h",
+    "frc/estimator/KalmanFilterLatencyCompensator.h",
+    "frc/estimator/MerweScaledSigmaPoints.h",
+    "frc/estimator/SteadyStateKalmanFilter.h",
+    "frc/estimator/UnscentedKalmanFilter.h",
+    "frc/estimator/UnscentedTransform.h",
+
+    "frc/system/Discretization.h",
+    "frc/system/NumericalIntegration.h",
+    "frc/system/NumericalJacobian.h",
+
+    "frc/proto/*",
+    "frc/*/proto/*",
+    
+    "frc/struct/*",
+    "frc/*/struct/*",
+    
+    "[eE]igen/*",
+
+    "gcem.hpp",
+    "gcem_incl/*",
+
+    "sleipnir/*",
+    "type_casters/*",
+    "unsupported/*",
+    "units/*",
+    "wpimath/protobuf/*",
+
+    "wpimath/MathShared.h",
+
+    "rpy/geometryToString.h",
+    "PyTrajectoryConstraint.h",
+    "_units_base_type_caster.h",
+]
+
 [tool.robotpy-build.wrappers."wpimath._impl".maven_lib_download]
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
@@ -621,6 +668,7 @@ header = "units_length_type_caster.h"
 types = [
     "units::angstrom_t",
     "units::astronicalUnit_t",
+    "units::centimeter_t",
     "units::chain_t",
     "units::cubit_t",
     "units::fathom_t",

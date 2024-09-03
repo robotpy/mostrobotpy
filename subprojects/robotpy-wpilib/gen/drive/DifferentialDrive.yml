@@ -14,9 +14,12 @@ classes:
       kDefaultQuickStopAlpha:
     methods:
       DifferentialDrive:
-        keepalive:
-        - [1, 2]
-        - [1, 3]
+        overloads:
+          MotorController&, MotorController&:
+            keepalive:
+            - [1, 2]
+            - [1, 3]
+          std::function<void (double)>, std::function<void (double)>:
       ArcadeDrive:
       CurvatureDrive:
       TankDrive:
