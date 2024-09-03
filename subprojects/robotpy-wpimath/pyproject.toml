@@ -70,7 +70,7 @@ scan_headers_ignore = [
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.0.0-alpha-1-154-gb12b83a"
+version = "2025.0.0-alpha-1-187-g495c371"
 
 
 libs = ["wpimath"]

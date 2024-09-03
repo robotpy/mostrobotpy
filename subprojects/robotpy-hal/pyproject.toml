@@ -24,7 +24,7 @@ artifact_id = "hal-cpp"
 group_id = "edu.wpi.first.hal"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.0.0-alpha-1-154-gb12b83a"
+version = "2025.0.0-alpha-1-187-g495c371"
 
 libs = ["wpiHal"]
 

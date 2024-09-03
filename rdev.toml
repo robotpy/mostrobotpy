@@ -5,7 +5,7 @@
 [params]
 
 # wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
-wpilib_bin_version = "2025.0.0-alpha-1-154-gb12b83a"
+wpilib_bin_version = "2025.0.0-alpha-1-187-g495c371"
 wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
 
 # Don't update these artifacts
