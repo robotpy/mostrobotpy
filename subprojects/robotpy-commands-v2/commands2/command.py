@@ -383,6 +383,23 @@ class Command(Sendable):
         from .proxycommand import ProxyCommand
 
         return ProxyCommand(self)
+    
+    def fork(self, *commands: Command) -> ProxyCommand:
+        """
+        Decorates this command to run "forked" by wrapping it in a ScheduleCommand. Use this for
+        "forking off" from command compositions when the user does not wish to extend the command's
+        requirements to the entire command composition. Note that if run from a composition, the
+        composition will not know about the status of the scheduled commands, and will treat this
+        command as finishing instantly. Commands can be added to this and will be scheduled in order
+        with this command scheduled first., see the `WPILib docs <https://docs.wpilib.org/en/stable/docs/software/commandbased/command-compositions.html#scheduling-other-commands>`_ for a full explanation.
+
+        :param other: other commands to schedule along with this one. This command is scheduled first.
+        :returns: the decorated command
+        """
+        from .schedulecommand import ScheduleCommand
+
+
+        return ScheduleCommand(self, [self] + commands)    
 
     def unless(self, condition: Callable[[], bool]) -> ConditionalCommand:
         """
