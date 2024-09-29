@@ -12,6 +12,9 @@ classes:
       - frc::TrajectoryConstraint::MinMax
     methods:
       EllipticalRegionConstraint:
+        overloads:
+          const Translation2d&, units::meter_t, units::meter_t, const Rotation2d&, const Constraint&:
+          const Ellipse2d&, const Constraint&:
       MaxVelocity:
       MinMaxAcceleration:
       IsPoseInRegion:

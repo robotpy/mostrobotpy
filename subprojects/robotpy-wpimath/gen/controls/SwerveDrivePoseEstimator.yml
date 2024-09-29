@@ -32,9 +32,12 @@ classes:
       Outputs:
     methods:
       SwerveDrivePoseEstimator:
-        param_override:
-          nominalDt:
-            default: 0.02_s
+        overloads:
+          SwerveDriveKinematics<NumModules>&, const Rotation2d&, const wpi::array<SwerveModulePosition, NumModules>&, const Pose2d&:
+          ? SwerveDriveKinematics<NumModules>&, const Rotation2d&, const wpi::array<SwerveModulePosition,
+            NumModules>&, const Pose2d&, const wpi::array<double, 3>&, const wpi::array<double,
+            3>&
+          :
       ResetPosition:
       GetEstimatedPosition:
       SetVisionMeasurementStdDevs:

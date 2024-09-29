@@ -19,6 +19,9 @@ classes:
       operator+:
       operator-:
       operator*:
+        overloads:
+          const double [const]:
+          const Quaternion& [const]:
       operator/:
       operator==:
       operator!=:
