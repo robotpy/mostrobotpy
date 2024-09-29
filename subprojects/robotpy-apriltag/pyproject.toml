@@ -24,6 +24,7 @@ update_init = [
 ]
 scan_headers_ignore = [
   "common/*",
+  "test/*",
 
   "apriltag.h",
   "apriltag_math.h",
