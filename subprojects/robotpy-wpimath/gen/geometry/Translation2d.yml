@@ -51,6 +51,9 @@ inline_code: |
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y){
       return std::make_unique<Translation2d>(x, y);
     }, py::arg("x"), py::arg("y"))
+    .def_static("fromFeet", [](units::foot_t distance, const Rotation2d &angle) {
+      return std::make_unique<Translation2d>(distance, angle);
+    }, py::arg("distance"), py::arg("angle"))
     .def_property_readonly("x", &Translation2d::X)
     .def_property_readonly("y", &Translation2d::Y)
     .def_property_readonly("x_feet", [](Translation2d * self) -> units::foot_t {
