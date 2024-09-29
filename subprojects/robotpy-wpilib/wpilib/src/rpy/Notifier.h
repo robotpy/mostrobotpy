@@ -57,7 +57,7 @@ class PyNotifier {
    *
    * @param handler Handler
    */
-  void SetHandler(std::function<void()> handler);
+  void SetCallback(std::function<void()> handler);
 
   /**
    * Register for single event notification.

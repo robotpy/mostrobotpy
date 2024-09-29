@@ -1,0 +1,13 @@
+---
+
+classes:
+  Alert:
+    enums:
+      AlertType:
+    methods:
+      Alert:
+        overloads:
+          std::string_view, AlertType:
+          std::string_view, std::string_view, AlertType:
+      Set:
+      SetText:
