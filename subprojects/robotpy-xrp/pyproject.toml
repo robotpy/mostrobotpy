@@ -16,7 +16,7 @@ robotpysimext = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-build<2025.0.0,~=2024.0.2",
     "wpilib~=2024.3.1"
 ]
 

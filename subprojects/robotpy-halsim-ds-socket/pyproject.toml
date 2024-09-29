@@ -15,7 +15,7 @@ robotpysimext = ["ds-socket = halsim_ds_socket"]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-build<2025.0.0,~=2024.0.2",
     "robotpy-hal~=2024.3.1",
     "robotpy-wpinet~=2024.3.1",
 ]
