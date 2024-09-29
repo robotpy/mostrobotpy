@@ -144,7 +144,7 @@ classes:
       StopClient:
       SetServer:
         overloads:
-          const char*, unsigned int:
+          std::string_view, unsigned int:
           std::span<const std::pair<std::string_view, unsigned int>>:
           std::span<const std::string_view>, unsigned int:
       SetServerTeam:
