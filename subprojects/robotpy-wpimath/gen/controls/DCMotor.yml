@@ -19,6 +19,9 @@ classes:
     methods:
       DCMotor:
       Current:
+        overloads:
+          units::radians_per_second_t, units::volt_t [const]:
+          units::newton_meter_t [const]:
       Torque:
       Voltage:
       Speed:
