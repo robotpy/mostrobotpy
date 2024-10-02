@@ -20,7 +20,7 @@ artifact_id = "wpinet-cpp"
 group_id = "edu.wpi.first.wpinet"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.0.0-alpha-2"
+version = "2025.0.0-alpha-2-21-g466a4a5"
 
 libs = ["wpinet"]
 

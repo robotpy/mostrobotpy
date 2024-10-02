@@ -48,7 +48,7 @@ artifact_id = "xrpVendordep-cpp"
 group_id = "edu.wpi.first.xrpVendordep"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.0.0-alpha-2"
+version = "2025.0.0-alpha-2-21-g466a4a5"
 libs = ["xrpVendordep"]
 
 [tool.robotpy-build.wrappers."xrp.extension".maven_lib_download]
@@ -56,7 +56,7 @@ artifact_id = "halsim_xrp"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.0.0-alpha-2"
+version = "2025.0.0-alpha-2-21-g466a4a5"
 
 dlopenlibs = ["halsim_xrp"]
 
