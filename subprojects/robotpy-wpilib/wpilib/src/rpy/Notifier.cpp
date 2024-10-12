@@ -15,6 +15,7 @@
 #include "frc/Timer.h"
 
 #include <pybind11/functional.h>
+#include <gilsafe_object.h>
 
 using namespace frc;
 using namespace pybind11::literals;
@@ -58,7 +59,7 @@ PyNotifier::PyNotifier(std::function<void()> handler) {
       if (handler)
         handler();
     }
-    if (_Py_IsFinalizing()) {
+    if (Py_IsFinalizing()) {
       release.disarm();
     }
   });
