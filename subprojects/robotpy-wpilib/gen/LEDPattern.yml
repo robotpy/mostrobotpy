@@ -4,7 +4,10 @@ classes:
   LEDPattern:
     attributes:
       kOff:
+    enums:
+      GradientType:
     methods:
+      'Off':
       LEDPattern:
       ApplyTo:
         overloads:
@@ -33,7 +36,7 @@ classes:
             ignore: true
       Gradient:
         overloads:
-          std::span<const Color>:
-          std::initializer_list<Color>:
+          GradientType, std::span<const Color>:
+          GradientType, std::initializer_list<Color>:
             ignore: true
       Rainbow:

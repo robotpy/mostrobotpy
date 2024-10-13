@@ -27,3 +27,8 @@ classes:
       CheckPDPModule:
       GetDefaultCTREPCMModule:
       GetDefaultREVPHModule:
+      GetNumDigitalChannels:
+      GetNumAnalogInputs:
+      GetNumAnalogOuputs:
+      GetNumPwmChannels:
+      GetNumRelayChannels:
