@@ -221,7 +221,13 @@ jobs:
       run: |
         pwd
         /usr/bin/git config --global --add safe.directory $(pwd)
-    
+
+    # See https://github.com/pallets/markupsafe/issues/475
+    - name: Install MarkupSafe
+      shell: bash
+      run: |
+        /build/venv/bin/cross-pip install --no-build-isolation "markupsafe; python_version < '3.12'"
+
     - name: Install deps
       shell: bash
       run: |
