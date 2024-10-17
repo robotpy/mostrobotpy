@@ -114,7 +114,7 @@ jobs:
     - name: Install numpy (needed for stubgen but broken in raspbian CI)
       shell: bash
       run: |
-        python -m pip --disable-pip-version-check install 'numpy<2'
+        python -m pip --disable-pip-version-check install numpy
 
     - name: Build + test wheels
       shell: bash
