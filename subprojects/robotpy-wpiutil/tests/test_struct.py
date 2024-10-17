@@ -31,7 +31,7 @@ def test_for_each_nested():
 
 
 def test_get_type_string():
-    assert wpistruct.getTypeString(module.ThingA) == "struct:ThingA"
+    assert wpistruct.getTypeName(module.ThingA) == "ThingA"
 
 
 def test_get_schema():
@@ -89,7 +89,7 @@ def test_nested_for_each_nested():
 
 
 def test_nested_get_type_string():
-    assert wpistruct.getTypeString(module.ThingA) == "struct:ThingA"
+    assert wpistruct.getTypeName(module.ThingA) == "ThingA"
 
 
 def test_nested_get_schema():
@@ -140,7 +140,7 @@ def test_user_for_each_nested():
 
 
 def test_user_get_type_string():
-    assert wpistruct.getTypeString(MyStruct) == "struct:mystruct"
+    assert wpistruct.getTypeName(MyStruct) == "mystruct"
 
 
 def test_user_get_schema():
@@ -202,7 +202,7 @@ def test_user_nested_for_each_nested():
 
 
 def test_user_nested_get_type_string():
-    assert wpistruct.getTypeString(Outer) == "struct:Outer"
+    assert wpistruct.getTypeName(Outer) == "Outer"
 
 
 def test_user_nested_get_schema():

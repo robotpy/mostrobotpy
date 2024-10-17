@@ -58,8 +58,7 @@ classes:
           ModuleDeltas&&... [const]:
             ignore: true
           wpi::array<SwerveModulePosition, NumModules> [const]:
-          const SwerveDriveWheelPositions<NumModules>&, const SwerveDriveWheelPositions<NumModules>& [const]:
-            ignore: true
+          const wpi::array<SwerveModulePosition, NumModules>&, const wpi::array<SwerveModulePosition, NumModules>& [const]:
       DesaturateWheelSpeeds:
         overloads:
           wpi::array<SwerveModuleState, NumModules>*, units::meters_per_second_t:
@@ -80,6 +79,9 @@ classes:
                 frc::SwerveDriveKinematics<NumModules>::DesaturateWheelSpeeds(&moduleStates, currentChassisSpeed, attainableMaxModuleSpeed, attainableMaxRobotTranslationSpeed, attainableMaxRobotRotationSpeed);
                 return moduleStates;
               }
+
+      Interpolate:
+      GetModules:
 
     template_inline_code: |
       if constexpr (NumModules == 2) {

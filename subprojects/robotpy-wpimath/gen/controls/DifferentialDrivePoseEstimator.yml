@@ -39,9 +39,12 @@ classes:
       containing left encoder position, right encoder position, and gyro heading.
     methods:
       DifferentialDrivePoseEstimator:
-        param_override:
-          nominalDt:
-            default: 0.02_s
+        overloads:
+          DifferentialDriveKinematics&, const Rotation2d&, units::meter_t, units::meter_t, const Pose2d&:
+          ? DifferentialDriveKinematics&, const Rotation2d&, units::meter_t, units::meter_t,
+            const Pose2d&, const wpi::array<double, 3>&, const wpi::array<double,
+            3>&
+          :
       SetVisionMeasurementStdDevs:
       ResetPosition:
       GetEstimatedPosition:

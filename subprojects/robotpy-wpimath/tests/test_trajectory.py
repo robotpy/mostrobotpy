@@ -4,7 +4,7 @@ import wpimath.trajectory
 import wpimath.trajectory.constraint
 from wpimath.spline import CubicHermiteSpline, SplineHelper
 
-from wpimath.geometry import Pose2d, Rotation2d, Translation2d
+from wpimath.geometry import Ellipse2d, Pose2d, Rectangle2d, Rotation2d, Translation2d
 
 from wpimath.trajectory import Trajectory, TrajectoryConfig
 
@@ -47,15 +47,11 @@ def getTestTrajectory(config: TrajectoryConfig) -> Trajectory:
 
 def test_elliptical_region_constraint():
     maxVelocity = 2
+    ellipse = Ellipse2d.fromFeet(Pose2d.fromFeet(5, 2.5, math.radians(180)), 5, 2.5)
+
     config = TrajectoryConfig.fromFps(13, 13)
     maxVelConstraint = MaxVelocityConstraint.fromFps(maxVelocity)
-    regionConstraint = EllipticalRegionConstraint.fromFeet(
-        Translation2d.fromFeet(5, 2.5),
-        10,
-        5,
-        Rotation2d.fromDegrees(180),
-        maxVelConstraint,
-    )
+    regionConstraint = EllipticalRegionConstraint(ellipse, maxVelConstraint)
 
     config.addConstraint(regionConstraint)
 
@@ -63,22 +59,18 @@ def test_elliptical_region_constraint():
 
     exceededConstraintOutsideRegion = False
     for point in trajectory.states():
-        translation = point.pose.translation()
-        if translation.x_feet < 10 and translation.y_feet < 5:
+        if ellipse.contains(point.pose.translation()):
             assert abs(point.velocity_fps) < maxVelocity + 0.05
         elif abs(point.velocity_fps) >= maxVelocity + 0.05:
             exceededConstraintOutsideRegion = True
 
+        # translation = point.pose.translation()
+        # if translation.x_feet < 10 and translation.y_feet < 5:
+        #     assert abs(point.velocity_fps) < maxVelocity + 0.05
+        # elif abs(point.velocity_fps) >= maxVelocity + 0.05:
+        #     exceededConstraintOutsideRegion = True
+
     assert exceededConstraintOutsideRegion
-
-
-def test_elliptical_region_is_pose_in_region():
-    maxVelConstraint = MaxVelocityConstraint.fromFps(2)
-    regionConstraintNoRotation = EllipticalRegionConstraint.fromFeet(
-        Translation2d.fromFeet(1, 1), 2, 4, Rotation2d(0), maxVelConstraint
-    )
-
-    assert not regionConstraintNoRotation.isPoseInRegion(Pose2d.fromFeet(2.1, 1, 0))
 
 
 #
@@ -88,13 +80,11 @@ def test_elliptical_region_is_pose_in_region():
 
 def test_rectangular_region_constraint():
     maxVelocity = 2
+    rectangle = Rectangle2d(Translation2d.fromFeet(1, 1), Translation2d.fromFeet(5, 27))
+
     config = TrajectoryConfig.fromFps(13, 13)
     maxVelConstraint = MaxVelocityConstraint.fromFps(maxVelocity)
-    regionConstraint = RectangularRegionConstraint(
-        Translation2d.fromFeet(1, 1),
-        Translation2d.fromFeet(5, 27),
-        maxVelConstraint,
-    )
+    regionConstraint = RectangularRegionConstraint(rectangle, maxVelConstraint)
 
     config.addConstraint(regionConstraint)
 
@@ -102,21 +92,12 @@ def test_rectangular_region_constraint():
 
     exceededConstraintOutsideRegion = False
     for point in trajectory.states():
-        if regionConstraint.isPoseInRegion(point.pose):
+        if rectangle.contains(point.pose.translation()):
             assert abs(point.velocity_fps) < maxVelocity + 0.05
         elif abs(point.velocity_fps) >= maxVelocity + 0.05:
             exceededConstraintOutsideRegion = True
 
     assert exceededConstraintOutsideRegion
-
-
-def test_rectangular_region_is_pose_in_region():
-    maxVelConstraint = MaxVelocityConstraint.fromFps(2)
-    regionConstraint = RectangularRegionConstraint(
-        Translation2d.fromFeet(1, 1), Translation2d.fromFeet(5, 27), maxVelConstraint
-    )
-    assert not regionConstraint.isPoseInRegion(Pose2d())
-    assert regionConstraint.isPoseInRegion(Pose2d.fromFeet(3, 14.5, Rotation2d()))
 
 
 #

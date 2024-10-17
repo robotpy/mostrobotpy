@@ -36,10 +36,14 @@ classes:
                       fl, fr, bl, br = kinematics.toWheelSpeeds(chassisSpeeds)
       ToChassisSpeeds:
       ToTwist2d:
+        overloads:
+          const MecanumDriveWheelPositions&, const MecanumDriveWheelPositions& [const]:
+          const MecanumDriveWheelPositions& [const]:
       GetFrontLeft:
       GetFrontRight:
       GetRearLeft:
       GetRearRight:
+      Interpolate:
 
 inline_code: |
   SetupWPyStruct<frc::MecanumDriveKinematics>(cls_MecanumDriveKinematics);

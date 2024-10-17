@@ -1,10 +1,13 @@
 ---
 
 extra_includes:
+- wpi/sendable/SendableBuilder.h
 - frc/event/BooleanEvent.h
 
 classes:
   PS4Controller:
+    ignored_bases:
+    - wpi::SendableHelper<PS4Controller>
     methods:
       PS4Controller:
       GetLeftX:
@@ -69,6 +72,10 @@ classes:
       GetTouchpadPressed:
       GetTouchpadReleased:
       Touchpad:
+      GetTouchpadButton:
+      GetTouchpadButtonPressed:
+      GetTouchpadButtonReleased:
+      InitSendable:
   PS4Controller::Button:
     attributes:
       kSquare:

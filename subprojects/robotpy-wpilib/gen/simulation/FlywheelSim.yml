@@ -21,3 +21,10 @@ classes:
       GetAngularVelocity:
       GetCurrentDraw:
       SetInputVoltage:
+      SetVelocity:
+      GetAngularAcceleration:
+      GetTorque:
+      GetInputVoltage:
+      Gearbox:
+      Gearing:
+      J:

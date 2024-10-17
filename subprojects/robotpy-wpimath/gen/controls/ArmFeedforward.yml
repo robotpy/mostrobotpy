@@ -10,21 +10,23 @@ classes:
     - frc::ArmFeedforward::Acceleration
     - frc::ArmFeedforward::kv_unit
     - frc::ArmFeedforward::ka_unit
-    attributes:
-      kS:
-      kG:
-      kV:
-      kA:
     methods:
       ArmFeedforward:
         overloads:
           '[constexpr]':
           units::volt_t, units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit> [constexpr]:
       Calculate:
+        overloads:
+          units::unit_t<Angle>, units::unit_t<Velocity>, units::unit_t<Acceleration> [const]:
+          units::unit_t<Angle>, units::unit_t<Velocity>, units::unit_t<Velocity>, units::second_t [const]:
       MaxAchievableVelocity:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
       MinAchievableAcceleration:
+      GetKs:
+      GetKg:
+      GetKv:
+      GetKa:
 
 extra_includes:
 - wpystruct.h

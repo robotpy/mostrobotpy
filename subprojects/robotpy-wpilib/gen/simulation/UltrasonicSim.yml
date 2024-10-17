@@ -9,5 +9,8 @@ classes:
     - frc::Ultrasonic
     methods:
       UltrasonicSim:
+        overloads:
+          const Ultrasonic&:
+          int, int:
       SetRangeValid:
       SetRange:

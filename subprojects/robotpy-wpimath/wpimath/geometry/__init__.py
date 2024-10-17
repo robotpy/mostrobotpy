@@ -4,9 +4,11 @@ from . import _init_geometry
 from ._geometry import (
     CoordinateAxis,
     CoordinateSystem,
+    Ellipse2d,
     Pose2d,
     Pose3d,
     Quaternion,
+    Rectangle2d,
     Rotation2d,
     Rotation3d,
     Transform2d,
@@ -20,9 +22,11 @@ from ._geometry import (
 __all__ = [
     "CoordinateAxis",
     "CoordinateSystem",
+    "Ellipse2d",
     "Pose2d",
     "Pose3d",
     "Quaternion",
+    "Rectangle2d",
     "Rotation2d",
     "Rotation3d",
     "Transform2d",

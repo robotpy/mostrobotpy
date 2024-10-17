@@ -17,6 +17,8 @@ from .._wpiutil.log import (
     StartRecordData,
     StringArrayLogEntry,
     StringLogEntry,
+    StructArrayLogEntry,
+    StructLogEntry,
 )
 
 __all__ = [
@@ -37,4 +39,6 @@ __all__ = [
     "StartRecordData",
     "StringArrayLogEntry",
     "StringLogEntry",
+    "StructArrayLogEntry",
+    "StructLogEntry",
 ]

@@ -36,6 +36,14 @@ template <> struct handle_type_name<units::millimeters> {
   static constexpr auto name = _("wpimath.units.millimeters");
 };
 
+template <> struct handle_type_name<units::centimeter_t> {
+  static constexpr auto name = _("wpimath.units.centimeters");
+};
+
+template <> struct handle_type_name<units::centimeters> {
+  static constexpr auto name = _("wpimath.units.centimeters");
+};
+
 template <> struct handle_type_name<units::kilometer_t> {
   static constexpr auto name = _("wpimath.units.kilometers");
 };

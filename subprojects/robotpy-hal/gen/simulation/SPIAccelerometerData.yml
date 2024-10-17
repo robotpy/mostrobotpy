@@ -30,5 +30,5 @@ functions:
   HALSIM_CancelSPIAccelerometerZCallback:
   HALSIM_GetSPIAccelerometerZ:
   HALSIM_SetSPIAccelerometerZ:
-  HALSIM_RegisterSPIAccelerometerAllCallbcaks:
+  HALSIM_RegisterSPIAccelerometerAllCallbacks:
     ignore: true

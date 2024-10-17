@@ -6,7 +6,6 @@ extra_includes:
 - frc/kinematics/MecanumDriveWheelPositions.h
 - frc/kinematics/MecanumDriveWheelSpeeds.h
 - frc/kinematics/SwerveDriveKinematics.h
-- frc/kinematics/SwerveDriveWheelPositions.h
 
 classes:
   Odometry:
@@ -16,6 +15,9 @@ classes:
     methods:
       Odometry:
       ResetPosition:
+      ResetPose:
+      ResetTranslation:
+      ResetRotation:
       GetPose:
       Update:
 
@@ -33,20 +35,20 @@ templates:
   SwerveDrive2OdometryBase:
     qualname: frc::Odometry
     params:
-    - frc::SwerveDriveWheelSpeeds<2>
-    - frc::SwerveDriveWheelPositions<2>
+    - wpi::array<frc::SwerveModuleState,2>
+    - wpi::array<frc::SwerveModulePosition,2>
   SwerveDrive3OdometryBase:
     qualname: frc::Odometry
     params:
-    - frc::SwerveDriveWheelSpeeds<3>
-    - frc::SwerveDriveWheelPositions<3>
+    - wpi::array<frc::SwerveModuleState,3>
+    - wpi::array<frc::SwerveModulePosition,3>
   SwerveDrive4OdometryBase:
     qualname: frc::Odometry
     params:
-    - frc::SwerveDriveWheelSpeeds<4>
-    - frc::SwerveDriveWheelPositions<4>
+    - wpi::array<frc::SwerveModuleState,4>
+    - wpi::array<frc::SwerveModulePosition,4>
   SwerveDrive6OdometryBase:
     qualname: frc::Odometry
     params:
-    - frc::SwerveDriveWheelSpeeds<6>
-    - frc::SwerveDriveWheelPositions<6>
+    - wpi::array<frc::SwerveModuleState,6>
+    - wpi::array<frc::SwerveModulePosition,6>

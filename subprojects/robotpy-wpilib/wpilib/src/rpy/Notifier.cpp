@@ -15,6 +15,7 @@
 #include "frc/Timer.h"
 
 #include <pybind11/functional.h>
+#include <gilsafe_object.h>
 
 using namespace frc;
 using namespace pybind11::literals;
@@ -58,7 +59,7 @@ PyNotifier::PyNotifier(std::function<void()> handler) {
       if (handler)
         handler();
     }
-    if (_Py_IsFinalizing()) {
+    if (Py_IsFinalizing()) {
       release.disarm();
     }
   });
@@ -84,7 +85,7 @@ PyNotifier::~PyNotifier() {
     m_thread.attr("join")();
   }
 
-  HAL_CleanNotifier(handle, &status);
+  HAL_CleanNotifier(handle);
 }
 
 PyNotifier::PyNotifier(PyNotifier &&rhs)
@@ -117,7 +118,7 @@ void PyNotifier::SetName(std::string_view name) {
   HAL_SetNotifierName(m_notifier, buf.data(), &status);
 }
 
-void PyNotifier::SetHandler(std::function<void()> handler) {
+void PyNotifier::SetCallback(std::function<void()> handler) {
   std::scoped_lock lock(m_processMutex);
   m_handler = handler;
 }

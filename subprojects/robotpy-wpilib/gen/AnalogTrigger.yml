@@ -8,15 +8,22 @@ extra_includes:
 
 classes:
   AnalogTrigger:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<AnalogTrigger>
     methods:
       AnalogTrigger:
         overloads:
           int:
+          AnalogInput&:
+            ignore: true
           AnalogInput*:
+            ignore: true
+          std::shared_ptr<AnalogInput>:
+          DutyCycle&:
+            ignore: true
           DutyCycle*:
+            ignore: true
+          std::shared_ptr<DutyCycle>:
       SetLimitsVoltage:
       SetLimitsDutyCycle:
       SetLimitsRaw:

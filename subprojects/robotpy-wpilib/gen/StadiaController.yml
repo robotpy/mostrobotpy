@@ -1,7 +1,12 @@
 ---
 
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
 classes:
   StadiaController:
+    ignored_bases:
+    - wpi::SendableHelper<StadiaController>
     methods:
       StadiaController:
       GetLeftX:
@@ -68,6 +73,13 @@ classes:
       GetRightTriggerButtonPressed:
       GetRightTriggerButtonReleased:
       RightTrigger:
+      GetLeftBumperButton:
+      GetLeftBumperButtonPressed:
+      GetLeftBumperButtonReleased:
+      GetRightBumperButton:
+      GetRightBumperButtonPressed:
+      GetRightBumperButtonReleased:
+      InitSendable:
   StadiaController::Button:
     attributes:
       kA:

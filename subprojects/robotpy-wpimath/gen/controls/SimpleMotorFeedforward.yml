@@ -18,10 +18,6 @@ classes:
     - typename frc::SimpleMotorFeedforward<Distance>::ka_unit
     template_params:
     - Distance
-    attributes:
-      kS:
-      kV:
-      kA:
     methods:
       SimpleMotorFeedforward:
         overloads:
@@ -30,11 +26,17 @@ classes:
       Calculate:
         overloads:
           units::unit_t<Velocity>, units::unit_t<Acceleration> [const]:
-          units::unit_t<Velocity>, units::unit_t<Velocity>, units::second_t [const]:
+            ignore: true
+          units::unit_t<Velocity> [const]:
+          units::unit_t<Velocity>, units::unit_t<Velocity> [const]:
       MaxAchievableVelocity:
       MinAchievableVelocity:
       MaxAchievableAcceleration:
       MinAchievableAcceleration:
+      GetKs:
+      GetKv:
+      GetKa:
+      GetDt:
 
 templates:
   # Unfortunately this is broken because calculate requires an SI unit

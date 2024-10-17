@@ -8,7 +8,7 @@ from wpimath.controller import SimpleMotorFeedforwardMeters
 from wpimath.trajectory import ExponentialProfileMeterVolts
 
 kDt = 0.01
-feedforward = SimpleMotorFeedforwardMeters(0, 2.5629, 0.43277)
+feedforward = SimpleMotorFeedforwardMeters(0, 2.5629, 0.43277, kDt)
 constraints = ExponentialProfileMeterVolts.Constraints.fromCharacteristics(
     12, 2.5629, 0.43277
 )
@@ -32,7 +32,7 @@ def check_dynamics(
 ):
     next_state = profile.calculate(kDt, current, goal)
 
-    signal = feedforward.calculate(current.velocity, next_state.velocity, kDt)
+    signal = feedforward.calculate(current.velocity, next_state.velocity)
 
     assert abs(signal) < constraints.maxInput + 1e-9
 

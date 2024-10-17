@@ -30,6 +30,7 @@ functions:
   HAL_GetREVPHFaults:
   HAL_GetREVPHStickyFaults:
   HAL_ClearREVPHStickyFaults:
+  HAL_GetREVPHSolenoidDisabledList:
 classes:
   HAL_REVPHVersion:
     shared_ptr: true
@@ -82,3 +83,5 @@ classes:
       canWarning:
       canBusOff:
       hasReset:
+      hardwareFault:
+      firmwareFault:

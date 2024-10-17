@@ -18,15 +18,17 @@ functions:
   HAL_GetJoystickIsXbox:
   HAL_GetJoystickType:
   HAL_GetJoystickName:
+    param_override:
+      name:
+        ignore: true
     cpp_code: |
       [](int32_t joystickNum) {
-        auto name = HAL_GetJoystickName(joystickNum);
-        std::string sname(name);
-        HAL_FreeJoystickName(name);
+        WPI_String name;
+        HAL_GetJoystickName(&name, joystickNum);
+        std::string sname(wpi::to_string_view(&name));
+        WPI_FreeString(&name);
         return sname;
       }
-  HAL_FreeJoystickName:
-    ignore: true
   HAL_GetJoystickAxisType:
   HAL_SetJoystickOutputs:
   HAL_GetMatchTime:

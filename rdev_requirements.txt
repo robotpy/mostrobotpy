@@ -2,6 +2,7 @@ black
 click
 packaging
 pydantic<2
+pytest
 requests
 setuptools
 setuptools_scm >= 6.2, < 8

@@ -12,19 +12,35 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a1",
     "robotpy-wpiutil~=2024.3.1",
     "robotpy-wpimath~=2024.3.1",
 ]
 
 [tool.robotpy-build]
 base_package = "robotpy_apriltag"
+update_init = [
+  "robotpy_apriltag robotpy_apriltag._apriltag"
+]
+scan_headers_ignore = [
+  "common/*",
+  "test/*",
+
+  "apriltag.h",
+  "apriltag_math.h",
+  "apriltag_pose.h",
+
+  "frc/apriltag/AprilTagDetector_cv.h",
+
+  "tag16h5.h",
+  "tag36h11.h",
+]
 
 [tool.robotpy-build.wrappers."robotpy_apriltag".maven_lib_download]
 artifact_id = "apriltag-cpp"
 group_id = "edu.wpi.first.apriltag"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.3.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2025.1.1-beta-1"
 
 libs = ["apriltag"]
 

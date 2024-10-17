@@ -10,3 +10,6 @@
 /xrp/_init_xrp.py
 /xrp/pkgcfg.py
 /xrp/version.py
+/xrp/extension/_init_xrp_ext.py
+/xrp/extension/include
+/xrp/extension/pkgcfg.py

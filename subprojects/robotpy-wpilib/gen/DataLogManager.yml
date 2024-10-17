@@ -13,3 +13,4 @@ classes:
         return_value_policy: reference
       GetLogDir:
       LogNetworkTables:
+      LogConsoleOutput:

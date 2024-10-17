@@ -23,6 +23,7 @@ classes:
       X:
       Y:
       Z:
+      ToVector:
       Norm:
       RotateBy:
       ToTranslation2d:

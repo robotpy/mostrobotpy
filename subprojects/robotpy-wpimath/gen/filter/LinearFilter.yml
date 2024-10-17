@@ -15,6 +15,9 @@ classes:
       HighPass:
       MovingAverage:
       Reset:
+        overloads:
+          "":
+          std::span<const T>, std::span<const T>:
       Calculate:
       LastValue:
       BackwardFiniteDifference:

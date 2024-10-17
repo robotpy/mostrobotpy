@@ -1,7 +1,9 @@
 #include <string>
 
+#include <frc/geometry/Ellipse2d.h>
 #include <frc/geometry/Pose2d.h>
 #include <frc/geometry/Pose3d.h>
+#include <frc/geometry/Rectangle2d.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/geometry/Rotation3d.h>
 #include <frc/geometry/Translation2d.h>
@@ -79,6 +81,18 @@ inline std::string toString(const frc::Pose2d &self) {
 inline std::string toString(const frc::Pose3d &self) {
   return "Pose3d(" + rpy::toString(self.Translation()) + ", " +
          rpy::toString(self.Rotation()) + ")";
+}
+
+inline std::string toString(const frc::Rectangle2d &self) {
+  return "Rectangle2d(center=" + rpy::toString(self.Center()) +
+    ", xWidth=" + std::to_string(self.XWidth()()) +
+    ", yWidth=" + std::to_string(self.YWidth()()) + ")";
+}
+
+inline std::string toString(const frc::Ellipse2d &self) {
+  return "Ellipse2d(center=" + rpy::toString(self.Center()) +
+    ", xSemiAxis=" + std::to_string(self.XSemiAxis()()) +
+    ", ySemiAxis=" + std::to_string(self.YSemiAxis()()) + ")";
 }
 
 

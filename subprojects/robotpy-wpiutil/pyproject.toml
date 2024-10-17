@@ -9,11 +9,23 @@ install_requires = []
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a1",
 ]
 
 [tool.robotpy-build]
 base_package = "wpiutil"
+update_init = [
+    "wpiutil",
+    "wpiutil.log wpiutil._wpiutil.log",
+    "wpiutil.sync wpiutil._wpiutil.sync",
+    "wpiutil.wpistruct wpiutil._wpiutil.wpistruct",
+]
+scan_headers_ignore = [
+    "fmt/*",
+    "google/*",
+    "wpi/*",
+    "wpystruct_fns.h",
+]
 
 [tool.robotpy-build.wrappers."wpiutil"]
 name = "wpiutil"
@@ -33,9 +45,9 @@ generation_data = "gen"
 [tool.robotpy-build.wrappers."wpiutil".maven_lib_download]
 artifact_id = "wpiutil-cpp"
 group_id = "edu.wpi.first.wpiutil"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2024.3.2"
+version = "2025.1.1-beta-1"
 
 libs = ["wpiutil"]
 
@@ -43,6 +55,8 @@ libs = ["wpiutil"]
 # wpi
 DataLog = "wpi/DataLog.h"
 DataLogReader = "wpi/DataLogReader.h"
+DataLogBackgroundWriter = "wpi/DataLogBackgroundWriter.h"
+DataLogWriter = "wpi/DataLogWriter.h"
 StackTrace = "wpi/StackTrace.h"
 Synchronization = "wpi/Synchronization.h"
 

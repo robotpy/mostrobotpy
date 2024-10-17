@@ -29,6 +29,9 @@ classes:
       Reset:
       Predict:
       Correct:
+        overloads:
+          const InputVector&, const OutputVector&:
+          const InputVector&, const OutputVector&, const Matrixd<Outputs, Outputs>&:
 
 templates:
   KalmanFilter_1_1_1:

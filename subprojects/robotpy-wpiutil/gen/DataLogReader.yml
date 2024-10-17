@@ -300,20 +300,19 @@ inline_code: |
 
   cls_DataLogReader
     .def(py::init([](const std::string &filename) {
-      std::error_code ec;
-      auto mbuf = wpi::MemoryBuffer::GetFile(filename, ec);
-      if (ec) {
+      auto mbuf = wpi::MemoryBuffer::GetFile(filename);
+      if (!mbuf) {
         py::gil_scoped_acquire gil;
         #ifdef _WIN32
-          PyErr_SetFromWindowsErr(ec.value());
+          PyErr_SetFromWindowsErr(mbuf.error().value());
         #else
-          errno = ec.value();
+          errno = mbuf.error().value();
           PyErr_SetFromErrno(PyExc_OSError);
         #endif
         throw py::error_already_set();
       }
 
-      return std::make_shared<wpi::log::DataLogReader>(std::move(mbuf));
+      return std::make_shared<wpi::log::DataLogReader>(std::move(*mbuf));
     }),
       release_gil(), py::arg("filename"))
 

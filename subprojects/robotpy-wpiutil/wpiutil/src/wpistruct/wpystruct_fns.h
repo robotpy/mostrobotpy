@@ -11,9 +11,9 @@ void forEachNested(
     const std::function<void(std::string_view, std::string_view)> &fn);
 
 /**
-    Retrieve the type string for the specified type
+    Retrieve the type name for the specified type
 */
-py::str getTypeString(const py::type &t);
+py::str getTypeName(const py::type &t);
 
 /**
     Retrieve schema for the specified type

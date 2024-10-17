@@ -8,9 +8,9 @@
 namespace pybind11 {
 namespace detail {
 
-template <typename Char, typename Traits, size_t N>
-struct type_caster<wpi::ct_string<Char, Traits, N>> {
-    using str_type = wpi::ct_string<Char, Traits, N>;
+template <typename CharT, typename Traits, size_t N>
+struct type_caster<wpi::ct_string<CharT, Traits, N>> {
+    using str_type = wpi::ct_string<CharT, Traits, N>;
     PYBIND11_TYPE_CASTER(str_type, const_name(PYBIND11_STRING_NAME));
 
     // TODO
@@ -21,19 +21,35 @@ struct type_caster<wpi::ct_string<Char, Traits, N>> {
     static handle cast(const str_type& src,
                          py::return_value_policy policy,
                          py::handle parent) {
-    const char *buffer = reinterpret_cast<const char *>(src.data());
-        auto nbytes = ssize_t(src.size() * sizeof(Char));
-        handle s;
-        if (policy == return_value_policy::_return_as_bytes) {
-            s = PyBytes_FromStringAndSize(buffer, nbytes);
-        } else {
-            s = PyUnicode_DecodeUTF8(buffer, nbytes, nullptr);
-        }
+        const char *buffer = reinterpret_cast<const char *>(src.data());
+        auto nbytes = ssize_t(src.size() * sizeof(CharT));
+        handle s = decode_utfN(buffer, nbytes);
         if (!s) {
             throw error_already_set();
         }
         return s;
-  }
+    }
+
+    // copied from py::string_caster
+    static constexpr size_t UTF_N = 8 * sizeof(CharT);
+
+    static handle decode_utfN(const char *buffer, ssize_t nbytes) {
+#if !defined(PYPY_VERSION)
+        return UTF_N == 8    ? PyUnicode_DecodeUTF8(buffer, nbytes, nullptr)
+               : UTF_N == 16 ? PyUnicode_DecodeUTF16(buffer, nbytes, nullptr, nullptr)
+                             : PyUnicode_DecodeUTF32(buffer, nbytes, nullptr, nullptr);
+#else
+        // PyPy segfaults when on PyUnicode_DecodeUTF16 (and possibly on PyUnicode_DecodeUTF32 as
+        // well), so bypass the whole thing by just passing the encoding as a string value, which
+        // works properly:
+        return PyUnicode_Decode(buffer,
+                                nbytes,
+                                UTF_N == 8    ? "utf-8"
+                                : UTF_N == 16 ? "utf-16"
+                                              : "utf-32",
+                                nullptr);
+#endif
+    }
 
 };
 

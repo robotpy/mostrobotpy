@@ -31,3 +31,5 @@ classes:
       SetR3Button:
       SetPSButton:
       SetTouchpad:
+        ignore: true
+      SetTouchpadButton:

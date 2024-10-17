@@ -30,6 +30,10 @@ classes:
         overloads:
           const Vectord<Inputs>&:
           int, double:
+      GetInput:
+        overloads:
+          '[const]':
+          int [const]:
       SetState:
       GetCurrentDraw:
       UpdateX:

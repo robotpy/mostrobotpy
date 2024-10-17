@@ -7,6 +7,8 @@ classes:
   ADIS16470_IMU:
     attributes:
       m_yaw_axis:
+      m_pitch_axis:
+      m_roll_axis:
     enums:
       CalibrationTime:
       IMUAxis:

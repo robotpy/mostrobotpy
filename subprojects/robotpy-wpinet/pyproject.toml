@@ -1,5 +1,10 @@
 [tool.robotpy-build]
 base_package = "wpinet"
+update_init = [
+    "wpinet"
+]
+# we don't wrap anything here
+scan_headers_ignore = ["*"]
 
 [tool.robotpy-build.wrappers."wpinet"]
 name = "wpinet"
@@ -14,8 +19,8 @@ generation_data = "gen"
 artifact_id = "wpinet-cpp"
 group_id = "edu.wpi.first.wpinet"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.3.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2025.1.1-beta-1"
 
 libs = ["wpinet"]
 
@@ -36,6 +41,6 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a1",
     "robotpy-wpiutil~=2024.3.1",
 ]

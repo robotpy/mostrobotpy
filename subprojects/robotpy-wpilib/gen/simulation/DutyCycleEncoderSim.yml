@@ -8,6 +8,9 @@ classes:
     shared_ptr: true
     methods:
       DutyCycleEncoderSim:
+        overloads:
+          const DutyCycleEncoder&:
+          int:
       Get:
       Set:
       GetDistance:

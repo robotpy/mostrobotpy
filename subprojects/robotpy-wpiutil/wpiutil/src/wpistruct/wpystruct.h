@@ -81,7 +81,7 @@ template <> struct type_caster<WPyStruct> {
 // two types of converters: static C++ converter, and dynamic python converter
 struct WPyStructConverter {
   virtual ~WPyStructConverter() = default;
-  virtual std::string_view GetTypeString() const = 0;
+  virtual std::string_view GetTypeName() const = 0;
 
   virtual size_t GetSize() const = 0;
 
@@ -101,8 +101,8 @@ struct WPyStructConverter {
 
 // static C++ converter
 template <typename T> struct WPyStructCppConverter : WPyStructConverter {
-  std::string_view GetTypeString() const override {
-    return wpi::Struct<T>::GetTypeString();
+  std::string_view GetTypeName() const override {
+    return wpi::Struct<T>::GetTypeName();
   }
 
   size_t GetSize() const override { return wpi::Struct<T>::GetSize(); }
@@ -155,7 +155,7 @@ template <typename T> void SetupWPyStruct(auto pycls) {
 struct WPyStructPyConverter : WPyStructConverter {
 
   WPyStructPyConverter(py::object o) {
-    m_typestring = o.attr("typeString").cast<std::string>();
+    m_typename = o.attr("typename").cast<std::string>();
     m_schema = o.attr("schema").cast<std::string>();
     m_size = o.attr("size").cast<size_t>();
 
@@ -168,7 +168,7 @@ struct WPyStructPyConverter : WPyStructConverter {
   }
 
   // copy all the relevant attributes locally
-  std::string m_typestring;
+  std::string m_typename;
   std::string m_schema;
   size_t m_size;
 
@@ -178,7 +178,7 @@ struct WPyStructPyConverter : WPyStructConverter {
   // py::function m_unpackInto;
   py::function m_forEachNested; // might be none
 
-  std::string_view GetTypeString() const override { return m_typestring; }
+  std::string_view GetTypeName() const override { return m_typename; }
 
   size_t GetSize() const override { return m_size; }
 
@@ -275,8 +275,8 @@ private:
 
 // Leverages the converter stored in WPyStructInfo to do the actual work
 template <> struct wpi::Struct<WPyStruct, WPyStructInfo> {
-  static std::string_view GetTypeString(const WPyStructInfo &info) {
-    return info->GetTypeString();
+  static std::string_view GetTypeName(const WPyStructInfo &info) {
+    return info->GetTypeName();
   }
 
   static size_t GetSize(const WPyStructInfo &info) {
