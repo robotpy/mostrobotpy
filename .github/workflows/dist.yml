@@ -44,7 +44,7 @@ jobs:
 
     - uses: actions/setup-python@v5
       with:
-        python-version: "3.12"
+        python-version: "3.13"
 
     - name: Install deps
       shell: bash
@@ -70,11 +70,11 @@ jobs:
       matrix: 
         os: ["ubuntu-22.04", "macos-13", "windows-2022"]
         python_version:
-        - '3.8'
         - '3.9'
         - '3.10'
         - '3.11'
         - '3.12'
+        - '3.13'
 
     steps:
     - uses: actions/checkout@v4
@@ -169,30 +169,30 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/roborio-cross-ubuntu:2024-22.04-py312
+        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
           name: roborio
 
-        - container: wpilib/raspbian-cross-ubuntu:bullseye-22.04-py38
-          name: raspbian-py38
-        - container: wpilib/raspbian-cross-ubuntu:bullseye-22.04-py39
+        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py39
           name: raspbian-py39
-        - container: wpilib/raspbian-cross-ubuntu:bullseye-22.04-py310
+        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py310
           name: raspbian-py310
-        - container: wpilib/raspbian-cross-ubuntu:bullseye-22.04-py311
+        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py311
           name: raspbian-py311
-        - container: wpilib/raspbian-cross-ubuntu:bullseye-22.04-py312
+        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py312
           name: raspbian-py312
-        
-        - container: wpilib/aarch64-cross-ubuntu:bullseye-22.04-py38
-          name: raspbian-aarch64-py38
-        - container: wpilib/aarch64-cross-ubuntu:bullseye-22.04-py39
+        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py313
+          name: raspbian-py313
+
+        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py39
           name: raspbian-aarch64-py39
-        - container: wpilib/aarch64-cross-ubuntu:bullseye-22.04-py310
+        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py310
           name: raspbian-aarch64-py310
-        - container: wpilib/aarch64-cross-ubuntu:bullseye-22.04-py311
+        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py311
           name: raspbian-aarch64-py311
-        - container: wpilib/aarch64-cross-ubuntu:bullseye-22.04-py312
+        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py312
           name: raspbian-aarch64-py312
+        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py313
+          name: raspbian-aarch64-py313
 
     container:
       image: "${{ matrix.os.container }}"
