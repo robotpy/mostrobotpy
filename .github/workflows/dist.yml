@@ -191,7 +191,7 @@ jobs:
           name: raspbian-aarch64-py311
         - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py312
           name: raspbian-aarch64-py312
-        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py313
+        - container: wpilib/aarch64-cross-ubuntu:bullseye-22.04-py313
           name: raspbian-aarch64-py313
 
     container:
