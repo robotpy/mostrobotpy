@@ -177,6 +177,24 @@ class CommandGenericHID:
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
         return Trigger(loop, lambda: self._hid.getRawAxis(axis) > threshold)
+    
+    def axisMagnitudeGreaterThan(
+        self, axis: int, threshold: float, loop: Optional[EventLoop] = None
+    ) -> Trigger:
+        """
+        Constructs a Trigger instance that is true when the axis magnitude is greater than
+        ``threshold``, attached to the given loop.
+
+        :param axis: The axis to read, starting at 0
+        :param threshold: The value above which this trigger should return true.
+        :param loop: the event loop instance to attach the trigger to.
+
+        :returns: a Trigger instance that is true when the axis magnitude is greater than the provided
+                  threshold.
+        """
+        if loop is None:
+            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
+        return Trigger(loop, lambda: abs(self._hid.getRawAxis(axis)) > threshold)    
 
     def getRawAxis(self, axis: int) -> float:
         """
