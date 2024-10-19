@@ -383,7 +383,7 @@ class Command(Sendable):
         from .proxycommand import ProxyCommand
 
         return ProxyCommand(self)
-    
+
     def fork(self, *commands: Command) -> ProxyCommand:
         """
         Decorates this command to run "forked" by wrapping it in a ScheduleCommand. Use this for
@@ -398,8 +398,7 @@ class Command(Sendable):
         """
         from .schedulecommand import ScheduleCommand
 
-
-        return ScheduleCommand(self, [self] + commands)    
+        return ScheduleCommand(self, [self] + commands)
 
     def unless(self, condition: Callable[[], bool]) -> ConditionalCommand:
         """

@@ -177,7 +177,7 @@ class CommandGenericHID:
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
         return Trigger(loop, lambda: self._hid.getRawAxis(axis) > threshold)
-    
+
     def axisMagnitudeGreaterThan(
         self, axis: int, threshold: float, loop: Optional[EventLoop] = None
     ) -> Trigger:
@@ -194,7 +194,7 @@ class CommandGenericHID:
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: abs(self._hid.getRawAxis(axis)) > threshold)    
+        return Trigger(loop, lambda: abs(self._hid.getRawAxis(axis)) > threshold)
 
     def getRawAxis(self, axis: int) -> float:
         """
