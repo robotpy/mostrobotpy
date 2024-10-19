@@ -11,7 +11,7 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0,~=2024.0.0",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a1",
     "robotpy-wpiutil~=2024.3.1",
     # "numpy", # broken in raspbian CI
 ]
@@ -19,11 +19,58 @@ requires = [
 [tool.robotpy-build]
 base_package = "wpimath"
 
+update_init = [
+    "wpimath"
+]
+
+scan_headers_ignore = [
+    
+    "frc/DARE.h",
+    "frc/EigenCore.h",
+    "frc/StateSpaceUtil.h",
+
+    "frc/fmt/Eigen.h",
+
+    "frc/estimator/AngleStatistics.h",
+    "frc/estimator/KalmanFilterLatencyCompensator.h",
+    "frc/estimator/MerweScaledSigmaPoints.h",
+    "frc/estimator/SteadyStateKalmanFilter.h",
+    "frc/estimator/UnscentedKalmanFilter.h",
+    "frc/estimator/UnscentedTransform.h",
+
+    "frc/system/Discretization.h",
+    "frc/system/NumericalIntegration.h",
+    "frc/system/NumericalJacobian.h",
+
+    "frc/proto/*",
+    "frc/*/proto/*",
+    
+    "frc/struct/*",
+    "frc/*/struct/*",
+    
+    "[eE]igen/*",
+
+    "gcem.hpp",
+    "gcem_incl/*",
+
+    "sleipnir/*",
+    "type_casters/*",
+    "unsupported/*",
+    "units/*",
+    "wpimath/protobuf/*",
+
+    "wpimath/MathShared.h",
+
+    "rpy/geometryToString.h",
+    "PyTrajectoryConstraint.h",
+    "_units_base_type_caster.h",
+]
+
 [tool.robotpy-build.wrappers."wpimath._impl".maven_lib_download]
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2024.3.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+version = "2025.1.1-beta-1"
 
 
 libs = ["wpimath"]
@@ -621,6 +668,7 @@ header = "units_length_type_caster.h"
 types = [
     "units::angstrom_t",
     "units::astronicalUnit_t",
+    "units::centimeter_t",
     "units::chain_t",
     "units::cubit_t",
     "units::fathom_t",
@@ -1495,9 +1543,11 @@ generation_data = "gen/geometry"
 # frc/geometry
 CoordinateAxis = "frc/geometry/CoordinateAxis.h"
 CoordinateSystem = "frc/geometry/CoordinateSystem.h"
+Ellipse2d = "frc/geometry/Ellipse2d.h"
 Pose2d = "frc/geometry/Pose2d.h"
 Pose3d = "frc/geometry/Pose3d.h"
 Quaternion = "frc/geometry/Quaternion.h"
+Rectangle2d = "frc/geometry/Rectangle2d.h"
 Rotation2d = "frc/geometry/Rotation2d.h"
 Rotation3d = "frc/geometry/Rotation3d.h"
 Transform2d = "frc/geometry/Transform2d.h"
@@ -1542,10 +1592,8 @@ MecanumDriveWheelSpeeds = "frc/kinematics/MecanumDriveWheelSpeeds.h"
 Odometry = "frc/kinematics/Odometry.h"
 SwerveDriveKinematics = "frc/kinematics/SwerveDriveKinematics.h"
 SwerveDriveOdometry = "frc/kinematics/SwerveDriveOdometry.h"
-SwerveDriveWheelPositions = "frc/kinematics/SwerveDriveWheelPositions.h"
 SwerveModulePosition = "frc/kinematics/SwerveModulePosition.h"
 SwerveModuleState = "frc/kinematics/SwerveModuleState.h"
-WheelPositions = "frc/kinematics/WheelPositions.h"
 
 [tool.robotpy-build.wrappers."wpimath.spline"]
 

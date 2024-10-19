@@ -18,6 +18,10 @@ classes:
       Clear:
       Sample:
       GetInternalBuffer:
+        overloads:
+          "":
+          '[const]':
+            ignore: true
 
 templates:
   TimeInterpolatablePose2dBuffer:

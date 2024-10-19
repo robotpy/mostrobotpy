@@ -35,6 +35,7 @@ classes:
       GetPeriod:
       GetPositionTolerance:
       GetVelocityTolerance:
+      GetAccumulatedError:
       SetGoal:
         overloads:
           State:

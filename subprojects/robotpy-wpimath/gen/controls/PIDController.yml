@@ -20,8 +20,11 @@ classes:
       GetD:
       GetIZone:
       GetPeriod:
+      GetErrorTolerance:
+      GetErrorDerivativeTolerance:
       GetPositionTolerance:
       GetVelocityTolerance:
+      GetAccumulatedError:
       SetSetpoint:
       GetSetpoint:
       AtSetpoint:
@@ -30,6 +33,8 @@ classes:
       IsContinuousInputEnabled:
       SetIntegratorRange:
       SetTolerance:
+      GetError:
+      GetErrorDerivative:
       GetPositionError:
       GetVelocityError:
       Calculate:

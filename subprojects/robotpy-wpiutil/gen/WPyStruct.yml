@@ -2,7 +2,7 @@ functions:
   forEachNested:
     subpackage: wpistruct
     no_release_gil: true
-  getTypeString:
+  getTypeName:
     subpackage: wpistruct
     no_release_gil: true
   getSchema:

@@ -133,7 +133,7 @@ def _process_class(cls, struct_name: typing.Optional[str]):
             typn = f"type_{name}"
 
             ctx[typn] = ftype
-            ts = wpistruct.getTypeString(ftype).split(":", 1)[1].strip()
+            ts = wpistruct.getTypeName(ftype)
             schema.append(f"{ts} {name}")
             sz = wpistruct.getSize(ftype)
             fmts.append(f"{sz}s")
@@ -216,7 +216,7 @@ def _process_class(cls, struct_name: typing.Optional[str]):
     exec(fnsrc, ctx, ctx)
 
     cls.WPIStruct = StructDescriptor(
-        typeString=f"struct:{struct_name}",
+        typename=struct_name,
         schema="; ".join(schema),
         size=s.size,
         pack=ctx["_pack"],

@@ -32,9 +32,12 @@ classes:
       heading.
     methods:
       MecanumDrivePoseEstimator:
-        param_override:
-          nominalDt:
-            default: 0.02_s
+        overloads:
+          MecanumDriveKinematics&, const Rotation2d&, const MecanumDriveWheelPositions&, const Pose2d&:
+          ? MecanumDriveKinematics&, const Rotation2d&, const MecanumDriveWheelPositions&,
+            const Pose2d&, const wpi::array<double, 3>&, const wpi::array<double,
+            3>&
+          :
       SetVisionMeasurementStdDevs:
       ResetPosition:
       GetEstimatedPosition:

@@ -10,21 +10,21 @@ classes:
     methods:
       ElevatorSim:
         overloads:
-          ? const LinearSystem<2, 1, 1>&, const DCMotor&, units::meter_t, units::meter_t,
-            bool, units::meter_t, const std::array<double, 1>&
+          ? const LinearSystem<2, 1, 2>&, const DCMotor&, units::meter_t, units::meter_t,
+            bool, units::meter_t, const std::array<double, 2>&
           :
             param_override:
               measurementStdDevs:
-                default: std::array<double, 1>{0.0}
+                default: std::array<double, 2>{0.0, 0.0}
           ? const DCMotor&, double, units::kilogram_t, units::meter_t, units::meter_t,
-            units::meter_t, bool, units::meter_t, const std::array<double, 1>&
+            units::meter_t, bool, units::meter_t, const std::array<double, 2>&
           :
             param_override:
               measurementStdDevs:
-                default: std::array<double, 1>{0.0}
+                default: std::array<double, 2>{0.0}
           ? decltype(1_V/Velocity_t<Distance> (1)), decltype(1_V/Acceleration_t<Distance>
             (1)), const DCMotor&, units::meter_t, units::meter_t, bool, units::meter_t,
-            const std::array<double, 1>&
+            const std::array<double, 2>&
           :
             ignore: true
       SetState:

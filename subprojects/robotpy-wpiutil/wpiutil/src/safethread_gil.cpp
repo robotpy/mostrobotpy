@@ -1,5 +1,6 @@
 
 #include <atomic>
+#include <gilsafe_object.h>
 #include <robotpy_build.h>
 
 using OnThreadStartFn = void *(*)();
@@ -17,7 +18,7 @@ struct SafeThreadState {
 std::atomic<bool> g_gilstate_managed = false;
 
 void *on_safe_thread_start() {
-  if (_Py_IsFinalizing()            // python is shutting down
+  if (Py_IsFinalizing()            // python is shutting down
       || !g_gilstate_managed.load() // python has shutdown)
   ) {
     return nullptr;
@@ -37,7 +38,7 @@ void on_safe_thread_end(void *opaque) {
 
   // don't cleanup if it's unsafe to do so. Several possibilities here:
   if (!opaque                       // internal error?
-      || _Py_IsFinalizing()         // python is shutting down
+      || Py_IsFinalizing()         // python is shutting down
       || !g_gilstate_managed.load() // python has shutdown
   ) {
     return;

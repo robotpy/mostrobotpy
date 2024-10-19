@@ -16,7 +16,7 @@ struct ThingA {
 };
 
 template <> struct wpi::Struct<ThingA> {
-  static constexpr std::string_view GetTypeString() { return "struct:ThingA"; }
+  static constexpr std::string_view GetTypeName() { return "ThingA"; }
   static constexpr size_t GetSize() { return 1; }
   static constexpr std::string_view GetSchema() { return "uint8 value"; }
   static ThingA Unpack(std::span<const uint8_t> data) {
@@ -41,7 +41,7 @@ struct Outer {
 
 template <>
 struct wpi::Struct<Outer> {
-  static constexpr std::string_view GetTypeString() { return "struct:Outer"; }
+  static constexpr std::string_view GetTypeName() { return "Outer"; }
   static constexpr size_t GetSize() { return wpi::GetStructSize<ThingA>() + 4; }
   static constexpr std::string_view GetSchema() {
     return "ThingA inner; int32 c";

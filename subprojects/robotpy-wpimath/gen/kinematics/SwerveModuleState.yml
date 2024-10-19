@@ -13,6 +13,10 @@ classes:
     methods:
       operator==:
       Optimize:
+        overloads:
+          const Rotation2d&:
+          const SwerveModuleState&, const Rotation2d&:
+            ignore: true
 
 inline_code: |
   cls_SwerveModuleState

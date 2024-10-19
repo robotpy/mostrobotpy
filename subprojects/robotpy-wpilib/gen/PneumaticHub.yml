@@ -88,3 +88,5 @@ classes:
       CanWarning:
       CanBusOff:
       HasReset:
+      HardwareFault:
+      FirmwareFault:

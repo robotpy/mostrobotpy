@@ -9,7 +9,7 @@ classes:
         overloads:
           std::function<void ( )>:
       SetName:
-      SetHandler:
+      SetCallback:
       StartSingle:
         overloads:
           double:

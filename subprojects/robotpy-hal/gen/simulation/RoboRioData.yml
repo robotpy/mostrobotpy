@@ -94,12 +94,44 @@ functions:
     ignore: true
   HALSIM_CancelRoboRioSerialNumberCallback:
   HALSIM_GetRoboRioSerialNumber:
+    param_override:
+      serialNumber:
+        ignore: true
+    cpp_code: |
+      []() {
+        WPI_String s;
+        HALSIM_GetRoboRioSerialNumber(&s);
+        std::string ss(wpi::to_string_view(&s));
+        WPI_FreeString(&s);
+        return ss;
+      }
   HALSIM_SetRoboRioSerialNumber:
+    cpp_code: |
+      [](std::string_view sv) {
+        auto s = wpi::make_string(sv);
+        HALSIM_SetRoboRioSerialNumber(&s);
+      }
   HALSIM_RegisterRoboRioCommentsCallback:
     ignore: true
   HALSIM_CancelRoboRioCommentsCallback:
   HALSIM_GetRoboRioComments:
+    param_override:
+      comments:
+        ignore: true
+    cpp_code: |
+      []() {
+        WPI_String s;
+        HALSIM_GetRoboRioComments(&s);
+        std::string ss(wpi::to_string_view(&s));
+        WPI_FreeString(&s);
+        return ss;
+      }
   HALSIM_SetRoboRioComments:
+    cpp_code: |
+      [](std::string_view sv) {
+        auto s = wpi::make_string(sv);
+        HALSIM_SetRoboRioComments(&s);
+      }
   HALSIM_RegisterRoboRioAllCallbacks:
     ignore: true
   HALSIM_RegisterRoboRioCPUTempCallback:

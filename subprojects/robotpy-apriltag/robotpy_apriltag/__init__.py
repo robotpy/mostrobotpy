@@ -9,7 +9,6 @@ from ._apriltag import (
     AprilTagFieldLayout,
     AprilTagPoseEstimate,
     AprilTagPoseEstimator,
-    loadAprilTagLayoutField,
 )
 
 __all__ = [
@@ -20,5 +19,4 @@ __all__ = [
     "AprilTagFieldLayout",
     "AprilTagPoseEstimate",
     "AprilTagPoseEstimator",
-    "loadAprilTagLayoutField",
 ]
