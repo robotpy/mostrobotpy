@@ -67,7 +67,7 @@ jobs:
     strategy:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       fail-fast: true
-      matrix: 
+      matrix:
         os: ["ubuntu-22.04", "macos-13", "windows-2022"]
         python_version:
         - '3.9'
@@ -126,37 +126,8 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: "dist-${{ runner.os }}-${{ matrix.python_version }}"
+        name: "pypi-${{ runner.os }}-${{ matrix.python_version }}"
         path: dist
-
-  merge:
-    runs-on: ubuntu-latest
-    needs: [cross-build, build]
-    steps:
-      - name: Merge Windows Artifacts
-        uses: actions/upload-artifact/merge@v4
-        with:
-          name: dist-Windows
-          pattern: dist-Windows*
-          delete-merged: true
-      - name: Merge Linux Artifacts
-        uses: actions/upload-artifact/merge@v4
-        with:
-          name: dist-Linux
-          pattern: dist-Linux*
-          delete-merged: true
-      - name: Merge macOS Artifacts
-        uses: actions/upload-artifact/merge@v4
-        with:
-          name: dist-macOS
-          pattern: dist-macOS*
-          delete-merged: true
-      - name: Merge raspbian Artifacts
-        uses: actions/upload-artifact/merge@v4
-        with:
-          name: dist-raspbian
-          pattern: dist-raspbian*
-          delete-merged: true
 
   #
   # Build roboRIO/raspbian wheels
@@ -241,10 +212,10 @@ jobs:
       env:
         RPYBUILD_STRIP_LIBPYTHON: "1"
         RPYBUILD_CC_LAUNCHER: ccache
-      
+
     - uses: actions/upload-artifact@v4
       with:
-        name: dist-${{ matrix.os.name }}
+        name: cross-${{ matrix.os.name }}
         path: dist
 
   #
@@ -259,20 +230,16 @@ jobs:
     steps:
     - uses: actions/download-artifact@v4
       with:
-        name: dist-roborio
+        pattern: cross-*
         path: dist/
-
-    - uses: actions/download-artifact@v4
-      with:
-        name: dist-raspbian
-        path: dist/
+        merge-multiple: true
 
     - uses: pypa/gh-action-pypi-publish@release/v1
       with:
         verify-metadata: false
         user: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         password: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
-        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2024-local
+        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2025-local
 
 
   publish-pypi:
@@ -289,18 +256,9 @@ jobs:
 
     - uses: actions/download-artifact@v4
       with:
-        name: dist-Windows
+        pattern: pypi-*
         path: dist/
-
-    - uses: actions/download-artifact@v4
-      with:
-        name: dist-macOS
-        path: dist/
-    
-    - uses: actions/download-artifact@v4
-      with:
-        name: dist-Linux
-        path: dist/
+        merge-multiple: true
 
     - name: Publish to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
