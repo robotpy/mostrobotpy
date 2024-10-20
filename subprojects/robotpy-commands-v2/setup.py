@@ -13,10 +13,10 @@ setuptools.setup(
     package_data={"commands2": ["py.typed"]},
     packages=["commands2"],
     install_requires=[
-        "wpilib<2025,>=2024.3.1",
+        "wpilib<2026,>=2025.0.0b1",
         "typing_extensions>=4.1.0,<5",
     ],
     license="BSD-3-Clause",
-    python_requires=">=3.8",
+    python_requires=">=3.9",
     include_package_data=True,
 )
