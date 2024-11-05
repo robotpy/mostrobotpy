@@ -9,3 +9,4 @@ classes:
       XRPOnBoardIO:
       GetUserButtonPressed:
       SetLed:
+      GetLed:
