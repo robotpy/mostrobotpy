@@ -17,8 +17,8 @@ classes:
     methods:
       Color8Bit:
         overloads:
-          '[constexpr]':
-          int, int, int [constexpr]:
+          '':
+          int, int, int:
             param_override:
               r:
                 name: red
@@ -26,8 +26,8 @@ classes:
                 name: green
               b:
                 name: blue
-          const Color& [constexpr]:
-          std::string_view [constexpr]:
+          const Color&:
+          std::string_view:
       FromHexString:
       HexString:
       operator==:

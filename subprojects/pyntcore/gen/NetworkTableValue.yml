@@ -4,6 +4,10 @@ extra_includes:
 - networktables/NetworkTableType.h
 - src/py2value.h
 
+functions:
+  Now:
+    ignore: true
+
 classes:
   Value:
     methods:
