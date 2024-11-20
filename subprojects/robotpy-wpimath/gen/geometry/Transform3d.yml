@@ -14,10 +14,11 @@ classes:
     methods:
       Transform3d:
         overloads:
-          Pose3d, Pose3d:
+          const Pose3d&, const Pose3d&:
           Translation3d, Rotation3d:
           units::meter_t, units::meter_t, units::meter_t, Rotation3d:
-          '[constexpr]':
+          '':
+          const frc::Transform2d&:
       Translation:
       X:
       Y:

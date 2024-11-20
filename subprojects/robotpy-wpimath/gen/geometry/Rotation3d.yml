@@ -14,13 +14,14 @@ classes:
     methods:
       Rotation3d:
         overloads:
-          "":
+          '':
           const Quaternion&:
           units::radian_t, units::radian_t, units::radian_t:
           const Eigen::Vector3d&, units::radian_t:
           const Eigen::Vector3d&:
           const Eigen::Matrix3d&:
           const Eigen::Vector3d&, const Eigen::Vector3d&:
+          const Rotation2d&:
       operator+:
       operator-:
         overloads:

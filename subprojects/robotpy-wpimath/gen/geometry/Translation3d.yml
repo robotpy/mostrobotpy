@@ -15,10 +15,11 @@ classes:
     methods:
       Translation3d:
         overloads:
-          '[constexpr]':
-          units::meter_t, units::meter_t, units::meter_t [constexpr]:
-          units::meter_t, const Rotation3d&:
+          '':
+          units::meter_t, units::meter_t, units::meter_t:
+          units::meter_t, const Rotation3d& :
           const Eigen::Vector3d&:
+          const Translation2d&:
       Distance:
       X:
       Y:

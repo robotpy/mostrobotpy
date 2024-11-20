@@ -34,6 +34,9 @@ classes:
                     to directly assign the wheel speeds to variables::
 
                       fl, fr, bl, br = kinematics.toWheelSpeeds(chassisSpeeds)
+        overloads:
+          const ChassisSpeeds&, const Translation2d& [const]:
+          const ChassisSpeeds& [const]:
       ToChassisSpeeds:
       ToTwist2d:
         overloads:

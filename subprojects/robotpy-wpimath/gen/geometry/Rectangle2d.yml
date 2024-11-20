@@ -12,8 +12,8 @@ classes:
     methods:
       Rectangle2d:
         overloads:
-          const Pose2d&, units::meter_t, units::meter_t [constexpr]:
-          const Translation2d&, const Translation2d& [constexpr]:
+          const Pose2d&, units::meter_t, units::meter_t:
+          const Translation2d&, const Translation2d&:
       Center:
       Rotation:
       XWidth:

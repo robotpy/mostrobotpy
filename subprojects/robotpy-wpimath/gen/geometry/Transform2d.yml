@@ -15,10 +15,10 @@ classes:
     methods:
       Transform2d:
         overloads:
-          Pose2d, Pose2d:
-          Translation2d, Rotation2d [constexpr]:
-          units::meter_t, units::meter_t, Rotation2d [constexpr]:
-          '[constexpr]':
+          const Pose2d&, const Pose2d&:
+          Translation2d, Rotation2d:
+          units::meter_t, units::meter_t, Rotation2d:
+          '':
       Translation:
       Rotation:
       X:

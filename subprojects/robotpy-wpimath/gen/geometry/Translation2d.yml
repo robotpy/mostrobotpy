@@ -15,9 +15,9 @@ classes:
     methods:
       Translation2d:
         overloads:
-          '[constexpr]':
-          units::meter_t, units::meter_t [constexpr]:
-          units::meter_t, const Rotation2d& [constexpr]:
+          '':
+          units::meter_t, units::meter_t:
+          units::meter_t, const Rotation2d&:
           const Eigen::Vector2d&:
       Distance:
       X:

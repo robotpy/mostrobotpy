@@ -14,13 +14,13 @@ classes:
     methods:
       Quaternion:
         overloads:
-          "":
+          '':
           double, double, double, double:
       operator+:
       operator-:
       operator*:
         overloads:
-          const double [const]:
+          double [const]:
           const Quaternion& [const]:
       operator/:
       operator==:

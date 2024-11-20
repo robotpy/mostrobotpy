@@ -25,6 +25,7 @@ update_init = [
 
 scan_headers_ignore = [
     
+    "frc/ct_matrix.h",
     "frc/DARE.h",
     "frc/EigenCore.h",
     "frc/StateSpaceUtil.h",
@@ -1469,13 +1470,17 @@ SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h"
 # frc/estimator
 # AngleStatistics = "frc/estimator/AngleStatistics.h"
 DifferentialDrivePoseEstimator = "frc/estimator/DifferentialDrivePoseEstimator.h"
+DifferentialDrivePoseEstimator3d = "frc/estimator/DifferentialDrivePoseEstimator3d.h"
 ExtendedKalmanFilter = "frc/estimator/ExtendedKalmanFilter.h"
 KalmanFilter = "frc/estimator/KalmanFilter.h"
 # KalmanFilterLatencyCompensator = "frc/estimator/KalmanFilterLatencyCompensator.h"
 MecanumDrivePoseEstimator = "frc/estimator/MecanumDrivePoseEstimator.h"
+MecanumDrivePoseEstimator3d = "frc/estimator/MecanumDrivePoseEstimator3d.h"
 # MerweScaledSigmaPoints = "frc/estimator/MerweScaledSigmaPoints.h"
 PoseEstimator = "frc/estimator/PoseEstimator.h"
+PoseEstimator3d = "frc/estimator/PoseEstimator3d.h"
 SwerveDrivePoseEstimator = "frc/estimator/SwerveDrivePoseEstimator.h"
+SwerveDrivePoseEstimator3d = "frc/estimator/SwerveDrivePoseEstimator3d.h"
 # UnscentedKalmanFilter = "frc/estimator/UnscentedKalmanFilter.h"
 # UnscentedTransform = "frc/estimator/UnscentedTransform.h"
 
@@ -1581,17 +1586,21 @@ generation_data = "gen/kinematics"
 # frc/kinematics
 ChassisSpeeds = "frc/kinematics/ChassisSpeeds.h"
 DifferentialDriveKinematics = "frc/kinematics/DifferentialDriveKinematics.h"
+DifferentialDriveOdometry3d = "frc/kinematics/DifferentialDriveOdometry3d.h"
 DifferentialDriveOdometry = "frc/kinematics/DifferentialDriveOdometry.h"
 DifferentialDriveWheelPositions = "frc/kinematics/DifferentialDriveWheelPositions.h"
 DifferentialDriveWheelSpeeds = "frc/kinematics/DifferentialDriveWheelSpeeds.h"
 Kinematics = "frc/kinematics/Kinematics.h"
 MecanumDriveKinematics = "frc/kinematics/MecanumDriveKinematics.h"
 MecanumDriveOdometry = "frc/kinematics/MecanumDriveOdometry.h"
+MecanumDriveOdometry3d = "frc/kinematics/MecanumDriveOdometry3d.h"
 MecanumDriveWheelPositions = "frc/kinematics/MecanumDriveWheelPositions.h"
 MecanumDriveWheelSpeeds = "frc/kinematics/MecanumDriveWheelSpeeds.h"
 Odometry = "frc/kinematics/Odometry.h"
+Odometry3d = "frc/kinematics/Odometry3d.h"
 SwerveDriveKinematics = "frc/kinematics/SwerveDriveKinematics.h"
 SwerveDriveOdometry = "frc/kinematics/SwerveDriveOdometry.h"
+SwerveDriveOdometry3d = "frc/kinematics/SwerveDriveOdometry3d.h"
 SwerveModulePosition = "frc/kinematics/SwerveModulePosition.h"
 SwerveModuleState = "frc/kinematics/SwerveModuleState.h"
 
