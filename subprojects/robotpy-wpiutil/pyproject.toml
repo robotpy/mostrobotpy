@@ -25,6 +25,10 @@ scan_headers_ignore = [
     "google/*",
     "wpi/*",
     "wpystruct_fns.h",
+    "pb.h",
+    "pb_common.h",
+    "pb_decode.h",
+    "pb_encode.h",
 ]
 
 [tool.robotpy-build.wrappers."wpiutil"]
