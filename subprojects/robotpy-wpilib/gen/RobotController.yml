@@ -23,6 +23,8 @@ classes:
       GetSerialNumber:
       GetComments:
       GetTeamNumber:
+      SetTimeSource:
+      GetTime:
       GetFPGATime:
       GetUserButton:
       IsSysActive:
