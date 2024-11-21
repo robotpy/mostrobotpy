@@ -20,8 +20,8 @@ robotpysimext = [
 [build-system]
 requires = [
     "robotpy-build<2025.0.0b1,~=2025.0.0a4",
-    "robotpy-hal~=2025.0.0b1",
-    "robotpy-wpinet~=2025.0.0b1",
+    "robotpy-hal~=2025.0.0b2",
+    "robotpy-wpinet~=2025.0.0b2",
 ]
 
 [tool.robotpy-build]
