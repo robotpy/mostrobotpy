@@ -11,7 +11,7 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0b1,~=2025.0.0a1",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a4",
     "robotpy-wpiutil~=2025.0.0b1",
     # "numpy", # broken in raspbian CI
 ]
@@ -70,7 +70,7 @@ scan_headers_ignore = [
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-1"
+version = "2025.1.1-beta-2"
 
 
 libs = ["wpimath"]

@@ -18,7 +18,7 @@ robotpy = ["run = wpilib._impl.start:Main"]
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0b1,~=2025.0.0a1",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a4",
     "robotpy-wpiutil~=2025.0.0b1",
     "robotpy-wpimath~=2025.0.0b1",
     "robotpy-hal~=2025.0.0b1",
@@ -69,7 +69,7 @@ scan_headers_ignore = [
 artifact_id = "wpilibc-cpp"
 group_id = "edu.wpi.first.wpilibc"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-1"
+version = "2025.1.1-beta-2"
 
 libs = ["wpilibc"]
 
