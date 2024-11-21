@@ -23,6 +23,9 @@ classes:
         access: readonly
       m_threadId:
         ignore: true
+      connListenerHandle:
+        ignore: true
+      m_dashboardDetected:
     methods:
       IsEnabled:
       IsDisabled:

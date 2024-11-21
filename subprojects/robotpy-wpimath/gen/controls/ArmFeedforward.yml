@@ -13,12 +13,16 @@ classes:
     methods:
       ArmFeedforward:
         overloads:
-          '[constexpr]':
-          units::volt_t, units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit> [constexpr]:
+          '':
+          units::volt_t, units::volt_t, units::unit_t<kv_unit>, units::unit_t<ka_unit>:
       Calculate:
         overloads:
           units::unit_t<Angle>, units::unit_t<Velocity>, units::unit_t<Acceleration> [const]:
+            ignore: true
           units::unit_t<Angle>, units::unit_t<Velocity>, units::unit_t<Velocity>, units::second_t [const]:
+            ignore: true
+          units::unit_t<Angle>, units::unit_t<Velocity> [const]:
+          units::unit_t<Angle>, units::unit_t<Velocity>, units::unit_t<Velocity> [const]:
       MaxAchievableVelocity:
       MinAchievableVelocity:
       MaxAchievableAcceleration:

@@ -6,7 +6,7 @@ classes:
     methods:
       TravelingSalesman:
         overloads:
-          '[constexpr]':
+          '':
           std::function<double (Pose2d, Pose2d)>:
       Solve:
         overloads:

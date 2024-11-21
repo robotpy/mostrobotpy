@@ -17,6 +17,7 @@ classes:
           const Rotation2d&:
           const SwerveModuleState&, const Rotation2d&:
             ignore: true
+      CosineScale:
 
 inline_code: |
   cls_SwerveModuleState

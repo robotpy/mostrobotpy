@@ -8,7 +8,7 @@ classes:
     methods:
       StartCompetition:
       EndCompetition:
-      GetPeriod:
+      GetLoopStartTime:
       AddPeriodic:
         param_override:
           offset:

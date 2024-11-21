@@ -16,7 +16,7 @@ robotpysimext = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0b1,~=2025.0.0a1",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a4",
     "wpilib~=2025.0.0b1"
 ]
 
@@ -48,7 +48,7 @@ artifact_id = "xrpVendordep-cpp"
 group_id = "edu.wpi.first.xrpVendordep"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-1"
+version = "2025.1.1-beta-2"
 libs = ["xrpVendordep"]
 
 [tool.robotpy-build.wrappers."xrp.extension".maven_lib_download]
@@ -56,7 +56,7 @@ artifact_id = "halsim_xrp"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-1"
+version = "2025.1.1-beta-2"
 
 dlopenlibs = ["halsim_xrp"]
 

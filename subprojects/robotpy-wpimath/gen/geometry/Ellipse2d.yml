@@ -12,8 +12,8 @@ classes:
     methods:
       Ellipse2d:
         overloads:
-          const Pose2d&, units::meter_t, units::meter_t [constexpr]:
-          const Translation2d&, double [constexpr]:
+          const Pose2d&, units::meter_t, units::meter_t:
+          const Translation2d&, double:
       Center:
       Rotation:
       XSemiAxis:

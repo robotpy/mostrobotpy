@@ -29,11 +29,11 @@ functions:
     - [double]
   IsNear:
     overloads:
-      T, T, T [constexpr]:
+      T, T, T:
         ignore: true
         template_impls:
         - [double]
-      T, T, T, T, T [constexpr]:
+      T, T, T, T, T:
         ignore: true
         template_impls:
         - [double]

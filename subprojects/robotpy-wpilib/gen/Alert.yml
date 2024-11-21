@@ -1,5 +1,9 @@
 ---
 
+functions:
+  format_as:
+    ignore: true
+
 classes:
   Alert:
     enums:
@@ -10,4 +14,7 @@ classes:
           std::string_view, AlertType:
           std::string_view, std::string_view, AlertType:
       Set:
+      Get:
       SetText:
+      GetText:
+      GetType:

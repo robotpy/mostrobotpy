@@ -5,7 +5,7 @@
 [params]
 
 # wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
-wpilib_bin_version = "2025.1.1-beta-1"
+wpilib_bin_version = "2025.1.1-beta-2"
 wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
 
 # Don't update these artifacts
@@ -13,7 +13,7 @@ exclude_artifacts = [
     "opencv-cpp"
 ]
 
-robotpy_build_req = "<2025.0.0b1,~=2025.0.0a1"
+robotpy_build_req = "<2025.0.0b1,~=2025.0.0a4"
 
 #
 # Subproject configuration

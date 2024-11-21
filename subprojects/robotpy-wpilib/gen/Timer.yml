@@ -20,3 +20,5 @@ classes:
       GetMatchTime:
       HasElapsed:
       AdvanceIfElapsed:
+      IsRunning:
+      GetTimestamp:
