@@ -11,7 +11,7 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0b1,~=2025.0.0a4",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a5",
     "wpilib~=2025.0.0b2"
 ]
 
@@ -39,5 +39,5 @@ artifact_id = "romiVendordep-cpp"
 group_id = "edu.wpi.first.romiVendordep"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-2"
+version = "2025.1.1-beta-3"
 libs = ["romiVendordep"]

@@ -13,7 +13,7 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0b1,~=2025.0.0a4",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a5",
     "robotpy-wpiutil~=2025.0.0b2",
     "robotpy-wpinet~=2025.0.0b2",
     "pyntcore~=2025.0.0b2",
@@ -30,7 +30,7 @@ update_init = [
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-2"
+version = "2025.1.1-beta-3"
 
 libs = ["cscore"]
 
@@ -38,7 +38,7 @@ libs = ["cscore"]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-2"
+version = "2025.1.1-beta-3"
 
 libs = ["cameraserver"]
 
