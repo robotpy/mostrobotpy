@@ -55,6 +55,21 @@ inline_code: |
                      "dy=" + std::to_string(tw.dy()) + ", "
                      "dtheta=" + std::to_string(tw.dtheta()) + ")";
     })
+    .def(py::pickle(
+        [](const Twist2d &tw) { // __getstate__
+            return py::make_tuple(tw.dx(), tw.dy(), tw.dtheta());
+        },
+        [](py::tuple t) { // __setstate__
+            if (t.size() != 3)
+                throw std::runtime_error("Invalid state!");
+            
+            return Twist2d(
+              t[0].cast<units::meter_t>(),
+              t[1].cast<units::meter_t>(),
+              t[2].cast<units::radian_t>()
+            );
+        }
+    ))
   ;
 
   SetupWPyStruct<frc::Twist2d>(cls_Twist2d);

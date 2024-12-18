@@ -74,6 +74,22 @@ inline_code: |
           throw std::out_of_range("Translation3d index out of range");
       }
     })
-    .def("__repr__", py::overload_cast<const Translation3d&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Translation3d&>(&rpy::toString))
+    .def(py::pickle(
+        [](const Translation3d &self) { // __getstate__
+            return py::make_tuple(self.X(), self.Y(), self.Z());
+        },
+        [](py::tuple t) { // __setstate__
+            if (t.size() != 3)
+                throw std::runtime_error("Invalid state!");
+            
+            return Translation3d(
+              t[0].cast<units::meter_t>(),
+              t[1].cast<units::meter_t>(),
+              t[2].cast<units::meter_t>()
+            );
+        }
+    ))
+  ;
 
   SetupWPyStruct<frc::Translation3d>(cls_Translation3d);

@@ -46,7 +46,22 @@ inline_code: |
     .def_property_readonly("y_feet", [](Transform2d * self) -> units::foot_t {
       return self->Y();
     })
-    .def("__repr__", py::overload_cast<const Transform2d&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Transform2d&>(&rpy::toString))
+    .def(py::pickle(
+        [](const Transform2d &self) { // __getstate__
+            return py::make_tuple(self.X(), self.Y(), self.Rotation().Radians());
+        },
+        [](py::tuple t) { // __setstate__
+            if (t.size() != 3)
+                throw std::runtime_error("Invalid state!");
+            
+            return Transform2d(
+              t[0].cast<units::meter_t>(),
+              t[1].cast<units::meter_t>(),
+              t[2].cast<units::radian_t>()
+            );
+        }
+    ))
   ;
 
   SetupWPyStruct<frc::Transform2d>(cls_Transform2d);

@@ -60,6 +60,15 @@ inline_code: |
     .def_property_readonly("angle_degrees", [](const Rotation3d * self) -> units::degree_t {
       return self->Angle();
     })
-    .def("__repr__", py::overload_cast<const Rotation3d&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Rotation3d&>(&rpy::toString))
+    .def(py::pickle(
+        [](const Rotation3d &self) { // __getstate__
+            return self.GetQuaternion();
+        },
+        [](Quaternion t) { // __setstate__
+            return Rotation3d(t);
+        }
+    ))
+  ;
 
   SetupWPyStruct<frc::Rotation3d>(cls_Rotation3d);

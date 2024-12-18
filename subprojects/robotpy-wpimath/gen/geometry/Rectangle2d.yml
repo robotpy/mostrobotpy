@@ -41,7 +41,23 @@ inline_code: |
     .def_property_readonly("ywidth_feet", [](Rectangle2d &self) -> units::foot_t {
       return self.YWidth();
     })
-    .def("__repr__", py::overload_cast<const Rectangle2d&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Rectangle2d&>(&rpy::toString))
+    .def(py::pickle(
+      [](const Rectangle2d &self) { // __getstate__
+        return py::make_tuple(self.Center(), self.XWidth(), self.YWidth());
+      },
+      [](py::tuple t) { // __setstate__
+        if (t.size() != 3)
+          throw std::runtime_error("Invalid state!");
+        
+        return Rectangle2d(
+          t[0].cast<Pose2d>(),
+          t[1].cast<units::meter_t>(),
+          t[2].cast<units::meter_t>()
+        );
+      }
+    ))
+    ;
 
 
   SetupWPyStruct<frc::Rectangle2d>(cls_Rectangle2d);
