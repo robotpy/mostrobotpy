@@ -51,6 +51,15 @@ inline_code: |
     .def_static("fromRotations", [](units::turn_t value) {
       return std::make_unique<Rotation2d>(value);
     })
-    .def("__repr__", py::overload_cast<const Rotation2d&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Rotation2d&>(&rpy::toString))
+    .def(py::pickle(
+        [](const Rotation2d &self) { // __getstate__
+            return self.Radians();
+        },
+        [](units::radian_t t) { // __setstate__
+            return Rotation2d(t);
+        }
+    ))
+  ;
 
   SetupWPyStruct<frc::Rotation2d>(cls_Rotation2d);

@@ -62,6 +62,22 @@ inline_code: |
     .def_property_readonly("y_feet", [](Pose2d * self) -> units::foot_t {
       return self->Y();
     })
-    .def("__repr__", py::overload_cast<const Pose2d&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Pose2d&>(&rpy::toString))
+    .def(py::pickle(
+        [](const Pose2d &self) { // __getstate__
+            return py::make_tuple(self.X(), self.Y(), self.Rotation().Radians());
+        },
+        [](py::tuple t) { // __setstate__
+            if (t.size() != 3)
+                throw std::runtime_error("Invalid state!");
+            
+            return Pose2d(
+              t[0].cast<units::meter_t>(),
+              t[1].cast<units::meter_t>(),
+              t[2].cast<units::radian_t>()
+            );
+        }
+    ))
+  ;
 
   SetupWPyStruct<frc::Pose2d>(cls_Pose2d);
