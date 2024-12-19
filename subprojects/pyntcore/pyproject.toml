@@ -12,7 +12,7 @@ install_requires = [
 
 [build-system]
 requires = [
-    "robotpy-build<2025.0.0b1,~=2025.0.0a4",
+    "robotpy-build<2025.0.0b1,~=2025.0.0a6",
     "robotpy-wpiutil~=2025.0.0b2",
     "robotpy-wpinet~=2025.0.0b2",
 ]
@@ -37,7 +37,7 @@ scan_headers_ignore = [
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-2"
+version = "2025.1.1-beta-3"
 
 libs = ["ntcore"]
 
