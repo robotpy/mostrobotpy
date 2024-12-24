@@ -84,7 +84,7 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
 """
         )
 
-    def _add_binding(self, body: Callable[bool, bool, NoneType]) -> None:
+    def _add_binding(self, body: Callable[[bool, bool], None]) -> None:
         """
         Adds a binding to the EventLoop.
 
