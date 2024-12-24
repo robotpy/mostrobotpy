@@ -84,6 +84,21 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
 """
         )
 
+    def _add_binding(self, body: Callable[bool, bool, NoneType]) -> None:
+        """
+        Adds a binding to the EventLoop.
+
+        :param body: The body of the binding to add.
+        """
+
+        state = SimpleNamespace(previous=self._condition())
+
+        @self._loop.bind
+        def _():
+            current = self._condition()
+            body(state.previous, current)
+            state.previous = current
+
     def onTrue(self, command: Command) -> Self:
         """
         Starts the given command whenever the condition changes from `False` to `True`.
@@ -92,14 +107,10 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
-        state = SimpleNamespace(pressed_last=self._condition())
-
-        @self._loop.bind
-        def _():
-            pressed = self._condition()
-            if not state.pressed_last and pressed:
+        @self._add_binding
+        def _(previous, current):
+            if not previous and current:
                 command.schedule()
-            state.pressed_last = pressed
 
         return self
 
@@ -111,14 +122,10 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
-        state = SimpleNamespace(pressed_last=self._condition())
-
-        @self._loop.bind
-        def _():
-            pressed = self._condition()
-            if state.pressed_last and not pressed:
+        @self._add_binding
+        def _(previous, current):
+            if previous and not current:
                 command.schedule()
-            state.pressed_last = pressed
 
         return self
 
@@ -130,16 +137,10 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
-        state = SimpleNamespace(pressed_last=self._condition())
-
-        @self._loop.bind
-        def _():
-            pressed = self._condition()
-
-            if state.pressed_last != pressed:
+        @self._add_binding
+        def _(previous, current):
+            if previous != current:
                 command.schedule()
-
-            state.pressed_last = pressed
 
         return self
 
@@ -155,16 +156,12 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
-        state = SimpleNamespace(pressed_last=self._condition())
-
-        @self._loop.bind
-        def _():
-            pressed = self._condition()
-            if not state.pressed_last and pressed:
+        @self._add_binding
+        def _(previous, current):
+            if not previous and current:
                 command.schedule()
-            elif state.pressed_last and not pressed:
+            elif previous and not current:
                 command.cancel()
-            state.pressed_last = pressed
 
         return self
 
@@ -180,16 +177,12 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
-        state = SimpleNamespace(pressed_last=self._condition())
-
-        @self._loop.bind
-        def _():
-            pressed = self._condition()
-            if state.pressed_last and not pressed:
+        @self._add_binding
+        def _(previous, current):
+            if previous and not current:
                 command.schedule()
-            elif not state.pressed_last and pressed:
+            elif not previous and current:
                 command.cancel()
-            state.pressed_last = pressed
 
         return self
 
@@ -201,17 +194,13 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
-        state = SimpleNamespace(pressed_last=self._condition())
-
-        @self._loop.bind
-        def _():
-            pressed = self._condition()
-            if not state.pressed_last and pressed:
+        @self._add_binding
+        def _(previous, current):
+            if not previous and current:
                 if command.isScheduled():
                     command.cancel()
                 else:
                     command.schedule()
-            state.pressed_last = pressed
 
         return self
 
@@ -223,17 +212,13 @@ Invoked with: {format_args_kwargs(self, *args, **kwargs)}
         :returns: this trigger, so calls can be chained
         """
 
-        state = SimpleNamespace(pressed_last=self._condition())
-
-        @self._loop.bind
-        def _():
-            pressed = self._condition()
-            if state.pressed_last and not pressed:
+        @self._add_binding
+        def _(previous, current):
+            if previous and not current:
                 if command.isScheduled():
                     command.cancel()
                 else:
                     command.schedule()
-            state.pressed_last = pressed
 
         return self
 
