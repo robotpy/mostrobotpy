@@ -25,7 +25,11 @@ classes:
             template_impls:
               - ['units::radian_t']
           double, double:
+          const Eigen::Matrix2d&:
+            rename: fromMatrix
+            keepalive: []
       RotateBy:
+      ToMatrix:
       Radians:
       Degrees:
       Cos:

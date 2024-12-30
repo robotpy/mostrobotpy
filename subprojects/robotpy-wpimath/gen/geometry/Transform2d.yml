@@ -16,13 +16,18 @@ classes:
       Transform2d:
         overloads:
           const Pose2d&, const Pose2d&:
+            keepalive: []
           Translation2d, Rotation2d:
           units::meter_t, units::meter_t, Rotation2d:
+          const Eigen::Matrix3d&:
+            rename: fromMatrix
+            keepalive: []
           '':
       Translation:
-      Rotation:
       X:
       Y:
+      ToMatrix:
+      Rotation:
       Inverse:
       operator*:
       operator/:

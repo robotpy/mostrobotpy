@@ -16,12 +16,18 @@ classes:
         overloads:
           '':
           const Quaternion&:
+            keepalive: []
           units::radian_t, units::radian_t, units::radian_t:
           const Eigen::Vector3d&, units::radian_t:
+            keepalive: []
           const Eigen::Vector3d&:
+            keepalive: []
           const Eigen::Matrix3d&:
+            keepalive: []
           const Eigen::Vector3d&, const Eigen::Vector3d&:
+            keepalive: []
           const Rotation2d&:
+            keepalive: []
       operator+:
       operator-:
         overloads:
@@ -38,6 +44,7 @@ classes:
       Z:
       Axis:
       Angle:
+      ToMatrix:
       ToRotation2d:
 
 inline_code: |
