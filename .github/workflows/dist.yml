@@ -143,26 +143,18 @@ jobs:
         - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
           name: roborio
 
-        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py39
-          name: raspbian-py39
-        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py310
-          name: raspbian-py310
-        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py311
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py311
           name: raspbian-py311
-        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py312
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py312
           name: raspbian-py312
-        - container: wpilib/raspbian-cross-ubuntu:2025-bullseye-22.04-py313
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
           name: raspbian-py313
 
-        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py39
-          name: raspbian-aarch64-py39
-        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py310
-          name: raspbian-aarch64-py310
-        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py311
+        - container: wpilib/aarch64-cross-ubuntu:2025-bookworm-22.04-py311
           name: raspbian-aarch64-py311
-        - container: wpilib/aarch64-cross-ubuntu:2025-bullseye-22.04-py312
+        - container: wpilib/aarch64-cross-ubuntu:2025-bookworm-22.04-py312
           name: raspbian-aarch64-py312
-        - container: wpilib/aarch64-cross-ubuntu:bullseye-22.04-py313
+        - container: wpilib/aarch64-cross-ubuntu:2025-bookworm-22.04-py313
           name: raspbian-aarch64-py313
 
     container:
