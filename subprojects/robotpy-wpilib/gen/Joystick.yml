@@ -40,7 +40,9 @@ classes:
       GetTopReleased:
       Top:
       GetMagnitude:
-      GetDirectionRadians:
-      GetDirectionDegrees:
       GetDirection:
-        ignore: true
+        rename: getDirectionRadians
+    inline_code: |
+      .def("getDirectionDegrees", [](const Joystick &self) -> units::degree_t {
+        return self.GetDirection();
+      })
