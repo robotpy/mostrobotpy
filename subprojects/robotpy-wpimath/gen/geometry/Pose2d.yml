@@ -21,6 +21,9 @@ classes:
           '':
           Translation2d, Rotation2d:
           units::meter_t, units::meter_t, Rotation2d:
+          const Eigen::Matrix3d&:
+            rename: fromMatrix
+            keepalive: []
       Translation:
       Rotation:
       RotateBy:
@@ -28,6 +31,7 @@ classes:
       RelativeTo:
       Exp:
       Log:
+      ToMatrix:
       Nearest:
         overloads:
           std::span<const Pose2d> [const]:

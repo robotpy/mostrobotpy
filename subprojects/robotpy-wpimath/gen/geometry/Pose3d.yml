@@ -23,6 +23,10 @@ classes:
           Translation3d, Rotation3d:
           units::meter_t, units::meter_t, units::meter_t, Rotation3d:
           const Pose2d&:
+            keepalive: []
+          const Eigen::Matrix4d&:
+            rename: fromMatrix
+            keepalive: []
       operator+:
       operator-:
       operator==:
@@ -39,6 +43,7 @@ classes:
       RelativeTo:
       Exp:
       Log:
+      ToMatrix:
       ToPose2d:
 
 inline_code: |
