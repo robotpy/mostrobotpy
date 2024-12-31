@@ -73,7 +73,9 @@ def test_inequality() -> None:
     assert rot1 != rot2
 
 
-@pytest.mark.skipif(importlib.util.find_spec("numpy") is None)
+@pytest.mark.skipif(
+    importlib.util.find_spec("numpy") is None, reason="numpy is not available"
+)
 def test_to_matrix() -> None:
     before = Rotation2d.fromDegrees(20.0)
     after = Rotation2d.fromMatrix(before.toMatrix())
