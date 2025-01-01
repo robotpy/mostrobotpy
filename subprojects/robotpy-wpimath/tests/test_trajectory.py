@@ -1,21 +1,26 @@
-from wpimath.trajectory import TrajectoryGenerator, TrajectoryParameterizer
-from wpimath.geometry import Pose2d, Transform2d
-import wpimath.trajectory
-import wpimath.trajectory.constraint
-from wpimath.spline import CubicHermiteSpline, SplineHelper
-
-from wpimath.geometry import Ellipse2d, Pose2d, Rectangle2d, Rotation2d, Translation2d
-
-from wpimath.trajectory import Trajectory, TrajectoryConfig
-
-from wpimath.trajectory.constraint import (
-    MaxVelocityConstraint,
-    EllipticalRegionConstraint,
-    RectangularRegionConstraint,
-)
-
 import math
-import typing
+
+from wpimath.geometry import (
+    Ellipse2d,
+    Pose2d,
+    Rectangle2d,
+    Rotation2d,
+    Transform2d,
+    Translation2d,
+)
+from wpimath.spline import CubicHermiteSpline, SplineHelper
+from wpimath.trajectory import (
+    Trajectory,
+    TrajectoryConfig,
+    TrajectoryGenerator,
+    TrajectoryParameterizer,
+)
+from wpimath.trajectory.constraint import (
+    EllipticalRegionConstraint,
+    MaxVelocityConstraint,
+    RectangularRegionConstraint,
+    TrajectoryConstraint,
+)
 
 
 def getTestTrajectory(config: TrajectoryConfig) -> Trajectory:
@@ -101,6 +106,22 @@ def test_rectangular_region_constraint():
 
 
 #
+# TrajectoryConstraint
+#
+
+
+def test_trajectory_constraint_min_max():
+    min_max = TrajectoryConstraint.MinMax()
+    _, _ = min_max
+
+    min_max = TrajectoryConstraint.MinMax(minAcceleration=0, maxAcceleration=1)
+    assert (
+        repr(min_max)
+        == "TrajectoryConstraint.MinMax(minAcceleration=0.0, maxAcceleration=1.0)"
+    )
+
+
+#
 # TrajectoryParameterizer
 #
 
@@ -114,7 +135,7 @@ def test_trajectory_parameterizer():
     spline = CubicHermiteSpline(vec1.x, vec2.x, vec1.y, vec2.y)
 
     # sample the pose and curvature along the spline
-    points: typing.Tuple[Pose2d, float] = []
+    points: list[tuple[Pose2d, float]] = []
     for i in range(100):
         points.append(spline.getPoint(i / 100))
 
