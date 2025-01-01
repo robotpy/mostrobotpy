@@ -49,9 +49,9 @@ generation_data = "gen"
 [tool.robotpy-build.wrappers."wpiutil".maven_lib_download]
 artifact_id = "wpiutil-cpp"
 group_id = "edu.wpi.first.wpiutil"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-3"
+version = "2025.1.1"
 
 libs = ["wpiutil"]
 

@@ -39,8 +39,8 @@ scan_headers_ignore = [
 [tool.robotpy-build.wrappers."robotpy_apriltag".maven_lib_download]
 artifact_id = "apriltag-cpp"
 group_id = "edu.wpi.first.apriltag"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-3"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2025.1.1"
 
 libs = ["apriltag"]
 
