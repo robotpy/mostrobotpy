@@ -1,0 +1,6 @@
+---
+
+enums:
+  WPI_PixelFormat:
+  WPI_TimestampSource:
+
