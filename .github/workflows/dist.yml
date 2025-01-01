@@ -14,6 +14,10 @@ concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  SCCACHE_WEBDAV_ENDPOINT: "https://frcmaven.wpi.edu/artifactory/wpilib-generic-cache-cmake-local"
+  SCCACHE_WEBDAV_KEY_PREFIX: "sccache-robotpy"
+
 jobs:
   # This job limits concurrency on the default branch
   # - we want it to run so it can populate ccache, but we typically
@@ -128,6 +132,8 @@ jobs:
       env:
         RPYBUILD_STRIP_LIBPYTHON: "1"
         RPYBUILD_CC_LAUNCHER: ${{ steps.ccache.outputs.variant }}
+        SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
+        SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
 
     - uses: actions/upload-artifact@v4
       with:
