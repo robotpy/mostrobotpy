@@ -4,6 +4,8 @@ enums:
   WPI_PixelFormat:
     ignore: true
   WPI_TimestampSource:
+    value_prefix: WPI_TIMESRC
+    rename: TimestampSource
 
 # We only care about the enum exposed above. We can safely ignore everything else
 functions:
