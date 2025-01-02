@@ -19,10 +19,10 @@ robotpy = ["run = wpilib._impl.start:Main"]
 [build-system]
 requires = [
     "robotpy-build<2025.0.0b1,~=2025.0.0a8",
-    "robotpy-wpiutil~=2025.0.0b3",
-    "robotpy-wpimath~=2025.0.0b3",
-    "robotpy-hal~=2025.0.0b3",
-    "pyntcore~=2025.0.0b3",
+    "robotpy-wpiutil~=2025.1.1",
+    "robotpy-wpimath~=2025.1.1",
+    "robotpy-hal~=2025.1.1",
+    "pyntcore~=2025.1.1",
 ]
 
 [tool.robotpy-build]
