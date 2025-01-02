@@ -60,4 +60,5 @@ classes:
             auto result = self.GrabFrameNoTimeout(image);
             return std::make_tuple(result, image);
           }
-
+      LastFrameTime:
+      LastFrameTimeSource:
