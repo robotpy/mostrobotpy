@@ -80,8 +80,8 @@ scan_headers_ignore = [
 [tool.robotpy-build.wrappers."wpimath._impl".maven_lib_download]
 artifact_id = "wpimath-cpp"
 group_id = "edu.wpi.first.wpimath"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.1.1-beta-3"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2025.1.1"
 
 
 libs = ["wpimath"]
