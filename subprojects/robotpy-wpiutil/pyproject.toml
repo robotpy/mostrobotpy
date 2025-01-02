@@ -63,6 +63,7 @@ DataLogBackgroundWriter = "wpi/DataLogBackgroundWriter.h"
 DataLogWriter = "wpi/DataLogWriter.h"
 StackTrace = "wpi/StackTrace.h"
 Synchronization = "wpi/Synchronization.h"
+RawFrame = "wpi/RawFrame.h"
 
 # wpi/sendable
 Sendable = "wpi/sendable/Sendable.h"
