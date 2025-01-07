@@ -62,9 +62,9 @@ def reportErrorInternal(
             not isWarning,
             code,
             False,
-            error.encode("utf-8"),
-            locString.encode("utf-8"),
-            traceString.encode("utf-8"),
+            error,
+            locString,
+            traceString,
             True,
         )
 

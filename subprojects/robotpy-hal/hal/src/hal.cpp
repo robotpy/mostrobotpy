@@ -66,14 +66,29 @@ RPYBUILD_PYBIND11_MODULE(m) {
 #else
   m.attr("__halplatform__") = "sim";
   m.attr("__hal_simulation__") = true;
+
+  m.def("__test_senderr", []() {
+    HAL_SendError(1, 2, 0, "\xfa" "badmessage", "location", "callstack", 1);
+  }, release_gil());
+
 #endif
 
   // Redirect stderr to python stderr
   sys_module = py::module_::import("sys");
 
   HAL_SetPrintErrorImpl([](const char *line, size_t size) {
+    if (size == 0) {
+      return;
+    }
+
     py::gil_scoped_acquire lock;
-    py::print(py::str(line, size), "file"_a=sys_module.attr("stderr"));
+    PyObject *o = PyUnicode_DecodeUTF8(line, size, "replace");
+    if (o == nullptr) {
+      PyErr_Clear();
+      py::print(py::bytes(line, size), "file"_a=sys_module.attr("stderr"));
+    } else {
+      py::print(py::reinterpret_steal<py::str>(o), "file"_a=sys_module.attr("stderr"));
+    }
   });
 
   // Do cleanup on module unload

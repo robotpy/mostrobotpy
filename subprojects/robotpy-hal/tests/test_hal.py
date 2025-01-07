@@ -9,3 +9,9 @@ def test_hal_simdevice():
 
     v.set(4)
     assert v.get() == 4
+
+
+def test_hal_send_error(capsys):
+    hal._wpiHal.__test_senderr()
+    cap = capsys.readouterr()
+    assert cap.err == "Error at location: �badmessage\ncallstack\n\n"
