@@ -5,7 +5,9 @@ author = "RobotPy Development Team"
 author_email = "robotpy@googlegroups.com"
 url = "https://github.com/robotpy/robotpy-wpiutil"
 license = "BSD-3-Clause"
-install_requires = []
+install_requires = [
+    "msvc-runtime>=14.42.34433; platform_system == 'Windows'"
+]
 
 [build-system]
 requires = [
