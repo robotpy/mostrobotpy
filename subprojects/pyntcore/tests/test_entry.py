@@ -3,6 +3,25 @@
 #
 
 
+def test_entry_repr(nt):
+    e = nt.getEntry("/k1")
+    assert repr(e) == "<NetworkTableEntry /k1>"
+
+
+def test_topic_repr(nt):
+    topic = nt.getIntegerTopic("/int")
+    assert repr(topic) == "<IntegerTopic /int>"
+
+    pub = topic.publish()
+    assert repr(pub) == "<IntegerPublisher /int>"
+
+    entry = topic.getEntry(0)
+    assert repr(entry) == "<IntegerEntry /int>"
+
+    generic_entry = topic.getGenericEntry()
+    assert repr(generic_entry) == "<GenericEntry /int>"
+
+
 def test_entry_string(nt):
     e = nt.getEntry("/k1")
     assert e.getString(None) is None
