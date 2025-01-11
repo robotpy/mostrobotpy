@@ -16,7 +16,7 @@ os.environ["RPYBUILD_PARALLEL"] = "1"
 
 # MACOSX_DEPLOYMENT_TARGET is required for linking to WPILib
 if sys.platform == "darwin":
-    os.environ["MACOSX_DEPLOYMENT_TARGET"] = "13"
+    os.environ["MACOSX_DEPLOYMENT_TARGET"] = "13.3"
 
 
 @click.group()
