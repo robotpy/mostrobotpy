@@ -102,5 +102,5 @@ classes:
       operator!=:
     inline_code: |
       .def("__repr__", [](const NetworkTableEntry &self) {
-        return py::str("<NetworkTableEntry {}>").format(self.GetName());
+        return py::str("<NetworkTableEntry {!r}>").format(self.GetName());
       })

@@ -48,7 +48,7 @@ classes:
       .def("__repr__", [](py::handle self) {
         py::object type_name = self.get_type().attr("__qualname__");
         std::string name = self.cast<const Topic&>().GetName();
-        return py::str("<{} {}>").format(type_name, name);
+        return py::str("<{} {!r}>").format(type_name, name);
       })
   Subscriber:
     attributes:
@@ -69,7 +69,7 @@ classes:
       .def("__repr__", [](py::handle self) {
         py::object type_name = self.get_type().attr("__qualname__");
         auto topic = self.cast<const Subscriber&>().GetTopic();
-        return py::str("<{} {}>").format(type_name, topic.GetName());
+        return py::str("<{} {!r}>").format(type_name, topic.GetName());
       })
   Publisher:
     attributes:
@@ -88,5 +88,5 @@ classes:
       .def("__repr__", [](py::handle self) {
         py::object type_name = self.get_type().attr("__qualname__");
         auto topic = self.cast<const Publisher&>().GetTopic();
-        return py::str("<{} {}>").format(type_name, topic.GetName());
+        return py::str("<{} {!r}>").format(type_name, topic.GetName());
       })
