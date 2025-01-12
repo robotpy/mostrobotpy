@@ -47,7 +47,7 @@ classes:
     inline_code: |
       .def("__repr__", [](py::handle self) {
         py::object type_name = self.get_type().attr("__qualname__");
-        std::string name = self.cast<const Topic&>().GetName();
+        std::string name = self.cast<Topic>().GetName();
         return py::str("<{} {!r}>").format(type_name, name);
       })
   Subscriber:

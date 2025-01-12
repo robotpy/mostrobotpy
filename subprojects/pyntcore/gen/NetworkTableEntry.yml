@@ -101,6 +101,6 @@ classes:
       operator==:
       operator!=:
     inline_code: |
-      .def("__repr__", [](const NetworkTableEntry &self) {
+      .def("__repr__", [](NetworkTableEntry self) {
         return py::str("<NetworkTableEntry {!r}>").format(self.GetName());
       })
