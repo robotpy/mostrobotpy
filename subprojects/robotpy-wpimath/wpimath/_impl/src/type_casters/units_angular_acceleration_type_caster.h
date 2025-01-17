@@ -9,7 +9,7 @@ template <> struct handle_type_name<units::radians_per_second_squared_t> {
 };
 
 template <> struct handle_type_name<units::radians_per_second_squared> {
-  static constexpr auto name = _("wpimath.units.radians_per_second");
+  static constexpr auto name = _("wpimath.units.radians_per_second_squared");
 };
 
 template <> struct handle_type_name<units::degrees_per_second_squared_t> {
