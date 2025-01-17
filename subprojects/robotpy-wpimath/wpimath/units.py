@@ -190,7 +190,6 @@ gradians = float
 
 # angular acceleration
 radians_per_second_squared = float
-radians_per_second = float
 degrees_per_second_squared = float
 turns_per_second_squared = float
 
