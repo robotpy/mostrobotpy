@@ -44,6 +44,7 @@ def test_pose2d():
     buffer.addSample(0, Pose2d(0, 0, Rotation2d.fromDegrees(90)))
     buffer.addSample(1, Pose2d(1, 1, Rotation2d(0)))
     sample = buffer.sample(0.5)
+    assert sample is not None
     assert math.isclose(sample.X(), 1 - 1 / 2**0.5)
     assert math.isclose(sample.Y(), 1 / 2**0.5)
     assert math.isclose(sample.rotation().degrees(), 45)
