@@ -72,7 +72,7 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       fail-fast: true
       matrix:
-        os: ["ubuntu-22.04", "macos-13", "windows-2022"]
+        os: ["ubuntu-22.04", "macos-14", "windows-2022"]
         python_version:
         - '3.9'
         - '3.10'
