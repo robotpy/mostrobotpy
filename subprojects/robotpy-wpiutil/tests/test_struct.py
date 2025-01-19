@@ -46,6 +46,10 @@ def test_pack():
     assert wpistruct.pack(module.ThingA(1)) == b"\x01"
 
 
+def test_pack_array():
+    assert wpistruct.packArray([module.ThingA(1), module.ThingA(2)]) == b"\x01\x02"
+
+
 def test_pack_into():
     buf = bytearray(1)
     wpistruct.packInto(module.ThingA(1), buf)
@@ -60,6 +64,13 @@ def test_pack_into_err():
 
 def test_unpack():
     assert wpistruct.unpack(module.ThingA, b"\x01") == module.ThingA(1)
+
+
+def test_unpack_array():
+    assert wpistruct.unpackArray(module.ThingA, b"\x01\x02") == [
+        module.ThingA(1),
+        module.ThingA(2),
+    ]
 
 
 # def test_unpack_into():

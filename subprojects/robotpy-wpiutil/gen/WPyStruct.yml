@@ -14,10 +14,16 @@ functions:
   pack:
     subpackage: wpistruct
     no_release_gil: true
+  packArray:
+    subpackage: wpistruct
+    no_release_gil: true
   packInto:
     subpackage: wpistruct
     no_release_gil: true
   unpack:
+    subpackage: wpistruct
+    no_release_gil: true
+  unpackArray:
     subpackage: wpistruct
     no_release_gil: true
   unpackInto:

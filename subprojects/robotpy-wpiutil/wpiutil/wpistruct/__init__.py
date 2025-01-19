@@ -10,8 +10,10 @@ from .._wpiutil.wpistruct import (
     getSize,
     getTypeName,
     pack,
+    packArray,
     packInto,
     unpack,
+    unpackArray,
 )
 
 __all__ = [
@@ -20,8 +22,10 @@ __all__ = [
     "getSize",
     "getTypeName",
     "pack",
+    "packArray",
     "packInto",
     "unpack",
+    "unpackArray",
 ]
 
 from .desc import StructDescriptor
