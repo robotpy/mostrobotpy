@@ -27,6 +27,7 @@ libs = ["wpinet"]
 [tool.robotpy-build.wrappers."wpinet".autogen_headers]
 # wpinet
 PortForwarder = "wpinet/PortForwarder.h"
+WebServer = "wpinet/WebServer.h"
 
 [tool.robotpy-build.metadata]
 name = "robotpy-wpinet"
