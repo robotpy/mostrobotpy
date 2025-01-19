@@ -48,6 +48,14 @@ def develop(ctx: Context):
 
 @main.command()
 @click.pass_obj
+def update_init(ctx: Context):
+    """Update __init__.py in all projects"""
+    for project in ctx.subprojects.values():
+        project.update_init()
+
+
+@main.command()
+@click.pass_obj
 def test(ctx: Context):
     """Run all test scripts"""
     for project in ctx.subprojects.values():

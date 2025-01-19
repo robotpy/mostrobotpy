@@ -59,6 +59,14 @@ class Subproject:
             cwd=self.path,
         )
 
+    def update_init(self):
+        self._cmd(
+            sys.executable,
+            "setup.py",
+            "update_init",
+            cwd=self.path,
+        )
+
     def test(self, *, install_requirements=False):
         tests_path = self.path / "tests"
         if install_requirements:
