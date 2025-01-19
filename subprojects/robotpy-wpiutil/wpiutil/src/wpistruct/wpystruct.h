@@ -9,6 +9,7 @@
 #include <wpi/struct/Struct.h>
 
 #include <pybind11/functional.h>
+#include <pybind11/typing.h>
 #include <robotpy_build.h>
 
 static inline std::string pytypename(const py::type &t) {

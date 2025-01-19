@@ -31,6 +31,11 @@ size_t getSize(const py::type &t);
 py::bytes pack(const WPyStruct &v);
 
 /**
+    Serialize objects into byte buffer
+*/
+py::bytes packArray(const py::sequence &seq);
+
+/**
     Serialize object into byte buffer. Buffer must be exact size.
 */
 void packInto(const WPyStruct &v, py::buffer &b);
@@ -40,6 +45,12 @@ void packInto(const WPyStruct &v, py::buffer &b);
     size.
 */
 WPyStruct unpack(const py::type &t, const py::buffer &b);
+
+/**
+    Convert byte buffer into list of objects of specified type. Buffer must be
+    exact size.
+*/
+py::typing::List<WPyStruct> unpackArray(const py::type &t, const py::buffer &b);
 
 // /**
 //     Convert byte buffer into passed in object. Buffer must be exact
