@@ -26,53 +26,53 @@ robotpy_build_req = "~=2025.0.0"
 #
 
 [subprojects."robotpy-wpiutil"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = true
 
 [subprojects."robotpy-wpinet"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = true
 
 [subprojects.pyntcore]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = true
 
 [subprojects."robotpy-hal"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = true
 
 [subprojects."robotpy-wpimath"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = true
 
 [subprojects."robotpy-cscore"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = true
 
 [subprojects."robotpy-apriltag"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = true
 
 [subprojects."robotpy-wpilib"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = true
 
 [subprojects."robotpy-halsim-ds-socket"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = false
 
 [subprojects."robotpy-halsim-ws"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = false
 
 [subprojects."robotpy-halsim-gui"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = false
 
 [subprojects."robotpy-romi"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = false
 
 [subprojects."robotpy-xrp"]
-min_version = "2025.1.1"
+min_version = "2025.2"
 roborio = false
