@@ -44,6 +44,12 @@ classes:
           std::string_view, const PubSubOptions&:
       operator==:
       operator!=:
+    inline_code: |
+      .def("__repr__", [](py::handle self) {
+        py::object type_name = self.get_type().attr("__qualname__");
+        std::string name = self.cast<Topic>().GetName();
+        return py::str("<{} {!r}>").format(type_name, name);
+      })
   Subscriber:
     attributes:
       m_subHandle:
@@ -59,6 +65,12 @@ classes:
             ignore: true
           NT_Subscriber:
             ignore: true
+    inline_code: |
+      .def("__repr__", [](py::handle self) {
+        py::object type_name = self.get_type().attr("__qualname__");
+        auto topic = self.cast<const Subscriber&>().GetTopic();
+        return py::str("<{} {!r}>").format(type_name, topic.GetName());
+      })
   Publisher:
     attributes:
       m_pubHandle:
@@ -72,3 +84,9 @@ classes:
             ignore: true
           NT_Publisher:
             ignore: true
+    inline_code: |
+      .def("__repr__", [](py::handle self) {
+        py::object type_name = self.get_type().attr("__qualname__");
+        auto topic = self.cast<const Publisher&>().GetTopic();
+        return py::str("<{} {!r}>").format(type_name, topic.GetName());
+      })
