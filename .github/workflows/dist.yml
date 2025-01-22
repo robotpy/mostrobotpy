@@ -15,6 +15,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  SCCACHE_CACHE_MULTIARCH: "1"
   SCCACHE_WEBDAV_ENDPOINT: "https://frcmaven.wpi.edu/artifactory/wpilib-generic-cache-cmake-local"
   SCCACHE_WEBDAV_KEY_PREFIX: "sccache-robotpy"
 
@@ -72,7 +73,7 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       fail-fast: true
       matrix:
-        os: ["ubuntu-22.04", "macos-13", "windows-2022"]
+        os: ["ubuntu-22.04", "macos-14", "windows-2022"]
         python_version:
         - '3.9'
         - '3.10'
@@ -96,7 +97,7 @@ jobs:
       shell: bash
       id: ccache
       run: |
-        if [[ "${{ runner.os }}" == "Windows" ]]; then
+        if [[ "${{ runner.os }}" != "Linux" ]]; then
           echo "VARIANT=sccache" >> $GITHUB_OUTPUT
         else
           echo "VARIANT=ccache" >> $GITHUB_OUTPUT

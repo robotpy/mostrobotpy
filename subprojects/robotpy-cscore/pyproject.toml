@@ -14,9 +14,9 @@ install_requires = [
 [build-system]
 requires = [
     "robotpy-build~=2025.0.0",
-    "robotpy-wpiutil~=2025.1.1",
-    "robotpy-wpinet~=2025.1.1",
-    "pyntcore~=2025.1.1",
+    "robotpy-wpiutil~=2025.2",
+    "robotpy-wpinet~=2025.2",
+    "pyntcore~=2025.2",
     # "numpy", # required for pybind11-stubgen to not complain, broken in raspbian CI
 ]
 
