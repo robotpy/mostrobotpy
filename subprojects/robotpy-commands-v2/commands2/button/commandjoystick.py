@@ -146,6 +146,9 @@ class CommandJoystick(CommandGenericHID):
         """
         Get the x position of the HID.
 
+        This depends on the mapping of the joystick connected to the current port. On most
+        joysticks, positive is to the right.
+
         :returns: the x position
         """
         return self._hid.getX()
@@ -153,6 +156,9 @@ class CommandJoystick(CommandGenericHID):
     def getY(self) -> float:
         """
         Get the y position of the HID.
+
+        This depends on the mapping of the joystick connected to the current port. On most
+        joysticks, positive is to the back.
 
         :returns: the y position
         """
@@ -186,8 +192,8 @@ class CommandJoystick(CommandGenericHID):
 
     def getMagnitude(self) -> float:
         """
-        Get the magnitude of the direction vector formed by the joystick's current position relative to
-        its origin.
+        Get the magnitude of the vector formed by the joystick's current position relative to its
+        origin.
 
         :returns: The magnitude of the direction vector
         """
@@ -195,15 +201,25 @@ class CommandJoystick(CommandGenericHID):
 
     def getDirectionRadians(self) -> float:
         """
-        Get the direction of the vector formed by the joystick and its origin in radians.
+        Get the direction of the vector formed by the joystick and its origin in radians. 0 is forward
+        and clockwise is positive. (Straight right is π/2.)
 
         :returns: The direction of the vector in radians
         """
+        # https://docs.wpilib.org/en/stable/docs/software/basic-programming/coordinate-system.html#joystick-and-controller-coordinate-system
+        # A positive rotation around the X axis moves the joystick right, and a
+        # positive rotation around the Y axis moves the joystick backward. When
+        # treating them as translations, 0 radians is measured from the right
+        # direction, and angle increases clockwise.
+        #
+        # It's rotated 90 degrees CCW (y is negated and the arguments are reversed)
+        # so that 0 radians is forward.
         return self._hid.getDirectionRadians()
 
     def getDirectionDegrees(self) -> float:
         """
-        Get the direction of the vector formed by the joystick and its origin in degrees.
+        Get the direction of the vector formed by the joystick and its origin in degrees. 0 is forward
+        and clockwise is positive. (Straight right is 90.)
 
         :returns: The direction of the vector in degrees
         """

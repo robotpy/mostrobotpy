@@ -213,7 +213,7 @@ class CommandXboxController(CommandGenericHID):
 
     def getLeftX(self) -> float:
         """
-        Get the X axis value of left side of the controller.
+        Get the X axis value of left side of the controller. Right is positive.
 
         :returns: The axis value.
         """
@@ -221,7 +221,7 @@ class CommandXboxController(CommandGenericHID):
 
     def getRightX(self) -> float:
         """
-        Get the X axis value of right side of the controller.
+        Get the X axis value of right side of the controller. Right is positive.
 
         :returns: The axis value.
         """
@@ -229,7 +229,7 @@ class CommandXboxController(CommandGenericHID):
 
     def getLeftY(self) -> float:
         """
-        Get the Y axis value of left side of the controller.
+        Get the Y axis value of left side of the controller. Back is positive.
 
         :returns: The axis value.
         """
@@ -237,7 +237,7 @@ class CommandXboxController(CommandGenericHID):
 
     def getRightY(self) -> float:
         """
-        Get the Y axis value of right side of the controller.
+        Get the Y axis value of right side of the controller. Back is positive.
 
         :returns: The axis value.
         """
