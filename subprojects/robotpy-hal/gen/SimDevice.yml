@@ -256,8 +256,12 @@ inline_code: |
     .def_property("value", &SimBoolean::Get, &SimBoolean::Set, release_gil())
     .def("__repr__", [](const SimBoolean &self) -> py::str {
       if (self) {
-        py::gil_scoped_release release;
-        return std::string("<SimBoolean value=") + (self.Get() ? "True" : "False") + ">";
+        bool value;
+        {
+          py::gil_scoped_release release;
+          value = self.Get();
+        }
+        return std::string("<SimBoolean value=") + (value ? "True" : "False") + ">";
       } else {
         return "<SimBoolean (invalid)>";
       }
@@ -274,8 +278,12 @@ inline_code: |
         if (!self) {
           return "<invalid>";
         } else {
-          py::gil_scoped_release release;
-          return HALSIM_GetSimDeviceName(self);
+          const char *name;
+          {
+            py::gil_scoped_release release;
+            name = HALSIM_GetSimDeviceName(self);
+          }
+          return name;
         }
       #endif
     })
@@ -299,8 +307,12 @@ inline_code: |
     .def_property("value", &SimDouble::Get, &SimDouble::Set, release_gil())
     .def("__repr__", [](const SimDouble &self) -> py::str {
       if (self) {
-        py::gil_scoped_release release;
-        return "<SimDouble value=" + std::to_string(self.Get()) + ">";
+        double value;
+        {
+          py::gil_scoped_release release;
+          value = self.Get();
+        }
+        return "<SimDouble value=" + std::to_string(value) + ">";
       } else {
         return "<SimDouble (invalid)>";
       }
@@ -339,8 +351,12 @@ inline_code: |
     .def_property("value", &SimInt::Get, &SimInt::Set)
     .def("__repr__", [](const SimInt &self) -> py::str {
       if (self) {
-        py::gil_scoped_release release;
-        return "<SimInt value=" + std::to_string(self.Get()) + ">";
+        int32_t value;
+        {
+          py::gil_scoped_release release;
+          value = self.Get();
+        }
+        return "<SimInt value=" + std::to_string(value) + ">";
       } else {
         return "<SimInt (invalid)>";
       }
@@ -350,8 +366,12 @@ inline_code: |
     .def_property("value", &SimLong::Get, &SimLong::Set)
     .def("__repr__", [](const SimLong &self) -> py::str {
       if (self) {
-        py::gil_scoped_release release;
-        return "<SimLong value=" + std::to_string(self.Get()) + ">";
+        int64_t value;
+        {
+          py::gil_scoped_release release;
+          value = self.Get();
+        }
+        return "<SimLong value=" + std::to_string(value) + ">";
       } else {
         return "<SimLong (invalid)>";
       }
