@@ -187,9 +187,9 @@ jobs:
     - name: Install setuptools + wheel
       run: |
         /build/venv/bin/build-pip --disable-pip-version-check install -U "setuptools==63.4.3; python_version < '3.12'"
-        /build/venv/bin/build-pip --disable-pip-version-check install -U wheel==0.41.2
+        /build/venv/bin/build-pip --disable-pip-version-check install -U wheel
         /build/venv/bin/cross-pip --disable-pip-version-check install -U "setuptools==63.4.3; python_version < '3.12'"
-        /build/venv/bin/cross-pip --disable-pip-version-check install -U wheel==0.41.2
+        /build/venv/bin/cross-pip --disable-pip-version-check install -U wheel
 
     # See https://github.com/pypa/setuptools_scm/issues/784
     - name: Set git directory as safe to allow setuptools-scm to work
