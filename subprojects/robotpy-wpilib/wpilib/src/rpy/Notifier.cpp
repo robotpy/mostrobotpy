@@ -31,36 +31,56 @@ PyNotifier::PyNotifier(std::function<void()> handler) {
 
   std::function<void()> target([this] {
     py::gil_scoped_release release;
-    for (;;) {
-      int32_t status = 0;
-      HAL_NotifierHandle notifier = m_notifier.load();
-      if (notifier == 0) {
-        break;
-      }
-      uint64_t curTime = HAL_WaitForNotifierAlarm(notifier, &status);
-      if (curTime == 0 || status != 0) {
-        break;
-      }
 
-      std::function<void()> handler;
-      {
-        std::scoped_lock lock(m_processMutex);
-        handler = m_handler;
-        if (m_periodic) {
-          m_expirationTime += m_period;
-          UpdateAlarm();
-        } else {
-          // need to update the alarm to cause it to wait again
-          UpdateAlarm(UINT64_MAX);
+    try {
+      for (;;) {
+        int32_t status = 0;
+        HAL_NotifierHandle notifier = m_notifier.load();
+        if (notifier == 0) {
+          break;
+        }
+        uint64_t curTime = HAL_WaitForNotifierAlarm(notifier, &status);
+        if (curTime == 0 || status != 0) {
+          break;
+        }
+
+        std::function<void()> handler;
+        {
+          std::scoped_lock lock(m_processMutex);
+          handler = m_handler;
+          if (m_periodic) {
+            m_expirationTime += m_period;
+            UpdateAlarm();
+          } else {
+            // need to update the alarm to cause it to wait again
+            UpdateAlarm(UINT64_MAX);
+          }
+        }
+
+        // call callback
+        if (handler) {
+          if (Py_IsFinalizing()) {
+            break;
+          }
+
+          handler();
         }
       }
+    } catch (...) {
+      if (Py_IsFinalizing()) {
+        // Hang the thread since returning to the caller is going to crash
+        // when we try to obtain the GIL again
+        // - this is a daemon thread so it's fine?
+        // - Python 3.14 does this too
+        while(true) {}
+      }
 
-      // call callback
-      if (handler)
-        handler();
+      throw;
     }
+
     if (Py_IsFinalizing()) {
-      release.disarm();
+      // see above
+      while(true) {}
     }
   });
 
