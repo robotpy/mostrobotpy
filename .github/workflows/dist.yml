@@ -146,7 +146,7 @@ jobs:
         path: dist
 
   build-arm:
-    runs-on: ubuntu-24.04-arm
+    runs-on: ubuntu-22.04-arm
     needs: [setup_concurrency]
     strategy:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
