@@ -37,4 +37,13 @@ RPYBUILD_PYBIND11_MODULE(m) {
   m.def("_resetWpilibSimulationData", &resetWpilibSimulationData,
         release_gil());
   m.def("_resetMotorSafety", &resetMotorSafety, release_gil());
+
+#ifndef __FRC_ROBORIO__
+  // ensure that the shuffleboard data is released when python shuts down
+  static int unused; // the capsule needs something to reference
+  py::capsule cleanup(&unused, [](void *) {
+      frc::impl::ResetShuffleboardInstance();
+  });
+  m.add_object("_sf_cleanup", cleanup);
+#endif
 }
