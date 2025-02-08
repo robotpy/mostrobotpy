@@ -141,6 +141,64 @@ jobs:
         name: "pypi-${{ runner.os }}-${{ matrix.python_version }}"
         path: dist
 
+  build-arm:
+    runs-on: ubuntu-24.04-arm
+    needs: [setup_concurrency]
+    strategy:
+      max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
+      fail-fast: true
+      matrix:
+        python_version:
+        - '3.11'
+        - '3.12'
+        - '3.13'
+    container: python:${{ matrix.python_version }}-bookworm
+
+    steps:
+    - run: apt-get update && apt-get install -y libgl1
+
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    #
+    # Setup build caching
+    #
+
+    - name: Setup sccache
+      uses: mozilla-actions/sccache-action@v0.0.7
+
+    # See https://github.com/pypa/setuptools_scm/issues/784
+    - name: Set git directory as safe to allow setuptools-scm to work
+      shell: bash
+      run: |
+        /usr/bin/git config --global --add safe.directory $PWD
+
+    - name: Install deps
+      shell: bash
+      run: |
+        python -m pip --disable-pip-version-check install -r rdev_requirements.txt
+
+    - name: Install numpy (needed for stubgen)
+      shell: bash
+      run: |
+        python -m pip --disable-pip-version-check install numpy
+
+    - name: Build + test wheels
+      shell: bash
+      run: |
+        ./rdev.sh ci run
+      env:
+        RPYBUILD_STRIP_LIBPYTHON: "1"
+        RPYBUILD_CC_LAUNCHER: sccache
+        SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
+        SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: "pypi-${{ runner.os }}-arm-${{ matrix.python_version }}"
+        path: dist
+
   #
   # Build roboRIO/raspbian wheels
   #
@@ -161,13 +219,6 @@ jobs:
           name: raspbian-py312
         - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
           name: raspbian-py313
-
-        - container: wpilib/aarch64-cross-ubuntu:2025-bookworm-22.04-py311
-          name: raspbian-aarch64-py311
-        - container: wpilib/aarch64-cross-ubuntu:2025-bookworm-22.04-py312
-          name: raspbian-aarch64-py312
-        - container: wpilib/aarch64-cross-ubuntu:2025-bookworm-22.04-py313
-          name: raspbian-aarch64-py313
 
     container:
       image: "${{ matrix.os.container }}"
@@ -228,7 +279,7 @@ jobs:
 
   publish-rpyrepo:
     runs-on: ubuntu-latest
-    needs: [check, build, cross-build]
+    needs: [check, build, build-arm, cross-build]
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
@@ -248,7 +299,7 @@ jobs:
 
   publish-pypi:
     runs-on: ubuntu-latest
-    needs: [check, build, cross-build]
+    needs: [check, build, build-arm, cross-build]
     permissions:
       id-token: write
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')

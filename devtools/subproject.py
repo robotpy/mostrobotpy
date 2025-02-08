@@ -128,7 +128,9 @@ class Subproject:
 
     _adjust_wheel_tags = {
         # pypi only accepts manylinux wheels, and we know we're compatible
+        # TODO(davo): use auditwheel to fix the tags instead
         "linux_x86_64": "manylinux_2_35_x86_64",
+        "linux_aarch64": "manylinux_2_36_aarch64",
         # needed for compatibility with python compiled with older xcode
         "macosx_11_0_x86_64": "macosx_10_16_x86_64",
         "macosx_12_0_x86_64": "macosx_10_16_x86_64",
