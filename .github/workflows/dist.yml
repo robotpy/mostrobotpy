@@ -95,12 +95,17 @@ jobs:
     - name: Set ccache params
       shell: bash
       id: ccache
+      env:
+        OS: ${{ runner.os }}
       run: |
-        if [[ "${{ runner.os }}" != "Linux" ]]; then
+        if [[ "$OS" != "Linux" ]]; then
           echo "VARIANT=sccache" >> $GITHUB_OUTPUT
         else
           echo "VARIANT=ccache" >> $GITHUB_OUTPUT
           echo "MAX_SIZE=500M" >> $GITHUB_OUTPUT
+        fi
+        if [[ "$OS" == "macOS" ]]; then
+          echo "SCCACHE_CACHE_MULTIARCH=1" >> $GITHUB_ENV
         fi
 
     - name: Setup ccache
@@ -132,7 +137,6 @@ jobs:
       env:
         RPYBUILD_STRIP_LIBPYTHON: "1"
         RPYBUILD_CC_LAUNCHER: ${{ steps.ccache.outputs.variant }}
-        SCCACHE_CACHE_MULTIARCH: "1"
         SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
 
