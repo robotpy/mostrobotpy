@@ -20,6 +20,18 @@
 using namespace frc;
 using namespace pybind11::literals;
 
+// Hang the thread since returning to the caller is going to crash when we try
+// to obtain the GIL again
+// - this is a daemon thread so it's fine?
+// - Python 3.14 does this too
+static void _hang_thread_if_finalizing() {
+  if (Py_IsFinalizing()) {
+    while (true) {
+      std::this_thread::sleep_for(std::chrono::seconds(1000));
+    }
+  }
+}
+
 PyNotifier::PyNotifier(std::function<void()> handler) {
   if (!handler) {
     throw FRC_MakeError(err::NullParameter, "handler");
@@ -67,21 +79,11 @@ PyNotifier::PyNotifier(std::function<void()> handler) {
         }
       }
     } catch (...) {
-      if (Py_IsFinalizing()) {
-        // Hang the thread since returning to the caller is going to crash
-        // when we try to obtain the GIL again
-        // - this is a daemon thread so it's fine?
-        // - Python 3.14 does this too
-        while(true) {}
-      }
-
+      _hang_thread_if_finalizing();
       throw;
     }
 
-    if (Py_IsFinalizing()) {
-      // see above
-      while(true) {}
-    }
+    _hang_thread_if_finalizing();
   });
 
   py::gil_scoped_acquire acquire;
