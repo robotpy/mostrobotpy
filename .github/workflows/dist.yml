@@ -15,7 +15,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  SCCACHE_CACHE_MULTIARCH: "1"
   SCCACHE_WEBDAV_ENDPOINT: "https://frcmaven.wpi.edu/artifactory/wpilib-generic-cache-cmake-local"
   SCCACHE_WEBDAV_KEY_PREFIX: "sccache-robotpy"
 
@@ -133,6 +132,7 @@ jobs:
       env:
         RPYBUILD_STRIP_LIBPYTHON: "1"
         RPYBUILD_CC_LAUNCHER: ${{ steps.ccache.outputs.variant }}
+        SCCACHE_CACHE_MULTIARCH: "1"
         SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
 
