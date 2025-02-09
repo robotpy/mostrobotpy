@@ -129,8 +129,8 @@ class AddressableLEDBuffer {
   /**
    * Implicit conversion to span of LED data
    */
-  operator std::span<AddressableLED::LEDData>() {
-    return std::span<AddressableLED::LEDData>{m_buffer};
+  operator std::span<frc::AddressableLED::LEDData>() {
+    return std::span{m_buffer};
   }
 
   /**
@@ -139,7 +139,7 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return reference to the LED data
    */
-  AddressableLED::LEDData& operator[](size_t index) {
+  frc::AddressableLED::LEDData& operator[](size_t index) {
     return m_buffer.at(index);
   }
 
@@ -149,7 +149,7 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return const reference to the LED data
    */
-  const AddressableLED::LEDData& operator[](size_t index) const {
+  const frc::AddressableLED::LEDData& operator[](size_t index) const {
     return m_buffer.at(index);
   }
 
@@ -157,7 +157,7 @@ class AddressableLEDBuffer {
   auto end() { return m_buffer.end(); }
 
  private:
-  std::vector<AddressableLED::LEDData> m_buffer;
+  std::vector<frc::AddressableLED::LEDData> m_buffer;
 };
 
 }  // namespace frc
