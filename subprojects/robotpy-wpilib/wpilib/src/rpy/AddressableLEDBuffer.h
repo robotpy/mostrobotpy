@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <span>
 #include <vector>
 #include "frc/AddressableLED.h"
 #include "frc/util/Color.h"
@@ -155,6 +156,140 @@ class AddressableLEDBuffer {
 
   auto begin() { return m_buffer.begin(); }
   auto end() { return m_buffer.end(); }
+
+  /**
+   * A view of another addressable LED buffer. Views provide an easy way to split a large LED
+   * strip into smaller sections that can be animated individually.
+   */
+  class View {
+   public:
+    /**
+     * Gets the length of the view.
+     */
+    size_t size() const { return m_data.size(); }
+
+    /**
+     * Sets a specific LED in the view.
+     *
+     * @param index the index to write
+     * @param r the r value [0-255]
+     * @param g the g value [0-255]
+     * @param b the b value [0-255]
+     */
+    void SetRGB(size_t index, int r, int g, int b) {
+      m_data.at(index).SetRGB(r, g, b);
+    }
+
+    /**
+     * Sets a specific LED in the view.
+     *
+     * @param index the index to write
+     * @param h the h value [0-180)
+     * @param s the s value [0-255]
+     * @param v the v value [0-255]
+     */
+    void SetHSV(size_t index, int h, int s, int v) {
+      m_data.at(index).SetHSV(h, s, v);
+    }
+
+    /**
+     * Sets a specific LED in the view.
+     *
+     * @param index the index to write
+     * @param color the color to write
+     */
+    void SetLED(size_t index, const frc::Color& color) {
+      m_data.at(index).SetLED(color);
+    }
+
+    /**
+     * Sets a specific LED in the view.
+     *
+     * @param index the index to write
+     * @param color the color to write
+     */
+    void SetLED(size_t index, const frc::Color8Bit& color) {
+      m_data.at(index).SetLED(color);
+    }
+
+    /**
+     * Gets the LED data at the specified index.
+     *
+     * @param index the index
+     * @return reference to the LED data
+     */
+    frc::AddressableLED::LEDData& operator[](size_t index) {
+      return m_data.at(index);
+    }
+
+    /**
+     * Gets the LED data at the specified index.
+     *
+     * @param index the index
+     * @return const reference to the LED data
+     */
+    const frc::AddressableLED::LEDData& operator[](size_t index) const {
+      return m_data.at(index);
+    }
+
+    /**
+     * Gets the color at the specified index.
+     *
+     * @param index the index
+     * @return the LED color
+     */
+    frc::Color GetLED(size_t index) const {
+      const auto& led = m_data.at(index);
+      return frc::Color{led.r / 255.0, led.g / 255.0, led.b / 255.0};
+    }
+
+    /**
+     * Gets the color at the specified index.
+     *
+     * @param index the index
+     * @return the LED color
+     */
+    frc::Color8Bit GetLED8Bit(size_t index) const {
+      const auto& led = m_data.at(index);
+      return frc::Color8Bit{led.r, led.g, led.b};
+    }
+
+    /**
+     * Implicit conversion to span of LED data
+     */
+    operator std::span<frc::AddressableLED::LEDData>() {
+      return m_data;
+    }
+
+    /**
+     * Implicit conversion to span of const LED data
+     */
+    operator std::span<const frc::AddressableLED::LEDData>() const {
+      return m_data;
+    }
+
+   private:
+    friend class AddressableLEDBuffer;
+    explicit View(std::span<frc::AddressableLED::LEDData> data)
+        : m_data(data) {}
+
+    std::span<frc::AddressableLED::LEDData> m_data;
+  };
+
+  /**
+   * Creates a read/write view of this buffer.
+   *
+   * @param start the starting index (inclusive)
+   * @param end the ending index (exclusive)
+   * @return View object representing the view
+   * @throws std::out_of_range if the view would exceed buffer bounds
+   */
+  View CreateView(size_t start, size_t end) {
+    if (start >= m_buffer.size() || end >= m_buffer.size()) {
+      throw std::out_of_range("View range out of bounds");
+    }
+    return View(std::span(m_buffer).subspan(start, end - start));
+  }
 
  private:
   std::vector<frc::AddressableLED::LEDData> m_buffer;
