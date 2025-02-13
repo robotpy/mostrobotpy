@@ -53,7 +53,7 @@ class AddressableLEDBuffer {
    * @param index the index to write
    * @param color the color to write
    */
-  void SetLED(size_t index, const Color& color) {
+  void SetLED(size_t index, const frc::Color& color) {
     m_buffer.at(index).SetLED(color);
   }
 
@@ -63,7 +63,7 @@ class AddressableLEDBuffer {
    * @param index the index to write
    * @param color the color to write
    */
-  void SetLED(size_t index, const Color8Bit& color) {
+  void SetLED(size_t index, const frc::Color8Bit& color) {
     m_buffer.at(index).SetLED(color);
   }
 
@@ -110,9 +110,9 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return the LED color
    */
-  Color GetLED(size_t index) const {
+  frc::Color GetLED(size_t index) const {
     const auto& led = m_buffer.at(index);
-    return Color{led.r / 255.0, led.g / 255.0, led.b / 255.0};
+    return frc::Color{led.r / 255.0, led.g / 255.0, led.b / 255.0};
   }
 
   /**
@@ -121,9 +121,9 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return the LED color
    */
-  Color8Bit GetLED8Bit(size_t index) const {
+  frc::Color8Bit GetLED8Bit(size_t index) const {
     const auto& led = m_buffer.at(index);
-    return Color8Bit{led.r, led.g, led.b};
+    return frc::Color8Bit{led.r, led.g, led.b};
   }
 
   /**
