@@ -30,7 +30,7 @@ update_init = [
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.2.1"
+version = "2025.3.1"
 
 libs = ["cscore"]
 
@@ -38,7 +38,7 @@ libs = ["cscore"]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.2.1"
+version = "2025.3.1"
 
 libs = ["cameraserver"]
 

@@ -40,7 +40,7 @@ scan_headers_ignore = [
 artifact_id = "apriltag-cpp"
 group_id = "edu.wpi.first.apriltag"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.2.1"
+version = "2025.3.1"
 
 libs = ["apriltag"]
 
