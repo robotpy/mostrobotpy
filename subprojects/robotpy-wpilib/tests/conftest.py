@@ -3,6 +3,7 @@ import logging
 import pytest
 import ntcore
 import wpilib
+from wpilib.simulation._simulation import _resetWpilibSimulationData
 
 
 @pytest.fixture
@@ -11,7 +12,15 @@ def cfg_logging(caplog):
 
 
 @pytest.fixture(scope="function")
-def nt(cfg_logging):
+def wpilib_state():
+    try:
+        yield None
+    finally:
+        _resetWpilibSimulationData()
+
+
+@pytest.fixture(scope="function")
+def nt(cfg_logging, wpilib_state):
     instance = ntcore.NetworkTableInstance.getDefault()
     instance.startLocal()
 
@@ -20,4 +29,3 @@ def nt(cfg_logging):
     finally:
         instance.stopLocal()
         instance._reset()
-        wpilib._wpilib._clearSmartDashboardData()
