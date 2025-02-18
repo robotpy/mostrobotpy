@@ -167,7 +167,7 @@ classes:
               [](SimDevice &self, const char * name, int32_t direction, const wpi::SmallVector<std::string, 8> &options, int32_t initialValue) {
                 wpi::SmallVector<const char *, 8> coptions;
                 coptions.reserve(options.size());
-                for (auto s: options) {
+                for (auto &s: options) {
                   coptions.push_back(s.c_str());
                 }
                 return self.CreateEnum(name, direction, coptions, initialValue);
@@ -182,7 +182,7 @@ classes:
               [](SimDevice &self, const char * name, int32_t direction, const wpi::SmallVector<std::string, 8> &options, const wpi::SmallVector<double, 8> &optionValues, int32_t initialValue) {
                 wpi::SmallVector<const char *, 8> coptions;
                 coptions.reserve(options.size());
-                for (auto s: options) {
+                for (auto &s: options) {
                   coptions.push_back(s.c_str());
                 }
                 return self.CreateEnumDouble(name, direction, coptions, optionValues, initialValue);
@@ -327,20 +327,28 @@ inline_code: |
         if (self) {
           int32_t value;
           int32_t numOptions;
+          int32_t numdOptions;
           const char ** options;
+          const double * doptions;
           const char * option = "<unknown>";
+          std::string doption;
           {
             py::gil_scoped_release release;
             value = self.Get();
             options = HALSIM_GetSimValueEnumOptions(self, &numOptions);
+            doptions = HALSIM_GetSimValueEnumDoubleValues(self, &numdOptions);
           }
 
           if (options && value >= 0 && value < numOptions) {
             option = options[value];
           }
 
+          if (doptions && value >= 0 && value < numdOptions) {
+            doption = " dvalue=" + std::to_string(doptions[value]);
+          }
+
           return "<SimEnum name=" + std::string(option) +
-                        " value=" + std::to_string(value) + ">";
+                        " value=" + std::to_string(value) + doption + ">";
         } else {
           return "<SimEnum (invalid)>";
         }
