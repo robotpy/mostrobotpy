@@ -168,6 +168,16 @@ class Subsystem(Sendable):
 
         return startRun(start, run, self)
 
+    def idle(self) -> Command:
+        """
+        Constructs a command that does nothing until interrupted. Requires this subsystem.
+
+        :returns: the command
+        """
+        from .cmd import idle
+
+        return idle(self)
+
     #
     # From SubsystemBase
     #
