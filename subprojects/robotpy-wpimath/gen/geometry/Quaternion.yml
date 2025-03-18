@@ -48,6 +48,23 @@ classes:
 
 inline_code: |
   cls_Quaternion
-    .def("__repr__", py::overload_cast<const Quaternion&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Quaternion&>(&rpy::toString))
+    .def(py::pickle(
+        [](const Quaternion &self) { // __getstate__
+            return py::make_tuple(self.W(), self.X(), self.Y(), self.Z());
+        },
+        [](py::tuple t) { // __setstate__
+            if (t.size() != 4)
+                throw std::runtime_error("Invalid state!");
+            
+            return Quaternion(
+              t[0].cast<double>(),
+              t[1].cast<double>(),
+              t[2].cast<double>(),
+              t[3].cast<double>()
+            );
+        }
+    ))
+  ;
 
   SetupWPyStruct<frc::Quaternion>(cls_Quaternion);

@@ -89,6 +89,24 @@ inline_code: |
                      "ry=" + std::to_string(tw.ry()) + ", "
                      "rz=" + std::to_string(tw.rz()) + ")";
     })
+    .def(py::pickle(
+        [](const Twist3d &tw) { // __getstate__
+            return py::make_tuple(tw.dx(), tw.dy(), tw.dz(), tw.rx(), tw.ry(), tw.rz());
+        },
+        [](py::tuple t) { // __setstate__
+            if (t.size() != 6)
+                throw std::runtime_error("Invalid state!");
+            
+            return Twist3d(
+              t[0].cast<units::meter_t>(),
+              t[1].cast<units::meter_t>(),
+              t[2].cast<units::meter_t>(),
+              t[3].cast<units::radian_t>(),
+              t[4].cast<units::radian_t>(),
+              t[5].cast<units::radian_t>()
+            );
+        }
+    ))
   ;
 
   SetupWPyStruct<frc::Twist3d>(cls_Twist3d);
