@@ -19,9 +19,9 @@ robotpysimext = [
 
 [build-system]
 requires = [
-    "robotpy-build~=2025.0.0",
-    "robotpy-hal~=2025.2",
-    "robotpy-wpinet~=2025.2",
+    "robotpy-build~=2025.1.0",
+    "robotpy-hal~=2025.3.2",
+    "robotpy-wpinet~=2025.3.2",
 ]
 
 [tool.robotpy-build]
@@ -32,7 +32,7 @@ artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.1"
+version = "2025.3.2"
 
 dlopenlibs = ["halsim_ws_server"]
 
@@ -45,7 +45,7 @@ artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
 # repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.1"
+version = "2025.3.2"
 
 dlopenlibs = ["halsim_ws_client"]
 
