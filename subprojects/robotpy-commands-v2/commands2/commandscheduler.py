@@ -653,5 +653,5 @@ class CommandScheduler(Sendable):
                     self.cancel(cancelCmd)
 
         builder.addIntegerArrayProperty(
-            "Cancel", lambda: [], lambda to_cancel: cancel_commands(to_cancel)
+            "Cancel", lambda: [], lambda to_cancel: cancel_commands(to_cancel)  # type: ignore
         )
