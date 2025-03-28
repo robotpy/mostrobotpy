@@ -80,6 +80,21 @@ inline_code: |
           throw std::out_of_range("Translation2d index out of range");
       }
     })
-    .def("__repr__", py::overload_cast<const Translation2d&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Translation2d&>(&rpy::toString))
+    .def(py::pickle(
+        [](const Translation2d &self) { // __getstate__
+            return py::make_tuple(self.X(), self.Y());
+        },
+        [](py::tuple t) { // __setstate__
+            if (t.size() != 2)
+                throw std::runtime_error("Invalid state!");
+            
+            return Translation2d(
+              t[0].cast<units::meter_t>(),
+              t[1].cast<units::meter_t>()
+            );
+        }
+    ))
+  ;
 
   SetupWPyStruct<frc::Translation2d>(cls_Translation2d);

@@ -42,7 +42,23 @@ inline_code: |
     .def_property_readonly("ysemiaxis_feet", [](Ellipse2d &self) -> units::foot_t {
       return self.YSemiAxis();
     })
-    .def("__repr__", py::overload_cast<const Ellipse2d&>(&rpy::toString));
+    .def("__repr__", py::overload_cast<const Ellipse2d&>(&rpy::toString))
+    .def(py::pickle(
+        [](const Ellipse2d &self) { // __getstate__
+            return py::make_tuple(self.Center(), self.XSemiAxis(), self.YSemiAxis());
+        },
+        [](py::tuple t) { // __setstate__
+            if (t.size() != 3)
+                throw std::runtime_error("Invalid state!");
+            
+            return Ellipse2d(
+              t[0].cast<Pose2d>(),
+              t[1].cast<units::meter_t>(),
+              t[2].cast<units::meter_t>()
+            );
+        }
+    ))
+    ;
 
 
   SetupWPyStruct<frc::Ellipse2d>(cls_Ellipse2d);
