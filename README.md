@@ -37,6 +37,27 @@ Then run this command to build all the wheels.
 
 All the resulting wheels are in `dist`, which can be installed using `pip`.
 
+
+Development environment
+-----------------------
+
+To install all robotpy packages in [editable mode](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#working-in-development-mode)
+run this:
+
+    ./rdev.sh develop
+
+For pure python development, you can just edit the files in this repository in-place, and
+changes will take effect immediately.
+
+If you are changing C++/wrapper code, you will need to rebuild the package that you are
+modifying. You can either run the develop command above (which rebuilds everything) or
+rebuild an individual package:
+
+    ./rdev.sh develop NAME
+
+It can be a slow process,see the [robotpy-build documentation](https://robotpy-build.readthedocs.io/en/stable/tips.html)
+for tips to make it more efficient.
+
 Cross Compilation
 -----------------
 

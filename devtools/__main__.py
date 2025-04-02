@@ -39,11 +39,20 @@ def info(ctx: Context):
 
 
 @main.command()
+@click.argument("package", required=False)
 @click.pass_obj
-def develop(ctx: Context):
-    """Install all robotpy packages in editable mode"""
-    for project in ctx.subprojects.values():
-        project.develop()
+def develop(ctx: Context, package: str):
+    """Install robotpy packages in editable mode"""
+    if package:
+        for project in ctx.subprojects.values():
+            if project.name == package:
+                project.develop()
+                break
+        else:
+            raise click.BadParameter(f"invalid package {package}")
+    else:
+        for project in ctx.subprojects.values():
+            project.develop()
 
 
 @main.command()
