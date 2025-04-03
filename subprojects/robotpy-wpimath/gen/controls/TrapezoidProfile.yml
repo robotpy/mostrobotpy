@@ -77,10 +77,10 @@ classes:
             param_override:
               maxVelocity_:
                 name: maxVelocity
-                default: 0
+                default: "0"
               maxAcceleration_:
                 name: maxAcceleration
-                default: 0
+                default: "0"
     template_inline_code: |
       {
       std::string clsNameCopy = clsName;

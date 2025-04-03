@@ -23,10 +23,10 @@ functions:
   HAL_GetSerialBytesReceived:
   HAL_ReadSerial:
     buffers:
-    - { type: out, src: buffer, len: count }
+    - { type: OUT, src: buffer, len: count }
   HAL_WriteSerial:
     buffers:
-    - { type: in, src: buffer, len: count }
+    - { type: IN, src: buffer, len: count }
   HAL_FlushSerial:
   HAL_ClearSerial:
   HAL_CloseSerial:
