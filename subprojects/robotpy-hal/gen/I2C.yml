@@ -7,12 +7,12 @@ functions:
   HAL_InitializeI2C:
   HAL_TransactionI2C:
     buffers:
-    - { type: in, src: dataToSend, len: sendSize }
-    - { type: out, src: dataReceived, len: receiveSize }
+    - { type: IN, src: dataToSend, len: sendSize }
+    - { type: OUT, src: dataReceived, len: receiveSize }
   HAL_WriteI2C:
     buffers:
-    - { type: in, src: dataToSend, len: sendSize }
+    - { type: IN, src: dataToSend, len: sendSize }
   HAL_ReadI2C:
     buffers:
-    - { type: out, src: buffer, len: count }
+    - { type: OUT, src: buffer, len: count }
   HAL_CloseI2C:

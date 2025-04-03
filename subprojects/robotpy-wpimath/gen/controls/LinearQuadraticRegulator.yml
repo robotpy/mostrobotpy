@@ -38,8 +38,8 @@ classes:
           const StateVector&, const StateVector&:
       LatencyCompensate:
         template_impls:
-        - [1]
-        - [2]
+        - ["1"]
+        - ["2"]
     template_inline_code: |
       cls_LinearQuadraticRegulator
         .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, const wpi::array<double, States>&, const wpi::array<double, Inputs>&, units::second_t>())

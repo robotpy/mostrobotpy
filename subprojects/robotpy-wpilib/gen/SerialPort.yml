@@ -37,12 +37,12 @@ classes:
       GetBytesReceived:
       Read:
         buffers:
-        - { type: out, src: buffer, len: count }
+        - { type: OUT, src: buffer, len: count }
       Write:
         overloads:
           const char*, int:
             buffers:
-            - { type: in, src: buffer, len: count }
+            - { type: IN, src: buffer, len: count }
           std::string_view:
             ignore: true
       SetTimeout:

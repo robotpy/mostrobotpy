@@ -11,19 +11,19 @@ classes:
       GetDeviceAddress:
       Transaction:
         buffers:
-        - { type: in, src: dataToSend, len: sendSize }
-        - { type: out, src: dataReceived, len: receiveSize }
+        - { type: IN, src: dataToSend, len: sendSize }
+        - { type: OUT, src: dataReceived, len: receiveSize }
       AddressOnly:
       Write:
       WriteBulk:
         buffers:
-        - { type: in, src: data, len: count }
+        - { type: IN, src: data, len: count }
       Read:
         buffers:
-        - { type: out, src: data, len: count }
+        - { type: OUT, src: data, len: count }
       ReadOnly:
         buffers:
-        - { type: out, src: buffer, len: count }
+        - { type: OUT, src: buffer, len: count }
       VerifySensor:
         buffers:
-        - { type: in, src: expected, len: count }
+        - { type: IN, src: expected, len: count }
