@@ -1,0 +1,41 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+    "hatchling",
+    "hatch-nativelib",
+    "hatch-robotpy",
+    "native.wpiutil==2025.3.2",
+    "native.wpimath==2025.3.2",
+]
+
+[project]
+name = "native.apriltag"
+version = "2025.3.2"
+description = "WPILib AprilTag Library"
+license = "BSD-3-Clause"
+
+dependencies = [
+    "native.wpiutil==2025.3.2",
+    "native.wpimath==2025.3.2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/native"]
+
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
+artifact_id = "apriltag-cpp"
+group_id = "edu.wpi.first.apriltag"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2025.3.2"
+
+extract_to = "src/native/apriltag"
+libs = ["apriltag"]
+
+[[tool.hatch.build.hooks.nativelib.pcfile]]
+pcfile = "src/native/apriltag/native.apriltag.pc"
+name = "apriltag"
+
+includedir = "src/native/apriltag/include"
+libdir = "src/native/apriltag/lib"
+shared_libraries = ["apriltag"]
+requires = ["native.wpiutil", "native.wpimath"]
