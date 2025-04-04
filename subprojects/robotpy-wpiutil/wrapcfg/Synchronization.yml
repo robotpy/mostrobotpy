@@ -1,23 +1,11 @@
 ---
 
+defaults:
+  ignore: true
+
 extra_includes:
 - pybind11/stl.h
 
-attributes:
-  kInvalidHandle:
-    ignore: true
-  kHandleTypeEvent:
-    ignore: true
-  kHandleTypeSemaphore:
-    ignore: true
-  kHandleTypeCSBase:
-    ignore: true
-  kHandleTypeNTBase:
-    ignore: true
-  kHandleTypeHALBase:
-    ignore: true
-  kHandleTypeUserBase:
-    ignore: true
 functions:
   CreateEvent:
     subpackage: sync
@@ -85,54 +73,3 @@ functions:
     subpackage: sync
   DestroySignalObject:
     subpackage: sync
-  WPI_CreateEvent:
-    ignore: true
-  WPI_DestroyEvent:
-    ignore: true
-  WPI_SetEvent:
-    ignore: true
-  WPI_ResetEvent:
-    ignore: true
-  WPI_CreateSemaphore:
-    ignore: true
-  WPI_DestroySemaphore:
-    ignore: true
-  WPI_ReleaseSemaphore:
-    ignore: true
-  WPI_WaitForObject:
-    ignore: true
-  WPI_WaitForObjectTimeout:
-    ignore: true
-  WPI_WaitForObjects:
-    ignore: true
-  WPI_WaitForObjectsTimeout:
-    ignore: true
-  WPI_CreateSignalObject:
-    ignore: true
-  WPI_SetSignalObject:
-    ignore: true
-  WPI_ResetSignalObject:
-    ignore: true
-  WPI_DestroySignalObject:
-    ignore: true
-classes:
-  Event:
-    ignore: true
-    methods:
-      Event:
-      GetHandle:
-      Set:
-      Reset:
-  Semaphore:
-    ignore: true
-    methods:
-      Semaphore:
-      GetHandle:
-      Release:
-  SignalObject:
-    ignore: true
-    methods:
-      SignalObject:
-      GetHandle:
-      Set:
-      Reset:
