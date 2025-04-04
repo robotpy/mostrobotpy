@@ -5,7 +5,7 @@ defaults:
 enums:
   ControlRecordType:
 classes:
-  DataLog:
+  wpi::log::DataLog:
     subpackage: log
     attributes:
       kBlockSize:
@@ -71,7 +71,7 @@ classes:
         ignore: true
       BufferHalfFull:
       BufferFull:
-  DataLogEntry:
+  wpi::log::DataLogEntry:
     subpackage: log
     force_no_trampoline: true
     methods:
@@ -82,7 +82,7 @@ classes:
           "":
             ignore: true
           DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
-  DataLogValueEntryImpl:
+  wpi::log::DataLogValueEntryImpl:
     template_params:
     - T
     force_no_trampoline: true
@@ -99,7 +99,7 @@ classes:
           "":
             ignore: true
           DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
-  RawLogEntry:
+  wpi::log::RawLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -114,7 +114,7 @@ classes:
           DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
       Append:
       Update:
-  BooleanLogEntry:
+  wpi::log::BooleanLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -128,7 +128,7 @@ classes:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
       Update:
-  IntegerLogEntry:
+  wpi::log::IntegerLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -142,7 +142,7 @@ classes:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
       Update:
-  FloatLogEntry:
+  wpi::log::FloatLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -156,7 +156,7 @@ classes:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
       Update:
-  DoubleLogEntry:
+  wpi::log::DoubleLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -170,7 +170,7 @@ classes:
           DataLog&, std::string_view, std::string_view, int64_t:
       Append:
       Update:
-  StringLogEntry:
+  wpi::log::StringLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -185,7 +185,7 @@ classes:
           DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
       Append:
       Update:
-  BooleanArrayLogEntry:
+  wpi::log::BooleanArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -218,7 +218,7 @@ classes:
             ignore: true
           std::span<const uint8_t>, int64_t:
             ignore: true
-  IntegerArrayLogEntry:
+  wpi::log::IntegerArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -240,7 +240,7 @@ classes:
           std::span<const int64_t>, int64_t:
           std::initializer_list<int64_t>, int64_t:
             ignore: true
-  FloatArrayLogEntry:
+  wpi::log::FloatArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -262,7 +262,7 @@ classes:
           std::span<const float>, int64_t:
           std::initializer_list<float>, int64_t:
             ignore: true
-  DoubleArrayLogEntry:
+  wpi::log::DoubleArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -284,7 +284,7 @@ classes:
           std::span<const double>, int64_t:
           std::initializer_list<double>, int64_t:
             ignore: true
-  StringArrayLogEntry:
+  wpi::log::StringArrayLogEntry:
     subpackage: log
     force_no_trampoline: true
     attributes:
@@ -310,7 +310,7 @@ classes:
           std::span<const std::string_view>, int64_t:
           std::initializer_list<std::string_view>, int64_t:
             ignore: true
-  StructLogEntry:
+  wpi::log::StructLogEntry:
     force_no_trampoline: true
     template_params:
     - T
@@ -339,7 +339,7 @@ classes:
                 return std::make_shared<StructLogEntry<WPyStruct, WPyStructInfo>>(log, name, metadata, info, timestamp);
               }
       Append:
-  StructArrayLogEntry:
+  wpi::log::StructArrayLogEntry:
     force_no_trampoline: true
     template_params:
     - T
@@ -372,7 +372,7 @@ classes:
           U&&, int64_t:
             ignore: true
           std::span<const T>, int64_t:
-  ProtobufLogEntry:
+  wpi::log::ProtobufLogEntry:
     subpackage: log
     force_no_trampoline: true
     ignore: true

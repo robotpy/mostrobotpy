@@ -1,7 +1,7 @@
 ---
 
 classes:
-  DataLogBackgroundWriter:
+  wpi::log::DataLogBackgroundWriter:
     methods:
       DataLogBackgroundWriter:
         overloads:

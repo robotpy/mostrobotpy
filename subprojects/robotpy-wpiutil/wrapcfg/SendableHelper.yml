@@ -1,7 +1,7 @@
 ---
 
 classes:
-  SendableHelper:
+  wpi::SendableHelper:
     ignore: true  # CRTP
     shared_ptr: true
     methods:

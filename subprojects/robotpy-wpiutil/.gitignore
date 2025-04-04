@@ -8,13 +8,14 @@
 .vscode
 
 __pycache__
-/wpiutil/include
-/wpiutil/lib
-/wpiutil/_init_wpiutil.py
-/wpiutil/pkgcfg.py
+/wpiutil/trampolines
+/wpiutil/_init__wpiutil.py
 /wpiutil/version.py
 /dist
 /build
+
+*.pc
+*.pybind11.json
 
 /tests/cpp/build
 /tests/cpp/wpiutil_test/_initmodule.py

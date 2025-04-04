@@ -4,8 +4,7 @@ extra_includes:
 - wpi/sendable/SendableBuilder.h
 
 classes:
-  Sendable:
-    shared_ptr: true
+  wpi::Sendable:
     methods:
       InitSendable:
         virtual_xform: |

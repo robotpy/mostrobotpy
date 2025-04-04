@@ -1,7 +1,7 @@
 ---
 
 classes:
-  StartRecordData:
+  wpi::log::StartRecordData:
     subpackage: log
     attributes:
       entry:
@@ -12,14 +12,14 @@ classes:
         access: readonly
       metadata:
         access: readonly
-  MetadataRecordData:
+  wpi::log::MetadataRecordData:
     subpackage: log
     attributes:
       entry:
         access: readonly
       metadata:
         access: readonly
-  DataLogRecord:
+  wpi::log::DataLogRecord:
     subpackage: log
     methods:
       DataLogRecord:
@@ -264,9 +264,9 @@ classes:
             }
             return arr;
           }
-  DataLogIterator:
+  wpi::log::DataLogIterator:
     ignore: true
-  DataLogReader:
+  wpi::log::DataLogReader:
     subpackage: log
     typealias:
       - wpi::MemoryBuffer

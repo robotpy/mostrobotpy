@@ -1,5 +1,5 @@
 
-#include <rpygen_wrapper.hpp>
+#include <semiwrap_init.wpiutil._wpiutil.hpp>
 
 void setup_stack_trace_hook(py::object fn);
 void cleanup_stack_trace_hook();
@@ -24,7 +24,7 @@ void cleanup_sendable_registry() {}
 
 #endif
 
-RPYBUILD_PYBIND11_MODULE(m) {
+SEMIWRAP_PYBIND11_MODULE(m) {
   initWrapper(m);
 
   static int unused;

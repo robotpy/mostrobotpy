@@ -1,7 +1,7 @@
 ---
 
 classes:
-  SendableBuilder:
+  wpi::SendableBuilder:
     enums:
       BackendKind:
     methods:
