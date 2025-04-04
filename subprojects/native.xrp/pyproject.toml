@@ -1,0 +1,48 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+    "hatchling",
+    "hatch-nativelib",
+    "hatch-robotpy",
+    "native.wpilib==2025.3.2",
+]
+
+[project]
+name = "native.xrp"
+version = "2025.3.2"
+description = "WPILib XRP vendor library"
+license = "BSD-3-Clause"
+
+dependencies = [
+    "native.wpilib==2025.3.2",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/native"]
+
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
+artifact_id = "halsim_xrp"
+group_id = "edu.wpi.first.halsim"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2025.3.2"
+
+extract_to = "src/native/xrp"
+libs = ["halsim_xrp"]
+
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
+artifact_id = "xrpVendordep-cpp"
+group_id = "edu.wpi.first.xrpVendordep"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2025.3.2"
+
+extract_to = "src/native/xrp"
+libs = ["xrpVendordep"]
+
+[[tool.hatch.build.hooks.nativelib.pcfile]]
+pcfile = "src/native/xrp/native.xrp.pc"
+name = "xrp"
+
+includedir = "src/native/xrp/include"
+libdir = "src/native/xrp/lib"
+shared_libraries = ["xrpVendordep"]
+requires = ["native.wpilib"]
