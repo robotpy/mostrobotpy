@@ -163,22 +163,22 @@ class IterativeRobotPy(wpilib.RobotBase):
                     Shuffleboard.disableActuatorWidgets()
                 self.testExit()
 
-        if self._mode == IterativeRobotMode.kDisabled:
-            self.disabledInit()
-            self._watchdog.addEpoch("DisabledInit()")
-        elif self._mode == IterativeRobotMode.kAutonomous:
-            self.autonomousInit()
-            self._watchdog.addEpoch("AutonomousInit()")
-        elif self._mode == IterativeRobotMode.kTeleop:
-            self.teleopInit()
-            self._watchdog.addEpoch("TeleopInit()")
-        elif self._mode == IterativeRobotMode.kTest:
-            if self._lwEnabledInTest:
-                wpilib.LiveWindow.setEnabled(True)
-                Shuffleboard.enableActuatorWidgets()
-            self.testInit()
-            self._watchdog.addEpoch("TestInit()")
-        self._lastMode = self._mode
+            if self._mode == IterativeRobotMode.kDisabled:
+                self.disabledInit()
+                self._watchdog.addEpoch("DisabledInit()")
+            elif self._mode == IterativeRobotMode.kAutonomous:
+                self.autonomousInit()
+                self._watchdog.addEpoch("AutonomousInit()")
+            elif self._mode == IterativeRobotMode.kTeleop:
+                self.teleopInit()
+                self._watchdog.addEpoch("TeleopInit()")
+            elif self._mode == IterativeRobotMode.kTest:
+                if self._lwEnabledInTest:
+                    wpilib.LiveWindow.setEnabled(True)
+                    Shuffleboard.enableActuatorWidgets()
+                self.testInit()
+                self._watchdog.addEpoch("TestInit()")
+            self._lastMode = self._mode
 
         # Call the appropriate function depending upon the current robot mode
         if self._mode == IterativeRobotMode.kDisabled:
