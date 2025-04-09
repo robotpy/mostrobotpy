@@ -1,5 +1,5 @@
 
-#include <robotpy_build.h>
+#include <semiwrap.h>
 #include <wpi/StackTrace.h>
 
 py::object &get_hook_ref() {

@@ -1,7 +1,7 @@
 
 #include <atomic>
 #include <gilsafe_object.h>
-#include <robotpy_build.h>
+#include <semiwrap.h>
 
 using OnThreadStartFn = void *(*)();
 using OnThreadEndFn = void (*)(void *);

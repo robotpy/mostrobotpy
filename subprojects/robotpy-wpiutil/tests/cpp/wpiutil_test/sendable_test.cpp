@@ -1,7 +1,7 @@
 
 #include <pybind11/functional.h>
 #include <pybind11/stl.h>
-#include <robotpy_build.h>
+#include <semiwrap.h>
 #include <wpi/sendable/SendableBuilder.h>
 #include <wpi/sendable/SendableRegistry.h>
 

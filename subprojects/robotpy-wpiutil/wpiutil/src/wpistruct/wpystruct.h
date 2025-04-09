@@ -10,7 +10,7 @@
 
 #include <pybind11/functional.h>
 #include <pybind11/typing.h>
-#include <robotpy_build.h>
+#include <semiwrap.h>
 
 static inline std::string pytypename(const py::type &t) {
   return ((PyTypeObject *)t.ptr())->tp_name;
