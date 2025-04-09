@@ -139,7 +139,7 @@ class TimedRobotPy(IterativeRobotPy):
             if currentTimeUs == 0:
                 break
             self.loopStartTimeUs = RobotController.getFPGATime()
-            print(f"self.loopStartTimeUs={self.loopStartTimeUs}")
+            #print(f"self.loopStartTimeUs={self.loopStartTimeUs}")
             self._runCallbackAndReschedule(callback, currentTimeUs)
 
             #  Process all other callbacks that are ready to run
