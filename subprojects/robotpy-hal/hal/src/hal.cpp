@@ -3,13 +3,13 @@
 #include <hal/HALBase.h>
 #include <hal/DriverStation.h>
 #include <hal/Value.h>
-#include <rpygen_wrapper.hpp>
+#include <semiwrap_init.hal._wpiHal.hpp>
 
 using namespace pybind11::literals;
 
 static py::module_ sys_module;
 
-RPYBUILD_PYBIND11_MODULE(m) {
+SEMIWRAP_PYBIND11_MODULE(m) {
 
   // Add this manually so it can be used from SimValue
   py::enum_<HAL_Type>(m, "Type")

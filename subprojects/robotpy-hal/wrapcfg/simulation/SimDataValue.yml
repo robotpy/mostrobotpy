@@ -3,7 +3,6 @@
 classes:
   SimDataValueBase:
     ignore: true
-    shared_ptr: true
     attributes:
       m_value:
     methods:
@@ -16,7 +15,6 @@ classes:
       DoSet:
   SimDataValue:
     ignore: true
-    shared_ptr: true
     methods:
       SimDataValue:
         overloads:

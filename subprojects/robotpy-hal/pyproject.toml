@@ -1,73 +1,74 @@
-[tool.robotpy-build.metadata]
-name = "robotpy-hal"
-description = "Binary wrapper for FRC HAL"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/robotpy-hal"
-license = "BSD-3-Clause"
-install_requires = [
-    "robotpy-wpiutil==THIS_VERSION",
-]
-
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "robotpy-build~=2025.1.0",
+    "semiwrap", "hatch-meson", "hatch-vcs", "hatchling",
+    "native.wpihal==2025.3.2",
     "robotpy-wpiutil~=2025.3.2",
 ]
 
-[tool.robotpy-build]
-base_package = "hal"
-scan_headers_ignore = [
-    "hal/ChipObject.h",
-    "hal/DMA.h",
-    "hal/Errors.h",
-    "hal/HAL.h",
-    "hal/Types.h",
-    "hal/Value.h",
-
-    "hal/cpp/SerialHelper.h",
-    "hal/cpp/UnsafeDIO.h",
-    "hal/cpp/fpga_clock.h",
-
-    "hal/handles/DigitalHandleResource.h",
-    "hal/handles/IndexedClassedHandleResource.h",
-    "hal/handles/IndexedHandleResource.h",
-    "hal/handles/LimitedClassedHandleResource.h",
-    "hal/handles/LimitedHandleResource.h",
-    "hal/handles/UnlimitedHandleResource.h",
-
-    "hal/roborio/HMB.h",
-    "hal/roborio/InterruptManager.h",
-
-    "hal/simulation/CanData.h",
-    "hal/simulation/I2CData.h",
-    "hal/simulation/NotifyListener.h",
-    "hal/simulation/SPIData.h",
-    "hal/simulation/SimCallbackRegistry.h",
-    "hal/simulation/SimDataValue.h",
+[project]
+name = "robotpy-hal"
+dynamic = ["version"]
+description = "Binary wrapper for FRC HAL"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
+license = "BSD-3-Clause"
+install_requires = [
+    "native.wpihal==2025.3.2",
+    "robotpy-wpiutil~=2025.3.2",
 ]
 
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
 
-[tool.robotpy-build.wrappers."hal".maven_lib_download]
-artifact_id = "hal-cpp"
-group_id = "edu.wpi.first.hal"
-# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
+[tool.hatch.version]
+source = "vcs"
+raw-options.root = "../.."
 
-libs = ["wpiHal"]
+[tool.hatch.build.hooks.vcs]
+version-file = "hal/version.py"
 
-[tool.robotpy-build.wrappers."hal"]
+[tool.hatch.build.hooks.semiwrap]
+# scan_headers_ignore = [
+#     "hal/ChipObject.h",
+#     "hal/DMA.h",
+#     "hal/Errors.h",
+#     "hal/HAL.h",
+#     "hal/Types.h",
+#     "hal/Value.h",
 
-name = "wpiHal"
-sources = [
-    "hal/src/hal.cpp"
-]
+#     "hal/cpp/SerialHelper.h",
+#     "hal/cpp/UnsafeDIO.h",
+#     "hal/cpp/fpga_clock.h",
 
-generation_data = "gen"
+#     "hal/handles/DigitalHandleResource.h",
+#     "hal/handles/IndexedClassedHandleResource.h",
+#     "hal/handles/IndexedHandleResource.h",
+#     "hal/handles/LimitedClassedHandleResource.h",
+#     "hal/handles/LimitedHandleResource.h",
+#     "hal/handles/UnlimitedHandleResource.h",
+
+#     "hal/roborio/HMB.h",
+#     "hal/roborio/InterruptManager.h",
+
+#     "hal/simulation/CanData.h",
+#     "hal/simulation/I2CData.h",
+#     "hal/simulation/NotifyListener.h",
+#     "hal/simulation/SPIData.h",
+#     "hal/simulation/SimCallbackRegistry.h",
+#     "hal/simulation/SimDataValue.h",
+# ]
+
+[tool.hatch.build.hooks.meson]
+
+[tool.semiwrap]
+[tool.semiwrap.extension_modules."hal._wpiHal"]
+name = "wpihal"
+wraps = ["native.wpihal"]
 depends = ["wpiutil"]
 
-[tool.robotpy-build.wrappers."hal".autogen_headers]
+[tool.semiwrap.extension_modules."hal._wpiHal".headers]
 # hal
 Accelerometer = "hal/Accelerometer.h"
 AddressableLED = "hal/AddressableLED.h"
@@ -137,19 +138,13 @@ HandlesInternal = "hal/handles/HandlesInternal.h"
 SerialHelper = "hal/cpp/SerialHelper.h"
 
 
-[tool.robotpy-build.wrappers."hal.simulation"]
-
+[tool.semiwrap.extension_modules."hal.simulation._simulation"]
 name = "hal_simulation"
-extension = "_simulation"
-sources = [
-    "hal/simulation/main.cpp",
-    "hal/simulation/resethandles.cpp",
-]
+wraps = ["native.wpihal"]
+depends = ["wpiutil"]
+yaml_path = "wrapcfg/simulation"
 
-generation_data = "gen/simulation"
-depends = ["wpiutil", "wpiHal"]
-
-[tool.robotpy-build.wrappers."hal.simulation".autogen_headers]
+[tool.semiwrap.extension_modules."hal.simulation._simulation".headers]
 AccelerometerData = "hal/simulation/AccelerometerData.h"
 AddressableLEDData = "hal/simulation/AddressableLEDData.h"
 AnalogGyroData = "hal/simulation/AnalogGyroData.h"
