@@ -1,13 +1,12 @@
----
 
 classes:
-  NetworkTableListener:
+  nt::NetworkTableListener:
     force_type_casters:
     - std::function
     methods:
       NetworkTableListener:
         overloads:
-          "":
+          '':
       CreateListener:
         overloads:
           NetworkTableInstance, std::span<const std::string_view>, unsigned int, ListenerCallback:
@@ -32,11 +31,11 @@ classes:
         py::gil_scoped_release release;
         *self = NetworkTableListener();
       })
-  NetworkTableListenerPoller:
+  nt::NetworkTableListenerPoller:
     methods:
       NetworkTableListenerPoller:
         overloads:
-          "":
+          '':
           NetworkTableInstance:
       GetHandle:
       AddListener:

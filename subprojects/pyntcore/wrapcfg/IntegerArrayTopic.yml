@@ -1,11 +1,10 @@
----
 
 classes:
-  DoubleArraySubscriber:
+  nt::IntegerArraySubscriber:
     methods:
-      DoubleArraySubscriber:
+      IntegerArraySubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -28,22 +27,22 @@ classes:
       ReadQueue:
       GetTopic:
     inline_code: |
-      .def("close", [](DoubleArraySubscriber *self) {
+      .def("close", [](IntegerArraySubscriber *self) {
         py::gil_scoped_release release;
-        *self = DoubleArraySubscriber();
+        *self = IntegerArraySubscriber();
       }, py::doc("Destroys the subscriber"))
-      .def("__enter__", [](DoubleArraySubscriber *self) {
+      .def("__enter__", [](IntegerArraySubscriber *self) {
         return self;
       })
-      .def("__exit__", [](DoubleArraySubscriber *self, py::args args) {
+      .def("__exit__", [](IntegerArraySubscriber *self, py::args args) {
         py::gil_scoped_release release;
-        *self = DoubleArraySubscriber();
+        *self = IntegerArraySubscriber();
       })
-  DoubleArrayPublisher:
+  nt::IntegerArrayPublisher:
     methods:
-      DoubleArrayPublisher:
+      IntegerArrayPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -51,22 +50,22 @@ classes:
       SetDefault:
       GetTopic:
     inline_code: |
-      .def("close", [](DoubleArrayPublisher *self) {
+      .def("close", [](IntegerArrayPublisher *self) {
         py::gil_scoped_release release;
-        *self = DoubleArrayPublisher();
+        *self = IntegerArrayPublisher();
       }, py::doc("Destroys the publisher"))
-      .def("__enter__", [](DoubleArrayPublisher *self) {
+      .def("__enter__", [](IntegerArrayPublisher *self) {
         return self;
       })
-      .def("__exit__", [](DoubleArrayPublisher *self, py::args args) {
+      .def("__exit__", [](IntegerArrayPublisher *self, py::args args) {
         py::gil_scoped_release release;
-        *self = DoubleArrayPublisher();
+        *self = IntegerArrayPublisher();
       })
-  DoubleArrayEntry:
+  nt::IntegerArrayEntry:
     methods:
-      DoubleArrayEntry:
+      IntegerArrayEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -75,24 +74,24 @@ classes:
       GetTopic:
       Unpublish:
     inline_code: |
-      .def("close", [](DoubleArrayEntry *self) {
+      .def("close", [](IntegerArrayEntry *self) {
         py::gil_scoped_release release;
-        *self = DoubleArrayEntry();
+        *self = IntegerArrayEntry();
       }, py::doc("Destroys the entry"))
-      .def("__enter__", [](DoubleArrayEntry *self) {
+      .def("__enter__", [](IntegerArrayEntry *self) {
         return self;
       })
-      .def("__exit__", [](DoubleArrayEntry *self, py::args args) {
+      .def("__exit__", [](IntegerArrayEntry *self, py::args args) {
         py::gil_scoped_release release;
-        *self = DoubleArrayEntry();
+        *self = IntegerArrayEntry();
       })
-  DoubleArrayTopic:
+  nt::IntegerArrayTopic:
     attributes:
       kTypeString:
     methods:
-      DoubleArrayTopic:
+      IntegerArrayTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true
@@ -104,14 +103,14 @@ classes:
       GetEntry:
       GetEntryEx:
     inline_code: |
-      .def("close", [](DoubleArrayTopic *self) {
+      .def("close", [](IntegerArrayTopic *self) {
         py::gil_scoped_release release;
-        *self = DoubleArrayTopic();
+        *self = IntegerArrayTopic();
       }, py::doc("Destroys the topic"))
-      .def("__enter__", [](DoubleArrayTopic *self) {
+      .def("__enter__", [](IntegerArrayTopic *self) {
         return self;
       })
-      .def("__exit__", [](DoubleArrayTopic *self, py::args args) {
+      .def("__exit__", [](IntegerArrayTopic *self, py::args args) {
         py::gil_scoped_release release;
-        *self = DoubleArrayTopic();
+        *self = IntegerArrayTopic();
       })

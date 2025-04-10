@@ -1,11 +1,10 @@
----
 
 classes:
-  FloatArraySubscriber:
+  nt::IntegerSubscriber:
     methods:
-      FloatArraySubscriber:
+      IntegerSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -13,37 +12,29 @@ classes:
         overloads:
           '[const]':
           ParamType [const]:
-          wpi::SmallVectorImpl<SmallElemType>& [const]:
-            ignore: true
-          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
-            ignore: true
       GetAtomic:
         overloads:
           '[const]':
           ParamType [const]:
-          wpi::SmallVectorImpl<SmallElemType>& [const]:
-            ignore: true
-          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
-            ignore: true
       ReadQueue:
       GetTopic:
     inline_code: |
-      .def("close", [](FloatArraySubscriber *self) {
+      .def("close", [](IntegerSubscriber *self) {
         py::gil_scoped_release release;
-        *self = FloatArraySubscriber();
+        *self = IntegerSubscriber();
       }, py::doc("Destroys the subscriber"))
-      .def("__enter__", [](FloatArraySubscriber *self) {
+      .def("__enter__", [](IntegerSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](FloatArraySubscriber *self, py::args args) {
+      .def("__exit__", [](IntegerSubscriber *self, py::args args) {
         py::gil_scoped_release release;
-        *self = FloatArraySubscriber();
+        *self = IntegerSubscriber();
       })
-  FloatArrayPublisher:
+  nt::IntegerPublisher:
     methods:
-      FloatArrayPublisher:
+      IntegerPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -51,22 +42,22 @@ classes:
       SetDefault:
       GetTopic:
     inline_code: |
-      .def("close", [](FloatArrayPublisher *self) {
+      .def("close", [](IntegerPublisher *self) {
         py::gil_scoped_release release;
-        *self = FloatArrayPublisher();
+        *self = IntegerPublisher();
       }, py::doc("Destroys the publisher"))
-      .def("__enter__", [](FloatArrayPublisher *self) {
+      .def("__enter__", [](IntegerPublisher *self) {
         return self;
       })
-      .def("__exit__", [](FloatArrayPublisher *self, py::args args) {
+      .def("__exit__", [](IntegerPublisher *self, py::args args) {
         py::gil_scoped_release release;
-        *self = FloatArrayPublisher();
+        *self = IntegerPublisher();
       })
-  FloatArrayEntry:
+  nt::IntegerEntry:
     methods:
-      FloatArrayEntry:
+      IntegerEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -75,24 +66,24 @@ classes:
       GetTopic:
       Unpublish:
     inline_code: |
-      .def("close", [](FloatArrayEntry *self) {
+      .def("close", [](IntegerEntry *self) {
         py::gil_scoped_release release;
-        *self = FloatArrayEntry();
+        *self = IntegerEntry();
       }, py::doc("Destroys the entry"))
-      .def("__enter__", [](FloatArrayEntry *self) {
+      .def("__enter__", [](IntegerEntry *self) {
         return self;
       })
-      .def("__exit__", [](FloatArrayEntry *self, py::args args) {
+      .def("__exit__", [](IntegerEntry *self, py::args args) {
         py::gil_scoped_release release;
-        *self = FloatArrayEntry();
+        *self = IntegerEntry();
       })
-  FloatArrayTopic:
+  nt::IntegerTopic:
     attributes:
       kTypeString:
     methods:
-      FloatArrayTopic:
+      IntegerTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true
@@ -104,14 +95,14 @@ classes:
       GetEntry:
       GetEntryEx:
     inline_code: |
-      .def("close", [](FloatArrayTopic *self) {
+      .def("close", [](IntegerTopic *self) {
         py::gil_scoped_release release;
-        *self = FloatArrayTopic();
+        *self = IntegerTopic();
       }, py::doc("Destroys the topic"))
-      .def("__enter__", [](FloatArrayTopic *self) {
+      .def("__enter__", [](IntegerTopic *self) {
         return self;
       })
-      .def("__exit__", [](FloatArrayTopic *self, py::args args) {
+      .def("__exit__", [](IntegerTopic *self, py::args args) {
         py::gil_scoped_release release;
-        *self = FloatArrayTopic();
+        *self = IntegerTopic();
       })

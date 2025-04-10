@@ -1,4 +1,3 @@
----
 extra_includes:
 - networktables/NetworkTableInstance.h
 - networktables/Topic.h
@@ -8,14 +7,14 @@ extra_includes:
 inline_code: |
   #include <src/NetworkTableEntry.cpp.inl>
 classes:
-  NetworkTableEntry:
+  nt::NetworkTableEntry:
     enums:
       Flags:
         arithmetic: true
     methods:
       NetworkTableEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry:
             ignore: true

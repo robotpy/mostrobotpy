@@ -1,14 +1,13 @@
----
 
 extra_includes:
 - src/nt_type_caster.h
 
 classes:
-  GenericSubscriber:
+  nt::GenericSubscriber:
     methods:
       GenericSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber:
             ignore: true
@@ -26,11 +25,11 @@ classes:
       GetStringArray:
       ReadQueue:
       GetTopic:
-  GenericPublisher:
+  nt::GenericPublisher:
     methods:
       GenericPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -62,11 +61,11 @@ classes:
       SetDefaultDoubleArray:
       SetDefaultStringArray:
       GetTopic:
-  GenericEntry:
+  nt::GenericEntry:
     methods:
       GenericEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry:
             ignore: true

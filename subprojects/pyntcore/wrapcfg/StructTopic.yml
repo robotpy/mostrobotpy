@@ -1,14 +1,13 @@
----
 
 classes:
-  StructSubscriber:
+  nt::StructSubscriber:
     template_params:
     - T
     - I
     methods:
       StructSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, T, I...:
             ignore: true
@@ -36,14 +35,14 @@ classes:
         py::gil_scoped_release release;
         *self = nt::StructSubscriber<T, I>();
       })
-  StructPublisher:
+  nt::StructPublisher:
     template_params:
     - T
     - I
     methods:
       StructPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher, I...:
             ignore: true
@@ -62,7 +61,7 @@ classes:
         py::gil_scoped_release release;
         *self = nt::StructPublisher<T, I>();
       })
-  StructEntry:
+  nt::StructEntry:
     template_params:
     - T
     - I
@@ -72,7 +71,7 @@ classes:
     methods:
       StructEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, T, const I&...:
             ignore: true
@@ -92,14 +91,14 @@ classes:
         py::gil_scoped_release release;
         *self = nt::StructEntry<T, I>();
       })
-  StructTopic:
+  nt::StructTopic:
     template_params:
     - T
     - I
     methods:
       StructTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic, I...:
             ignore: true

@@ -1,11 +1,10 @@
----
 
 classes:
-  BooleanSubscriber:
+  nt::FloatSubscriber:
     methods:
-      BooleanSubscriber:
+      FloatSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -20,22 +19,22 @@ classes:
       ReadQueue:
       GetTopic:
     inline_code: |
-      .def("close", [](BooleanSubscriber *self) {
+      .def("close", [](FloatSubscriber *self) {
         py::gil_scoped_release release;
-        *self = BooleanSubscriber();
+        *self = FloatSubscriber();
       }, py::doc("Destroys the subscriber"))
-      .def("__enter__", [](BooleanSubscriber *self) {
+      .def("__enter__", [](FloatSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](BooleanSubscriber *self, py::args args) {
+      .def("__exit__", [](FloatSubscriber *self, py::args args) {
         py::gil_scoped_release release;
-        *self = BooleanSubscriber();
+        *self = FloatSubscriber();
       })
-  BooleanPublisher:
+  nt::FloatPublisher:
     methods:
-      BooleanPublisher:
+      FloatPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -43,22 +42,22 @@ classes:
       SetDefault:
       GetTopic:
     inline_code: |
-      .def("close", [](BooleanPublisher *self) {
+      .def("close", [](FloatPublisher *self) {
         py::gil_scoped_release release;
-        *self = BooleanPublisher();
+        *self = FloatPublisher();
       }, py::doc("Destroys the publisher"))
-      .def("__enter__", [](BooleanPublisher *self) {
+      .def("__enter__", [](FloatPublisher *self) {
         return self;
       })
-      .def("__exit__", [](BooleanPublisher *self, py::args args) {
+      .def("__exit__", [](FloatPublisher *self, py::args args) {
         py::gil_scoped_release release;
-        *self = BooleanPublisher();
+        *self = FloatPublisher();
       })
-  BooleanEntry:
+  nt::FloatEntry:
     methods:
-      BooleanEntry:
+      FloatEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -67,24 +66,24 @@ classes:
       GetTopic:
       Unpublish:
     inline_code: |
-      .def("close", [](BooleanEntry *self) {
+      .def("close", [](FloatEntry *self) {
         py::gil_scoped_release release;
-        *self = BooleanEntry();
+        *self = FloatEntry();
       }, py::doc("Destroys the entry"))
-      .def("__enter__", [](BooleanEntry *self) {
+      .def("__enter__", [](FloatEntry *self) {
         return self;
       })
-      .def("__exit__", [](BooleanEntry *self, py::args args) {
+      .def("__exit__", [](FloatEntry *self, py::args args) {
         py::gil_scoped_release release;
-        *self = BooleanEntry();
+        *self = FloatEntry();
       })
-  BooleanTopic:
+  nt::FloatTopic:
     attributes:
       kTypeString:
     methods:
-      BooleanTopic:
+      FloatTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true
@@ -96,14 +95,14 @@ classes:
       GetEntry:
       GetEntryEx:
     inline_code: |
-      .def("close", [](BooleanTopic *self) {
+      .def("close", [](FloatTopic *self) {
         py::gil_scoped_release release;
-        *self = BooleanTopic();
+        *self = FloatTopic();
       }, py::doc("Destroys the topic"))
-      .def("__enter__", [](BooleanTopic *self) {
+      .def("__enter__", [](FloatTopic *self) {
         return self;
       })
-      .def("__exit__", [](BooleanTopic *self, py::args args) {
+      .def("__exit__", [](FloatTopic *self, py::args args) {
         py::gil_scoped_release release;
-        *self = BooleanTopic();
+        *self = FloatTopic();
       })

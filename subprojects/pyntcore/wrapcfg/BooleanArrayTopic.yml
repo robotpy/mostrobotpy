@@ -1,11 +1,10 @@
----
 
 classes:
-  IntegerArraySubscriber:
+  nt::BooleanArraySubscriber:
     methods:
-      IntegerArraySubscriber:
+      BooleanArraySubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -28,22 +27,22 @@ classes:
       ReadQueue:
       GetTopic:
     inline_code: |
-      .def("close", [](IntegerArraySubscriber *self) {
+      .def("close", [](BooleanArraySubscriber *self) {
         py::gil_scoped_release release;
-        *self = IntegerArraySubscriber();
+        *self = BooleanArraySubscriber();
       }, py::doc("Destroys the subscriber"))
-      .def("__enter__", [](IntegerArraySubscriber *self) {
+      .def("__enter__", [](BooleanArraySubscriber *self) {
         return self;
       })
-      .def("__exit__", [](IntegerArraySubscriber *self, py::args args) {
+      .def("__exit__", [](BooleanArraySubscriber *self, py::args args) {
         py::gil_scoped_release release;
-        *self = IntegerArraySubscriber();
+        *self = BooleanArraySubscriber();
       })
-  IntegerArrayPublisher:
+  nt::BooleanArrayPublisher:
     methods:
-      IntegerArrayPublisher:
+      BooleanArrayPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -51,22 +50,22 @@ classes:
       SetDefault:
       GetTopic:
     inline_code: |
-      .def("close", [](IntegerArrayPublisher *self) {
+      .def("close", [](BooleanArrayPublisher *self) {
         py::gil_scoped_release release;
-        *self = IntegerArrayPublisher();
+        *self = BooleanArrayPublisher();
       }, py::doc("Destroys the publisher"))
-      .def("__enter__", [](IntegerArrayPublisher *self) {
+      .def("__enter__", [](BooleanArrayPublisher *self) {
         return self;
       })
-      .def("__exit__", [](IntegerArrayPublisher *self, py::args args) {
+      .def("__exit__", [](BooleanArrayPublisher *self, py::args args) {
         py::gil_scoped_release release;
-        *self = IntegerArrayPublisher();
+        *self = BooleanArrayPublisher();
       })
-  IntegerArrayEntry:
+  nt::BooleanArrayEntry:
     methods:
-      IntegerArrayEntry:
+      BooleanArrayEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -75,24 +74,24 @@ classes:
       GetTopic:
       Unpublish:
     inline_code: |
-      .def("close", [](IntegerArrayEntry *self) {
+      .def("close", [](BooleanArrayEntry *self) {
         py::gil_scoped_release release;
-        *self = IntegerArrayEntry();
+        *self = BooleanArrayEntry();
       }, py::doc("Destroys the entry"))
-      .def("__enter__", [](IntegerArrayEntry *self) {
+      .def("__enter__", [](BooleanArrayEntry *self) {
         return self;
       })
-      .def("__exit__", [](IntegerArrayEntry *self, py::args args) {
+      .def("__exit__", [](BooleanArrayEntry *self, py::args args) {
         py::gil_scoped_release release;
-        *self = IntegerArrayEntry();
+        *self = BooleanArrayEntry();
       })
-  IntegerArrayTopic:
+  nt::BooleanArrayTopic:
     attributes:
       kTypeString:
     methods:
-      IntegerArrayTopic:
+      BooleanArrayTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true
@@ -104,14 +103,14 @@ classes:
       GetEntry:
       GetEntryEx:
     inline_code: |
-      .def("close", [](IntegerArrayTopic *self) {
+      .def("close", [](BooleanArrayTopic *self) {
         py::gil_scoped_release release;
-        *self = IntegerArrayTopic();
+        *self = BooleanArrayTopic();
       }, py::doc("Destroys the topic"))
-      .def("__enter__", [](IntegerArrayTopic *self) {
+      .def("__enter__", [](BooleanArrayTopic *self) {
         return self;
       })
-      .def("__exit__", [](IntegerArrayTopic *self, py::args args) {
+      .def("__exit__", [](BooleanArrayTopic *self, py::args args) {
         py::gil_scoped_release release;
-        *self = IntegerArrayTopic();
+        *self = BooleanArrayTopic();
       })

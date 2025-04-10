@@ -1,4 +1,3 @@
----
 
 extra_includes:
 - networktables/NetworkTableType.h
@@ -9,11 +8,11 @@ functions:
     ignore: true
 
 classes:
-  Value:
+  nt::Value:
     methods:
       Value:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Type, size_t, int64_t, const private_init&:
             ignore: true
@@ -85,16 +84,16 @@ classes:
           }
       GetBooleanArray:
         cpp_code: |
-            [](Value *self) -> py::object {
-              pyntcore::ensure_value_is(NT_BOOLEAN_ARRAY, self);
-              auto v = self->value();
-              py::list l(v.data.arr_boolean.size);
-              for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
-                auto b = py::bool_(v.data.arr_boolean.arr[i]);
-                PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
-              }
-              return std::move(l);
+          [](Value *self) -> py::object {
+            pyntcore::ensure_value_is(NT_BOOLEAN_ARRAY, self);
+            auto v = self->value();
+            py::list l(v.data.arr_boolean.size);
+            for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
+              auto b = py::bool_(v.data.arr_boolean.arr[i]);
+              PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
             }
+            return std::move(l);
+          }
       GetIntegerArray:
         cpp_code: |
           [](Value *self) {
@@ -173,7 +172,7 @@ classes:
             ignore: true
           std::vector<std::string>&&, int64_t:
       operator==:
-    inline_code: |
+    inline_code: |-
       .def_static("makeValue", [](py::handle value) {
           return pyntcore::py2ntvalue(value);
         }, py::arg("value"))
