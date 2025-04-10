@@ -1,4 +1,4 @@
-#include <robotpy_build.h>
+#include <semiwrap.h>
 #include "nt_instance.h"
 #include "ntcore_cpp.h"
 
