@@ -17,7 +17,6 @@ functions:
   HAL_CAN_GetCANStatus:
 classes:
   HAL_CANStreamMessage:
-    shared_ptr: true
     attributes:
       messageID:
       timeStamp:

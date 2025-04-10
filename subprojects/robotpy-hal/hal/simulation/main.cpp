@@ -1,5 +1,5 @@
 
-#include <rpygen_wrapper.hpp>
+#include <semiwrap_init.hal.simulation._simulation.hpp>
 #include <pybind11/functional.h>
 
 #include "sim_cb.h"
@@ -7,7 +7,7 @@
 
 void HALSIM_ResetGlobalHandles();
 
-RPYBUILD_PYBIND11_MODULE(m) {
+SEMIWRAP_PYBIND11_MODULE(m) {
 
   py::class_<SimCB> cls_SimCB(m, "SimCB");
   cls_SimCB.doc() = "Simulation callback handle";

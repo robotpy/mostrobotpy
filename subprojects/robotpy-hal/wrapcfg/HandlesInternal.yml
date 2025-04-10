@@ -20,5 +20,5 @@ functions:
   createPortHandleForSPI:
   createHandle:
 classes:
-  HandleBase:
+  hal::HandleBase:
     ignore: true
