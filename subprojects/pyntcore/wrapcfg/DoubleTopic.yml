@@ -1,14 +1,10 @@
----
-
-extra_includes:
-- src/nt_type_caster.h
 
 classes:
-  RawSubscriber:
+  nt::DoubleSubscriber:
     methods:
-      RawSubscriber:
+      DoubleSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -16,37 +12,29 @@ classes:
         overloads:
           '[const]':
           ParamType [const]:
-          wpi::SmallVectorImpl<SmallElemType>& [const]:
-            ignore: true
-          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
-            ignore: true
       GetAtomic:
         overloads:
           '[const]':
           ParamType [const]:
-          wpi::SmallVectorImpl<SmallElemType>& [const]:
-            ignore: true
-          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
-            ignore: true
       ReadQueue:
       GetTopic:
     inline_code: |
-      .def("close", [](RawSubscriber *self) {
+      .def("close", [](DoubleSubscriber *self) {
         py::gil_scoped_release release;
-        *self = RawSubscriber();
+        *self = DoubleSubscriber();
       }, py::doc("Destroys the subscriber"))
-      .def("__enter__", [](RawSubscriber *self) {
+      .def("__enter__", [](DoubleSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](RawSubscriber *self, py::args args) {
+      .def("__exit__", [](DoubleSubscriber *self, py::args args) {
         py::gil_scoped_release release;
-        *self = RawSubscriber();
+        *self = DoubleSubscriber();
       })
-  RawPublisher:
+  nt::DoublePublisher:
     methods:
-      RawPublisher:
+      DoublePublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -54,22 +42,22 @@ classes:
       SetDefault:
       GetTopic:
     inline_code: |
-      .def("close", [](RawPublisher *self) {
+      .def("close", [](DoublePublisher *self) {
         py::gil_scoped_release release;
-        *self = RawPublisher();
+        *self = DoublePublisher();
       }, py::doc("Destroys the publisher"))
-      .def("__enter__", [](RawPublisher *self) {
+      .def("__enter__", [](DoublePublisher *self) {
         return self;
       })
-      .def("__exit__", [](RawPublisher *self, py::args args) {
+      .def("__exit__", [](DoublePublisher *self, py::args args) {
         py::gil_scoped_release release;
-        *self = RawPublisher();
+        *self = DoublePublisher();
       })
-  RawEntry:
+  nt::DoubleEntry:
     methods:
-      RawEntry:
+      DoubleEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -78,39 +66,43 @@ classes:
       GetTopic:
       Unpublish:
     inline_code: |
-      .def("close", [](RawEntry *self) {
+      .def("close", [](DoubleEntry *self) {
         py::gil_scoped_release release;
-        *self = RawEntry();
+        *self = DoubleEntry();
       }, py::doc("Destroys the entry"))
-      .def("__enter__", [](RawEntry *self) {
+      .def("__enter__", [](DoubleEntry *self) {
         return self;
       })
-      .def("__exit__", [](RawEntry *self, py::args args) {
+      .def("__exit__", [](DoubleEntry *self, py::args args) {
         py::gil_scoped_release release;
-        *self = RawEntry();
+        *self = DoubleEntry();
       })
-  RawTopic:
+  nt::DoubleTopic:
+    attributes:
+      kTypeString:
     methods:
-      RawTopic:
+      DoubleTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true
           Topic:
       Subscribe:
+      SubscribeEx:
       Publish:
       PublishEx:
       GetEntry:
+      GetEntryEx:
     inline_code: |
-      .def("close", [](RawTopic *self) {
+      .def("close", [](DoubleTopic *self) {
         py::gil_scoped_release release;
-        *self = RawTopic();
+        *self = DoubleTopic();
       }, py::doc("Destroys the topic"))
-      .def("__enter__", [](RawTopic *self) {
+      .def("__enter__", [](DoubleTopic *self) {
         return self;
       })
-      .def("__exit__", [](RawTopic *self, py::args args) {
+      .def("__exit__", [](DoubleTopic *self, py::args args) {
         py::gil_scoped_release release;
-        *self = RawTopic();
+        *self = DoubleTopic();
       })

@@ -1,4 +1,3 @@
----
 
 defaults:
   ignore: true
@@ -32,7 +31,7 @@ functions:
   DecodeClients:
     subpackage: meta
 classes:
-  EventFlags:
+  nt::EventFlags:
     attributes:
       kNone:
       kImmediate:
@@ -48,7 +47,7 @@ classes:
       kValueAll:
       kLogMessage:
       kTimeSync:
-  TopicInfo:
+  nt::TopicInfo:
     attributes:
       name:
       type_str:
@@ -72,7 +71,7 @@ classes:
         return py::str("<TopicInfo name={} type={}>")
           .format(self.name, self.type_str);
       })
-  ConnectionInfo:
+  nt::ConnectionInfo:
     attributes:
       remote_id:
       remote_ip:
@@ -88,7 +87,7 @@ classes:
           .format(self.remote_id, self.remote_ip, self.remote_port, 
                   self.last_update, self.protocol_version);
       })
-  ValueEventData:
+  nt::ValueEventData:
     attributes:
       topic:
         ignore: true
@@ -98,7 +97,7 @@ classes:
     methods:
       ValueEventData:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic, NT_Handle, Value:
             ignore: true
@@ -111,7 +110,7 @@ classes:
         return py::str("<ValueEventData topic_name=\"{}\" topic_type={} value={}>")
           .format(topicInfo.name, topicInfo.type_str, self.value);
       })
-  LogMessage:
+  nt::LogMessage:
     attributes:
       level:
       filename:
@@ -120,11 +119,11 @@ classes:
     methods:
       LogMessage:
         overloads:
-          "":
+          '':
             ignore: true
           unsigned int, std::string_view, unsigned int, std::string_view:
             ignore: true
-  TimeSyncEventData:
+  nt::TimeSyncEventData:
     attributes:
       serverTimeOffset:
       rtt2:
@@ -132,10 +131,10 @@ classes:
     methods:
       TimeSyncEventData:
         overloads:
-          "":
+          '':
             ignore: true
           int64_t, int64_t, bool:
-  Event:
+  nt::Event:
     attributes:
       listener:
       flags:
@@ -144,7 +143,7 @@ classes:
     methods:
       Event:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Listener, unsigned int, ConnectionInfo:
             ignore: true
@@ -166,31 +165,31 @@ classes:
         overloads:
           '[const]':
             ignore: true
-          "":
+          '':
             ignore: true
       GetTopicInfo:
         overloads:
           '[const]':
             ignore: true
-          "":
+          '':
             ignore: true
       GetValueEventData:
         overloads:
           '[const]':
             ignore: true
-          "":
+          '':
             ignore: true
       GetLogMessage:
         overloads:
           '[const]':
             ignore: true
-          "":
+          '':
             ignore: true
       GetTimeSyncEventData:
         overloads:
           '[const]':
             ignore: true
-          "":
+          '':
             ignore: true
     inline_code: |
       .def_property_readonly("data", [](nt::Event *self){
@@ -200,7 +199,7 @@ classes:
         return py::str("<Event listener={} flags={} data={}>")
           .format(self.listener, self.flags, self.data);
       })
-  PubSubOptions:
+  nt::PubSubOptions:
     force_no_default_constructor: true
     attributes:
       kDefaultPeriodic:
@@ -289,36 +288,36 @@ classes:
                                      will not appear in metatopics.
         )"
       )
-  SubscriberOptions:
+  nt::meta::SubscriberOptions:
     subpackage: meta
     attributes:
       periodic:
       topicsOnly:
       sendAll:
       prefixMatch:
-  TopicPublisher:
+  nt::meta::TopicPublisher:
     subpackage: meta
     attributes:
       client:
       pubuid:
-  TopicSubscriber:
+  nt::meta::TopicSubscriber:
     subpackage: meta
     attributes:
       client:
       subuid:
       options:
-  ClientPublisher:
+  nt::meta::ClientPublisher:
     subpackage: meta
     attributes:
       uid:
       topic:
-  ClientSubscriber:
+  nt::meta::ClientSubscriber:
     subpackage: meta
     attributes:
       uid:
       topics:
       options:
-  Client:
+  nt::meta::Client:
     subpackage: meta
     attributes:
       id:
