@@ -1,15 +1,14 @@
----
 
 extra_includes:
 - networktables/GenericEntry.h
 - networktables/NetworkTableInstance.h
 
 classes:
-  Topic:
+  nt::Topic:
     methods:
       Topic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true
@@ -50,7 +49,7 @@ classes:
         std::string name = self.cast<Topic>().GetName();
         return py::str("<{} {!r}>").format(type_name, name);
       })
-  Subscriber:
+  nt::Subscriber:
     attributes:
       m_subHandle:
     methods:
@@ -61,7 +60,7 @@ classes:
       GetTopic:
       Subscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber:
             ignore: true
@@ -71,7 +70,7 @@ classes:
         auto topic = self.cast<const Subscriber&>().GetTopic();
         return py::str("<{} {!r}>").format(type_name, topic.GetName());
       })
-  Publisher:
+  nt::Publisher:
     attributes:
       m_pubHandle:
     methods:
@@ -80,7 +79,7 @@ classes:
       GetTopic:
       Publisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true

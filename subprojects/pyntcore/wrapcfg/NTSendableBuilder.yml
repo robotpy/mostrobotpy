@@ -1,7 +1,6 @@
----
 
 classes:
-  NTSendableBuilder:
+  nt::NTSendableBuilder:
     force_type_casters:
     - std::function
     typealias:

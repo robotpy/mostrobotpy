@@ -1,9 +1,8 @@
----
 extra_includes:
-  - networktables/NTSendableBuilder.h
+- networktables/NTSendableBuilder.h
 
 classes:
-  NTSendable:
+  nt::NTSendable:
     methods:
       InitSendable:
         overloads:

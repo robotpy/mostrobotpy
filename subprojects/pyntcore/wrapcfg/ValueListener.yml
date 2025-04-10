@@ -1,15 +1,14 @@
----
 
 classes:
-  ValueListenerFlags:
+  nt::ValueListenerFlags:
     attributes:
       kImmediate:
       kLocal:
-  ValueListener:
+  nt::ValueListener:
     methods:
       ValueListener:
         overloads:
-          "":
+          '':
             ignore: true
           nt::Subscriber&, unsigned int, std::function<void ( const ValueNotification & )>:
           nt::MultiSubscriber&, unsigned int, std::function<void ( const ValueNotification & )>:
@@ -29,11 +28,11 @@ classes:
         py::gil_scoped_release release;
         *self = ValueListener();
       })
-  ValueListenerPoller:
+  nt::ValueListenerPoller:
     methods:
       ValueListenerPoller:
         overloads:
-          "":
+          '':
             ignore: true
           nt::NetworkTableInstance:
       GetHandle:

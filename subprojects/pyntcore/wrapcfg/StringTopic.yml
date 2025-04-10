@@ -1,11 +1,10 @@
----
 
 classes:
-  FloatSubscriber:
+  nt::StringSubscriber:
     methods:
-      FloatSubscriber:
+      StringSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -13,29 +12,37 @@ classes:
         overloads:
           '[const]':
           ParamType [const]:
+          wpi::SmallVectorImpl<SmallElemType>& [const]:
+            ignore: true
+          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
+            ignore: true
       GetAtomic:
         overloads:
           '[const]':
           ParamType [const]:
+          wpi::SmallVectorImpl<SmallElemType>& [const]:
+            ignore: true
+          wpi::SmallVectorImpl<SmallElemType>&, ParamType [const]:
+            ignore: true
       ReadQueue:
       GetTopic:
     inline_code: |
-      .def("close", [](FloatSubscriber *self) {
+      .def("close", [](StringSubscriber *self) {
         py::gil_scoped_release release;
-        *self = FloatSubscriber();
+        *self = StringSubscriber();
       }, py::doc("Destroys the subscriber"))
-      .def("__enter__", [](FloatSubscriber *self) {
+      .def("__enter__", [](StringSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](FloatSubscriber *self, py::args args) {
+      .def("__exit__", [](StringSubscriber *self, py::args args) {
         py::gil_scoped_release release;
-        *self = FloatSubscriber();
+        *self = StringSubscriber();
       })
-  FloatPublisher:
+  nt::StringPublisher:
     methods:
-      FloatPublisher:
+      StringPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -43,22 +50,22 @@ classes:
       SetDefault:
       GetTopic:
     inline_code: |
-      .def("close", [](FloatPublisher *self) {
+      .def("close", [](StringPublisher *self) {
         py::gil_scoped_release release;
-        *self = FloatPublisher();
+        *self = StringPublisher();
       }, py::doc("Destroys the publisher"))
-      .def("__enter__", [](FloatPublisher *self) {
+      .def("__enter__", [](StringPublisher *self) {
         return self;
       })
-      .def("__exit__", [](FloatPublisher *self, py::args args) {
+      .def("__exit__", [](StringPublisher *self, py::args args) {
         py::gil_scoped_release release;
-        *self = FloatPublisher();
+        *self = StringPublisher();
       })
-  FloatEntry:
+  nt::StringEntry:
     methods:
-      FloatEntry:
+      StringEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -67,24 +74,24 @@ classes:
       GetTopic:
       Unpublish:
     inline_code: |
-      .def("close", [](FloatEntry *self) {
+      .def("close", [](StringEntry *self) {
         py::gil_scoped_release release;
-        *self = FloatEntry();
+        *self = StringEntry();
       }, py::doc("Destroys the entry"))
-      .def("__enter__", [](FloatEntry *self) {
+      .def("__enter__", [](StringEntry *self) {
         return self;
       })
-      .def("__exit__", [](FloatEntry *self, py::args args) {
+      .def("__exit__", [](StringEntry *self, py::args args) {
         py::gil_scoped_release release;
-        *self = FloatEntry();
+        *self = StringEntry();
       })
-  FloatTopic:
+  nt::StringTopic:
     attributes:
       kTypeString:
     methods:
-      FloatTopic:
+      StringTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true
@@ -96,14 +103,14 @@ classes:
       GetEntry:
       GetEntryEx:
     inline_code: |
-      .def("close", [](FloatTopic *self) {
+      .def("close", [](StringTopic *self) {
         py::gil_scoped_release release;
-        *self = FloatTopic();
+        *self = StringTopic();
       }, py::doc("Destroys the topic"))
-      .def("__enter__", [](FloatTopic *self) {
+      .def("__enter__", [](StringTopic *self) {
         return self;
       })
-      .def("__exit__", [](FloatTopic *self, py::args args) {
+      .def("__exit__", [](StringTopic *self, py::args args) {
         py::gil_scoped_release release;
-        *self = FloatTopic();
+        *self = StringTopic();
       })

@@ -1,4 +1,3 @@
----
 
 extra_includes:
 - networktables/BooleanArrayTopic.h
@@ -22,7 +21,7 @@ extra_includes:
 - wpystruct.h
 
 classes:
-  NetworkTableInstance:
+  nt::NetworkTableInstance:
     force_type_casters:
     - std::function
     attributes:
@@ -37,7 +36,7 @@ classes:
     methods:
       NetworkTableInstance:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Inst:
             ignore: true
@@ -86,13 +85,13 @@ classes:
           }
       GetTopics:
         overloads:
-          "":
+          '':
           std::string_view:
           std::string_view, unsigned int:
           std::string_view, std::span<std::string_view>:
       GetTopicInfo:
         overloads:
-          "":
+          '':
           std::string_view:
           std::string_view, unsigned int:
           std::string_view, std::span<std::string_view>:

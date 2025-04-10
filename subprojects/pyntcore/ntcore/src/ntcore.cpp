@@ -1,8 +1,8 @@
 
-#include <rpygen_wrapper.hpp>
+#include <semiwrap_init.ntcore._ntcore.hpp>
 #include "nt_instance.h"
 
-RPYBUILD_PYBIND11_MODULE(m) {
+SEMIWRAP_PYBIND11_MODULE(m) {
   initWrapper(m);
 
   static int unused;

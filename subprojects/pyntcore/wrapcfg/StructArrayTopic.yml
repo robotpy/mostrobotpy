@@ -1,14 +1,13 @@
----
 
 classes:
-  StructArraySubscriber:
+  nt::StructArraySubscriber:
     template_params:
     - T
     - I
     methods:
       StructArraySubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, U&&, I...:
             ignore: true
@@ -38,14 +37,14 @@ classes:
         py::gil_scoped_release release;
         *self = nt::StructArraySubscriber<T, I>();
       })
-  StructArrayPublisher:
+  nt::StructArrayPublisher:
     template_params:
     - T
     - I
     methods:
       StructArrayPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher, I...:
             ignore: true
@@ -72,7 +71,7 @@ classes:
         py::gil_scoped_release release;
         *self = nt::StructArrayPublisher<T, I>();
       })
-  StructArrayEntry:
+  nt::StructArrayEntry:
     template_params:
     - T
     - I
@@ -82,7 +81,7 @@ classes:
     methods:
       StructArrayEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, U&&, const I&...:
             ignore: true
@@ -102,14 +101,14 @@ classes:
         py::gil_scoped_release release;
         *self = nt::StructArrayEntry<T, I>();
       })
-  StructArrayTopic:
+  nt::StructArrayTopic:
     template_params:
     - T
     - I
     methods:
       StructArrayTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic, I...:
             ignore: true
