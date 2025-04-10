@@ -3,7 +3,6 @@
 classes:
   SimCallbackRegistryBase:
     ignore: true  # TODO
-    shared_ptr: true
     methods:
       Cancel:
       Reset:
@@ -12,7 +11,6 @@ classes:
       DoReset:
   SimCallbackRegistry:
     ignore: true  # TODO
-    shared_ptr: true
     methods:
       Register:
       Invoke:
