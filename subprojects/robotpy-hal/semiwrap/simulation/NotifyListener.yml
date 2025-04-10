@@ -6,7 +6,6 @@ strip_prefixes:
 classes:
   HalCallbackListener:
     ignore: true  # TODO
-    shared_ptr: true
     attributes:
       callback:
       param:

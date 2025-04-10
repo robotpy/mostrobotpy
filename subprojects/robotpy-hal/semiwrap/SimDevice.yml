@@ -1,11 +1,9 @@
----
-
 defaults:
   ignore: true
   report_ignored_missing: false
 
 extra_includes:
-- "hal/simulation/SimDeviceData.h"
+- hal/simulation/SimDeviceData.h
 
 strip_prefixes:
 - HAL_
@@ -13,17 +11,16 @@ strip_prefixes:
 enums:
   HAL_SimValueDirection:
 classes:
-  SimValue:
+  hal::SimValue:
     doc: |
       Readonly wrapper around a HAL simulator value.
-      
+
       It is not useful to construct these directly -- they are returned from
       :meth:`.SimDeviceSim.getValue` or :meth:`.SimDevice.createValue`.
-    shared_ptr: false
     methods:
       SimValue:
         overloads:
-          "":
+          '':
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -33,18 +30,17 @@ classes:
         ignore: true
       SetValue:
         ignore: true
-  SimInt:
+  hal::SimInt:
     doc: |
       Wrapper around a HAL simulator int value handle.
-      
+
       It is not useful to construct these directly, they are returned
       from various functions.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimInt:
         overloads:
-          "":
+          '':
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -53,18 +49,17 @@ classes:
       Get:
       Set:
       Reset:
-  SimLong:
+  hal::SimLong:
     doc: |
       Wrapper around a HAL simulator long value handle.
-      
+
       It is not useful to construct these directly, they are returned
       from various functions.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimLong:
         overloads:
-          "":
+          '':
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -73,18 +68,17 @@ classes:
       Get:
       Set:
       Reset:
-  SimDouble:
+  hal::SimDouble:
     doc: |
       Wrapper around a HAL simulator double value.
-      
+
       It is not useful to construct these directly -- they are returned from
       :meth:`.SimDeviceSim.getDouble` or :meth:`.SimDevice.createDouble`.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimDouble:
         overloads:
-          "":
+          '':
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -93,18 +87,17 @@ classes:
       Get:
       Set:
       Reset:
-  SimEnum:
+  hal::SimEnum:
     doc: |
       Wrapper around a HAL simulator enum value.
-      
+
       It is not useful to construct these directly -- they are returned from
       :meth:`.SimDeviceSim.getEnum` or :meth:`.SimDevice.createEnum`.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimEnum:
         overloads:
-          "":
+          '':
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -112,18 +105,17 @@ classes:
                 name: handle
       Get:
       Set:
-  SimBoolean:
+  hal::SimBoolean:
     doc: |
       Wrapper around a HAL simulator boolean value.
-      
+
       It is not useful to construct these directly -- they are returned from
       :meth:`.SimDeviceSim.getBoolean` or :meth:`.SimDevice.createBoolean`.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimBoolean:
         overloads:
-          "":
+          '':
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -131,7 +123,7 @@ classes:
                 name: handle
       Get:
       Set:
-  SimDevice:
+  hal::SimDevice:
     doc: |
       Wrapper around a HAL simulation 'device'
 
@@ -140,7 +132,6 @@ classes:
 
       .. note:: To interact with an existing device use
                 :class:`hal.simulation.SimDeviceSim` instead.
-    shared_ptr: false
     force_type_casters:
     - wpi::SmallVector
     enums:
@@ -148,7 +139,7 @@ classes:
     methods:
       SimDevice:
         overloads:
-          "":
+          '':
             ignore: true
           const char*:
           const char*, int:
@@ -192,7 +183,7 @@ classes:
       CreateInt:
       CreateLong:
 
-inline_code: |
+inline_code: |2
 
   cls_SimValue
     .def_property_readonly("value", [](const hal::SimValue &self) -> py::object {
@@ -251,7 +242,7 @@ inline_code: |
           return "<SimValue (unknown)>";
         }
     });
-  
+
   cls_SimBoolean
     .def_property("value", &SimBoolean::Get, &SimBoolean::Set, release_gil())
     .def("__repr__", [](const SimBoolean &self) -> py::str {
@@ -302,7 +293,7 @@ inline_code: |
         return py::str("SimDevice(name={!r})").format(py::str(name));
       #endif
     });
-  
+
   cls_SimDouble
     .def_property("value", &SimDouble::Get, &SimDouble::Set, release_gil())
     .def("__repr__", [](const SimDouble &self) -> py::str {
@@ -317,7 +308,7 @@ inline_code: |
         return "<SimDouble (invalid)>";
       }
     });
-  
+
   cls_SimEnum
     .def_property("value", &SimEnum::Get, &SimEnum::Set)
     .def("__repr__", [](const SimEnum &self) -> py::str {

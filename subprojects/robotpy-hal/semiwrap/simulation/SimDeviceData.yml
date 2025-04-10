@@ -16,8 +16,6 @@ functions:
     ignore: true
   HALSIM_RegisterSimDeviceFreedCallback:
     ignore: true
-  HALSIM_CancelSimDeviceCreatedCallback:
-    ignore: true
   HALSIM_CancelSimDeviceFreedCallback:
     ignore: true
   HALSIM_GetSimDeviceHandle:
@@ -42,8 +40,6 @@ functions:
         cb->SetUID(uid);
         return std::move(cb);
       }
-  HALSIM_CancelSimDeviceCreatedCallback:
-    ignore: true
   HALSIM_CancelSimValueCreatedCallback:
     ignore: true
   HALSIM_RegisterSimValueChangedCallback:
@@ -65,8 +61,6 @@ functions:
         cb->SetUID(uid);
         return std::move(cb);
       }
-  HALSIM_CancelSimDeviceCreatedCallback:
-    ignore: true
   HALSIM_CancelSimValueChangedCallback:
     ignore: true
   HALSIM_RegisterSimValueResetCallback:

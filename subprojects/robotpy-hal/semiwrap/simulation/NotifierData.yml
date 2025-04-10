@@ -9,7 +9,6 @@ functions:
   HALSIM_GetNotifierInfo:
 classes:
   HALSIM_NotifierInfo:
-    shared_ptr: true
     attributes:
       handle:
       name:

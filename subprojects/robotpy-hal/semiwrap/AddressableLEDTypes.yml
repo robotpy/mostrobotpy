@@ -5,7 +5,6 @@ strip_prefixes:
 
 classes:
   HAL_AddressableLEDData:
-    shared_ptr: true
     attributes:
       b:
       g:

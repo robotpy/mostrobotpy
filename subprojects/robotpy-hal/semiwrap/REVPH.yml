@@ -33,7 +33,6 @@ functions:
   HAL_GetREVPHSolenoidDisabledList:
 classes:
   HAL_REVPHVersion:
-    shared_ptr: true
     attributes:
       firmwareMajor:
       firmwareMinor:
@@ -42,14 +41,12 @@ classes:
       hardwareMajor:
       uniqueId:
   HAL_REVPHCompressorConfig:
-    shared_ptr: true
     attributes:
       minAnalogVoltage:
       maxAnalogVoltage:
       forceDisable:
       useDigital:
   HAL_REVPHFaults:
-    shared_ptr: true
     attributes:
       channel0Fault:
       channel1Fault:
@@ -74,7 +71,6 @@ classes:
       canWarning:
       hardwareFault:
   HAL_REVPHStickyFaults:
-    shared_ptr: true
     attributes:
       compressorOverCurrent:
       compressorOpen:

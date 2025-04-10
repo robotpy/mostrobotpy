@@ -36,7 +36,6 @@ functions:
     ifdef: __FRC_ROBORIO__
 classes:
   HAL_PowerDistributionVersion:
-    shared_ptr: true
     attributes:
       firmwareMajor:
       firmwareMinor:
@@ -45,7 +44,6 @@ classes:
       hardwareMajor:
       uniqueId:
   HAL_PowerDistributionFaults:
-    shared_ptr: true
     attributes:
       channel0BreakerFault:
       channel1BreakerFault:
@@ -75,7 +73,6 @@ classes:
       canWarning:
       hardwareFault:
   HAL_PowerDistributionStickyFaults:
-    shared_ptr: true
     attributes:
       channel0BreakerFault:
       channel1BreakerFault:
