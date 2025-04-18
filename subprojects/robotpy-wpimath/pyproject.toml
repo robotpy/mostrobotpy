@@ -1,24 +1,44 @@
-[tool.robotpy-build.metadata]
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-description = "Binary wrapper for FRC WPIMath library"
-license = "BSD-3-Clause"
-name = "robotpy-wpimath"
-url = "https://github.com/robotpy/robotpy-wpimath"
-install_requires = [
-    "robotpy-wpiutil==THIS_VERSION",
-]
-
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "robotpy-build~=2025.1.0",
-    "robotpy-wpiutil~=2025.3.2",
+    "semiwrap~=0.1",
+    "hatch-meson~=0.1.0b2",
+    "hatch-robotpy~=0.2",
+    "hatchling",
+    "robotpy-native-wpimath==2025.3.2",
+    "robotpy-wpiutil==2025.3.2.2",
     # "numpy", # broken in raspbian CI
 ]
 
-[tool.robotpy-build]
-base_package = "wpimath"
+[project]
+name = "robotpy-wpimath"
+version = "2025.3.2.2"
+description = "Binary wrapper for FRC WPIMath library"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
+license = "BSD-3-Clause"
+dependencies = [
+    "robotpy-native-wpimath==2025.3.2",
+    "robotpy-wpiutil==2025.3.2.2",
+]
 
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
+
+
+[tool.hatch.build.hooks.robotpy]
+version_file = "wpimath/version.py"
+
+[tool.hatch.build.hooks.semiwrap]
+
+[tool.hatch.build.hooks.meson]
+
+[tool.hatch.build.targets.wheel]
+packages = ["wpimath"]
+
+
+[tool.semiwrap]
 update_init = [
     "wpimath",
     "wpimath.controller wpimath._controls._controls.controller",
@@ -77,21 +97,13 @@ scan_headers_ignore = [
     "_units_base_type_caster.h",
 ]
 
-[tool.robotpy-build.wrappers."wpimath._impl".maven_lib_download]
-artifact_id = "wpimath-cpp"
-group_id = "edu.wpi.first.wpimath"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
+[tool.semiwrap.export_type_casters.wpimath-casters]
+pypackage = "wpimath"
+requires = ["wpiutil"]
+includedir = ["wpimath/_impl/src", "wpimath/_impl/src/type_casters"]
 
 
-libs = ["wpimath"]
-
-[tool.robotpy-build.wrappers."wpimath._impl"]
-depends = ["wpiutil"]
-extra_includes = ["wpimath/_impl/src", "wpimath/_impl/src/eigen", "wpimath/_impl/src/type_casters"]
-name = "wpimath_cpp"
-
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_acceleration_type_caster.h"
 types = [
     "units::feet_per_second_squared_t",
@@ -100,7 +112,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_acceleration_type_caster.h"
 types = [
     "units::feet_per_second_squared",
@@ -112,7 +124,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_angle_type_caster.h"
 types = [
     "units::arcminute_t",
@@ -129,7 +141,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_angle_type_caster.h"
 types = [
     "units::arcminute",
@@ -157,7 +169,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_angular_acceleration_type_caster.h"
 types = [
     "units::radians_per_second_squared_t",
@@ -166,7 +178,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_angular_acceleration_type_caster.h"
 types = [
     "units::radians_per_second_squared",
@@ -175,7 +187,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_angular_velocity_type_caster.h"
 types = [
     "units::degrees_per_second_t",
@@ -186,7 +198,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_angular_velocity_type_caster.h"
 types = [
     "units::degrees_per_second",
@@ -197,7 +209,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_area_type_caster.h"
 types = [
     "units::acre_t",
@@ -210,7 +222,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_area_type_caster.h"
 types = [
     "units::acre",
@@ -230,7 +242,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_capacitance_type_caster.h"
 types = [
     "units::farad_t",
@@ -241,7 +253,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_capacitance_type_caster.h"
 types = [
     "units::farad",
@@ -257,7 +269,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_charge_type_caster.h"
 types = [
     "units::ampere_hour_t",
@@ -273,7 +285,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_charge_type_caster.h"
 types = [
     "units::ampere_hour",
@@ -299,7 +311,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_concentration_type_caster.h"
 types = [
     "units::percent_t",
@@ -309,7 +321,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_concentration_type_caster.h"
 types = [
     "units::parts_per_billion",
@@ -323,7 +335,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_conductance_type_caster.h"
 types = [
     "units::kilosiemens_t",
@@ -334,7 +346,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_conductance_type_caster.h"
 types = [
     "units::kilosiemens",
@@ -350,7 +362,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_current_type_caster.h"
 types = [
     "units::ampere_t",
@@ -361,7 +373,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_current_type_caster.h"
 types = [
     "units::ampere",
@@ -377,7 +389,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_data_type_caster.h"
 types = [
     "units::exabit_t",
@@ -385,7 +397,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_data_type_caster.h"
 types = [
     "units::exabit",
@@ -395,7 +407,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_data_transfer_rate_type_caster.h"
 types = [
     "units::exabits_per_second_t",
@@ -403,7 +415,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_data_transfer_rate_type_caster.h"
 types = [
     "units::exabits_per_second",
@@ -413,7 +425,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_density_type_caster.h"
 types = [
     "units::grams_per_milliliter_t",
@@ -429,7 +441,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_density_type_caster.h"
 types = [
     "units::grams_per_milliliter",
@@ -455,7 +467,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_energy_type_caster.h"
 types = [
     "units::british_thermal_unit_59_t",
@@ -478,7 +490,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_energy_type_caster.h"
 types = [
     "units::british_thermal_unit",
@@ -518,7 +530,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_force_type_caster.h"
 types = [
     "units::dyne_t",
@@ -533,7 +545,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_force_type_caster.h"
 types = [
     "units::dyne",
@@ -557,7 +569,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_frequency_type_caster.h"
 types = [
     "units::hertz_t",
@@ -568,7 +580,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_frequency_type_caster.h"
 types = [
     "units::hertz",
@@ -584,7 +596,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_illuminance_type_caster.h"
 types = [
     "units::footcandle_t",
@@ -598,7 +610,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_illuminance_type_caster.h"
 types = [
     "units::footcandle",
@@ -620,7 +632,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_impedance_type_caster.h"
 types = [
     "units::kiloohm_t",
@@ -631,7 +643,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_impedance_type_caster.h"
 types = [
     "units::kiloohm",
@@ -647,7 +659,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_inductance_type_caster.h"
 types = [
     "units::henry_t",
@@ -658,7 +670,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_inductance_type_caster.h"
 types = [
     "units::henries",
@@ -674,7 +686,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_length_type_caster.h"
 types = [
     "units::angstrom_t",
@@ -703,7 +715,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_length_type_caster.h"
 types = [
     "units::angstrom",
@@ -753,7 +765,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_luminous_flux_type_caster.h"
 types = [
     "units::kilolumen_t",
@@ -764,7 +776,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_luminous_flux_type_caster.h"
 types = [
     "units::kilolumen",
@@ -780,7 +792,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_luminous_intensity_type_caster.h"
 types = [
     "units::candela_t",
@@ -791,7 +803,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_luminous_intensity_type_caster.h"
 types = [
     "units::candela",
@@ -807,7 +819,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_magnetic_field_strength_type_caster.h"
 types = [
     "units::gauss_t",
@@ -819,7 +831,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_magnetic_field_strength_type_caster.h"
 types = [
     "units::gauss",
@@ -837,7 +849,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_magnetic_flux_type_caster.h"
 types = [
     "units::kiloweber_t",
@@ -849,7 +861,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_magnetic_flux_type_caster.h"
 types = [
     "units::kiloweber",
@@ -867,7 +879,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_mass_type_caster.h"
 types = [
     "units::carat_t",
@@ -886,7 +898,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_mass_type_caster.h"
 types = [
     "units::carat",
@@ -918,14 +930,14 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_moment_of_inertia_type_caster.h"
 types = [
     "units::kilogram_square_meter_t",
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_moment_of_inertia_type_caster.h"
 types = [
     "units::kilogram_square_meter",
@@ -933,7 +945,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_power_type_caster.h"
 types = [
     "units::horsepower_t",
@@ -945,7 +957,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_power_type_caster.h"
 types = [
     "units::horsepower",
@@ -963,7 +975,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_pressure_type_caster.h"
 types = [
     "units::atmosphere_t",
@@ -979,7 +991,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_pressure_type_caster.h"
 types = [
     "units::atmosphere",
@@ -1005,7 +1017,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_radiation_type_caster.h"
 types = [
     "units::becquerel_t",
@@ -1029,7 +1041,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_radiation_type_caster.h"
 types = [
     "units::becquerel",
@@ -1071,7 +1083,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_solid_angle_type_caster.h"
 types = [
     "units::degree_squared_t",
@@ -1084,7 +1096,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_solid_angle_type_caster.h"
 types = [
     "units::degree_squared",
@@ -1104,14 +1116,14 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_substance_type_caster.h"
 types = [
     "units::mole_t",
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_substance_type_caster.h"
 types = [
     "units::mole",
@@ -1119,7 +1131,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_temperature_type_caster.h"
 types = [
     "units::celsius_t",
@@ -1130,7 +1142,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_temperature_type_caster.h"
 types = [
     "units::celsius",
@@ -1146,7 +1158,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_time_type_caster.h"
 types = [
     "units::day_t",
@@ -1164,7 +1176,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_time_type_caster.h"
 types = [
     "units::day",
@@ -1194,7 +1206,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_torque_type_caster.h"
 types = [
     "units::foot_pound_t",
@@ -1205,7 +1217,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_torque_type_caster.h"
 types = [
     "units::foot_pound",
@@ -1221,7 +1233,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_velocity_type_caster.h"
 types = [
     "units::feet_per_second_t",
@@ -1232,7 +1244,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_velocity_type_caster.h"
 types = [
     "units::feet_per_second",
@@ -1248,7 +1260,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_voltage_type_caster.h"
 types = [
     "units::abvolt_t",
@@ -1261,7 +1273,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_voltage_type_caster.h"
 types = [
     "units::abvolt",
@@ -1281,7 +1293,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_volume_type_caster.h"
 types = [
     "units::barrel_t",
@@ -1320,7 +1332,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_volume_type_caster.h"
 types = [
     "units::barrel",
@@ -1392,14 +1404,14 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_compound_type_caster.h"
 types = [
     "units::curvature_t",
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_compound_type_caster.h"
 types = [
     "units::compound_unit",
@@ -1407,7 +1419,7 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_misc_type_caster.h"
 types = [
     "units::dimensionless_t",
@@ -1417,7 +1429,7 @@ types = [
 ]
 default_arg_cast = true
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
 header = "units_misc_type_caster.h"
 types = [
     "units::dimensionless",
@@ -1427,21 +1439,20 @@ types = [
 ]
 default_arg_cast = false
 
-[[tool.robotpy-build.wrappers."wpimath._impl".type_casters]]
-header = "pybind11/eigen.h"
+[[tool.semiwrap.export_type_casters.wpimath-casters.headers]]
+header = "frc_eigen.h"
 types = [
     "frc::Vectord",
     "frc::Matrixd",
 ]
 
-[tool.robotpy-build.wrappers."wpimath"]
-depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
+[tool.semiwrap.extension_modules."wpimath._wpimath"]
 name = "wpimath"
-extension = "_wpimath"
-sources = ["wpimath/src/wpimath.cpp"]
-generation_data = "gen"
+wraps = ["robotpy-native-wpimath"]
+includes = ["wpimath/_impl/src"]
+depends = ["wpiutil", "wpimath-casters"]
 
-[tool.robotpy-build.wrappers."wpimath".autogen_headers]
+[tool.semiwrap.extension_modules."wpimath._wpimath".headers]
 # frc
 ComputerVisionUtil = "frc/ComputerVisionUtil.h"
 # DARE = "frc/DARE.h"
@@ -1450,14 +1461,106 @@ MathUtil = "frc/MathUtil.h"
 # StateSpaceUtil = "frc/StateSpaceUtil.h"
 
 
-[tool.robotpy-build.wrappers."wpimath._controls"]
-name = "wpimath_controls"
-extension = "_controls"
-sources = ["wpimath/_controls/controls.cpp"]
-depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry", "wpimath_kinematics", "wpimath_spline"]
-generation_data = "gen/controls"
+[tool.semiwrap.extension_modules."wpimath.filter._filter"]
+name = "wpimath_filter"
+wraps = ["robotpy-native-wpimath"]
+depends = ["wpimath"]
+yaml_path = "semiwrap/filter"
 
-[tool.robotpy-build.wrappers."wpimath._controls".autogen_headers]
+[tool.semiwrap.extension_modules."wpimath.filter._filter".headers]
+Debouncer = "frc/filter/Debouncer.h"
+LinearFilter = "frc/filter/LinearFilter.h"
+MedianFilter = "frc/filter/MedianFilter.h"
+SlewRateLimiter = "frc/filter/SlewRateLimiter.h"
+
+
+[tool.semiwrap.extension_modules."wpimath.geometry._geometry"]
+name = "wpimath_geometry"
+wraps = ["robotpy-native-wpimath"]
+depends = ["wpimath"]
+includes = ["wpimath/geometry/include"]
+yaml_path = "semiwrap/geometry"
+
+[tool.semiwrap.extension_modules."wpimath.geometry._geometry".headers]
+# frc/geometry
+CoordinateAxis = "frc/geometry/CoordinateAxis.h"
+CoordinateSystem = "frc/geometry/CoordinateSystem.h"
+Ellipse2d = "frc/geometry/Ellipse2d.h"
+Pose2d = "frc/geometry/Pose2d.h"
+Pose3d = "frc/geometry/Pose3d.h"
+Quaternion = "frc/geometry/Quaternion.h"
+Rectangle2d = "frc/geometry/Rectangle2d.h"
+Rotation2d = "frc/geometry/Rotation2d.h"
+Rotation3d = "frc/geometry/Rotation3d.h"
+Transform2d = "frc/geometry/Transform2d.h"
+Transform3d = "frc/geometry/Transform3d.h"
+Translation2d = "frc/geometry/Translation2d.h"
+Translation3d = "frc/geometry/Translation3d.h"
+Twist2d = "frc/geometry/Twist2d.h"
+Twist3d = "frc/geometry/Twist3d.h"
+
+[tool.semiwrap.extension_modules."wpimath.interpolation._interpolation"]
+name = "wpimath_interpolation"
+wraps = ["robotpy-native-wpimath"]
+depends = ["wpimath_geometry"]
+yaml_path = "semiwrap/interpolation"
+
+[tool.semiwrap.extension_modules."wpimath.interpolation._interpolation".headers]
+# frc/interpolation
+TimeInterpolatableBuffer = "frc/interpolation/TimeInterpolatableBuffer.h"
+
+
+[tool.semiwrap.extension_modules."wpimath.kinematics._kinematics"]
+name = "wpimath_kinematics"
+wraps = ["robotpy-native-wpimath"]
+depends = ["wpimath_geometry"]
+yaml_path = "semiwrap/kinematics"
+
+[tool.semiwrap.extension_modules."wpimath.kinematics._kinematics".headers]
+# frc/kinematics
+ChassisSpeeds = "frc/kinematics/ChassisSpeeds.h"
+DifferentialDriveKinematics = "frc/kinematics/DifferentialDriveKinematics.h"
+DifferentialDriveOdometry3d = "frc/kinematics/DifferentialDriveOdometry3d.h"
+DifferentialDriveOdometry = "frc/kinematics/DifferentialDriveOdometry.h"
+DifferentialDriveWheelPositions = "frc/kinematics/DifferentialDriveWheelPositions.h"
+DifferentialDriveWheelSpeeds = "frc/kinematics/DifferentialDriveWheelSpeeds.h"
+Kinematics = "frc/kinematics/Kinematics.h"
+MecanumDriveKinematics = "frc/kinematics/MecanumDriveKinematics.h"
+MecanumDriveOdometry = "frc/kinematics/MecanumDriveOdometry.h"
+MecanumDriveOdometry3d = "frc/kinematics/MecanumDriveOdometry3d.h"
+MecanumDriveWheelPositions = "frc/kinematics/MecanumDriveWheelPositions.h"
+MecanumDriveWheelSpeeds = "frc/kinematics/MecanumDriveWheelSpeeds.h"
+Odometry = "frc/kinematics/Odometry.h"
+Odometry3d = "frc/kinematics/Odometry3d.h"
+SwerveDriveKinematics = "frc/kinematics/SwerveDriveKinematics.h"
+SwerveDriveOdometry = "frc/kinematics/SwerveDriveOdometry.h"
+SwerveDriveOdometry3d = "frc/kinematics/SwerveDriveOdometry3d.h"
+SwerveModulePosition = "frc/kinematics/SwerveModulePosition.h"
+SwerveModuleState = "frc/kinematics/SwerveModuleState.h"
+
+
+[tool.semiwrap.extension_modules."wpimath.spline._spline"]
+name = "wpimath_spline"
+wraps = ["robotpy-native-wpimath"]
+depends = ["wpimath_geometry"]
+yaml_path = "semiwrap/spline"
+
+[tool.semiwrap.extension_modules."wpimath.spline._spline".headers]
+# frc/spline
+CubicHermiteSpline = "frc/spline/CubicHermiteSpline.h"
+QuinticHermiteSpline = "frc/spline/QuinticHermiteSpline.h"
+Spline = "frc/spline/Spline.h"
+SplineHelper = "frc/spline/SplineHelper.h"
+SplineParameterizer = "frc/spline/SplineParameterizer.h"
+
+
+[tool.semiwrap.extension_modules."wpimath._controls._controls"]
+name = "wpimath_controls"
+wraps = ["robotpy-native-wpimath"]
+depends = ["wpimath", "wpimath_geometry", "wpimath_kinematics", "wpimath_spline"]
+yaml_path = "semiwrap/controls"
+
+[tool.semiwrap.extension_modules."wpimath._controls._controls".headers]
 # frc/controller
 ArmFeedforward = "frc/controller/ArmFeedforward.h"
 BangBangController = "frc/controller/BangBangController.h"
@@ -1530,102 +1633,3 @@ MecanumDriveKinematicsConstraint = "frc/trajectory/constraint/MecanumDriveKinema
 RectangularRegionConstraint = "frc/trajectory/constraint/RectangularRegionConstraint.h"
 SwerveDriveKinematicsConstraint = "frc/trajectory/constraint/SwerveDriveKinematicsConstraint.h"
 TrajectoryConstraint = "frc/trajectory/constraint/TrajectoryConstraint.h"
-
-[tool.robotpy-build.wrappers."wpimath.filter"]
-
-depends = ["wpiutil", "wpimath_cpp"]
-name = "wpimath_filter"
-extension = "_filter"
-sources = ["wpimath/filter/filter.cpp"]
-generation_data = "gen/filter"
-
-[tool.robotpy-build.wrappers."wpimath.filter".autogen_headers]
-Debouncer = "frc/filter/Debouncer.h"
-LinearFilter = "frc/filter/LinearFilter.h"
-MedianFilter = "frc/filter/MedianFilter.h"
-SlewRateLimiter = "frc/filter/SlewRateLimiter.h"
-
-[tool.robotpy-build.wrappers."wpimath.geometry"]
-
-name = "wpimath_geometry"
-extension = "_geometry"
-extra_includes = ["wpimath/geometry/include"]
-sources = ["wpimath/geometry/geometry.cpp"]
-depends = ["wpiutil", "wpimath_cpp"]
-generation_data = "gen/geometry"
-
-[tool.robotpy-build.wrappers."wpimath.geometry".autogen_headers]
-# frc/geometry
-CoordinateAxis = "frc/geometry/CoordinateAxis.h"
-CoordinateSystem = "frc/geometry/CoordinateSystem.h"
-Ellipse2d = "frc/geometry/Ellipse2d.h"
-Pose2d = "frc/geometry/Pose2d.h"
-Pose3d = "frc/geometry/Pose3d.h"
-Quaternion = "frc/geometry/Quaternion.h"
-Rectangle2d = "frc/geometry/Rectangle2d.h"
-Rotation2d = "frc/geometry/Rotation2d.h"
-Rotation3d = "frc/geometry/Rotation3d.h"
-Transform2d = "frc/geometry/Transform2d.h"
-Transform3d = "frc/geometry/Transform3d.h"
-Translation2d = "frc/geometry/Translation2d.h"
-Translation3d = "frc/geometry/Translation3d.h"
-Twist2d = "frc/geometry/Twist2d.h"
-Twist3d = "frc/geometry/Twist3d.h"
-
-[tool.robotpy-build.wrappers."wpimath.interpolation"]
-
-name = "wpimath_interpolation"
-extension = "_interpolation"
-sources = ["wpimath/interpolation/interpolation.cpp"]
-depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
-generation_data = "gen/interpolation"
-
-[tool.robotpy-build.wrappers."wpimath.interpolation".autogen_headers]
-# frc/interpolation
-TimeInterpolatableBuffer = "frc/interpolation/TimeInterpolatableBuffer.h"
-
-[tool.robotpy-build.wrappers."wpimath.kinematics"]
-
-name = "wpimath_kinematics"
-extension = "_kinematics"
-sources = ["wpimath/kinematics/kinematics.cpp"]
-depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
-generation_data = "gen/kinematics"
-
-[tool.robotpy-build.wrappers."wpimath.kinematics".autogen_headers]
-# frc/kinematics
-ChassisSpeeds = "frc/kinematics/ChassisSpeeds.h"
-DifferentialDriveKinematics = "frc/kinematics/DifferentialDriveKinematics.h"
-DifferentialDriveOdometry3d = "frc/kinematics/DifferentialDriveOdometry3d.h"
-DifferentialDriveOdometry = "frc/kinematics/DifferentialDriveOdometry.h"
-DifferentialDriveWheelPositions = "frc/kinematics/DifferentialDriveWheelPositions.h"
-DifferentialDriveWheelSpeeds = "frc/kinematics/DifferentialDriveWheelSpeeds.h"
-Kinematics = "frc/kinematics/Kinematics.h"
-MecanumDriveKinematics = "frc/kinematics/MecanumDriveKinematics.h"
-MecanumDriveOdometry = "frc/kinematics/MecanumDriveOdometry.h"
-MecanumDriveOdometry3d = "frc/kinematics/MecanumDriveOdometry3d.h"
-MecanumDriveWheelPositions = "frc/kinematics/MecanumDriveWheelPositions.h"
-MecanumDriveWheelSpeeds = "frc/kinematics/MecanumDriveWheelSpeeds.h"
-Odometry = "frc/kinematics/Odometry.h"
-Odometry3d = "frc/kinematics/Odometry3d.h"
-SwerveDriveKinematics = "frc/kinematics/SwerveDriveKinematics.h"
-SwerveDriveOdometry = "frc/kinematics/SwerveDriveOdometry.h"
-SwerveDriveOdometry3d = "frc/kinematics/SwerveDriveOdometry3d.h"
-SwerveModulePosition = "frc/kinematics/SwerveModulePosition.h"
-SwerveModuleState = "frc/kinematics/SwerveModuleState.h"
-
-[tool.robotpy-build.wrappers."wpimath.spline"]
-
-name = "wpimath_spline"
-extension = "_spline"
-sources = ["wpimath/spline/spline.cpp"]
-depends = ["wpiutil", "wpimath_cpp", "wpimath_geometry"]
-generation_data = "gen/spline"
-
-[tool.robotpy-build.wrappers."wpimath.spline".autogen_headers]
-# frc/spline
-CubicHermiteSpline = "frc/spline/CubicHermiteSpline.h"
-QuinticHermiteSpline = "frc/spline/QuinticHermiteSpline.h"
-Spline = "frc/spline/Spline.h"
-SplineHelper = "frc/spline/SplineHelper.h"
-SplineParameterizer = "frc/spline/SplineParameterizer.h"
