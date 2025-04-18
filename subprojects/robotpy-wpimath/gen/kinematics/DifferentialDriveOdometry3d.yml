@@ -1,9 +1,0 @@
----
-
-classes:
-  DifferentialDriveOdometry3d:
-    force_no_trampoline: true
-    methods:
-      DifferentialDriveOdometry3d:
-      ResetPosition:
-      Update:

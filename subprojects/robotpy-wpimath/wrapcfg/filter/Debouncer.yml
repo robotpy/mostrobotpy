@@ -1,0 +1,11 @@
+
+classes:
+  frc::Debouncer:
+    enums:
+      DebounceType:
+    methods:
+      Debouncer:
+        param_override:
+          type:
+            default: frc::Debouncer::DebounceType::kRising
+      Calculate:
