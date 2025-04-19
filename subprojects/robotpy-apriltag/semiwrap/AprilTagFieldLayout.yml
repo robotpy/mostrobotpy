@@ -1,4 +1,3 @@
----
 
 functions:
   to_json:
@@ -8,13 +7,13 @@ functions:
   LoadAprilTagLayoutField:
     ignore: true
 classes:
-  AprilTagFieldLayout:
+  frc::AprilTagFieldLayout:
     enums:
       OriginPosition:
     methods:
       AprilTagFieldLayout:
         overloads:
-          "":
+          '':
           std::string_view:
           std::vector<AprilTag>, units::meter_t, units::meter_t:
       LoadField:

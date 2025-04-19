@@ -1,7 +1,6 @@
----
 
 classes:
-  AprilTagPoseEstimate:
+  frc::AprilTagPoseEstimate:
     attributes:
       pose1:
       pose2:

@@ -1,10 +1,9 @@
----
 
 extra_includes:
 - pybind11/eigen.h
 
 classes:
-  AprilTagDetection:
+  frc::AprilTagDetection:
     methods:
       GetFamily:
       GetId:
@@ -20,7 +19,7 @@ classes:
         return py::str("<AprilTagDetection tag_family={} tag_id={} hamming={} decision_margin={} center={}>")
           .format(self.GetFamily(), self.GetId(), self.GetHamming(), self.GetDecisionMargin(), self.GetCenter());
       })
-  AprilTagDetection::Point:
+  frc::AprilTagDetection::Point:
     attributes:
       x:
       y:
