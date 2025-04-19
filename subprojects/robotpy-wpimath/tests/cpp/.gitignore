@@ -2,8 +2,6 @@
 *.so
 *.dylib
 
-/wpimath_test/pkgcfg.py
-/wpimath_test/py.typed
-/wpimath_test/_init_wpimath_test.py
-/wpimath_test/rpy-include
-/wpimath_test/_wpimath_test
+/wpimath_test/wpimath_test.pc
+/wpimath_test/_init__wpimath_test.py
+/wpimath_test/trampolines

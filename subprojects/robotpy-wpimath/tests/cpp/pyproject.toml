@@ -1,25 +1,27 @@
 [build-system]
-requires = ["robotpy-build"]
-
-[tool.robotpy-build]
-base_package = "wpimath_test"
-
-[tool.robotpy-build.wrappers."wpimath_test"]
-name = "wpimath_test"
-depends = ["wpimath_cpp"]
-sources = [
-    "wpimath_test/src/module.cpp",
+build-backend = "hatchling.build"
+requires = [
+    "semiwrap", "hatch-meson", "hatchling",
 ]
-generation_data = "gen"
 
-[tool.robotpy-build.wrappers."wpimath_test".autogen_headers]
-module = "module.h"
-
-[tool.robotpy-build.metadata]
+[project]
 name = "wpimath_test"
+version = "0.1"
 description = "Test project for verifying robotpy-build behavior"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
 license = "BSD-3-Clause"
-install_requires = []
-url = ""
+
+[tool.hatch.build.hooks.semiwrap]
+[tool.hatch.build.hooks.meson]
+
+[tool.semiwrap]
+
+[tool.semiwrap.extension_modules."wpimath_test._wpimath_test"]
+name = "wpimath_test"
+depends = ["wpimath"]
+includes = ["wpimath_test/include"]
+
+[tool.semiwrap.extension_modules."wpimath_test._wpimath_test".headers]
+module = "module.h"
