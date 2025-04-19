@@ -1,0 +1,6 @@
+
+classes:
+  frc::WidgetType:
+    methods:
+      WidgetType:
+      GetWidgetName:

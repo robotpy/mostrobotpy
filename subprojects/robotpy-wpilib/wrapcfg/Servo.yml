@@ -1,0 +1,17 @@
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  frc::Servo:
+    shared_ptr: true
+    methods:
+      Servo:
+      Set:
+      SetOffline:
+      Get:
+      SetAngle:
+      GetAngle:
+      GetMaxAngle:
+      GetMinAngle:
+      InitSendable:

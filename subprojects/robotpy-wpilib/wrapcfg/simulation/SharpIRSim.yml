@@ -1,0 +1,9 @@
+
+classes:
+  frc::SharpIRSim:
+    methods:
+      SharpIRSim:
+        overloads:
+          const SharpIR&:
+          int:
+      SetRange:

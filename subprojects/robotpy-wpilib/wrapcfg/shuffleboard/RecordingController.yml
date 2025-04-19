@@ -1,0 +1,10 @@
+
+classes:
+  frc::RecordingController:
+    methods:
+      RecordingController:
+      StartRecording:
+      StopRecording:
+      SetRecordingFileNameFormat:
+      ClearRecordingFileNameFormat:
+      AddEventMarker:

@@ -1,0 +1,9 @@
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  frc::PWMTalonFX:
+    shared_ptr: true
+    methods:
+      PWMTalonFX:

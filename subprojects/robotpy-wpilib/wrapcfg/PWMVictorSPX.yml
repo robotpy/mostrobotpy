@@ -1,0 +1,9 @@
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  frc::PWMVictorSPX:
+    shared_ptr: true
+    methods:
+      PWMVictorSPX:

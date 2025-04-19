@@ -1,4 +1,4 @@
-from . import _init_simulation
+from . import _init__simulation
 
 # needed for dcmotor return value, TODO fix in robotpy-build
 from wpimath._controls._controls import plant as _
@@ -132,4 +132,4 @@ __all__ = [
     "waitForProgramStart",
 ]
 
-del _init_simulation
+del _init__simulation

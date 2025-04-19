@@ -1,0 +1,5 @@
+
+enums:
+  ShuffleboardEventImportance:
+functions:
+  ShuffleboardEventImportanceName:
