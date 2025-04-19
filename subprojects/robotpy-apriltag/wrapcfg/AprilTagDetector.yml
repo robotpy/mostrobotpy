@@ -1,10 +1,9 @@
----
 
 extra_includes:
 - pybind11_typing.h
 
 classes:
-  AprilTagDetector:
+  frc::AprilTagDetector:
     methods:
       AprilTagDetector:
       SetConfig:
@@ -61,7 +60,7 @@ classes:
           :return: list of results
         )doc"
       )
-  AprilTagDetector::Config:
+  frc::AprilTagDetector::Config:
     attributes:
       numThreads:
       quadDecimate:
@@ -71,7 +70,7 @@ classes:
       debug:
     methods:
       operator==:
-  AprilTagDetector::QuadThresholdParameters:
+  frc::AprilTagDetector::QuadThresholdParameters:
     attributes:
       minClusterPixels:
       maxNumMaxima:
@@ -81,7 +80,7 @@ classes:
       deglitch:
     methods:
       operator==:
-  AprilTagDetector::Results:
+  frc::AprilTagDetector::Results:
     rename: _Results
     ignored_bases:
     - std::span<const AprilTagDetection* const>
@@ -89,7 +88,7 @@ classes:
     methods:
       Results:
         overloads:
-          "":
+          '':
             ignore: true
           void*, const private_init&:
             ignore: true
