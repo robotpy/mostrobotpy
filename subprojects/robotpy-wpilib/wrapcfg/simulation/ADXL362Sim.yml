@@ -1,0 +1,11 @@
+
+extra_includes:
+- frc/ADXL362.h
+
+classes:
+  frc::sim::ADXL362Sim:
+    methods:
+      ADXL362Sim:
+      SetX:
+      SetY:
+      SetZ:

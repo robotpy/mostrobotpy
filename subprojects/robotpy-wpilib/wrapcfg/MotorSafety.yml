@@ -1,0 +1,19 @@
+
+extra_includes:
+- wpi/SmallString.h
+
+classes:
+  frc::MotorSafety:
+    shared_ptr: true
+    methods:
+      MotorSafety:
+      Feed:
+      SetExpiration:
+      GetExpiration:
+      IsAlive:
+      SetSafetyEnabled:
+      IsSafetyEnabled:
+      Check:
+      CheckMotors:
+      StopMotor:
+      GetDescription:

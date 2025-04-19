@@ -1,4 +1,4 @@
-from . import _init_wpilib
+from . import _init__wpilib
 
 # TODO: robotpy-build subpackage bug
 from wpimath._controls._controls import trajectory as _
@@ -229,7 +229,7 @@ from ._impl.report_error import reportError, reportWarning
 
 __all__ += ["reportError", "reportWarning"]
 
-del _init_wpilib
+del _init__wpilib
 
 from .cameraserver import CameraServer
 from .deployinfo import getDeployData

@@ -1,8 +1,0 @@
----
-
-classes:
-  ListenerExecutor:
-    shared_ptr: true
-    methods:
-      Execute:
-      RunListenerTasks:

@@ -1,0 +1,9 @@
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  frc::Jaguar:
+    shared_ptr: true
+    methods:
+      Jaguar:

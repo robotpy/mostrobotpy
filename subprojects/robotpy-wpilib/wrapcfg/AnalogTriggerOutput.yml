@@ -1,0 +1,20 @@
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+- frc/AnalogInput.h
+- frc/DutyCycle.h
+- frc/AnalogTrigger.h
+
+classes:
+  frc::AnalogTriggerOutput:
+    shared_ptr: true
+    ignored_bases:
+    - wpi::SendableHelper<AnalogTriggerOutput>
+    methods:
+      Get:
+      GetPortHandleForRouting:
+      GetAnalogTriggerTypeForRouting:
+      IsAnalogTrigger:
+      GetChannel:
+      InitSendable:
+      AnalogTriggerOutput:

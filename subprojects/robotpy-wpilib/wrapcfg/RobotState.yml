@@ -1,0 +1,15 @@
+
+classes:
+  frc::RobotState:
+    shared_ptr: false
+    nodelete: true
+    methods:
+      RobotState:
+        ignore: true
+      IsDisabled:
+      IsEnabled:
+      IsEStopped:
+      IsOperatorControl:
+      IsTeleop:
+      IsAutonomous:
+      IsTest:

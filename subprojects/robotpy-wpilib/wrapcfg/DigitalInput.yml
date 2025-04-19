@@ -1,0 +1,19 @@
+
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+- frc/DigitalGlitchFilter.h
+
+classes:
+  frc::DigitalInput:
+    shared_ptr: true
+    ignored_bases:
+    - wpi::SendableHelper<DigitalInput>
+    methods:
+      DigitalInput:
+      Get:
+      GetPortHandleForRouting:
+      GetAnalogTriggerTypeForRouting:
+      IsAnalogTrigger:
+      GetChannel:
+      SetSimDevice:
+      InitSendable:
