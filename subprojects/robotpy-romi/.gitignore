@@ -5,8 +5,7 @@
 
 /build
 
-/romi/include
-/romi/lib
-/romi/_init_romi.py
-/romi/pkgcfg.py
+/romi/trampolines
+/romi/_init__romi.py
+/romi/romi.pc
 /romi/version.py
