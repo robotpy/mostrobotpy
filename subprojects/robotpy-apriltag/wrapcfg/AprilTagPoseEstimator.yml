@@ -1,10 +1,9 @@
----
 
 extra_includes:
 - frc/apriltag/AprilTagDetection.h
 
 classes:
-  AprilTagPoseEstimator:
+  frc::AprilTagPoseEstimator:
     methods:
       AprilTagPoseEstimator:
       SetConfig:
@@ -21,7 +20,7 @@ classes:
         overloads:
           const AprilTagDetection& [const]:
           std::span<const double, 9>, std::span<const double, 8> [const]:
-  AprilTagPoseEstimator::Config:
+  frc::AprilTagPoseEstimator::Config:
     force_no_default_constructor: true
     attributes:
       tagSize:
@@ -31,7 +30,7 @@ classes:
       cy:
     methods:
       operator==:
-    inline_code:
+    inline_code: |
       .def(py::init([](units::meter_t tagSize, double fx, double fy, double cx, double cy) {
         AprilTagPoseEstimator::Config cfg{tagSize, fx, fy, cx, cy};
         return std::make_unique<AprilTagPoseEstimator::Config>(std::move(cfg));

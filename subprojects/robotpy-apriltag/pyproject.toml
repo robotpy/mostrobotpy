@@ -1,60 +1,63 @@
-[tool.robotpy-build.metadata]
-name = "robotpy-apriltag"
-description = "RobotPy bindings for WPILib's AprilTag library"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/robotpy-cscore"
-license = "BSD-3-Clause"
-install_requires = [
-    "robotpy-wpiutil==THIS_VERSION",
-    "robotpy-wpimath==THIS_VERSION",
-]
-
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "robotpy-build~=2025.1.0",
+    "semiwrap", "hatch-meson", "hatch-vcs", "hatchling",
+    "native.apriltag==2025.3.2",
     "robotpy-wpiutil~=2025.3.2",
     "robotpy-wpimath~=2025.3.2",
 ]
 
-[tool.robotpy-build]
-base_package = "robotpy_apriltag"
-update_init = [
-  "robotpy_apriltag robotpy_apriltag._apriltag"
+[project]
+name = "robotpy-apriltag"
+dynamic = ["version"]
+description = "RobotPy bindings for WPILib's AprilTag library"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
-scan_headers_ignore = [
-  "common/*",
-  "test/*",
-
-  "apriltag.h",
-  "apriltag_math.h",
-  "apriltag_pose.h",
-
-  "frc/apriltag/AprilTagDetector_cv.h",
-
-  "tag16h5.h",
-  "tag36h11.h",
+license = "BSD-3-Clause"
+install_requires = [
+    "robotpy-wpiutil~=2025.3.2",
+    "robotpy-wpimath~=2025.3.2",
 ]
 
-[tool.robotpy-build.wrappers."robotpy_apriltag".maven_lib_download]
-artifact_id = "apriltag-cpp"
-group_id = "edu.wpi.first.apriltag"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
 
-libs = ["apriltag"]
+[tool.hatch.version]
+source = "vcs"
+raw-options.root = "../.."
 
-[tool.robotpy-build.wrappers."robotpy_apriltag"]
+[tool.hatch.build.hooks.vcs]
+version-file = "robotpy_apriltag/version.py"
+
+[tool.hatch.build.hooks.semiwrap]
+# update_init = [
+#   "robotpy_apriltag robotpy_apriltag._apriltag"
+# ]
+# scan_headers_ignore = [
+#   "common/*",
+#   "test/*",
+
+#   "apriltag.h",
+#   "apriltag_math.h",
+#   "apriltag_pose.h",
+
+#   "frc/apriltag/AprilTagDetector_cv.h",
+
+#   "tag16h5.h",
+#   "tag36h11.h",
+# ]
+
+[tool.hatch.build.hooks.meson]
+
+
+[tool.semiwrap]
+[tool.semiwrap.extension_modules."robotpy_apriltag._apriltag"]
 name = "apriltag"
+wraps = ["native.apriltag"]
+depends = ["wpiutil", "wpimath"]
 
-sources = [
-  "robotpy_apriltag/src/main.cpp",
-]
-
-depends = ["wpiutil", "wpimath_cpp"]
-generation_data = "gen"
-
-[tool.robotpy-build.wrappers."robotpy_apriltag".autogen_headers]
+[tool.semiwrap.extension_modules."robotpy_apriltag._apriltag".headers]
 # frc/apriltag
 AprilTag = "frc/apriltag/AprilTag.h"
 AprilTagDetection = "frc/apriltag/AprilTagDetection.h"
