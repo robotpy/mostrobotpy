@@ -1,0 +1,6 @@
+classes:
+  frc::DifferentialDriveVoltageConstraint:
+    methods:
+      DifferentialDriveVoltageConstraint:
+      MaxVelocity:
+      MinMaxAcceleration:

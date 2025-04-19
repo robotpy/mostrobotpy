@@ -1,0 +1,19 @@
+extra_includes:
+- frc/DutyCycleEncoder.h
+
+classes:
+  frc::sim::DutyCycleEncoderSim:
+    methods:
+      DutyCycleEncoderSim:
+        overloads:
+          const DutyCycleEncoder&:
+          int:
+      Get:
+      Set:
+      GetDistance:
+      SetDistance:
+      GetAbsolutePosition:
+      SetAbsolutePosition:
+      GetDistancePerRotation:
+      IsConnected:
+      SetConnected:

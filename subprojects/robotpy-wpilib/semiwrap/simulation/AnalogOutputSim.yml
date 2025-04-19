@@ -1,0 +1,19 @@
+extra_includes:
+- frc/AnalogOutput.h
+
+classes:
+  frc::sim::AnalogOutputSim:
+    force_type_casters:
+    - std::function
+    methods:
+      AnalogOutputSim:
+        overloads:
+          const AnalogOutput&:
+          int:
+      RegisterVoltageCallback:
+      GetVoltage:
+      SetVoltage:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      ResetData:

@@ -1,0 +1,15 @@
+
+extra_includes:
+- wpi/DataLog.h
+
+classes:
+  frc::DataLogManager:
+    methods:
+      Start:
+      Stop:
+      Log:
+      GetLog:
+        return_value_policy: reference
+      GetLogDir:
+      LogNetworkTables:
+      LogConsoleOutput:

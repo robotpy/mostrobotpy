@@ -1,0 +1,14 @@
+classes:
+  frc::Filter:
+    methods:
+      Filter:
+        overloads:
+          PIDSource&:
+          std::shared_ptr<PIDSource>:
+      SetPIDSourceType:
+      GetPIDSourceType:
+      PIDGet:
+        rename: pidGet
+      Get:
+      Reset:
+      PIDGetSource:

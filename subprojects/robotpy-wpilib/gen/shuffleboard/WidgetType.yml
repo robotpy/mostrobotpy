@@ -1,7 +1,0 @@
----
-
-classes:
-  WidgetType:
-    methods:
-      WidgetType:
-      GetWidgetName:

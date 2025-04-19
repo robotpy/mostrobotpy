@@ -17,7 +17,7 @@
 #include <units/time.h>
 #include <wpi/mutex.h>
 
-#include <robotpy_build.h>
+#include <semiwrap.h>
 
 namespace frc {
 

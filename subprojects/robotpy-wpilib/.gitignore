@@ -17,40 +17,30 @@ build
 dist
 MANIFEST
 
-/wpilib/pkgcfg.py
-/wpilib/py.typed
+/wpilib/wpilib.pc
+/wpilib/trampolines
 /wpilib/version.py
-/wpilib/_init_wpilib.py
-/wpilib/controller/_init_controller.py
-/wpilib/controller/pkgcfg.py
-/wpilib/counter/_init_counter.py
-/wpilib/counter/pkgcfg.py
-/wpilib/drive/_init_drive.py
-/wpilib/drive/pkgcfg.py
-/wpilib/event/_init_event.py
-/wpilib/event/pkgcfg.py
-/wpilib/geometry/_init_geometry.py
-/wpilib/geometry/pkgcfg.py
-/wpilib/interfaces/_init_interfaces.py
-/wpilib/interfaces/pkgcfg.py
-/wpilib/kinematics/_init_kinematics.py
-/wpilib/kinematics/pkgcfg.py
-/wpilib/shuffleboard/_init_shuffleboard.py
-/wpilib/shuffleboard/pkgcfg.py
-/wpilib/simulation/_init_simulation.py
-/wpilib/simulation/pkgcfg.py
-/wpilib/spline/_init_spline.py
-/wpilib/spline/pkgcfg.py
-/wpilib/trajectory/_init_trajectory.py
-/wpilib/trajectory/pkgcfg.py
-/wpilib/trajectory/constraint/_init_constraint.py
-/wpilib/trajectory/constraint/pkgcfg.py
+/wpilib/_init__wpilib.py
+/wpilib/counter/_init__counter.py
+/wpilib/counter/wpilib_counter.pc
+/wpilib/counter/trampolines
+/wpilib/drive/_init__drive.py
+/wpilib/drive/wpilib_drive.pc
+/wpilib/drive/trampolines
+/wpilib/event/_init__event.py
+/wpilib/event/wpilib_event.pc
+/wpilib/event/trampolines
+/wpilib/interfaces/_init__interfaces.py
+/wpilib/interfaces/wpilib_interfaces.pc
+/wpilib/interfaces/trampolines
+/wpilib/shuffleboard/_init__shuffleboard.py
+/wpilib/shuffleboard/wpilib_shuffleboard.pc
+/wpilib/shuffleboard/trampolines
+/wpilib/simulation/_init__simulation.py
+/wpilib/simulation/wpilib_simulation.pc
+/wpilib/simulation/trampolines
 
 rpy-include
-/wpilib/_impl/_init_wpilibc.py
-/wpilib/_impl/pkgcfg.py
-/wpilib/_impl/include
-/wpilib/_impl/lib
 
 
 

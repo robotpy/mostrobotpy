@@ -1,0 +1,29 @@
+extra_includes:
+- frc/AddressableLED.h
+
+classes:
+  frc::sim::AddressableLEDSim:
+    force_type_casters:
+    - std::function
+    methods:
+      AddressableLEDSim:
+        overloads:
+          '':
+          const AddressableLED&:
+      CreateForChannel:
+      CreateForIndex:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterOutputPortCallback:
+      GetOutputPort:
+      SetOutputPort:
+      RegisterLengthCallback:
+      GetLength:
+      SetLength:
+      RegisterRunningCallback:
+      GetRunning:
+      SetRunning:
+      RegisterDataCallback:
+      GetData:
+      SetData:

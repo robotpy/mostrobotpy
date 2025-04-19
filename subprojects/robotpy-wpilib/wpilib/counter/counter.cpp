@@ -1,7 +1,7 @@
 
-#include "rpygen_wrapper.hpp"
+#include "semiwrap_init.wpilib.counter._counter.hpp"
 
-RPYBUILD_PYBIND11_MODULE(m)
+SEMIWRAP_PYBIND11_MODULE(m)
 {
     initWrapper(m);
 }

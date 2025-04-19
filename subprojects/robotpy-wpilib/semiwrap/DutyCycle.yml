@@ -1,0 +1,33 @@
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+- frc/AnalogTrigger.h
+- frc/DigitalSource.h
+- frc/DMA.h
+- frc/DMASample.h
+
+classes:
+  frc::DutyCycle:
+    ignored_bases:
+    - wpi::SendableHelper<DutyCycle>
+    methods:
+      DutyCycle:
+        overloads:
+          DigitalSource&:
+            ignore: true
+          DigitalSource*:
+            ignore: true
+          std::shared_ptr<DigitalSource>:
+      GetFrequency:
+      GetOutput:
+      GetHighTime:
+      GetOutputScaleFactor:
+        ignore: true # not in beta 1
+      GetFPGAIndex:
+      GetSourceChannel:
+      InitSendable:
+
+inline_code: |
+  cls_DutyCycle
+    .def("__repr__", [](const DutyCycle &self) {
+      return py::str("<DutyCycle {}>").format(self.GetSourceChannel());
+    });
