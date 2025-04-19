@@ -1,6 +1,5 @@
----
 
 classes:
-  RomiMotor:
+  frc::RomiMotor:
     methods:
       RomiMotor:
