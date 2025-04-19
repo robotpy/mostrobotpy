@@ -1,7 +1,6 @@
----
 
 classes:
-  RomiGyro:
+  frc::RomiGyro:
     methods:
       RomiGyro:
       GetAngle:
