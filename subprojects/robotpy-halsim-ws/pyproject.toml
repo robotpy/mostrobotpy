@@ -1,55 +1,58 @@
-[tool.robotpy-build.metadata]
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+    "hatchling", "hatch-vcs",
+    "hatch-robotpy",
+]
+
+[project]
 name = "robotpy-halsim-ws"
+dynamic = ["version"]
 description = "WPILib simulator websim Extensions"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/robotpy-halsim-gui"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
 license = "BSD-3-Clause"
 install_requires = [
-    "robotpy-hal==THIS_VERSION",
-    "robotpy-wpinet==THIS_VERSION",
-]
-
-[tool.robotpy-build.metadata.entry_points]
-robotpysimext = [
-    "ws-server = halsim_ws.server",
-    "ws-client = halsim_ws.client",
-]
-
-
-[build-system]
-requires = [
-    "robotpy-build~=2025.1.0",
     "robotpy-hal~=2025.3.2",
     "robotpy-wpinet~=2025.3.2",
 ]
 
-[tool.robotpy-build]
-base_package = "halsim_ws"
+[project.entry-points.robotpysimext]
+ws-server = "halsim_ws.server"
+ws-client = "halsim_ws.client"
 
-[tool.robotpy-build.wrappers."halsim_ws.server".maven_lib_download]
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
+
+[tool.hatch.version]
+source = "vcs"
+raw-options.root = "../.."
+
+[tool.hatch.build.hooks.vcs]
+version-file = "halsim_ws/version.py"
+
+
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
-# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2025.3.2"
+use_headers = false
 
-dlopenlibs = ["halsim_ws_server"]
+extract_to = "halsim_ws/server"
+libs = ["halsim_ws_server"]
 
-[tool.robotpy-build.wrappers."halsim_ws.server"]
-name = "server"
-depends = ["wpiHal", "wpinet"]
-
-[tool.robotpy-build.wrappers."halsim_ws.client".maven_lib_download]
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
-# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2025.3.2"
+use_headers = false
 
-dlopenlibs = ["halsim_ws_client"]
+extract_to = "halsim_ws/client"
+libs = ["halsim_ws_client"]
 
-[tool.robotpy-build.wrappers."halsim_ws.client"]
-name = "client"
-depends = ["wpiHal", "wpinet", "wpiutil"]
 
+[tool.hatch.build.targets.wheel]
+packages = ["halsim_ws"]
