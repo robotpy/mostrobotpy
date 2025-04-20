@@ -1,7 +1,6 @@
----
 
 classes:
-  XRPServo:
+  frc::XRPServo:
     methods:
       XRPServo:
       SetAngle:

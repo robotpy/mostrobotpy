@@ -1,7 +1,6 @@
----
 
 classes:
-  XRPReflectanceSensor:
+  frc::XRPReflectanceSensor:
     methods:
       GetLeftReflectanceValue:
       GetRightReflectanceValue:
