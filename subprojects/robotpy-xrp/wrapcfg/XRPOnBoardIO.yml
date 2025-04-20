@@ -1,7 +1,6 @@
----
 
 classes:
-  XRPOnBoardIO:
+  frc::XRPOnBoardIO:
     attributes:
       kMessageInterval:
       m_nextMessageTime:

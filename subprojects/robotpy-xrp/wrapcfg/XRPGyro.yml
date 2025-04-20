@@ -1,7 +1,6 @@
----
 
 classes:
-  XRPGyro:
+  frc::XRPGyro:
     methods:
       XRPGyro:
       GetAngle:

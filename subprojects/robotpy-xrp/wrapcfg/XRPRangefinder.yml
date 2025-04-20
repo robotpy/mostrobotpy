@@ -1,6 +1,5 @@
----
 
 classes:
-  XRPRangefinder:
+  frc::XRPRangefinder:
     methods:
       GetDistance:
