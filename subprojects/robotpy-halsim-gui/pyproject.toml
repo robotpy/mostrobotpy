@@ -1,47 +1,57 @@
-[tool.robotpy-build.metadata]
-name = "robotpy-halsim-gui"
-description = "WPILib command framework"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/robotpy-halsim-gui"
-license = "BSD-3-Clause"
-install_requires = [
-    "robotpy-wpiutil==THIS_VERSION",
-    "robotpy-wpimath==THIS_VERSION",
-    "robotpy-hal==THIS_VERSION",
-    "pyntcore==THIS_VERSION",
-]
-
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "robotpy-build~=2025.1.0",
-    "robotpy-wpiutil~=2025.3.2",
-    "robotpy-wpimath~=2025.3.2",
-    "robotpy-hal~=2025.3.2",
-    "pyntcore~=2025.3.2",
+    "semiwrap~=0.1",
+    "hatch-meson~=0.1.0b2",
+    "hatch-robotpy~=0.2",
+    "hatchling",
+    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpimath==2025.3.2.2",
+    "robotpy-hal==2025.3.2.2",
+    "pyntcore==2025.3.2.2",
 ]
 
-[tool.robotpy-build]
-base_package = "halsim_gui"
+[project]
+name = "robotpy-halsim-gui"
+version = "2025.3.2.2"
+description = "WPILib simulation GUI"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
+license = "BSD-3-Clause"
+dependencies = [
+    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpimath==2025.3.2.2",
+    "robotpy-hal==2025.3.2.2",
+    "pyntcore==2025.3.2.2",
+]
+
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
 
 
-[tool.robotpy-build.wrappers."halsim_gui".maven_lib_download]
+[tool.hatch.build.hooks.robotpy]
+version_file = "halsim_gui/version.py"
+
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_gui"
 group_id = "edu.wpi.first.halsim"
-# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2025.3.2"
+use_headers = true
 
-dlopenlibs = ["halsim_gui"]
+libs = ["halsim_gui"]
+extract_to = "halsim_gui"
 
-# TODO: make this a namespace package?
-[tool.robotpy-build.wrappers."halsim_gui"]
-name = "halsim_gui"
-depends = ["wpiutil", "wpiHal", "ntcore", "wpimath_cpp"]
+[tool.hatch.build.hooks.semiwrap]
 
-[tool.robotpy-build.wrappers."halsim_gui._ext"]
+[tool.hatch.build.hooks.meson]
+
+[tool.hatch.build.targets.wheel]
+packages = ["halsim_gui"]
+
+
+[tool.semiwrap]
+[tool.semiwrap.extension_modules."halsim_gui._ext._halsim_gui_ext"]
 name = "halsim_gui_ext"
-sources = [
-    "halsim_gui/_ext/main.cpp"
-]
-depends = ["wpiutil", "wpiHal", "ntcore", "wpimath_cpp", "halsim_gui"]
+depends = ["wpihal", "wpimath", "ntcore"]
