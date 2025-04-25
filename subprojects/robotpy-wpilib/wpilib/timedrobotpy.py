@@ -8,6 +8,17 @@ from wpilib import RobotController
 from wpilib.iterativerobotpy import IterativeRobotPy
 
 
+def calcFutureExpirationUs(currentTimeUs: int, startTimeUs: int, offsetUs:int, periodUs:int) -> float:
+    # increment the expiration time by the number of full periods it's behind
+    # plus one to avoid rapid repeat fires from a large loop overrun. We assume
+    # currentTime ≥ startTimeUs rather than checking for it since the
+    # callback wouldn't be running otherwise.
+    # todo does this math work?
+    # todo does the "// periodUs * periodUs" do the correct integer math?
+    return startTimeUs + offsetUs + periodUs + \
+            ((currentTimeUs - startTimeUs) // periodUs) * periodUs
+
+
 class Callback:
     def __init__(self, func, periodUs: int, expirationUs: int):
         self.func = func
@@ -20,12 +31,8 @@ class Callback:
                      startTimeUs: int,
                      periodUs: int,
                      offsetUs: int):
-        # todo does the "// periodUs * periodUs" do the correct integer math?
-        nowUs = RobotController.getFPGATime()
-        #print(f"makeCallBack getFPGATim={nowUs}")
-        expirationUs = \
-            startTimeUs + offsetUs + periodUs + \
-            ((nowUs - startTimeUs) // periodUs) * periodUs
+        currentTimeUs = RobotController.getFPGATime()
+        expirationUs = calcFutureExpirationUs(currentTimeUs, startTimeUs, offsetUs, periodUs)
 
         return Callback(
             func,
@@ -33,14 +40,8 @@ class Callback:
             expirationUs
         )
 
-    def setNextExpirationTimeDelta(self, currentTimeUs: int):
-        # increment the expiration time by the number of full periods it's behind
-        # plus one to avoid rapid repeat fires from a large loop overrun. We assume
-        # currentTime ≥ expirationTime rather than checking for it since the
-        # callback wouldn't be running otherwise.
-        # todo does this math work?
-        self.expirationUs = self.expirationUs + self.periodUs \
-            + ((currentTimeUs - self.expirationUs)  // self.periodUs) * self.periodUs
+    def setNextStartTimeUs(self, currentTimeUs: int):
+        self.expirationUs = calcFutureExpirationUs(currentTimeUs, startTimeUs=self.expirationUs, offsetUs=0, periodUs=self.periodUs)
 
     def __lt__(self, other):
         return self.expirationUs < other.expirationUs
@@ -80,23 +81,22 @@ class OrderedList:
 
 class TimedRobotPy(IterativeRobotPy):
 
-    def __init__(self, periodS: float = 0.020):  # todo are the units on period correct?
+    def __init__(self, periodS: float = 0.020):
         super().__init__(periodS)
 
         self.startTimeUs = RobotController.getFPGATime()
-        #print(f"self.startTimeUs={int(self.startTimeUs/timedelta(microseconds=1))}")
         self.callbacks = OrderedList()
         self.addPeriodic(self.loopFunc, period=periodS)
 
         self.notifier, status = initializeNotifier()
-        #print(f"Initialized status={status} notifier={self.notifier}", flush=True)
-        if status != 1:
+        if status != 0:
             message = f"initializeNotifier() returned {status} {self.notifier}"
-            raise RuntimeError(message)
+            #raise RuntimeError(message) # todo
 
         status = setNotifierName(self.notifier, "TimedRobot")
-        if status != 1:
-            raise RuntimeError(f"setNotifierName() returned {status}")
+        if status != 0:
+            message = f"setNotifierName() returned {status}"
+            #raise RuntimeError(message) # todo
 
         report(hal.tResourceType.kResourceType_Framework, hal.tInstances.kFramework_Timed)
 
@@ -118,28 +118,23 @@ class TimedRobotPy(IterativeRobotPy):
             #  at the end of the loop.
             callback = self.callbacks.pop()
 
-            #print(f"type(callback)={type(callback)} type(callback.expirationUs)={type(callback.expirationUs)} callback.expirationUs={callback.expirationUs}", flush=True)
+            status = updateNotifierAlarm(self.notifier, callback.expirationUs)
+            if status != 0:
+                message = f"updateNotifierAlarm() returned {status}"
+                #raise RuntimeError(message) # todo
 
-            timeout = callback.expirationUs
-            fpgaTime = RobotController.getFPGATime()
-            #print(f"timeout={timeout} fpgatime={fpgaTime}", flush=True)
-            status = updateNotifierAlarm(self.notifier, timeout)
-            #print(f"updateNotifierAlarm({self.notifier}, {timeout}) status={status}", flush=True)
-            #if status != 0:
-            #    message = f"updateNotifierAlarm() returned {status}"
-            #    print(message, flush=True)
-            #    raise RuntimeError(message)
-
-            currentTimeUs, status = waitForNotifierAlarm(self.notifier)  # todo what are the return values, what is the return order?
+            currentTimeUs, status = waitForNotifierAlarm(self.notifier)
             if status != 0:
                 message = f"waitForNotifierAlarm() returned currentTimeUs={currentTimeUs} status={status}"
-                #print(message, flush=True)
-                #raise RuntimeError(message)
+                #raise RuntimeError(message) # todo
 
             if currentTimeUs == 0:
+                # when HAL_StopNotifier(self.notifier) is called the above waitForNotifierAlarm
+                # will return a currentTimeUs==0 and the API requires robots to stop any loops.
+                # See the api for waitForNotifierAlarm
                 break
+
             self.loopStartTimeUs = RobotController.getFPGATime()
-            #print(f"self.loopStartTimeUs={self.loopStartTimeUs}")
             self._runCallbackAndReschedule(callback, currentTimeUs)
 
             #  Process all other callbacks that are ready to run
@@ -147,9 +142,9 @@ class TimedRobotPy(IterativeRobotPy):
                 callback = self.callbacks.pop()
                 self._runCallbackAndReschedule(callback, currentTimeUs)
 
-    def _runCallbackAndReschedule(self, callback, currentTimeUs):
+    def _runCallbackAndReschedule(self, callback, currentTimeUs:int):
         callback.func()
-        callback.setNextExpirationTimeDelta(currentTimeUs)
+        callback.setNextStartTimeUs(currentTimeUs)
         self.callbacks.add(callback)
 
     def endCompetition(self):
