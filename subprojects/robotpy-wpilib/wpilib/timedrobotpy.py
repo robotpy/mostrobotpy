@@ -5,7 +5,7 @@ from wpilib import RobotController
 
 from wpilib.iterativerobotpy import IterativeRobotPy
 
-_getFPGATime = RobotController.getFPGATime()
+_getFPGATime = RobotController.getFPGATime
 _kResourceType_Framework = tResourceType.kResourceType_Framework
 _kFramework_Timed = tInstances.kFramework_Timed
 
@@ -13,7 +13,7 @@ class _Callback:
     def __init__(self, func, periodUs: int, expirationUs: int):
         self.func = func
         self._periodUs = periodUs
-        self._expirationUs = expirationUs
+        self.expirationUs = expirationUs
 
     @classmethod
     def makeCallBack(cls,
@@ -29,7 +29,7 @@ class _Callback:
         )
 
         currentTimeUs = _getFPGATime()
-        callback._expirationUs = offsetUs + callback.calcFutureExpirationUs(currentTimeUs)
+        callback.expirationUs = offsetUs + callback.calcFutureExpirationUs(currentTimeUs)
         return callback
 
     def calcFutureExpirationUs(self, currentTimeUs: int) -> int:
@@ -39,14 +39,14 @@ class _Callback:
         # callback wouldn't be running otherwise.
         # todo does this math work?
         # todo does the "// periodUs * periodUs" do the correct integer math?
-        return self._expirationUs + self._periodUs + \
-            ((currentTimeUs - self._expirationUs) // self._periodUs) * self._periodUs
+        return self.expirationUs + self._periodUs + \
+            ((currentTimeUs - self.expirationUs) // self._periodUs) * self._periodUs
 
     def setNextStartTimeUs(self, currentTimeUs: int):
-        self._expirationUs = self.calcFutureExpirationUs(currentTimeUs)
+        self.expirationUs = self.calcFutureExpirationUs(currentTimeUs)
 
     def __lt__(self, other):
-        return self._expirationUs < other._expirationUs
+        return self.expirationUs < other.expirationUs
 
     def __bool__(self):
         return True
