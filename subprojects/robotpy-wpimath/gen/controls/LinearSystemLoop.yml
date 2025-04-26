@@ -70,6 +70,13 @@ templates:
     - 2
     - 1
     - 1 
+  LinearSystemLoop_2_1_2:
+    qualname: frc::LinearSystemLoop
+    subpackage: system
+    params:
+    - 2
+    - 1
+    - 2
   LinearSystemLoop_2_2_2:
     qualname: frc::LinearSystemLoop
     subpackage: system

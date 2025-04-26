@@ -2,6 +2,7 @@
 from .._controls._controls.system import (
     LinearSystemLoop_1_1_1,
     LinearSystemLoop_2_1_1,
+    LinearSystemLoop_2_1_2,
     LinearSystemLoop_2_2_2,
     LinearSystemLoop_3_2_3,
     LinearSystem_1_1_1,
@@ -21,6 +22,7 @@ from .._controls._controls.system import (
 __all__ = [
     "LinearSystemLoop_1_1_1",
     "LinearSystemLoop_2_1_1",
+    "LinearSystemLoop_2_1_2",
     "LinearSystemLoop_2_2_2",
     "LinearSystemLoop_3_2_3",
     "LinearSystem_1_1_1",
