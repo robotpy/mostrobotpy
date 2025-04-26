@@ -1,31 +1,29 @@
-import hal
-import ntcore
-import wpilib
-import wpilib._impl
-import wpilib._impl.report_error
+from enum import Enum
 
-from wpilib import DriverStation, DSControlWord
+from hal import report, tResourceType, tInstances, observeUserProgramDisabled, \
+    observeUserProgramTest, observeUserProgramAutonomous, \
+    observeUserProgramTeleop, simPeriodicBefore, simPeriodicAfter
+from ntcore import NetworkTableInstance
+from wpilib import DriverStation, DSControlWord, Watchdog, LiveWindow, RobotBase, SmartDashboard, reportWarning
 from wpilib.shuffleboard import Shuffleboard
 
+_kResourceType_SmartDashboard = tResourceType.kResourceType_SmartDashboard
+_kSmartDashboard_LiveWindow = tInstances.kSmartDashboard_LiveWindow
 
-from enum import IntEnum
-
-
-class IterativeRobotMode(IntEnum):
+class IterativeRobotMode(Enum):
     kNone = 0
     kDisabled = 1
     kAutonomous = 2
     kTeleop = 3
     kTest = 4
 
-
-class IterativeRobotPy(wpilib.RobotBase):
+class IterativeRobotPy(RobotBase):
 
     def __init__(self, period: float):
         super().__init__()
-        self._word = DSControlWord()
         self._periodS = period
-        self._watchdog = wpilib.Watchdog(self._periodS, self.printLoopOverrunMessage)
+        self._watchdog = Watchdog(self._periodS, self.printLoopOverrunMessage)
+        self._networkTableInstanceDefault = NetworkTableInstance.getDefault()
         self._mode: IterativeRobotMode = IterativeRobotMode.kNone
         self._lastMode: IterativeRobotMode = IterativeRobotMode.kNone
         self._ntFlushEnabled: bool = True
@@ -111,15 +109,9 @@ class IterativeRobotPy(wpilib.RobotBase):
 
     def enableLiveWindowInTest(self, testLW: bool):
         if self.isTestEnabled():
-            pass
-            # todo throw
-            #     throw FRC_MakeError(err::IncompatibleMode,
-            #                         "Can't configure test mode while in test mode!")
+            raise RuntimeError("Can't configure test mode while in test mode!")
         if not self._reportedLw and testLW:
-            hal.report(
-                hal.tResourceType.kResourceType_SmartDashboard,
-                hal.tInstances.kSmartDashboard_LiveWindow,
-            )
+            report(_kResourceType_SmartDashboard, _kSmartDashboard_LiveWindow)
             self._reportedLw = True
         self._lwEnabledInTest = testLW
 
@@ -133,106 +125,102 @@ class IterativeRobotPy(wpilib.RobotBase):
         DriverStation.refreshData()
         self._watchdog.reset()
 
-        self._word = DSControlWord() # todo switch to a version that does refresh()
-
-        self._mode = IterativeRobotMode.kNone
-        if self._word.isDisabled():
+        isEnabled, isAutonomous, isTest = self.getControlState()
+        if not isEnabled:
             self._mode = IterativeRobotMode.kDisabled
-        elif self._word.isAutonomous():
+        elif isAutonomous:
             self._mode = IterativeRobotMode.kAutonomous
-        elif self._word.isTeleop():
-            self._mode = IterativeRobotMode.kTeleop
-        elif self._word.isTest():
+        elif isTest:
             self._mode = IterativeRobotMode.kTest
+        else:
+            self._mode = IterativeRobotMode.kTeleop
 
-        if not self._calledDsConnected and self._word.isDSAttached():
+        if not self._calledDsConnected and DSControlWord().isDSAttached():
             self._calledDsConnected = True
             self.driverStationConnected()
 
         # If self._mode changed, call self._mode exit and entry functions
-        if self._lastMode != self._mode:
-            if self._lastMode == IterativeRobotMode.kDisabled:
-                self.disabledExit()
-            elif self._lastMode == IterativeRobotMode.kAutonomous:
-                self.autonomousExit()
-            elif self._lastMode == IterativeRobotMode.kTeleop:
-                self.teleopExit()
-            elif self._lastMode == IterativeRobotMode.kTest:
-                if self._lwEnabledInTest:
-                    wpilib.LiveWindow.setEnabled(False)
-                    Shuffleboard.disableActuatorWidgets()
-                self.testExit()
+        if self._lastMode is not self._mode:
+            match self._lastMode:
+                case IterativeRobotMode.kDisabled:
+                    self.disabledExit()
+                case IterativeRobotMode.kAutonomous:
+                    self.autonomousExit()
+                case IterativeRobotMode.kTeleop:
+                    self.teleopExit()
+                case IterativeRobotMode.kTest:
+                    if self._lwEnabledInTest:
+                        LiveWindow.setEnabled(False)
+                        Shuffleboard.disableActuatorWidgets()
+                    self.testExit()
 
-            if self._mode == IterativeRobotMode.kDisabled:
-                self.disabledInit()
-                self._watchdog.addEpoch("DisabledInit()")
-            elif self._mode == IterativeRobotMode.kAutonomous:
-                self.autonomousInit()
-                self._watchdog.addEpoch("AutonomousInit()")
-            elif self._mode == IterativeRobotMode.kTeleop:
-                self.teleopInit()
-                self._watchdog.addEpoch("TeleopInit()")
-            elif self._mode == IterativeRobotMode.kTest:
-                if self._lwEnabledInTest:
-                    wpilib.LiveWindow.setEnabled(True)
-                    Shuffleboard.enableActuatorWidgets()
-                self.testInit()
-                self._watchdog.addEpoch("TestInit()")
+            match self._mode:
+                case IterativeRobotMode.kDisabled:
+                    self.disabledInit()
+                    self._watchdog.addEpoch("DisabledInit()")
+                case IterativeRobotMode.kAutonomous:
+                    self.autonomousInit()
+                    self._watchdog.addEpoch("AutonomousInit()")
+                case IterativeRobotMode.kTeleop:
+                    self.teleopInit()
+                    self._watchdog.addEpoch("TeleopInit()")
+                case IterativeRobotMode.kTest:
+                    if self._lwEnabledInTest:
+                        LiveWindow.setEnabled(True)
+                        Shuffleboard.enableActuatorWidgets()
+                    self.testInit()
+                    self._watchdog.addEpoch("TestInit()")
             self._lastMode = self._mode
 
         # Call the appropriate function depending upon the current robot mode
-        if self._mode == IterativeRobotMode.kDisabled:
-            hal.observeUserProgramDisabled()
-            self.disabledPeriodic()
-            self._watchdog.addEpoch("DisabledPeriodic()")
-        elif self._mode == IterativeRobotMode.kAutonomous:
-            hal.observeUserProgramAutonomous()
-            self.autonomousPeriodic()
-            self._watchdog.addEpoch("AutonomousPeriodic()")
-        elif self._mode == IterativeRobotMode.kTeleop:
-            hal.observeUserProgramTeleop()
-            self.teleopPeriodic()
-            self._watchdog.addEpoch("TeleopPeriodic()")
-        elif self._mode == IterativeRobotMode.kTest:
-            hal.observeUserProgramTest()
-            self.testPeriodic()
-            self._watchdog.addEpoch("TestPeriodic()")
+        match self._mode:
+            case IterativeRobotMode.kDisabled:
+                observeUserProgramDisabled()
+                self.disabledPeriodic()
+                self._watchdog.addEpoch("DisabledPeriodic()")
+            case IterativeRobotMode.kAutonomous:
+                observeUserProgramAutonomous()
+                self.autonomousPeriodic()
+                self._watchdog.addEpoch("AutonomousPeriodic()")
+            case IterativeRobotMode.kTeleop:
+                observeUserProgramTeleop()
+                self.teleopPeriodic()
+                self._watchdog.addEpoch("TeleopPeriodic()")
+            case IterativeRobotMode.kTest:
+                observeUserProgramTest()
+                self.testPeriodic()
+                self._watchdog.addEpoch("TestPeriodic()")
 
         self.robotPeriodic()
         self._watchdog.addEpoch("RobotPeriodic()")
-        #
-        wpilib.SmartDashboard.updateValues()
+
+        SmartDashboard.updateValues()
         self._watchdog.addEpoch("SmartDashboard::UpdateValues()")
-        wpilib.LiveWindow.updateValues()
+
+        LiveWindow.updateValues()
         self._watchdog.addEpoch("LiveWindow::UpdateValues()")
+
         Shuffleboard.update()
         self._watchdog.addEpoch("Shuffleboard::Update()")
+
         if self.isSimulation():
-            hal.simPeriodicBefore()
+            simPeriodicBefore()
             self.simulationPeriodic()
-            hal.simPeriodicAfter()
+            simPeriodicAfter()
             self._watchdog.addEpoch("SimulationPeriodic()")
 
         self._watchdog.disable()
 
-        # // Flush NetworkTables
+        # Flush NetworkTables
         if self._ntFlushEnabled:
-            ntcore.NetworkTableInstance.getDefault().flushLocal()
+            self._networkTableInstanceDefault.flushLocal()
 
         # Warn on loop time overruns
         if self._watchdog.isExpired():
             self._watchdog.printEpochs()
 
     def printLoopOverrunMessages(self):
-        # todo ask about this
-        # cpp has this as a error, java as a warning, is this the right way to call?
-        # void IterativeRobotBase::PrintLoopOverrunMessage() {
-        #     FRC_ReportError(err::Error, "Loop time of {:.6f}s overrun", m_period.value())
-        # }
-        # private void printLoopOverrunMessage() {
-        #     DriverStation.reportWarning("Loop time of " + m_period + "s overrun\n", false);
-        # }
-        wpilib._impl.report_error.reportWarning(
+        reportWarning(
             f"Loop time of {self._periodS}s overrun\n", False
         )
 

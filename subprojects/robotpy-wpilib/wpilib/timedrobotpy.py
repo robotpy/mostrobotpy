@@ -1,29 +1,19 @@
 from heapq import heappush, heappop
-import hal
-
 from hal import report, initializeNotifier, setNotifierName, observeUserProgramStarting, updateNotifierAlarm, \
-    waitForNotifierAlarm
+    waitForNotifierAlarm, stopNotifier, tResourceType, tInstances
 from wpilib import RobotController
 
 from wpilib.iterativerobotpy import IterativeRobotPy
 
+_getFPGATime = RobotController.getFPGATime()
+_kResourceType_Framework = tResourceType.kResourceType_Framework
+_kFramework_Timed = tInstances.kFramework_Timed
 
-def calcFutureExpirationUs(currentTimeUs: int, startTimeUs: int, offsetUs:int, periodUs:int) -> float:
-    # increment the expiration time by the number of full periods it's behind
-    # plus one to avoid rapid repeat fires from a large loop overrun. We assume
-    # currentTime ≥ startTimeUs rather than checking for it since the
-    # callback wouldn't be running otherwise.
-    # todo does this math work?
-    # todo does the "// periodUs * periodUs" do the correct integer math?
-    return startTimeUs + offsetUs + periodUs + \
-            ((currentTimeUs - startTimeUs) // periodUs) * periodUs
-
-
-class Callback:
+class _Callback:
     def __init__(self, func, periodUs: int, expirationUs: int):
         self.func = func
-        self.periodUs = periodUs
-        self.expirationUs = expirationUs
+        self._periodUs = periodUs
+        self._expirationUs = expirationUs
 
     @classmethod
     def makeCallBack(cls,
@@ -31,26 +21,38 @@ class Callback:
                      startTimeUs: int,
                      periodUs: int,
                      offsetUs: int):
-        currentTimeUs = RobotController.getFPGATime()
-        expirationUs = calcFutureExpirationUs(currentTimeUs, startTimeUs, offsetUs, periodUs)
 
-        return Callback(
+        callback = _Callback(
             func,
-            periodUs,
-            expirationUs
+            periodUs=periodUs,
+            expirationUs=startTimeUs
         )
 
+        currentTimeUs = _getFPGATime()
+        callback._expirationUs = offsetUs + callback.calcFutureExpirationUs(currentTimeUs)
+        return callback
+
+    def calcFutureExpirationUs(self, currentTimeUs: int) -> int:
+        # increment the expiration time by the number of full periods it's behind
+        # plus one to avoid rapid repeat fires from a large loop overrun. We assume
+        # currentTime ≥ startTimeUs rather than checking for it since the
+        # callback wouldn't be running otherwise.
+        # todo does this math work?
+        # todo does the "// periodUs * periodUs" do the correct integer math?
+        return self._expirationUs + self._periodUs + \
+            ((currentTimeUs - self._expirationUs) // self._periodUs) * self._periodUs
+
     def setNextStartTimeUs(self, currentTimeUs: int):
-        self.expirationUs = calcFutureExpirationUs(currentTimeUs, startTimeUs=self.expirationUs, offsetUs=0, periodUs=self.periodUs)
+        self._expirationUs = self.calcFutureExpirationUs(currentTimeUs)
 
     def __lt__(self, other):
-        return self.expirationUs < other.expirationUs
+        return self._expirationUs < other._expirationUs
 
     def __bool__(self):
         return True
 
 
-class OrderedList:
+class _OrderedList:
     def __init__(self):
         self._data = []
 
@@ -84,21 +86,22 @@ class TimedRobotPy(IterativeRobotPy):
     def __init__(self, periodS: float = 0.020):
         super().__init__(periodS)
 
-        self.startTimeUs = RobotController.getFPGATime()
-        self.callbacks = OrderedList()
+        self._startTimeUs = _getFPGATime()
+        self._callbacks = _OrderedList()
+        self.loopStartTimeUs = 0
         self.addPeriodic(self.loopFunc, period=periodS)
 
-        self.notifier, status = initializeNotifier()
+        self._notifier, status = initializeNotifier()
         if status != 0:
-            message = f"initializeNotifier() returned {status} {self.notifier}"
+            message = f"initializeNotifier() returned {status} {self._notifier}"
             #raise RuntimeError(message) # todo
 
-        status = setNotifierName(self.notifier, "TimedRobot")
+        status = setNotifierName(self._notifier, "TimedRobot")
         if status != 0:
             message = f"setNotifierName() returned {status}"
             #raise RuntimeError(message) # todo
 
-        report(hal.tResourceType.kResourceType_Framework, hal.tInstances.kFramework_Timed)
+        report(_kResourceType_Framework, _kFramework_Timed)
 
     def startCompetition(self) -> None:
         self.robotInit()
@@ -114,16 +117,16 @@ class TimedRobotPy(IterativeRobotPy):
         # (really not forever, there is a check for a break)
         while True:
             #  We don't have to check there's an element in the queue first because
-            #  there's always at least one (the constructor adds one). It's reenqueued
+            #  there's always at least one (the constructor adds one). It's re-enqueued
             #  at the end of the loop.
-            callback = self.callbacks.pop()
+            callback = self._callbacks.pop()
 
-            status = updateNotifierAlarm(self.notifier, callback.expirationUs)
+            status = updateNotifierAlarm(self._notifier, callback.expirationUs)
             if status != 0:
                 message = f"updateNotifierAlarm() returned {status}"
                 #raise RuntimeError(message) # todo
 
-            currentTimeUs, status = waitForNotifierAlarm(self.notifier)
+            currentTimeUs, status = waitForNotifierAlarm(self._notifier)
             if status != 0:
                 message = f"waitForNotifierAlarm() returned currentTimeUs={currentTimeUs} status={status}"
                 #raise RuntimeError(message) # todo
@@ -134,21 +137,21 @@ class TimedRobotPy(IterativeRobotPy):
                 # See the api for waitForNotifierAlarm
                 break
 
-            self.loopStartTimeUs = RobotController.getFPGATime()
+            self.loopStartTimeUs = _getFPGATime()
             self._runCallbackAndReschedule(callback, currentTimeUs)
 
             #  Process all other callbacks that are ready to run
-            while self.callbacks.peek().expirationUs <= currentTimeUs:
-                callback = self.callbacks.pop()
+            while self._callbacks.peek().expirationUs <= currentTimeUs:
+                callback = self._callbacks.pop()
                 self._runCallbackAndReschedule(callback, currentTimeUs)
 
     def _runCallbackAndReschedule(self, callback, currentTimeUs:int):
         callback.func()
         callback.setNextStartTimeUs(currentTimeUs)
-        self.callbacks.add(callback)
+        self._callbacks.add(callback)
 
     def endCompetition(self):
-        hal.stopNotifier(self.notifier)
+        stopNotifier(self._notifier)
 
     """
     todo this doesn't really translate to python (is it really needed?):    
@@ -169,9 +172,9 @@ class TimedRobotPy(IterativeRobotPy):
                     callback,  # todo typehint
                     period: float,  # todo units seconds
                     offset: float = 0.0):  # todo units seconds
-        self.callbacks.add(
-            Callback.makeCallBack(
+        self._callbacks.add(
+            _Callback.makeCallBack(
                 callback,
-                self.startTimeUs, int(period*1e6), int(offset*1e6)
+                self._startTimeUs, int(period * 1e6), int(offset * 1e6)
             )
         )
