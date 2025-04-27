@@ -250,9 +250,8 @@ class IterativeRobotPy(RobotBase):
 
     def printLoopOverrunMessage(self):
         reportWarning(
-            f"Loop time of {self._periodS}s overrun\n", False
+            f"Loop time of {self.watchdog.getTimeout()}s overrun", False
         )
-        print("IN printLoopOverrunMessage\n\n", flush=True)
 
     def printWatchdogEpochs(self):
         self.watchdog.printEpochs()
