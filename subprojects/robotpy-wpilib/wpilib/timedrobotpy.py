@@ -3,7 +3,7 @@ from hal import report, initializeNotifier, setNotifierName, observeUserProgramS
     waitForNotifierAlarm, stopNotifier, tResourceType, tInstances
 from wpilib import RobotController
 
-from wpilib.iterativerobotpy import IterativeRobotPy
+from .iterativerobotpy import IterativeRobotPy
 
 _getFPGATime = RobotController.getFPGATime
 _kResourceType_Framework = tResourceType.kResourceType_Framework
@@ -83,13 +83,13 @@ class _OrderedList:
 
 class TimedRobotPy(IterativeRobotPy):
 
-    def __init__(self, periodS: float = 0.020):
-        super().__init__(periodS)
+    def __init__(self, period: float = 0.020):
+        super().__init__(period)
 
         self._startTimeUs = _getFPGATime()
         self._callbacks = _OrderedList()
         self.loopStartTimeUs = 0
-        self.addPeriodic(self.loopFunc, period=periodS)
+        self.addPeriodic(self.loopFunc, period=period)
 
         self._notifier, status = initializeNotifier()
         if status != 0:
