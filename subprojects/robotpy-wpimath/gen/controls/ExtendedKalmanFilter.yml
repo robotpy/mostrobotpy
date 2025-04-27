@@ -65,6 +65,13 @@ templates:
     - 2
     - 1
     - 1 
+  ExtendedKalmanFilter_2_1_2:
+    qualname: frc::ExtendedKalmanFilter
+    subpackage: estimator
+    params:
+    - 2
+    - 1
+    - 2
   ExtendedKalmanFilter_2_2_2:
     qualname: frc::ExtendedKalmanFilter
     subpackage: estimator
