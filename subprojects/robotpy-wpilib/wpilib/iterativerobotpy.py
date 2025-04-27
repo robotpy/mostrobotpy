@@ -22,7 +22,7 @@ class IterativeRobotPy(RobotBase):
     def __init__(self, period: float):
         super().__init__()
         self._periodS = period
-        self._watchdog = Watchdog(self._periodS, self.printLoopOverrunMessage)
+        self.watchdog = Watchdog(self._periodS, self.printLoopOverrunMessage)
         self._networkTableInstanceDefault = NetworkTableInstance.getDefault()
         self._mode: IterativeRobotMode = IterativeRobotMode.kNone
         self._lastMode: IterativeRobotMode = IterativeRobotMode.kNone
@@ -36,9 +36,6 @@ class IterativeRobotPy(RobotBase):
         self._autonomousPeriodicHasRun: bool = False
         self._teleopPeriodicHasRun: bool = False
         self._testPeriodicHasRun: bool = False
-
-    def printLoopOverrunMessage(self):
-        pass
 
     def robotInit(self):
         pass
@@ -123,7 +120,7 @@ class IterativeRobotPy(RobotBase):
 
     def loopFunc(self):
         DriverStation.refreshData()
-        self._watchdog.reset()
+        self.watchdog.reset()
 
         isEnabled, isAutonomous, isTest = self.getControlState()
         if not isEnabled:
@@ -141,6 +138,20 @@ class IterativeRobotPy(RobotBase):
 
         # If self._mode changed, call self._mode exit and entry functions
         if self._lastMode is not self._mode:
+
+            if self._lastMode is IterativeRobotMode.kDisabled:
+                self.disabledExit()
+            elif self._lastMode is IterativeRobotMode.kAutonomous:
+                self.autonomousExit()
+            elif self._lastMode is IterativeRobotMode.kTeleop:
+                self.teleopExit()
+            elif self._lastMode is IterativeRobotMode.kTest:
+                if self._lwEnabledInTest:
+                    LiveWindow.setEnabled(False)
+                    Shuffleboard.disableActuatorWidgets()
+                self.testExit()
+            """
+            todo switch to match statements when we don't build with python 3.9
             match self._lastMode:
                 case IterativeRobotMode.kDisabled:
                     self.disabledExit()
@@ -153,7 +164,24 @@ class IterativeRobotPy(RobotBase):
                         LiveWindow.setEnabled(False)
                         Shuffleboard.disableActuatorWidgets()
                     self.testExit()
+            """
 
+            if self._mode is IterativeRobotMode.kDisabled:
+                self.disabledInit()
+                self.watchdog.addEpoch("DisabledInit()")
+            elif self._mode is IterativeRobotMode.kAutonomous:
+                self.autonomousInit()
+                self.watchdog.addEpoch("AutonomousInit()")
+            elif self._mode is IterativeRobotMode.kTeleop:
+                self.teleopInit()
+                self.watchdog.addEpoch("TeleopInit()")
+            elif self._mode is IterativeRobotMode.kTest:
+                if self._lwEnabledInTest:
+                    LiveWindow.setEnabled(True)
+                    Shuffleboard.enableActuatorWidgets()
+                self.testInit()
+                self.watchdog.addEpoch("TestInit()")
+            """
             match self._mode:
                 case IterativeRobotMode.kDisabled:
                     self.disabledInit()
@@ -170,6 +198,7 @@ class IterativeRobotPy(RobotBase):
                         Shuffleboard.enableActuatorWidgets()
                     self.testInit()
                     self._watchdog.addEpoch("TestInit()")
+            """
             self._lastMode = self._mode
 
         # Call the appropriate function depending upon the current robot mode
@@ -177,52 +206,53 @@ class IterativeRobotPy(RobotBase):
             case IterativeRobotMode.kDisabled:
                 observeUserProgramDisabled()
                 self.disabledPeriodic()
-                self._watchdog.addEpoch("DisabledPeriodic()")
+                self.watchdog.addEpoch("DisabledPeriodic()")
             case IterativeRobotMode.kAutonomous:
                 observeUserProgramAutonomous()
                 self.autonomousPeriodic()
-                self._watchdog.addEpoch("AutonomousPeriodic()")
+                self.watchdog.addEpoch("AutonomousPeriodic()")
             case IterativeRobotMode.kTeleop:
                 observeUserProgramTeleop()
                 self.teleopPeriodic()
-                self._watchdog.addEpoch("TeleopPeriodic()")
+                self.watchdog.addEpoch("TeleopPeriodic()")
             case IterativeRobotMode.kTest:
                 observeUserProgramTest()
                 self.testPeriodic()
-                self._watchdog.addEpoch("TestPeriodic()")
+                self.watchdog.addEpoch("TestPeriodic()")
 
         self.robotPeriodic()
-        self._watchdog.addEpoch("RobotPeriodic()")
+        self.watchdog.addEpoch("RobotPeriodic()")
 
         SmartDashboard.updateValues()
-        self._watchdog.addEpoch("SmartDashboard::UpdateValues()")
+        self.watchdog.addEpoch("SmartDashboard::UpdateValues()")
 
         LiveWindow.updateValues()
-        self._watchdog.addEpoch("LiveWindow::UpdateValues()")
+        self.watchdog.addEpoch("LiveWindow::UpdateValues()")
 
         Shuffleboard.update()
-        self._watchdog.addEpoch("Shuffleboard::Update()")
+        self.watchdog.addEpoch("Shuffleboard::Update()")
 
         if self.isSimulation():
             simPeriodicBefore()
             self.simulationPeriodic()
             simPeriodicAfter()
-            self._watchdog.addEpoch("SimulationPeriodic()")
+            self.watchdog.addEpoch("SimulationPeriodic()")
 
-        self._watchdog.disable()
+        self.watchdog.disable()
 
         # Flush NetworkTables
         if self._ntFlushEnabled:
             self._networkTableInstanceDefault.flushLocal()
 
         # Warn on loop time overruns
-        if self._watchdog.isExpired():
-            self._watchdog.printEpochs()
+        if self.watchdog.isExpired():
+            self.printWatchdogEpochs()
 
-    def printLoopOverrunMessages(self):
+    def printLoopOverrunMessage(self):
         reportWarning(
             f"Loop time of {self._periodS}s overrun\n", False
         )
+        print("IN printLoopOverrunMessage\n\n", flush=True)
 
     def printWatchdogEpochs(self):
-        self._watchdog.printEpochs()
+        self.watchdog.printEpochs()
