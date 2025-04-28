@@ -1,14 +1,31 @@
 from enum import Enum
 
-from hal import report, tResourceType, tInstances, observeUserProgramDisabled, \
-    observeUserProgramTest, observeUserProgramAutonomous, \
-    observeUserProgramTeleop, simPeriodicBefore, simPeriodicAfter
+from hal import (
+    report,
+    tResourceType,
+    tInstances,
+    observeUserProgramDisabled,
+    observeUserProgramTest,
+    observeUserProgramAutonomous,
+    observeUserProgramTeleop,
+    simPeriodicBefore,
+    simPeriodicAfter,
+)
 from ntcore import NetworkTableInstance
-from wpilib import DriverStation, DSControlWord, Watchdog, LiveWindow, RobotBase, SmartDashboard, reportWarning
+from wpilib import (
+    DriverStation,
+    DSControlWord,
+    Watchdog,
+    LiveWindow,
+    RobotBase,
+    SmartDashboard,
+    reportWarning,
+)
 from wpilib.shuffleboard import Shuffleboard
 
 _kResourceType_SmartDashboard = tResourceType.kResourceType_SmartDashboard
 _kSmartDashboard_LiveWindow = tInstances.kSmartDashboard_LiveWindow
+
 
 class IterativeRobotMode(Enum):
     kNone = 0
@@ -16,6 +33,7 @@ class IterativeRobotMode(Enum):
     kAutonomous = 2
     kTeleop = 3
     kTest = 4
+
 
 class IterativeRobotPy(RobotBase):
 
@@ -78,33 +96,33 @@ class IterativeRobotPy(RobotBase):
             print(f"Default autonomousPeriodic() method...Override me!")
             self._autonomousPeriodicHasRun = True
 
-    def teleopPeriodic(self)->None:
+    def teleopPeriodic(self) -> None:
         if not self._teleopPeriodicHasRun:
             print(f"Default teleopPeriodic() method...Override me!")
             self._teleopPeriodicHasRun = True
 
-    def testPeriodic(self)->None:
+    def testPeriodic(self) -> None:
         if not self._testPeriodicHasRun:
             print(f"Default testPeriodic() method...Override me!")
             self._teleopPeriodicHasRun = True
 
-    def disabledExit(self)->None:
+    def disabledExit(self) -> None:
         pass
 
-    def autonomousExit(self)->None:
+    def autonomousExit(self) -> None:
         pass
 
-    def teleopExit(self)->None:
+    def teleopExit(self) -> None:
         pass
 
-    def testExit(self)->None:
+    def testExit(self) -> None:
         pass
 
     # todo @Deprecated(forRemoval=true, since="2025")
-    def setNetworkTablesFlushEnabled(self, enabled: bool)->None:
+    def setNetworkTablesFlushEnabled(self, enabled: bool) -> None:
         self._ntFlushEnabled = enabled
 
-    def enableLiveWindowInTest(self, testLW: bool)->None:
+    def enableLiveWindowInTest(self, testLW: bool) -> None:
         if self.isTestEnabled():
             raise RuntimeError("Can't configure test mode while in test mode!")
         if not self._reportedLw and testLW:
@@ -118,7 +136,7 @@ class IterativeRobotPy(RobotBase):
     def getPeriod(self) -> float:
         return self._periodS
 
-    def loopFunc(self)->None:
+    def loopFunc(self) -> None:
         DriverStation.refreshData()
         self.watchdog.reset()
 
@@ -248,10 +266,8 @@ class IterativeRobotPy(RobotBase):
         if self.watchdog.isExpired():
             self.printWatchdogEpochs()
 
-    def printLoopOverrunMessage(self)->None:
-        reportWarning(
-            f"Loop time of {self.watchdog.getTimeout()}s overrun", False
-        )
+    def printLoopOverrunMessage(self) -> None:
+        reportWarning(f"Loop time of {self.watchdog.getTimeout()}s overrun", False)
 
-    def printWatchdogEpochs(self)->None:
+    def printWatchdogEpochs(self) -> None:
         self.watchdog.printEpochs()

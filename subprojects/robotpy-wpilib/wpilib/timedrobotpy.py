@@ -1,7 +1,16 @@
 from typing import Any, Callable, Iterable
 from heapq import heappush, heappop
-from hal import report, initializeNotifier, setNotifierName, observeUserProgramStarting, updateNotifierAlarm, \
-    waitForNotifierAlarm, stopNotifier, tResourceType, tInstances
+from hal import (
+    report,
+    initializeNotifier,
+    setNotifierName,
+    observeUserProgramStarting,
+    updateNotifierAlarm,
+    waitForNotifierAlarm,
+    stopNotifier,
+    tResourceType,
+    tInstances,
+)
 from wpilib import RobotController
 
 from .iterativerobotpy import IterativeRobotPy
@@ -10,27 +19,24 @@ _getFPGATime = RobotController.getFPGATime
 _kResourceType_Framework = tResourceType.kResourceType_Framework
 _kFramework_Timed = tInstances.kFramework_Timed
 
+
 class _Callback:
-    def __init__(self, func: Callable[[],None], periodUs: int, expirationUs: int):
+    def __init__(self, func: Callable[[], None], periodUs: int, expirationUs: int):
         self.func = func
         self._periodUs = periodUs
         self.expirationUs = expirationUs
 
     @classmethod
-    def makeCallBack(cls,
-                     func: Callable[[],None],
-                     startTimeUs: int,
-                     periodUs: int,
-                     offsetUs: int) -> "_Callback":
+    def makeCallBack(
+        cls, func: Callable[[], None], startTimeUs: int, periodUs: int, offsetUs: int
+    ) -> "_Callback":
 
-        callback = _Callback(
-            func=func,
-            periodUs=periodUs,
-            expirationUs=startTimeUs
-        )
+        callback = _Callback(func=func, periodUs=periodUs, expirationUs=startTimeUs)
 
         currentTimeUs = _getFPGATime()
-        callback.expirationUs = offsetUs + callback.calcFutureExpirationUs(currentTimeUs)
+        callback.expirationUs = offsetUs + callback.calcFutureExpirationUs(
+            currentTimeUs
+        )
         return callback
 
     def calcFutureExpirationUs(self, currentTimeUs: int) -> int:
@@ -40,8 +46,11 @@ class _Callback:
         # callback wouldn't be running otherwise.
         # todo does this math work?
         # todo does the "// periodUs * periodUs" do the correct integer math?
-        return self.expirationUs + self._periodUs + \
-            ((currentTimeUs - self.expirationUs) // self._periodUs) * self._periodUs
+        return (
+            self.expirationUs
+            + self._periodUs
+            + ((currentTimeUs - self.expirationUs) // self._periodUs) * self._periodUs
+        )
 
     def setNextStartTimeUs(self, currentTimeUs: int) -> None:
         self.expirationUs = self.calcFutureExpirationUs(currentTimeUs)
@@ -63,7 +72,7 @@ class _OrderedList:
     def pop(self) -> Any:
         return heappop(self._data)
 
-    def peek(self) -> Any|None:
+    def peek(self) -> Any | None:
         if self._data:
             return self._data[0]
         else:
@@ -94,7 +103,9 @@ class TimedRobotPy(IterativeRobotPy):
 
         self._notifier, status = initializeNotifier()
         if status != 0:
-            raise RuntimeError(f"initializeNotifier() returned {self._notifier}, {status}")
+            raise RuntimeError(
+                f"initializeNotifier() returned {self._notifier}, {status}"
+            )
 
         status = setNotifierName(self._notifier, "TimedRobot")
         if status != 0:
@@ -126,7 +137,9 @@ class TimedRobotPy(IterativeRobotPy):
 
             currentTimeUs, status = waitForNotifierAlarm(self._notifier)
             if status != 0:
-                raise RuntimeError(f"waitForNotifierAlarm() returned currentTimeUs={currentTimeUs} status={status}")
+                raise RuntimeError(
+                    f"waitForNotifierAlarm() returned currentTimeUs={currentTimeUs} status={status}"
+                )
 
             if currentTimeUs == 0:
                 # when HAL_StopNotifier(self.notifier) is called the above waitForNotifierAlarm
@@ -142,7 +155,9 @@ class TimedRobotPy(IterativeRobotPy):
                 callback = self._callbacks.pop()
                 self._runCallbackAndReschedule(callback, currentTimeUs)
 
-    def _runCallbackAndReschedule(self, callback: Callable[[],None], currentTimeUs: int) -> None:
+    def _runCallbackAndReschedule(
+        self, callback: Callable[[], None], currentTimeUs: int
+    ) -> None:
         callback.func()
         callback.setNextStartTimeUs(currentTimeUs)
         self._callbacks.add(callback)
@@ -151,16 +166,16 @@ class TimedRobotPy(IterativeRobotPy):
         stopNotifier(self._notifier)
 
     def getLoopStartTime(self) -> float:
-        return self.loopStartTimeUs/1e6  # units are seconds
+        return self.loopStartTimeUs / 1e6  # units are seconds
 
-    def addPeriodic(self,
-                    callback: Callable[[],None],
-                    period: float, # units are seconds
-                    offset: float = 0.0 # units are seconds
-                    ) -> None:
+    def addPeriodic(
+        self,
+        callback: Callable[[], None],
+        period: float,  # units are seconds
+        offset: float = 0.0,  # units are seconds
+    ) -> None:
         self._callbacks.add(
             _Callback.makeCallBack(
-                callback,
-                self._startTimeUs, int(period * 1e6), int(offset * 1e6)
+                callback, self._startTimeUs, int(period * 1e6), int(offset * 1e6)
             )
         )
