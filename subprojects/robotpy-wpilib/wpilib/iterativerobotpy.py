@@ -37,74 +37,74 @@ class IterativeRobotPy(RobotBase):
         self._teleopPeriodicHasRun: bool = False
         self._testPeriodicHasRun: bool = False
 
-    def robotInit(self):
+    def robotInit(self) -> None:
         pass
 
-    def driverStationConnected(self):
+    def driverStationConnected(self) -> None:
         pass
 
-    def simulationInit(self):
+    def simulationInit(self) -> None:
         pass
 
-    def disabledInit(self):
+    def disabledInit(self) -> None:
         pass
 
-    def autonomousInit(self):
+    def autonomousInit(self) -> None:
         pass
 
-    def teleopInit(self):
+    def teleopInit(self) -> None:
         pass
 
-    def testInit(self):
+    def testInit(self) -> None:
         pass
 
-    def robotPeriodic(self):
+    def robotPeriodic(self) -> None:
         if not self._robotPeriodicHasRun:
             print(f"Default RobotPeriodic() method...Override me!")
             self._robotPeriodicHasRun = True
 
-    def simulationPeriodic(self):
+    def simulationPeriodic(self) -> None:
         if not self._simulationPeriodicHasRun:
             print(f"Default simulationPeriodic() method...Override me!")
             self._simulationPeriodicHasRun = True
 
-    def disabledPeriodic(self):
+    def disabledPeriodic(self) -> None:
         if not self._disabledPeriodicHasRun:
             print(f"Default disabledPeriodic() method...Override me!")
             self._disabledPeriodicHasRun = True
 
-    def autonomousPeriodic(self):
+    def autonomousPeriodic(self) -> None:
         if not self._autonomousPeriodicHasRun:
             print(f"Default autonomousPeriodic() method...Override me!")
             self._autonomousPeriodicHasRun = True
 
-    def teleopPeriodic(self):
+    def teleopPeriodic(self)->None:
         if not self._teleopPeriodicHasRun:
             print(f"Default teleopPeriodic() method...Override me!")
             self._teleopPeriodicHasRun = True
 
-    def testPeriodic(self):
+    def testPeriodic(self)->None:
         if not self._testPeriodicHasRun:
             print(f"Default testPeriodic() method...Override me!")
             self._teleopPeriodicHasRun = True
 
-    def disabledExit(self):
+    def disabledExit(self)->None:
         pass
 
-    def autonomousExit(self):
+    def autonomousExit(self)->None:
         pass
 
-    def teleopExit(self):
+    def teleopExit(self)->None:
         pass
 
-    def testExit(self):
+    def testExit(self)->None:
         pass
 
     # todo @Deprecated(forRemoval=true, since="2025")
-    def setNetworkTablesFlushEnabled(self, enabled: bool):
+    def setNetworkTablesFlushEnabled(self, enabled: bool)->None:
         self._ntFlushEnabled = enabled
 
-    def enableLiveWindowInTest(self, testLW: bool):
+    def enableLiveWindowInTest(self, testLW: bool)->None:
         if self.isTestEnabled():
             raise RuntimeError("Can't configure test mode while in test mode!")
         if not self._reportedLw and testLW:
@@ -118,7 +118,7 @@ class IterativeRobotPy(RobotBase):
     def getPeriod(self) -> float:
         return self._periodS
 
-    def loopFunc(self):
+    def loopFunc(self)->None:
         DriverStation.refreshData()
         self.watchdog.reset()
 
@@ -248,10 +248,10 @@ class IterativeRobotPy(RobotBase):
         if self.watchdog.isExpired():
             self.printWatchdogEpochs()
 
-    def printLoopOverrunMessage(self):
+    def printLoopOverrunMessage(self)->None:
         reportWarning(
             f"Loop time of {self.watchdog.getTimeout()}s overrun", False
         )
 
-    def printWatchdogEpochs(self):
+    def printWatchdogEpochs(self)->None:
         self.watchdog.printEpochs()
