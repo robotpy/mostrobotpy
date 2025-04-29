@@ -1,4 +1,4 @@
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, ClassVar
 from heapq import heappush, heappop
 from hal import (
     report,
@@ -12,6 +12,7 @@ from hal import (
     tInstances,
 )
 from wpilib import RobotController
+import wpimath.units
 
 from .iterativerobotpy import IterativeRobotPy
 
@@ -19,16 +20,27 @@ _getFPGATime = RobotController.getFPGATime
 _kResourceType_Framework = tResourceType.kResourceType_Framework
 _kFramework_Timed = tInstances.kFramework_Timed
 
+microsecondsAsInt = int
+
 
 class _Callback:
-    def __init__(self, func: Callable[[], None], periodUs: int, expirationUs: int):
+    def __init__(
+        self,
+        func: Callable[[], None],
+        periodUs: microsecondsAsInt,
+        expirationUs: microsecondsAsInt,
+    ) -> None:
         self.func = func
         self._periodUs = periodUs
         self.expirationUs = expirationUs
 
     @classmethod
     def makeCallBack(
-        cls, func: Callable[[], None], startTimeUs: int, periodUs: int, offsetUs: int
+        cls,
+        func: Callable[[], None],
+        startTimeUs: microsecondsAsInt,
+        periodUs: microsecondsAsInt,
+        offsetUs: microsecondsAsInt,
     ) -> "_Callback":
 
         callback = _Callback(func=func, periodUs=periodUs, expirationUs=startTimeUs)
@@ -39,7 +51,9 @@ class _Callback:
         )
         return callback
 
-    def calcFutureExpirationUs(self, currentTimeUs: int) -> int:
+    def calcFutureExpirationUs(
+        self, currentTimeUs: microsecondsAsInt
+    ) -> microsecondsAsInt:
         # increment the expiration time by the number of full periods it's behind
         # plus one to avoid rapid repeat fires from a large loop overrun. We assume
         # currentTime ≥ startTimeUs rather than checking for it since the
@@ -52,7 +66,7 @@ class _Callback:
             + ((currentTimeUs - self.expirationUs) // self._periodUs) * self._periodUs
         )
 
-    def setNextStartTimeUs(self, currentTimeUs: int) -> None:
+    def setNextStartTimeUs(self, currentTimeUs: microsecondsAsInt) -> None:
         self.expirationUs = self.calcFutureExpirationUs(currentTimeUs)
 
     def __lt__(self, other) -> bool:
@@ -63,7 +77,7 @@ class _Callback:
 
 
 class _OrderedList:
-    def __init__(self):
+    def __init__(self) -> None:
         self._data: list[Any] = []
 
     def add(self, item: Any) -> None:
@@ -91,15 +105,34 @@ class _OrderedList:
         return str(sorted(self._data))
 
 
+# todo what should the name of this class be?
 class TimedRobotPy(IterativeRobotPy):
+    """
+    TimedRobotPy implements the IterativeRobotBase robot program framework.
 
-    def __init__(self, period: float = 0.020):
+    The TimedRobotPy class is intended to be subclassed by a user creating a
+    robot program.
+
+    Periodic() functions from the base class are called on an interval by a
+    Notifier instance.
+    """
+
+    kDefaultPeriod: ClassVar[float] = (
+        0.020  # todo this is a change to keep consistent units in the API
+    )
+
+    def __init__(self, period: wpimath.units.seconds = kDefaultPeriod) -> None:
+        """
+        Constructor for TimedRobotPy.
+
+        :param period: period of the main robot periodic loop in seconds.
+        """
         super().__init__(period)
 
         self._startTimeUs = _getFPGATime()
         self._callbacks = _OrderedList()
         self.loopStartTimeUs = 0
-        self.addPeriodic(self.loopFunc, period=period)
+        self.addPeriodic(self._loopFunc, period=self._periodS)
 
         self._notifier, status = initializeNotifier()
         if status != 0:
@@ -107,13 +140,16 @@ class TimedRobotPy(IterativeRobotPy):
                 f"initializeNotifier() returned {self._notifier}, {status}"
             )
 
-        status = setNotifierName(self._notifier, "TimedRobot")
+        status = setNotifierName(self._notifier, "TimedRobotPy")
         if status != 0:
             raise RuntimeError(f"setNotifierName() returned {status}")
 
         report(_kResourceType_Framework, _kFramework_Timed)
 
     def startCompetition(self) -> None:
+        """
+        Provide an alternate "main loop" via startCompetition().
+        """
         self.robotInit()
 
         if self.isSimulation():
@@ -144,7 +180,7 @@ class TimedRobotPy(IterativeRobotPy):
             if currentTimeUs == 0:
                 # when HAL_StopNotifier(self.notifier) is called the above waitForNotifierAlarm
                 # will return a currentTimeUs==0 and the API requires robots to stop any loops.
-                # See the api for waitForNotifierAlarm
+                # See the API for waitForNotifierAlarm
                 break
 
             self.loopStartTimeUs = _getFPGATime()
@@ -156,24 +192,54 @@ class TimedRobotPy(IterativeRobotPy):
                 self._runCallbackAndReschedule(callback, currentTimeUs)
 
     def _runCallbackAndReschedule(
-        self, callback: Callable[[], None], currentTimeUs: int
+        self, callback: _Callback, currentTimeUs: microsecondsAsInt
     ) -> None:
         callback.func()
         callback.setNextStartTimeUs(currentTimeUs)
         self._callbacks.add(callback)
 
     def endCompetition(self) -> None:
+        """
+        Ends the main loop in startCompetition().
+        """
         stopNotifier(self._notifier)
 
-    def getLoopStartTime(self) -> float:
+    def getLoopStartTime(self) -> wpimath.units.seconds:
+        """
+        todo was     def getLoopStartTime(self) -> int: (Microseconds)
+        todo this show be wpimath.units.seconds
+        Return the system clock time in seconds (todo was microseconds)
+        for the start of the current
+        periodic loop. This is in the same time base as Timer.GetFPGATimestamp(),
+        but is stable through a loop. It is updated at the beginning of every
+        periodic callback (including the normal periodic loop).
+
+        :returns: Robot running time in seconds (todo was microseconds),
+                  as of the start of the current
+                  periodic function.
+        """
+
         return self.loopStartTimeUs / 1e6  # units are seconds
 
     def addPeriodic(
         self,
         callback: Callable[[], None],
-        period: float,  # units are seconds
-        offset: float = 0.0,  # units are seconds
+        period: wpimath.units.seconds,
+        offset: wpimath.units.seconds = 0.0,
     ) -> None:
+        """
+        Add a callback to run at a specific period with a starting time offset.
+
+        This is scheduled on TimedRobotPy's Notifier, so TimedRobotPy and the callback
+        run synchronously. Interactions between them are thread-safe.
+
+        :param callback: The callback to run.
+        :param period:   The period at which to run the callback.
+        :param offset:   The offset from the common starting time. This is useful
+                         for scheduling a callback in a different timeslot relative
+                         to TimedRobotPy.
+        """
+
         self._callbacks.add(
             _Callback.makeCallBack(
                 callback, self._startTimeUs, int(period * 1e6), int(offset * 1e6)
