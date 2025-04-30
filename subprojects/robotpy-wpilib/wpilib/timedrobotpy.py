@@ -55,16 +55,29 @@ class _Callback:
         self, currentTimeUs: microsecondsAsInt
     ) -> microsecondsAsInt:
         # increment the expiration time by the number of full periods it's behind
-        # plus one to avoid rapid repeat fires from a large loop overrun. We assume
-        # currentTime ≥ startTimeUs rather than checking for it since the
+        # plus one to avoid rapid repeat fires from a large loop overrun.
+        #
+        # This routine is called when either:
+        #   this callback has never ran and self.expirationUs is
+        #   TimedRobot._starttimeUs and we are calculating where the first
+        #   expiration should be relative to TimedRobot._starttimeUs
+        # or:
+        #   this call back has ran and self.expirationUs is when it was scheduled to
+        #   expire and we are calculating when the next expirations should be relative
+        #   to the last scheduled expiration
+        #
+        # We assume currentTime ≥ self.expirationUs rather than checking for it since the
         # callback wouldn't be running otherwise.
-        # todo does this math work?
-        # todo does the "// periodUs * periodUs" do the correct integer math?
-        return (
-            self.expirationUs
-            + self._periodUs
+        #
+        # We take when we previously expired or when we started: self.expirationUs
+        # add + self._periodUs to get at least one period in the future
+        # then calculate how many whole periods we are behind:
+        #   ((currentTimeUs - self.expirationUs) // self._periodUs)
+        # and multiply that by self._periodUs to calculate how much time in full
+        # periods we need to skip to catch up, and add that to the sum to calculate
+        # when we should run again.
+        return self.expirationUs + self._periodUs \
             + ((currentTimeUs - self.expirationUs) // self._periodUs) * self._periodUs
-        )
 
     def setNextStartTimeUs(self, currentTimeUs: microsecondsAsInt) -> None:
         self.expirationUs = self.calcFutureExpirationUs(currentTimeUs)
@@ -129,6 +142,8 @@ class TimedRobotPy(IterativeRobotPy):
         """
         super().__init__(period)
 
+        # All periodic functions created by addPeriodic are relative
+        # to this self._startTimeUs
         self._startTimeUs = _getFPGATime()
         self._callbacks = _OrderedList()
         self._loopStartTimeUs = 0
