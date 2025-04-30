@@ -153,7 +153,7 @@ class TimedRobotPy(IterativeRobotPy):
         self.robotInit()
 
         if self.isSimulation():
-            self.simulationInit()
+            self._simulationInit()
 
         # Tell the DS that the robot is ready to be enabled
         print("********** Robot program startup complete **********")

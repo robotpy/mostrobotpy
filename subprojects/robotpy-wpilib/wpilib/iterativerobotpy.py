@@ -124,7 +124,7 @@ class IterativeRobotPy(RobotBase):
         """
         pass
 
-    def simulationInit(self) -> None:
+    def _simulationInit(self) -> None:
         """
         Robot-wide simulation initialization code should go here.
 
