@@ -131,7 +131,7 @@ class TimedRobotPy(IterativeRobotPy):
 
         self._startTimeUs = _getFPGATime()
         self._callbacks = _OrderedList()
-        self.loopStartTimeUs = 0
+        self._loopStartTimeUs = 0
         self.addPeriodic(self._loopFunc, period=self._periodS)
 
         self._notifier, status = initializeNotifier()
@@ -183,7 +183,7 @@ class TimedRobotPy(IterativeRobotPy):
                 # See the API for waitForNotifierAlarm
                 break
 
-            self.loopStartTimeUs = _getFPGATime()
+            self._loopStartTimeUs = _getFPGATime()
             self._runCallbackAndReschedule(callback, currentTimeUs)
 
             #  Process all other callbacks that are ready to run
@@ -204,22 +204,20 @@ class TimedRobotPy(IterativeRobotPy):
         """
         stopNotifier(self._notifier)
 
-    def getLoopStartTime(self) -> wpimath.units.seconds:
+    def getLoopStartTime(self) -> microsecondsAsInt:
         """
-        todo was     def getLoopStartTime(self) -> int: (Microseconds)
-        todo this show be wpimath.units.seconds
-        Return the system clock time in seconds (todo was microseconds)
+        Return the system clock time in microseconds
         for the start of the current
-        periodic loop. This is in the same time base as Timer.GetFPGATimestamp(),
+        periodic loop. This is in the same time base as Timer.getFPGATimestamp(),
         but is stable through a loop. It is updated at the beginning of every
         periodic callback (including the normal periodic loop).
 
-        :returns: Robot running time in seconds (todo was microseconds),
+        :returns: Robot running time in microseconds,
                   as of the start of the current
                   periodic function.
         """
 
-        return self.loopStartTimeUs / 1e6  # units are seconds
+        return self._loopStartTimeUs
 
     def addPeriodic(
         self,
