@@ -48,6 +48,13 @@ templates:
     - 2
     - 1
     - 1 
+  KalmanFilter_2_1_2:    
+    qualname: frc::KalmanFilter
+    subpackage: estimator
+    params:
+    - 2
+    - 1
+    - 2
   KalmanFilter_2_2_2:
     qualname: frc::KalmanFilter
     subpackage: estimator
