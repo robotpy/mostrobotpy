@@ -403,6 +403,23 @@ class IterativeRobotPy(RobotBase):
             self._lastMode = self._mode
 
         # Call the appropriate function depending upon the current robot mode
+        if self._mode is IterativeRobotMode.kDisabled:
+            observeUserProgramDisabled()
+            self.disabledPeriodic()
+            self.watchdog.addEpoch("disabledPeriodic()")
+        elif self._mode is IterativeRobotMode.kAutonomous:
+            observeUserProgramAutonomous()
+            self.autonomousPeriodic()
+            self.watchdog.addEpoch("autonomousPeriodic()")
+        elif self._mode is IterativeRobotMode.kTeleop:
+            observeUserProgramTeleop()
+            self.teleopPeriodic()
+            self.watchdog.addEpoch("teleopPeriodic()")
+        elif self._mode is IterativeRobotMode.kTest:
+            observeUserProgramTest()
+            self.testPeriodic()
+            self.watchdog.addEpoch("testPeriodic()")
+        """
         match self._mode:
             case IterativeRobotMode.kDisabled:
                 observeUserProgramDisabled()
@@ -420,6 +437,7 @@ class IterativeRobotPy(RobotBase):
                 observeUserProgramTest()
                 self.testPeriodic()
                 self.watchdog.addEpoch("testPeriodic()")
+        """
 
         self.robotPeriodic()
         self.watchdog.addEpoch("robotPeriodic()")
