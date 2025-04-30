@@ -183,8 +183,7 @@ class IterativeRobotPy(RobotBase):
             print(f"Default robotPeriodic() method...Override me!")
             self._robotPeriodicHasRun = True
 
-    # todo why is this _simulationPeriodic in previous code? Can it be simulationPeriodic and still work?
-    def simulationPeriodic(self) -> None:
+    def _simulationPeriodic(self) -> None:
         """
         Periodic simulation code should go here.
 
@@ -443,19 +442,19 @@ class IterativeRobotPy(RobotBase):
         self.watchdog.addEpoch("robotPeriodic()")
 
         SmartDashboard.updateValues()
-        self.watchdog.addEpoch("SmartDashboard::UpdateValues()")
+        self.watchdog.addEpoch("SmartDashboard.updateValues()")
 
         LiveWindow.updateValues()
-        self.watchdog.addEpoch("LiveWindow::UpdateValues()")
+        self.watchdog.addEpoch("LiveWindow.updateValues()")
 
         Shuffleboard.update()
-        self.watchdog.addEpoch("Shuffleboard::Update()")
+        self.watchdog.addEpoch("Shuffleboard.update()")
 
         if self.isSimulation():
             simPeriodicBefore()
-            self.simulationPeriodic()
+            self._simulationPeriodic()
             simPeriodicAfter()
-            self.watchdog.addEpoch("SimulationPeriodic()")
+            self.watchdog.addEpoch("_simulationPeriodic()")
 
         self.watchdog.disable()
 
