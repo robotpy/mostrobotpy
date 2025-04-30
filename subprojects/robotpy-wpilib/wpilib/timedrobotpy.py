@@ -86,7 +86,7 @@ class _OrderedList:
     def pop(self) -> Any:
         return heappop(self._data)
 
-    def peek(self) -> Any | None:
+    def peek(self) -> Any: # todo change to Any | None when we don't build with python 3.9
         if self._data:
             return self._data[0]
         else:
