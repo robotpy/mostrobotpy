@@ -76,8 +76,11 @@ class _Callback:
         # and multiply that by self._periodUs to calculate how much time in full
         # periods we need to skip to catch up, and add that to the sum to calculate
         # when we should run again.
-        return self.expirationUs + self._periodUs \
+        return (
+            self.expirationUs
+            + self._periodUs
             + ((currentTimeUs - self.expirationUs) // self._periodUs) * self._periodUs
+        )
 
     def setNextStartTimeUs(self, currentTimeUs: microsecondsAsInt) -> None:
         self.expirationUs = self.calcFutureExpirationUs(currentTimeUs)
@@ -99,7 +102,9 @@ class _OrderedList:
     def pop(self) -> Any:
         return heappop(self._data)
 
-    def peek(self) -> Any: # todo change to Any | None when we don't build with python 3.9
+    def peek(
+        self,
+    ) -> Any:  # todo change to Any | None when we don't build with python 3.9
         if self._data:
             return self._data[0]
         else:
