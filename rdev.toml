@@ -15,6 +15,13 @@ exclude_artifacts = [
 
 robotpy_build_req = "~=2025.1.0"
 
+[params.requirements]
+# semiwrap = "TODO"
+hatch-meson = "0.1"
+hatch-nativelib = "~=0.1"
+hatch-robotpy = "~=0.1"
+
+
 #
 # Subproject configuration
 #
@@ -24,6 +31,37 @@ robotpy_build_req = "~=2025.1.0"
 #
 # Beta releases are always YEAR.0.0bX[.postX]
 #
+
+# native projects use exact requirements
+[subprojects."native.wpiutil"]
+roborio = true
+
+[subprojects."native.wpinet"]
+roborio = true
+
+[subprojects."native.ntcore"]
+roborio = true
+
+[subprojects."native.wpihal"]
+roborio = true
+
+[subprojects."native.wpimath"]
+roborio = true
+
+# [subprojects."native.cscore"]
+# roborio = true
+
+[subprojects."native.apriltag"]
+roborio = true
+
+[subprojects."native.wpilib"]
+roborio = true
+
+[subprojects."native.romi"]
+roborio = false
+
+[subprojects."native.xrp"]
+roborio = false
 
 [subprojects."robotpy-wpiutil"]
 min_version = "2025.3.2"
@@ -45,9 +83,9 @@ roborio = true
 min_version = "2025.3.2"
 roborio = true
 
-[subprojects."robotpy-cscore"]
-min_version = "2025.3.2"
-roborio = true
+# [subprojects."robotpy-cscore"]
+# min_version = "2025.3.2"
+# roborio = true
 
 [subprojects."robotpy-apriltag"]
 min_version = "2025.3.2"

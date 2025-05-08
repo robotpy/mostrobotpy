@@ -1,6 +1,7 @@
 
 *.py[ciod]
 /dist
+/cache
 
 rpy-include
 py.typed

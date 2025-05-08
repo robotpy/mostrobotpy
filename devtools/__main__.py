@@ -1,4 +1,5 @@
 import os
+import pathlib
 import sys
 
 import click
@@ -11,8 +12,12 @@ from . import update_pyproject
 # Environment variables for configuring the builds
 #
 
-# Always run robotpy-build in parallel
-os.environ["RPYBUILD_PARALLEL"] = "1"
+# cache downloaded files by default
+if "HATCH_ROBOTPY_CACHE" not in os.environ:
+    os.environ["HATCH_ROBOTPY_CACHE"] = str(
+        (pathlib.Path(__file__).parent.parent / "cache").resolve()
+    )
+
 
 # MACOSX_DEPLOYMENT_TARGET is required for linking to WPILib
 if sys.platform == "darwin":
@@ -53,6 +58,23 @@ def develop(ctx: Context, package: str):
     else:
         for project in ctx.subprojects.values():
             project.develop()
+
+
+@main.command
+@click.argument("package", required=False)
+@click.pass_obj
+def uninstall(ctx: Context, package: str):
+    """Uninstall robotpy packages"""
+    if package:
+        for project in ctx.subprojects.values():
+            if project.name == package:
+                project.uninstall()
+                break
+        else:
+            raise click.BadParameter(f"invalid package {package}")
+    else:
+        for project in ctx.subprojects.values():
+            project.uninstall()
 
 
 @main.command()

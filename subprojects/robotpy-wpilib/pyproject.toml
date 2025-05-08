@@ -41,48 +41,50 @@ version-file = "wpilib/version.py"
 
 
 [tool.hatch.build.hooks.semiwrap]
-# update_init = [
-#     "wpilib",
-#     "wpilib.counter",
-#     "wpilib.drive",
-#     "wpilib.event",
-#     "wpilib.interfaces",
-#     "wpilib.shuffleboard",
-#     "wpilib.simulation",
-#     "wpilib.sysid wpilib._wpilib.sysid",
-# ]
-# scan_headers_ignore = [
-#     "WPILibVersion.h",
-
-#     # needs a python wrapper
-#     "frc/AsynchronousInterrupt.h",
-
-#     # Needs HAL object support, not sure if this is a good idea for python
-#     "frc/DMA.h",
-#     "frc/DMASample.h",
-
-#     "frc/Filesystem.h",
-#     "frc/Notifier.h", # wrapped separately
-#     "frc/Resource.h",
-#     "frc/ScopedTracer.h", # not useful for python
-
-#     "frc/motorcontrol/MotorControllerGroup.h", # wrapped separately
-
-#     # Not possible
-#     "frc/shuffleboard/RecordingController.h",
-#     "frc/shuffleboard/SendableCameraWrapper.h",
-
-#     "frc/smartdashboard/ListenerExecutor.h",    # internal detail
-
-#     # Internals
-#     "rpy/ControlWord.h",
-#     "rpy/SmartDashboardData.h",
-# ]
 
 [tool.hatch.build.hooks.meson]
 
 
 [tool.semiwrap]
+update_init = [
+    "wpilib",
+    "wpilib.counter",
+    "wpilib.drive",
+    "wpilib.event",
+    "wpilib.interfaces",
+    "wpilib.shuffleboard",
+    "wpilib.simulation",
+    "wpilib.sysid wpilib._wpilib.sysid",
+]
+scan_headers_ignore = [
+    "WPILibVersion.h",
+
+    # needs a python wrapper
+    "frc/AsynchronousInterrupt.h",
+
+    # Needs HAL object support, not sure if this is a good idea for python
+    "frc/DMA.h",
+    "frc/DMASample.h",
+
+    "frc/Filesystem.h",
+    "frc/Notifier.h", # wrapped separately
+    "frc/Resource.h",
+    "frc/ScopedTracer.h", # not useful for python
+
+    "frc/motorcontrol/MotorControllerGroup.h", # wrapped separately
+
+    # Not possible
+    "frc/shuffleboard/RecordingController.h",
+    "frc/shuffleboard/SendableCameraWrapper.h",
+
+    "frc/smartdashboard/ListenerExecutor.h",    # internal detail
+
+    # Internals
+    "rpy/ControlWord.h",
+    "rpy/SmartDashboardData.h",
+    "ShuffleboardData.h",
+]
+
 [tool.semiwrap.extension_modules."wpilib._wpilib"]
 name = "wpilib"
 wraps = ["native.wpilib"]

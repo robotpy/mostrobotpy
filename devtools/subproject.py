@@ -26,9 +26,7 @@ class Subproject:
             Requirement(req) for req in self.pyproject_data["build-system"]["requires"]
         ]
 
-        self.pyproject_name: str = self.pyproject_data["tool"]["robotpy-build"][
-            "metadata"
-        ]["name"]
+        self.pyproject_name: str = self.pyproject_data["project"]["name"]
 
     #
     # Tasks
@@ -37,6 +35,9 @@ class Subproject:
     def _cmd(self, *args: str, cwd=None):
         print("+", shlex.join(args))
         subprocess.check_call(args, cwd=cwd)
+
+    def _run_pip(self, *args: str, cwd=None):
+        self._cmd(sys.executable, "-m", "pip",  "--disable-pip-version-check", *args, cwd=cwd)
 
     def install_build_deps(self, *, wheel_path: pathlib.Path):
         self._cmd(
@@ -51,13 +52,10 @@ class Subproject:
         )
 
     def develop(self):
-        self._cmd(
-            sys.executable,
-            "setup.py",
-            "develop",
-            "-N",
-            cwd=self.path,
-        )
+        self._run_pip("install", "-v", "-e", ".", "--no-build-isolation", cwd=self.path)
+
+    def uninstall(self):
+        self._run_pip("uninstall", "-y", self.pyproject_name)
 
     def update_init(self):
         self._cmd(
@@ -69,6 +67,9 @@ class Subproject:
 
     def test(self, *, install_requirements=False):
         tests_path = self.path / "tests"
+        if not tests_path.exists():
+            return
+
         if install_requirements:
             requirements = tests_path / "requirements.txt"
             if requirements.exists():

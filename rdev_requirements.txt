@@ -1,12 +1,12 @@
 black
 click
 packaging
-pydantic<2,!=1.10.20
 pytest
 requests
-setuptools
-setuptools_scm >= 6.2, < 8
 tomlkit
 tomli
 toposort
+validobj~=1.2
 wheel
+
+semiwrap @ git+https://github.com/robotpy/robotpy-build@semiwrap

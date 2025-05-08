@@ -31,6 +31,10 @@ raw-options.root = "../.."
 version-file = "wpimath/version.py"
 
 [tool.hatch.build.hooks.semiwrap]
+
+[tool.hatch.build.hooks.meson]
+
+[tool.semiwrap]
 # update_init = [
 #     "wpimath",
 #     "wpimath.controller wpimath._controls._controls.controller",
@@ -45,53 +49,49 @@ version-file = "wpimath/version.py"
 #     "wpimath.trajectory.constraint wpimath._controls._controls.constraint",
 # ]
 
-# scan_headers_ignore = [
+scan_headers_ignore = [
     
-#     "frc/ct_matrix.h",
-#     "frc/DARE.h",
-#     "frc/EigenCore.h",
-#     "frc/StateSpaceUtil.h",
+    "frc/ct_matrix.h",
+    "frc/DARE.h",
+    "frc/EigenCore.h",
+    "frc/StateSpaceUtil.h",
 
-#     "frc/fmt/Eigen.h",
+    "frc/fmt/Eigen.h",
 
-#     "frc/estimator/AngleStatistics.h",
-#     "frc/estimator/KalmanFilterLatencyCompensator.h",
-#     "frc/estimator/MerweScaledSigmaPoints.h",
-#     "frc/estimator/SteadyStateKalmanFilter.h",
-#     "frc/estimator/UnscentedKalmanFilter.h",
-#     "frc/estimator/UnscentedTransform.h",
+    "frc/estimator/AngleStatistics.h",
+    "frc/estimator/KalmanFilterLatencyCompensator.h",
+    "frc/estimator/MerweScaledSigmaPoints.h",
+    "frc/estimator/SteadyStateKalmanFilter.h",
+    "frc/estimator/UnscentedKalmanFilter.h",
+    "frc/estimator/UnscentedTransform.h",
 
-#     "frc/system/Discretization.h",
-#     "frc/system/NumericalIntegration.h",
-#     "frc/system/NumericalJacobian.h",
+    "frc/system/Discretization.h",
+    "frc/system/NumericalIntegration.h",
+    "frc/system/NumericalJacobian.h",
 
-#     "frc/proto/*",
-#     "frc/*/proto/*",
+    "frc/proto/*",
+    "frc/*/proto/*",
     
-#     "frc/struct/*",
-#     "frc/*/struct/*",
+    "frc/struct/*",
+    "frc/*/struct/*",
     
-#     "[eE]igen/*",
+    "[eE]igen/*",
 
-#     "gcem.hpp",
-#     "gcem_incl/*",
+    "gcem.hpp",
+    "gcem_incl/*",
 
-#     "sleipnir/*",
-#     "type_casters/*",
-#     "unsupported/*",
-#     "units/*",
-#     "wpimath/protobuf/*",
+    "sleipnir/*",
+    "type_casters/*",
+    "unsupported/*",
+    "units/*",
+    "wpimath/protobuf/*",
 
-#     "wpimath/MathShared.h",
+    "wpimath/MathShared.h",
 
-#     "rpy/geometryToString.h",
-#     "PyTrajectoryConstraint.h",
-#     "_units_base_type_caster.h",
-# ]
-
-[tool.hatch.build.hooks.meson]
-
-[tool.semiwrap]
+    "rpy/geometryToString.h",
+    "PyTrajectoryConstraint.h",
+    "_units_base_type_caster.h",
+]
 
 [tool.semiwrap.export_type_casters.wpimath-casters]
 pypackage = "wpimath"
