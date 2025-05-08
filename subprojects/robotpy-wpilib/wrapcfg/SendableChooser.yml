@@ -41,4 +41,4 @@ templates:
   SendableChooser:
     qualname: frc::SendableChooser
     params:
-    - rpy::gilsafe_object
+    - semiwrap::gilsafe_object

@@ -2,7 +2,7 @@
 #pragma once
 
 #include <wpi/sendable/Sendable.h>
-#include <robotpy_build.h>
+#include <semiwrap.h>
 
 namespace rpy {
 

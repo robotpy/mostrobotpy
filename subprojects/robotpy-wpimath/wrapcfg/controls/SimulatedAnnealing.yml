@@ -15,4 +15,4 @@ templates:
     qualname: frc::SimulatedAnnealing
     subpackage: optimization
     params:
-    - rpy::gilsafe_object
+    - semiwrap::gilsafe_object
