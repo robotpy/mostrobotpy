@@ -121,7 +121,7 @@ Threads = "hal/Threads.h"
 # Value = "hal/Value.h"
 
 # hal/cpp
-SerialHelper = { header="hal/cpp/SerialHelper.h", enable_if="" }
+SerialHelper = { header="hal/cpp/SerialHelper.h", enable_if="platform_machine == 'roborio'" }
 # UnsafeDIO = "hal/cpp/UnsafeDIO.h"
 # fpga_clock = "hal/cpp/fpga_clock.h"
 
@@ -137,9 +137,6 @@ HandlesInternal = "hal/handles/HandlesInternal.h"
 # hal/roborio
 # HMB = "hal/roborio/HMB.h"
 # InterruptManager = "hal/roborio/InterruptManager.h"
-
-[tool.semiwrap.extension_modules."hal._wpiHal".headers.override.platform_linux_athena]
-SerialHelper = "hal/cpp/SerialHelper.h"
 
 
 [tool.semiwrap.extension_modules."hal.simulation._simulation"]
