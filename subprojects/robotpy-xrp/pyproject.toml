@@ -50,6 +50,8 @@ packages = ["xrp"]
 
 
 [tool.semiwrap]
+update_init = ["xrp"]
+
 [tool.semiwrap.extension_modules."xrp._xrp"]
 name = "xrp"
 wraps = ["native.xrp"]
