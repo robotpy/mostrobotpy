@@ -34,24 +34,27 @@ version-file = "ntcore/version.py"
 
 
 [tool.hatch.build.hooks.semiwrap]
-# update_init = [
-#     "ntcore",
-#     "ntcore.meta ntcore._ntcore.meta"
-# ]
-# scan_headers_ignore = [
-#     "networktables/ProtobufTopic.h",
-#     "networktables/UnitTopic.h",
-
-#     "ntcore.h",
-#     "ntcore_c.h",
-#     "ntcore_c_types.h",
-#     "ntcore_test.h",
-# ]
 
 [tool.hatch.build.hooks.meson]
 
 
 [tool.semiwrap]
+update_init = [
+    "ntcore",
+    "ntcore.meta ntcore._ntcore.meta"
+]
+scan_headers_ignore = [
+    "networktables/ProtobufTopic.h",
+    "networktables/UnitTopic.h",
+
+    "ntcore.h",
+    "ntcore_c.h",
+    "ntcore_c_types.h",
+    "ntcore_test.h",
+
+    "src/*",
+]
+
 [tool.semiwrap.extension_modules."ntcore._ntcore"]
 name = "ntcore"
 wraps = ["native.ntcore"]
