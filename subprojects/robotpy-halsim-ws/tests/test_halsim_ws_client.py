@@ -1,6 +1,18 @@
-# tests the internals
-import halsim_ws.client._init_client
+import ctypes
+import pathlib
 
 
 def test_halsim_ws_client():
-    pass
+    # dependencies
+    import wpinet
+    import hal
+
+    import halsim_ws.client as base
+
+    loaded = 0
+    for fname in (pathlib.Path(base.__file__).parent / "lib").iterdir():
+        if fname.is_file() and fname.suffix in (".dll", ".dylib", ".so"):
+            ctypes.CDLL(fname)
+            loaded += 1
+    
+    assert loaded
