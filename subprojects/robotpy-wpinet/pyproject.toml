@@ -31,17 +31,18 @@ version-file = "wpinet/version.py"
 
 
 [tool.hatch.build.hooks.semiwrap]
-# update_init = [
-#     "wpinet"
-# ]
-# we don't wrap anything here
-# scan_headers_ignore = ["*"]
 
 [tool.hatch.build.hooks.meson]
 
 
 
 [tool.semiwrap]
+update_init = [
+    "wpinet"
+]
+# we don't wrap anything here
+scan_headers_ignore = ["*"]
+
 [tool.semiwrap.extension_modules."wpinet._wpinet"]
 name = "wpinet"
 wraps = ["native.wpinet"]
