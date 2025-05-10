@@ -39,6 +39,7 @@ scan_headers_ignore = [
     "hal/DMA.h",
     "hal/Errors.h",
     "hal/HAL.h",
+    "hal/UsageReporting.h",
     "hal/Types.h",
     "hal/Value.h",
 
@@ -63,8 +64,8 @@ scan_headers_ignore = [
     "hal/simulation/SimCallbackRegistry.h",
     "hal/simulation/SimDataValue.h",
 
-    "simulation/sim_cb.h",
-    "simulation/sim_value_cb.h",  
+    "sim_cb.h",
+    "sim_value_cb.h",
 ]
 
 [tool.semiwrap.extension_modules."hal._wpiHal"]
