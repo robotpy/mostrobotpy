@@ -31,27 +31,28 @@ raw-options.root = "../.."
 version-file = "robotpy_apriltag/version.py"
 
 [tool.hatch.build.hooks.semiwrap]
-# update_init = [
-#   "robotpy_apriltag robotpy_apriltag._apriltag"
-# ]
-# scan_headers_ignore = [
-#   "common/*",
-#   "test/*",
-
-#   "apriltag.h",
-#   "apriltag_math.h",
-#   "apriltag_pose.h",
-
-#   "frc/apriltag/AprilTagDetector_cv.h",
-
-#   "tag16h5.h",
-#   "tag36h11.h",
-# ]
 
 [tool.hatch.build.hooks.meson]
 
 
 [tool.semiwrap]
+update_init = [
+  "robotpy_apriltag robotpy_apriltag._apriltag"
+]
+scan_headers_ignore = [
+  "common/*",
+  "test/*",
+
+  "apriltag.h",
+  "apriltag_math.h",
+  "apriltag_pose.h",
+
+  "frc/apriltag/AprilTagDetector_cv.h",
+
+  "tag16h5.h",
+  "tag36h11.h",
+]
+
 [tool.semiwrap.extension_modules."robotpy_apriltag._apriltag"]
 name = "apriltag"
 wraps = ["native.apriltag"]
