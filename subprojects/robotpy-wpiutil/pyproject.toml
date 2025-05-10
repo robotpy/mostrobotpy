@@ -31,27 +31,30 @@ version-file = "wpiutil/version.py"
 
 
 [tool.hatch.build.hooks.semiwrap]
-# update_init = [
-#     "wpiutil",
-#     "wpiutil.log wpiutil._wpiutil.log",
-#     "wpiutil.sync wpiutil._wpiutil.sync",
-#     "wpiutil.wpistruct wpiutil._wpiutil.wpistruct",
-# ]
-# scan_headers_ignore = [
-#     "fmt/*",
-#     "google/*",
-#     "wpi/*",
-#     "wpystruct_fns.h",
-#     "pb.h",
-#     "pb_common.h",
-#     "pb_decode.h",
-#     "pb_encode.h",
-# ]
 
 [tool.hatch.build.hooks.meson]
 
 
 [tool.semiwrap]
+update_init = [
+    "wpiutil",
+    "wpiutil.log wpiutil._wpiutil.log",
+    "wpiutil.sync wpiutil._wpiutil.sync",
+    "wpiutil.wpistruct wpiutil._wpiutil.wpistruct",
+]
+scan_headers_ignore = [
+    "debugging.hpp",
+    "debugging/*",
+    "fmt/*",
+    "google/*",
+    "wpi/*",
+    "wpystruct_fns.h",
+    "pb.h",
+    "pb_common.h",
+    "pb_decode.h",
+    "pb_encode.h",
+]
+
 [tool.semiwrap.extension_modules."wpiutil._wpiutil"]
 name = "wpiutil"
 includes = [
