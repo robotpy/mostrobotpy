@@ -190,7 +190,7 @@ class IterativeRobotPy(RobotBase):
         This function is called in a simulated robot after user code executes.
         """
         if not self._simulationPeriodicHasRun:
-            print(f"Default simulationPeriodic() method...Override me!")
+            print(f"Default _simulationPeriodic() method...Override me!")
             self._simulationPeriodicHasRun = True
 
     def disabledPeriodic(self) -> None:
