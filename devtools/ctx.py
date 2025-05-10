@@ -1,5 +1,8 @@
+import contextlib
+import os
 import pathlib
 import subprocess
+import sys
 import sysconfig
 import typing
 
@@ -12,7 +15,8 @@ from .subproject import Subproject
 class Context:
     """Global context used by all rdev commands"""
 
-    def __init__(self) -> None:
+    def __init__(self, verbose: bool) -> None:
+        self.verbose =verbose
         self.root_path = pathlib.Path(__file__).parent.parent
         self.subprojects_path = self.root_path / "subprojects"
         self.cfgpath = self.root_path / "rdev.toml"
@@ -33,7 +37,7 @@ class Context:
         # Create a sorted dictionary of subprojects ordered by build order
         si = {p.pyproject_name: i for i, p in enumerate(subprojects)}
         ti = {
-            i: [si[r.name] for r in p.requires if r.name in si]
+            i: [si[r.name] for r in p.build_requires if r.name in si]
             for i, p in enumerate(subprojects)
         }
 
@@ -61,3 +65,14 @@ class Context:
             ["git", "status", "--porcelain", relpath], cwd=self.root_path
         ).decode("utf-8")
         return output != ""
+
+    @contextlib.contextmanager
+    def handle_exception(self, msg: str):
+        try:
+            yield
+        except Exception as e:
+            if self.verbose:
+                raise
+            
+            print(f"ERROR: {msg}: {e}",file=sys.stderr)
+            sys.exit(1)

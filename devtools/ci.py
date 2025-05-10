@@ -50,10 +50,10 @@ def run(ctx: Context, no_test: bool):
     # Fix build dependencies to be == what we are building
     # - install_requires already has this via ==THIS_VERSION in robotpy-build
     for project in ctx.subprojects.values():
-        for i in range(len(project.requires)):
-            req = project.requires[i]
+        for i in range(len(project.build_requires)):
+            req = project.build_requires[i]
             if req.name in ctx.subprojects:
-                project.requires[i] = Requirement(f"{req.name}=={version}")
+                project.build_requires[i] = Requirement(f"{req.name}=={version}")
 
     for project in ctx.subprojects.values():
         project.install_build_deps(wheel_path=ctx.wheel_path)

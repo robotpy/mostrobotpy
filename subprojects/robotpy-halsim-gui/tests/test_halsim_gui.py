@@ -16,5 +16,5 @@ def test_halsim_gui():
         if fname.is_file() and fname.suffix in (".dll", ".dylib", ".so"):
             ctypes.CDLL(fname)
             loaded += 1
-    
+
     assert loaded

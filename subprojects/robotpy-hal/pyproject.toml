@@ -34,6 +34,7 @@ version-file = "hal/version.py"
 [tool.hatch.build.hooks.meson]
 
 [tool.semiwrap]
+update_init = []
 scan_headers_ignore = [
     "hal/ChipObject.h",
     "hal/DMA.h",

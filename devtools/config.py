@@ -7,7 +7,7 @@ from .util import parse_input
 
 @dataclasses.dataclass
 class SubprojectConfig:
-    
+
     #: Whether this should be built on roborio or not
     roborio: bool
 
@@ -26,6 +26,7 @@ class Parameters:
     exclude_artifacts: T.Set[str]
 
     requirements: T.Dict[str, str]
+
 
 @dataclasses.dataclass
 class UpdateConfig:

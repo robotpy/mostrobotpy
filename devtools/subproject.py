@@ -22,11 +22,17 @@ class Subproject:
         with open(self.pyproject_path, "rb") as fp:
             self.pyproject_data = tomli.load(fp)
 
-        self.requires = [
+        self.build_requires = [
             Requirement(req) for req in self.pyproject_data["build-system"]["requires"]
         ]
 
         self.pyproject_name: str = self.pyproject_data["project"]["name"]
+
+    def is_semiwrap_project(self) ->bool:
+        return self.pyproject_data.get("tool", {}).get("semiwrap", None) is not None
+
+    def is_meson_project(self) -> bool:
+        return (self.path / "meson.build").exists()
 
     #
     # Tasks
@@ -37,18 +43,16 @@ class Subproject:
         subprocess.check_call(args, cwd=cwd)
 
     def _run_pip(self, *args: str, cwd=None):
-        self._cmd(sys.executable, "-m", "pip",  "--disable-pip-version-check", *args, cwd=cwd)
+        self._cmd(
+            sys.executable, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd
+        )
 
     def install_build_deps(self, *, wheel_path: pathlib.Path):
-        self._cmd(
-            sys.executable,
-            "-m",
-            "pip",
+        self._run_pip(
             "install",
-            "--disable-pip-version-check",
             "--find-links",
             str(wheel_path),
-            *[str(req) for req in self.requires],
+            *[str(req) for req in self.build_requires],
         )
 
     def develop(self):
@@ -60,8 +64,9 @@ class Subproject:
     def update_init(self):
         self._cmd(
             sys.executable,
-            "setup.py",
-            "update_init",
+            "-m",
+            "semiwrap",
+            "update-init",
             cwd=self.path,
         )
 

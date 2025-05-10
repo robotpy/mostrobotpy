@@ -10,3 +10,5 @@ validobj~=1.2
 wheel
 
 semiwrap @ git+https://github.com/robotpy/robotpy-build@semiwrap
+hatch-robotpy @ git+https://github.com/robotpy/hatch-robotpy@main
+hatch-nativelib @ git+https://github.com/robotpy/hatch-nativelib@rm-macos-relink

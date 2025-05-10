@@ -25,10 +25,11 @@ if sys.platform == "darwin":
 
 
 @click.group()
+@click.option("-v", "--verbose", default=False, is_flag=True)
 @click.pass_context
-def main(ctx: click.Context):
+def main(ctx: click.Context, verbose: bool):
     """RobotPy development tool"""
-    ctx.obj = Context()
+    ctx.obj = Context(verbose)
 
 
 main.add_command(ci.ci)
@@ -40,7 +41,7 @@ main.add_command(update_pyproject.update_pyproject)
 def info(ctx: Context):
     """Display information"""
     for project in ctx.subprojects.values():
-        print(project.name, project.requires)
+        print(project.name, project.build_requires)
 
 
 @main.command()
@@ -82,7 +83,9 @@ def uninstall(ctx: Context, package: str):
 def update_init(ctx: Context):
     """Update __init__.py in all projects"""
     for project in ctx.subprojects.values():
-        project.update_init()
+        if project.is_semiwrap_project():
+            with ctx.handle_exception(f"update-init {project.name}"):
+                project.update_init()
 
 
 @main.command()

@@ -14,5 +14,5 @@ def test_halsim_ws_client():
         if fname.is_file() and fname.suffix in (".dll", ".dylib", ".so"):
             ctypes.CDLL(fname)
             loaded += 1
-    
+
     assert loaded
