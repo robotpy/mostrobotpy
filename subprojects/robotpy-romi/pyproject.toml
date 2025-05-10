@@ -36,6 +36,8 @@ version-file = "romi/version.py"
 
 
 [tool.semiwrap]
+update_init = ["romi"]
+
 [tool.semiwrap.extension_modules."romi._romi"]
 name = "romi"
 wraps = ["native.romi"]
