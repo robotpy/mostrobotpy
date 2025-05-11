@@ -135,6 +135,12 @@ jobs:
         name: "pypi-other-${{ runner.os }}-${{ runner.arch }}"
         path: dist-other
 
+    - name: Setup MSVC
+      uses: bus1/cabuild/action/msdevshell@e22aba57d6e74891d059d66501b6b5aed8123c4d  # v1
+      with:
+        architecture: x64
+      if: runner.os == 'Windows'
+
     #
     # Setup build caching
     #
@@ -153,19 +159,16 @@ jobs:
       uses: mozilla-actions/sccache-action@v0.0.7
 
     - name: Install deps
-      shell: bash
       run: |
         python -m pip --disable-pip-version-check install -r rdev_requirements.txt
 
     - name: Install numpy (needed for stubgen but broken in raspbian CI)
-      shell: bash
       run: |
         python -m pip --disable-pip-version-check install numpy
 
     - name: Build + test wheels
-      shell: bash
       run: |
-        ./rdev.sh ci build-meson-wheels
+        python -m devtools ci build-meson-wheels
       env:
         SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
