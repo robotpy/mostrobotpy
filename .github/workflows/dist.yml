@@ -171,7 +171,7 @@ jobs:
 
   build-arm:
     runs-on: ubuntu-22.04-arm
-    needs: [setup_concurrency]
+    needs: [setup_concurrency, build-other]
     strategy:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       fail-fast: true

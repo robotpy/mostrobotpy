@@ -47,16 +47,17 @@ def build_other_wheels(ctx: Context, no_test: bool):
         if project.is_meson_project():
             continue
 
-        project.install_build_deps(
-            wheel_path=ctx.wheel_path, other_wheel_path=ctx.other_wheel_path
-        )
-        project.build_wheel(
-            wheel_path=ctx.wheel_path,
-            other_wheel_path=ctx.other_wheel_path,
-            install=True,
-        )
-        if not no_test:
-            project.test(install_requirements=True)
+        with ctx.handle_exception(project.name):
+            project.install_build_deps(
+                wheel_path=ctx.wheel_path, other_wheel_path=ctx.other_wheel_path
+            )
+            project.build_wheel(
+                wheel_path=ctx.wheel_path,
+                other_wheel_path=ctx.other_wheel_path,
+                install=True,
+            )
+            if not no_test:
+                project.test(install_requirements=True)
 
 
 @ci.command()
@@ -84,13 +85,14 @@ def build_meson_wheels(ctx: Context, no_test: bool):
         if not project.is_meson_project():
             continue
 
-        project.install_build_deps(
-            wheel_path=ctx.wheel_path, other_wheel_path=ctx.other_wheel_path
-        )
-        project.build_wheel(
-            wheel_path=ctx.wheel_path,
-            other_wheel_path=ctx.other_wheel_path,
-            install=True,
-        )
-        if not no_test:
-            project.test(install_requirements=True)
+        with ctx.handle_exception(project.name):
+            project.install_build_deps(
+                wheel_path=ctx.wheel_path, other_wheel_path=ctx.other_wheel_path
+            )
+            project.build_wheel(
+                wheel_path=ctx.wheel_path,
+                other_wheel_path=ctx.other_wheel_path,
+                install=True,
+            )
+            if not no_test:
+                project.test(install_requirements=True)
