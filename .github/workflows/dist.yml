@@ -100,7 +100,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: "pypi-other-${{ runner.os }}"
+        name: "pypi-other-${{ runner.os }}-${{ runner.arch }}"
         path: dist
 
   #
@@ -132,7 +132,7 @@ jobs:
 
     - uses: actions/download-artifact@v4
       with:
-        name: "pypi-other-${{ runner.os }}"
+        name: "pypi-other-${{ runner.os }}-${{ runner.arch }}"
         path: dist-other
 
     #
@@ -172,7 +172,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: "pypi-${{ runner.os }}-${{ matrix.python_version }}"
+        name: "pypi-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python_version }}"
         path: dist
 
   build-arm:
@@ -197,7 +197,7 @@ jobs:
     
     - uses: actions/download-artifact@v4
       with:
-        name: "pypi-other-${{ runner.os }}"
+        name: "pypi-other-${{ runner.os }}-${{ runner.arch }}"
         path: dist-other
 
     #
@@ -233,7 +233,7 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
-        name: "pypi-${{ runner.os }}-arm-${{ matrix.python_version }}"
+        name: "pypi-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python_version }}"
         path: dist
 
   #
