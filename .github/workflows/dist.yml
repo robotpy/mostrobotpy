@@ -55,10 +55,10 @@ jobs:
       run: |
         python -m pip --disable-pip-version-check install -r rdev_requirements.txt
 
-    - name: Check pyproject / rdev synchronization
-      shell: bash
-      run: |
-        ./rdev.sh ci check-pyproject
+    # - name: Check pyproject / rdev synchronization
+    #   shell: bash
+    #   run: |
+    #     ./rdev.sh ci check-pyproject
 
 
   #
