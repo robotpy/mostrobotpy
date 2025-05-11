@@ -25,6 +25,7 @@ class Context:
         self.is_roborio = sysconfig.get_platform() == "linux-roborio"
 
         self.wheel_path = self.root_path / "dist"
+        self.other_wheel_path = self.root_path / "dist-other"
 
         subprojects: typing.List[Subproject] = []
         for project, cfg in self.cfg.subprojects.items():
@@ -37,7 +38,7 @@ class Context:
         # Create a sorted dictionary of subprojects ordered by build order
         si = {p.pyproject_name: i for i, p in enumerate(subprojects)}
         ti = {
-            i: [si[r.name] for r in p.build_requires if r.name in si]
+            i: [si[r.name] for r in p.build_requires + p.dependencies if r.name in si]
             for i, p in enumerate(subprojects)
         }
 

@@ -26,9 +26,13 @@ class Subproject:
             Requirement(req) for req in self.pyproject_data["build-system"]["requires"]
         ]
 
+        self.dependencies = [
+            Requirement(req) for req in self.pyproject_data["project"]["dependencies"]
+        ]
+
         self.pyproject_name: str = self.pyproject_data["project"]["name"]
 
-    def is_semiwrap_project(self) ->bool:
+    def is_semiwrap_project(self) -> bool:
         return self.pyproject_data.get("tool", {}).get("semiwrap", None) is not None
 
     def is_meson_project(self) -> bool:
@@ -47,12 +51,14 @@ class Subproject:
             sys.executable, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd
         )
 
-    def install_build_deps(self, *, wheel_path: pathlib.Path):
+    def install_build_deps(self, *, wheel_path: pathlib.Path, other_wheel_path: pathlib.Path):
         self._run_pip(
             "install",
             "--no-index",
             "--find-links",
             str(wheel_path),
+            "--find-links",
+            str(other_wheel_path),
             *[str(req) for req in self.build_requires],
         )
 
@@ -95,7 +101,9 @@ class Subproject:
             cwd=tests_path,
         )
 
-    def build_wheel(self, *, wheel_path: pathlib.Path, install: bool):
+    def build_wheel(
+        self, *, wheel_path: pathlib.Path, other_wheel_path: pathlib.Path, install: bool
+    ):
         wheel_path.mkdir(parents=True, exist_ok=True)
 
         # TODO: eventually it would be nice to use build isolation
@@ -124,6 +132,8 @@ class Subproject:
                 "--force-reinstall",
                 "--find-links",
                 str(wheel_path),
+                "--find-links",
+                str(other_wheel_path),
                 str(dst_whl),
             )
 

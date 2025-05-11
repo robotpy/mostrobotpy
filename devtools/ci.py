@@ -47,17 +47,24 @@ def build_other_wheels(ctx: Context, no_test: bool):
         if project.is_meson_project():
             continue
 
-        project.install_build_deps(wheel_path=ctx.wheel_path)
-        project.build_wheel(wheel_path=ctx.wheel_path, install=True)
+        project.install_build_deps(
+            wheel_path=ctx.wheel_path, other_wheel_path=ctx.other_wheel_path
+        )
+        project.build_wheel(
+            wheel_path=ctx.wheel_path,
+            other_wheel_path=ctx.other_wheel_path,
+            install=True,
+        )
         if not no_test:
             project.test(install_requirements=True)
+
 
 @ci.command()
 @click.option("--no-test", default=False, is_flag=True)
 @click.pass_obj
 def build_meson_wheels(ctx: Context, no_test: bool):
     """
-    Builds wheels that use meson, runs tests. 
+    Builds wheels that use meson, runs tests.
 
     Needs wheels that are in the non-meson builds
     """
@@ -73,12 +80,17 @@ def build_meson_wheels(ctx: Context, no_test: bool):
     # Check that the build dependencies match the versions of the projects
     # that we're building
 
-
     for project in ctx.subprojects.values():
         if not project.is_meson_project():
             continue
 
-        project.install_build_deps(wheel_path=ctx.wheel_path)
-        project.build_wheel(wheel_path=ctx.wheel_path, install=True)
+        project.install_build_deps(
+            wheel_path=ctx.wheel_path, other_wheel_path=ctx.other_wheel_path
+        )
+        project.build_wheel(
+            wheel_path=ctx.wheel_path,
+            other_wheel_path=ctx.other_wheel_path,
+            install=True,
+        )
         if not no_test:
             project.test(install_requirements=True)
