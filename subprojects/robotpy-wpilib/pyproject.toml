@@ -91,7 +91,7 @@ scan_headers_ignore = [
 name = "wpilib"
 wraps = ["native.wpilib"]
 depends = [
-    "wpiHal", "wpiutil", "ntcore",
+    "wpihal", "wpiutil", "ntcore",
     "wpimath", "wpimath_geometry", "wpimath_controls",
     "wpilib_interfaces", "wpilib_event"
 ]
