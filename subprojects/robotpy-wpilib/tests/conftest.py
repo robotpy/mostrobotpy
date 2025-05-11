@@ -50,7 +50,7 @@ def nt(cfg_logging, wpilib_state):
         instance.stopLocal()
         instance._reset()
 
-@pytest.fixture(scope="class", autouse=True)
+@pytest.fixture(scope="class", autouse=False)
 def physics_and_decorated_robot_class(myrobot_class, robots_sim_enable_physics)->tuple:
     # attach physics
 
@@ -81,7 +81,7 @@ def physics_and_decorated_robot_class(myrobot_class, robots_sim_enable_physics)-
 
     return (physicsInterface, TestRobot)
 
-@pytest.fixture(scope="function", autouse=True)
+@pytest.fixture(scope="function", autouse=False)
 def robot_with_sim_setup_teardown(physics_and_decorated_robot_class):
     """
     Your robot instance
@@ -168,7 +168,7 @@ def robot_with_sim_setup_teardown(physics_and_decorated_robot_class):
     # hal.shutdown()
 
 @pytest.fixture(scope="function")
-def control(reraise, robot_with_sim_setup_teardown: wpilib.RobotBase) -> TestController:
+def getTestController(reraise, robot_with_sim_setup_teardown: wpilib.RobotBase) -> TestController:
     """
     A pytest fixture that provides control over your robot_with_sim_setup_teardown
     """

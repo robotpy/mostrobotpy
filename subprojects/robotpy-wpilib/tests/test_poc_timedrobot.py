@@ -94,20 +94,20 @@ class TestThings():
         return False
 
 
-    def test_iterative(self, control, robot_with_sim_setup_teardown):
+    def test_iterative(self, getTestController, robot_with_sim_setup_teardown):
         """Ensure that all states of the iterative robot run"""
         assert robot_with_sim_setup_teardown.robotInitialized == False
         assert robot_with_sim_setup_teardown.robotPeriodicCount == 0
-        run_practice(control)
+        run_practice(getTestController)
 
         assert robot_with_sim_setup_teardown.robotInitialized == True
         assert robot_with_sim_setup_teardown.robotPeriodicCount > 0
 
-    def test_iterative_again(self, control, robot_with_sim_setup_teardown):
+    def test_iterative_again(self, getTestController, robot_with_sim_setup_teardown):
         """Ensure that all states of the iterative robot run"""
         assert robot_with_sim_setup_teardown.robotInitialized == False
         assert robot_with_sim_setup_teardown.robotPeriodicCount == 0
-        run_practice(control)
+        run_practice(getTestController)
 
         assert robot_with_sim_setup_teardown.robotInitialized == True
         assert robot_with_sim_setup_teardown.robotPeriodicCount > 0
