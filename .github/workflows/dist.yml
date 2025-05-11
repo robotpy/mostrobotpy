@@ -83,10 +83,12 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - uses: actions/setup-python@v5
+
+    - name: Install python
+      if: matrix.os != 'ubuntu-22.04-arm'
+      uses: actions/setup-python@v5
       with:
         python-version: '3.13'
-      if: matrix.os != 'ubuntu-22.04-arm'
 
     - name: Install deps
       shell: bash
@@ -121,12 +123,27 @@ jobs:
         - '3.11'
         - '3.12'
         - '3.13'
+        include:
+        - os: ubuntu-22.04-arm
+          python_version: '3.11'
+          container: python:3.11-bookworm
+        - os: ubuntu-22.04-arm
+          python_version: '3.12'
+          container: python:3.12-bookworm
+        - os: ubuntu-22.04-arm
+          python_version: '3.13'
+          container: python:3.13-bookworm
+
+    container: ${{ matrix.container }}
 
     steps:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    - uses: actions/setup-python@v5
+
+    - name: Install python
+      if: matrix.os != 'ubuntu-22.04-arm'
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python_version }}
 
@@ -134,6 +151,14 @@ jobs:
       with:
         name: "pypi-other-${{ runner.os }}-${{ runner.arch }}"
         path: dist-other
+
+    #
+    # Platform specific setup
+    #
+
+    - name: Install libgl
+      run: apt-get update && apt-get install -y libgl1
+      if: matrix.os == 'ubuntu-22.04-arm'
 
     - name: Setup MSVC
       uses: bus1/cabuild/action/msdevshell@e22aba57d6e74891d059d66501b6b5aed8123c4d  # v1
@@ -178,132 +203,110 @@ jobs:
         name: "pypi-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python_version }}"
         path: dist
 
-  build-arm:
-    runs-on: ubuntu-22.04-arm
-    needs: [setup_concurrency, build-other]
-    strategy:
-      max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
-      fail-fast: true
-      matrix:
-        python_version:
-        - '3.11'
-        - '3.12'
-        - '3.13'
-    container: python:${{ matrix.python_version }}-bookworm
-
-    steps:
-    - run: apt-get update && apt-get install -y libgl1
-
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    
-    - uses: actions/download-artifact@v4
-      with:
-        name: "pypi-other-${{ runner.os }}-${{ runner.arch }}"
-        path: dist-other
-
-    #
-    # Setup build caching
-    #
-
-    - name: Setup sccache
-      uses: mozilla-actions/sccache-action@v0.0.7
-
-    # See https://github.com/pypa/setuptools_scm/issues/784
-    - name: Set git directory as safe to allow setuptools-scm to work
-      shell: bash
-      run: |
-        /usr/bin/git config --global --add safe.directory $PWD
-
-    - name: Install deps
-      shell: bash
-      run: |
-        python -m pip --disable-pip-version-check install -r rdev_requirements.txt
-
-    - name: Install numpy (needed for stubgen)
-      shell: bash
-      run: |
-        python -m pip --disable-pip-version-check install numpy
-
-    - name: Build + test wheels
-      shell: bash
-      run: |
-        ./rdev.sh ci build-meson-wheels
-      env:
-        SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
-        SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
-
-    - uses: actions/upload-artifact@v4
-      with:
-        name: "pypi-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python_version }}"
-        path: dist
-
   #
   # Build roboRIO/raspbian wheels
   #
 
-  # cross-build:
-  #   runs-on: ubuntu-latest
-  #   needs: [setup_concurrency]
-  #   strategy:
-  #     max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
-  #     matrix:
-  #       os:
-  #       - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
-  #         name: roborio
+  cross-other:
+    runs-on: ubuntu-latest
+    needs: [setup_concurrency]
+    strategy:
+      max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
+      matrix:
+        os:
+        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
+          name: roborio
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
+          name: raspbian
 
-  #       - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py311
-  #         name: raspbian-py311
-  #       - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py312
-  #         name: raspbian-py312
-  #       - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
-  #         name: raspbian-py313
+    container:
+      image: "${{ matrix.os.container }}"
 
-  #   container:
-  #     image: "${{ matrix.os.container }}"
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #     with:
-  #       fetch-depth: 0
+    - name: Install deps
+      shell: bash
+      run: |
+        /build/venv/bin/cross-pip --disable-pip-version-check install -r rdev_requirements.txt
 
-  #   - run: apt-get update
-  #   - name: Setup ccache
-  #     uses: hendrikmuhs/ccache-action@v1.2
-  #     with:
-  #         key: ${{ matrix.os.container }}
-  #         variant: ccache
+    - name: Build + test wheels
+      shell: bash
+      run: |
+        /build/venv/bin/cross-python -m devtools ci build-other-wheels
 
-  #   # See https://github.com/pypa/setuptools_scm/issues/784
-  #   - name: Set git directory as safe to allow setuptools-scm to work
-  #     shell: bash
-  #     run: |
-  #       pwd
-  #       /usr/bin/git config --global --add safe.directory $(pwd)
+    - uses: actions/upload-artifact@v4
+      with:
+        name: cross-other-${{ matrix.os.name }}
+        path: dist
 
-  #   # See https://github.com/pallets/markupsafe/issues/475
-  #   - name: Install MarkupSafe
-  #     shell: bash
-  #     run: |
-  #       /build/venv/bin/cross-pip install --no-build-isolation "markupsafe; python_version < '3.12'"
+  cross-meson:
+    runs-on: ubuntu-latest
+    needs: [setup_concurrency, cross-other]
+    strategy:
+      max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
+      matrix:
+        os:
+        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
+          name: roborio
+          base: roborio
 
-  #   - name: Install deps
-  #     shell: bash
-  #     run: |
-  #       /build/venv/bin/cross-pip  --disable-pip-version-check install -r rdev_requirements.txt
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py311
+          name: raspbian-py311
+          base: raspbian
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py312
+          name: raspbian-py312
+          base: raspbian
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
+          name: raspbian-py313
+          base: raspbian
 
-  #   - name: Build wheels
-  #     shell: bash
-  #     run: |
-  #       /build/venv/bin/cross-python -m devtools ci build-other-wheels --no-test
-  #       /build/venv/bin/cross-python -m devtools ci build-meson-wheels --no-test
+    container:
+      image: "${{ matrix.os.container }}"
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - uses: actions/download-artifact@v4
+      with:
+        name: "cross-other-${{ matrix.os.base }}"
+        path: dist-other
+    
+    - name: Setup cross environment for meson
+      uses: robotpy/build-actions/setup-cross-meson@semiwrap
+
+    - run: apt-get update
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+          key: ${{ matrix.os.container }}
+          variant: ccache
+
+    # See https://github.com/pallets/markupsafe/issues/475
+    - name: Install MarkupSafe
+      shell: bash
+      run: |
+        /build/venv/bin/cross-pip --disable-pip-version-check install --no-build-isolation "markupsafe; python_version < '3.12'"
+
+    - name: Install deps
+      shell: bash
+      run: |
+        /build/venv/bin/cross-pip --disable-pip-version-check install -r rdev_requirements.txt
+
+    - name: Build wheels
+      shell: bash
+      run: |
+        /build/venv/bin/cross-python -m devtools ci build-meson-wheels --no-test
       
 
-  #   - uses: actions/upload-artifact@v4
-  #     with:
-  #       name: cross-${{ matrix.os.name }}
-  #       path: dist
+    - uses: actions/upload-artifact@v4
+      with:
+        name: cross-${{ matrix.os.name }}
+        path: dist
 
   # #
   # # Publish wheels to wpilib artifactory, pypi
@@ -311,7 +314,7 @@ jobs:
 
   # publish-rpyrepo:
   #   runs-on: ubuntu-latest
-  #   needs: [check, build, build-arm, cross-build]
+  #   needs: [check, build, build-arm, cross-meson]
   #   if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
   #   steps:
@@ -331,7 +334,7 @@ jobs:
 
   # publish-pypi:
   #   runs-on: ubuntu-latest
-  #   needs: [check, build-meson, build-arm, cross-build]
+  #   needs: [check, build-meson, build-arm, cross-meson]
   #   permissions:
   #     id-token: write
   #   if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
