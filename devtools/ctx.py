@@ -16,7 +16,7 @@ class Context:
     """Global context used by all rdev commands"""
 
     def __init__(self, verbose: bool) -> None:
-        self.verbose =verbose
+        self.verbose = verbose
         self.root_path = pathlib.Path(__file__).parent.parent
         self.subprojects_path = self.root_path / "subprojects"
         self.cfgpath = self.root_path / "rdev.toml"
@@ -74,6 +74,6 @@ class Context:
         except Exception as e:
             if self.verbose:
                 raise
-            
-            print(f"ERROR: {msg}: {e}",file=sys.stderr)
+
+            print(f"ERROR: {msg}: {e}", file=sys.stderr)
             sys.exit(1)

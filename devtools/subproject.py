@@ -51,7 +51,9 @@ class Subproject:
             sys.executable, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd
         )
 
-    def install_build_deps(self, *, wheel_path: pathlib.Path, other_wheel_path: pathlib.Path):
+    def install_build_deps(
+        self, *, wheel_path: pathlib.Path, other_wheel_path: pathlib.Path
+    ):
         self._run_pip(
             "install",
             "--no-index",
