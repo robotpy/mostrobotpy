@@ -35,3 +35,18 @@ name = "wpiutil"
 includedir = "src/native/wpiutil/include"
 libdir = "src/native/wpiutil/lib"
 shared_libraries = ["wpiutil"]
+
+enable_if = "platform_system != 'Windows'"
+
+[[tool.hatch.build.hooks.nativelib.pcfile]]
+pcfile = "src/native/wpiutil/native.wpiutil.pc"
+name = "wpiutil"
+
+includedir = "src/native/wpiutil/include"
+libdir = "src/native/wpiutil/lib"
+shared_libraries = ["wpiutil"]
+
+# All wpilib projects require this flag
+extra_cflags = "/Zc:preprocessor"
+
+enable_if = "platform_system == 'Windows'"
