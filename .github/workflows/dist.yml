@@ -286,12 +286,6 @@ jobs:
           key: ${{ matrix.os.container }}
           variant: ccache
 
-    # See https://github.com/pallets/markupsafe/issues/475
-    - name: Install MarkupSafe
-      shell: bash
-      run: |
-        /build/venv/bin/cross-pip --disable-pip-version-check install --no-build-isolation "markupsafe; python_version < '3.12'"
-
     - name: Install deps
       shell: bash
       run: |
