@@ -3,7 +3,6 @@ build-backend = "hatchling.build"
 requires = [
     "semiwrap",
     "hatch-meson",
-    "hatch-vcs",
     "hatchling",
     "native.wpihal==2025.3.2",
     "robotpy-wpiutil~=2025.3.2",
