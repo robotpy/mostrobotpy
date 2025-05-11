@@ -1,6 +1,7 @@
 
 *.py[ciod]
 /dist
+/dist-other
 /cache
 
 rpy-include
