@@ -43,7 +43,6 @@ libs = ["halsim_xrp"]
 
 [tool.hatch.build.hooks.meson]
 
-
 [tool.hatch.build.targets.wheel]
 packages = ["xrp"]
 

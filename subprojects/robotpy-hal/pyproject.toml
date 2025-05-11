@@ -33,6 +33,10 @@ version_file = "hal/version.py"
 
 [tool.hatch.build.hooks.meson]
 
+[tool.hatch.build.targets.wheel]
+packages = ["hal"]
+
+
 [tool.semiwrap]
 update_init = []
 scan_headers_ignore = [

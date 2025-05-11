@@ -32,6 +32,9 @@ version_file = "wpinet/version.py"
 
 [tool.hatch.build.hooks.meson]
 
+[tool.hatch.build.targets.wheel]
+packages = ["wpinet"]
+
 
 [tool.semiwrap]
 update_init = [

@@ -4,8 +4,8 @@ import pathlib
 
 def test_halsim_ws_server():
     # dependencies
-    import wpinet
-    import hal
+    import native.wpihal._init_native_wpihal
+    import native.wpinet._init_native_wpinet
 
     import halsim_ws.server as base
 

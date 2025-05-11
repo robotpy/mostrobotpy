@@ -43,6 +43,9 @@ version_file = "wpilib/version.py"
 
 [tool.hatch.build.hooks.meson]
 
+[tool.hatch.build.targets.wheel]
+packages = ["wpilib"]
+
 
 [tool.semiwrap]
 update_init = [

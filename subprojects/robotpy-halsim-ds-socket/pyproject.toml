@@ -23,7 +23,7 @@ ds-socket = "halsim_ds_socket"
 
 
 [tool.hatch.build.hooks.robotpy]
-version-file = "halsim_ds_socket/version.py"
+version_file = "halsim_ds_socket/version.py"
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_ds_socket"

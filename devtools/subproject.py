@@ -50,6 +50,7 @@ class Subproject:
     def install_build_deps(self, *, wheel_path: pathlib.Path):
         self._run_pip(
             "install",
+            "--no-index",
             "--find-links",
             str(wheel_path),
             *[str(req) for req in self.build_requires],

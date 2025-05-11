@@ -14,8 +14,8 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-hal~=2025.3.2",
-    "robotpy-wpinet~=2025.3.2",
+    "native.wpihal==2025.3.2",
+    "native.wpinet==2025.3.2",
 ]
 
 [project.entry-points.robotpysimext]

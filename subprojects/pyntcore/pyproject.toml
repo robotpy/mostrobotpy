@@ -36,6 +36,9 @@ version_file = "ntcore/version.py"
 
 [tool.hatch.build.hooks.meson]
 
+[tool.hatch.build.targets.wheel]
+packages = ["ntcore"]
+
 
 [tool.semiwrap]
 update_init = [
