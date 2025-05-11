@@ -16,9 +16,10 @@ if __name__ == "__main__":
             "pip",
             "--disable-pip-version-check",
             "install",
+            "-v",
+            "--force-reinstall",
             "--no-build-isolation",
-            "-e",
-            "cpp",
+            "./cpp",
         ],
     )
 
