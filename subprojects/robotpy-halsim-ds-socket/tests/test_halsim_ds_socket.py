@@ -4,8 +4,8 @@ import pathlib
 
 def test_halsim_ds_socket():
     # dependencies
-    import wpinet
-    import hal
+    import native.wpihal._init_native_wpihal
+    import native.wpinet._init_native_wpinet
 
     import halsim_ds_socket as base
 

@@ -1,20 +1,22 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "semiwrap", "hatch-meson", "hatch-vcs", "hatchling",
+    "semiwrap",
+    "hatch-meson",
+    "hatchling",
     "native.wpinet==2025.3.2",
     "robotpy-wpiutil"
 ]
 
 [project]
 name = "robotpy-wpinet"
-dynamic = ["version"]
+version = "2025.3.2.2"
 description = "Binary wrapper for FRC wpinet library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
-install_requires = [
+dependencies = [
     "native.wpinet==2025.3.2",
     "robotpy-wpiutil"
 ]
@@ -22,18 +24,13 @@ install_requires = [
 [project.urls]
 "Source code" = "https://github.com/robotpy/mostrobotpy"
 
-[tool.hatch.version]
-source = "vcs"
-raw-options.root = "../.."
 
-[tool.hatch.build.hooks.vcs]
-version-file = "wpinet/version.py"
-
+[tool.hatch.build.hooks.robotpy]
+version_file = "wpinet/version.py"
 
 [tool.hatch.build.hooks.semiwrap]
 
 [tool.hatch.build.hooks.meson]
-
 
 
 [tool.semiwrap]

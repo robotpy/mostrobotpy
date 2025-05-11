@@ -1,7 +1,10 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "semiwrap", "hatch-meson", "hatch-vcs", "hatchling",
+    "semiwrap",
+    "hatch-meson",
+    "hatch-robotpy",
+    "hatchling",
     "native.apriltag==2025.3.2",
     "robotpy-wpiutil~=2025.3.2",
     "robotpy-wpimath~=2025.3.2",
@@ -9,13 +12,13 @@ requires = [
 
 [project]
 name = "robotpy-apriltag"
-dynamic = ["version"]
+version = "2025.3.2.2"
 description = "RobotPy bindings for WPILib's AprilTag library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
-install_requires = [
+dependencies = [
     "robotpy-wpiutil~=2025.3.2",
     "robotpy-wpimath~=2025.3.2",
 ]
@@ -23,12 +26,9 @@ install_requires = [
 [project.urls]
 "Source code" = "https://github.com/robotpy/mostrobotpy"
 
-[tool.hatch.version]
-source = "vcs"
-raw-options.root = "../.."
 
-[tool.hatch.build.hooks.vcs]
-version-file = "robotpy_apriltag/version.py"
+[tool.hatch.build.hooks.robotpy]
+version_file = "robotpy_apriltag/version.py"
 
 [tool.hatch.build.hooks.semiwrap]
 

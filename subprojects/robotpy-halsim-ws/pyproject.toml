@@ -1,19 +1,19 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "hatchling", "hatch-vcs",
+    "hatchling",
     "hatch-robotpy",
 ]
 
 [project]
 name = "robotpy-halsim-ws"
-dynamic = ["version"]
+version = "2025.3.2.2"
 description = "WPILib simulator websim Extensions"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
-install_requires = [
+dependencies = [
     "robotpy-hal~=2025.3.2",
     "robotpy-wpinet~=2025.3.2",
 ]
@@ -25,12 +25,9 @@ ws-client = "halsim_ws.client"
 [project.urls]
 "Source code" = "https://github.com/robotpy/mostrobotpy"
 
-[tool.hatch.version]
-source = "vcs"
-raw-options.root = "../.."
 
-[tool.hatch.build.hooks.vcs]
-version-file = "halsim_ws/version.py"
+[tool.hatch.build.hooks.robotpy]
+version_file = "halsim_ws/version.py"
 
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]

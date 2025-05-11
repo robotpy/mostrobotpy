@@ -6,7 +6,6 @@ import sys
 
 import click
 from packaging.requirements import Requirement
-import setuptools_scm
 
 from .ctx import Context
 from .update_pyproject import ProjectUpdater
@@ -39,24 +38,47 @@ def check_pyproject(ctx: Context):
 @ci.command()
 @click.option("--no-test", default=False, is_flag=True)
 @click.pass_obj
-def run(ctx: Context, no_test: bool):
+def build_other_wheels(ctx: Context, no_test: bool):
     """
-    Builds wheels, runs tests
+    Builds wheels that don't use meson, runs tests
     """
 
-    # Get the current build version
-    version = setuptools_scm.get_version()
+    for project in ctx.subprojects.values():
+        if project.is_meson_project():
+            continue
+
+        project.install_build_deps(wheel_path=ctx.wheel_path)
+        project.build_wheel(wheel_path=ctx.wheel_path, install=True)
+        if not no_test:
+            project.test(install_requirements=True)
+
+@ci.command()
+@click.option("--no-test", default=False, is_flag=True)
+@click.pass_obj
+def build_meson_wheels(ctx: Context, no_test: bool):
+    """
+    Builds wheels that use meson, runs tests. 
+
+    Needs wheels that are in the non-meson builds
+    """
 
     # Fix build dependencies to be == what we are building
     # - install_requires already has this via ==THIS_VERSION in robotpy-build
-    for project in ctx.subprojects.values():
-        for i in range(len(project.build_requires)):
-            req = project.build_requires[i]
-            if req.name in ctx.subprojects:
-                project.build_requires[i] = Requirement(f"{req.name}=={version}")
+    # for project in ctx.subprojects.values():
+    #     for i in range(len(project.build_requires)):
+    #         req = project.build_requires[i]
+    #         if req.name in ctx.subprojects:
+    #             project.build_requires[i] = Requirement(f"{req.name}=={version}")
+
+    # Check that the build dependencies match the versions of the projects
+    # that we're building
+
 
     for project in ctx.subprojects.values():
+        if not project.is_meson_project():
+            continue
+
         project.install_build_deps(wheel_path=ctx.wheel_path)
-        project.bdist_wheel(wheel_path=ctx.wheel_path, install=True)
+        project.build_wheel(wheel_path=ctx.wheel_path, install=True)
         if not no_test:
             project.test(install_requirements=True)

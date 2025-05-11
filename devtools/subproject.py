@@ -94,17 +94,19 @@ class Subproject:
             cwd=tests_path,
         )
 
-    def bdist_wheel(self, *, wheel_path: pathlib.Path, install: bool):
+    def build_wheel(self, *, wheel_path: pathlib.Path, install: bool):
         wheel_path.mkdir(parents=True, exist_ok=True)
 
+        # TODO: eventually it would be nice to use build isolation
+
         with tempfile.TemporaryDirectory() as td:
-            # Use bdist_wheel here instead of other solutions because it
-            # allows using ccache
+            # I wonder if we should use hatch build instead?
             self._cmd(
                 sys.executable,
-                "setup.py",
-                "bdist_wheel",
-                "-d",
+                "-m",
+                "build",
+                "--no-isolation",
+                "--outdir",
                 td,
                 cwd=self.path,
             )
@@ -114,17 +116,9 @@ class Subproject:
             dst_whl = wheel_path / self._fix_wheel_name(twhl.name)
             shutil.move(twhl, dst_whl)
 
-        # Setuptools is dumb
-        for p in self.path.glob("*.egg-info"):
-            shutil.rmtree(p)
-
         if install:
             # Install the wheel
-            self._cmd(
-                sys.executable,
-                "-m",
-                "pip",
-                "--disable-pip-version-check",
+            self._run_pip(
                 "install",
                 "--force-reinstall",
                 "--find-links",
