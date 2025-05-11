@@ -230,6 +230,7 @@ jobs:
     - name: Install deps
       shell: bash
       run: |
+        /build/venv/bin/build-pip --disable-pip-version-check install ninja pkgconf
         /build/venv/bin/cross-pip --disable-pip-version-check install -r rdev_requirements.txt
 
     - name: Build + test wheels
@@ -289,6 +290,7 @@ jobs:
     - name: Install deps
       shell: bash
       run: |
+        /build/venv/bin/build-pip --disable-pip-version-check install ninja pkgconf
         /build/venv/bin/cross-pip --disable-pip-version-check install -r rdev_requirements.txt
 
     - name: Build wheels
