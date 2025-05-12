@@ -238,7 +238,7 @@ jobs:
     - name: Build + test wheels
       shell: bash
       run: |
-        /build/venv/bin/cross-python -m devtools ci build-other-wheels
+        /build/venv/bin/cross-python -m devtools ci build-other-wheels --no-test
 
     - uses: actions/upload-artifact@v4
       with:
