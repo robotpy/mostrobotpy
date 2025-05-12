@@ -65,9 +65,12 @@ def build_other_wheels(ctx: Context, no_test: bool):
 
 @ci.command()
 @click.option("--no-test", default=False, is_flag=True)
-@click.option("--cross", type=pathlib.Path, help="meson cross.txt file")
+@click.option(
+    "--cross",
+    help="meson cross.txt file (installed at ~/.local/share/meson/NAME/name.txt)",
+)
 @click.pass_obj
-def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[pathlib.Path]):
+def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[str]):
     """
     Builds wheels that use meson, runs tests.
 
@@ -87,7 +90,7 @@ def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[pathlib.Pa
 
     config_settings = []
     if cross:
-        config_settings.append("setup-args=--cross-file=" + str(cross.absolute()))
+        config_settings.append(f"setup-args=--cross-file={cross}")
 
     for project in ctx.subprojects.values():
         if not project.is_meson_project():
