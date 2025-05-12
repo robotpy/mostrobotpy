@@ -227,6 +227,9 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Setup cross environment for meson
+      uses: robotpy/build-actions/setup-cross-meson@semiwrap
+
     - name: Install deps
       shell: bash
       run: |
