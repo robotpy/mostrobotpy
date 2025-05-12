@@ -185,7 +185,6 @@ jobs:
 
     - name: Install deps
       run: |
-        python -m pip --disable-pip-version-check install ninja
         python -m pip --disable-pip-version-check install -r rdev_requirements.txt
 
     - name: Install numpy (needed for stubgen but broken in raspbian CI)
@@ -231,7 +230,6 @@ jobs:
     - name: Install deps
       shell: bash
       run: |
-        /build/venv/bin/build-pip --disable-pip-version-check install ninja pkgconf
         /build/venv/bin/cross-pip --disable-pip-version-check install -r rdev_requirements.txt
 
     - name: Build + test wheels
