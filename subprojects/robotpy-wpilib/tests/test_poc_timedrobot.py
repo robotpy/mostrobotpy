@@ -31,7 +31,8 @@ def run_practice(control: "TestController"):
         # Run teleop + enabled for 2 minutes
         control.step_timing(seconds=120, autonomous=False, enabled=True)
 
-class TestThings():
+
+class TestThings:
 
     class MyRobot(TimedRobotPy):
         def __init__(self):
@@ -46,7 +47,6 @@ class TestThings():
 
         def robotPeriodic(self):
             self.robotPeriodicCount += 1
-            print(f"in {self.__class__.__name__} periodic count={self.robotPeriodicCount}")
 
         #########################################################
         ## Autonomous-Specific init and update
@@ -92,7 +92,6 @@ class TestThings():
     @pytest.fixture(scope="class", autouse=True)
     def robots_sim_enable_physics(cls) -> bool:
         return False
-
 
     def test_iterative(self, getTestController, robot_with_sim_setup_teardown):
         """Ensure that all states of the iterative robot run"""

@@ -25,7 +25,6 @@ except ImportError:
     commands2 = None
 
 
-
 @pytest.fixture
 def cfg_logging(caplog):
     caplog.set_level(logging.INFO)
@@ -50,8 +49,11 @@ def nt(cfg_logging, wpilib_state):
         instance.stopLocal()
         instance._reset()
 
+
 @pytest.fixture(scope="class", autouse=False)
-def physics_and_decorated_robot_class(myrobot_class, robots_sim_enable_physics)->tuple:
+def physics_and_decorated_robot_class(
+    myrobot_class, robots_sim_enable_physics
+) -> tuple:
     # attach physics
 
     robotClass = myrobot_class
@@ -74,12 +76,12 @@ def physics_and_decorated_robot_class(myrobot_class, robots_sim_enable_physics)-
             finally:
                 self.__robotInitialized()
 
-
     TestRobot.__name__ = robotClass.__name__
     TestRobot.__module__ = robotClass.__module__
     TestRobot.__qualname__ = robotClass.__qualname__
 
     return (physicsInterface, TestRobot)
+
 
 @pytest.fixture(scope="function", autouse=False)
 def robot_with_sim_setup_teardown(physics_and_decorated_robot_class):
@@ -119,7 +121,7 @@ def robot_with_sim_setup_teardown(physics_and_decorated_robot_class):
     yield weakref.proxy(robot)
 
     # If running in separate processes, no need to do cleanup
-    #if ISOLATED:
+    # if ISOLATED:
     #    # .. and funny enough, in isolated mode we *don't* want the
     #    # robot to be cleaned up, as that can deadlock
     #    self._saved_robot = robot
@@ -167,8 +169,11 @@ def robot_with_sim_setup_teardown(physics_and_decorated_robot_class):
     # and functions will only be called the first time (unless re-registered)
     # hal.shutdown()
 
+
 @pytest.fixture(scope="function")
-def getTestController(reraise, robot_with_sim_setup_teardown: wpilib.RobotBase) -> TestController:
+def getTestController(
+    reraise, robot_with_sim_setup_teardown: wpilib.RobotBase
+) -> TestController:
     """
     A pytest fixture that provides control over your robot_with_sim_setup_teardown
     """
