@@ -4,7 +4,7 @@ packaging
 pydantic<2,!=1.10.20
 pytest
 requests
-setuptools
+setuptools < 80.0
 setuptools_scm >= 6.2, < 8
 tomlkit
 tomli
