@@ -67,7 +67,7 @@ def build_other_wheels(ctx: Context, no_test: bool):
 @click.option("--no-test", default=False, is_flag=True)
 @click.option(
     "--cross",
-    help="meson cross.txt file (installed at ~/.local/share/meson/NAME/name.txt)",
+    help="meson cross.txt file (installed at ~/.local/share/meson/cross/FILENAME)",
 )
 @click.pass_obj
 def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[str]):
