@@ -17,7 +17,6 @@ build
 dist
 MANIFEST
 
-/wpimath/py.typed
 /wpimath/version.py
 /wpimath/_init__wpimath.py
 /wpimath/wpimath.pc

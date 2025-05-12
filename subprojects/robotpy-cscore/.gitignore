@@ -11,7 +11,6 @@ build
 version.py
 
 /cscore/pkgcfg.py
-/cscore/py.typed
 /cscore/_cscore
 
 .project

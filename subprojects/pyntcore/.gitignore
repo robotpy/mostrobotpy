@@ -14,5 +14,4 @@ __pycache__
 /ntcore/_init__ntcore.py
 /ntcore/ntcore.pc
 /ntcore/version.py
-/ntcore/py.typed
 /ntcore/trampolines

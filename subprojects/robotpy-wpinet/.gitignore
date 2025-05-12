@@ -10,7 +10,6 @@
 __pycache__
 /wpinet/include
 /wpinet/lib
-/wpinet/py.typed
 /wpinet/_init__wpinet.py
 /wpinet/wpinet.pc
 /wpinet/trampolines

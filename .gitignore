@@ -5,5 +5,4 @@
 /cache
 
 rpy-include
-py.typed
 .venv/
