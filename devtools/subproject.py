@@ -4,6 +4,7 @@ import shlex
 import shutil
 import sys
 import tempfile
+import typing as T
 
 from packaging.requirements import Requirement
 import tomli
@@ -104,9 +105,16 @@ class Subproject:
         )
 
     def build_wheel(
-        self, *, wheel_path: pathlib.Path, other_wheel_path: pathlib.Path, install: bool
+        self,
+        *,
+        wheel_path: pathlib.Path,
+        other_wheel_path: pathlib.Path,
+        install: bool,
+        config_settings: T.List[str],
     ):
         wheel_path.mkdir(parents=True, exist_ok=True)
+
+        config_args = [f"--config-setting={setting}" for setting in config_settings]
 
         # TODO: eventually it would be nice to use build isolation
 
@@ -119,6 +127,7 @@ class Subproject:
                 "--no-isolation",
                 "--outdir",
                 td,
+                *config_args,
                 cwd=self.path,
             )
 

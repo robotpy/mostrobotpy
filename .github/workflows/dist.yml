@@ -185,6 +185,7 @@ jobs:
 
     - name: Install deps
       run: |
+        python -m pip --disable-pip-version-check install ninja
         python -m pip --disable-pip-version-check install -r rdev_requirements.txt
 
     - name: Install numpy (needed for stubgen but broken in raspbian CI)
@@ -290,13 +291,12 @@ jobs:
     - name: Install deps
       shell: bash
       run: |
-        /build/venv/bin/build-pip --disable-pip-version-check install ninja pkgconf
         /build/venv/bin/cross-pip --disable-pip-version-check install -r rdev_requirements.txt
 
     - name: Build wheels
       shell: bash
       run: |
-        /build/venv/bin/cross-python -m devtools ci build-meson-wheels --no-test
+        /build/venv/bin/cross-python -m devtools ci build-meson-wheels --no-test --cross=cross.txt
       
 
     - uses: actions/upload-artifact@v4

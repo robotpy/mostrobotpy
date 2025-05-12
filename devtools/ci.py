@@ -2,7 +2,9 @@
 # CI commands
 #
 
+import pathlib
 import sys
+import typing as T
 
 import click
 from packaging.requirements import Requirement
@@ -55,6 +57,7 @@ def build_other_wheels(ctx: Context, no_test: bool):
                 wheel_path=ctx.wheel_path,
                 other_wheel_path=ctx.other_wheel_path,
                 install=True,
+                config_settings=[],
             )
             if not no_test:
                 project.test(install_requirements=True)
@@ -62,8 +65,9 @@ def build_other_wheels(ctx: Context, no_test: bool):
 
 @ci.command()
 @click.option("--no-test", default=False, is_flag=True)
+@click.option("--cross", type=pathlib.Path, help="meson cross.txt file")
 @click.pass_obj
-def build_meson_wheels(ctx: Context, no_test: bool):
+def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[pathlib.Path]):
     """
     Builds wheels that use meson, runs tests.
 
@@ -81,6 +85,10 @@ def build_meson_wheels(ctx: Context, no_test: bool):
     # Check that the build dependencies match the versions of the projects
     # that we're building
 
+    config_settings = []
+    if cross:
+        config_settings.append("setup-args=--cross-file=" + str(cross.absolute()))
+
     for project in ctx.subprojects.values():
         if not project.is_meson_project():
             continue
@@ -93,6 +101,7 @@ def build_meson_wheels(ctx: Context, no_test: bool):
                 wheel_path=ctx.wheel_path,
                 other_wheel_path=ctx.other_wheel_path,
                 install=True,
+                config_settings=config_settings,
             )
             if not no_test:
                 project.test(install_requirements=True)
