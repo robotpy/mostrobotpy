@@ -1,9 +1,11 @@
+import os
 import pathlib
 import subprocess
 import shlex
 import shutil
 import sys
 import tempfile
+import textwrap
 import typing as T
 
 from packaging.requirements import Requirement
@@ -43,9 +45,14 @@ class Subproject:
     # Tasks
     #
 
-    def _cmd(self, *args: str, cwd=None):
+    def _cmd(self, *args: str, cwd=None, env=None):
         print("+", shlex.join(args))
-        subprocess.check_call(args, cwd=cwd)
+        if env:
+            envc = os.environ.copy()
+            envc.update(env)
+            env = envc
+
+        subprocess.check_call(args, cwd=cwd, env=env)
 
     def _run_pip(self, *args: str, cwd=None):
         self._cmd(
@@ -119,6 +126,8 @@ class Subproject:
         # TODO: eventually it would be nice to use build isolation
 
         with tempfile.TemporaryDirectory() as td:
+            tdp = pathlib.Path(td)
+
             # I wonder if we should use hatch build instead?
             self._cmd(
                 sys.executable,
@@ -131,9 +140,39 @@ class Subproject:
                 cwd=self.path,
             )
 
-            tdp = pathlib.Path(td)
-            twhl = list(tdp.glob("*.whl"))[0]
-            dst_whl = wheel_path / self._fix_wheel_name(twhl.name)
+            # On macOS we need to build two wheels and merge them together to build
+            # a universal wheel. Fun?
+            # - Since this script is for CI, we assume that we are building on arm64
+            if sys.platform == "darwin" and self.is_meson_project():
+
+                self._cmd(
+                    sys.executable,
+                    "-m",
+                    "build",
+                    "--no-isolation",
+                    "--outdir",
+                    td,
+                    *config_args,
+                    cwd=self.path,
+                    env=dict(ARCHFLAGS="-arch x86_64", SEMIWRAP_SKIP_PYI="1"),
+                )
+
+                native_wheels = list(map(str, tdp.glob("*.whl")))
+
+                self._cmd(
+                    sys.executable,
+                    "-m",
+                    "delocate.cmd.delocate_merge",
+                    "-vv",
+                    *native_wheels,
+                )
+
+                twhl = (set(map(str, tdp.glob("*.whl"))) - set(native_wheels)).pop()
+                dst_whl = wheel_path / pathlib.Path(twhl).name
+            else:
+                twhl = list(tdp.glob("*.whl"))[0]
+                dst_whl = wheel_path / self._fix_wheel_name(twhl.name)
+
             shutil.move(twhl, dst_whl)
 
         if install:

@@ -10,8 +10,10 @@ toposort
 validobj~=1.2
 wheel
 
+delocate; platform_system == 'Darwin'
+
+hatch-meson @ git+https://github.com/virtuald/hatch-meson@more-macos-cross-binaries
 semiwrap @ git+https://github.com/robotpy/robotpy-build@semiwrap
-hatch-meson
 hatch-robotpy @ git+https://github.com/robotpy/hatch-robotpy@main
 hatch-nativelib @ git+https://github.com/robotpy/hatch-nativelib@rm-macos-relink
 ninja
