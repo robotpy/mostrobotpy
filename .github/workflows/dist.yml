@@ -153,8 +153,9 @@ jobs:
 
     - uses: actions/download-artifact@v4
       with:
-        name: "pypi-other-${{ runner.os }}-${{ runner.arch }}"
+        pattern: "pypi-other-${{ runner.os }}-*"
         path: dist-other
+        merge-multiple: true
 
     #
     # Platform specific setup
