@@ -13,6 +13,6 @@ wheel
 semiwrap @ git+https://github.com/robotpy/robotpy-build@semiwrap
 hatch-meson
 hatch-robotpy @ git+https://github.com/robotpy/hatch-robotpy@main
-hatch-nativelib @ git+https://github.com/robotpy/hatch-nativelib@rm-macos-relink
+hatch-nativelib @ git+https://github.com/robotpy/hatch-nativelib@main
 ninja
 msvc-runtime>=14.42.34433; platform_system == 'Windows'
