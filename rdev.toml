@@ -48,9 +48,6 @@ roborio = true
 [subprojects."native.wpimath"]
 roborio = true
 
-# [subprojects."native.cscore"]
-# roborio = true
-
 [subprojects."native.apriltag"]
 roborio = true
 
@@ -83,9 +80,9 @@ roborio = true
 min_version = "2025.3.2"
 roborio = true
 
-# [subprojects."robotpy-cscore"]
-# min_version = "2025.3.2"
-# roborio = true
+[subprojects."robotpy-cscore"]
+min_version = "2025.3.2"
+roborio = true
 
 [subprojects."robotpy-apriltag"]
 min_version = "2025.3.2"

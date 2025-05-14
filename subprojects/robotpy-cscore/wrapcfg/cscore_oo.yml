@@ -1,7 +1,6 @@
----
 
 classes:
-  VideoProperty:
+  cs::VideoProperty:
     enums:
       Kind:
     methods:
@@ -25,7 +24,7 @@ classes:
       SetString:
       GetChoices:
       GetLastStatus:
-  VideoSource:
+  cs::VideoSource:
     enums:
       Kind:
       ConnectionStrategy:
@@ -62,7 +61,7 @@ classes:
       GetLastStatus:
       EnumerateSinks:
       EnumerateSources:
-  VideoCamera:
+  cs::VideoCamera:
     force_no_trampoline: true
     enums:
       WhiteBalance:
@@ -79,7 +78,7 @@ classes:
       SetExposureAuto:
       SetExposureHoldCurrent:
       SetExposureManual:
-  UsbCamera:
+  cs::UsbCamera:
     force_no_trampoline: true
     methods:
       UsbCamera:
@@ -92,7 +91,7 @@ classes:
       GetPath:
       GetInfo:
       SetConnectVerbose:
-  HttpCamera:
+  cs::HttpCamera:
     force_no_trampoline: true
     constants:
     - cs::HttpCamera::HttpCameraKind::kUnknown
@@ -114,7 +113,7 @@ classes:
           std::initializer_list<T>:
             ignore: true
       GetUrls:
-  AxisCamera:
+  cs::AxisCamera:
     force_no_trampoline: true
     methods:
       AxisCamera:
@@ -125,7 +124,7 @@ classes:
           std::string_view, std::span<const std::string>:
           std::string_view, std::initializer_list<T>:
             ignore: true
-  ImageSource:
+  cs::ImageSource:
     force_no_trampoline: true
     methods:
       NotifyError:
@@ -141,7 +140,7 @@ classes:
           const VideoProperty&, std::initializer_list<T>:
             ignore: true
       ImageSource:
-  VideoSink:
+  cs::VideoSink:
     enums:
       Kind:
     methods:
@@ -164,7 +163,7 @@ classes:
       GetSourceProperty:
       GetLastStatus:
       EnumerateSinks:
-  MjpegServer:
+  cs::MjpegServer:
     force_no_trampoline: true
     methods:
       MjpegServer:
@@ -178,20 +177,20 @@ classes:
       SetFPS:
       SetCompression:
       SetDefaultCompression:
-  ImageSink:
+  cs::ImageSink:
     force_no_trampoline: true
     methods:
       SetDescription:
       GetError:
       SetEnabled:
       ImageSink:
-  VideoEvent:
+  cs::VideoEvent:
     force_no_trampoline: true
     methods:
       GetSource:
       GetSink:
       GetProperty:
-  VideoListener:
+  cs::VideoListener:
     methods:
       VideoListener:
         overloads:
