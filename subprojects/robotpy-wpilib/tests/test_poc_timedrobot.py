@@ -51,11 +51,12 @@ class TestController:
     Use this object to control the robot's state during tests
     """
 
-    def __init__(self, reraise, robot: wpilib.RobotBase):
+    def __init__(self, reraise, robot: wpilib.RobotBase, expectFinished: bool):
         self._reraise = reraise
 
         self._thread: typing.Optional[threading.Thread] = None
         self._robot = robot
+        self._expectFinished = expectFinished
 
         self._cond = threading.Condition()
         self._robot_started = False
@@ -79,9 +80,10 @@ class TestController:
 
             try:
                 robot.startCompetition()
-                assert self._robot_finished
+                assert self._expectFinished == self._robot_finished
             finally:
                 # always call endCompetition or python hangs
+                print("_robot_thread is calling endCompetition()")
                 robot.endCompetition()
                 del robot
 
@@ -118,6 +120,7 @@ class TestController:
             yield
         finally:
             self._robot_finished = True
+            print("run_robot is calling endCompetition()")
             robot.endCompetition()
 
             if isinstance(self._reraise.exception, RuntimeError):
@@ -162,8 +165,9 @@ class TestController:
         self,
         *,
         seconds: float,
-        autonomous: bool,
-        enabled: bool,
+        autonomous: bool = False,
+        test: bool = False,
+        enabled: bool = False,
         assert_alive: bool = True,
     ) -> float:
         """
@@ -178,22 +182,24 @@ class TestController:
         :returns: Number of seconds time was incremented
         """
 
-        assert self.robot_is_alive, "did you call control.run_robot()?"
+        if self._expectFinished:
+            assert self.robot_is_alive, "did you call control.run_robot()?"
 
         assert seconds > 0
 
         DriverStationSim.setDsAttached(True)
         DriverStationSim.setAutonomous(autonomous)
+        DriverStationSim.setTest(test)
         DriverStationSim.setEnabled(enabled)
 
         tm = 0.0
 
-        while tm < seconds + 0.01:
+        while tm < seconds:
             DriverStationSim.notifyNewData()
-            stepTiming(0.2)
-            if assert_alive:
+            stepTiming(0.001)
+            if assert_alive and self._expectFinished:
                 assert self.robot_is_alive
-            tm += 0.2
+            tm += 0.001
 
         return tm
 
@@ -304,12 +310,12 @@ def robot_with_sim_setup_teardown(decorated_robot_class):
 
 @pytest.fixture(scope="function")
 def getTestController(
-    reraise, robot_with_sim_setup_teardown: wpilib.RobotBase
+    reraise, robot_with_sim_setup_teardown: wpilib.RobotBase, expectFinished
 ) -> TestController:
     """
     A pytest fixture that provides control over your robot_with_sim_setup_teardown
     """
-    return TestController(reraise, robot_with_sim_setup_teardown)
+    return TestController(reraise, robot_with_sim_setup_teardown, expectFinished)
 
 
 def run_practice(control: "TestController"):
@@ -381,9 +387,14 @@ class TestThings:
             pass
 
     @classmethod
-    @pytest.fixture(scope="function", autouse=True)
+    @pytest.fixture(scope="function", autouse=False)
     def myrobot_class(cls) -> type[MyRobot]:
         return cls.MyRobot
+
+    @classmethod
+    @pytest.fixture(scope="function", autouse=False)
+    def expectFinished(cls) -> bool:
+        return True
 
     def test_iterative(self, getTestController, robot_with_sim_setup_teardown):
         """Ensure that all states of the iterative robot run"""
@@ -403,76 +414,180 @@ class TestThings:
         assert robot_with_sim_setup_teardown.robotInitialized == True
         assert robot_with_sim_setup_teardown.robotPeriodicCount > 0
 
-class MyRobotRobotInitFails(TimedRobotPy):
+class TimedRobotPyExpectsException(TimedRobotPy):
+    def startCompetition(self) -> None:
+        hasAssertionError = False
+        try:
+            super().startCompetition()
+        except AssertionError:
+            hasAssertionError = True
+        print(f"TimedRobotPyExpectsException hasAssertionError={hasAssertionError}")
+        assert hasAssertionError
+
+class TimedRobotPyDoNotExpectException(TimedRobotPy):
+    def startCompetition(self) -> None:
+        hasAssertionError = False
+        try:
+            super().startCompetition()
+        except AssertionError:
+            hasAssertionError = True
+        print(f"TimedRobotPyExpectsException hasAssertionError={hasAssertionError}")
+        assert not hasAssertionError
+
+
+from wpilib import RobotController
+
+def printEntryAndExit(func):
+    def wrapper(*args, **kwargs):
+        #name = inspect.currentframe().f_code.co_name
+        name = func.__name__
+        print(f"Enter:{name} at {RobotController.getFPGATime()/1000_000.0:.3f}")
+        result = func(*args, **kwargs)
+        print(f"Exit_:{name} at {RobotController.getFPGATime()/1000_000.0:.3f}")
+        return result
+    return wrapper
+
+class MyRobotRobotDefaultPass():
+
+    @printEntryAndExit
+    def robotInit(self):
+        pass
+
+    @printEntryAndExit
+    def robotPeriodic(self):
+        pass
+
+    @printEntryAndExit
+    def autonomousInit(self):
+        pass
+
+    @printEntryAndExit
+    def autonomousPeriodic(self):
+        pass
+
+    @printEntryAndExit
+    def autonomousExit(self):
+        pass
+
+    @printEntryAndExit
+    def disabledInit(self):
+        pass
+
+    @printEntryAndExit
+    def disabledPeriodic(self):
+        pass
+
+    @printEntryAndExit
+    def disabledExit(self):
+        pass
+
+    @printEntryAndExit
+    def _simulationInit(self):
+        pass
+
+    @printEntryAndExit
+    def _simulationPeriodic(self):
+        pass
+
+
+
+class MyRobotRobotInitFails():
     def robotInit(self):
         assert False
 
-class MyRobotRobotPeriodicFails(TimedRobotPy):
+class MyRobotRobotPeriodicFails():
     def robotPeriodic(self):
         assert False
 
-class MyRobotAutonomousInitFails(TimedRobotPy):
+class MyRobotAutonomousInitFails():
     def autonomousInit(self):
         assert False
 
-class MyRobotAutonomousPeriodicFails(TimedRobotPy):
+class MyRobotAutonomousPeriodicFails():
     def autonomousPeriodic(self):
         assert False
 
-class MyRobotAutonomousExitFails(TimedRobotPy):
+class MyRobotAutonomousExitFails():
     def autonomousExit(self):
         assert False
 
-class MyRobotTeleopInitFails(TimedRobotPy):
+class MyRobotTeleopInitFails():
     def teleopInit(self):
         assert False
 
-class MyRobotTeleopPeriodicFails(TimedRobotPy):
+class MyRobotTeleopPeriodicFails():
     def teleopPeriodic(self):
         assert False
 
-class MyRobotDisabledPeriodicFails(TimedRobotPy):
+class MyRobotDisabledPeriodicFails():
     def disabledPeriodic(self):
         assert False
 
-class MyRobotDisabledInitFails(TimedRobotPy):
+class MyRobotDisabledInitFails():
     def disabledInit(self):
         assert False
 
-class MyRobotTestInitFails(TimedRobotPy):
+class MyRobotTestInitFails():
     def testInit(self):
         assert False
 
-class MyRobotTestPeriodicFails(TimedRobotPy):
+class MyRobotTestPeriodicFails():
     def testPeriodic(self):
         assert False
 
-"""
-@pytest.mark.parametrize("myrobot_class", [
-    MyRobotRobotInitFails,
-    MyRobotAutonomousInitFails,
-    MyRobotAutonomousPeriodicFails,
-    MyRobotAutonomousExitFails,
-])
-class TestCanThrowFailures:
 
 
-    def test_autonomous_fails(self, getTestController, robot_with_sim_setup_teardown):
+@pytest.mark.parametrize("myRobotAddMethods, timedRobotExpectation, _expectFinished, _autonomous, _test", [
+        (MyRobotRobotDefaultPass, TimedRobotPyDoNotExpectException, True, True, False),
+        (MyRobotRobotInitFails, TimedRobotPyExpectsException, False, True, False),
+        (MyRobotAutonomousInitFails, TimedRobotPyExpectsException, False, True, False),
+        (MyRobotAutonomousPeriodicFails, TimedRobotPyExpectsException, False, True, False),
+        (MyRobotAutonomousExitFails, TimedRobotPyExpectsException, False, True, False)
+    ]
+)
+class TestCanThrowExceptions:
+    @classmethod
+    @pytest.fixture(scope="function", autouse=False)
+    def myrobot_class(cls, myRobotAddMethods, timedRobotExpectation, _expectFinished, _autonomous, _test) -> type[TimedRobotPy]:
+        class MyRobot(myRobotAddMethods, timedRobotExpectation):
+
+            @printEntryAndExit
+            def startCompetition(self):
+                super().startCompetition()
+
+            @printEntryAndExit
+            def endCompetition(self):
+                super().endCompetition()
+
+        return MyRobot
+
+    @classmethod
+    @pytest.fixture(scope="function", autouse=False)
+    def expectFinished(cls, myRobotAddMethods, timedRobotExpectation, _expectFinished, _autonomous, _test) -> bool:
+        return _expectFinished
+
+    @classmethod
+    @pytest.fixture(scope="function", autouse=False)
+    def autonomous(cls, myRobotAddMethods, timedRobotExpectation, _expectFinished, _autonomous, _test) -> bool:
+        return _autonomous
+
+    @classmethod
+    @pytest.fixture(scope="function", autouse=False)
+    def test(cls, myRobotAddMethods, timedRobotExpectation, _expectFinished, _autonomous, _test) -> bool:
+        return _test
+
+
+    def test_robot_mode_with_exceptions(self, getTestController, robot_with_sim_setup_teardown, autonomous, test):
         with getTestController.run_robot():
-            hasAssertionError = False
-            try:
-                # Run disabled for a short period
-                getTestController.step_timing(seconds=0.5, autonomous=True, enabled=False)
+            periodS = robot_with_sim_setup_teardown.getPeriod()
+            # Run disabled for a short period
+            print(f"periodS={periodS} or {periodS*1.5}")
+            getTestController.step_timing(seconds=periodS*1.5, autonomous=autonomous, test=test, enabled=False)
 
-                # Run autonomous + enabled for 15 seconds
-                getTestController.step_timing(seconds=15, autonomous=True, enabled=True)
+            # Run in desired mode for 1 period
+            getTestController.step_timing(seconds=periodS, autonomous=autonomous, test=test, enabled=True)
 
-                # Disabled for another short period
-                getTestController.step_timing(seconds=0.5, autonomous=False, enabled=False)
-            except AssertionError:
-                hasAssertionError = True
-                print("We had an assertion error")
-            assert hasAssertionError
-"""
+            # Disabled for 1 period
+            getTestController.step_timing(seconds=periodS, autonomous=autonomous, test=test, enabled=False)
 
 
