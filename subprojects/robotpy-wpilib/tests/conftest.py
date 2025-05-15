@@ -2,8 +2,12 @@ import logging
 
 import pytest
 import ntcore
-import wpilib
 from wpilib.simulation._simulation import _resetWpilibSimulationData
+
+try:
+    import commands2
+except ImportError:
+    commands2 = None
 
 
 @pytest.fixture
