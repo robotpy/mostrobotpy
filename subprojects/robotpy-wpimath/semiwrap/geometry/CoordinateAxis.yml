@@ -1,0 +1,11 @@
+
+classes:
+  frc::CoordinateAxis:
+    methods:
+      CoordinateAxis:
+      N:
+      S:
+      E:
+      W:
+      U:
+      D:

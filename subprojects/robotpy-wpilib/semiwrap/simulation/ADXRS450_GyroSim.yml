@@ -1,0 +1,9 @@
+extra_includes:
+- frc/ADXRS450_Gyro.h
+
+classes:
+  frc::sim::ADXRS450_GyroSim:
+    methods:
+      ADXRS450_GyroSim:
+      SetAngle:
+      SetRate:

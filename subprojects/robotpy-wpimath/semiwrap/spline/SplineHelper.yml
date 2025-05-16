@@ -1,0 +1,9 @@
+classes:
+  frc::SplineHelper:
+    methods:
+      CubicControlVectorsFromWaypoints:
+      QuinticControlVectorsFromWaypoints:
+      QuinticSplinesFromWaypoints:
+      CubicSplinesFromControlVectors:
+      QuinticSplinesFromControlVectors:
+      OptimizeCurvature:

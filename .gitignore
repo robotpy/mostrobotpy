@@ -1,7 +1,8 @@
 
 *.py[ciod]
 /dist
+/dist-other
+/cache
 
 rpy-include
-py.typed
 .venv/

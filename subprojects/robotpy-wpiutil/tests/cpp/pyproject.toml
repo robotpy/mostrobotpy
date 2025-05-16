@@ -1,24 +1,11 @@
 [build-system]
-requires = ["robotpy-build"]
-
-[tool.robotpy-build]
-base_package = "wpiutil_test"
-
-[tool.robotpy-build.wrappers."wpiutil_test"]
-name = "wpiutil_test"
-extension = "module"
-depends = ["wpiutil"]
-sources = [
-    "wpiutil_test/module.cpp",
-    "wpiutil_test/sendable_test.cpp",
-    "wpiutil_test/struct_test.cpp",
+build-backend = "hatchling.build"
+requires = [
+    "hatch-meson", "hatchling"
 ]
 
-[tool.robotpy-build.metadata]
+[project]
 name = "wpiutil_test"
-description = "Test project for verifying robotpy-build behavior"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-license = "BSD-3-Clause"
-install_requires = []
-url = ""
+version = "0.0.1"
+
+[tool.hatch.build.hooks.meson]

@@ -2,7 +2,7 @@
 // TODO: this should be in a shared library, but robotpy-build does not support that
 
 #include <pybind11/eval.h>
-#include <robotpy_build.h>
+#include <semiwrap.h>
 
 namespace robotpy::filesystem {
 

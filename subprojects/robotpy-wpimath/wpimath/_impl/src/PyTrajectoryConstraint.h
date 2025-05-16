@@ -1,7 +1,7 @@
 #pragma once
 
 #include <frc/trajectory/constraint/TrajectoryConstraint.h>
-#include <robotpy_build.h>
+#include <semiwrap.h>
 
 namespace frc {
 

@@ -1,0 +1,24 @@
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  frc::DigitalOutput:
+    ignored_bases:
+    - wpi::SendableHelper<DigitalOutput>
+    methods:
+      DigitalOutput:
+      Set:
+      Get:
+      GetPortHandleForRouting:
+      GetAnalogTriggerTypeForRouting:
+      IsAnalogTrigger:
+      GetChannel:
+      Pulse:
+      IsPulsing:
+      SetPWMRate:
+      EnablePPS:
+      EnablePWM:
+      DisablePWM:
+      UpdateDutyCycle:
+      SetSimDevice:
+      InitSendable:

@@ -1,0 +1,49 @@
+
+strip_prefixes:
+- HAL_
+
+enums:
+  HAL_AllianceStationID:
+    value_prefix: HAL_AllianceStationID
+  HAL_MatchType:
+    value_prefix: HAL_kMatchType
+classes:
+  HAL_ControlWord:
+    attributes:
+      enabled:
+      autonomous:
+      test:
+      eStop:
+      fmsAttached:
+      dsAttached:
+      control_reserved:
+  HAL_JoystickAxes:
+    attributes:
+      count:
+      axes:
+      raw:
+  HAL_JoystickPOVs:
+    attributes:
+      count:
+      povs:
+  HAL_JoystickButtons:
+    attributes:
+      buttons:
+      count:
+  HAL_JoystickDescriptor:
+    attributes:
+      isXbox:
+      type:
+      name:
+      axisCount:
+      axisTypes:
+      buttonCount:
+      povCount:
+  HAL_MatchInfo:
+    attributes:
+      eventName:
+      matchType:
+      matchNumber:
+      replayNumber:
+      gameSpecificMessage:
+      gameSpecificMessageSize:

@@ -1,0 +1,16 @@
+---
+
+strip_prefixes:
+- HALSIM_
+
+classes:
+  HalCallbackListener:
+    ignore: true  # TODO
+    attributes:
+      callback:
+      param:
+    methods:
+      HalCallbackListener:
+        overloads:
+          "":
+          void*, CallbackFunction:

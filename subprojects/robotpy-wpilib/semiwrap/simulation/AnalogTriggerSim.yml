@@ -1,0 +1,23 @@
+extra_includes:
+- frc/AnalogTrigger.h
+
+classes:
+  frc::sim::AnalogTriggerSim:
+    force_type_casters:
+    - std::function
+    methods:
+      AnalogTriggerSim:
+        overloads:
+          const AnalogTrigger&:
+      CreateForChannel:
+      CreateForIndex:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterTriggerLowerBoundCallback:
+      GetTriggerLowerBound:
+      SetTriggerLowerBound:
+      RegisterTriggerUpperBoundCallback:
+      GetTriggerUpperBound:
+      SetTriggerUpperBound:
+      ResetData:

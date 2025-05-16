@@ -8,15 +8,13 @@
 .vscode
 
 __pycache__
-/hal/include
-/hal/lib
-/hal/rpy-include
-/hal/_init_wpiHal.py
-/hal/py.typed
-/hal/pkgcfg.py
+/hal/trampolines
+/hal/_init__wpiHal.py
 /hal/version.py
-/hal/simulation/_init_simulation.py
-/hal/simulation/pkgcfg.py
+/hal/wpihal.pc
+/hal/simulation/_init__simulation.py
+/hal/simulation/hal_simulation.pc
+/hal/simulation/trampolines
 
 /dist
 /build

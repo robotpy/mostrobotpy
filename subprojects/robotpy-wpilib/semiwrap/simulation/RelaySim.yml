@@ -1,0 +1,25 @@
+extra_includes:
+- frc/Relay.h
+
+classes:
+  frc::sim::RelaySim:
+    force_type_casters:
+    - std::function
+    methods:
+      RelaySim:
+        overloads:
+          const Relay&:
+          int:
+      RegisterInitializedForwardCallback:
+      GetInitializedForward:
+      SetInitializedForward:
+      RegisterInitializedReverseCallback:
+      GetInitializedReverse:
+      SetInitializedReverse:
+      RegisterForwardCallback:
+      GetForward:
+      SetForward:
+      RegisterReverseCallback:
+      GetReverse:
+      SetReverse:
+      ResetData:

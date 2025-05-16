@@ -10,14 +10,9 @@
 __pycache__
 /wpinet/include
 /wpinet/lib
-/wpinet/py.typed
-/wpinet/_init_wpinet.py
-/wpinet/pkgcfg.py
+/wpinet/_init__wpinet.py
+/wpinet/wpinet.pc
+/wpinet/trampolines
 /wpinet/version.py
 /dist
 /build
-
-/tests/cpp/build
-/tests/cpp/wpinet_test/_initmodule.py
-/tests/cpp/wpinet_test/pkgcfg.py
-/tests/cpp/wpinet_test/version.py

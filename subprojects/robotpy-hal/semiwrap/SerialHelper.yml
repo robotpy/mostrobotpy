@@ -1,0 +1,10 @@
+---
+
+classes:
+  hal::SerialHelper:
+    methods:
+      SerialHelper:
+      GetVISASerialPortName:
+      GetOSSerialPortName:
+      GetVISASerialPortList:
+      GetOSSerialPortList:

@@ -1,6 +1,6 @@
 
-#include <rpygen_wrapper.hpp>
+#include <semiwrap_init.xrp._xrp.hpp>
 
-RPYBUILD_PYBIND11_MODULE(m) {
+SEMIWRAP_PYBIND11_MODULE(m) {
     initWrapper(m);
 }

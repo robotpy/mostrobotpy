@@ -1,0 +1,16 @@
+extra_includes:
+- wpi/sendable/SendableBuilder.h
+
+classes:
+  frc::PWMSpeedController:
+    methods:
+      Set:
+      Get:
+      SetInverted:
+      GetInverted:
+      Disable:
+      StopMotor:
+      PIDWrite:
+        rename: pidWrite
+      PWMSpeedController:
+      InitSendable:

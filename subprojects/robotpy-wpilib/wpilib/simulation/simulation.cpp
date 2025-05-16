@@ -1,5 +1,5 @@
 
-#include "rpygen_wrapper.hpp"
+#include "semiwrap_init.wpilib.simulation._simulation.hpp"
 
 #ifndef __FRC_ROBORIO__
 
@@ -31,7 +31,7 @@ void resetWpilibSimulationData() {}
 void resetMotorSafety() {}
 #endif
 
-RPYBUILD_PYBIND11_MODULE(m) {
+SEMIWRAP_PYBIND11_MODULE(m) {
   initWrapper(m);
 
   m.def("_resetWpilibSimulationData", &resetWpilibSimulationData,

@@ -1,0 +1,9 @@
+
+classes:
+  frc::XRPServo:
+    methods:
+      XRPServo:
+      SetAngle:
+      GetAngle:
+      SetPosition:
+      GetPosition:

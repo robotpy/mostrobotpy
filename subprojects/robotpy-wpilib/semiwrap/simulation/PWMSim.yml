@@ -1,0 +1,36 @@
+extra_includes:
+- frc/PWM.h
+- frc/motorcontrol/PWMMotorController.h
+
+classes:
+  frc::sim::PWMSim:
+    force_type_casters:
+    - std::function
+    methods:
+      PWMSim:
+        overloads:
+          const PWM&:
+          const PWMMotorController&:
+          int:
+      RegisterInitializedCallback:
+      GetInitialized:
+      SetInitialized:
+      RegisterPulseMicrosecondCallback:
+      GetPulseMicrosecond:
+      SetPulseMicrosecond:
+      RegisterRawValueCallback:
+      GetRawValue:
+      SetRawValue:
+      RegisterSpeedCallback:
+      GetSpeed:
+      SetSpeed:
+      RegisterPositionCallback:
+      GetPosition:
+      SetPosition:
+      RegisterPeriodScaleCallback:
+      GetPeriodScale:
+      SetPeriodScale:
+      RegisterZeroLatchCallback:
+      GetZeroLatch:
+      SetZeroLatch:
+      ResetData:

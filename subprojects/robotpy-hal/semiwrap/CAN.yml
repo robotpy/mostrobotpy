@@ -1,0 +1,24 @@
+---
+
+strip_prefixes:
+- HAL_
+
+functions:
+  HAL_CAN_SendMessage:
+    buffers:
+    - { type: IN, src: data, len: dataSize }
+  HAL_CAN_ReceiveMessage:
+    buffers:
+    - { type: OUT, src: data, len: dataSize, minsz: 8 }
+  HAL_CAN_OpenStreamSession:
+  HAL_CAN_CloseStreamSession:
+  HAL_CAN_ReadStreamSession:
+    ignore: true # TODO: an array of messages
+  HAL_CAN_GetCANStatus:
+classes:
+  HAL_CANStreamMessage:
+    attributes:
+      messageID:
+      timeStamp:
+      data:
+      dataSize:

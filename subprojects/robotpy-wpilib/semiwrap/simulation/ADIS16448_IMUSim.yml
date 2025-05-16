@@ -1,0 +1,17 @@
+
+extra_includes:
+- frc/ADIS16448_IMU.h
+
+classes:
+  frc::sim::ADIS16448_IMUSim:
+    methods:
+      ADIS16448_IMUSim:
+      SetGyroAngleX:
+      SetGyroAngleY:
+      SetGyroAngleZ:
+      SetGyroRateX:
+      SetGyroRateY:
+      SetGyroRateZ:
+      SetAccelX:
+      SetAccelY:
+      SetAccelZ:

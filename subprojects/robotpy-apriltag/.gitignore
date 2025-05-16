@@ -12,8 +12,7 @@ __pycache__
 
 /robotpy_apriltag/include
 /robotpy_apriltag/lib
-/robotpy_apriltag/_init_apriltag.py
-/robotpy_apriltag/pkgcfg.py
+/robotpy_apriltag/_init__apriltag.py
+/robotpy_apriltag/apriltag.pc
 /robotpy_apriltag/version.py
-/robotpy_apriltag/py.typed
-/robotpy_apriltag/rpy-include
+/robotpy_apriltag/trampolines

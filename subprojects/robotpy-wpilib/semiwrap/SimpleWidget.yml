@@ -1,0 +1,12 @@
+extra_includes:
+- frc/shuffleboard/ShuffleboardContainer.h
+
+classes:
+  frc::SimpleWidget:
+    methods:
+      SimpleWidget:
+      GetEntry:
+        overloads:
+          '':
+          std::string_view:
+      BuildInto:

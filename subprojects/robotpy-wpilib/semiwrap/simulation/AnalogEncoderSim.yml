@@ -1,0 +1,15 @@
+extra_includes:
+- frc/AnalogEncoder.h
+
+classes:
+  frc::sim::AnalogEncoderSim:
+    force_type_casters:
+    - std::function
+    methods:
+      AnalogEncoderSim:
+      SetPosition:
+      SetTurns:
+      GetTurns:
+      GetPosition:
+      Set:
+      Get:

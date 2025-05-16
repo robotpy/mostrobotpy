@@ -1,0 +1,24 @@
+---
+
+classes:
+  SimDataValueBase:
+    ignore: true
+    attributes:
+      m_value:
+    methods:
+      SimDataValueBase:
+      CancelCallback:
+      Get:
+      Reset:
+      GetMutex:
+      DoRegisterCallback:
+      DoSet:
+  SimDataValue:
+    ignore: true
+    methods:
+      SimDataValue:
+        overloads:
+          "":
+          T:
+      RegisterCallback:
+      Set:

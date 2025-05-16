@@ -1,0 +1,16 @@
+---
+
+classes:
+  SimCallbackRegistryBase:
+    ignore: true  # TODO
+    methods:
+      Cancel:
+      Reset:
+      GetMutex:
+      DoRegister:
+      DoReset:
+  SimCallbackRegistry:
+    ignore: true  # TODO
+    methods:
+      Register:
+      Invoke:
