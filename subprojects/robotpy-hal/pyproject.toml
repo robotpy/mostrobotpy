@@ -148,7 +148,7 @@ HandlesInternal = "hal/handles/HandlesInternal.h"
 name = "hal_simulation"
 wraps = ["native.wpihal"]
 depends = ["wpiutil"]
-yaml_path = "wrapcfg/simulation"
+yaml_path = "semiwrap/simulation"
 
 [tool.semiwrap.extension_modules."hal.simulation._simulation".headers]
 AccelerometerData = "hal/simulation/AccelerometerData.h"

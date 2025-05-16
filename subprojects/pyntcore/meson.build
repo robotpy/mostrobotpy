@@ -2,7 +2,7 @@ project('pyntcore', ['cpp'],
         default_options: ['warning_level=1', 'cpp_std=c++20',
                           'b_colorout=auto', 'optimization=2', 'b_pie=true'])
 
-subdir('wrapcfg')
+subdir('semiwrap')
 
 ntcore_sources += files(
     'ntcore/src/ntcore.cpp',
@@ -11,4 +11,4 @@ ntcore_sources += files(
     'ntcore/src/pyentry.cpp',
 )
 
-subdir('wrapcfg/modules')
+subdir('semiwrap/modules')

@@ -2,7 +2,7 @@ project('robotpy-wpimath', ['cpp'],
         default_options: ['warning_level=1', 'cpp_std=c++20',
                           'b_colorout=auto', 'optimization=2', 'b_pie=true'])
 
-subdir('wrapcfg')
+subdir('semiwrap')
 
 wpimath_sources += files(
     'wpimath/src/wpimath.cpp',
@@ -32,4 +32,4 @@ wpimath_spline_sources += files(
     'wpimath/spline/spline.cpp',
 )
 
-subdir('wrapcfg/modules')
+subdir('semiwrap/modules')

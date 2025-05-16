@@ -223,7 +223,7 @@ Color8Bit = "frc/util/Color8Bit.h"
 name = "wpilib_counter"
 wraps = ["native.wpilib"]
 depends = ["wpilib"]
-yaml_path = "wrapcfg/counter"
+yaml_path = "semiwrap/counter"
 
 [tool.semiwrap.extension_modules."wpilib.counter._counter".headers]
 # frc/counter
@@ -237,7 +237,7 @@ UpDownCounter = "frc/counter/UpDownCounter.h"
 name = "wpilib_drive"
 wraps = ["native.wpilib"]
 depends = ["wpilib"]
-yaml_path = "wrapcfg/drive"
+yaml_path = "semiwrap/drive"
 
 [tool.semiwrap.extension_modules."wpilib.drive._drive".headers]
 # frc/drive
@@ -251,7 +251,7 @@ name = "wpilib_event"
 wraps = ["native.wpilib"]
 # depends = ["wpilib", "wpimath_filter"]
 depends = ["wpimath_filter"]
-yaml_path = "wrapcfg/event"
+yaml_path = "semiwrap/event"
 
 [tool.semiwrap.extension_modules."wpilib.event._event".headers]
 # frc/event
@@ -264,7 +264,7 @@ NetworkBooleanEvent = "frc/event/NetworkBooleanEvent.h"
 name = "wpilib_interfaces"
 wraps = ["native.wpilib"]
 depends = ["wpilib_event", "wpimath_geometry"]
-yaml_path = "wrapcfg/interfaces"
+yaml_path = "semiwrap/interfaces"
 
 [tool.semiwrap.extension_modules."wpilib.interfaces._interfaces".headers]
 # frc
@@ -277,7 +277,7 @@ MotorController = "frc/motorcontrol/MotorController.h"
 name = "wpilib_shuffleboard"
 wraps = ["native.wpilib"]
 depends = ["wpilib", "wpilib_interfaces"]
-yaml_path = "wrapcfg/shuffleboard"
+yaml_path = "semiwrap/shuffleboard"
 
 # pp_defines = [
 #     "DYNAMIC_CAMERA_SERVER 1"
@@ -312,7 +312,7 @@ WidgetType = "frc/shuffleboard/WidgetType.h"
 name = "wpilib_simulation"
 wraps = ["native.wpilib"]
 depends = ["wpilib", "wpimath_controls", "wpimath_geometry", "wpimath_kinematics"]
-yaml_path = "wrapcfg/simulation"
+yaml_path = "semiwrap/simulation"
 
 [tool.semiwrap.extension_modules."wpilib.simulation._simulation".headers]
 # frc/simulation

@@ -2,7 +2,7 @@ project('robotpy-cscore', ['cpp'],
         default_options: ['warning_level=1', 'cpp_std=c++20',
                           'b_colorout=auto', 'optimization=2', 'b_pie=true'])
 
-subdir('wrapcfg')
+subdir('semiwrap')
 
 cscore_sources += files(
   'cscore/src/main.cpp',
@@ -23,4 +23,4 @@ cscore_deps += [
     cpp.find_library('cameraserver', dirs: libs_path),
 ]
 
-subdir('wrapcfg/modules')
+subdir('semiwrap/modules')

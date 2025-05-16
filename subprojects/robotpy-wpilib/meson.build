@@ -2,7 +2,7 @@ project('wpilib', ['cpp'],
         default_options: ['warning_level=1', 'cpp_std=c++20',
                           'b_colorout=auto', 'optimization=2', 'b_pie=true'])
 
-subdir('wrapcfg')
+subdir('semiwrap')
 
 dyn_camsrv = declare_dependency(compile_args: ['-DDYNAMIC_CAMERA_SERVER=1'])
 
@@ -43,4 +43,4 @@ wpilib_simulation_sources += files(
     'wpilib/simulation/simulation.cpp',
 )
 
-subdir('wrapcfg/modules')
+subdir('semiwrap/modules')

@@ -1465,7 +1465,7 @@ MathUtil = "frc/MathUtil.h"
 name = "wpimath_filter"
 wraps = ["native.wpimath"]
 depends = ["wpimath"]
-yaml_path = "wrapcfg/filter"
+yaml_path = "semiwrap/filter"
 
 [tool.semiwrap.extension_modules."wpimath.filter._filter".headers]
 Debouncer = "frc/filter/Debouncer.h"
@@ -1479,7 +1479,7 @@ name = "wpimath_geometry"
 wraps = ["native.wpimath"]
 depends = ["wpimath"]
 includes = ["wpimath/geometry/include"]
-yaml_path = "wrapcfg/geometry"
+yaml_path = "semiwrap/geometry"
 
 [tool.semiwrap.extension_modules."wpimath.geometry._geometry".headers]
 # frc/geometry
@@ -1503,7 +1503,7 @@ Twist3d = "frc/geometry/Twist3d.h"
 name = "wpimath_interpolation"
 wraps = ["native.wpimath"]
 depends = ["wpimath_geometry"]
-yaml_path = "wrapcfg/interpolation"
+yaml_path = "semiwrap/interpolation"
 
 [tool.semiwrap.extension_modules."wpimath.interpolation._interpolation".headers]
 # frc/interpolation
@@ -1514,7 +1514,7 @@ TimeInterpolatableBuffer = "frc/interpolation/TimeInterpolatableBuffer.h"
 name = "wpimath_kinematics"
 wraps = ["native.wpimath"]
 depends = ["wpimath_geometry"]
-yaml_path = "wrapcfg/kinematics"
+yaml_path = "semiwrap/kinematics"
 
 [tool.semiwrap.extension_modules."wpimath.kinematics._kinematics".headers]
 # frc/kinematics
@@ -1543,7 +1543,7 @@ SwerveModuleState = "frc/kinematics/SwerveModuleState.h"
 name = "wpimath_spline"
 wraps = ["native.wpimath"]
 depends = ["wpimath_geometry"]
-yaml_path = "wrapcfg/spline"
+yaml_path = "semiwrap/spline"
 
 [tool.semiwrap.extension_modules."wpimath.spline._spline".headers]
 # frc/spline
@@ -1558,7 +1558,7 @@ SplineParameterizer = "frc/spline/SplineParameterizer.h"
 name = "wpimath_controls"
 wraps = ["native.wpimath"]
 depends = ["wpimath", "wpimath_geometry", "wpimath_kinematics", "wpimath_spline"]
-yaml_path = "wrapcfg/controls"
+yaml_path = "semiwrap/controls"
 
 [tool.semiwrap.extension_modules."wpimath._controls._controls".headers]
 # frc/controller
