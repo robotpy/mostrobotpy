@@ -1,4 +1,3 @@
-
 attributes:
   kProtocol:
 functions:
@@ -6,7 +5,6 @@ functions:
   AddToSendableRegistry:
 classes:
   frc::SendableCameraWrapper:
-    shared_ptr: true
     methods:
       SendableCameraWrapper:
       Wrap:

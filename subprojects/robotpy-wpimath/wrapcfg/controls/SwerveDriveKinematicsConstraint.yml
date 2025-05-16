@@ -1,7 +1,5 @@
-
 classes:
   frc::SwerveDriveKinematicsConstraint:
-    shared_ptr: true
     template_params:
     - size_t NumModules
     typealias:

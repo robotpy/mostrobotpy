@@ -1,7 +1,5 @@
-
 classes:
   frc::SlewRateLimiter:
-    shared_ptr: true
     template_params:
     - Unit
     typealias:

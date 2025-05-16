@@ -1,11 +1,9 @@
-
 extra_includes:
 - wpystruct.h
 
 classes:
   frc::DifferentialDriveWheelSpeeds:
     force_no_default_constructor: true
-    shared_ptr: false
     attributes:
       left:
       right:

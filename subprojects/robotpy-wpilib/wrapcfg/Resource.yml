@@ -1,7 +1,5 @@
-
 classes:
   frc::Resource:
-    shared_ptr: true
     methods:
       CreateResourceObject:
       Resource:

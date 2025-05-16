@@ -1,7 +1,5 @@
-
 classes:
   frc::TrapezoidProfile:
-    shared_ptr: false
     force_type_casters:
     - units::second_t
     - units::radians_per_second
@@ -63,7 +61,6 @@ classes:
         });
       }
   frc::TrapezoidProfile::Constraints:
-    shared_ptr: false
     attributes:
       maxVelocity:
       maxAcceleration:
@@ -93,7 +90,6 @@ classes:
       }
   frc::TrapezoidProfile::State:
     force_no_default_constructor: true
-    shared_ptr: false
     attributes:
       position:
       velocity:

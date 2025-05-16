@@ -1,4 +1,3 @@
----
 
 strip_prefixes:
 - HAL_
@@ -10,7 +9,6 @@ enums:
     value_prefix: HAL_kMatchType
 classes:
   HAL_ControlWord:
-    shared_ptr: false
     attributes:
       enabled:
       autonomous:
@@ -20,23 +18,19 @@ classes:
       dsAttached:
       control_reserved:
   HAL_JoystickAxes:
-    shared_ptr: false
     attributes:
       count:
       axes:
       raw:
   HAL_JoystickPOVs:
-    shared_ptr: false
     attributes:
       count:
       povs:
   HAL_JoystickButtons:
-    shared_ptr: false
     attributes:
       buttons:
       count:
   HAL_JoystickDescriptor:
-    shared_ptr: false
     attributes:
       isXbox:
       type:
@@ -46,7 +40,6 @@ classes:
       buttonCount:
       povCount:
   HAL_MatchInfo:
-    shared_ptr: false
     attributes:
       eventName:
       matchType:

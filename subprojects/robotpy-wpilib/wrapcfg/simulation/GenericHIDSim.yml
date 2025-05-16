@@ -1,7 +1,5 @@
-
 classes:
   frc::sim::GenericHIDSim:
-    shared_ptr: true
     methods:
       GenericHIDSim:
         overloads:

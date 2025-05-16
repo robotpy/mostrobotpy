@@ -1,10 +1,8 @@
-
 extra_includes:
 - frc/DutyCycle.h
 
 classes:
   frc::sim::DutyCycleSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

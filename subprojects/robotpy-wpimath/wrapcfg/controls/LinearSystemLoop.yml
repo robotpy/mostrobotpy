@@ -1,7 +1,5 @@
-
 classes:
   frc::LinearSystemLoop:
-    shared_ptr: true
     template_params:
     - int States
     - int Inputs
@@ -68,7 +66,7 @@ templates:
     params:
     - 2
     - 1
-    - 1 
+    - 1
   LinearSystemLoop_2_1_2:
     qualname: frc::LinearSystemLoop
     subpackage: system

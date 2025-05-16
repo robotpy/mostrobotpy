@@ -1,7 +1,5 @@
-
 classes:
   frc::RobotState:
-    shared_ptr: false
     nodelete: true
     methods:
       RobotState:

@@ -1,11 +1,9 @@
-
 extra_includes:
 - frc/DigitalInput.h
 - frc/DigitalOutput.h
 
 classes:
   frc::sim::DIOSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

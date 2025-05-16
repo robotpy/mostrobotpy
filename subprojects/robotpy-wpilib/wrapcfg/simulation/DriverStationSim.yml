@@ -1,7 +1,5 @@
-
 classes:
   frc::sim::DriverStationSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

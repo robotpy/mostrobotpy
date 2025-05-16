@@ -1,7 +1,5 @@
-
 classes:
   frc::sim::SolenoidSim:
-    shared_ptr: false
     force_type_casters:
     - std::function
     typealias:

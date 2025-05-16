@@ -1,10 +1,8 @@
-
 extra_includes:
 - gilsafe_object.h
 
 classes:
   frc::SendableChooser:
-    shared_ptr: true
     template_params:
     - T
     methods:

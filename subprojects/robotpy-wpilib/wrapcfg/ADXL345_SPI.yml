@@ -1,4 +1,3 @@
-
 extra_includes:
 - networktables/NTSendableBuilder.h
 - frc/DigitalSource.h
@@ -35,7 +34,6 @@ classes:
       GetAccelerations:
       InitSendable:
   frc::ADXL345_SPI::AllAxes:
-    shared_ptr: false
     attributes:
       XAxis:
       YAxis:

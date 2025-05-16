@@ -1,11 +1,9 @@
-
 extra_includes:
 - frc/DriverStation.h
 - frc/event/BooleanEvent.h
 
 classes:
   frc::GenericHID:
-    shared_ptr: true
     enums:
       RumbleType:
       HIDType:

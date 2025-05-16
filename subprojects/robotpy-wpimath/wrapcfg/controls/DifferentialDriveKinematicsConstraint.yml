@@ -1,8 +1,6 @@
-
 classes:
   frc::DifferentialDriveKinematicsConstraint:
     subpackage: constraint
-    shared_ptr: true
     typealias:
     - frc::TrajectoryConstraint::MinMax
     methods:

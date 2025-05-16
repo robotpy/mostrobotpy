@@ -1,10 +1,8 @@
-
 extra_includes:
 - frc/AnalogEncoder.h
 
 classes:
   frc::sim::AnalogEncoderSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

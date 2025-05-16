@@ -1,4 +1,3 @@
-
 defaults:
   ignore: true
   report_ignored_missing: false
@@ -18,7 +17,6 @@ classes:
 
       It is not useful to construct these directly -- they are returned from
       :meth:`.SimDeviceSim.getValue` or :meth:`.SimDevice.createValue`.
-    shared_ptr: false
     methods:
       SimValue:
         overloads:
@@ -38,7 +36,6 @@ classes:
 
       It is not useful to construct these directly, they are returned
       from various functions.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimInt:
@@ -58,7 +55,6 @@ classes:
 
       It is not useful to construct these directly, they are returned
       from various functions.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimLong:
@@ -78,7 +74,6 @@ classes:
 
       It is not useful to construct these directly -- they are returned from
       :meth:`.SimDeviceSim.getDouble` or :meth:`.SimDevice.createDouble`.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimDouble:
@@ -98,7 +93,6 @@ classes:
 
       It is not useful to construct these directly -- they are returned from
       :meth:`.SimDeviceSim.getEnum` or :meth:`.SimDevice.createEnum`.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimEnum:
@@ -117,7 +111,6 @@ classes:
 
       It is not useful to construct these directly -- they are returned from
       :meth:`.SimDeviceSim.getBoolean` or :meth:`.SimDevice.createBoolean`.
-    shared_ptr: false
     force_no_trampoline: true
     methods:
       SimBoolean:
@@ -139,7 +132,6 @@ classes:
 
       .. note:: To interact with an existing device use
                 :class:`hal.simulation.SimDeviceSim` instead.
-    shared_ptr: false
     force_type_casters:
     - wpi::SmallVector
     enums:
@@ -191,7 +183,7 @@ classes:
       CreateInt:
       CreateLong:
 
-inline_code: |
+inline_code: |2
 
   cls_SimValue
     .def_property_readonly("value", [](const hal::SimValue &self) -> py::object {

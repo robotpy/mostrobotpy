@@ -1,7 +1,5 @@
-
 classes:
   frc::InterruptableSensorBase:
-    shared_ptr: true
     typealias:
     - frc::InterruptableSensorBase::WaitResult
     attributes:

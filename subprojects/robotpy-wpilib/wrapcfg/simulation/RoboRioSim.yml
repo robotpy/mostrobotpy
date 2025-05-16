@@ -1,7 +1,5 @@
-
 classes:
   frc::sim::RoboRioSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

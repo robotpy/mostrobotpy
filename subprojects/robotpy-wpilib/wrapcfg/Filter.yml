@@ -1,7 +1,5 @@
-
 classes:
   frc::Filter:
-    shared_ptr: true
     methods:
       Filter:
         overloads:

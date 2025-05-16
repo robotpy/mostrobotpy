@@ -1,4 +1,3 @@
-
 extra_includes:
 - pybind11/stl.h
 
@@ -26,7 +25,6 @@ classes:
       .. note:: WPILib has simulation support for all of its devices. Some
                 vendors may only have limited support for simulation -- read
                 the vendor's documentation or contact them for more information.
-    shared_ptr: false
     force_type_casters:
     - std::function
     - std::string_view

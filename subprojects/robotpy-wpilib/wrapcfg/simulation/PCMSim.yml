@@ -1,10 +1,8 @@
-
 extra_includes:
 - frc/Compressor.h
 
 classes:
   frc::sim::PCMSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

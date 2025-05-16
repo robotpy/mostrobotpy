@@ -1,7 +1,5 @@
-
 classes:
   frc::ExtendedKalmanFilter:
-    shared_ptr: true
     template_params:
     - int States
     - int Inputs
@@ -61,7 +59,7 @@ templates:
     params:
     - 2
     - 1
-    - 1 
+    - 1
   ExtendedKalmanFilter_2_1_2:
     qualname: frc::ExtendedKalmanFilter
     subpackage: estimator

@@ -9,7 +9,6 @@ functions:
     ignore: true
 classes:
   frc::Quaternion:
-    shared_ptr: false
     methods:
       Quaternion:
         overloads:

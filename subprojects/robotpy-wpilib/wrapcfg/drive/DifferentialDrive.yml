@@ -1,11 +1,9 @@
-
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 - frc/motorcontrol/MotorController.h
 
 classes:
   frc::DifferentialDrive:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<DifferentialDrive>
     attributes:

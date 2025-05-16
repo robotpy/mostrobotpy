@@ -1,10 +1,8 @@
-
 extra_includes:
 - frc/AnalogTrigger.h
 
 classes:
   frc::sim::AnalogTriggerSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

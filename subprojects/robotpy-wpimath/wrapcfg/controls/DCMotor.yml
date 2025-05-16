@@ -1,10 +1,8 @@
-
 extra_includes:
 - wpystruct.h
 
 classes:
   frc::DCMotor:
-    shared_ptr: true
     subpackage: plant
     attributes:
       nominalVoltage:

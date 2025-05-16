@@ -1,8 +1,6 @@
-
 classes:
   frc::TrajectoryParameterizer:
     subpackage: trajectory
-    shared_ptr: true
     force_type_casters:
     - units::unit_t
     - units::curvature_t

@@ -1,11 +1,9 @@
-
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 - frc/DigitalSource.h
 
 classes:
   frc::ADXRS450_Gyro:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<ADXRS450_Gyro>
     methods:

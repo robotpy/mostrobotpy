@@ -1,7 +1,5 @@
-
 classes:
   frc::TimedRobot:
-    shared_ptr: false
     attributes:
       kDefaultPeriod:
     methods:

@@ -10,7 +10,6 @@ functions:
     ignore: true
 classes:
   frc::Translation2d:
-    shared_ptr: false
     methods:
       Translation2d:
         overloads:

@@ -1,11 +1,9 @@
-
 extra_includes:
 - wpystruct.h
 
 classes:
   frc::MecanumDriveWheelSpeeds:
     force_no_default_constructor: true
-    shared_ptr: false
     attributes:
       frontLeft:
       frontRight:

@@ -9,7 +9,6 @@ functions:
     ignore: true
 classes:
   frc::Rotation3d:
-    shared_ptr: false
     methods:
       Rotation3d:
         overloads:

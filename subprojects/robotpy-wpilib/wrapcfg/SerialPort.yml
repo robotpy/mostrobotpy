@@ -1,7 +1,5 @@
-
 classes:
   frc::SerialPort:
-    shared_ptr: true
     enums:
       Parity:
       StopBits:

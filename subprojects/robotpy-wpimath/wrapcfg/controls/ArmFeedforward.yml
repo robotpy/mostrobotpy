@@ -1,7 +1,5 @@
-
 classes:
   frc::ArmFeedforward:
-    shared_ptr: true
     subpackage: controller
     force_type_casters:
     - units::radians_per_second_squared

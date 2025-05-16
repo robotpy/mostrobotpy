@@ -1,7 +1,5 @@
-
 classes:
   frc::I2C:
-    shared_ptr: true
     enums:
       Port:
     methods:

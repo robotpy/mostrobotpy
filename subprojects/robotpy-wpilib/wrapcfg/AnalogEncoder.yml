@@ -1,11 +1,9 @@
-
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 - frc/AnalogInput.h
 
 classes:
   frc::AnalogEncoder:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<AnalogEncoder>
     methods:

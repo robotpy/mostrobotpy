@@ -1,4 +1,3 @@
-
 extra_includes:
 - networktables/NTSendableBuilder.h
 
@@ -25,7 +24,6 @@ classes:
       GetAccelerations:
       InitSendable:
   frc::ADXL345_I2C::AllAxes:
-    shared_ptr: false
     attributes:
       XAxis:
       YAxis:

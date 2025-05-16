@@ -1,11 +1,9 @@
-
 extra_includes:
 - wpi/SmallString.h
 - wpi/raw_ostream.h
 
 classes:
   frc::Tracer:
-    shared_ptr: true
     methods:
       Tracer:
       ResetTimer:

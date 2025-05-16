@@ -1,7 +1,5 @@
-
 classes:
   frc::SolenoidBase:
-    shared_ptr: true
     attributes:
       m_maxModules:
       m_maxPorts:

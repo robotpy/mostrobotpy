@@ -1,10 +1,8 @@
-
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 
 classes:
   frc::AnalogAccelerometer:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<AnalogAccelerometer>
     methods:

@@ -1,10 +1,8 @@
-
 enums:
   RadioLEDState:
 
 classes:
   frc::CANStatus:
-    shared_ptr: false
     attributes:
       percentBusUtilization:
       busOffCount:
@@ -12,7 +10,6 @@ classes:
       receiveErrorCount:
       transmitErrorCount:
   frc::RobotController:
-    shared_ptr: false
     nodelete: true
     methods:
       RobotController:

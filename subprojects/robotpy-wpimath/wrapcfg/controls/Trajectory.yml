@@ -9,7 +9,6 @@ functions:
 classes:
   frc::Trajectory:
     subpackage: trajectory
-    shared_ptr: true
     force_type_casters:
     - units::curvature_t
     methods:
@@ -28,7 +27,6 @@ classes:
       operator!=:
   frc::Trajectory::State:
     force_no_default_constructor: true
-    shared_ptr: false
     attributes:
       t:
       velocity:

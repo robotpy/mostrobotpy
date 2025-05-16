@@ -1,11 +1,9 @@
-
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 - wpi/SmallString.h
 
 classes:
   frc::NidecBrushless:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<NidecBrushless>
     methods:

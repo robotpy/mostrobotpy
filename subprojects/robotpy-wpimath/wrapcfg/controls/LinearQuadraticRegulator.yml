@@ -1,7 +1,5 @@
-
 classes:
   frc::LinearQuadraticRegulator:
-    shared_ptr: true
     template_params:
     - int States
     - int Inputs

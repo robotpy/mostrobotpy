@@ -1,10 +1,8 @@
-
 extra_includes:
 - PyTrajectoryConstraint.h
 
 classes:
   frc::EllipticalRegionConstraint:
-    shared_ptr: true
     template_params:
     - typename Constraint
     typealias:

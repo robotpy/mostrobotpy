@@ -1,10 +1,8 @@
-
 extra_includes:
 - networktables/NTSendableBuilder.h
 
 classes:
   frc::Field2d:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<Field2d>
     methods:

@@ -9,7 +9,6 @@ functions:
     ignore: true
 classes:
   frc::Transform3d:
-    shared_ptr: false
     methods:
       Transform3d:
         overloads:

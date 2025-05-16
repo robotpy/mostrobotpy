@@ -1,9 +1,7 @@
-
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 
 classes:
   frc::PWMSparkMax:
-    shared_ptr: true
     methods:
       PWMSparkMax:

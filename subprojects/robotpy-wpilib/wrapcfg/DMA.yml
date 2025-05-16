@@ -1,4 +1,3 @@
-
 extra_includes:
 - frc/AnalogInput.h
 - frc/Counter.h
@@ -9,7 +8,6 @@ extra_includes:
 
 classes:
   frc::DMA:
-    shared_ptr: true
     methods:
       DMA:
       SetPause:

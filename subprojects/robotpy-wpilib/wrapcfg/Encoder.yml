@@ -1,4 +1,3 @@
-
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 - frc/DigitalSource.h
@@ -8,7 +7,6 @@ extra_includes:
 
 classes:
   frc::Encoder:
-    shared_ptr: true
     ignored_bases:
     - wpi::SendableHelper<Encoder>
     typealias:

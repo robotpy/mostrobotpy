@@ -1,7 +1,5 @@
-
 classes:
   frc::DigitalSource:
-    shared_ptr: true
     methods:
       DigitalSource:
       GetPortHandleForRouting:

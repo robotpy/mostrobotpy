@@ -1,9 +1,7 @@
----
 
 classes:
   wpi::SendableHelper:
     ignore: true  # CRTP
-    shared_ptr: true
     methods:
       GetName:
       SetName:

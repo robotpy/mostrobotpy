@@ -1,8 +1,6 @@
-
 classes:
   frc::TrajectoryConstraint:
     subpackage: constraint
-    shared_ptr: true
     force_type_casters:
     - units::meters_per_second_squared
     methods:
@@ -10,7 +8,6 @@ classes:
       MaxVelocity:
       MinMaxAcceleration:
   frc::TrajectoryConstraint::MinMax:
-    shared_ptr: false
     attributes:
       minAcceleration:
       maxAcceleration:

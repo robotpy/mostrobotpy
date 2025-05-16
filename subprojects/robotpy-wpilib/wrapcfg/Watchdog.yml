@@ -1,7 +1,5 @@
-
 classes:
   frc::Watchdog:
-    shared_ptr: true
     methods:
       Watchdog:
         overloads:

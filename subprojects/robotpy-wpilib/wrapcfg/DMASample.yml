@@ -1,7 +1,5 @@
-
 classes:
   frc::DMASample:
-    shared_ptr: true
     methods:
       Update:
       GetTime:

@@ -1,10 +1,8 @@
-
 extra_includes:
 - frc/PowerDistributionPanel.h
 
 classes:
   frc::sim::PDPSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

@@ -1,10 +1,9 @@
-
 classes:
   frc::sim::SingleJointedArmSim:
-    shared_ptr: true
     typealias:
     - frc::DCMotor
-    - template <int S, int I, int O> using LinearSystem = frc::LinearSystem<S, I, O>
+    - template <int S, int I, int O> using LinearSystem = frc::LinearSystem<S, I,
+      O>
     - template <int I> using Vectord = frc::Vectord<I>
     methods:
       SingleJointedArmSim:

@@ -1,7 +1,5 @@
-
 classes:
   frc::sim::DifferentialDrivetrainSim:
-    shared_ptr: true
     typealias:
     - frc::DCMotor
     - template <int S, int I, int O> using LinearSystem = frc::LinearSystem<S, I, O>
@@ -45,7 +43,6 @@ classes:
               measurementStdDevs:
                 default: std::array<double, 7>{}
   frc::sim::DifferentialDrivetrainSim::State:
-    shared_ptr: true
     attributes:
       kX:
       kY:
@@ -55,7 +52,6 @@ classes:
       kLeftPosition:
       kRightPosition:
   frc::sim::DifferentialDrivetrainSim::KitbotGearing:
-    shared_ptr: true
     attributes:
       k12p75:
       k10p71:
@@ -63,7 +59,6 @@ classes:
       k7p31:
       k5p95:
   frc::sim::DifferentialDrivetrainSim::KitbotMotor:
-    shared_ptr: true
     attributes:
       SingleCIMPerSide:
       DualCIMPerSide:
@@ -74,7 +69,6 @@ classes:
       SingleNEOPerSide:
       DualNEOPerSide:
   frc::sim::DifferentialDrivetrainSim::KitbotWheelSize:
-    shared_ptr: true
     attributes:
       kSixInch:
       kEightInch:

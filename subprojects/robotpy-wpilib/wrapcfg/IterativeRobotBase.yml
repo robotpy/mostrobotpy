@@ -1,7 +1,5 @@
-
 classes:
   frc::IterativeRobotBase:
-    shared_ptr: false
     attributes:
       m_period:
     methods:

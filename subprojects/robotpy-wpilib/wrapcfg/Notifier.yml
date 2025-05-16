@@ -1,7 +1,5 @@
-
 classes:
   frc::PyNotifier:
-    shared_ptr: true
     rename: Notifier
     methods:
       PyNotifier:

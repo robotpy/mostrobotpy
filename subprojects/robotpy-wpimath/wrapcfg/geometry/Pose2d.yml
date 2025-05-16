@@ -9,7 +9,6 @@ functions:
     ignore: true
 classes:
   frc::Pose2d:
-    shared_ptr: false
     force_type_casters:
     - units::foot_t
     - units::meter_t

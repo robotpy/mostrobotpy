@@ -7,7 +7,6 @@ functions:
   HALSIM_ResetDriverStationData:
   HALSIM_RegisterDriverStationEnabledCallback:
     ignore: true
-    ignore: true
   HALSIM_CancelDriverStationEnabledCallback:
   HALSIM_GetDriverStationEnabled:
   HALSIM_SetDriverStationEnabled:

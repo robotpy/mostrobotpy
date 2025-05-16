@@ -1,7 +1,5 @@
-
 classes:
   frc::MedianFilter:
-    shared_ptr: true
     template_params:
     - T
     methods:

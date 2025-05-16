@@ -1,10 +1,8 @@
-
 extra_includes:
 - frc/AnalogInput.h
 
 classes:
   frc::sim::AnalogInputSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

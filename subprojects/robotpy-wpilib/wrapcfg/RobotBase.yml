@@ -1,4 +1,3 @@
-
 extra_includes:
 - frc/DriverStation.h
 - rpy/ControlWord.h
@@ -15,7 +14,6 @@ functions:
     ignore: true
 classes:
   frc::RobotBase:
-    shared_ptr: false
     attributes:
       m_ds:
         rename: ds

@@ -1,10 +1,8 @@
-
 functions:
   Wait:
   GetTime:
 classes:
   frc::Timer:
-    shared_ptr: true
     attributes:
       kRolloverTime:
     methods:

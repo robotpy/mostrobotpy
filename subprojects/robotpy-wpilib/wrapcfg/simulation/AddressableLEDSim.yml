@@ -1,10 +1,8 @@
-
 extra_includes:
 - frc/AddressableLED.h
 
 classes:
   frc::sim::AddressableLEDSim:
-    shared_ptr: true
     force_type_casters:
     - std::function
     methods:

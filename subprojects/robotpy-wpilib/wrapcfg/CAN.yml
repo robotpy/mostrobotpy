@@ -1,13 +1,10 @@
-
 classes:
   frc::CANData:
-    shared_ptr: true
     attributes:
       data:
       length:
       timestamp:
   frc::CAN:
-    shared_ptr: true
     attributes:
       kTeamManufacturer:
       kTeamDeviceType:

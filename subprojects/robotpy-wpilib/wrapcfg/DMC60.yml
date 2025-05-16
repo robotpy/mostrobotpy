@@ -1,9 +1,7 @@
-
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 
 classes:
   frc::DMC60:
-    shared_ptr: true
     methods:
       DMC60:
