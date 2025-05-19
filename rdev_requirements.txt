@@ -1,12 +1,12 @@
 black
+build
 click
 packaging
-pydantic<2,!=1.10.20
 pytest
-requests
-setuptools
-setuptools_scm >= 6.2, < 8
 tomlkit
 tomli
 toposort
-wheel
+validobj~=1.2
+
+ninja
+msvc-runtime>=14.42.34433; platform_system == 'Windows'

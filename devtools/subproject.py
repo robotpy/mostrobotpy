@@ -1,14 +1,14 @@
 import pathlib
-import subprocess
-import shlex
 import shutil
 import sys
 import tempfile
+import typing as T
 
 from packaging.requirements import Requirement
 import tomli
 
 from .config import SubprojectConfig
+from .util import run_cmd, run_pip
 
 
 class Subproject:
@@ -22,84 +22,85 @@ class Subproject:
         with open(self.pyproject_path, "rb") as fp:
             self.pyproject_data = tomli.load(fp)
 
-        self.requires = [
+        self.build_requires = [
             Requirement(req) for req in self.pyproject_data["build-system"]["requires"]
         ]
 
-        self.pyproject_name: str = self.pyproject_data["tool"]["robotpy-build"][
-            "metadata"
-        ]["name"]
+        self.dependencies = [
+            Requirement(req) for req in self.pyproject_data["project"]["dependencies"]
+        ]
+
+        self.pyproject_name: str = self.pyproject_data["project"]["name"]
+
+    def is_semiwrap_project(self) -> bool:
+        return self.pyproject_data.get("tool", {}).get("semiwrap", None) is not None
+
+    def is_meson_project(self) -> bool:
+        return (self.path / "meson.build").exists()
 
     #
     # Tasks
     #
 
-    def _cmd(self, *args: str, cwd=None):
-        print("+", shlex.join(args))
-        subprocess.check_call(args, cwd=cwd)
-
-    def install_build_deps(self, *, wheel_path: pathlib.Path):
-        self._cmd(
-            sys.executable,
-            "-m",
-            "pip",
-            "install",
-            "--disable-pip-version-check",
-            "--find-links",
-            str(wheel_path),
-            *[str(req) for req in self.requires],
-        )
-
     def develop(self):
-        self._cmd(
-            sys.executable,
-            "setup.py",
-            "develop",
-            "-N",
-            cwd=self.path,
-        )
+        run_pip("install", "-v", "-e", ".", "--no-build-isolation", cwd=self.path)
+
+    def uninstall(self):
+        run_pip("uninstall", "-y", self.pyproject_name)
 
     def update_init(self):
-        self._cmd(
+        run_cmd(
             sys.executable,
-            "setup.py",
-            "update_init",
+            "-m",
+            "semiwrap",
+            "update-init",
             cwd=self.path,
         )
 
     def test(self, *, install_requirements=False):
         tests_path = self.path / "tests"
+        if not tests_path.exists():
+            return
+
         if install_requirements:
             requirements = tests_path / "requirements.txt"
             if requirements.exists():
-                self._cmd(
-                    sys.executable,
-                    "-m",
-                    "pip",
-                    "--disable-pip-version-check",
+                run_pip(
                     "install",
                     "-r",
                     str(requirements),
                 )
 
-        self._cmd(
+        run_cmd(
             sys.executable,
             "run_tests.py",
             cwd=tests_path,
         )
 
-    def bdist_wheel(self, *, wheel_path: pathlib.Path, install: bool):
+    def build_wheel(
+        self,
+        *,
+        wheel_path: pathlib.Path,
+        other_wheel_path: pathlib.Path,
+        install: bool,
+        config_settings: T.List[str],
+    ):
         wheel_path.mkdir(parents=True, exist_ok=True)
 
+        config_args = [f"--config-setting={setting}" for setting in config_settings]
+
+        # TODO: eventually it would be nice to use build isolation
+
         with tempfile.TemporaryDirectory() as td:
-            # Use bdist_wheel here instead of other solutions because it
-            # allows using ccache
-            self._cmd(
+            # I wonder if we should use hatch build instead?
+            run_cmd(
                 sys.executable,
-                "setup.py",
-                "bdist_wheel",
-                "-d",
+                "-m",
+                "build",
+                "--no-isolation",
+                "--outdir",
                 td,
+                *config_args,
                 cwd=self.path,
             )
 
@@ -108,21 +109,14 @@ class Subproject:
             dst_whl = wheel_path / self._fix_wheel_name(twhl.name)
             shutil.move(twhl, dst_whl)
 
-        # Setuptools is dumb
-        for p in self.path.glob("*.egg-info"):
-            shutil.rmtree(p)
-
         if install:
             # Install the wheel
-            self._cmd(
-                sys.executable,
-                "-m",
-                "pip",
-                "--disable-pip-version-check",
+            run_pip(
                 "install",
-                "--force-reinstall",
                 "--find-links",
                 str(wheel_path),
+                "--find-links",
+                str(other_wheel_path),
                 str(dst_whl),
             )
 
