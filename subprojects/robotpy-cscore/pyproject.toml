@@ -1,68 +1,92 @@
-[tool.robotpy-build.metadata]
-name = "robotpy-cscore"
-description = "RobotPy bindings for cscore image processing library"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/robotpy-cscore"
-license = "BSD-3-Clause"
-install_requires = [
-    "robotpy-wpiutil==THIS_VERSION",
-    "robotpy-wpinet==THIS_VERSION",
-    "pyntcore==THIS_VERSION",
-]
-
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "robotpy-build~=2025.1.0",
-    "robotpy-wpiutil~=2025.3.2",
-    "robotpy-wpinet~=2025.3.2",
-    "pyntcore~=2025.3.2",
+    "semiwrap~=0.1",
+    "hatch-meson~=0.1.0b2",
+    "hatch-robotpy~=0.2",
+    "hatchling",
+    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpinet==2025.3.2.2",
+    "pyntcore==2025.3.2.2",
     # "numpy", # required for pybind11-stubgen to not complain, broken in raspbian CI
 ]
 
-[tool.robotpy-build]
-base_package = "cscore"
-update_init = [
-  "cscore"
+[project]
+name = "robotpy-cscore"
+version = "2025.3.2.2"
+description = "RobotPy bindings for cscore image processing library"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
+license = "BSD-3-Clause"
+dependencies = [
+    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpinet==2025.3.2.2",
+    "pyntcore==2025.3.2.2",
 ]
 
-[tool.robotpy-build.static_libs."cscore_cpp".maven_lib_download]
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
+
+[tool.hatch.build.targets.wheel]
+packages = ["cscore"]
+
+[tool.hatch.build.hooks.robotpy]
+version_file = "cscore/version.py"
+
+#
+# cscore is different -- we download everything as a static library
+# and don't include them in the wheel to avoid OpenCV symbol conflicts
+#
+
+
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2025.3.2"
 
-libs = ["cscore"]
+staticlibs = ["cscore"]
+extract_to = "lib"
 
-[tool.robotpy-build.static_libs."cameraserver_cpp".maven_lib_download]
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2025.3.2"
 
-libs = ["cameraserver"]
+staticlibs = ["cameraserver"]
+extract_to = "lib"
 
-[tool.robotpy-build.static_libs."opencv_cpp".maven_lib_download]
+[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "opencv-cpp"
 group_id = "edu.wpi.first.thirdparty.frc2024.opencv"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "4.8.0-1"
 
-libs = ["opencv480"]
+staticlibs = ["opencv480"]
+extract_to = "lib"
 
-[tool.robotpy-build.wrappers."cscore"]
-name = "cscore"
 
-sources = [
-  "cscore/src/main.cpp",
-  "cscore/cvnp/cvnp.cpp",
-  "cscore/cvnp/cvnp_synonyms.cpp",
+[tool.hatch.build.hooks.semiwrap]
+
+[tool.hatch.build.hooks.meson]
+
+
+[tool.semiwrap]
+update_init = [
+    "cscore"
 ]
 
-depends = ["wpiutil", "wpinet", "ntcore", "opencv_cpp", "cscore_cpp", "cameraserver_cpp", ]
-generation_data = "gen"
+[tool.semiwrap.extension_modules."cscore._cscore"]
+name = "cscore"
 
-[tool.robotpy-build.wrappers."cscore".autogen_headers]
+depends = ["wpiutil", "wpinet", "ntcore", "cscore-casters"]
+includes = [
+    "lib/include"
+]
+
+[tool.semiwrap.extension_modules."cscore._cscore".headers]
 # cameraserver
 CameraServer = "cameraserver/CameraServer.h"
 
@@ -72,6 +96,10 @@ cscore_oo = "cscore_oo.h"
 cscore_cv = "cscore_cv.h"
 cscore_runloop = "cscore_runloop.h"
 
-[[tool.robotpy-build.wrappers."cscore".type_casters]]
+[tool.semiwrap.export_type_casters.cscore-casters]
+pypackage = "cscore"
+includedir = ["cscore"]
+
+[[tool.semiwrap.export_type_casters.cscore-casters.headers]]
 header = "cvnp/cvnp.h"
 types = ["cv::Mat"]

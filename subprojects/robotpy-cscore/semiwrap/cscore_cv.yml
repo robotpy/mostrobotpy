@@ -1,4 +1,3 @@
----
 
 extra_includes:
 - opencv2/core/core.hpp
@@ -24,7 +23,7 @@ functions:
   GrabSinkFrameTimeout:
     ignore: true
 classes:
-  CvSource:
+  cs::CvSource:
     doc: A source for user code to provide OpenCV images as video frames.
     force_no_trampoline: true
     methods:
@@ -35,7 +34,7 @@ classes:
           std::string_view, const VideoMode&:
           std::string_view, VideoMode::PixelFormat, int, int, int:
       PutFrame:
-  CvSink:
+  cs::CvSink:
     doc: A sink for user code to accept video frames as OpenCV images.
     force_no_trampoline: true
     methods:

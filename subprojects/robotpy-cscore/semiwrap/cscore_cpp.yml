@@ -1,4 +1,3 @@
----
 
 functions:
   GetPropertyKind:
@@ -242,7 +241,7 @@ functions:
   GetNetworkInterfaces:
     ignore: true
 classes:
-  UsbCameraInfo:
+  cs::UsbCameraInfo:
     attributes:
       dev:
       path:
@@ -250,7 +249,7 @@ classes:
       otherPaths:
       vendorId:
       productId:
-  VideoMode:
+  cs::VideoMode:
     force_no_trampoline: true
     ignored_bases:
     - CS_VideoMode
@@ -269,7 +268,7 @@ classes:
       .def_readwrite("width", &VideoMode::width)
       .def_readwrite("height", &VideoMode::height)
       .def_readwrite("fps", &VideoMode::fps)
-  RawEvent:
+  cs::RawEvent:
     attributes:
       kind:
         ignore: true
