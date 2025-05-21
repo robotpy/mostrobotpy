@@ -1,10 +1,12 @@
 
-#include <robotpy_build.h>
+#include <semiwrap_init.halsim_gui._ext._halsim_gui_ext.hpp>
 
 #include <HALSimGuiExt.h>
 #include <hal/Extensions.h>
 
-RPYBUILD_PYBIND11_MODULE(m) {
+SEMIWRAP_PYBIND11_MODULE(m) {
+
+  initWrapper(m);
 
   m.def("_kill_on_signal", []() {
     HAL_RegisterExtensionListener(

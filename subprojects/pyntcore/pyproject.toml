@@ -1,24 +1,46 @@
-[tool.robotpy-build.metadata]
-name = "pyntcore"
-description = "Binary wrappers for the FRC ntcore library"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/pyntcore"
-license = "BSD-3-Clause"
-install_requires = [
-    "robotpy-wpiutil==THIS_VERSION",
-    "robotpy-wpinet==THIS_VERSION",
-]
-
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "robotpy-build~=2025.1.0",
-    "robotpy-wpiutil~=2025.3.2",
-    "robotpy-wpinet~=2025.3.2",
+    "semiwrap~=0.1",
+    "hatch-meson~=0.1.0b2",
+    "hatch-robotpy~=0.2",
+    "hatchling",
+    "robotpy-native-ntcore==2025.3.2",
+    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpinet==2025.3.2.2",
 ]
 
-[tool.robotpy-build]
-base_package = "ntcore"
+
+[project]
+name = "pyntcore"
+version = "2025.3.2.2"
+description = "Binary wrappers for the FRC ntcore library"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
+license = "BSD-3-Clause"
+dependencies = [
+    "robotpy-native-ntcore==2025.3.2",
+    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpinet==2025.3.2.2",
+]
+
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
+
+
+[tool.hatch.build.hooks.robotpy]
+version_file = "ntcore/version.py"
+
+[tool.hatch.build.hooks.semiwrap]
+
+[tool.hatch.build.hooks.meson]
+
+[tool.hatch.build.targets.wheel]
+packages = ["ntcore"]
+
+
+[tool.semiwrap]
 update_init = [
     "ntcore",
     "ntcore.meta ntcore._ntcore.meta"
@@ -31,29 +53,17 @@ scan_headers_ignore = [
     "ntcore_c.h",
     "ntcore_c_types.h",
     "ntcore_test.h",
+
+    "src/*",
 ]
 
-[tool.robotpy-build.wrappers."ntcore".maven_lib_download]
-artifact_id = "ntcore-cpp"
-group_id = "edu.wpi.first.ntcore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
-
-libs = ["ntcore"]
-
-[tool.robotpy-build.wrappers."ntcore"]
+[tool.semiwrap.extension_modules."ntcore._ntcore"]
 name = "ntcore"
-sources = [
-    "ntcore/src/ntcore.cpp",
-    "ntcore/src/nt_instance.cpp",
-    "ntcore/src/py2value.cpp",
-    "ntcore/src/pyentry.cpp",
-]
-
+wraps = ["robotpy-native-ntcore"]
 depends = ["wpiutil", "wpinet"]
-generation_data = "gen"
 
-[tool.robotpy-build.wrappers."ntcore".autogen_headers]
+
+[tool.semiwrap.extension_modules."ntcore._ntcore".headers]
 # networktables
 BooleanArrayTopic = "networktables/BooleanArrayTopic.h"
 BooleanTopic = "networktables/BooleanTopic.h"

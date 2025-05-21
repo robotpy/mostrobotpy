@@ -1,0 +1,45 @@
+
+classes:
+  frc::LEDPattern:
+    attributes:
+      kOff:
+    enums:
+      GradientType:
+    methods:
+      "Off":
+      LEDPattern:
+      ApplyTo:
+        overloads:
+          std::span<frc::AddressableLED::LEDData>, LEDWriterFn [const]:
+          std::span<frc::AddressableLED::LEDData> [const]:
+      Reversed:
+      OffsetBy:
+      ScrollAtRelativeSpeed:
+      ScrollAtAbsoluteSpeed:
+      Blink:
+        overloads:
+          units::second_t, units::second_t:
+          units::second_t:
+      SynchronizedBlink:
+      Breathe:
+      OverlayOn:
+      Blend:
+      Mask:
+      AtBrightness:
+      Solid:
+      ProgressMaskLayer:
+      Steps:
+        overloads:
+          std::span<const std::pair<double, Color>>:
+          std::initializer_list<std::pair<double, Color>>:
+            ignore: true
+      Gradient:
+        overloads:
+          GradientType, std::span<const Color>:
+          GradientType, std::initializer_list<Color>:
+            ignore: true
+      Rainbow:
+  frc::LEDPattern::LEDReader:
+    methods:
+      LEDReader:
+      size:

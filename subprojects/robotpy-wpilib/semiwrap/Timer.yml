@@ -1,0 +1,21 @@
+functions:
+  Wait:
+  GetTime:
+classes:
+  frc::Timer:
+    attributes:
+      kRolloverTime:
+    methods:
+      Timer:
+      Get:
+      Reset:
+      Start:
+      Restart:
+      Stop:
+      HasPeriodPassed:
+      GetFPGATimestamp:
+      GetMatchTime:
+      HasElapsed:
+      AdvanceIfElapsed:
+      IsRunning:
+      GetTimestamp:

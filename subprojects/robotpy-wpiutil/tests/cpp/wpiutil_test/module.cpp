@@ -1,5 +1,5 @@
 // clang-format off
-#include <robotpy_build.h>
+#include <pybind11/pybind11.h>
 
 #include <wpi_array_type_caster.h>
 #include <wpi_span_type_caster.h>
@@ -153,7 +153,7 @@ void sendable_test(py::module &m);
 void struct_test(py::module &m);
 
 
-RPYBUILD_PYBIND11_MODULE(m) {
+PYBIND11_MODULE(module, m) {
 
     sendable_test(m);
     struct_test(m);

@@ -10,10 +10,8 @@ __pycache__
 /build
 /dist
 
-/ntcore/include
 /ntcore/lib
-/ntcore/_init_ntcore.py
-/ntcore/pkgcfg.py
+/ntcore/_init__ntcore.py
+/ntcore/ntcore.pc
 /ntcore/version.py
-/ntcore/py.typed
-/ntcore/rpy-include
+/ntcore/trampolines

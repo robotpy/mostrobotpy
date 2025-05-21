@@ -4,12 +4,10 @@
 *.egg-info
 
 /build
+/dist
 
-/xrp/include
-/xrp/lib
-/xrp/_init_xrp.py
+/xrp/_init__xrp.py
 /xrp/pkgcfg.py
 /xrp/version.py
-/xrp/extension/_init_xrp_ext.py
-/xrp/extension/include
-/xrp/extension/pkgcfg.py
+/xrp/extension/lib
+/xrp/trampolines

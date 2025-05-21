@@ -8,12 +8,14 @@ from packaging.specifiers import SpecifierSet
 from packaging.version import Version
 import tomlkit
 
+from .config import SubprojectConfig
 from .ctx import Context
 
 
 @dataclasses.dataclass
 class ProjectInfo:
     pyproject_toml: pathlib.Path
+    cfg: SubprojectConfig
     data: tomlkit.TOMLDocument
     changed: bool = False
 
@@ -32,14 +34,7 @@ class ProjectUpdater:
         # The required versions for everything
         # - in theory projects could have different requirements, but in
         #   practice this is simpler and we haven't had issues
-        # - .. and to make life easier, we only use this for build-system.requires,
-        #   which we happen to override in CI anyways
         self.version_specs: typing.Dict[str, SpecifierSet] = {}
-
-        # robotpy-build is special
-        self.version_specs["robotpy-build"] = SpecifierSet(
-            self.cfg.params.robotpy_build_req
-        )
 
         # load all the pyproject.toml using tomlkit so we can make changes
         # and retain all the comments
@@ -49,12 +44,17 @@ class ProjectUpdater:
                 data = tomlkit.load(fp)
 
             self.subprojects[name] = ProjectInfo(
-                pyproject_toml=project.pyproject_path, data=data
+                pyproject_toml=project.pyproject_path,
+                data=data,
+                cfg=self.cfg.subprojects[name],
             )
 
-            self.version_specs[project.pyproject_name] = SpecifierSet(
-                f"~={project.cfg.min_version}"
-            )
+            version = self.cfg.py_versions[project.cfg.py_version]
+
+            self.version_specs[project.pyproject_name] = SpecifierSet(f"=={version}")
+
+        for name, spec in self.cfg.params.requirements.items():
+            self.version_specs[name] = SpecifierSet(spec)
 
     @property
     def changed(self) -> bool:
@@ -105,7 +105,10 @@ class ProjectUpdater:
     def update_requirements(self):
         for info in self.subprojects.values():
             data = info.data
-            pypi_name = data["tool"]["robotpy-build"]["metadata"]["name"]
+            pypi_name = data["project"]["name"]
+
+            # update project.version
+            self._update_pyversion(info)
 
             # update build-system
             self._update_requirements(
@@ -115,56 +118,68 @@ class ProjectUpdater:
                 data["build-system"]["requires"],
             )
 
-            # update tool.robotpy-build.metadata: install_requires
+            # project.dependencies
             self._update_requirements(
                 info,
                 pypi_name,
-                "metadata.install_requires",
-                data["tool"]["robotpy-build"]["metadata"]["install_requires"],
+                "project.dependencies",
+                data["project"]["dependencies"],
             )
 
     def _update_maven(self, info: ProjectInfo):
         data = info.data
-        iter = list(data["tool"]["robotpy-build"]["wrappers"].items())
-        if "static_libs" in data["tool"]["robotpy-build"]:
-            iter += list(data["tool"]["robotpy-build"]["static_libs"].items())
-        for pkg, wrapper in iter:
-            if (
-                "maven_lib_download" not in wrapper
-                or wrapper["maven_lib_download"]["artifact_id"]
-                in self.cfg.params.exclude_artifacts
-            ):
+        iter = (
+            data["tool"]["hatch"]["build"]["hooks"]
+            .get("robotpy", {})
+            .get("maven_lib_download", [])
+        )
+
+        for dl in iter:
+
+            if dl["artifact_id"] in self.cfg.params.exclude_artifacts:
                 continue
 
-            if wrapper["maven_lib_download"]["repo_url"] != self.wpilib_bin_url:
+            artifact_id = dl["artifact_id"]
+
+            if dl["repo_url"] != self.wpilib_bin_url:
                 print(
                     "* ",
-                    pkg,
+                    artifact_id,
                     "repo url:",
-                    wrapper["maven_lib_download"]["repo_url"],
+                    dl["repo_url"],
                     "=>",
                     self.wpilib_bin_url,
                 )
                 self.commit_changes.add(f"repo updated to {self.wpilib_bin_url}")
                 info.changed = True
-                wrapper["maven_lib_download"]["repo_url"] = self.wpilib_bin_url
+                dl["repo_url"] = self.wpilib_bin_url
 
-            if wrapper["maven_lib_download"]["version"] != self.wpilib_bin_version:
+            if dl["version"] != self.wpilib_bin_version:
                 print(
                     "* ",
-                    pkg,
+                    artifact_id,
                     "so version:",
-                    wrapper["maven_lib_download"]["version"],
+                    dl["version"],
                     "=>",
                     self.wpilib_bin_version,
                 )
                 self.commit_changes.add(f"lib updated to {self.wpilib_bin_version}")
                 info.changed = True
-                wrapper["maven_lib_download"]["version"] = self.wpilib_bin_version
+                dl["version"] = self.wpilib_bin_version
 
     def update_maven(self):
         for data in self.subprojects.values():
             self._update_maven(data)
+
+    def _update_pyversion(self, info: ProjectInfo):
+        current_version = info.data["project"]["version"]
+        version = self.cfg.py_versions[info.cfg.py_version]
+
+        if current_version != version:
+            name = info.data["project"]["name"]
+            print(f"* {name} {current_version!r} => {version!r}")
+            self.commit_changes.add(f"{name} updated to {version}")
+            info.changed = True
 
     def update(self):
         self.update_maven()

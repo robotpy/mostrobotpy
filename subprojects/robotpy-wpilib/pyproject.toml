@@ -1,32 +1,53 @@
-[tool.robotpy-build.metadata]
-name = "wpilib"
-description = "Binary wrapper for FRC WPILib"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/robotpy-wpilib"
-license = "BSD-3-Clause"
-install_requires = [
-    "robotpy-wpiutil==THIS_VERSION",
-    "robotpy-wpimath==THIS_VERSION",
-    "robotpy-hal==THIS_VERSION",
-    "pyntcore==THIS_VERSION",
-    "robotpy-cli~=2024.0b",
-]
-
-[tool.robotpy-build.metadata.entry_points]
-robotpy = ["run = wpilib._impl.start:Main"]
-
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "robotpy-build~=2025.1.0",
-    "robotpy-wpiutil~=2025.3.2",
-    "robotpy-wpimath~=2025.3.2",
-    "robotpy-hal~=2025.3.2",
-    "pyntcore~=2025.3.2",
+    "semiwrap~=0.1",
+    "hatch-meson~=0.1.0b2",
+    "hatch-robotpy~=0.2",
+    "hatchling",
+    "robotpy-native-wpilib==2025.3.2",
+    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpimath==2025.3.2.2",
+    "robotpy-hal==2025.3.2.2",
+    "pyntcore==2025.3.2.2",
 ]
 
-[tool.robotpy-build]
-base_package = "wpilib"
+[project]
+name = "wpilib"
+version = "2025.3.2.2"
+description = "Binary wrapper for FRC WPILib"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
+license = "BSD-3-Clause"
+dependencies = [
+    "robotpy-native-wpilib==2025.3.2",
+    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpimath==2025.3.2.2",
+    "robotpy-hal==2025.3.2.2",
+    "pyntcore==2025.3.2.2",
+    "robotpy-cli~=2024.0b"
+]
+
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
+
+[project.entry-points.robotpy]
+run = "wpilib._impl.start:Main"
+
+
+[tool.hatch.build.hooks.robotpy]
+version_file = "wpilib/version.py"
+
+[tool.hatch.build.hooks.semiwrap]
+
+[tool.hatch.build.hooks.meson]
+
+[tool.hatch.build.targets.wheel]
+packages = ["wpilib"]
+
+
+[tool.semiwrap]
 update_init = [
     "wpilib",
     "wpilib.counter",
@@ -63,46 +84,24 @@ scan_headers_ignore = [
     # Internals
     "rpy/ControlWord.h",
     "rpy/SmartDashboardData.h",
+    "ShuffleboardData.h",
 ]
 
-[tool.robotpy-build.wrappers."wpilib._impl".maven_lib_download]
-artifact_id = "wpilibc-cpp"
-group_id = "edu.wpi.first.wpilibc"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
-
-libs = ["wpilibc"]
-
-[tool.robotpy-build.wrappers."wpilib._impl"]
-name = "wpilibc"
-depends = ["wpiHal", "wpiutil", "wpimath_cpp", "ntcore"]
-
-[tool.robotpy-build.wrappers."wpilib"]
-name = "wpilib_core"
-extension = "_wpilib"
-
-sources = [
-    "wpilib/src/main.cpp",
-    "wpilib/src/rpy/ControlWord.cpp",
-    "wpilib/src/rpy/Notifier.cpp",
-    "wpilib/src/rpy/SmartDashboardData.cpp",
-    "wpilib/src/rpy/MotorControllerGroup.cpp",
-]
-
-extra_includes = ["wpilib/src"]
-
-generation_data = "gen"
+[tool.semiwrap.extension_modules."wpilib._wpilib"]
+name = "wpilib"
+wraps = ["robotpy-native-wpilib"]
 depends = [
-    "wpiHal", "wpiutil", "ntcore",
-    "wpimath_cpp", "wpimath_geometry", "wpimath_controls",
-    "wpilibc", "wpilibc_interfaces", "wpilibc_event"
+    "wpihal", "wpiutil", "ntcore",
+    "wpimath", "wpimath_geometry", "wpimath_controls",
+    "wpilib_interfaces", "wpilib_event"
 ]
+includes = ["wpilib/src"]
 
-pp_defines = [
-    "DYNAMIC_CAMERA_SERVER 1"
-]
+# pp_defines = [
+#     "DYNAMIC_CAMERA_SERVER 1"
+# ]
 
-[tool.robotpy-build.wrappers."wpilib".autogen_headers]
+[tool.semiwrap.extension_modules."wpilib._wpilib".headers]
 # frc
 ADIS16448_IMU = "frc/ADIS16448_IMU.h"
 ADIS16470_IMU = "frc/ADIS16470_IMU.h"
@@ -219,92 +218,72 @@ SysIdRoutineLog = "frc/sysid/SysIdRoutineLog.h"
 Color = "frc/util/Color.h"
 Color8Bit = "frc/util/Color8Bit.h"
 
-[tool.robotpy-build.wrappers."wpilib.counter"]
 
-name = "wpilibc_counter"
-extension = "_counter"
-sources = ["wpilib/counter/counter.cpp"]
-depends = [
-    "wpilib_core", "wpilibc_interfaces", "wpilibc",
-    "wpiHal", "wpiutil", "ntcore"
-]
-generation_data = "gen/counter"
+[tool.semiwrap.extension_modules."wpilib.counter._counter"]
+name = "wpilib_counter"
+wraps = ["robotpy-native-wpilib"]
+depends = ["wpilib"]
+yaml_path = "semiwrap/counter"
 
-[tool.robotpy-build.wrappers."wpilib.counter".autogen_headers]
+[tool.semiwrap.extension_modules."wpilib.counter._counter".headers]
 # frc/counter
 EdgeConfiguration = "frc/counter/EdgeConfiguration.h"
 ExternalDirectionCounter = "frc/counter/ExternalDirectionCounter.h"
 Tachometer = "frc/counter/Tachometer.h"
 UpDownCounter = "frc/counter/UpDownCounter.h"
 
-[tool.robotpy-build.wrappers."wpilib.drive"]
 
-name = "wpilibc_drive"
-extension = "_drive"
-sources = ["wpilib/drive/drive.cpp"]
-depends = [
-    "wpilib_core", "wpilibc_interfaces", "wpilibc",
-    "wpiHal", "wpiutil", "ntcore"
-]
-generation_data = "gen/drive"
+[tool.semiwrap.extension_modules."wpilib.drive._drive"]
+name = "wpilib_drive"
+wraps = ["robotpy-native-wpilib"]
+depends = ["wpilib"]
+yaml_path = "semiwrap/drive"
 
-[tool.robotpy-build.wrappers."wpilib.drive".autogen_headers]
+[tool.semiwrap.extension_modules."wpilib.drive._drive".headers]
 # frc/drive
 DifferentialDrive = "frc/drive/DifferentialDrive.h"
 MecanumDrive = "frc/drive/MecanumDrive.h"
 RobotDriveBase = "frc/drive/RobotDriveBase.h"
 
-[tool.robotpy-build.wrappers."wpilib.event"]
 
-name = "wpilibc_event"
-extension = "_event"
-sources = ["wpilib/event/event.cpp"]
-depends = [
-    "wpilibc", "wpiHal", "wpimath_filter", "wpimath_cpp", "wpiutil", "ntcore"
-]
-generation_data = "gen/event"
+[tool.semiwrap.extension_modules."wpilib.event._event"]
+name = "wpilib_event"
+wraps = ["robotpy-native-wpilib"]
+# depends = ["wpilib", "wpimath_filter"]
+depends = ["wpimath_filter"]
+yaml_path = "semiwrap/event"
 
-[tool.robotpy-build.wrappers."wpilib.event".autogen_headers]
+[tool.semiwrap.extension_modules."wpilib.event._event".headers]
 # frc/event
 BooleanEvent = "frc/event/BooleanEvent.h"
 EventLoop = "frc/event/EventLoop.h"
 NetworkBooleanEvent = "frc/event/NetworkBooleanEvent.h"
 
-[tool.robotpy-build.wrappers."wpilib.interfaces"]
 
-name = "wpilibc_interfaces"
-extension = "_interfaces"
-sources = ["wpilib/interfaces/interfaces.cpp"]
-depends = [
-    "wpilibc", "wpilibc_event", "wpiHal", "wpiutil", "ntcore",
-    "wpimath_cpp", "wpimath_geometry"
-]
-generation_data = "gen"
+[tool.semiwrap.extension_modules."wpilib.interfaces._interfaces"]
+name = "wpilib_interfaces"
+wraps = ["robotpy-native-wpilib"]
+depends = ["wpilib_event", "wpimath_geometry"]
+yaml_path = "semiwrap/interfaces"
 
-[tool.robotpy-build.wrappers."wpilib.interfaces".autogen_headers]
+[tool.semiwrap.extension_modules."wpilib.interfaces._interfaces".headers]
 # frc
 CounterBase = "frc/CounterBase.h"
 GenericHID = "frc/GenericHID.h"
 MotorController = "frc/motorcontrol/MotorController.h"
 
-[tool.robotpy-build.wrappers."wpilib.shuffleboard"]
-name = "wpilibc_shuffleboard"
-extension = "_shuffleboard"
-sources = [
-    "wpilib/shuffleboard/shuffleboard.cpp",
-    "wpilib/shuffleboard/ShuffleboardData.cpp",
-]
-depends = [
-    "wpilib_core", "wpilibc_interfaces", "wpilibc",
-    "wpiHal", "wpiutil", "ntcore"
-]
-generation_data = "gen/shuffleboard"
 
-pp_defines = [
-    "DYNAMIC_CAMERA_SERVER 1"
-]
+[tool.semiwrap.extension_modules."wpilib.shuffleboard._shuffleboard"]
+name = "wpilib_shuffleboard"
+wraps = ["robotpy-native-wpilib"]
+depends = ["wpilib", "wpilib_interfaces"]
+yaml_path = "semiwrap/shuffleboard"
 
-[tool.robotpy-build.wrappers."wpilib.shuffleboard".autogen_headers]
+# pp_defines = [
+#     "DYNAMIC_CAMERA_SERVER 1"
+# ]
+
+[tool.semiwrap.extension_modules."wpilib.shuffleboard._shuffleboard".headers]
 # frc/shuffleboard
 
 BuiltInLayouts = "frc/shuffleboard/BuiltInLayouts.h"
@@ -328,19 +307,14 @@ SimpleWidget = "frc/shuffleboard/SimpleWidget.h"
 SuppliedValueWidget = "frc/shuffleboard/SuppliedValueWidget.h"
 WidgetType = "frc/shuffleboard/WidgetType.h"
 
-[tool.robotpy-build.wrappers."wpilib.simulation"]
 
-name = "wpilibc_simulation"
-extension = "_simulation"
-sources = ["wpilib/simulation/simulation.cpp"]
-depends = [
-    "wpilib_core", "wpilibc", "wpiHal", "wpiutil",
-    "wpimath_cpp", "wpimath_controls", "wpimath_geometry", "wpimath_kinematics",
-    "ntcore"
-]
-generation_data = "gen/simulation"
+[tool.semiwrap.extension_modules."wpilib.simulation._simulation"]
+name = "wpilib_simulation"
+wraps = ["robotpy-native-wpilib"]
+depends = ["wpilib", "wpimath_controls", "wpimath_geometry", "wpimath_kinematics"]
+yaml_path = "semiwrap/simulation"
 
-[tool.robotpy-build.wrappers."wpilib.simulation".autogen_headers]
+[tool.semiwrap.extension_modules."wpilib.simulation._simulation".headers]
 # frc/simulation
 ADIS16448_IMUSim = "frc/simulation/ADIS16448_IMUSim.h"
 ADIS16470_IMUSim = "frc/simulation/ADIS16470_IMUSim.h"

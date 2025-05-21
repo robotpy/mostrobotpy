@@ -1,0 +1,10 @@
+classes:
+  frc::Resource:
+    methods:
+      CreateResourceObject:
+      Resource:
+      Allocate:
+        overloads:
+          std::string&:
+          uint32_t, std::string&:
+      Free:

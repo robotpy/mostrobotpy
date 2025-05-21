@@ -1,0 +1,12 @@
+
+classes:
+  frc::XRPMotor:
+    methods:
+      XRPMotor:
+      Set:
+      Get:
+      SetInverted:
+      GetInverted:
+      Disable:
+      StopMotor:
+      GetDescription:

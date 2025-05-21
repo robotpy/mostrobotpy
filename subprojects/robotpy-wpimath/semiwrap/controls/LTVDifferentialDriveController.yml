@@ -1,0 +1,14 @@
+
+classes:
+  frc::LTVDifferentialDriveController:
+    subpackage: controller
+    methods:
+      LTVDifferentialDriveController:
+      AtReference:
+      SetTolerance:
+      Calculate:
+        overloads:
+          ? const Pose2d&, units::meters_per_second_t, units::meters_per_second_t,
+            const Pose2d&, units::meters_per_second_t, units::meters_per_second_t
+          :
+          const Pose2d&, units::meters_per_second_t, units::meters_per_second_t, const Trajectory::State&:

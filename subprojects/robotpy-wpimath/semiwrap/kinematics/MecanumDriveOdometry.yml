@@ -1,0 +1,10 @@
+
+classes:
+  frc::MecanumDriveOdometry:
+    force_no_trampoline: true
+    methods:
+      MecanumDriveOdometry:
+      ResetPosition:
+      GetPose:
+      UpdateWithTime:
+      Update:

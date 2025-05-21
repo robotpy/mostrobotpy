@@ -1,43 +1,54 @@
-[tool.robotpy-build.metadata]
-name = "robotpy-romi"
-description = "Binary wrapper for WPILib Romi Vendor library"
-author = "RobotPy Development Team"
-author_email = "robotpy@googlegroups.com"
-url = "https://github.com/robotpy/mostrobotpy"
-license = "BSD-3-Clause"
-install_requires = [
-    "wpilib==THIS_VERSION"
-]
-
 [build-system]
+build-backend = "hatchling.build"
 requires = [
-    "robotpy-build~=2025.1.0",
-    "wpilib~=2025.3.2"
+    "semiwrap~=0.1",
+    "hatch-meson~=0.1.0b2",
+    "hatch-robotpy~=0.2",
+    "hatchling",
+    "robotpy-native-romi==2025.3.2",
+    "wpilib==2025.3.2.2",
 ]
 
-[tool.robotpy-build]
-base_package = "romi"
 
-[tool.robotpy-build.wrappers."romi"]
+[project]
+name = "robotpy-romi"
+version = "2025.3.2.2"
+description = "Binary wrapper for WPILib Romi Vendor library"
+authors = [
+    {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
+]
+license = "BSD-3-Clause"
+dependencies = [
+    "wpilib==2025.3.2.2"
+]
+
+[project.urls]
+"Source code" = "https://github.com/robotpy/mostrobotpy"
+
+
+[tool.hatch.build.hooks.robotpy]
+version_file = "romi/version.py"
+
+[tool.hatch.build.hooks.semiwrap]
+
+[tool.hatch.build.hooks.meson]
+
+[tool.hatch.build.targets.wheel]
+packages = ["romi"]
+
+
+[tool.semiwrap]
+update_init = ["romi"]
+
+[tool.semiwrap.extension_modules."romi._romi"]
 name = "romi"
-sources = ["romi/src/main.cpp"]
-generation_data = "gen"
+wraps = ["robotpy-native-romi"]
 depends = [
-    "wpilib_core", "wpilibc_interfaces", "wpilibc",
-    "wpimath_cpp", "wpimath_geometry",
-    "wpiHal", "wpiutil", "ntcore",
+    "wpilib", "wpimath_geometry"
 ]
 
-[tool.robotpy-build.wrappers."romi".autogen_headers]
+[tool.semiwrap.extension_modules."romi._romi".headers]
 # frc/romi
 OnBoardIO = "frc/romi/OnBoardIO.h"
 RomiGyro = "frc/romi/RomiGyro.h"
 RomiMotor = "frc/romi/RomiMotor.h"
-
-[tool.robotpy-build.wrappers."romi".maven_lib_download]
-artifact_id = "romiVendordep-cpp"
-group_id = "edu.wpi.first.romiVendordep"
-# repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
-libs = ["romiVendordep"]

@@ -1,9 +1,9 @@
 
-#include "rpygen_wrapper.hpp"
+#include "semiwrap_init.wpimath_test._wpimath_test.hpp"
 #include <module.h>
 #include <stdexcept>
 
-RPYBUILD_PYBIND11_MODULE(m)
+SEMIWRAP_PYBIND11_MODULE(m)
 {
     initWrapper(m);
 }

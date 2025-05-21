@@ -1,6 +1,23 @@
 #
 # This is used by ./rdev.sh to manage the various robotpy packages
 #
+# allwpilib-based python wheel versioning is xxxx.x.x.y:
+# - x is the upstream version
+# - y are specific robotpy patches when we release out of band
+#
+# Beta releases are always YEAR.0.0bX[.postX]
+#
+
+[py_versions]
+
+# Usually the same as wpilib_bin_version
+native = "2025.3.2"
+
+# Will eventually sync with native
+halsim_native = "2025.3.2.2"
+
+# Usually similar to native, but subminor version is bumped for bugfixes
+wrapper = "2025.3.2.2"
 
 [params]
 
@@ -8,71 +25,102 @@ wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
 wpilib_bin_version = "2025.3.2"
 #wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
 
-# Don't update these artifacts
+# Don't update these maven artifacts
 exclude_artifacts = [
     "opencv-cpp"
 ]
 
-robotpy_build_req = "~=2025.1.0"
+[params.requirements]
+semiwrap = "~=0.1"
+hatch-meson = "~=0.1.0b2"
+hatch-nativelib = "~=0.2.0"
+hatch-robotpy = "~=0.2"
 
-#
-# Subproject configuration
-#
-# allwpilib-based package versioning is xxxx.x.x.y:
-# - x is the upstream version
-# - y are specific robotpy patches when we release out of band
-#
-# Beta releases are always YEAR.0.0bX[.postX]
-#
+
+[subprojects."robotpy-native-wpiutil"]
+py_version = "native"
+roborio = true
+
+[subprojects."robotpy-native-wpinet"]
+py_version = "native"
+roborio = true
+
+[subprojects."robotpy-native-ntcore"]
+py_version = "native"
+roborio = true
+
+[subprojects."robotpy-native-wpihal"]
+py_version = "native"
+roborio = true
+
+[subprojects."robotpy-native-wpimath"]
+py_version = "native"
+roborio = true
+
+[subprojects."robotpy-native-apriltag"]
+py_version = "native"
+roborio = true
+
+[subprojects."robotpy-native-wpilib"]
+py_version = "native"
+roborio = true
+
+[subprojects."robotpy-native-romi"]
+py_version = "native"
+roborio = false
+
+[subprojects."robotpy-native-xrp"]
+py_version = "native"
+roborio = false
 
 [subprojects."robotpy-wpiutil"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = true
 
 [subprojects."robotpy-wpinet"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = true
 
-[subprojects.pyntcore]
-min_version = "2025.3.2"
+[subprojects."pyntcore"]
+py_version = "wrapper"
 roborio = true
 
 [subprojects."robotpy-hal"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = true
 
 [subprojects."robotpy-wpimath"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = true
 
 [subprojects."robotpy-cscore"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = true
 
 [subprojects."robotpy-apriltag"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = true
 
 [subprojects."robotpy-wpilib"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = true
 
 [subprojects."robotpy-halsim-ds-socket"]
-min_version = "2025.3.2"
+py_version = "halsim_native"
 roborio = false
 
 [subprojects."robotpy-halsim-ws"]
-min_version = "2025.3.2"
+py_version = "halsim_native"
 roborio = false
 
 [subprojects."robotpy-halsim-gui"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = false
 
 [subprojects."robotpy-romi"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = false
 
 [subprojects."robotpy-xrp"]
-min_version = "2025.3.2"
+py_version = "wrapper"
 roborio = false
