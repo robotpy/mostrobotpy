@@ -177,6 +177,7 @@ class ProjectUpdater:
 
         if current_version != version:
             name = info.data["project"]["name"]
+            info.data["project"]["version"] = version
             print(f"* {name} {current_version!r} => {version!r}")
             self.commit_changes.add(f"{name} updated to {version}")
             info.changed = True
