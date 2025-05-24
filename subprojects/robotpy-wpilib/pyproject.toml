@@ -97,9 +97,8 @@ depends = [
 ]
 includes = ["wpilib/src"]
 
-# pp_defines = [
-#     "DYNAMIC_CAMERA_SERVER 1"
-# ]
+[tool.semiwrap.extension_modules."wpilib._wpilib".defines]
+DYNAMIC_CAMERA_SERVER = 1
 
 [tool.semiwrap.extension_modules."wpilib._wpilib".headers]
 # frc
@@ -279,9 +278,9 @@ wraps = ["robotpy-native-wpilib"]
 depends = ["wpilib", "wpilib_interfaces"]
 yaml_path = "semiwrap/shuffleboard"
 
-# pp_defines = [
-#     "DYNAMIC_CAMERA_SERVER 1"
-# ]
+[tool.semiwrap.extension_modules."wpilib.shuffleboard._shuffleboard".defines]
+DYNAMIC_CAMERA_SERVER = 1
+
 
 [tool.semiwrap.extension_modules."wpilib.shuffleboard._shuffleboard".headers]
 # frc/shuffleboard
