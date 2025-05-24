@@ -4,8 +4,6 @@ project('wpilib', ['cpp'],
 
 subdir('semiwrap')
 
-dyn_camsrv = declare_dependency(compile_args: ['-DDYNAMIC_CAMERA_SERVER=1'])
-
 wpilib_sources += files(
     'wpilib/src/main.cpp',
     'wpilib/src/rpy/ControlWord.cpp',
@@ -13,8 +11,6 @@ wpilib_sources += files(
     'wpilib/src/rpy/SmartDashboardData.cpp',
     'wpilib/src/rpy/MotorControllerGroup.cpp',
 )
-
-wpilib_deps += [dyn_camsrv]
 
 wpilib_counter_sources += files(
     'wpilib/counter/counter.cpp',
@@ -36,8 +32,6 @@ wpilib_shuffleboard_sources += files(
     'wpilib/shuffleboard/shuffleboard.cpp',
     'wpilib/shuffleboard/ShuffleboardData.cpp',
 )
-
-wpilib_shuffleboard_deps += [dyn_camsrv]
 
 wpilib_simulation_sources += files(
     'wpilib/simulation/simulation.cpp',

@@ -31,7 +31,7 @@ exclude_artifacts = [
 ]
 
 [params.requirements]
-semiwrap = "~=0.1"
+semiwrap = "~=0.1.2"
 hatch-meson = "~=0.1.0b2"
 hatch-nativelib = "~=0.2.0"
 hatch-robotpy = "~=0.2"
