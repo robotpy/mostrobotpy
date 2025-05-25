@@ -1,5 +1,3 @@
-extra_includes:
-- frc/DigitalSource.h
 
 classes:
   frc::Tachometer:

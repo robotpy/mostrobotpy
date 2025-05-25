@@ -5,24 +5,26 @@ requires = [
     "hatch-meson~=0.1.0b2",
     "hatch-robotpy~=0.2",
     "hatchling",
-    "robotpy-native-ntcore==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
-    "robotpy-wpinet==2025.3.2.2",
+    "robotpy-native-ntcore==2027.0.0a1.dev0",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
+    "robotpy-wpinet==2027.0.0a1.dev0",
+    "robotpy-wpilog==2027.0.0a1.dev0",
 ]
 
 
 [project]
 name = "pyntcore"
-version = "2025.3.2.2"
+version = "2027.0.0a1.dev0"
 description = "Binary wrappers for the FRC ntcore library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-ntcore==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
-    "robotpy-wpinet==2025.3.2.2",
+    "robotpy-native-ntcore==2027.0.0a1.dev0",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
+    "robotpy-wpinet==2027.0.0a1.dev0",
+    "robotpy-wpilog==2027.0.0a1.dev0",
 ]
 
 [project.urls]
@@ -60,7 +62,7 @@ scan_headers_ignore = [
 [tool.semiwrap.extension_modules."ntcore._ntcore"]
 name = "ntcore"
 wraps = ["robotpy-native-ntcore"]
-depends = ["wpiutil", "wpinet"]
+depends = ["wpiutil", "wpinet", "wpilog"]
 
 
 [tool.semiwrap.extension_modules."ntcore._ntcore".headers]

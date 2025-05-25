@@ -5,22 +5,22 @@ requires = [
     "hatch-meson~=0.1.0b2",
     "hatch-robotpy~=0.2",
     "hatchling",
-    "robotpy-native-wpimath==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-native-wpimath==2027.0.0a1.dev0",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
     # "numpy", # broken in raspbian CI
 ]
 
 [project]
 name = "robotpy-wpimath"
-version = "2025.3.2.2"
+version = "2027.0.0a1.dev0"
 description = "Binary wrapper for FRC WPIMath library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpimath==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-native-wpimath==2027.0.0a1.dev0",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
 ]
 
 [project.urls]
@@ -1577,7 +1577,6 @@ LinearPlantInversionFeedforward = "frc/controller/LinearPlantInversionFeedforwar
 LinearQuadraticRegulator = "frc/controller/LinearQuadraticRegulator.h"
 PIDController = "frc/controller/PIDController.h"
 ProfiledPIDController = "frc/controller/ProfiledPIDController.h"
-RamseteController = "frc/controller/RamseteController.h"
 SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h"
 
 # frc/estimator
@@ -1620,7 +1619,6 @@ Trajectory = "frc/trajectory/Trajectory.h"
 TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h"
 TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h"
 TrajectoryParameterizer = "frc/trajectory/TrajectoryParameterizer.h"
-TrajectoryUtil = "frc/trajectory/TrajectoryUtil.h"
 TrapezoidProfile = "frc/trajectory/TrapezoidProfile.h"
 
 # frc/trajectory/constraint

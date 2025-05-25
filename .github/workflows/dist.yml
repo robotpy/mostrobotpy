@@ -76,9 +76,9 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       fail-fast: true
       matrix:
-        os: ["ubuntu-22.04", "ubuntu-22.04-arm", "macos-14", "windows-2022"]
+        os: ["ubuntu-24.04", "ubuntu-24.04-arm", "macos-14", "windows-2022"]
         include:
-        - os: ubuntu-22.04-arm
+        - os: ubuntu-24.04-arm
           container: python:3.13-bookworm
 
     container: ${{ matrix.container }}
@@ -89,7 +89,7 @@ jobs:
         fetch-depth: 0
 
     - name: Install python
-      if: matrix.os != 'ubuntu-22.04-arm'
+      if: matrix.os != 'ubuntu-24.04-arm'
       uses: actions/setup-python@v5
       with:
         python-version: '3.13'
@@ -121,7 +121,7 @@ jobs:
       fail-fast: true
       matrix:
         os:
-        - "ubuntu-22.04"
+        - "ubuntu-24.04"
         - "macos-13" # x86_64
         - "macos-14" # arm64
         - "windows-2022"
@@ -132,13 +132,13 @@ jobs:
         - '3.12'
         - '3.13'
         include:
-        - os: ubuntu-22.04-arm
+        - os: ubuntu-24.04-arm
           python_version: '3.11'
           container: python:3.11-bookworm
-        - os: ubuntu-22.04-arm
+        - os: ubuntu-24.04-arm
           python_version: '3.12'
           container: python:3.12-bookworm
-        - os: ubuntu-22.04-arm
+        - os: ubuntu-24.04-arm
           python_version: '3.13'
           container: python:3.13-bookworm
 
@@ -150,7 +150,7 @@ jobs:
         fetch-depth: 0
 
     - name: Install python
-      if: matrix.os != 'ubuntu-22.04-arm'
+      if: matrix.os != 'ubuntu-24.04-arm'
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python_version }}
@@ -167,7 +167,7 @@ jobs:
 
     - name: Install libgl
       run: apt-get update && apt-get install -y libgl1
-      if: matrix.os == 'ubuntu-22.04-arm'
+      if: matrix.os == 'ubuntu-24.04-arm'
 
     - name: Setup MSVC
       uses: bus1/cabuild/action/msdevshell@e22aba57d6e74891d059d66501b6b5aed8123c4d  # v1
@@ -223,9 +223,9 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
-          name: roborio
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
+        # - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
+        #   name: roborio
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py313
           name: raspbian
 
     container:
@@ -261,17 +261,17 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
-          name: roborio
-          base: roborio
+        # - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
+        #   name: roborio
+        #   base: roborio
 
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py311
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py311
           name: raspbian-py311
           base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py312
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py312
           name: raspbian-py312
           base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
+        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py313
           name: raspbian-py313
           base: raspbian
 

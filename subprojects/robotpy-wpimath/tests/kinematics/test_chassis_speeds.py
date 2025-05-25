@@ -4,26 +4,6 @@ from wpimath.geometry import Rotation2d
 from wpimath.kinematics import ChassisSpeeds
 
 
-def test_fromFieldRelativeSpeeds() -> None:
-    chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-        vx=1.0, vy=0.0, omega=0.5, robotAngle=Rotation2d.fromDegrees(-90)
-    )
-
-    assert math.isclose(0.0, chassisSpeeds.vx, abs_tol=1e-9)
-    assert math.isclose(1.0, chassisSpeeds.vy)
-    assert math.isclose(0.5, chassisSpeeds.omega)
-
-
-def test_fromRobotRelativeSpeeds() -> None:
-    chassisSpeeds = ChassisSpeeds.fromRobotRelativeSpeeds(
-        vx=1.0, vy=0.0, omega=0.5, robotAngle=Rotation2d.fromDegrees(45)
-    )
-
-    assert math.isclose(1.0 / math.sqrt(2), chassisSpeeds.vx)
-    assert math.isclose(1.0 / math.sqrt(2), chassisSpeeds.vy)
-    assert math.isclose(0.5, chassisSpeeds.omega)
-
-
 def test_plus() -> None:
     left = ChassisSpeeds(vx=1.0, vy=0.5, omega=0.75)
     right = ChassisSpeeds(vx=2.0, vy=1.5, omega=0.25)

@@ -17,7 +17,7 @@ extra_includes:
 - networktables/Topic.h
 - src/py2value.h
 - src/nt_instance.h
-- wpi/DataLog.h
+- wpi/datalog/DataLog.h
 - wpystruct.h
 
 classes:
@@ -120,10 +120,10 @@ classes:
       StartServer:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view persist_filename,  const char* listen_address,
-             unsigned int port3, unsigned int port4) {
+             unsigned int port) {
             pyntcore::onInstanceStart(self);
             py::gil_scoped_release release;
-            self->StartServer(persist_filename, listen_address, port3, port4);
+            self->StartServer(persist_filename, listen_address, port);
           }
       StopServer:
       StartClient3:

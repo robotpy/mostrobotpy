@@ -5,24 +5,24 @@ requires = [
     "hatch-meson~=0.1.0b2",
     "hatch-robotpy~=0.2",
     "hatchling",
-    "robotpy-wpiutil==2025.3.2.2",
-    "robotpy-wpinet==2025.3.2.2",
-    "pyntcore==2025.3.2.2",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
+    "robotpy-wpinet==2027.0.0a1.dev0",
+    "pyntcore==2027.0.0a1.dev0",
     # "numpy", # required for pybind11-stubgen to not complain, broken in raspbian CI
 ]
 
 [project]
 name = "robotpy-cscore"
-version = "2025.3.2.2"
+version = "2027.0.0a1.dev0"
 description = "RobotPy bindings for cscore image processing library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-wpiutil==2025.3.2.2",
-    "robotpy-wpinet==2025.3.2.2",
-    "pyntcore==2025.3.2.2",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
+    "robotpy-wpinet==2027.0.0a1.dev0",
+    "pyntcore==2027.0.0a1.dev0",
 ]
 
 [project.urls]
@@ -43,8 +43,8 @@ version_file = "cscore/version.py"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2025.3.2-123-g22d12d2"
 
 staticlibs = ["cscore"]
 extract_to = "lib"
@@ -52,19 +52,19 @@ extract_to = "lib"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2025.3.2-123-g22d12d2"
 
 staticlibs = ["cameraserver"]
 extract_to = "lib"
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "opencv-cpp"
-group_id = "edu.wpi.first.thirdparty.frc2024.opencv"
+group_id = "edu.wpi.first.thirdparty.frc2025.opencv"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "4.8.0-1"
+version = "4.10.0-3"
 
-staticlibs = ["opencv480"]
+staticlibs = ["opencv4100"]
 extract_to = "lib"
 
 

@@ -5,27 +5,27 @@ requires = [
     "hatch-meson~=0.1.0b2",
     "hatch-robotpy~=0.2",
     "hatchling",
-    "robotpy-native-wpilib==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
-    "robotpy-wpimath==2025.3.2.2",
-    "robotpy-hal==2025.3.2.2",
-    "pyntcore==2025.3.2.2",
+    "robotpy-native-wpilib==2027.0.0a1.dev0",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
+    "robotpy-wpimath==2027.0.0a1.dev0",
+    "robotpy-hal==2027.0.0a1.dev0",
+    "pyntcore==2027.0.0a1.dev0",
 ]
 
 [project]
 name = "wpilib"
-version = "2025.3.2.2"
+version = "2027.0.0a1.dev0"
 description = "Binary wrapper for FRC WPILib"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpilib==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
-    "robotpy-wpimath==2025.3.2.2",
-    "robotpy-hal==2025.3.2.2",
-    "pyntcore==2025.3.2.2",
+    "robotpy-native-wpilib==2027.0.0a1.dev0",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
+    "robotpy-wpimath==2027.0.0a1.dev0",
+    "robotpy-hal==2027.0.0a1.dev0",
+    "pyntcore==2027.0.0a1.dev0",
     "robotpy-cli~=2024.0b"
 ]
 
@@ -54,7 +54,6 @@ update_init = [
     "wpilib.drive",
     "wpilib.event",
     "wpilib.interfaces",
-    "wpilib.shuffleboard",
     "wpilib.simulation",
     "wpilib.sysid wpilib._wpilib.sysid",
 ]
@@ -64,10 +63,6 @@ scan_headers_ignore = [
     # needs a python wrapper
     "frc/AsynchronousInterrupt.h",
 
-    # Needs HAL object support, not sure if this is a good idea for python
-    "frc/DMA.h",
-    "frc/DMASample.h",
-
     "frc/Filesystem.h",
     "frc/Notifier.h", # wrapped separately
     "frc/Resource.h",
@@ -75,16 +70,11 @@ scan_headers_ignore = [
 
     "frc/motorcontrol/MotorControllerGroup.h", # wrapped separately
 
-    # Not possible
-    "frc/shuffleboard/RecordingController.h",
-    "frc/shuffleboard/SendableCameraWrapper.h",
-
     "frc/smartdashboard/ListenerExecutor.h",    # internal detail
 
     # Internals
     "rpy/ControlWord.h",
     "rpy/SmartDashboardData.h",
-    "ShuffleboardData.h",
 ]
 
 [tool.semiwrap.extension_modules."wpilib._wpilib"]
@@ -102,34 +92,21 @@ DYNAMIC_CAMERA_SERVER = 1
 
 [tool.semiwrap.extension_modules."wpilib._wpilib".headers]
 # frc
-ADIS16448_IMU = "frc/ADIS16448_IMU.h"
-ADIS16470_IMU = "frc/ADIS16470_IMU.h"
 ADXL345_I2C = "frc/ADXL345_I2C.h"
-ADXL345_SPI = "frc/ADXL345_SPI.h"
-ADXL362 = "frc/ADXL362.h"
-ADXRS450_Gyro = "frc/ADXRS450_Gyro.h"
 AddressableLED = "frc/AddressableLED.h"
 Alert = "frc/Alert.h"
 AnalogAccelerometer = "frc/AnalogAccelerometer.h"
 AnalogEncoder = "frc/AnalogEncoder.h"
 AnalogGyro = "frc/AnalogGyro.h"
 AnalogInput = "frc/AnalogInput.h"
-AnalogOutput = "frc/AnalogOutput.h"
 AnalogPotentiometer = "frc/AnalogPotentiometer.h"
-AnalogTrigger = "frc/AnalogTrigger.h"
-AnalogTriggerOutput = "frc/AnalogTriggerOutput.h"
-AnalogTriggerType = "frc/AnalogTriggerType.h"  
-BuiltInAccelerometer = "frc/BuiltInAccelerometer.h"
 CAN = "frc/CAN.h"
 Compressor = "frc/Compressor.h"
 CompressorConfigType = "frc/CompressorConfigType.h"
-Counter = "frc/Counter.h"
 DataLogManager = "frc/DataLogManager.h"
 DSControlWord = "frc/DSControlWord.h"
-DigitalGlitchFilter = "frc/DigitalGlitchFilter.h"
 DigitalInput = "frc/DigitalInput.h"
 DigitalOutput = "frc/DigitalOutput.h"
-DigitalSource = "frc/DigitalSource.h"
 DoubleSolenoid = "frc/DoubleSolenoid.h"
 DriverStation = "frc/DriverStation.h"
 DutyCycle = "frc/DutyCycle.h"
@@ -152,39 +129,33 @@ PneumaticsControlModule = "frc/PneumaticsControlModule.h"
 PneumaticsModuleType = "frc/PneumaticsModuleType.h"
 PowerDistribution = "frc/PowerDistribution.h"
 Preferences = "frc/Preferences.h"
-Relay = "frc/Relay.h"
 RobotBase = "frc/RobotBase.h"
 RobotController = "frc/RobotController.h"
 RobotState = "frc/RobotState.h"
 RuntimeType = "frc/RuntimeType.h"
-SPI = "frc/SPI.h"
 SensorUtil = "frc/SensorUtil.h"
 SerialPort = "frc/SerialPort.h"
 Servo = "frc/Servo.h"
 SharpIR = "frc/SharpIR.h"
 Solenoid = "frc/Solenoid.h"
 StadiaController = "frc/StadiaController.h"
-SynchronousInterrupt = "frc/SynchronousInterrupt.h"
+SystemServer = "frc/SystemServer.h"
 Threads = "frc/Threads.h"
 TimedRobot = "frc/TimedRobot.h"
 Timer = "frc/Timer.h"
 TimesliceRobot = "frc/TimesliceRobot.h"
 Tracer = "frc/Tracer.h"
-Ultrasonic = "frc/Ultrasonic.h"
 Watchdog = "frc/Watchdog.h"
 XboxController = "frc/XboxController.h"
 
 # frc/internal
 DriverStationModeThread = "frc/internal/DriverStationModeThread.h"
 
-# frc/livewindow
-LiveWindow = "frc/livewindow/LiveWindow.h"
-
 # frc/motorcontrol
 DMC60 = "frc/motorcontrol/DMC60.h"
 Jaguar = "frc/motorcontrol/Jaguar.h"
+Koors40 = "frc/motorcontrol/Koors40.h"
 MotorControllerGroup = "rpy/MotorControllerGroup.h"
-NidecBrushless = "frc/motorcontrol/NidecBrushless.h"
 PWMMotorController = "frc/motorcontrol/PWMMotorController.h"
 PWMSparkFlex = "frc/motorcontrol/PWMSparkFlex.h"
 PWMSparkMax = "frc/motorcontrol/PWMSparkMax.h"
@@ -194,6 +165,7 @@ PWMVenom = "frc/motorcontrol/PWMVenom.h"
 PWMVictorSPX = "frc/motorcontrol/PWMVictorSPX.h"
 SD540 = "frc/motorcontrol/SD540.h"
 Spark = "frc/motorcontrol/Spark.h"
+SparkMini = "frc/motorcontrol/SparkMini.h"
 Talon = "frc/motorcontrol/Talon.h"
 Victor = "frc/motorcontrol/Victor.h"
 VictorSP = "frc/motorcontrol/VictorSP.h"
@@ -227,7 +199,6 @@ yaml_path = "semiwrap/counter"
 [tool.semiwrap.extension_modules."wpilib.counter._counter".headers]
 # frc/counter
 EdgeConfiguration = "frc/counter/EdgeConfiguration.h"
-ExternalDirectionCounter = "frc/counter/ExternalDirectionCounter.h"
 Tachometer = "frc/counter/Tachometer.h"
 UpDownCounter = "frc/counter/UpDownCounter.h"
 
@@ -272,41 +243,6 @@ GenericHID = "frc/GenericHID.h"
 MotorController = "frc/motorcontrol/MotorController.h"
 
 
-[tool.semiwrap.extension_modules."wpilib.shuffleboard._shuffleboard"]
-name = "wpilib_shuffleboard"
-wraps = ["robotpy-native-wpilib"]
-depends = ["wpilib", "wpilib_interfaces"]
-yaml_path = "semiwrap/shuffleboard"
-
-[tool.semiwrap.extension_modules."wpilib.shuffleboard._shuffleboard".defines]
-DYNAMIC_CAMERA_SERVER = 1
-
-
-[tool.semiwrap.extension_modules."wpilib.shuffleboard._shuffleboard".headers]
-# frc/shuffleboard
-
-BuiltInLayouts = "frc/shuffleboard/BuiltInLayouts.h"
-BuiltInWidgets = "frc/shuffleboard/BuiltInWidgets.h"
-ComplexWidget = "frc/shuffleboard/ComplexWidget.h"
-LayoutType = "frc/shuffleboard/LayoutType.h"
-# RecordingController = "frc/shuffleboard/RecordingController.h"
-# SendableCameraWrapper = "frc/shuffleboard/SendableCameraWrapper.h"
-Shuffleboard = "frc/shuffleboard/Shuffleboard.h"
-ShuffleboardComponent = "frc/shuffleboard/ShuffleboardComponent.h"
-ShuffleboardComponentBase = "frc/shuffleboard/ShuffleboardComponentBase.h"
-ShuffleboardContainer = "frc/shuffleboard/ShuffleboardContainer.h"
-ShuffleboardEventImportance = "frc/shuffleboard/ShuffleboardEventImportance.h"
-ShuffleboardInstance = "frc/shuffleboard/ShuffleboardInstance.h"
-ShuffleboardLayout = "frc/shuffleboard/ShuffleboardLayout.h"
-ShuffleboardRoot = "frc/shuffleboard/ShuffleboardRoot.h"
-ShuffleboardTab = "frc/shuffleboard/ShuffleboardTab.h"
-ShuffleboardValue = "frc/shuffleboard/ShuffleboardValue.h"
-ShuffleboardWidget = "frc/shuffleboard/ShuffleboardWidget.h"
-SimpleWidget = "frc/shuffleboard/SimpleWidget.h"
-SuppliedValueWidget = "frc/shuffleboard/SuppliedValueWidget.h"
-WidgetType = "frc/shuffleboard/WidgetType.h"
-
-
 [tool.semiwrap.extension_modules."wpilib.simulation._simulation"]
 name = "wpilib_simulation"
 wraps = ["robotpy-native-wpilib"]
@@ -315,19 +251,11 @@ yaml_path = "semiwrap/simulation"
 
 [tool.semiwrap.extension_modules."wpilib.simulation._simulation".headers]
 # frc/simulation
-ADIS16448_IMUSim = "frc/simulation/ADIS16448_IMUSim.h"
-ADIS16470_IMUSim = "frc/simulation/ADIS16470_IMUSim.h"
 ADXL345Sim = "frc/simulation/ADXL345Sim.h"
-ADXL362Sim = "frc/simulation/ADXL362Sim.h"
-ADXRS450_GyroSim = "frc/simulation/ADXRS450_GyroSim.h"
 AddressableLEDSim = "frc/simulation/AddressableLEDSim.h"
 AnalogEncoderSim = "frc/simulation/AnalogEncoderSim.h"
-AnalogGyroSim = "frc/simulation/AnalogGyroSim.h"
 AnalogInputSim = "frc/simulation/AnalogInputSim.h"
-AnalogOutputSim = "frc/simulation/AnalogOutputSim.h"
-AnalogTriggerSim = "frc/simulation/AnalogTriggerSim.h"
 BatterySim = "frc/simulation/BatterySim.h"
-BuiltInAccelerometerSim = "frc/simulation/BuiltInAccelerometerSim.h"
 CTREPCMSim = "frc/simulation/CTREPCMSim.h"
 CallbackStore = "frc/simulation/CallbackStore.h"
 DCMotorSim = "frc/simulation/DCMotorSim.h"
@@ -349,16 +277,15 @@ PS5ControllerSim = "frc/simulation/PS5ControllerSim.h"
 PWMSim = "frc/simulation/PWMSim.h"
 PneumaticsBaseSim = "frc/simulation/PneumaticsBaseSim.h"
 PowerDistributionSim = "frc/simulation/PowerDistributionSim.h"
+PWMMotorControllerSim = "frc/simulation/PWMMotorControllerSim.h"
 REVPHSim = "frc/simulation/REVPHSim.h"
-RelaySim = "frc/simulation/RelaySim.h"
 RoboRioSim = "frc/simulation/RoboRioSim.h"
-SPIAccelerometerSim = "frc/simulation/SPIAccelerometerSim.h"
 SendableChooserSim = "frc/simulation/SendableChooserSim.h"
+ServoSim = "frc/simulation/ServoSim.h"
 SharpIRSim = "frc/simulation/SharpIRSim.h"
 SimDeviceSim = "frc/simulation/SimDeviceSim.h"
 SimHooks = "frc/simulation/SimHooks.h"
 SingleJointedArmSim = "frc/simulation/SingleJointedArmSim.h"
 SolenoidSim = "frc/simulation/SolenoidSim.h"
 StadiaControllerSim = "frc/simulation/StadiaControllerSim.h"
-UltrasonicSim = "frc/simulation/UltrasonicSim.h"
 XboxControllerSim = "frc/simulation/XboxControllerSim.h"

@@ -4,21 +4,21 @@ requires = [
     "semiwrap~=0.1.2",
     "hatch-meson~=0.1.0b2",
     "hatchling",
-    "robotpy-native-wpihal==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-native-wpihal==2027.0.0a1.dev0",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
 ]
 
 [project]
 name = "robotpy-hal"
-version = "2025.3.2.2"
+version = "2027.0.0a1.dev0"
 description = "Binary wrapper for FRC HAL"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpihal==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-native-wpihal==2027.0.0a1.dev0",
+    "robotpy-wpiutil==2027.0.0a1.dev0",
 ]
 
 [project.urls]
@@ -43,6 +43,7 @@ scan_headers_ignore = [
     "hal/DMA.h",
     "hal/Errors.h",
     "hal/HAL.h",
+    "hal/SystemServer.h",
     "hal/UsageReporting.h",
     "hal/Types.h",
     "hal/Value.h",
@@ -57,6 +58,8 @@ scan_headers_ignore = [
     "hal/handles/LimitedClassedHandleResource.h",
     "hal/handles/LimitedHandleResource.h",
     "hal/handles/UnlimitedHandleResource.h",
+
+    "hal/proto/*",
 
     "hal/roborio/HMB.h",
     "hal/roborio/InterruptManager.h",
@@ -75,23 +78,17 @@ scan_headers_ignore = [
 [tool.semiwrap.extension_modules."hal._wpiHal"]
 name = "wpihal"
 wraps = ["robotpy-native-wpihal"]
-depends = ["wpiutil"]
+depends = ["wpiutil", "ntcore"]
 
 [tool.semiwrap.extension_modules."hal._wpiHal".headers]
 # hal
-Accelerometer = "hal/Accelerometer.h"
 AddressableLED = "hal/AddressableLED.h"
 AddressableLEDTypes = "hal/AddressableLEDTypes.h"
-AnalogAccumulator = "hal/AnalogAccumulator.h"
-AnalogGyro = "hal/AnalogGyro.h"
 AnalogInput = "hal/AnalogInput.h"
-AnalogOutput = "hal/AnalogOutput.h"
-AnalogTrigger = "hal/AnalogTrigger.h"
 CAN = "hal/CAN.h"
 CANAPI = "hal/CANAPI.h"
 CANAPITypes = "hal/CANAPITypes.h"
 CTREPCM = "hal/CTREPCM.h"
-# ChipObject = "hal/ChipObject.h"
 Constants = "hal/Constants.h"
 Counter = "hal/Counter.h"
 DIO = "hal/DIO.h"
@@ -102,13 +99,10 @@ DutyCycle = "hal/DutyCycle.h"
 Encoder = "hal/Encoder.h"
 # Errors = "hal/Errors.h"
 Extensions = "hal/Extensions.h"
-FRCUsageReporting = "hal/FRCUsageReporting.h"
 # HAL = "hal/HAL.h"
 HALBase = "hal/HALBase.h"
 I2C = "hal/I2C.h"
 I2CTypes = "hal/I2CTypes.h"
-Interrupts = "hal/Interrupts.h"
-LEDs = "hal/LEDs.h"
 Main = "hal/Main.h"
 Notifier = "hal/Notifier.h"
 PWM = "hal/PWM.h"
@@ -116,9 +110,6 @@ Ports = "hal/Ports.h"
 Power = "hal/Power.h"
 PowerDistribution = "hal/PowerDistribution.h"
 REVPH = "hal/REVPH.h"
-Relay = "hal/Relay.h"
-SPI = "hal/SPI.h"
-SPITypes = "hal/SPITypes.h"
 SerialPort = "hal/SerialPort.h"
 SimDevice = "hal/SimDevice.h"
 Threads = "hal/Threads.h"
@@ -126,8 +117,6 @@ Threads = "hal/Threads.h"
 # Value = "hal/Value.h"
 
 # hal/cpp
-SerialHelper = { header="hal/cpp/SerialHelper.h", enable_if="platform_machine == 'roborio'" }
-# UnsafeDIO = "hal/cpp/UnsafeDIO.h"
 # fpga_clock = "hal/cpp/fpga_clock.h"
 
 # hal/handles
@@ -139,24 +128,16 @@ HandlesInternal = "hal/handles/HandlesInternal.h"
 # LimitedHandleResource = "hal/handles/LimitedHandleResource.h"
 # UnlimitedHandleResource = "hal/handles/UnlimitedHandleResource.h"
 
-# hal/roborio
-# HMB = "hal/roborio/HMB.h"
-# InterruptManager = "hal/roborio/InterruptManager.h"
-
 
 [tool.semiwrap.extension_modules."hal.simulation._simulation"]
 name = "hal_simulation"
 wraps = ["robotpy-native-wpihal"]
-depends = ["wpiutil"]
+depends = ["wpiutil", "ntcore"]
 yaml_path = "semiwrap/simulation"
 
 [tool.semiwrap.extension_modules."hal.simulation._simulation".headers]
-AccelerometerData = "hal/simulation/AccelerometerData.h"
 AddressableLEDData = "hal/simulation/AddressableLEDData.h"
-AnalogGyroData = "hal/simulation/AnalogGyroData.h"
 AnalogInData = "hal/simulation/AnalogInData.h"
-AnalogOutData = "hal/simulation/AnalogOutData.h"
-AnalogTriggerData = "hal/simulation/AnalogTriggerData.h"
 CTREPCMData = "hal/simulation/CTREPCMData.h"
 # CanData = "hal/simulation/CanData.h"
 DIOData = "hal/simulation/DIOData.h"
@@ -171,11 +152,8 @@ NotifierData = "hal/simulation/NotifierData.h"
 PWMData = "hal/simulation/PWMData.h"
 PowerDistributionData = "hal/simulation/PowerDistributionData.h"
 REVPHData = "hal/simulation/REVPHData.h"
-RelayData = "hal/simulation/RelayData.h"
 Reset = "hal/simulation/Reset.h"
 RoboRioData = "hal/simulation/RoboRioData.h"
-SPIAccelerometerData = "hal/simulation/SPIAccelerometerData.h"
-# SPIData = "hal/simulation/SPIData.h"
 # SimCallbackRegistry = "hal/simulation/SimCallbackRegistry.h"
 # SimDataValue = "hal/simulation/SimDataValue.h"
 SimDeviceData = "hal/simulation/SimDeviceData.h"

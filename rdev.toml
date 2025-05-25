@@ -11,19 +11,19 @@
 [py_versions]
 
 # Usually the same as wpilib_bin_version
-native = "2025.3.2"
+native = "2027.0.0a1.dev0"
 
 # Will eventually sync with native
-halsim_native = "2025.3.2.2"
+halsim_native = "2027.0.0a1.dev0"
 
 # Usually similar to native, but subminor version is bumped for bugfixes
-wrapper = "2025.3.2.2"
+wrapper = "2027.0.0a1.dev0"
 
 [params]
 
-wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
-wpilib_bin_version = "2025.3.2"
-#wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
+# wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
+wpilib_bin_version = "2025.3.2-123-g22d12d2"
+wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 
 # Don't update these maven artifacts
 exclude_artifacts = [
@@ -38,6 +38,10 @@ hatch-robotpy = "~=0.2"
 
 
 [subprojects."robotpy-native-wpiutil"]
+py_version = "native"
+roborio = true
+
+[subprojects."robotpy-native-datalog"]
 py_version = "native"
 roborio = true
 
@@ -74,6 +78,10 @@ py_version = "native"
 roborio = false
 
 [subprojects."robotpy-wpiutil"]
+py_version = "wrapper"
+roborio = true
+
+[subprojects."robotpy-wpilog"]
 py_version = "wrapper"
 roborio = true
 

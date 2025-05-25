@@ -5,19 +5,19 @@ requires = [
     "hatch-meson~=0.1.0b2",
     "hatch-robotpy~=0.2",
     "hatchling",
-    "robotpy-native-wpiutil==2025.3.2",
+    "robotpy-native-wpiutil==2027.0.0a1.dev0",
 ]
 
 [project]
 name = "robotpy-wpiutil"
-version = "2025.3.2.2"
+version = "2027.0.0a1.dev0"
 description = "Binary wrapper for FRC WPIUtil library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpiutil==2025.3.2",
+    "robotpy-native-wpiutil==2027.0.0a1.dev0",
 ]
 
 [project.urls]
@@ -38,7 +38,7 @@ packages = ["wpiutil"]
 [tool.semiwrap]
 update_init = [
     "wpiutil",
-    "wpiutil.log wpiutil._wpiutil.log",
+    # "wpiutil.log wpiutil._wpiutil.log",
     "wpiutil.sync wpiutil._wpiutil.sync",
     "wpiutil.wpistruct wpiutil._wpiutil.wpistruct",
 ]
@@ -65,10 +65,6 @@ depends = ["wpiutil-casters"]
 
 [tool.semiwrap.extension_modules."wpiutil._wpiutil".headers]
 # wpi
-DataLog = "wpi/DataLog.h"
-DataLogReader = "wpi/DataLogReader.h"
-DataLogBackgroundWriter = "wpi/DataLogBackgroundWriter.h"
-DataLogWriter = "wpi/DataLogWriter.h"
 StackTrace = "wpi/StackTrace.h"
 Synchronization = "wpi/Synchronization.h"
 RawFrame = "wpi/RawFrame.h"

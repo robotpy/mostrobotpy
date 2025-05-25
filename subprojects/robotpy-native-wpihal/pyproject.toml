@@ -4,17 +4,19 @@ requires = [
     "hatchling",
     "hatch-nativelib~=0.2.0",
     "hatch-robotpy~=0.2",
-    "robotpy-native-wpiutil==2025.3.2",
+    "robotpy-native-wpiutil==2027.0.0a1.dev0",
+    "robotpy-native-ntcore==2027.0.0a1.dev0",
 ]
 
 [project]
 name = "robotpy-native-wpihal"
-version = "2025.3.2"
+version = "2027.0.0a1.dev0"
 description = "WPILib HAL implementation"
 license = "BSD-3-Clause"
 
 dependencies = [
-    "robotpy-native-wpiutil==2025.3.2",
+    "robotpy-native-wpiutil==2027.0.0a1.dev0",
+    "robotpy-native-ntcore==2027.0.0a1.dev0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -23,8 +25,8 @@ packages = ["src/native"]
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "hal-cpp"
 group_id = "edu.wpi.first.hal"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2025.3.2"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2025.3.2-123-g22d12d2"
 
 extract_to = "src/native/wpihal"
 libs = ["wpiHal"]
@@ -36,4 +38,4 @@ name = "wpihal"
 includedir = "src/native/wpihal/include"
 libdir = "src/native/wpihal/lib"
 shared_libraries = ["wpiHal"]
-requires = ["robotpy-native-wpiutil"]
+requires = ["robotpy-native-wpiutil", "robotpy-native-ntcore"]
