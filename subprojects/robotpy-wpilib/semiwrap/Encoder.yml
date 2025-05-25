@@ -1,9 +1,5 @@
 extra_includes:
 - wpi/sendable/SendableBuilder.h
-- frc/DigitalSource.h
-- frc/DigitalGlitchFilter.h
-- frc/DMA.h
-- frc/DMASample.h
 
 classes:
   frc::Encoder:

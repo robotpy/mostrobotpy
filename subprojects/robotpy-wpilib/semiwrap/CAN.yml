@@ -1,9 +1,4 @@
 classes:
-  frc::CANData:
-    attributes:
-      data:
-      length:
-      timestamp:
   frc::CAN:
     attributes:
       kTeamManufacturer:
@@ -14,17 +9,9 @@ classes:
           int:
           int, int, int:
       WritePacket:
-        buffers:
-        - {type: IN, src: data, len: length}
       WritePacketNoError:
-        buffers:
-        - {type: IN, src: data, len: length}
       WritePacketRepeating:
-        buffers:
-        - {type: IN, src: data, len: length}
       WritePacketRepeatingNoError:
-        buffers:
-        - {type: IN, src: data, len: length}
       WriteRTRFrame:
       WriteRTRFrameNoError:
       StopPacketRepeating:

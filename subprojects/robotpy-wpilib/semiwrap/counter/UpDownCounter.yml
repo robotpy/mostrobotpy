@@ -1,7 +1,4 @@
 
-extra_includes:
-- frc/DigitalSource.h
-
 classes:
   frc::UpDownCounter:
     ignored_bases:

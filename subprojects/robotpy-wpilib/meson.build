@@ -28,11 +28,6 @@ wpilib_interfaces_sources += files(
     'wpilib/interfaces/interfaces.cpp',
 )
 
-wpilib_shuffleboard_sources += files(
-    'wpilib/shuffleboard/shuffleboard.cpp',
-    'wpilib/shuffleboard/ShuffleboardData.cpp',
-)
-
 wpilib_simulation_sources += files(
     'wpilib/simulation/simulation.cpp',
 )

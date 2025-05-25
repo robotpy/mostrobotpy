@@ -1,7 +1,5 @@
 extra_includes:
 - wpi/sendable/SendableBuilder.h
-- frc/DMA.h
-- frc/DMASample.h
 
 classes:
   frc::AnalogInput:
