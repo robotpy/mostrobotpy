@@ -70,11 +70,10 @@ class NtTestBase:
 
         # self._wait_init()
 
-    def _init_server(self, port3=23232, port4=23233):
+    def _init_server(self, port=23232):
         self._init_common()
 
-        self.port3 = port3
-        self.port4 = port4
+        self.port = port
 
     def _init_client(self):
         self._init_common()
@@ -122,23 +121,18 @@ class NtTestBase:
 @pytest.fixture()
 def nt_server(request, cfg_logging):
     class NtServer(NtTestBase):
-        _test_saved_port3 = None
-        _test_saved_port4 = None
+        _test_saved_port = None
 
         def start_test(self):
             logger.info("NtServer::start_test")
 
             # Restore server port on restart
-            if self._test_saved_port3 is not None:
-                self.port3 = self._test_saved_port3
-                self.port4 = self._test_saved_port4
+            if self._test_saved_port is not None:
+                self.port = self._test_saved_port
 
-            self._impl.startServer(
-                listen_address="127.0.0.1", port3=self.port3, port4=self.port4
-            )
+            self._impl.startServer(listen_address="127.0.0.1", port=self.port)
 
-            self._test_saved_port3 = self.port3
-            self._test_saved_port4 = self.port4
+            self._test_saved_port = self.port
 
     server = NtServer()
     server._init_server()
@@ -149,26 +143,11 @@ def nt_server(request, cfg_logging):
 
 
 @pytest.fixture()
-def nt_client3(request, nt_server):
+def nt_client(request, nt_server):
     class NtClient(NtTestBase):
         def start_test(self):
-            self._impl.startClient3("C3")
-            self._impl.setServer("127.0.0.1", nt_server.port3)
-
-    client = NtClient()
-    client._init_client()
-    try:
-        yield client
-    finally:
-        client.shutdown()
-
-
-@pytest.fixture()
-def nt_client4(request, nt_server):
-    class NtClient(NtTestBase):
-        def start_test(self):
-            self._impl.startClient4("C4")
-            self._impl.setServer("127.0.0.1", nt_server.port4)
+            self._impl.startClient("C4")
+            self._impl.setServer("127.0.0.1", nt_server.port)
 
     client = NtClient()
     client._init_client()
@@ -177,10 +156,10 @@ def nt_client4(request, nt_server):
 
 
 @pytest.fixture
-def nt_live(nt_server, nt_client4):
+def nt_live(nt_server, nt_client):
     """This fixture automatically starts the client and server"""
 
     nt_server.start_test()
-    nt_client4.start_test()
+    nt_client.start_test()
 
-    return nt_server, nt_client4
+    return nt_server, nt_client
