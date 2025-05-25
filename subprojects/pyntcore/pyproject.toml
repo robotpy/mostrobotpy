@@ -8,6 +8,7 @@ requires = [
     "robotpy-native-ntcore==2027.0.0a2",
     "robotpy-wpiutil==2027.0.0a2",
     "robotpy-wpinet==2027.0.0a2",
+    "robotpy-wpilog==2027.0.0a2",
 ]
 
 
@@ -23,6 +24,7 @@ dependencies = [
     "robotpy-native-ntcore==2027.0.0a2",
     "robotpy-wpiutil==2027.0.0a2",
     "robotpy-wpinet==2027.0.0a2",
+    "robotpy-wpilog==2027.0.0a2",
 ]
 
 [project.urls]
@@ -60,7 +62,7 @@ scan_headers_ignore = [
 [tool.semiwrap.extension_modules."ntcore._ntcore"]
 name = "ntcore"
 wraps = ["robotpy-native-ntcore"]
-depends = ["wpiutil", "wpinet"]
+depends = ["wpiutil", "wpinet", "wpilog"]
 
 
 [tool.semiwrap.extension_modules."ntcore._ntcore".headers]

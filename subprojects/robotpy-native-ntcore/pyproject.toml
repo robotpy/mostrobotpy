@@ -6,6 +6,7 @@ requires = [
     "hatch-robotpy~=0.2.1",
     "robotpy-native-wpiutil==2027.0.0a2",
     "robotpy-native-wpinet==2027.0.0a2",
+    "robotpy-native-datalog==2027.0.0a2",
 ]
 
 [project]
@@ -17,6 +18,7 @@ license = "BSD-3-Clause"
 dependencies = [
     "robotpy-native-wpiutil==2027.0.0a2",
     "robotpy-native-wpinet==2027.0.0a2",
+    "robotpy-native-datalog==2027.0.0a2",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -38,4 +40,4 @@ name = "ntcore"
 includedir = "src/native/ntcore/include"
 libdir = "src/native/ntcore/lib"
 shared_libraries = ["ntcore"]
-requires = ["robotpy-native-wpinet", "robotpy-native-wpiutil"]
+requires = ["robotpy-native-datalog", "robotpy-native-wpinet", "robotpy-native-wpiutil"]
