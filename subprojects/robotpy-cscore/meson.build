@@ -18,7 +18,7 @@ cpp = meson.get_compiler('cpp')
 libs_path = meson.current_source_dir() + '/lib/lib'
 
 cscore_deps += [
-    cpp.find_library('opencv480', dirs: libs_path),
+    cpp.find_library('opencv4100', dirs: libs_path),
     cpp.find_library('cscore', dirs: libs_path),
     cpp.find_library('cameraserver', dirs: libs_path),
 ]
