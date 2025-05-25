@@ -5,7 +5,6 @@ from .._controls._controls.trajectory import (
     TrajectoryConfig,
     TrajectoryGenerator,
     TrajectoryParameterizer,
-    TrajectoryUtil,
     TrapezoidProfile,
     TrapezoidProfileRadians,
 )
@@ -16,7 +15,6 @@ __all__ = [
     "TrajectoryConfig",
     "TrajectoryGenerator",
     "TrajectoryParameterizer",
-    "TrajectoryUtil",
     "TrapezoidProfile",
     "TrapezoidProfileRadians",
 ]

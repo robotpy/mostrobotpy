@@ -27,6 +27,12 @@ functions:
         default: '1.0'
     template_impls:
     - [double]
+  CopySignPow:
+    param_override:
+      maxMagnitude:
+        default: '1.0'
+    template_impls:
+    - [double]
   IsNear:
     overloads:
       T, T, T:
