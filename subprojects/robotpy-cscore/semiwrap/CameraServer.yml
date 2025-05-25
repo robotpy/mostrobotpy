@@ -4,6 +4,8 @@ extra_includes:
 
 classes:
   frc::CameraServer:
+    force_type_casters:
+    - std::optional
     attributes:
       kBasePort:
       kSize640x480:
