@@ -43,3 +43,10 @@ functions:
   HALSIM_SetPWMZeroLatch:
   HALSIM_RegisterPWMAllCallbacks:
     ignore: true
+  HALSIM_GetPWMSimDevice:
+  HALSIM_RegisterPWMOutputPeriodCallback:
+    ignore: true
+  HALSIM_CancelPWMOutputPeriodCallback:
+    ignore: true
+  HALSIM_GetPWMOutputPeriod:
+  HALSIM_SetPWMOutputPeriod:
