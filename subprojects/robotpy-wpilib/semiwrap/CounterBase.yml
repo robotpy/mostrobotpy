@@ -1,3 +1,6 @@
+defaults:
+  subpackage: interfaces
+
 classes:
   frc::CounterBase:
     enums:

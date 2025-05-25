@@ -1,7 +1,7 @@
 
 extra_includes:
 - rpy/ControlWord.h
-- wpi/DataLog.h
+- wpi/datalog/DataLog.h
 
 classes:
   frc::DriverStation:
@@ -10,6 +10,7 @@ classes:
     enums:
       Alliance:
       MatchType:
+      POVDirection:
     methods:
       GetStickButton:
       GetStickButtonPressed:

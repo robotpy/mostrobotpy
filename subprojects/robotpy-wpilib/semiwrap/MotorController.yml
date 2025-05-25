@@ -1,3 +1,5 @@
+defaults:
+  subpackage: interfaces
 
 classes:
   frc::MotorController:
