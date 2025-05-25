@@ -25,6 +25,7 @@ classes:
       ToVector:
       Norm:
       RotateBy:
+      RotateAround:
       ToTranslation2d:
       operator+:
       operator-:
@@ -35,6 +36,11 @@ classes:
       operator/:
       operator==:
       operator!=:
+      Nearest:
+        overloads:
+          std::span<const Translation3d> [const]:
+          std::initializer_list<Translation3d> [const]:
+            ignore: true
 
 inline_code: |
   cls_Translation3d

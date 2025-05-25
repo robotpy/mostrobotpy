@@ -1,8 +1,0 @@
-classes:
-  frc::TrajectoryUtil:
-    subpackage: trajectory
-    methods:
-      ToPathweaverJson:
-      FromPathweaverJson:
-      SerializeTrajectory:
-      DeserializeTrajectory:
