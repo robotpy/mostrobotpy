@@ -1,7 +1,6 @@
 
 extra_includes:
 - wpi/sendable/SendableBuilder.h
-- frc/DMA.h
 
 classes:
   frc::PWMMotorController:
