@@ -18,8 +18,6 @@ public:
 
   void SetActuator(bool value) override {}
 
-  void SetSafeState(std::function<void()> func) override {}
-
   void AddBooleanProperty(std::string_view key, std::function<bool()> getter,
                           std::function<void(bool)> setter) override {}
 
