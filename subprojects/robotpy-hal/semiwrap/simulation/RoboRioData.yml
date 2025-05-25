@@ -8,8 +8,11 @@ functions:
   HALSIM_RegisterRoboRioFPGAButtonCallback:
     ignore: true
   HALSIM_CancelRoboRioFPGAButtonCallback:
+    ignore: true
   HALSIM_GetRoboRioFPGAButton:
+    ignore: true
   HALSIM_SetRoboRioFPGAButton:
+    ignore: true
   HALSIM_RegisterRoboRioVInVoltageCallback:
     ignore: true
   HALSIM_CancelRoboRioVInVoltageCallback:
