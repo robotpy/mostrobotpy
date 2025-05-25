@@ -60,11 +60,11 @@ extract_to = "lib"
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "opencv-cpp"
-group_id = "edu.wpi.first.thirdparty.frc2024.opencv"
+group_id = "edu.wpi.first.thirdparty.frc2025.opencv"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "4.8.0-1"
+version = "4.10.0-3"
 
-staticlibs = ["opencv480"]
+staticlibs = ["opencv4100"]
 extract_to = "lib"
 
 
