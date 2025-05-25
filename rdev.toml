@@ -44,6 +44,10 @@ hatch-robotpy = "~=0.2.1"
 py_version = "native"
 robot = true
 
+[subprojects."robotpy-native-datalog"]
+py_version = "native"
+robot = true
+
 [subprojects."robotpy-native-wpinet"]
 py_version = "native"
 robot = true
@@ -77,6 +81,10 @@ py_version = "native"
 robot = false
 
 [subprojects."robotpy-wpiutil"]
+py_version = "wrapper"
+robot = true
+
+[subprojects."robotpy-wpilog"]
 py_version = "wrapper"
 robot = true
 

@@ -1,7 +1,7 @@
-defaults:
-  ignore: true
-  report_ignored_missing: false
-  subpackage: log
+---
+# defaults:
+#   ignore: true
+#   report_ignored_missing: false
 enums:
   ControlRecordType:
 classes:
