@@ -10,17 +10,6 @@ from wpimath.trajectory import TrapezoidProfile
 kDt = 0.01  # 10 ms
 
 
-def expect_near_units(val1, val2, eps):
-    assert abs(val1 - val2) <= eps
-
-
-def expect_lt_or_near_units(val1, val2, eps):
-    if val1 <= val2:
-        assert val1 <= val2
-    else:
-        expect_near_units(val1, val2, eps)
-
-
 def test_reaches_goal():
     constraints = TrapezoidProfile.Constraints(1.75, 0.75)
     goal = TrapezoidProfile.State(3.0, 0.0)
@@ -48,7 +37,10 @@ def test_pos_continuous_under_vel_change():
         estimated_vel = (state.position - last_pos) / kDt
 
         if i >= 400:
-            expect_lt_or_near_units(estimated_vel, constraints.maxVelocity, 1e-4)
+            if estimated_vel <= constraints.maxVelocity:
+                assert estimated_vel <= constraints.maxVelocity
+            else:
+                math.isclose(estimated_vel, constraints.maxVelocity, abs_tol=1e-4)
             assert state.velocity <= constraints.maxVelocity
 
         last_pos = state.position
@@ -92,7 +84,7 @@ def test_top_speed():
 
     for _ in range(200):
         state = profile.calculate(kDt, state, goal)
-    expect_near_units(constraints.maxVelocity, state.velocity, 1e-4)
+    assert math.isclose(constraints.maxVelocity, state.velocity, abs_tol=1e-4)
 
     profile = TrapezoidProfile(constraints)
     for _ in range(2000):
@@ -108,7 +100,7 @@ def test_timing_to_current():
 
     for _ in range(400):
         state = profile.calculate(kDt, state, goal)
-        expect_near_units(profile.timeLeftUntil(state.position), 0.0, 0.02)
+        assert math.isclose(profile.timeLeftUntil(state.position), 0.0, abs_tol=0.02)
 
 
 def test_timing_to_goal():
@@ -178,5 +170,5 @@ def test_timing_before_negative_goal():
 def test_initialization_of_current_state():
     constraints = TrapezoidProfile.Constraints(1.0, 1.0)
     profile = TrapezoidProfile(constraints)
-    expect_near_units(profile.timeLeftUntil(0.0), 0.0, 1e-10)
-    expect_near_units(profile.totalTime(), 0.0, 1e-10)
+    assert math.isclose(profile.timeLeftUntil(0.0), 0.0, abs_tol=1e-10)
+    assert math.isclose(profile.totalTime(), 0.0, abs_tol=1e-10)
