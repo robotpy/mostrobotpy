@@ -1,5 +1,5 @@
 import logging
-
+import wpilib
 import pytest
 import ntcore
 from wpilib.simulation._simulation import _resetWpilibSimulationData
