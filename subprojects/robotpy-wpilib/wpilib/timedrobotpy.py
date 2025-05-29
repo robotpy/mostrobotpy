@@ -206,9 +206,7 @@ class TimedRobotPy(_IterativeRobotPy):
     Notifier instance.
     """
 
-    kDefaultPeriod: ClassVar[wpimath.units.seconds] = (
-        0.020  # todo this is a change to keep consistent units in the API
-    )
+    kDefaultPeriod: ClassVar[wpimath.units.seconds] = 0.020
 
     def __init__(self, period: wpimath.units.seconds = kDefaultPeriod) -> None:
         """
