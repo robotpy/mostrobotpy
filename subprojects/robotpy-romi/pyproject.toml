@@ -19,6 +19,7 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
+    "robotpy-native-romi==2025.3.2",
     "wpilib==2025.3.2.2"
 ]
 
