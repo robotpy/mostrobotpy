@@ -5,12 +5,12 @@ requires = [
     "hatch-meson~=0.1.0b2",
     "hatchling",
     "robotpy-native-wpihal==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpiutil==2025.3.2.3",
 ]
 
 [project]
 name = "robotpy-hal"
-version = "2025.3.2.2"
+version = "2025.3.2.3"
 description = "Binary wrapper for FRC HAL"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
@@ -18,7 +18,7 @@ authors = [
 license = "BSD-3-Clause"
 dependencies = [
     "robotpy-native-wpihal==2025.3.2",
-    "robotpy-wpiutil==2025.3.2.2",
+    "robotpy-wpiutil==2025.3.2.3",
 ]
 
 [project.urls]
