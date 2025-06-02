@@ -17,6 +17,7 @@ native = "2025.3.2"
 halsim_native = "2025.3.2.2"
 
 # Usually similar to native, but subminor version is bumped for bugfixes
+# - ./rdev.sh ci check_tag will fail if this doesn't match current tag
 wrapper = "2025.3.2.2"
 
 [params]

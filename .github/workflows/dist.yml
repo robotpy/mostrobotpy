@@ -64,6 +64,11 @@ jobs:
       run: |
         ./rdev.sh ci check-pyproject
 
+    - name: Check git tag
+      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+      shell: bash
+      run: |
+        ./rdev.sh ci check-tag
 
   #
   # Build other wheels first (OS-specific, not python specific)

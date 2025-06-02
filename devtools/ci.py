@@ -3,11 +3,13 @@
 #
 
 import pathlib
+import subprocess
 import sys
 import typing as T
 
 import click
 from packaging.requirements import Requirement
+from packaging.version import Version
 
 from .ctx import Context
 from .update_pyproject import ProjectUpdater
@@ -32,6 +34,27 @@ def check_pyproject(ctx: Context):
             "ERROR: please use ./rdev.sh update-pyproject to synchronize pyproject.toml and rdev.toml",
             file=sys.stderr,
         )
+        exit(1)
+    else:
+        print("OK")
+
+
+@ci.command
+@click.pass_obj
+def check_tag(ctx: Context):
+    """
+    Ensures that the current git tag matches the 'wrapper' version
+    """
+    wrapper_version = Version(ctx.cfg.py_versions["wrapper"])
+    raw_git_version = subprocess.check_output(
+        ["git", "describe", "--tags"], encoding="utf-8"
+    )
+    git_version = Version(raw_git_version.split("-", 1)[0])
+    print("Wrapper version :", wrapper_version)
+    print("Git version     :", git_version)
+
+    if wrapper_version != git_version:
+        print("ERROR: git tag does not match wrapper version")
         exit(1)
     else:
         print("OK")
