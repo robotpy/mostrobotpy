@@ -203,6 +203,9 @@ class ProjectUpdater:
 
                 files.append(str(info.pyproject_toml))
 
+        # Add rdev.toml too
+        files.append(str(self.ctx.cfgpath))
+
         # Make a single useful commit with our changes
         msg = "Updated dependencies\n\n"
         msg += "- " + "\n- ".join(sorted(self.commit_changes))
