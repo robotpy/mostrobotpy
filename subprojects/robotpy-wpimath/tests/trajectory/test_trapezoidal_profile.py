@@ -40,7 +40,9 @@ def test_pos_continuous_under_vel_change():
             if estimated_vel <= constraints.maxVelocity:
                 assert estimated_vel <= constraints.maxVelocity
             else:
-                math.isclose(estimated_vel, constraints.maxVelocity, abs_tol=1e-4)
+                assert math.isclose(
+                    estimated_vel, constraints.maxVelocity, abs_tol=1e-4
+                )
             assert state.velocity <= constraints.maxVelocity
 
         last_pos = state.position
