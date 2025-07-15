@@ -48,6 +48,13 @@ classes:
       {
       std::string clsNameCopy = clsName;
 
+      cls_Constraints
+        .def("__repr__", [clsNameCopy](const Constraints &self) {
+          return clsNameCopy + ".Constraints("
+            "maxVelocity=" + std::to_string(self.maxVelocity()) + ", "
+            "maxAcceleration=" + std::to_string(self.maxAcceleration()) + ")";
+        });
+
       cls_State
         .def(
           py::init<Distance_t, Velocity_t>(),
@@ -75,18 +82,6 @@ classes:
                 default: '0'
               maxAcceleration:
                 default: '0'
-    inline_code: |
-      ;
-      {
-      std::string clsNameCopy = clsName;
-
-      cls_Constraints
-        .def("__repr__", [clsNameCopy](const Constraints &self) {
-          return clsNameCopy + ".Constraints("
-            "maxVelocity=" + std::to_string(self.maxVelocity()) + ", "
-            "maxAcceleration=" + std::to_string(self.maxAcceleration()) + ")";
-        });
-      }
   frc::TrapezoidProfile::State:
     force_no_default_constructor: true
     attributes:
