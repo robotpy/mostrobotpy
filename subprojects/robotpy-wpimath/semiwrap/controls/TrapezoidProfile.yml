@@ -77,7 +77,8 @@ classes:
               maxAcceleration_:
                 name: maxAcceleration
                 default: '0'
-    template_inline_code: |
+    inline_code: |
+      ;
       {
       std::string clsNameCopy = clsName;
 
