@@ -71,11 +71,9 @@ classes:
             ignore: true
           Velocity_t, Acceleration_t:
             param_override:
-              maxVelocity_:
-                name: maxVelocity
+              maxVelocity:
                 default: '0'
-              maxAcceleration_:
-                name: maxAcceleration
+              maxAcceleration:
                 default: '0'
     inline_code: |
       ;
