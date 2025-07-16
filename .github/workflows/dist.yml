@@ -222,7 +222,7 @@ jobs:
         path: dist
 
   #
-  # Build roboRIO/raspbian wheels
+  # Build robot/raspbian wheels
   #
 
   cross-other:
@@ -232,8 +232,8 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
-          name: roborio
+        - container: wpilib/systemcore-cross-ubuntu:2027-22.04-py313
+          name: systemcore
         - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
           name: raspbian
 
@@ -270,9 +270,9 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
-          name: roborio
-          base: roborio
+        - container: wpilib/systemcore-cross-ubuntu:2025-22.04-py313
+          name: systemcore
+          base: systemcore
 
         - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py311
           name: raspbian-py311
