@@ -10,8 +10,8 @@ class SubprojectConfig:
     #: The key in `py_versions` to set the project version from
     py_version: str
 
-    #: Whether this should be built on roborio or not
-    roborio: bool
+    #: Whether this should be built for the robot platform or not
+    robot: bool
 
     #: Whether `ci scan-headers` should include this project
     ci_scan_headers: bool = True
@@ -25,6 +25,8 @@ class Parameters:
     exclude_artifacts: T.Set[str]
 
     requirements: T.Dict[str, str]
+
+    robot_wheel_platform: str
 
 
 @dataclasses.dataclass

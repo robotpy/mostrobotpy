@@ -22,15 +22,15 @@ class Context:
         self.cfgpath = self.root_path / "rdev.toml"
         self.cfg, self.rawcfg = config.load(self.cfgpath)
 
-        self.is_roborio = sysconfig.get_platform() == "linux-roborio"
+        self.is_robot = sysconfig.get_platform() == self.cfg.params.robot_wheel_platform
 
         self.wheel_path = self.root_path / "dist"
         self.other_wheel_path = self.root_path / "dist-other"
 
         subprojects: typing.List[Subproject] = []
         for project, cfg in self.cfg.subprojects.items():
-            # Skip projects that aren't compatible with roborio
-            if self.is_roborio and not cfg.roborio:
+            # Skip projects that aren't compatible with the robot
+            if self.is_robot and not cfg.robot:
                 continue
 
             subprojects.append(Subproject(cfg, self.subprojects_path / project))
