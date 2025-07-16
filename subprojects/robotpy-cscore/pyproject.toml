@@ -78,6 +78,22 @@ update_init = [
     "cscore"
 ]
 
+scan_headers_ignore = [
+    # Only wrapping the C++ API
+    "cscore.h",
+    "cscore_c.h",
+    "cscore_raw.h",
+
+    # Not needed
+    "cameraserver/CameraServerShared.h",
+    "vision/VisionPipeline.h",
+    "vision/VisionRunner.h",
+
+    # Not wrapping OpenCV or cvnp
+    "cvnp/*",
+    "opencv2/*"
+]
+
 [tool.semiwrap.extension_modules."cscore._cscore"]
 name = "cscore"
 

@@ -13,6 +13,9 @@ class SubprojectConfig:
     #: Whether this should be built on roborio or not
     roborio: bool
 
+    #: Whether `ci scan-headers` should include this project
+    ci_scan_headers: bool = True
+
 
 @dataclasses.dataclass
 class Parameters:

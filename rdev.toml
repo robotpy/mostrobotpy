@@ -98,6 +98,10 @@ roborio = true
 py_version = "wrapper"
 roborio = true
 
+# practicality over purity - this is because we use a static
+# library that only exists at build time
+ci_scan_headers = false
+
 [subprojects."robotpy-apriltag"]
 py_version = "wrapper"
 roborio = true
