@@ -48,6 +48,19 @@ class Subproject:
     def uninstall(self):
         run_pip("uninstall", "-y", self.pyproject_name)
 
+    def scan_headers(self):
+        """Returns True if no headers found or False if missing headers were found"""
+        result = run_cmd(
+            sys.executable,
+            "-m",
+            "semiwrap",
+            "scan-headers",
+            "--check",
+            cwd=self.path,
+            check=False,
+        )
+        return result.returncode == 0
+
     def update_init(self):
         run_cmd(
             sys.executable,

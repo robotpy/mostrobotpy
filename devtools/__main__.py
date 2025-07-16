@@ -61,6 +61,26 @@ def develop(ctx: Context, package: str):
             project.develop()
 
 
+@main.command()
+@click.pass_obj
+def scan_headers(ctx: Context):
+    """Run scan-headers on all projects"""
+    ok = True
+    for project in ctx.subprojects.values():
+        if project.is_semiwrap_project():
+            with ctx.handle_exception(f"scan-headers {project.name}"):
+                if not project.scan_headers():
+                    print(
+                        "- ERROR:",
+                        project.pyproject_path,
+                        "does not wrap/ignore every header!",
+                    )
+                    ok = False
+
+    if not ok:
+        sys.exit(1)
+
+
 @main.command
 @click.argument("package", required=False)
 @click.pass_obj

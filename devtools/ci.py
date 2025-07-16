@@ -128,3 +128,27 @@ def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[str]):
             )
             if not no_test:
                 project.test(install_requirements=True)
+
+
+@ci.command()
+@click.pass_obj
+def scan_headers(ctx: Context):
+    """Run scan-headers on all projects"""
+    ok = True
+    for project in ctx.subprojects.values():
+        if project.is_semiwrap_project():
+            if not project.cfg.ci_scan_headers:
+                print("- Skipping", project.name, file=sys.stderr)
+                continue
+
+            with ctx.handle_exception(f"scan-headers {project.name}"):
+                if not project.scan_headers():
+                    print(
+                        "- ERROR:",
+                        project.pyproject_path,
+                        "does not wrap/ignore every header!",
+                    )
+                    ok = False
+
+    if not ok:
+        sys.exit(1)
