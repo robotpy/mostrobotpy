@@ -1,6 +1,6 @@
 
 
-#ifndef __FRC_ROBORIO__
+#ifndef __FRC_SYSTEMCORE__
 #include <hal/Notifier.h>
 #include <hal/handles/HandlesInternal.h>
 #include <hal/simulation/NotifierData.h>

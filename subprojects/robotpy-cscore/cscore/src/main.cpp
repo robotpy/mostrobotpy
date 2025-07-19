@@ -3,7 +3,7 @@
 
 #include "cscore_cpp.h"
 
-#ifdef __FRC_ROBORIO__
+#ifdef __FRC_SYSTEMCORE__
 extern "C" {
     void WPI_Impl_SetupNowUseDefaultOnRio(void);
 }
@@ -23,7 +23,7 @@ SEMIWRAP_PYBIND11_MODULE(m) {
     });
     m.add_object("_cleanup", cleanup);
 
-    #ifdef __FRC_ROBORIO__
+    #ifdef __FRC_SYSTEMCORE__
     m.def("_setupWpiNow", WPI_Impl_SetupNowUseDefaultOnRio);
     #endif
 }

@@ -1,7 +1,7 @@
 
 #include "semiwrap_init.wpilib.simulation._simulation.hpp"
 
-#ifndef __FRC_ROBORIO__
+#ifndef __FRC_SYSTEMCORE__
 
 namespace frc::impl {
 void ResetSmartDashboardInstance();

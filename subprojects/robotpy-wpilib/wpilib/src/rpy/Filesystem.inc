@@ -30,8 +30,8 @@ static fs::path getMainPath() {
   if (locals.contains("main_path")) {
     return fs::path(py::cast<std::string>(locals["main_path"]));
   } else {
-#ifdef __FRC_ROBORIO__
-    return fs::path("/home/lvuser/py");
+#ifdef __FRC_SYSTEMCORE__
+    return fs::path("/home/systemcore/py");
 #else
     return fs::current_path();
 #endif

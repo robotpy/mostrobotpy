@@ -263,7 +263,7 @@ inline_code: |
       return (bool)self;
     })
     .def_property_readonly("name", [](const hal::SimDevice &self) -> py::str {
-      #ifdef __FRC_ROBORIO__
+      #ifdef __FRC_SYSTEMCORE__
         return "<invalid>";
       #else
         if (!self) {
@@ -279,7 +279,7 @@ inline_code: |
       #endif
     })
     .def("__repr__", [](const hal::SimDevice &self) -> py::str {
-      #ifdef __FRC_ROBORIO__
+      #ifdef __FRC_SYSTEMCORE__
         return "<SimDevice (invalid)>";
       #else
         if (!self) {
@@ -312,7 +312,7 @@ inline_code: |
   cls_SimEnum
     .def_property("value", &SimEnum::Get, &SimEnum::Set)
     .def("__repr__", [](const SimEnum &self) -> py::str {
-      #ifdef __FRC_ROBORIO__
+      #ifdef __FRC_SYSTEMCORE__
         return "<SimEnum (invalid)>";
       #else
         if (self) {
