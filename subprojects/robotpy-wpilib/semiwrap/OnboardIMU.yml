@@ -1,0 +1,25 @@
+---
+
+classes:
+  frc::OnboardIMU:
+    enums:
+      MountOrientation:
+    methods:
+      OnboardIMU:
+      GetYaw:
+      ResetYaw:
+      GetRotation2d:
+      GetRotation3d:
+      GetQuaternion:
+      GetAngleX:
+        ignore: true
+      GetAngleY:
+        ignore: true
+      GetAngleZ:
+        ignore: true
+      GetGyroRateX:
+      GetGyroRateY:
+      GetGyroRateZ:
+      GetAccelX:
+      GetAccelY:
+      GetAccelZ:

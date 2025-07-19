@@ -191,7 +191,7 @@ class RobotStarter:
         msub = ntcore.MultiSubscriber(inst, [""])
 
         if not isSimulation:
-            inst.startServer("/home/lvuser/networktables.ini")
+            inst.startServer("/home/systemcore/networktables.ini")
         else:
             inst.startServer()
 

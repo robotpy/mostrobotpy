@@ -27,13 +27,13 @@ functions:
   HAL_GetPowerDistributionFaults:
   HAL_GetPowerDistributionStickyFaults:
   HAL_StartPowerDistributionStream:
-    ifdef: __FRC_ROBORIO__
+    ifdef: __FRC_SYSTEMCORE__
   HAL_GetPowerDistributionStreamData:
-    ifdef: __FRC_ROBORIO__
+    ifdef: __FRC_SYSTEMCORE__
   HAL_FreePowerDistributionStreamData:
-    ifdef: __FRC_ROBORIO__
+    ifdef: __FRC_SYSTEMCORE__
   HAL_StopPowerDistributionStream:
-    ifdef: __FRC_ROBORIO__
+    ifdef: __FRC_SYSTEMCORE__
 classes:
   HAL_PowerDistributionVersion:
     attributes:

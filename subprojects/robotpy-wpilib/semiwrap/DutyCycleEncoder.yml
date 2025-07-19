@@ -1,7 +1,6 @@
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 - frc/DutyCycle.h
-- frc/DigitalSource.h
 
 classes:
   frc::DutyCycleEncoder:

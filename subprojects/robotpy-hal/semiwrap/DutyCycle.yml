@@ -7,7 +7,7 @@ functions:
   HAL_InitializeDutyCycle:
   HAL_FreeDutyCycle:
   HAL_SetDutyCycleSimDevice:
-    ifndef: __FRC_ROBORIO__
+    ifndef: __FRC_SYSTEMCORE__
   HAL_GetDutyCycleFrequency:
   HAL_GetDutyCycleOutput:
   HAL_GetDutyCycleHighTime:

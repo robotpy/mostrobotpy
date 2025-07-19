@@ -1,7 +1,6 @@
 
 extra_includes:
 - frc/ADXL345_I2C.h
-- frc/ADXL345_SPI.h
 
 classes:
   frc::sim::ADXL345Sim:
@@ -9,7 +8,6 @@ classes:
       ADXL345Sim:
         overloads:
           const ADXL345_I2C&:
-          const ADXL345_SPI&:
       SetX:
       SetY:
       SetZ:

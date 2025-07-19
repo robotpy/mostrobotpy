@@ -37,12 +37,18 @@ classes:
       operator*:
       operator/:
       RotateBy:
+      RotateAround:
       TransformBy:
       RelativeTo:
       Exp:
       Log:
       ToMatrix:
       ToPose2d:
+      Nearest:
+        overloads:
+          std::span<const Pose3d> [const]:
+          std::initializer_list<Pose3d> [const]:
+            ignore: true
 
 inline_code: |
   cls_Pose3d
