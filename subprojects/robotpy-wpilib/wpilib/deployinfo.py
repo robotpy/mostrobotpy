@@ -27,7 +27,7 @@ def getDeployData() -> typing.Optional[typing.Dict[str, str]]:
         return None
 
     try:
-        with open("/home/lvuser/py/deploy.json") as fp:
+        with open("/home/systemcore/py/deploy.json") as fp:
             return json.load(fp)
     except FileNotFoundError:
         return {}
