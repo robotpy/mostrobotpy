@@ -46,7 +46,6 @@ scan_headers_ignore = [
     "hal/IMU.h",
     "hal/IMUTypes.h",
     "hal/SystemServer.h",
-    "hal/UsageReporting.h",
     "hal/Types.h",
     "hal/Value.h",
 
@@ -120,6 +119,7 @@ PowerDistribution = "hal/PowerDistribution.h"
 REVPH = "hal/REVPH.h"
 SerialPort = "hal/SerialPort.h"
 SimDevice = "hal/SimDevice.h"
+UsageReporting = "hal/UsageReporting.h"
 Threads = "hal/Threads.h"
 # Types = "hal/Types.h"
 # Value = "hal/Value.h"
