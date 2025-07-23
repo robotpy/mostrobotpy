@@ -1,7 +1,8 @@
+defaults:
+  subpackage: controller
 
 classes:
   frc::LTVUnicycleController:
-    subpackage: controller
     methods:
       LTVUnicycleController:
         overloads:

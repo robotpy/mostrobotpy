@@ -1,8 +1,9 @@
----
+defaults:
+  subpackage: log
+
 
 classes:
   wpi::log::StartRecordData:
-    subpackage: log
     attributes:
       entry:
         access: readonly
@@ -13,14 +14,12 @@ classes:
       metadata:
         access: readonly
   wpi::log::MetadataRecordData:
-    subpackage: log
     attributes:
       entry:
         access: readonly
       metadata:
         access: readonly
   wpi::log::DataLogRecord:
-    subpackage: log
     methods:
       DataLogRecord:
         overloads:
@@ -267,9 +266,8 @@ classes:
   wpi::log::DataLogIterator:
     ignore: true
   wpi::log::DataLogReader:
-    subpackage: log
     typealias:
-      - wpi::MemoryBuffer
+    - wpi::MemoryBuffer
     methods:
       DataLogReader:
         ignore: true
@@ -290,7 +288,7 @@ inline_code: |
                              "type=\"" + std::string(data.type) + "\", "
                              "metadata=\"" + std::string(data.metadata) + "\")";
     });
-  
+
   cls_MetadataRecordData
     .def("__repr__", [](const wpi::log::MetadataRecordData &data) -> std::string {
       return "MetadataRecordData(entry=" + std::to_string(data.entry) + ", "

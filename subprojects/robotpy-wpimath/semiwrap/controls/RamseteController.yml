@@ -1,7 +1,8 @@
+defaults:
+  subpackage: controller
 
 classes:
   frc::RamseteController:
-    subpackage: controller
     methods:
       RamseteController:
         overloads:

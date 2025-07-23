@@ -1,7 +1,8 @@
+defaults:
+  subpackage: controller
 
 classes:
   frc::BangBangController:
-    subpackage: controller
     ignored_bases:
     - wpi::SendableHelper<BangBangController>
     methods:

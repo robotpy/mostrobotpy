@@ -1,6 +1,8 @@
+defaults:
+  subpackage: trajectory
+
 classes:
   frc::TrajectoryParameterizer:
-    subpackage: trajectory
     force_type_casters:
     - units::unit_t
     - units::curvature_t

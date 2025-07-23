@@ -1,7 +1,8 @@
+defaults:
+  subpackage: estimator
 
 classes:
   frc::DifferentialDrivePoseEstimator:
-    subpackage: estimator
     force_no_trampoline: true
     doc: |
       This class wraps an Unscented Kalman Filter to fuse latency-compensated

@@ -1,9 +1,11 @@
+defaults:
+  subpackage: trajectory
+
 extra_includes:
 - PyTrajectoryConstraint.h
 
 classes:
   frc::TrajectoryConfig:
-    subpackage: trajectory
     methods:
       TrajectoryConfig:
       SetStartVelocity:

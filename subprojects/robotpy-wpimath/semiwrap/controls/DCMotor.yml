@@ -1,9 +1,11 @@
+defaults:
+  subpackage: plant
+
 extra_includes:
 - wpystruct.h
 
 classes:
   frc::DCMotor:
-    subpackage: plant
     attributes:
       nominalVoltage:
       stallTorque:

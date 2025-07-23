@@ -1,7 +1,8 @@
+defaults:
+  subpackage: controller
 
 classes:
   frc::HolonomicDriveController:
-    subpackage: controller
     methods:
       HolonomicDriveController:
       AtReference:

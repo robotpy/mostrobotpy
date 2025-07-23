@@ -1,7 +1,8 @@
+defaults:
+  subpackage: estimator
 
 classes:
   frc::MecanumDrivePoseEstimator3d:
-    subpackage: estimator
     force_no_trampoline: true
     methods:
       MecanumDrivePoseEstimator3d:

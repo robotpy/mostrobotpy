@@ -1,3 +1,5 @@
+defaults:
+  subpackage: controller
 
 classes:
   frc::ImplicitModelFollower:
@@ -32,19 +34,16 @@ classes:
 templates:
   ImplicitModelFollower_1_1:
     qualname: frc::ImplicitModelFollower
-    subpackage: controller
     params:
     - 1
     - 1
   ImplicitModelFollower_2_1:
     qualname: frc::ImplicitModelFollower
-    subpackage: controller
     params:
     - 2
     - 1
   ImplicitModelFollower_2_2:
     qualname: frc::ImplicitModelFollower
-    subpackage: controller
     params:
     - 2
     - 2

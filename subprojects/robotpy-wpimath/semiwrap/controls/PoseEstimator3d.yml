@@ -1,3 +1,5 @@
+defaults:
+  subpackage: estimator
 
 extra_includes:
 - frc/kinematics/DifferentialDriveWheelPositions.h
@@ -31,37 +33,31 @@ classes:
 templates:
   DifferentialDrivePoseEstimator3dBase:
     qualname: frc::PoseEstimator3d
-    subpackage: estimator
     params:
     - frc::DifferentialDriveWheelSpeeds
     - frc::DifferentialDriveWheelPositions
   MecanumDrivePoseEstimator3dBase:
     qualname: frc::PoseEstimator3d
-    subpackage: estimator
     params:
     - frc::MecanumDriveWheelSpeeds
     - frc::MecanumDriveWheelPositions
   SwerveDrive2PoseEstimator3dBase:
     qualname: frc::PoseEstimator3d
-    subpackage: estimator
     params:
     - wpi::array<frc::SwerveModuleState,2>
     - wpi::array<frc::SwerveModulePosition,2>
   SwerveDrive3PoseEstimator3dBase:
     qualname: frc::PoseEstimator3d
-    subpackage: estimator
     params:
     - wpi::array<frc::SwerveModuleState,3>
     - wpi::array<frc::SwerveModulePosition,3>
   SwerveDrive4PoseEstimator3dBase:
     qualname: frc::PoseEstimator3d
-    subpackage: estimator
     params:
     - wpi::array<frc::SwerveModuleState,4>
     - wpi::array<frc::SwerveModulePosition,4>
   SwerveDrive6PoseEstimator3dBase:
     qualname: frc::PoseEstimator3d
-    subpackage: estimator
     params:
     - wpi::array<frc::SwerveModuleState,6>
     - wpi::array<frc::SwerveModulePosition,6>

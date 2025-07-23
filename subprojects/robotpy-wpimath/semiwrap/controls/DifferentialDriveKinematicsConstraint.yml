@@ -1,6 +1,8 @@
+defaults:
+  subpackage: constraint
+
 classes:
   frc::DifferentialDriveKinematicsConstraint:
-    subpackage: constraint
     typealias:
     - frc::TrajectoryConstraint::MinMax
     methods:

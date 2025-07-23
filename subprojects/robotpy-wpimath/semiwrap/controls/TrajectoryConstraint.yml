@@ -1,6 +1,8 @@
+defaults:
+  subpackage: constraint
+
 classes:
   frc::TrajectoryConstraint:
-    subpackage: constraint
     force_type_casters:
     - units::meters_per_second_squared
     methods:

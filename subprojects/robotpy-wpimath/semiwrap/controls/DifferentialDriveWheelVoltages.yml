@@ -1,8 +1,9 @@
----
+defaults:
+  subpackage: controller
+
 
 classes:
   frc::DifferentialDriveWheelVoltages:
-    subpackage: controller
     force_no_default_constructor: true
     attributes:
       left:

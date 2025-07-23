@@ -1,7 +1,8 @@
+defaults:
+  subpackage: controller
 
 classes:
   frc::LTVDifferentialDriveController:
-    subpackage: controller
     methods:
       LTVDifferentialDriveController:
       AtReference:

@@ -1,3 +1,6 @@
+defaults:
+  subpackage: constraint
+
 extra_includes:
 - PyTrajectoryConstraint.h
 
@@ -27,7 +30,6 @@ classes:
 
 templates:
   EllipticalRegionConstraint:
-    subpackage: constraint
     qualname: frc::EllipticalRegionConstraint
     params:
     - frc::PyTrajectoryConstraint

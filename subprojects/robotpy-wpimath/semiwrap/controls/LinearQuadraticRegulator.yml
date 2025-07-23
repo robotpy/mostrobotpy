@@ -1,3 +1,6 @@
+defaults:
+  subpackage: controller
+
 classes:
   frc::LinearQuadraticRegulator:
     template_params:
@@ -46,25 +49,21 @@ classes:
 templates:
   LinearQuadraticRegulator_1_1:
     qualname: frc::LinearQuadraticRegulator
-    subpackage: controller
     params:
     - 1
     - 1
   LinearQuadraticRegulator_2_1:
     qualname: frc::LinearQuadraticRegulator
-    subpackage: controller
     params:
     - 2
     - 1
   LinearQuadraticRegulator_2_2:
     qualname: frc::LinearQuadraticRegulator
-    subpackage: controller
     params:
     - 2
     - 2
   LinearQuadraticRegulator_3_2:
     qualname: frc::LinearQuadraticRegulator
-    subpackage: controller
     params:
     - 3
     - 2

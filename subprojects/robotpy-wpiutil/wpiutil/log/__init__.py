@@ -2,6 +2,7 @@
 from .._wpiutil.log import (
     BooleanArrayLogEntry,
     BooleanLogEntry,
+    ControlRecordType,
     DataLog,
     DataLogEntry,
     DataLogReader,
@@ -24,6 +25,7 @@ from .._wpiutil.log import (
 __all__ = [
     "BooleanArrayLogEntry",
     "BooleanLogEntry",
+    "ControlRecordType",
     "DataLog",
     "DataLogEntry",
     "DataLogReader",

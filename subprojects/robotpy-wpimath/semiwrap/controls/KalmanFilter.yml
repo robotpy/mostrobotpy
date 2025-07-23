@@ -1,3 +1,6 @@
+defaults:
+  subpackage: estimator
+
 classes:
   frc::KalmanFilter:
     template_params:
@@ -33,35 +36,30 @@ classes:
 templates:
   KalmanFilter_1_1_1:
     qualname: frc::KalmanFilter
-    subpackage: estimator
     params:
     - 1
     - 1
     - 1
   KalmanFilter_2_1_1:
     qualname: frc::KalmanFilter
-    subpackage: estimator
     params:
     - 2
     - 1
     - 1
   KalmanFilter_2_1_2:
     qualname: frc::KalmanFilter
-    subpackage: estimator
     params:
     - 2
     - 1
     - 2
   KalmanFilter_2_2_2:
     qualname: frc::KalmanFilter
-    subpackage: estimator
     params:
     - 2
     - 2
     - 2
   KalmanFilter_3_2_3:
     qualname: frc::KalmanFilter
-    subpackage: estimator
     params:
     - 3
     - 2

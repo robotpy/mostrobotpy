@@ -1,7 +1,8 @@
+defaults:
+  subpackage: constraint
 
 classes:
   frc::MaxVelocityConstraint:
-    subpackage: constraint
     typealias:
     - frc::TrajectoryConstraint::MinMax
     methods:
