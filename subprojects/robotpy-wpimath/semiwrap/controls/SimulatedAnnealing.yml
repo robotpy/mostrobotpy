@@ -1,3 +1,5 @@
+defaults:
+  subpackage: optimization
 
 extra_includes:
 - gilsafe_object.h
@@ -13,6 +15,5 @@ classes:
 templates:
   SimulatedAnnealing:
     qualname: frc::SimulatedAnnealing
-    subpackage: optimization
     params:
     - semiwrap::gilsafe_object

@@ -1,3 +1,6 @@
+defaults:
+  subpackage: controller
+
 extra_includes:
 - units/dimensionless.h
 
@@ -39,18 +42,15 @@ templates:
   # Unfortunately this is broken because calculate requires an SI unit
   # SimpleMotorFeedforward:
   #   qualname: frc::SimpleMotorFeedforward
-  #   subpackage: controller
   #   params:
   #     - units::dimensionless::scalar
 
   SimpleMotorFeedforwardMeters:
     qualname: frc::SimpleMotorFeedforward
-    subpackage: controller
     params:
     - units::meter
 
   SimpleMotorFeedforwardRadians:
     qualname: frc::SimpleMotorFeedforward
-    subpackage: controller
     params:
     - units::radian

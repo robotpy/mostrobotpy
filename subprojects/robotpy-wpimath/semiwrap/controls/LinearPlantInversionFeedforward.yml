@@ -1,3 +1,6 @@
+defaults:
+  subpackage: controller
+
 classes:
   frc::LinearPlantInversionFeedforward:
     template_params:
@@ -29,25 +32,21 @@ classes:
 templates:
   LinearPlantInversionFeedforward_1_1:
     qualname: frc::LinearPlantInversionFeedforward
-    subpackage: controller
     params:
     - 1
     - 1
   LinearPlantInversionFeedforward_2_1:
     qualname: frc::LinearPlantInversionFeedforward
-    subpackage: controller
     params:
     - 2
     - 1
   LinearPlantInversionFeedforward_2_2:
     qualname: frc::LinearPlantInversionFeedforward
-    subpackage: controller
     params:
     - 2
     - 2
   LinearPlantInversionFeedforward_3_2:
     qualname: frc::LinearPlantInversionFeedforward
-    subpackage: controller
     params:
     - 3
     - 2

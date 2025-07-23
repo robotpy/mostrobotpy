@@ -1,3 +1,6 @@
+defaults:
+  subpackage: trajectory
+
 classes:
   frc::TrapezoidProfile:
     force_type_casters:
@@ -95,14 +98,12 @@ classes:
 
 templates:
   TrapezoidProfile:
-    subpackage: trajectory
     qualname: frc::TrapezoidProfile
     params:
     - units::dimensionless::scalar
 
   # needed for HolonomicDriveController
   TrapezoidProfileRadians:
-    subpackage: trajectory
     qualname: frc::TrapezoidProfile
     params:
     - units::radian

@@ -1,20 +1,19 @@
+defaults:
+  subpackage: sysid
 
 enums:
   State:
-    subpackage: sysid
     inline_code: |
       .def("__str__", &SysIdRoutineLog::StateEnumToString)
 
 classes:
   frc::sysid::SysIdRoutineLog:
-    subpackage: sysid
     methods:
       SysIdRoutineLog:
       RecordState:
       Motor:
       StateEnumToString:
   frc::sysid::SysIdRoutineLog::MotorLog:
-    subpackage: sysid
     methods:
       MotorLog:
         ignore: true

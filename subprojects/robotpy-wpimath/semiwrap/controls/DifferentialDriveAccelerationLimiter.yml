@@ -1,7 +1,8 @@
+defaults:
+  subpackage: controller
 
 classes:
   frc::DifferentialDriveAccelerationLimiter:
-    subpackage: controller
     methods:
       DifferentialDriveAccelerationLimiter:
         overloads:

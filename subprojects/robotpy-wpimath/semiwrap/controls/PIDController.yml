@@ -1,7 +1,8 @@
+defaults:
+  subpackage: controller
 
 classes:
   frc::PIDController:
-    subpackage: controller
     ignored_bases:
     - wpi::SendableHelper<PIDController>
     methods:

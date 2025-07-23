@@ -1,3 +1,5 @@
+defaults:
+  subpackage: estimator
 
 extra_includes:
 - frc/kinematics/SwerveModuleState.h
@@ -50,21 +52,17 @@ classes:
 templates:
   SwerveDrive2PoseEstimator:
     qualname: frc::SwerveDrivePoseEstimator
-    subpackage: estimator
     params:
     - 2
   SwerveDrive3PoseEstimator:
     qualname: frc::SwerveDrivePoseEstimator
-    subpackage: estimator
     params:
     - 3
   SwerveDrive4PoseEstimator:
     qualname: frc::SwerveDrivePoseEstimator
-    subpackage: estimator
     params:
     - 4
   SwerveDrive6PoseEstimator:
     qualname: frc::SwerveDrivePoseEstimator
-    subpackage: estimator
     params:
     - 6

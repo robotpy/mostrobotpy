@@ -1,7 +1,8 @@
+defaults:
+  subpackage: plant
 
 classes:
   frc::LinearSystemId:
-    subpackage: plant
     typealias:
     - kv_meters = units::unit_t<units::compound_unit<units::volts, units::inverse<units::meters_per_second>>>
     - kv_radians = units::unit_t<units::compound_unit<units::volts, units::inverse<units::radians_per_second>>>

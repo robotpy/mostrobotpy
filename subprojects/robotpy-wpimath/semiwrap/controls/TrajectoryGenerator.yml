@@ -1,10 +1,12 @@
+defaults:
+  subpackage: trajectory
+
 extra_includes:
 - frc/spline/CubicHermiteSpline.h
 - frc/spline/QuinticHermiteSpline.h
 
 classes:
   frc::TrajectoryGenerator:
-    subpackage: trajectory
     force_type_casters:
     - units::unit_t
     - units::curvature_t

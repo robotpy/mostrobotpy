@@ -1,7 +1,8 @@
+defaults:
+  subpackage: path
 
 classes:
   frc::TravelingSalesman:
-    subpackage: path
     methods:
       TravelingSalesman:
         overloads:

@@ -1,7 +1,8 @@
+defaults:
+  subpackage: estimator
 
 classes:
   frc::DifferentialDrivePoseEstimator3d:
-    subpackage: estimator
     force_no_trampoline: true
     methods:
       DifferentialDrivePoseEstimator3d:
