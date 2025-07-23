@@ -34,7 +34,7 @@ exclude_artifacts = [
 robot_wheel_platform = "linux-roborio"
 
 [params.requirements]
-semiwrap = "~=0.1.2"
+semiwrap = "~=0.1.4"
 hatch-meson = "~=0.1.0b2"
 hatch-nativelib = "~=0.2.0"
 hatch-robotpy = "~=0.2"
