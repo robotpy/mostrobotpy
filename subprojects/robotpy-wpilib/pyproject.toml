@@ -3,29 +3,29 @@ build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.1.4",
     "hatch-meson~=0.1.0b2",
-    "hatch-robotpy~=0.2",
+    "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-wpilib==2025.3.2.1",
-    "robotpy-wpiutil==2025.3.2.4",
-    "robotpy-wpimath==2025.3.2.4",
-    "robotpy-hal==2025.3.2.4",
-    "pyntcore==2025.3.2.4",
+    "robotpy-native-wpilib==2027.0.0a2",
+    "robotpy-wpiutil==2027.0.0a2",
+    "robotpy-wpimath==2027.0.0a2",
+    "robotpy-hal==2027.0.0a2",
+    "pyntcore==2027.0.0a2",
 ]
 
 [project]
 name = "wpilib"
-version = "2025.3.2.4"
+version = "2027.0.0a2"
 description = "Binary wrapper for FRC WPILib"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpilib==2025.3.2.1",
-    "robotpy-wpiutil==2025.3.2.4",
-    "robotpy-wpimath==2025.3.2.4",
-    "robotpy-hal==2025.3.2.4",
-    "pyntcore==2025.3.2.4",
+    "robotpy-native-wpilib==2027.0.0a2",
+    "robotpy-wpiutil==2027.0.0a2",
+    "robotpy-wpimath==2027.0.0a2",
+    "robotpy-hal==2027.0.0a2",
+    "pyntcore==2027.0.0a2",
     "robotpy-cli~=2024.0b"
 ]
 

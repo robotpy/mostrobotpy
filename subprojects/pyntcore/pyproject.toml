@@ -3,26 +3,26 @@ build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.1.4",
     "hatch-meson~=0.1.0b2",
-    "hatch-robotpy~=0.2",
+    "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-ntcore==2025.3.2.1",
-    "robotpy-wpiutil==2025.3.2.4",
-    "robotpy-wpinet==2025.3.2.4",
+    "robotpy-native-ntcore==2027.0.0a2",
+    "robotpy-wpiutil==2027.0.0a2",
+    "robotpy-wpinet==2027.0.0a2",
 ]
 
 
 [project]
 name = "pyntcore"
-version = "2025.3.2.4"
+version = "2027.0.0a2"
 description = "Binary wrappers for the FRC ntcore library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-ntcore==2025.3.2.1",
-    "robotpy-wpiutil==2025.3.2.4",
-    "robotpy-wpinet==2025.3.2.4",
+    "robotpy-native-ntcore==2027.0.0a2",
+    "robotpy-wpiutil==2027.0.0a2",
+    "robotpy-wpinet==2027.0.0a2",
 ]
 
 [project.urls]

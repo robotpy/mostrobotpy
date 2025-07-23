@@ -3,26 +3,26 @@ build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.1.4",
     "hatch-meson~=0.1.0b2",
-    "hatch-robotpy~=0.2",
+    "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-wpiutil==2025.3.2.4",
-    "robotpy-wpinet==2025.3.2.4",
-    "pyntcore==2025.3.2.4",
+    "robotpy-wpiutil==2027.0.0a2",
+    "robotpy-wpinet==2027.0.0a2",
+    "pyntcore==2027.0.0a2",
     # "numpy", # required for pybind11-stubgen to not complain, broken in raspbian CI
 ]
 
 [project]
 name = "robotpy-cscore"
-version = "2025.3.2.4"
+version = "2027.0.0a2"
 description = "RobotPy bindings for cscore image processing library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-wpiutil==2025.3.2.4",
-    "robotpy-wpinet==2025.3.2.4",
-    "pyntcore==2025.3.2.4",
+    "robotpy-wpiutil==2027.0.0a2",
+    "robotpy-wpinet==2027.0.0a2",
+    "pyntcore==2027.0.0a2",
 ]
 
 [project.urls]
@@ -43,8 +43,8 @@ version_file = "cscore/version.py"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cscore-cpp"
 group_id = "edu.wpi.first.cscore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.3.2-54-g7a3df61"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
+version = "2027.0.0-alpha-2"
 
 staticlibs = ["cscore"]
 extract_to = "lib"
@@ -52,8 +52,8 @@ extract_to = "lib"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cameraserver-cpp"
 group_id = "edu.wpi.first.cameraserver"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.3.2-54-g7a3df61"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
+version = "2027.0.0-alpha-2"
 
 staticlibs = ["cameraserver"]
 extract_to = "lib"

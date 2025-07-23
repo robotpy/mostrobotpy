@@ -11,20 +11,20 @@
 [py_versions]
 
 # Usually the same as wpilib_bin_version
-native = "2025.3.2.1"
+native = "2027.0.0a2"
 
 # Will eventually sync with native
-halsim_native = "2025.3.2.2"
+halsim_native = "2027.0.0a2"
 
 # Usually similar to native, but subminor version is bumped for bugfixes
 # - ./rdev.sh ci check_tag will fail if this doesn't match current tag
-wrapper = "2025.3.2.4"
+wrapper = "2027.0.0a2"
 
 [params]
 
-# wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
-wpilib_bin_version = "2025.3.2-54-g7a3df61"
-wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
+wpilib_bin_version = "2027.0.0-alpha-2"
+wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
+# wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 
 # Don't update these maven artifacts
 exclude_artifacts = [
@@ -37,7 +37,7 @@ robot_wheel_platform = "linux-roborio"
 semiwrap = "~=0.1.4"
 hatch-meson = "~=0.1.0b2"
 hatch-nativelib = "~=0.2.0"
-hatch-robotpy = "~=0.2"
+hatch-robotpy = "~=0.2.1"
 
 
 [subprojects."robotpy-native-wpiutil"]

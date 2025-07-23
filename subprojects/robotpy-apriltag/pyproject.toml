@@ -3,25 +3,25 @@ build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.1.4",
     "hatch-meson~=0.1.0b2",
-    "hatch-robotpy~=0.2",
+    "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-apriltag==2025.3.2.1",
-    "robotpy-wpiutil==2025.3.2.4",
-    "robotpy-wpimath==2025.3.2.4",
+    "robotpy-native-apriltag==2027.0.0a2",
+    "robotpy-wpiutil==2027.0.0a2",
+    "robotpy-wpimath==2027.0.0a2",
 ]
 
 [project]
 name = "robotpy-apriltag"
-version = "2025.3.2.4"
+version = "2027.0.0a2"
 description = "RobotPy bindings for WPILib's AprilTag library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-apriltag==2025.3.2.1",
-    "robotpy-wpiutil==2025.3.2.4",
-    "robotpy-wpimath==2025.3.2.4",
+    "robotpy-native-apriltag==2027.0.0a2",
+    "robotpy-wpiutil==2027.0.0a2",
+    "robotpy-wpimath==2027.0.0a2",
 ]
 
 [project.urls]
