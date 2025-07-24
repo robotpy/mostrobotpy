@@ -1,0 +1,10 @@
+---
+
+classes:
+  frc::sim::PWMMotorControllerSim:
+    methods:
+      PWMMotorControllerSim:
+        overloads:
+          const PWMMotorController&:
+          int:
+      GetSpeed:

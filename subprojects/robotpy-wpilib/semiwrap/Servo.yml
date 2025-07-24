@@ -3,6 +3,8 @@ extra_includes:
 
 classes:
   frc::Servo:
+    ignored_bases:
+    - wpi::SendableHelper<Servo>
     methods:
       Servo:
       Set:

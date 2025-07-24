@@ -167,12 +167,7 @@ class RobotStarter:
             return False
 
     def _start(self, robot_cls: wpilib.RobotBase) -> bool:
-        hal.report(
-            hal.tResourceType.kResourceType_Language,
-            hal.tInstances.kLanguage_Python,
-            0,
-            wpilib.__version__,
-        )
+        hal.reportUsage("Language", "Python")
 
         if not wpilib.Notifier.setHALThreadPriority(True, 40):
             reportErrorInternal(
@@ -191,7 +186,7 @@ class RobotStarter:
         msub = ntcore.MultiSubscriber(inst, [""])
 
         if not isSimulation:
-            inst.startServer("/home/lvuser/networktables.ini")
+            inst.startServer("/home/systemcore/networktables.ini")
         else:
             inst.startServer()
 

@@ -2,20 +2,20 @@
 build-backend = "hatchling.build"
 requires = [
     "hatchling", 
-    "hatch-robotpy~=0.2",
+    "hatch-robotpy~=0.2.1",
 ]
 
 [project]
 name = "robotpy-halsim-ds-socket"
-version = "2025.3.2.2"
+version = "2027.0.0a2"
 description = "WPILib simulator DS Socket Extension"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpihal==2025.3.2.1",
-    "robotpy-native-wpinet==2025.3.2.1",
+    "robotpy-native-wpihal==2027.0.0a2",
+    "robotpy-native-wpinet==2027.0.0a2",
 ]
 
 [project.entry-points.robotpysimext]
@@ -28,8 +28,8 @@ version_file = "halsim_ds_socket/version.py"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_ds_socket"
 group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2025.3.2-54-g7a3df61"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
+version = "2027.0.0-alpha-2"
 use_headers = false
 
 extract_to = "halsim_ds_socket"

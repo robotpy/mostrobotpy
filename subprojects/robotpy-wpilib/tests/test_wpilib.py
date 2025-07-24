@@ -41,7 +41,3 @@ def test_motorcontrollergroup_error():
         TypeError, match=re.escape("Argument 1 must be a MotorController (got '1')")
     ):
         wpilib.MotorControllerGroup(1)
-
-
-def test_adis_16470():
-    wpilib.ADIS16470_IMU()

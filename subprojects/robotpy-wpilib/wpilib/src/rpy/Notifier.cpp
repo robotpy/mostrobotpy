@@ -7,7 +7,6 @@
 #include <utility>
 
 #include <fmt/format.h>
-#include <hal/FRCUsageReporting.h>
 #include <hal/Notifier.h>
 #include <hal/Threads.h>
 

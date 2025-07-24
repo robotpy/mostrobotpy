@@ -2,9 +2,14 @@
 strip_prefixes:
 - HAL_
 
+extra_includes:
+- src/ds_types_fmt.h
+
 enums:
   HAL_AllianceStationID:
     value_prefix: HAL_AllianceStationID
+  HAL_JoystickPOV:
+    value_prefix: HAL_JoystickPOV
   HAL_MatchType:
     value_prefix: HAL_kMatchType
 classes:

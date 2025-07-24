@@ -1,6 +1,5 @@
 extra_includes:
 - wpi/sendable/SendableBuilder.h
-- frc/DigitalGlitchFilter.h
 
 classes:
   frc::DigitalInput:

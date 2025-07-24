@@ -3,24 +3,24 @@ build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.1.4",
     "hatch-meson~=0.1.0b2",
-    "hatch-robotpy~=0.2",
+    "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-wpimath==2025.3.2.1",
-    "robotpy-wpiutil==2025.3.2.4",
+    "robotpy-native-wpimath==2027.0.0a2",
+    "robotpy-wpiutil==2027.0.0a2",
     # "numpy", # broken in raspbian CI
 ]
 
 [project]
 name = "robotpy-wpimath"
-version = "2025.3.2.4"
+version = "2027.0.0a2"
 description = "Binary wrapper for FRC WPIMath library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpimath==2025.3.2.1",
-    "robotpy-wpiutil==2025.3.2.4",
+    "robotpy-native-wpimath==2027.0.0a2",
+    "robotpy-wpiutil==2027.0.0a2",
 ]
 
 [project.urls]
@@ -65,6 +65,10 @@ scan_headers_ignore = [
     "frc/estimator/AngleStatistics.h",
     "frc/estimator/KalmanFilterLatencyCompensator.h",
     "frc/estimator/MerweScaledSigmaPoints.h",
+    "frc/estimator/MerweUKF.h",
+    "frc/estimator/S3SigmaPoints.h",
+    "frc/estimator/S3UKF.h",
+    "frc/estimator/SigmaPoints.h",
     "frc/estimator/SteadyStateKalmanFilter.h",
     "frc/estimator/UnscentedKalmanFilter.h",
     "frc/estimator/UnscentedTransform.h",
@@ -1578,7 +1582,6 @@ LinearPlantInversionFeedforward = "frc/controller/LinearPlantInversionFeedforwar
 LinearQuadraticRegulator = "frc/controller/LinearQuadraticRegulator.h"
 PIDController = "frc/controller/PIDController.h"
 ProfiledPIDController = "frc/controller/ProfiledPIDController.h"
-RamseteController = "frc/controller/RamseteController.h"
 SimpleMotorFeedforward = "frc/controller/SimpleMotorFeedforward.h"
 
 # frc/estimator
@@ -1621,7 +1624,6 @@ Trajectory = "frc/trajectory/Trajectory.h"
 TrajectoryConfig = "frc/trajectory/TrajectoryConfig.h"
 TrajectoryGenerator = "frc/trajectory/TrajectoryGenerator.h"
 TrajectoryParameterizer = "frc/trajectory/TrajectoryParameterizer.h"
-TrajectoryUtil = "frc/trajectory/TrajectoryUtil.h"
 TrapezoidProfile = "frc/trajectory/TrapezoidProfile.h"
 
 # frc/trajectory/constraint
