@@ -344,7 +344,7 @@ jobs:
         verify-metadata: false
         user: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         password: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
-        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2025-local
+        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2027-local
 
   publish-rpyrepo-other:
     runs-on: ubuntu-latest
@@ -364,7 +364,7 @@ jobs:
         skip-existing: true     # native packages can be uploaded multiple times
         user: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         password: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
-        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2025-local
+        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2027-local
 
   publish-pypi:
     runs-on: ubuntu-latest
