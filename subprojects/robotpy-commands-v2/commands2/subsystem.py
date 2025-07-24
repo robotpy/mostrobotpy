@@ -31,7 +31,7 @@ class Subsystem(Sendable):
     def __new__(cls, *arg, **kwargs) -> Self:
         instance = super().__new__(cls)
         super().__init__(instance)
-        SendableRegistry.addLW(instance, cls.__name__, cls.__name__)
+        SendableRegistry.add(instance, cls.__name__, cls.__name__)
         # add to the scheduler
         from .commandscheduler import CommandScheduler
 
@@ -219,7 +219,7 @@ class Subsystem(Sendable):
         :param name:  name to give child
         :param child: sendable
         """
-        SendableRegistry.addLW(child, self.getSubsystem(), name)
+        SendableRegistry.add(child, self.getSubsystem(), name)
 
     def initSendable(self, builder: SendableBuilder) -> None:
         builder.setSmartDashboardType("Subsystem")
