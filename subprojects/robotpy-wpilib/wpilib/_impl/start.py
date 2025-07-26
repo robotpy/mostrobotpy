@@ -225,19 +225,6 @@ class RobotStarter:
         #     )
         #     return False
 
-        if not isSimulation:
-            robotpy_version = self.robotpy_version
-            if robotpy_version:
-                version_string = f"RobotPy {robotpy_version}"
-            else:
-                version_string = f"robotpy-wpilib {wpilib.__version__}"
-
-            try:
-                with open("/tmp/frc_versions/FRC_Lib_Version.ini", "w") as fp:
-                    fp.write(version_string)
-            except:
-                reportErrorInternal("Could not write FRC version file to disk")
-
         try:
             self.robot.startCompetition()
         except KeyboardInterrupt:
