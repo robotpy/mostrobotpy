@@ -1,10 +1,11 @@
+---
 
 classes:
   nt::IntegerArraySubscriber:
     methods:
       IntegerArraySubscriber:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -42,7 +43,7 @@ classes:
     methods:
       IntegerArrayPublisher:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Publisher:
             ignore: true
@@ -65,7 +66,7 @@ classes:
     methods:
       IntegerArrayEntry:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -91,7 +92,7 @@ classes:
     methods:
       IntegerArrayTopic:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Topic:
             ignore: true

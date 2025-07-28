@@ -1,3 +1,5 @@
+---
+
 functions:
   Wait:
   GetTime:
@@ -13,9 +15,9 @@ classes:
       Restart:
       Stop:
       HasPeriodPassed:
-      GetFPGATimestamp:
-      GetMatchTime:
       HasElapsed:
       AdvanceIfElapsed:
       IsRunning:
       GetTimestamp:
+      GetFPGATimestamp:
+      GetMatchTime:

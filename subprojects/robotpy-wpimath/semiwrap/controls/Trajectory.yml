@@ -1,3 +1,4 @@
+---
 defaults:
   subpackage: trajectory
 
@@ -16,15 +17,15 @@ classes:
     methods:
       Trajectory:
         overloads:
-          '':
+          "":
           const std::vector<State>&:
       TotalTime:
       States:
       Sample:
       TransformBy:
       RelativeTo:
-      InitialPose:
       operator+:
+      InitialPose:
       operator==:
       operator!=:
   frc::Trajectory::State:

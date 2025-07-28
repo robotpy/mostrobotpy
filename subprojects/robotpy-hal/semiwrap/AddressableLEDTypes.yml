@@ -6,8 +6,8 @@ strip_prefixes:
 classes:
   HAL_AddressableLEDData:
     attributes:
-      b:
-      g:
       r:
+      g:
+      b:
       padding:
         ignore: true

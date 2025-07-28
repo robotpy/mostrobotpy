@@ -1,3 +1,4 @@
+---
 extra_includes:
 - networktables/NTSendableBuilder.h
 
@@ -7,11 +8,11 @@ classes:
     - frc::ADXL345_I2C::Range::kRange_2G
     ignored_bases:
     - wpi::SendableHelper<ADXL345_I2C>
-    enums:
-      Axes:
-      Range:
     attributes:
       kAddress:
+    enums:
+      Range:
+      Axes:
     methods:
       ADXL345_I2C:
       GetI2CPort:

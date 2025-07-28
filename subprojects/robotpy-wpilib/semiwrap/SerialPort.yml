@@ -1,11 +1,13 @@
+---
+
 classes:
   frc::SerialPort:
     enums:
+      Port:
       Parity:
       StopBits:
       FlowControl:
       WriteBufferMode:
-      Port:
     methods:
       SerialPort:
         overloads:

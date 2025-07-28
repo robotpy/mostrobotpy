@@ -1,3 +1,4 @@
+---
 extra_includes:
 - rpy/geometryToString.h
 - wpystruct.h
@@ -17,13 +18,13 @@ classes:
     methods:
       Pose3d:
         overloads:
-          '':
+          "":
           Translation3d, Rotation3d:
           units::meter_t, units::meter_t, units::meter_t, Rotation3d:
-          const Pose2d&:
-            keepalive: []
           const Eigen::Matrix4d&:
             rename: fromMatrix
+            keepalive: []
+          const Pose2d&:
             keepalive: []
       operator+:
       operator-:
@@ -37,9 +38,9 @@ classes:
       operator*:
       operator/:
       RotateBy:
-      RotateAround:
       TransformBy:
       RelativeTo:
+      RotateAround:
       Exp:
       Log:
       ToMatrix:
@@ -49,7 +50,6 @@ classes:
           std::span<const Pose3d> [const]:
           std::initializer_list<Pose3d> [const]:
             ignore: true
-
 inline_code: |
   cls_Pose3d
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y, units::foot_t z, Rotation3d r) {

@@ -1,3 +1,5 @@
+---
+
 classes:
   frc::sim::BatterySim:
     force_type_casters:

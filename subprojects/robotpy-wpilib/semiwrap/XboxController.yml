@@ -1,4 +1,4 @@
-
+---
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 - frc/DriverStation.h
@@ -15,23 +15,15 @@ classes:
       GetLeftY:
       GetRightY:
       GetLeftTriggerAxis:
+      LeftTrigger:
+        overloads:
+          double, EventLoop* [const]:
+          EventLoop* [const]:
       GetRightTriggerAxis:
-      GetLeftBumper:
-      GetRightBumper:
-      GetLeftBumperPressed:
-      GetRightBumperPressed:
-      GetLeftBumperReleased:
-      GetRightBumperReleased:
-      LeftBumper:
-      RightBumper:
-      GetLeftStickButton:
-      GetRightStickButton:
-      GetLeftStickButtonPressed:
-      GetRightStickButtonPressed:
-      GetLeftStickButtonReleased:
-      GetRightStickButtonReleased:
-      LeftStick:
-      RightStick:
+      RightTrigger:
+        overloads:
+          double, EventLoop* [const]:
+          EventLoop* [const]:
       GetAButton:
       GetAButtonPressed:
       GetAButtonReleased:
@@ -48,6 +40,14 @@ classes:
       GetYButtonPressed:
       GetYButtonReleased:
       Y:
+      GetLeftBumperButton:
+      GetLeftBumperButtonPressed:
+      GetLeftBumperButtonReleased:
+      LeftBumper:
+      GetRightBumperButton:
+      GetRightBumperButtonPressed:
+      GetRightBumperButtonReleased:
+      RightBumper:
       GetBackButton:
       GetBackButtonPressed:
       GetBackButtonReleased:
@@ -56,33 +56,33 @@ classes:
       GetStartButtonPressed:
       GetStartButtonReleased:
       Start:
-      LeftTrigger:
-        overloads:
-          double, EventLoop* [const]:
-          EventLoop* [const]:
-      RightTrigger:
-        overloads:
-          double, EventLoop* [const]:
-          EventLoop* [const]:
-      GetLeftBumperButton:
-      GetLeftBumperButtonPressed:
-      GetLeftBumperButtonReleased:
-      GetRightBumperButton:
-      GetRightBumperButtonPressed:
-      GetRightBumperButtonReleased:
+      GetLeftStickButton:
+      GetLeftStickButtonPressed:
+      GetLeftStickButtonReleased:
+      LeftStick:
+      GetRightStickButton:
+      GetRightStickButtonPressed:
+      GetRightStickButtonReleased:
+      RightStick:
+      GetLeftBumper:
+      GetRightBumper:
+      GetLeftBumperPressed:
+      GetRightBumperPressed:
+      GetLeftBumperReleased:
+      GetRightBumperReleased:
       InitSendable:
   frc::XboxController::Button:
     attributes:
-      kLeftBumper:
-      kRightBumper:
-      kLeftStick:
-      kRightStick:
       kA:
       kB:
       kX:
       kY:
+      kLeftBumper:
+      kRightBumper:
       kBack:
       kStart:
+      kLeftStick:
+      kRightStick:
   frc::XboxController::Axis:
     attributes:
       kLeftX:

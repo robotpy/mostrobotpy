@@ -1,3 +1,4 @@
+---
 defaults:
   subpackage: path
 
@@ -6,7 +7,7 @@ classes:
     methods:
       TravelingSalesman:
         overloads:
-          '':
+          "":
           std::function<double (Pose2d, Pose2d)>:
       Solve:
         overloads:

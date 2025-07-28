@@ -1,4 +1,4 @@
-
+---
 extra_includes:
 - frc/PS4Controller.h
 
@@ -11,8 +11,8 @@ classes:
           const PS4Controller&:
           int:
       SetLeftX:
-      SetRightX:
       SetLeftY:
+      SetRightX:
       SetRightY:
       SetL2Axis:
       SetR2Axis:
@@ -29,6 +29,6 @@ classes:
       SetL3Button:
       SetR3Button:
       SetPSButton:
+      SetTouchpadButton:
       SetTouchpad:
         ignore: true
-      SetTouchpadButton:

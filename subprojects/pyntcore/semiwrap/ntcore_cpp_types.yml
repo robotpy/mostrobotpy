@@ -1,4 +1,4 @@
-
+---
 extra_includes:
 - src/nt_type_caster.h
 
@@ -17,7 +17,7 @@ classes:
     methods:
       Timestamped:
         overloads:
-          '':
+          "":
           int64_t, int64_t, T:
     inline_code: |
       ;

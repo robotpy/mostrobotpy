@@ -1,4 +1,4 @@
-
+---
 extra_includes:
 - wpystruct.h
 
@@ -9,8 +9,8 @@ classes:
       distance:
       angle:
     methods:
-      Interpolate:
       operator==:
+      Interpolate:
     inline_code: |
       .def(
         py::init<

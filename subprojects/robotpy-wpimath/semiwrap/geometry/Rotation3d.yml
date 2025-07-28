@@ -1,3 +1,4 @@
+---
 extra_includes:
 - rpy/geometryToString.h
 - wpystruct.h
@@ -12,7 +13,7 @@ classes:
     methods:
       Rotation3d:
         overloads:
-          '':
+          "":
           const Quaternion&:
             keepalive: []
           units::radian_t, units::radian_t, units::radian_t:

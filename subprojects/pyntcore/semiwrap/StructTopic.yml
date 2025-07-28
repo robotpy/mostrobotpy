@@ -1,3 +1,4 @@
+---
 
 classes:
   nt::StructSubscriber:
@@ -7,7 +8,7 @@ classes:
     methods:
       StructSubscriber:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Subscriber, T, I...:
             ignore: true
@@ -42,7 +43,7 @@ classes:
     methods:
       StructPublisher:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Publisher, I...:
             ignore: true
@@ -71,7 +72,7 @@ classes:
     methods:
       StructEntry:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Entry, T, const I&...:
             ignore: true
@@ -98,7 +99,7 @@ classes:
     methods:
       StructTopic:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Topic, I...:
             ignore: true

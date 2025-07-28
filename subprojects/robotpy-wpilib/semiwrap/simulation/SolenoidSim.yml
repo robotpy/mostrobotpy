@@ -1,3 +1,5 @@
+---
+
 classes:
   frc::sim::SolenoidSim:
     force_type_casters:

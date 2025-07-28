@@ -1,4 +1,4 @@
-
+---
 extra_includes:
 - pybind11/operators.h
 
@@ -159,7 +159,7 @@ classes:
     methods:
       Color:
         overloads:
-          '':
+          "":
           double, double, double:
             param_override:
               r:
@@ -170,9 +170,9 @@ classes:
                 name: blue
           int, int, int:
           std::string_view:
+      operator==:
       FromHSV:
       HexString:
-      operator==:
 
 inline_code: |
   cls_Color

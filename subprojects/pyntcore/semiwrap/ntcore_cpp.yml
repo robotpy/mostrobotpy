@@ -1,4 +1,4 @@
-
+---
 defaults:
   ignore: true
   report_ignored_missing: false
@@ -97,7 +97,7 @@ classes:
     methods:
       ValueEventData:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Topic, NT_Handle, Value:
             ignore: true
@@ -119,7 +119,7 @@ classes:
     methods:
       LogMessage:
         overloads:
-          '':
+          "":
             ignore: true
           unsigned int, std::string_view, unsigned int, std::string_view:
             ignore: true
@@ -131,7 +131,7 @@ classes:
     methods:
       TimeSyncEventData:
         overloads:
-          '':
+          "":
             ignore: true
           int64_t, int64_t, bool:
   nt::Event:
@@ -143,7 +143,7 @@ classes:
     methods:
       Event:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Listener, unsigned int, ConnectionInfo:
             ignore: true
@@ -165,31 +165,31 @@ classes:
         overloads:
           '[const]':
             ignore: true
-          '':
+          "":
             ignore: true
       GetTopicInfo:
         overloads:
           '[const]':
             ignore: true
-          '':
+          "":
             ignore: true
       GetValueEventData:
         overloads:
           '[const]':
             ignore: true
-          '':
+          "":
             ignore: true
       GetLogMessage:
         overloads:
           '[const]':
             ignore: true
-          '':
+          "":
             ignore: true
       GetTimeSyncEventData:
         overloads:
           '[const]':
             ignore: true
-          '':
+          "":
             ignore: true
     inline_code: |
       .def_property_readonly("data", [](nt::Event *self){

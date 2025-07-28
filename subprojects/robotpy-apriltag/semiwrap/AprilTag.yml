@@ -1,3 +1,4 @@
+---
 
 functions:
   to_json:
@@ -10,8 +11,8 @@ classes:
       ID:
       pose:
     methods:
+      operator==:
       Generate36h11AprilTagImage:
         ignore: true
       Generate16h5AprilTagImage:
         ignore: true
-      operator==:

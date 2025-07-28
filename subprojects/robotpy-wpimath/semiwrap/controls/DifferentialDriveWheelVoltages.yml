@@ -1,6 +1,6 @@
+---
 defaults:
   subpackage: controller
-
 
 classes:
   frc::DifferentialDriveWheelVoltages:

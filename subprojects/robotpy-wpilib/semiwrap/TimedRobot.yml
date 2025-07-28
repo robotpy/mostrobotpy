@@ -1,3 +1,5 @@
+---
+
 classes:
   frc::TimedRobot:
     attributes:
@@ -5,13 +7,13 @@ classes:
     methods:
       StartCompetition:
       EndCompetition:
-      GetLoopStartTime:
-      AddPeriodic:
-        param_override:
-          offset:
-            default: 0_s
       TimedRobot:
         overloads:
           double:
             ignore: true
           units::second_t:
+      GetLoopStartTime:
+      AddPeriodic:
+        param_override:
+          offset:
+            default: 0_s

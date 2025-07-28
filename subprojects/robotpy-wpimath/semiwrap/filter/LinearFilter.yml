@@ -1,3 +1,5 @@
+---
+
 classes:
   frc::LinearFilter:
     template_params:
@@ -11,17 +13,16 @@ classes:
       SinglePoleIIR:
       HighPass:
       MovingAverage:
+      BackwardFiniteDifference:
+        ignore: true  # TODO: template_impls
+      FiniteDifference:
+        ignore: true  # TODO: template_impls
       Reset:
         overloads:
           '':
           std::span<const T>, std::span<const T>:
       Calculate:
       LastValue:
-      BackwardFiniteDifference:
-        ignore: true  # TODO: template_impls
-      FiniteDifference:
-        ignore: true  # TODO: template_impls
-
 templates:
   LinearFilter:
     qualname: frc::LinearFilter

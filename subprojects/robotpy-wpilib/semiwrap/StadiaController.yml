@@ -1,4 +1,4 @@
-
+---
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 
@@ -12,22 +12,6 @@ classes:
       GetRightX:
       GetLeftY:
       GetRightY:
-      GetLeftBumper:
-      GetRightBumper:
-      GetLeftBumperPressed:
-      GetRightBumperPressed:
-      GetLeftBumperReleased:
-      GetRightBumperReleased:
-      LeftBumper:
-      RightBumper:
-      GetLeftStickButton:
-      GetRightStickButton:
-      GetLeftStickButtonPressed:
-      GetRightStickButtonPressed:
-      GetLeftStickButtonReleased:
-      GetRightStickButtonReleased:
-      LeftStick:
-      RightStick:
       GetAButton:
       GetAButtonPressed:
       GetAButtonReleased:
@@ -44,6 +28,22 @@ classes:
       GetYButtonPressed:
       GetYButtonReleased:
       Y:
+      GetLeftBumperButton:
+      GetLeftBumperButtonPressed:
+      GetLeftBumperButtonReleased:
+      LeftBumper:
+      GetRightBumperButton:
+      GetRightBumperButtonPressed:
+      GetRightBumperButtonReleased:
+      RightBumper:
+      GetLeftStickButton:
+      GetLeftStickButtonPressed:
+      GetLeftStickButtonReleased:
+      LeftStick:
+      GetRightStickButton:
+      GetRightStickButtonPressed:
+      GetRightStickButtonReleased:
+      RightStick:
       GetEllipsesButton:
       GetEllipsesButtonPressed:
       GetEllipsesButtonReleased:
@@ -56,6 +56,14 @@ classes:
       GetStadiaButtonPressed:
       GetStadiaButtonReleased:
       Stadia:
+      GetRightTriggerButton:
+      GetRightTriggerButtonPressed:
+      GetRightTriggerButtonReleased:
+      RightTrigger:
+      GetLeftTriggerButton:
+      GetLeftTriggerButtonPressed:
+      GetLeftTriggerButtonReleased:
+      LeftTrigger:
       GetGoogleButton:
       GetGoogleButtonPressed:
       GetGoogleButtonReleased:
@@ -64,20 +72,12 @@ classes:
       GetFrameButtonPressed:
       GetFrameButtonReleased:
       Frame:
-      GetLeftTriggerButton:
-      GetLeftTriggerButtonPressed:
-      GetLeftTriggerButtonReleased:
-      LeftTrigger:
-      GetRightTriggerButton:
-      GetRightTriggerButtonPressed:
-      GetRightTriggerButtonReleased:
-      RightTrigger:
-      GetLeftBumperButton:
-      GetLeftBumperButtonPressed:
-      GetLeftBumperButtonReleased:
-      GetRightBumperButton:
-      GetRightBumperButtonPressed:
-      GetRightBumperButtonReleased:
+      GetLeftBumper:
+      GetRightBumper:
+      GetLeftBumperPressed:
+      GetRightBumperPressed:
+      GetLeftBumperReleased:
+      GetRightBumperReleased:
       InitSendable:
   frc::StadiaController::Button:
     attributes:

@@ -1,3 +1,4 @@
+---
 defaults:
   ignore: true
   report_ignored_missing: false
@@ -20,7 +21,7 @@ classes:
     methods:
       SimValue:
         overloads:
-          '':
+          "":
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -40,7 +41,7 @@ classes:
     methods:
       SimInt:
         overloads:
-          '':
+          "":
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -59,7 +60,7 @@ classes:
     methods:
       SimLong:
         overloads:
-          '':
+          "":
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -78,7 +79,7 @@ classes:
     methods:
       SimDouble:
         overloads:
-          '':
+          "":
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -97,7 +98,7 @@ classes:
     methods:
       SimEnum:
         overloads:
-          '':
+          "":
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -115,7 +116,7 @@ classes:
     methods:
       SimBoolean:
         overloads:
-          '':
+          "":
             ignore: true
           HAL_SimValueHandle:
             param_override:
@@ -139,7 +140,7 @@ classes:
     methods:
       SimDevice:
         overloads:
-          '':
+          "":
             ignore: true
           const char*:
           const char*, int:
@@ -148,6 +149,8 @@ classes:
       GetName:
       CreateValue:
         ignore: true
+      CreateInt:
+      CreateLong:
       CreateDouble:
       CreateEnum:
         overloads:
@@ -180,8 +183,6 @@ classes:
               }
 
       CreateBoolean:
-      CreateInt:
-      CreateLong:
 
 inline_code: |
 

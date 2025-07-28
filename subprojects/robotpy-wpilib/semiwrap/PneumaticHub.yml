@@ -1,4 +1,4 @@
-
+---
 extra_includes:
 - wpi/sendable/SendableBuilder.h
 - frc/Compressor.h
@@ -10,7 +10,7 @@ classes:
     methods:
       PneumaticHub:
         overloads:
-          '':
+          "":
           int:
       GetCompressor:
       DisableCompressor:
@@ -86,6 +86,6 @@ classes:
       Brownout:
       CanWarning:
       CanBusOff:
-      HasReset:
       HardwareFault:
       FirmwareFault:
+      HasReset:

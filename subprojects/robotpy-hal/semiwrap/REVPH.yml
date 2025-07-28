@@ -78,6 +78,6 @@ classes:
       brownout:
       canWarning:
       canBusOff:
-      hasReset:
       hardwareFault:
       firmwareFault:
+      hasReset:

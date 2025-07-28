@@ -1,3 +1,4 @@
+---
 
 classes:
   frc::sim::PneumaticsBaseSim:
@@ -29,5 +30,5 @@ classes:
       ResetData:
       PneumaticsBaseSim:
         overloads:
-          const PneumaticsBase&:
           const int:
+          const PneumaticsBase&:

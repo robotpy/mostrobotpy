@@ -1,3 +1,4 @@
+---
 
 classes:
   frc::sim::DCMotorSim:
@@ -13,11 +14,11 @@ classes:
       SetState:
       GetAngularPosition:
       GetAngularVelocity:
-      GetCurrentDraw:
-      SetInputVoltage:
       GetAngularAcceleration:
       GetTorque:
+      GetCurrentDraw:
       GetInputVoltage:
+      SetInputVoltage:
       GetGearbox:
       GetGearing:
       GetJ:

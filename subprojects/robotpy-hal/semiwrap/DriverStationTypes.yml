@@ -1,4 +1,4 @@
-
+---
 strip_prefixes:
 - HAL_
 
@@ -8,10 +8,10 @@ extra_includes:
 enums:
   HAL_AllianceStationID:
     value_prefix: HAL_AllianceStationID
-  HAL_JoystickPOV:
-    value_prefix: HAL_JoystickPOV
   HAL_MatchType:
     value_prefix: HAL_kMatchType
+  HAL_JoystickPOV:
+    value_prefix: HAL_JoystickPOV
 classes:
   HAL_ControlWord:
     attributes:

@@ -1,10 +1,11 @@
+---
 
 classes:
   nt::StringSubscriber:
     methods:
       StringSubscriber:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -42,7 +43,7 @@ classes:
     methods:
       StringPublisher:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Publisher:
             ignore: true
@@ -65,7 +66,7 @@ classes:
     methods:
       StringEntry:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -91,7 +92,7 @@ classes:
     methods:
       StringTopic:
         overloads:
-          '':
+          "":
             ignore: true
           NT_Topic:
             ignore: true

@@ -13,8 +13,6 @@ classes:
       m_msglog:
         ignore: true
     methods:
-      DataLog:
-        ignore: true
       Flush:
       Pause:
       Resume:
@@ -63,6 +61,8 @@ classes:
           int, std::span<const std::string_view>, int64_t:
           int, std::span<const struct WPI_String>, int64_t:
             ignore: true
+      DataLog:
+        ignore: true
       StartFile:
       FlushBufs:
         ignore: true
