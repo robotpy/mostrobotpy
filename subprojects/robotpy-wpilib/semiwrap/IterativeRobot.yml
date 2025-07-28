@@ -1,6 +1,0 @@
-classes:
-  frc::IterativeRobot:
-    methods:
-      IterativeRobot:
-      StartCompetition:
-      EndCompetition:
