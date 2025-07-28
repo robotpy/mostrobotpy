@@ -4,6 +4,7 @@ requires = [
     "semiwrap~=0.1.4",
     "hatch-meson~=0.1.0b2",
     "hatchling",
+    "pyntcore==2027.0.0a2",
     "robotpy-native-wpihal==2027.0.0a2",
     "robotpy-wpiutil==2027.0.0a2",
 ]
@@ -17,6 +18,7 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
+    "pyntcore==2027.0.0a2",
     "robotpy-native-wpihal==2027.0.0a2",
     "robotpy-wpiutil==2027.0.0a2",
 ]
