@@ -1,3 +1,4 @@
+
 classes:
   frc::CubicHermiteSpline:
     force_no_trampoline: true

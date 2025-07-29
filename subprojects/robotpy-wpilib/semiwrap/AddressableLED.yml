@@ -1,3 +1,4 @@
+
 functions:
   format_as:
     ignore: true
@@ -38,3 +39,4 @@ classes:
         overloads:
           const Color&:
           const Color8Bit&:
+
