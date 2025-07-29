@@ -15,7 +15,7 @@ classes:
     methods:
       NetworkTableEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry:
             ignore: true

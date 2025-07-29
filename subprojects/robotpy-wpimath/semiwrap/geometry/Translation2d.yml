@@ -14,7 +14,7 @@ classes:
     methods:
       Translation2d:
         overloads:
-          "":
+          '':
           units::meter_t, units::meter_t:
           units::meter_t, const Rotation2d&:
           const Eigen::Vector2d&:

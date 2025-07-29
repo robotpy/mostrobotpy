@@ -159,7 +159,7 @@ classes:
     methods:
       Color:
         overloads:
-          "":
+          '':
           double, double, double:
             param_override:
               r:

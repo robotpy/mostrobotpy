@@ -14,7 +14,7 @@ classes:
     methods:
       Translation3d:
         overloads:
-          "":
+          '':
           units::meter_t, units::meter_t, units::meter_t:
           units::meter_t, const Rotation3d&:
           const Eigen::Vector3d&:

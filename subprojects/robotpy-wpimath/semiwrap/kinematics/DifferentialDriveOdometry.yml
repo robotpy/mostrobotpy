@@ -1,5 +1,3 @@
----
-
 classes:
   frc::DifferentialDriveOdometry:
     force_no_trampoline: true

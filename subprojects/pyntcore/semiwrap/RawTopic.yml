@@ -7,7 +7,7 @@ classes:
     methods:
       RawSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -45,7 +45,7 @@ classes:
     methods:
       RawPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -68,7 +68,7 @@ classes:
     methods:
       RawEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -92,7 +92,7 @@ classes:
     methods:
       RawTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true

@@ -1,5 +1,3 @@
----
-
 classes:
   nt::StructArraySubscriber:
     template_params:
@@ -8,7 +6,7 @@ classes:
     methods:
       StructArraySubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, U&&, I...:
             ignore: true
@@ -45,7 +43,7 @@ classes:
     methods:
       StructArrayPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher, I...:
             ignore: true
@@ -82,7 +80,7 @@ classes:
     methods:
       StructArrayEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, U&&, const I&...:
             ignore: true
@@ -109,7 +107,7 @@ classes:
     methods:
       StructArrayTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic, I...:
             ignore: true

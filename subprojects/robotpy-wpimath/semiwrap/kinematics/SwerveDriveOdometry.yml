@@ -1,5 +1,3 @@
----
-
 classes:
   frc::SwerveDriveOdometry:
     force_no_trampoline: true

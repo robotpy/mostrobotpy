@@ -1,11 +1,9 @@
----
-
 classes:
   nt::BooleanArraySubscriber:
     methods:
       BooleanArraySubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber, ParamType:
             ignore: true
@@ -43,7 +41,7 @@ classes:
     methods:
       BooleanArrayPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -66,7 +64,7 @@ classes:
     methods:
       BooleanArrayEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry, ParamType:
             ignore: true
@@ -92,7 +90,7 @@ classes:
     methods:
       BooleanArrayTopic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true

@@ -1,5 +1,3 @@
----
-
 functions:
   CallbackStoreThunk:
     ignore: true

@@ -29,7 +29,7 @@ classes:
     methods:
       CvSource:
         overloads:
-          "":
+          '':
             ignore: true
           std::string_view, const VideoMode&:
           std::string_view, VideoMode::PixelFormat, int, int, int:
@@ -40,7 +40,7 @@ classes:
     methods:
       CvSink:
         overloads:
-          "":
+          '':
             ignore: true
           std::string_view:
           std::string_view, std::function<void (uint64_t time)>:

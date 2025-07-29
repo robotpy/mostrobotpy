@@ -1,5 +1,3 @@
----
-
 classes:
   frc::Tachometer:
     ignored_bases:

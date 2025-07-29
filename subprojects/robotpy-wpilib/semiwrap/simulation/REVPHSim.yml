@@ -11,7 +11,7 @@ classes:
     methods:
       REVPHSim:
         overloads:
-          "":
+          '':
           int:
           const PneumaticsBase&:
       RegisterInitializedCallback:

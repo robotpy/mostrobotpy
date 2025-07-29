@@ -17,7 +17,7 @@ classes:
     methods:
       Timestamped:
         overloads:
-          "":
+          '':
           int64_t, int64_t, T:
     inline_code: |
       ;

@@ -1,5 +1,3 @@
----
-
 classes:
   wpi::log::StartRecordData:
     attributes:
@@ -21,7 +19,7 @@ classes:
     methods:
       DataLogRecord:
         overloads:
-          "":
+          '':
             ignore: true
           int, int64_t, std::span<const uint8_t>:
             ignore: true

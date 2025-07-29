@@ -20,7 +20,7 @@ classes:
           const Eigen::Matrix3d&:
             rename: fromMatrix
             keepalive: []
-          "":
+          '':
       Translation:
       X:
       Y:

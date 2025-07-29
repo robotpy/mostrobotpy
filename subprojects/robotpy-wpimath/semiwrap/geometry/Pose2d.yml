@@ -17,7 +17,7 @@ classes:
     methods:
       Pose2d:
         overloads:
-          "":
+          '':
           Translation2d, Rotation2d:
           units::meter_t, units::meter_t, Rotation2d:
           const Eigen::Matrix3d&:

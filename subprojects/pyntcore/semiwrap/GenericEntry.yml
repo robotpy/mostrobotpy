@@ -1,5 +1,3 @@
----
-
 extra_includes:
 - src/nt_type_caster.h
 
@@ -8,7 +6,7 @@ classes:
     methods:
       GenericSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber:
             ignore: true
@@ -30,7 +28,7 @@ classes:
     methods:
       GenericPublisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true
@@ -66,7 +64,7 @@ classes:
     methods:
       GenericEntry:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Entry:
             ignore: true

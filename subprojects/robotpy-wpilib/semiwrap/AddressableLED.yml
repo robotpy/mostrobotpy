@@ -1,5 +1,3 @@
----
-
 functions:
   format_as:
     ignore: true
@@ -25,7 +23,7 @@ classes:
     methods:
       LEDData:
         overloads:
-          "":
+          '':
           int, int, int:
             param_override:
               _r:

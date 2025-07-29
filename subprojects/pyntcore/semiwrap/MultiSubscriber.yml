@@ -1,11 +1,9 @@
----
-
 classes:
   nt::MultiSubscriber:
     methods:
       MultiSubscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NetworkTableInstance, std::span<const std::string_view>, const PubSubOptions&:
       GetHandle:

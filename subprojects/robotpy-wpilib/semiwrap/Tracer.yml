@@ -12,7 +12,7 @@ classes:
       AddEpoch:
       PrintEpochs:
         overloads:
-          "":
+          '':
           wpi::raw_ostream&:
             ignore: true
 

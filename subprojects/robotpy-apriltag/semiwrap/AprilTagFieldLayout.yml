@@ -1,5 +1,3 @@
----
-
 functions:
   to_json:
     ignore: true
@@ -15,7 +13,7 @@ classes:
       LoadField:
       AprilTagFieldLayout:
         overloads:
-          "":
+          '':
           std::string_view:
           std::vector<AprilTag>, units::meter_t, units::meter_t:
       GetFieldLength:

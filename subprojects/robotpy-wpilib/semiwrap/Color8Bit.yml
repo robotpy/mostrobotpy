@@ -16,7 +16,7 @@ classes:
     methods:
       Color8Bit:
         overloads:
-          "":
+          '':
           int, int, int:
             param_override:
               r:

@@ -1,5 +1,3 @@
----
-
 classes:
   frc::LinearFilter:
     template_params:

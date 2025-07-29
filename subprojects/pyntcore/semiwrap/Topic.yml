@@ -8,7 +8,7 @@ classes:
     methods:
       Topic:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Topic:
             ignore: true
@@ -60,7 +60,7 @@ classes:
       GetTopic:
       Subscriber:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Subscriber:
             ignore: true
@@ -79,7 +79,7 @@ classes:
       GetTopic:
       Publisher:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Publisher:
             ignore: true

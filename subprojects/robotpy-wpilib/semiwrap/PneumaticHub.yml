@@ -10,7 +10,7 @@ classes:
     methods:
       PneumaticHub:
         overloads:
-          "":
+          '':
           int:
       GetCompressor:
       DisableCompressor:

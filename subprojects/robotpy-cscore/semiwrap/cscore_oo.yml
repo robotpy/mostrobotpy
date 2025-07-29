@@ -68,7 +68,7 @@ classes:
     methods:
       VideoCamera:
         overloads:
-          "":
+          '':
           CS_Source:
       SetBrightness:
       GetBrightness:
@@ -83,7 +83,7 @@ classes:
     methods:
       UsbCamera:
         overloads:
-          "":
+          '':
           std::string_view, int:
           std::string_view, std::string_view:
       EnumerateUsbCameras:
@@ -168,7 +168,7 @@ classes:
     methods:
       MjpegServer:
         overloads:
-          "":
+          '':
           std::string_view, std::string_view, int:
           std::string_view, int:
       GetListenAddress:
@@ -194,5 +194,5 @@ classes:
     methods:
       VideoListener:
         overloads:
-          "":
+          '':
           std::function<void (const VideoEvent& event)>, int, bool:

@@ -17,7 +17,7 @@ classes:
     methods:
       Trajectory:
         overloads:
-          "":
+          '':
           const std::vector<State>&:
       TotalTime:
       States:

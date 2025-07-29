@@ -13,7 +13,7 @@ classes:
     methods:
       Quaternion:
         overloads:
-          "":
+          '':
           double, double, double, double:
       operator+:
       operator-:

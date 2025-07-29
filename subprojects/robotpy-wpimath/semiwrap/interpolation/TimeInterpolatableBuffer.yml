@@ -19,7 +19,7 @@ classes:
       Sample:
       GetInternalBuffer:
         overloads:
-          "":
+          '':
           '[const]':
             ignore: true
 

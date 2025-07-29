@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HALSIM_
 
@@ -12,5 +10,5 @@ classes:
     methods:
       HalCallbackListener:
         overloads:
-          "":
+          '':
           void*, CallbackFunction:

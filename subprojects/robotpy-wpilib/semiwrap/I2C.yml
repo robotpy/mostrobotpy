@@ -1,5 +1,3 @@
----
-
 classes:
   frc::I2C:
     enums:

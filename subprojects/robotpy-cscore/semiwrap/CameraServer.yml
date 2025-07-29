@@ -14,7 +14,7 @@ classes:
     methods:
       StartAutomaticCapture:
         overloads:
-          "":
+          '':
           int:
           std::string_view, int:
           std::string_view, std::string_view:
@@ -40,7 +40,7 @@ classes:
       AddSwitchedCamera:
       GetVideo:
         overloads:
-          "":
+          '':
           const cs::VideoSource&:
           std::string_view:
       PutVideo:
@@ -52,7 +52,7 @@ classes:
       RemoveServer:
       GetServer:
         overloads:
-          "":
+          '':
           std::string_view:
       AddCamera:
       RemoveCamera:

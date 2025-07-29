@@ -258,7 +258,7 @@ classes:
     methods:
       VideoMode:
         overloads:
-          "":
+          '':
           PixelFormat, int, int, int:
       operator==:
       operator!=:
@@ -296,7 +296,7 @@ classes:
     methods:
       RawEvent:
         overloads:
-          "":
+          '':
             ignore: true
           RawEvent::Kind:
             ignore: true

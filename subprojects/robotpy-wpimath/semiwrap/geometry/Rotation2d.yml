@@ -13,7 +13,7 @@ classes:
     methods:
       Rotation2d:
         overloads:
-          "":
+          '':
           auto:
             doc: |
               Constructs a Rotation2d with the given radian value.

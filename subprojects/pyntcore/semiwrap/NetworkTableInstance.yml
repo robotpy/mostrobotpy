@@ -36,7 +36,7 @@ classes:
     methods:
       NetworkTableInstance:
         overloads:
-          "":
+          '':
             ignore: true
           NT_Inst:
             ignore: true
@@ -85,13 +85,13 @@ classes:
           }
       GetTopics:
         overloads:
-          "":
+          '':
           std::string_view:
           std::string_view, unsigned int:
           std::string_view, std::span<std::string_view>:
       GetTopicInfo:
         overloads:
-          "":
+          '':
           std::string_view:
           std::string_view, unsigned int:
           std::string_view, std::span<std::string_view>:

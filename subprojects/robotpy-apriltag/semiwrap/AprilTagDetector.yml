@@ -88,7 +88,7 @@ classes:
     methods:
       Results:
         overloads:
-          "":
+          '':
             ignore: true
           void*, const private_init&:
             ignore: true
