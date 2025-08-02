@@ -83,13 +83,6 @@ def main():
         "--team", help="Team number to specify robot", type=int
     )
     parser.add_argument(
-        "--nt-protocol",
-        choices=[4],
-        type=int,
-        help="NetworkTables protocol",
-        default=4,
-    )
-    parser.add_argument(
         "--nt-identity", default="cscore", help="NetworkTables identity"
     )
     parser.add_argument(
