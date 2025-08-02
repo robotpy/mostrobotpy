@@ -84,7 +84,7 @@ def main():
     )
     parser.add_argument(
         "--nt-protocol",
-        choices=[3, 4],
+        choices=[4],
         type=int,
         help="NetworkTables protocol",
         default=4,
@@ -118,10 +118,7 @@ def main():
     else:
         ntinst.setServer(args.robot)
 
-    if args.nt_protocol == 3:
-        ntinst.startClient3(args.nt_identity)
-    else:
-        ntinst.startClient4(args.nt_identity)
+    ntinst.startClient(args.nt_identity)
 
     # If stdin is a pipe, then die when the pipe goes away
     # -> this allows us to detect if a parent process exits
@@ -159,12 +156,4 @@ def main():
 
 
 if __name__ == "__main__":
-    # Setup wpi::now on roborio when executed as __main__
-    try:
-        from ._cscore import _setupWpiNow  # type: ignore
-
-        _setupWpiNow()
-    except ImportError:
-        pass
-
     main()

@@ -3,12 +3,6 @@
 
 #include "cscore_cpp.h"
 
-#ifdef __FRC_SYSTEMCORE__
-extern "C" {
-    void WPI_Impl_SetupNowUseDefaultOnRio(void);
-}
-#endif
-
 SEMIWRAP_PYBIND11_MODULE(m) {
     initWrapper(m);
 
@@ -22,8 +16,4 @@ SEMIWRAP_PYBIND11_MODULE(m) {
         CS_Shutdown();
     });
     m.add_object("_cleanup", cleanup);
-
-    #ifdef __FRC_SYSTEMCORE__
-    m.def("_setupWpiNow", WPI_Impl_SetupNowUseDefaultOnRio);
-    #endif
 }
