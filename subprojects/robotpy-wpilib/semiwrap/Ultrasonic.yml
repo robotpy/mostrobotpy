@@ -7,8 +7,6 @@ classes:
   frc::Ultrasonic:
     ignored_bases:
     - wpi::SendableHelper<Ultrasonic>
-    enums:
-      DistanceUnit:
     methods:
       Ultrasonic:
         overloads:

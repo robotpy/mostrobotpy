@@ -10,8 +10,7 @@ classes:
             param_override:
               measurementStdDevs:
                 default: std::array<double, 7>{}
-          ? frc::DCMotor, double, units::kilogram_square_meter_t, units::kilogram_t,
-            units::meter_t, units::meter_t, const std::array<double, 7>&
+          ? frc::DCMotor, double, units::kilogram_square_meter_t, units::kilogram_t, units::meter_t, units::meter_t, const std::array<double, 7>&
           : param_override:
               measurementStdDevs:
                 default: std::array<double, 7>{}

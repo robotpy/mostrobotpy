@@ -26,7 +26,6 @@ classes:
       InitialPose:
       operator+:
       operator==:
-      operator!=:
   frc::Trajectory::State:
     force_no_default_constructor: true
     attributes:
@@ -37,7 +36,6 @@ classes:
       curvature:
     methods:
       operator==:
-      operator!=:
       Interpolate:
 
 inline_code: |

@@ -1,5 +1,3 @@
----
-
 extra_includes:
 - sim_value_cb.h
 - pybind11/functional.h

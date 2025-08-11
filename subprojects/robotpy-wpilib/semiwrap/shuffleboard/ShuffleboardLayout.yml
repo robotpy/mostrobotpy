@@ -1,4 +1,3 @@
-
 classes:
   frc::ShuffleboardLayout:
     # virtual base issue: robotpy-build/166

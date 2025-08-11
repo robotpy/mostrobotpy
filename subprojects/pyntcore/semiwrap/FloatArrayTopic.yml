@@ -1,4 +1,3 @@
-
 classes:
   nt::FloatArraySubscriber:
     methods:

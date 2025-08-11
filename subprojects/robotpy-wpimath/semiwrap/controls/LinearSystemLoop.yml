@@ -10,19 +10,13 @@ classes:
     methods:
       LinearSystemLoop:
         overloads:
-          ? LinearSystem<States, Inputs, Outputs>&, LinearQuadraticRegulator<States,
-            Inputs>&, KalmanFilter<States, Inputs, Outputs>&, units::volt_t, units::second_t
+          ? LinearSystem<States, Inputs, Outputs>&, LinearQuadraticRegulator<States, Inputs>&, KalmanFilter<States, Inputs, Outputs>&, units::volt_t, units::second_t
           :
-          ? LinearSystem<States, Inputs, Outputs>&, LinearQuadraticRegulator<States,
-            Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<InputVector
-            (const InputVector&)>, units::second_t
+          ? LinearSystem<States, Inputs, Outputs>&, LinearQuadraticRegulator<States, Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<InputVector (const InputVector&)>, units::second_t
           :
-          ? LinearQuadraticRegulator<States, Inputs>&, const LinearPlantInversionFeedforward<States,
-            Inputs>&, KalmanFilter<States, Inputs, Outputs>&, units::volt_t
+          ? LinearQuadraticRegulator<States, Inputs>&, const LinearPlantInversionFeedforward<States, Inputs>&, KalmanFilter<States, Inputs, Outputs>&, units::volt_t
           :
-          ? LinearQuadraticRegulator<States, Inputs>&, const LinearPlantInversionFeedforward<States,
-            Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<InputVector
-            (const InputVector&)>
+          ? LinearQuadraticRegulator<States, Inputs>&, const LinearPlantInversionFeedforward<States, Inputs>&, KalmanFilter<States, Inputs, Outputs>&, std::function<InputVector (const InputVector&)>
           :
       Xhat:
         overloads:
@@ -52,9 +46,6 @@ classes:
       Correct:
       Predict:
       ClampInput:
-      function<InputVector:
-        ignore: true
-
 templates:
   LinearSystemLoop_1_1_1:
     qualname: frc::LinearSystemLoop

@@ -1,5 +1,3 @@
----
-
 enums:
   HAL_RadioLEDState:
 functions:

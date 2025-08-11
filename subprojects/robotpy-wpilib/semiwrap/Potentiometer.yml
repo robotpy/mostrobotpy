@@ -1,6 +1,0 @@
-classes:
-  frc::Potentiometer:
-    methods:
-      Potentiometer:
-      Get:
-      SetPIDSourceType:

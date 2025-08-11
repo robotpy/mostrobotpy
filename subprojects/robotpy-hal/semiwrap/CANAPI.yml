@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HAL_
 
@@ -9,18 +7,18 @@ functions:
   HAL_CleanCAN:
   HAL_WriteCANPacket:
     buffers:
-    - { type: IN, src: data, len: length }
+    - {type: IN, src: data, len: length}
   HAL_WriteCANPacketRepeating:
     buffers:
-    - { type: IN, src: data, len: length }
+    - {type: IN, src: data, len: length}
   HAL_WriteCANRTRFrame:
   HAL_StopCANPacketRepeating:
   HAL_ReadCANPacketNew:
     buffers:
-    - { type: OUT, src: data, len: length, minsz: 8 }
+    - {type: OUT, src: data, len: length, minsz: 8}
   HAL_ReadCANPacketLatest:
     buffers:
-    - { type: OUT, src: data, len: length, minsz: 8 }
+    - {type: OUT, src: data, len: length, minsz: 8}
   HAL_ReadCANPacketTimeout:
     buffers:
-    - { type: OUT, src: data, len: length, minsz: 8 }
+    - {type: OUT, src: data, len: length, minsz: 8}

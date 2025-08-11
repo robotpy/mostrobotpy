@@ -10,7 +10,6 @@ classes:
       dtheta:
     methods:
       operator==:
-      operator!=:
       operator*:
 
 inline_code: |

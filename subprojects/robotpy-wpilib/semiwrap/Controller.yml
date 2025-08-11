@@ -1,7 +1,0 @@
-
-classes:
-  frc::Controller:
-    methods:
-      Controller:
-      Enable:
-      Disable:

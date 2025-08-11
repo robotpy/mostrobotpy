@@ -93,9 +93,6 @@ classes:
     methods:
       operator==:
         cpp_code: py::self == State()
-      operator!=:
-        cpp_code: py::self != State()
-
 templates:
   TrapezoidProfile:
     qualname: frc::TrapezoidProfile

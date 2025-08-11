@@ -1,4 +1,3 @@
-
 extra_includes:
 - src/rpy/SmartDashboardData.h
 - frc/Errors.h
@@ -13,10 +12,6 @@ classes:
       SetPersistent:
       ClearPersistent:
       IsPersistent:
-      SetFlags:
-      ClearFlags:
-      GetFlags:
-      Delete:
       GetEntry:
       PutData:
         # overrides ensure data doesn't die if this is the only reference

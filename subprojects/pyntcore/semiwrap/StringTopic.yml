@@ -1,4 +1,3 @@
-
 classes:
   nt::StringSubscriber:
     methods:

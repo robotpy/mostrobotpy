@@ -1,5 +1,3 @@
----
-
 classes:
   wpi::SendableBuilder:
     enums:

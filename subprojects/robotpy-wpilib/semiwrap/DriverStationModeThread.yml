@@ -1,4 +1,3 @@
-
 classes:
   frc::internal::DriverStationModeThread:
     rename: _DriverStationModeThread
