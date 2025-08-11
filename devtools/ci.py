@@ -152,3 +152,22 @@ def scan_headers(ctx: Context):
 
     if not ok:
         sys.exit(1)
+
+
+@ci.command()
+@click.pass_obj
+def update_yaml(ctx: Context):
+    """Run update-yaml on all projects"""
+    failed_subprojects = 0
+    for project in ctx.subprojects.values():
+        if project.is_semiwrap_project():
+            if not project.cfg.ci_update_yaml:
+                print("- Skipping", project.name, file=sys.stderr)
+                continue
+
+            if not project.update_yaml():
+                failed_subprojects += 1
+
+    if failed_subprojects != 0:
+        print(f"update-yaml has failed for {failed_subprojects} project(s)")
+        sys.exit(1)
