@@ -216,6 +216,10 @@ jobs:
       run: |
         python -m devtools ci scan-headers
 
+    - name: Ensure YAML files are up to date
+      run: |
+        python -m devtools ci update-yaml
+
     - uses: actions/upload-artifact@v4
       with:
         name: "pypi-meson-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python_version }}"

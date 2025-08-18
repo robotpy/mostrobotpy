@@ -37,6 +37,9 @@ classes:
       GetKv:
       GetKa:
       GetDt:
+      SetKs:
+      SetKv:
+      SetKa:
 
 templates:
   # Unfortunately this is broken because calculate requires an SI unit

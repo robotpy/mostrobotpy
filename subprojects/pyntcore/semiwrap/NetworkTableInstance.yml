@@ -1,4 +1,3 @@
-
 extra_includes:
 - networktables/BooleanArrayTopic.h
 - networktables/BooleanTopic.h
@@ -170,7 +169,6 @@ classes:
       AddStructSchema:
         ignore: true
       operator==:
-      operator!=:
     inline_code: |
       .def("configPythonLogging", [](NetworkTableInstance * self, 
         NetworkTableInstance::LogLevel minLevel, NetworkTableInstance::LogLevel maxLevel, py::str logName) {

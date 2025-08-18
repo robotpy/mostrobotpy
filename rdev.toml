@@ -34,7 +34,7 @@ exclude_artifacts = [
 robot_wheel_platform = "linux-systemcore"
 
 [params.requirements]
-semiwrap = "~=0.1.4"
+semiwrap = "~=0.1.7"
 hatch-meson = "~=0.1.0b2"
 hatch-nativelib = "~=0.2.0"
 hatch-robotpy = "~=0.2.1"
@@ -111,6 +111,7 @@ robot = true
 # practicality over purity - this is because we use a static
 # library that only exists at build time
 ci_scan_headers = false
+ci_update_yaml = false
 
 [subprojects."robotpy-apriltag"]
 py_version = "wrapper"

@@ -61,6 +61,19 @@ class Subproject:
         )
         return result.returncode == 0
 
+    def update_yaml(self):
+        """Resyncs the yaml files with their header files"""
+        result = run_cmd(
+            sys.executable,
+            "-m",
+            "semiwrap",
+            "update-yaml",
+            "--write",
+            cwd=self.path,
+            check=False,
+        )
+        return result.returncode == 0
+
     def update_init(self):
         run_cmd(
             sys.executable,

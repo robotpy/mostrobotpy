@@ -75,11 +75,6 @@ classes:
     methods:
       SetMetadata:
       Finish:
-      DataLogEntry:
-        overloads:
-          "":
-            ignore: true
-          DataLog&, std::string_view, std::string_view, std::string_view, int64_t:
   wpi::log::DataLogValueEntryImpl:
     template_params:
     - T

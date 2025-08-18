@@ -40,8 +40,6 @@ classes:
       SetReverseDirection:
       SetSamplesToAverage:
       GetSamplesToAverage:
-      PIDGet:
-        rename: pidGet
       SetIndexSource:
         overloads:
           int, IndexingType:

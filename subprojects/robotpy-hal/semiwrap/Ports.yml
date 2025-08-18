@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HAL_
 
@@ -18,10 +16,6 @@ functions:
   HAL_GetNumInterrupts:
   HAL_GetNumRelayChannels:
   HAL_GetNumRelayHeaders:
-  HAL_GetNumPCMModules:
-  HAL_GetNumSolenoidChannels:
-  HAL_GetNumPDPModules:
-  HAL_GetNumPDPChannels:
   HAL_GetNumDutyCycles:
   HAL_GetNumAddressableLEDs:
   HAL_GetNumCTREPCMModules:

@@ -17,7 +17,6 @@ classes:
           const Ellipse2d&, const Constraint&:
       MaxVelocity:
       MinMaxAcceleration:
-      IsPoseInRegion:
 
     template_inline_code: |
       cls_EllipticalRegionConstraint

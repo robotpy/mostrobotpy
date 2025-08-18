@@ -1,4 +1,3 @@
-
 extra_includes:
 - frc/kinematics/DifferentialDriveWheelPositions.h
 - frc/kinematics/DifferentialDriveWheelSpeeds.h

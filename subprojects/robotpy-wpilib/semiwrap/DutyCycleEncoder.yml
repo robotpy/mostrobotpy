@@ -34,14 +34,7 @@ classes:
       GetFrequency:
       IsConnected:
       SetConnectedFrequencyThreshold:
-      Reset:
       Get:
-      GetAbsolutePosition:
-      GetPositionOffset:
-      SetPositionOffset:
-      SetDistancePerRotation:
-      GetDistancePerRotation:
-      GetDistance:
       SetDutyCycleRange:
       GetFPGAIndex:
       GetSourceChannel:

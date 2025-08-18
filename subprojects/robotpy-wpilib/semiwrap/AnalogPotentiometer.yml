@@ -13,6 +13,4 @@ classes:
             ignore: true
           std::shared_ptr<AnalogInput>, double, double:
       Get:
-      PIDGet:
-        rename: pidGet
       InitSendable:

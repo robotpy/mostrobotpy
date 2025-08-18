@@ -22,7 +22,6 @@ classes:
           const Quaternion& [const]:
       operator/:
       operator==:
-      operator!=:
       Dot:
       Conjugate:
       Inverse:

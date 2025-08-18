@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HALSIM_
 
@@ -16,11 +14,6 @@ functions:
     ignore: true
   HALSIM_GetPWMPulseMicrosecond:
   HALSIM_SetPWMPulseMicrosecond:
-  HALSIM_RegisterPWMRawValueCallback:
-    ignore: true
-  HALSIM_CancelPWMRawValueCallback:
-  HALSIM_GetPWMRawValue:
-  HALSIM_SetPWMRawValue:
   HALSIM_RegisterPWMSpeedCallback:
     ignore: true
   HALSIM_CancelPWMSpeedCallback:

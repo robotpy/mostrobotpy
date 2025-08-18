@@ -12,12 +12,9 @@ classes:
           const LinearSystem<States, Inputs, Outputs>&, const StateArray&, const InputArray&, units::second_t:
             ignore: true
           const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const StateArray&, const InputArray&, units::second_t:
-          ? const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const
-            Matrixd<States, States>&, const Matrixd<Inputs, Inputs>&, units::second_t
+          ? const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const Matrixd<States, States>&, const Matrixd<Inputs, Inputs>&, units::second_t
           :
-          ? const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const
-            Matrixd<States, States>&, const Matrixd<Inputs, Inputs>&, const Matrixd<States,
-            Inputs>&, units::second_t
+          ? const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const Matrixd<States, States>&, const Matrixd<Inputs, Inputs>&, const Matrixd<States, Inputs>&, units::second_t
           :
       K:
         overloads:
