@@ -8,9 +8,6 @@ classes:
     methods:
       DigitalInput:
       Get:
-      GetPortHandleForRouting:
-      GetAnalogTriggerTypeForRouting:
-      IsAnalogTrigger:
       GetChannel:
       SetSimDevice:
       InitSendable:

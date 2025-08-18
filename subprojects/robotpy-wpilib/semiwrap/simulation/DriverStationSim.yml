@@ -39,7 +39,6 @@ classes:
       SetJoystickAxisCount:
       SetJoystickPOVCount:
       SetJoystickButtonCount:
-      SetJoystickIsXbox:
       SetJoystickType:
       SetJoystickName:
       SetJoystickAxisType:
@@ -49,3 +48,4 @@ classes:
       SetMatchNumber:
       SetReplayNumber:
       ResetData:
+      SetJoystickIsGamepad:

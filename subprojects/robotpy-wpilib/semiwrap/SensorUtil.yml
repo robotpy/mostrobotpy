@@ -3,14 +3,10 @@ classes:
     nodelete: true
     methods:
       CheckDigitalChannel:
-      CheckRelayChannel:
       CheckPWMChannel:
       CheckAnalogInputChannel:
-      CheckAnalogOutputChannel:
       GetDefaultCTREPCMModule:
       GetDefaultREVPHModule:
       GetNumDigitalChannels:
       GetNumAnalogInputs:
-      GetNumAnalogOuputs:
       GetNumPwmChannels:
-      GetNumRelayChannels:

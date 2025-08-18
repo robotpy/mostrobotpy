@@ -7,8 +7,6 @@ classes:
       b:
       g:
       r:
-      padding:
-        ignore: true
 enums:
   HAL_AddressableLEDColorOrder:
 functions:

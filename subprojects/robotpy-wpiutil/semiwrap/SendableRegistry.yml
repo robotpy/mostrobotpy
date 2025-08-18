@@ -6,22 +6,7 @@ classes:
   wpi::SendableRegistry:
     nodelete: true
     methods:
-      SetLiveWindowBuilderFactory:
       Add:
-        overloads:
-          Sendable*, std::string_view:
-            keepalive:
-            - [1, 2]
-          Sendable*, std::string_view, int:
-            keepalive:
-            - [1, 2]
-          Sendable*, std::string_view, int, int:
-            keepalive:
-            - [1, 2]
-          Sendable*, std::string_view, std::string_view:
-            keepalive:
-            - [1, 2]
-      AddLW:
         overloads:
           Sendable*, std::string_view:
             keepalive:
@@ -62,23 +47,8 @@ classes:
         ignore: true
       GetData:
         ignore: true
-      EnableLiveWindow:
-      DisableLiveWindow:
       GetUniqueId:
       GetSendable:
       Publish:
       Update:
-      ForeachLiveWindow:
-        ignore: true
       EnsureInitialized:
-  wpi::SendableRegistry::CallbackData:
-    ignore: true
-    attributes:
-      sendable:
-      name:
-      subsystem:
-      parent:
-      data:
-      builder:
-    methods:
-      CallbackData:

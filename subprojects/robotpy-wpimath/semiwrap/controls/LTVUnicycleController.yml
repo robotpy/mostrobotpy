@@ -6,11 +6,8 @@ classes:
     methods:
       LTVUnicycleController:
         overloads:
-          units::second_t, units::meters_per_second_t:
-            # param_override:
-            #   maxVelocity:
-            #     default: 9_mps
-          const wpi::array<double, 3>&, const wpi::array<double, 2>&, units::second_t, units::meters_per_second_t:
+          units::second_t:
+          const wpi::array<double, 3>&, const wpi::array<double, 2>&, units::second_t:
             # param_override:
             #   maxVelocity:
             #     default: 9_mps

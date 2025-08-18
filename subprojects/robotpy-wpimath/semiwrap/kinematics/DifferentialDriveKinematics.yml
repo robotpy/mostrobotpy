@@ -4,7 +4,7 @@ extra_includes:
 classes:
   frc::DifferentialDriveKinematics:
     attributes:
-      trackWidth:
+      trackwidth:
     methods:
       DifferentialDriveKinematics:
       ToChassisSpeeds:

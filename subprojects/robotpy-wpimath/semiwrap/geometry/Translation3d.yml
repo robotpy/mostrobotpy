@@ -34,13 +34,13 @@ classes:
       operator*:
       operator/:
       operator==:
-      operator!=:
       Nearest:
         overloads:
           std::span<const Translation3d> [const]:
           std::initializer_list<Translation3d> [const]:
             ignore: true
 
+      RotateAround:
 inline_code: |
   cls_Translation3d
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y, units::foot_t z){

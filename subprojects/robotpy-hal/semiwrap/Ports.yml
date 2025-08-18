@@ -2,20 +2,13 @@ strip_prefixes:
 - HAL_
 
 functions:
-  HAL_GetNumAccumulators:
-  HAL_GetNumAnalogTriggers:
   HAL_GetNumAnalogInputs:
-  HAL_GetNumAnalogOutputs:
   HAL_GetNumCounters:
-  HAL_GetNumDigitalHeaders:
-  HAL_GetNumPWMHeaders:
   HAL_GetNumDigitalChannels:
   HAL_GetNumPWMChannels:
   HAL_GetNumDigitalPWMOutputs:
   HAL_GetNumEncoders:
   HAL_GetNumInterrupts:
-  HAL_GetNumRelayChannels:
-  HAL_GetNumRelayHeaders:
   HAL_GetNumDutyCycles:
   HAL_GetNumAddressableLEDs:
   HAL_GetNumCTREPCMModules:
@@ -26,3 +19,4 @@ functions:
   HAL_GetNumREVPDHChannels:
   HAL_GetNumREVPHModules:
   HAL_GetNumREVPHChannels:
+  HAL_GetNumCanBuses:

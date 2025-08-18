@@ -27,8 +27,6 @@ classes:
       TeleopExit:
       TestExit:
       SetNetworkTablesFlushEnabled:
-      EnableLiveWindowInTest:
-      IsLiveWindowEnabledInTest:
       GetPeriod:
       PrintWatchdogEpochs:
     doc: |

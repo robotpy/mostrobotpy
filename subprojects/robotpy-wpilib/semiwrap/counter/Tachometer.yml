@@ -1,4 +1,3 @@
-
 classes:
   frc::Tachometer:
     ignored_bases:
@@ -15,8 +14,6 @@ classes:
       GetRevolutionsPerSecond:
       GetRevolutionsPerMinute:
       GetStopped:
-      GetSamplesToAverage:
-      SetSamplesToAverage:
       SetMaxPeriod:
-      SetUpdateWhenEmpty:
       InitSendable:
+      SetEdgeConfiguration:
