@@ -34,16 +34,13 @@ classes:
       Sin:
       Tan:
       operator+:
-      operator+=:
       operator-:
         overloads:
           const Rotation2d& [const]:
           '[const]':
-      operator-=:
       operator*:
       operator/:
       operator==:
-      operator!=:
 
 inline_code: |
   cls_Rotation2d

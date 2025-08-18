@@ -1,4 +1,3 @@
-
 extra_includes:
 - wpi/sendable/Sendable.h
 - pybind11/functional.h
@@ -6,8 +5,6 @@ extra_includes:
 classes:
   frc::LiveWindow:
     methods:
-      GetInstance:
-        ignore: true
       SetEnabledCallback:
       SetDisabledCallback:
       EnableTelemetry:

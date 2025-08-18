@@ -1,5 +1,3 @@
----
-
 extra_includes:
 - wpi/sendable/Sendable.h
 - wpi/sendable/SendableBuilder.h
@@ -72,5 +70,15 @@ classes:
       Update:
       ForeachLiveWindow:
         ignore: true
+      EnsureInitialized:
   wpi::SendableRegistry::CallbackData:
     ignore: true
+    attributes:
+      sendable:
+      name:
+      subsystem:
+      parent:
+      data:
+      builder:
+    methods:
+      CallbackData:

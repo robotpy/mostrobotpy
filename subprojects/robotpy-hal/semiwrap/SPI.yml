@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HAL_
 
@@ -7,15 +5,15 @@ functions:
   HAL_InitializeSPI:
   HAL_TransactionSPI:
     buffers:
-    - { type: IN, src: dataToSend, len: size }
-    - { type: OUT, src: dataReceived, len: size }
+    - {type: IN, src: dataToSend, len: size}
+    - {type: OUT, src: dataReceived, len: size}
     # TODO: dataToSend buffer must be at least as long as dataReceived buffer
   HAL_WriteSPI:
     buffers:
-    - { type: IN, src: dataToSend, len: sendSize }
+    - {type: IN, src: dataToSend, len: sendSize}
   HAL_ReadSPI:
     buffers:
-    - { type: OUT, src: buffer, len: count }
+    - {type: OUT, src: buffer, len: count}
   HAL_CloseSPI:
   HAL_SetSPISpeed:
   HAL_SetSPIMode:
@@ -31,10 +29,10 @@ functions:
   HAL_StopSPIAuto:
   HAL_SetSPIAutoTransmitData:
     buffers:
-    - { type: IN, src: dataToSend, len: dataSize }
+    - {type: IN, src: dataToSend, len: dataSize}
   HAL_ForceSPIAutoRead:
   HAL_ReadSPIAutoReceivedData:
     buffers:
-    - { type: OUT, src: buffer, len: numToRead }
+    - {type: OUT, src: buffer, len: numToRead}
   HAL_GetSPIAutoDroppedCount:
   HAL_ConfigureSPIAutoStall:

@@ -35,8 +35,6 @@ classes:
       GetAccumulatorOutput:
       SetSampleRate:
       GetSampleRate:
-      PIDGet:
-        rename: pidGet
       SetSimDevice:
       InitSendable:
 

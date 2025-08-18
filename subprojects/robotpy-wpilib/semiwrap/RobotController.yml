@@ -12,8 +12,6 @@ classes:
   frc::RobotController:
     nodelete: true
     methods:
-      RobotController:
-        ignore: true
       GetFPGAVersion:
       GetFPGARevision:
       GetSerialNumber:

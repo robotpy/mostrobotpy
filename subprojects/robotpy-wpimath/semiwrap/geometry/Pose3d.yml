@@ -28,7 +28,6 @@ classes:
       operator+:
       operator-:
       operator==:
-      operator!=:
       Translation:
       X:
       Y:
@@ -43,6 +42,7 @@ classes:
       Log:
       ToMatrix:
       ToPose2d:
+      RotateAround:
 
 inline_code: |
   cls_Pose3d

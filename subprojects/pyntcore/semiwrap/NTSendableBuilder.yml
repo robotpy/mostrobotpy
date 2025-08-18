@@ -1,4 +1,3 @@
-
 classes:
   nt::NTSendableBuilder:
     force_type_casters:

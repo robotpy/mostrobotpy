@@ -8,7 +8,6 @@ classes:
       left:
       right:
     methods:
-      Normalize:
       Desaturate:
       operator+:
       operator-:

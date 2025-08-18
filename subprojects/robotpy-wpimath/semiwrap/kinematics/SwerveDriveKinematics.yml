@@ -1,4 +1,3 @@
-
 classes:
   frc::SwerveDriveKinematics:
     force_type_casters:
@@ -9,8 +8,6 @@ classes:
       SwerveDriveKinematics:
         overloads:
           ModuleTranslations&&...:
-            ignore: true
-          Translation2d, Wheels&&...:
             ignore: true
           const wpi::array<Translation2d, NumModules>&:
             ignore: true
@@ -66,8 +63,7 @@ classes:
                 frc::SwerveDriveKinematics<NumModules>::DesaturateWheelSpeeds(&moduleStates, attainableMaxSpeed);
                 return moduleStates;
               }
-          ? wpi::array<SwerveModuleState, NumModules>*, ChassisSpeeds, units::meters_per_second_t,
-            units::meters_per_second_t, units::radians_per_second_t
+          ? wpi::array<SwerveModuleState, NumModules>*, ChassisSpeeds, units::meters_per_second_t, units::meters_per_second_t, units::radians_per_second_t
           : cpp_code: |
               [](wpi::array<SwerveModuleState, NumModules> moduleStates,
                   ChassisSpeeds currentChassisSpeed,

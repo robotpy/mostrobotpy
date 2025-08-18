@@ -1,4 +1,3 @@
-
 extra_includes:
 - networktables/GenericEntry.h
 - networktables/NetworkTableInstance.h
@@ -42,7 +41,6 @@ classes:
           const PubSubOptions&:
           std::string_view, const PubSubOptions&:
       operator==:
-      operator!=:
     inline_code: |
       .def("__repr__", [](py::handle self) {
         py::object type_name = self.get_type().attr("__qualname__");

@@ -8,18 +8,6 @@ classes:
     - frc::ADXL345_SPI::Range::kRange_2G
     ignored_bases:
     - wpi::SendableHelper<ADXL345_SPI>
-    attributes:
-      m_spi:
-        ignore: true
-      m_simDevice:
-      m_simRange:
-      m_simX:
-      m_simY:
-      m_simZ:
-      kPowerCtlRegister:
-      kDataFormatRegister:
-      kDataRegister:
-      kGsPerLSB:
     enums:
       Axes:
       Range:

@@ -38,12 +38,11 @@ classes:
       X:
       Y:
       operator+:
-      operator+=:
       operator-:
       operator==:
-      operator!=:
       operator*:
       operator/:
+      RotateAround:
 
 inline_code: |
   cls_Pose2d

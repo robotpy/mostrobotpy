@@ -11,8 +11,7 @@ classes:
         overloads:
           const LinearSystem<States, Inputs, Outputs>&, const LinearSystem<States, Inputs, Outputs>&:
             ignore: true
-          ? const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const
-            Matrixd<States, States>&, const Matrixd<States, Inputs>&
+          ? const Matrixd<States, States>&, const Matrixd<States, Inputs>&, const Matrixd<States, States>&, const Matrixd<States, Inputs>&
           :
       U:
         overloads:

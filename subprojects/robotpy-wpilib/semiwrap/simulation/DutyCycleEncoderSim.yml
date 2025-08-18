@@ -10,10 +10,5 @@ classes:
           int:
       Get:
       Set:
-      GetDistance:
-      SetDistance:
-      GetAbsolutePosition:
-      SetAbsolutePosition:
-      GetDistancePerRotation:
       IsConnected:
       SetConnected:

@@ -18,9 +18,6 @@ classes:
       RegisterPulseMicrosecondCallback:
       GetPulseMicrosecond:
       SetPulseMicrosecond:
-      RegisterRawValueCallback:
-      GetRawValue:
-      SetRawValue:
       RegisterSpeedCallback:
       GetSpeed:
       SetSpeed:

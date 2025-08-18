@@ -2,11 +2,6 @@ extra_includes:
 - rpy/geometryToString.h
 - wpystruct.h
 
-functions:
-  to_json:
-    ignore: true
-  from_json:
-    ignore: true
 classes:
   frc::Transform3d:
     methods:
@@ -33,7 +28,6 @@ classes:
       operator/:
       operator+:
       operator==:
-      operator!=:
 
 
 inline_code: |

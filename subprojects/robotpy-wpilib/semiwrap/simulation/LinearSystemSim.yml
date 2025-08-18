@@ -1,8 +1,7 @@
 classes:
   frc::sim::LinearSystemSim:
     typealias:
-    - template <int S, int I, int O> using LinearSystem = frc::LinearSystem<S, I,
-      O>
+    - template <int S, int I, int O> using LinearSystem = frc::LinearSystem<S, I, O>
     - template <int I> using Vectord = frc::Vectord<I>
     template_params:
     - int States
@@ -33,7 +32,6 @@ classes:
           '[const]':
           int [const]:
       SetState:
-      GetCurrentDraw:
       UpdateX:
       ClampInput:
 

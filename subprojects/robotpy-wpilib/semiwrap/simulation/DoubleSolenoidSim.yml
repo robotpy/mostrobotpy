@@ -1,4 +1,3 @@
-
 classes:
   frc::sim::DoubleSolenoidSim:
     typealias:

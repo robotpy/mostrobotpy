@@ -34,7 +34,7 @@ classes:
       operator*:
       operator/:
       operator==:
-      operator!=:
+      RotateAround:
 
 inline_code: |
   cls_Translation3d

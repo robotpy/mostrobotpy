@@ -1,4 +1,3 @@
-
 functions:
   GetThreadPriority:
     ignore: true

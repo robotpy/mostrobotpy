@@ -41,16 +41,8 @@ classes:
       DifferentialDrivePoseEstimator:
         overloads:
           DifferentialDriveKinematics&, const Rotation2d&, units::meter_t, units::meter_t, const Pose2d&:
-          ? DifferentialDriveKinematics&, const Rotation2d&, units::meter_t, units::meter_t,
-            const Pose2d&, const wpi::array<double, 3>&, const wpi::array<double,
-            3>&
+          ? DifferentialDriveKinematics&, const Rotation2d&, units::meter_t, units::meter_t, const Pose2d&, const wpi::array<double, 3>&, const wpi::array<double, 3>&
           :
-      SetVisionMeasurementStdDevs:
       ResetPosition:
-      GetEstimatedPosition:
-      AddVisionMeasurement:
-        overloads:
-          const Pose2d&, units::second_t:
-          const Pose2d&, units::second_t, const wpi::array<double, 3>&:
       Update:
       UpdateWithTime:

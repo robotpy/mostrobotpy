@@ -34,7 +34,6 @@ classes:
       operator*:
       operator/:
       operator==:
-      operator!=:
       RotateBy:
       GetQuaternion:
       X:
@@ -44,6 +43,7 @@ classes:
       Angle:
       ToMatrix:
       ToRotation2d:
+      ToVector:
 
 inline_code: |
   cls_Rotation3d

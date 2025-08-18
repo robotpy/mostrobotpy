@@ -1,4 +1,3 @@
-
 classes:
   frc::QuinticHermiteSpline:
     force_no_trampoline: true

@@ -1,8 +1,5 @@
-
 classes:
   frc::LEDPattern:
-    attributes:
-      kOff:
     enums:
       GradientType:
     methods:
@@ -10,8 +7,9 @@ classes:
       LEDPattern:
       ApplyTo:
         overloads:
-          std::span<frc::AddressableLED::LEDData>, LEDWriterFn [const]:
           std::span<frc::AddressableLED::LEDData> [const]:
+          LEDReader, std::function<void (int, frc::Color)> [const]:
+          std::span<frc::AddressableLED::LEDData>, std::function<void (int, frc::Color)> [const]:
       Reversed:
       OffsetBy:
       ScrollAtRelativeSpeed:
@@ -39,6 +37,7 @@ classes:
           GradientType, std::initializer_list<Color>:
             ignore: true
       Rainbow:
+      MapIndex:
   frc::LEDPattern::LEDReader:
     methods:
       LEDReader:

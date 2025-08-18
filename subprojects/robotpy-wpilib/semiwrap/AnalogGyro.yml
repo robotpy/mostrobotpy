@@ -12,7 +12,6 @@ classes:
       kSamplesPerSecond:
       kCalibrationSampleTime:
       kDefaultVoltsPerDegreePerSecond:
-      m_analog:
     methods:
       AnalogGyro:
         overloads:

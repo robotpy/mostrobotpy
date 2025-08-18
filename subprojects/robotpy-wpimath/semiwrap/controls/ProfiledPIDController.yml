@@ -4,8 +4,6 @@ defaults:
 functions:
   IncrementAndGetProfiledPIDControllerInstances:
     ignore: true
-  ReportProfiledPIDController:
-    ignore: true
 classes:
   frc::ProfiledPIDController:
     force_type_casters:

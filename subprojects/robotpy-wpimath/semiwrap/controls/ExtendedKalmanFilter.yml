@@ -10,14 +10,9 @@ classes:
     methods:
       ExtendedKalmanFilter:
         overloads:
-          ? std::function<StateVector (const StateVector&, const InputVector&)>, std::function<OutputVector
-            (const StateVector&, const InputVector&)>, const StateArray&, const OutputArray&,
-            units::second_t
+          ? std::function<StateVector (const StateVector&, const InputVector&)>, std::function<OutputVector (const StateVector&, const InputVector&)>, const StateArray&, const OutputArray&, units::second_t
           :
-          ? std::function<StateVector (const StateVector&, const InputVector&)>, std::function<OutputVector
-            (const StateVector&, const InputVector&)>, const StateArray&, const OutputArray&,
-            std::function<OutputVector (const OutputVector&, const OutputVector&)>,
-            std::function<StateVector (const StateVector&, const StateVector&)>, units::second_t
+          ? std::function<StateVector (const StateVector&, const InputVector&)>, std::function<OutputVector (const StateVector&, const InputVector&)>, const StateArray&, const OutputArray&, std::function<OutputVector (const OutputVector&, const OutputVector&)>, std::function<StateVector (const StateVector&, const StateVector&)>, units::second_t
           :
       P:
         overloads:
@@ -38,13 +33,9 @@ classes:
         overloads:
           const InputVector&, const OutputVector&:
           const InputVector&, const OutputVector&, const Matrixd<Outputs, Outputs>&:
-          ? const InputVector&, const Vectord<Rows>&, std::function<Vectord<Rows>
-            (const StateVector&, const InputVector&)>, const Matrixd<Rows, Rows>&
+          ? const InputVector&, const Vectord<Rows>&, std::function<Vectord<Rows> (const StateVector&, const InputVector&)>, const Matrixd<Rows, Rows>&
           : ignore: true
-          ? const InputVector&, const Vectord<Rows>&, std::function<Vectord<Rows>
-            (const StateVector&, const InputVector&)>, const Matrixd<Rows, Rows>&,
-            std::function<Vectord<Rows> (const Vectord<Rows>&, const Vectord<Rows>&)>,
-            std::function<StateVector (const StateVector&, const StateVector&)>
+          ? const InputVector&, const Vectord<Rows>&, std::function<Vectord<Rows> (const StateVector&, const InputVector&)>, const Matrixd<Rows, Rows>&, std::function<Vectord<Rows> (const Vectord<Rows>&, const Vectord<Rows>&)>, std::function<StateVector (const StateVector&, const StateVector&)>
           : ignore: true
 
 

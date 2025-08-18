@@ -15,9 +15,6 @@ functions:
 classes:
   frc::RobotBase:
     attributes:
-      m_ds:
-        rename: ds
-        access: readonly
       m_threadId:
         ignore: true
       connListenerHandle:
@@ -28,13 +25,10 @@ classes:
       IsDisabled:
       IsAutonomous:
       IsAutonomousEnabled:
-      IsOperatorControl:
       IsTeleop:
-      IsOperatorControlEnabled:
       IsTeleopEnabled:
       IsTest:
       IsTestEnabled:
-      IsNewDataAvailable:
       GetThreadId:
         ignore: true
       StartCompetition:

@@ -144,7 +144,6 @@ classes:
           const char*:
           const char*, int:
           const char*, int, int:
-          HAL_SimDeviceHandle:
       GetName:
       CreateValue:
         ignore: true
@@ -183,7 +182,7 @@ classes:
       CreateInt:
       CreateLong:
 
-inline_code: |
+inline_code: |2
 
   cls_SimValue
     .def_property_readonly("value", [](const hal::SimValue &self) -> py::object {

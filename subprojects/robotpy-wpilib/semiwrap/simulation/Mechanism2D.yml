@@ -1,6 +1,0 @@
-classes:
-  frc::sim::Mechanism2D:
-    methods:
-      Mechanism2D:
-      SetLigamentAngle:
-      SetLigamentLength:

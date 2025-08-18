@@ -14,8 +14,6 @@ classes:
       GetInverted:
       Disable:
       Enable:
-      PIDWrite:
-        rename: pidWrite
       StopMotor:
       GetDescription:
       GetChannel:

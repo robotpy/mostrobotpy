@@ -17,7 +17,6 @@ classes:
           const Rectangle2d&, const Constraint&:
       MaxVelocity:
       MinMaxAcceleration:
-      IsPoseInRegion:
 
 templates:
   RectangularRegionConstraint:

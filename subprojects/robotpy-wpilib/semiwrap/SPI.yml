@@ -3,13 +3,6 @@ extra_includes:
 
 classes:
   frc::SPI:
-    attributes:
-      m_port:
-        ignore: true
-      m_mode:
-      m_msbFirst:
-      m_sampleOnTrailing:
-      m_clockIdleHigh:
     enums:
       Mode:
       Port:
@@ -17,16 +10,6 @@ classes:
       SPI:
       GetPort:
       SetClockRate:
-      SetMSBFirst:
-      SetLSBFirst:
-      SetSampleDataOnLeadingEdge:
-      SetSampleDataOnTrailingEdge:
-      SetSampleDataOnFalling:
-        ignore: true
-      SetSampleDataOnRising:
-        ignore: true
-      SetClockActiveLow:
-      SetClockActiveHigh:
       SetMode:
       SetChipSelectActiveHigh:
       SetChipSelectActiveLow:

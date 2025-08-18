@@ -1,4 +1,3 @@
-
 functions:
   format_as:
     ignore: true
@@ -17,6 +16,9 @@ classes:
       SetSyncTime:
       Start:
       Stop:
+      SetColorOrder:
+    enums:
+      ColorOrder:
   frc::AddressableLED::LEDData:
     force_no_trampoline: true
     base_qualnames:
