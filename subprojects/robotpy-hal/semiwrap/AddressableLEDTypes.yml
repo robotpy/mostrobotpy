@@ -13,3 +13,4 @@ enums:
   HAL_AddressableLEDColorOrder:
 functions:
   format_as:
+    ignore: true
