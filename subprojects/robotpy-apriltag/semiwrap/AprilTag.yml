@@ -1,4 +1,3 @@
-
 functions:
   to_json:
     ignore: true

@@ -1,12 +1,8 @@
----
-
 strip_prefixes:
 - HALSIM_
 
 functions:
-  HALSIM_FindDutyCycleForChannel:
   HALSIM_ResetDutyCycleData:
-  HALSIM_GetDutyCycleDigitalChannel:
   HALSIM_RegisterDutyCycleInitializedCallback:
     ignore: true
   HALSIM_CancelDutyCycleInitializedCallback:

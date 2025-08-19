@@ -8,10 +8,8 @@ classes:
     methods:
       Servo:
       Set:
-      SetOffline:
       Get:
       SetAngle:
       GetAngle:
-      GetMaxAngle:
-      GetMinAngle:
       InitSendable:
+      GetChannel:

@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HAL_
 
@@ -15,5 +13,4 @@ classes:
   HAL_CANStreamMessage:
     attributes:
       messageId:
-      timeStamp:
       message:

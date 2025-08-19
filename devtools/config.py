@@ -16,6 +16,8 @@ class SubprojectConfig:
     #: Whether `ci scan-headers` should include this project
     ci_scan_headers: bool = True
 
+    ci_update_yaml: bool = True
+
 
 @dataclasses.dataclass
 class Parameters:

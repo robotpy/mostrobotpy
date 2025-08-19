@@ -1,4 +1,3 @@
-
 defaults:
   ignore: true
   report_ignored_missing: false
@@ -7,8 +6,6 @@ extra_includes:
 - pybind11/stl.h
 - networktables/Topic.h
 
-attributes:
-  kDefaultPubSubOptions:
 functions:
   RemoveListener:
     internal: true
@@ -58,8 +55,6 @@ classes:
         ignore: true
     methods:
       GetProperties:
-      swap:
-        ignore: true
     inline_code: |
       .def_property_readonly("topic", [](const TopicInfo &self) {
         return std::make_shared<nt::Topic>(self.topic);
@@ -78,9 +73,6 @@ classes:
       remote_port:
       last_update:
       protocol_version:
-    methods:
-      swap:
-        ignore: true
     inline_code: |
       .def("__repr__", [](const ConnectionInfo &self) -> py::str {
         return py::str("<ConnectionInfo id={} addr={}:{} last_update={} protocol={}>")

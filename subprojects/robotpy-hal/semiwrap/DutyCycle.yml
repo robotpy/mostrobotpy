@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HAL_
 
@@ -11,5 +9,3 @@ functions:
   HAL_GetDutyCycleFrequency:
   HAL_GetDutyCycleOutput:
   HAL_GetDutyCycleHighTime:
-  HAL_GetDutyCycleOutputScaleFactor:
-  HAL_GetDutyCycleFPGAIndex:

@@ -6,13 +6,6 @@ classes:
   frc::AnalogGyro:
     ignored_bases:
     - wpi::SendableHelper<AnalogGyro>
-    attributes:
-      kOversampleBits:
-      kAverageBits:
-      kSamplesPerSecond:
-      kCalibrationSampleTime:
-      kDefaultVoltsPerDegreePerSecond:
-      m_analog:
     methods:
       AnalogGyro:
         overloads:

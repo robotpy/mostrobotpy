@@ -1,11 +1,9 @@
----
-
 extra_includes:
 - sim_cb.h
 - pybind11/functional.h
 
 strip_prefixes:
-  - HALSIM_
+- HALSIM_
 
 functions:
   HALSIM_SetRuntimeType:

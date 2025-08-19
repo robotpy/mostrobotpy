@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HAL_
 
@@ -22,7 +20,3 @@ functions:
   HAL_PulseMultiple:
   HAL_IsPulsing:
   HAL_IsAnyPulsing:
-  HAL_SetFilterSelect:
-  HAL_GetFilterSelect:
-  HAL_SetFilterPeriod:
-  HAL_GetFilterPeriod:

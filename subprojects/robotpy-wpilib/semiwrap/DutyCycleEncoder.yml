@@ -15,35 +15,17 @@ classes:
           DutyCycle*:
             ignore: true
           std::shared_ptr<DutyCycle>:
-          DigitalSource&:
-            ignore: true
-          DigitalSource*:
-            ignore: true
-          std::shared_ptr<DigitalSource>:
           int, double, double:
           DutyCycle&, double, double:
             ignore: true
           DutyCycle*, double, double:
             ignore: true
           std::shared_ptr<DutyCycle>, double, double:
-          DigitalSource&, double, double:
-            ignore: true
-          DigitalSource*, double, double:
-            ignore: true
-          std::shared_ptr<DigitalSource>, double, double:
       GetFrequency:
       IsConnected:
       SetConnectedFrequencyThreshold:
-      Reset:
       Get:
-      GetAbsolutePosition:
-      GetPositionOffset:
-      SetPositionOffset:
-      SetDistancePerRotation:
-      GetDistancePerRotation:
-      GetDistance:
       SetDutyCycleRange:
-      GetFPGAIndex:
       GetSourceChannel:
       SetAssumedFrequency:
       SetInverted:

@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HAL_
 
@@ -27,7 +25,6 @@ functions:
   HAL_SetEncoderReverseDirection:
   HAL_SetEncoderSamplesToAverage:
   HAL_GetEncoderSamplesToAverage:
-  HAL_SetEncoderIndexSource:
   HAL_GetEncoderFPGAIndex:
   HAL_GetEncoderDecodingScaleFactor:
   HAL_GetEncoderDistancePerPulse:

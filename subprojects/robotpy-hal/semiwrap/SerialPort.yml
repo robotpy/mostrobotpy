@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HAL_
 
@@ -23,10 +21,10 @@ functions:
   HAL_GetSerialBytesReceived:
   HAL_ReadSerial:
     buffers:
-    - { type: OUT, src: buffer, len: count }
+    - {type: OUT, src: buffer, len: count}
   HAL_WriteSerial:
     buffers:
-    - { type: IN, src: buffer, len: count }
+    - {type: IN, src: buffer, len: count}
   HAL_FlushSerial:
   HAL_ClearSerial:
   HAL_CloseSerial:

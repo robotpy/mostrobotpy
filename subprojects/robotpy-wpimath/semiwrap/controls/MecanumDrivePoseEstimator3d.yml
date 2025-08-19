@@ -8,7 +8,5 @@ classes:
       MecanumDrivePoseEstimator3d:
         overloads:
           MecanumDriveKinematics&, const Rotation3d&, const MecanumDriveWheelPositions&, const Pose3d&:
-          ? MecanumDriveKinematics&, const Rotation3d&, const MecanumDriveWheelPositions&,
-            const Pose3d&, const wpi::array<double, 4>&, const wpi::array<double,
-            4>&
+          ? MecanumDriveKinematics&, const Rotation3d&, const MecanumDriveWheelPositions&, const Pose3d&, const wpi::array<double, 4>&, const wpi::array<double, 4>&
           :

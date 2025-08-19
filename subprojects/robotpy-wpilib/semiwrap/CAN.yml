@@ -6,8 +6,8 @@ classes:
     methods:
       CAN:
         overloads:
-          int:
-          int, int, int:
+          int, int:
+          int, int, int, int:
       WritePacket:
       WritePacketNoError:
       WritePacketRepeating:
@@ -18,4 +18,3 @@ classes:
       ReadPacketNew:
       ReadPacketLatest:
       ReadPacketTimeout:
-      GetTimestampBaseTime:

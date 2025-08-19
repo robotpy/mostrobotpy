@@ -1,5 +1,3 @@
----
-
 classes:
   wpi::log::DataLogWriter:
     methods:

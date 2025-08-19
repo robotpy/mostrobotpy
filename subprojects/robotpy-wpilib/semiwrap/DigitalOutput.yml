@@ -9,9 +9,6 @@ classes:
       DigitalOutput:
       Set:
       Get:
-      GetPortHandleForRouting:
-      GetAnalogTriggerTypeForRouting:
-      IsAnalogTrigger:
       GetChannel:
       Pulse:
       IsPulsing:

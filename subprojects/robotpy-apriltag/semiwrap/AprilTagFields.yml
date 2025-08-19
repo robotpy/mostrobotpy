@@ -1,5 +1,2 @@
-
 enums:
   AprilTagField:
-functions:
-  LoadAprilTagLayoutField:

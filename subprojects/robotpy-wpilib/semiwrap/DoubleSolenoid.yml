@@ -11,7 +11,7 @@ classes:
       DoubleSolenoid:
         overloads:
           int, PneumaticsModuleType, int, int:
-          PneumaticsModuleType, int, int:
+          int, int, PneumaticsModuleType, int, int:
       Set:
       Get:
       Toggle:

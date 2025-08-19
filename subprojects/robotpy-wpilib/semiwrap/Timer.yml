@@ -3,8 +3,6 @@ functions:
   GetTime:
 classes:
   frc::Timer:
-    attributes:
-      kRolloverTime:
     methods:
       Timer:
       Get:
@@ -12,7 +10,6 @@ classes:
       Start:
       Restart:
       Stop:
-      HasPeriodPassed:
       GetFPGATimestamp:
       GetMatchTime:
       HasElapsed:

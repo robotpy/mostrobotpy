@@ -10,7 +10,6 @@ classes:
       PWMSim:
         overloads:
           const PWM&:
-          const PWMMotorController&:
           int:
       RegisterInitializedCallback:
       GetInitialized:
@@ -18,19 +17,7 @@ classes:
       RegisterPulseMicrosecondCallback:
       GetPulseMicrosecond:
       SetPulseMicrosecond:
-      RegisterRawValueCallback:
-      GetRawValue:
-      SetRawValue:
-      RegisterSpeedCallback:
-      GetSpeed:
-      SetSpeed:
-      RegisterPositionCallback:
-      GetPosition:
-      SetPosition:
-      RegisterPeriodScaleCallback:
-      GetPeriodScale:
-      SetPeriodScale:
-      RegisterZeroLatchCallback:
-      GetZeroLatch:
-      SetZeroLatch:
       ResetData:
+      RegisterOutputPeriodCallback:
+      GetOutputPeriod:
+      SetOutputPeriod:

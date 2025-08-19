@@ -1,5 +1,3 @@
----
-
 strip_prefixes:
 - HALSIM_
 
@@ -26,30 +24,5 @@ functions:
   HALSIM_CancelAnalogInVoltageCallback:
   HALSIM_GetAnalogInVoltage:
   HALSIM_SetAnalogInVoltage:
-  HALSIM_RegisterAnalogInAccumulatorInitializedCallback:
-    ignore: true
-  HALSIM_CancelAnalogInAccumulatorInitializedCallback:
-  HALSIM_GetAnalogInAccumulatorInitialized:
-  HALSIM_SetAnalogInAccumulatorInitialized:
-  HALSIM_RegisterAnalogInAccumulatorValueCallback:
-    ignore: true
-  HALSIM_CancelAnalogInAccumulatorValueCallback:
-  HALSIM_GetAnalogInAccumulatorValue:
-  HALSIM_SetAnalogInAccumulatorValue:
-  HALSIM_RegisterAnalogInAccumulatorCountCallback:
-    ignore: true
-  HALSIM_CancelAnalogInAccumulatorCountCallback:
-  HALSIM_GetAnalogInAccumulatorCount:
-  HALSIM_SetAnalogInAccumulatorCount:
-  HALSIM_RegisterAnalogInAccumulatorCenterCallback:
-    ignore: true
-  HALSIM_CancelAnalogInAccumulatorCenterCallback:
-  HALSIM_GetAnalogInAccumulatorCenter:
-  HALSIM_SetAnalogInAccumulatorCenter:
-  HALSIM_RegisterAnalogInAccumulatorDeadbandCallback:
-    ignore: true
-  HALSIM_CancelAnalogInAccumulatorDeadbandCallback:
-  HALSIM_GetAnalogInAccumulatorDeadband:
-  HALSIM_SetAnalogInAccumulatorDeadband:
   HALSIM_RegisterAnalogInAllCallbacks:
     ignore: true

@@ -7,8 +7,6 @@ classes:
     - wpi::SendableHelper<Encoder>
     typealias:
     - frc::Encoder::EncodingType
-    enums:
-      IndexingType:
     methods:
       Encoder:
         overloads:
@@ -40,18 +38,6 @@ classes:
       SetReverseDirection:
       SetSamplesToAverage:
       GetSamplesToAverage:
-      PIDGet:
-        rename: pidGet
-      SetIndexSource:
-        overloads:
-          int, IndexingType:
-            param_override:
-              type:
-                default: frc::Encoder::IndexingType::kResetOnRisingEdge
-          const DigitalSource&, IndexingType:
-            param_override:
-              type:
-                default: frc::Encoder::IndexingType::kResetOnRisingEdge
       SetSimDevice:
       GetFPGAIndex:
       InitSendable:
