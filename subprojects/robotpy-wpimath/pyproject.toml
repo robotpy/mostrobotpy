@@ -45,6 +45,8 @@ update_init = [
     "wpimath.estimator wpimath._controls._controls.estimator",
     "wpimath.filter",
     "wpimath.geometry",
+    "wpimath.kinematics",
+    "wpimath.interpolation",
     "wpimath.optimization wpimath._controls._controls.optimization",
     "wpimath.path wpimath._controls._controls.path",
     "wpimath.spline",
