@@ -10,3 +10,5 @@ validobj~=1.2
 
 ninja
 msvc-runtime>=14.42.34433; platform_system == 'Windows'
+
+auditwheel~=6.4; platform_system == 'Linux'
