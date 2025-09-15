@@ -104,7 +104,7 @@ class ImageWriter:
         if self._location is None:
             # This assures that we only log when a USB memory stick is plugged in
             if not os.path.exists(self.location_root):
-                raise IOError(
+                raise OSError(
                     "Logging disabled, %s does not exist" % self.location_root
                 )
 
@@ -139,7 +139,7 @@ class ImageWriter:
 
                 last = now
 
-        except IOError as e:
+        except OSError as e:
             logger.error("Error logging images: %s", e)
 
         logger.warn("Storage thread exited")
