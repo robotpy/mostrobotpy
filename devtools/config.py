@@ -24,6 +24,9 @@ class Parameters:
     wpilib_bin_version: str
     wpilib_bin_url: str
 
+    #: renames [project.entry-points.KEY*] to [project.entry-points.VALUE]
+    entrypoints: T.Dict[str, str]
+
     exclude_artifacts: T.Set[str]
 
     requirements: T.Dict[str, str]

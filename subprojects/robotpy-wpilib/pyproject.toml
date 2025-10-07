@@ -32,7 +32,7 @@ dependencies = [
 [project.urls]
 "Source code" = "https://github.com/robotpy/mostrobotpy"
 
-[project.entry-points.robotpy]
+[project.entry-points."robotpy_cli.2026"]
 run = "wpilib._impl.start:Main"
 
 

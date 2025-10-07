@@ -33,6 +33,14 @@ exclude_artifacts = [
 
 robot_wheel_platform = "linux-roborio"
 
+[params.entrypoints]
+# prefix = "actual"
+# - ensures that [project.entry-points.prefix*] are renamed to "actual", which
+#   makes it easy to upgrade them each year (https://github.com/robotpy/robotpy-cli/issues/5)
+# - also reminds me that we have to bump it every year ^_^
+robotpy_sim = "robotpy_sim.2026"
+robotpy_cli = "robotpy_cli.2026"
+
 [params.requirements]
 semiwrap = "~=0.1.7"
 hatch-meson = "~=0.1.0b2"
