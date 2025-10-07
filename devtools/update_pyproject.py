@@ -40,7 +40,7 @@ class ProjectUpdater:
         # and retain all the comments
         self.subprojects: typing.Dict[str, ProjectInfo] = {}
         for name, project in self.ctx.subprojects.items():
-            with open(project.pyproject_path, "r") as fp:
+            with open(project.pyproject_path) as fp:
                 data = tomlkit.load(fp)
 
             self.subprojects[name] = ProjectInfo(
