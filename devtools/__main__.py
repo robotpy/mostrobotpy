@@ -7,6 +7,8 @@ import click
 from .ctx import Context
 from . import ci
 from . import update_pyproject
+from . import util
+
 
 #
 # Environment variables for configuring the builds
@@ -59,6 +61,29 @@ def develop(ctx: Context, package: str):
     else:
         for project in ctx.subprojects.values():
             project.develop()
+
+
+@main.command()
+@click.pass_obj
+def install_prereqs(ctx: Context):
+    """Install developer build dependencies before running develop"""
+
+    reqs = set()
+    reqs.add("editables")
+    reqs.add("numpy")
+    reqs.add("pytest")
+
+    repo_deps = set()
+
+    for project in ctx.subprojects.values():
+        with ctx.handle_exception(project.name):
+            repo_deps.add(project.pyproject_name)
+
+            for req in project.build_requires + project.dependencies:
+                if req.name not in repo_deps:
+                    reqs.add(req)
+
+    util.run_pip("install", *map(str, reqs))
 
 
 @main.command()

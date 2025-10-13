@@ -46,7 +46,7 @@ semiwrap = "~=0.1.7"
 hatch-meson = "~=0.1.0b2"
 hatch-nativelib = "~=0.2.0"
 hatch-robotpy = "~=0.2"
-
+# robotpy-cli = "~=2026.0.0b1"
 
 [subprojects."robotpy-native-wpiutil"]
 py_version = "native"
