@@ -42,7 +42,11 @@ Development environment
 -----------------------
 
 To install all robotpy packages in [editable mode](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#working-in-development-mode)
-run this:
+first run this to install dependencies:
+
+    ./rdev.sh install-prereqs
+
+Then each time you want to build everything:
 
     ./rdev.sh develop
 
@@ -55,7 +59,7 @@ rebuild an individual package:
 
     ./rdev.sh develop NAME
 
-It can be a slow process,see the [robotpy-build documentation](https://robotpy-build.readthedocs.io/en/stable/tips.html)
+It can be a slow process, see the [semiwrap documentation](https://semiwrap.readthedocs.io/en/stable/tips.html)
 for tips to make it more efficient.
 
 Cross Compilation
