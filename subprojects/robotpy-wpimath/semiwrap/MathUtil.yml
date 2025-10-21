@@ -15,8 +15,12 @@ functions:
     param_override:
       maxMagnitude:
         default: '1.0'
-    template_impls:
-    - [double]
+    overloads:
+      T, T, T:
+        template_impls:
+        - [double]
+      const Eigen::Vector<T, N>&, T, T:
+        ignore: true
   IsNear:
     overloads:
       T, T, T:
@@ -31,3 +35,8 @@ functions:
     overloads:
       const Translation2d&, const Translation2d&, units::second_t, units::meters_per_second_t:
       const Translation3d&, const Translation3d&, units::second_t, units::meters_per_second_t:
+  CopySignPow:
+    template_impls:
+    - [double]
+  CopyDirectionPow:
+    ignore: true
