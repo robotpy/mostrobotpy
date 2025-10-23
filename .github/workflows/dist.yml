@@ -135,6 +135,7 @@ jobs:
         - '3.11'
         - '3.12'
         - '3.13'
+        - '3.14'
         include:
         - os: ubuntu-22.04-arm
           python_version: '3.11'
@@ -145,6 +146,9 @@ jobs:
         - os: ubuntu-22.04-arm
           python_version: '3.13'
           container: python:3.13-bookworm
+        - os: ubuntu-22.04-arm
+          python_version: '3.14'
+          container: python:3.14-bookworm
 
     container: ${{ matrix.container }}
 
@@ -235,9 +239,9 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
+        - container: wpilib/roborio-cross-ubuntu:2026-22.04-py314
           name: roborio
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
+        - container: wpilib/raspbian-cross-ubuntu:2026-bookworm-22.04-py314
           name: raspbian
 
     container:
@@ -273,18 +277,21 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/roborio-cross-ubuntu:2025-22.04-py313
+        - container: wpilib/roborio-cross-ubuntu:2026-22.04-py314
           name: roborio
           base: roborio
 
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py311
+        - container: wpilib/raspbian-cross-ubuntu:2026-bookworm-22.04-py311
           name: raspbian-py311
           base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py312
+        - container: wpilib/raspbian-cross-ubuntu:2026-bookworm-22.04-py312
           name: raspbian-py312
           base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-22.04-py313
+        - container: wpilib/raspbian-cross-ubuntu:2026-bookworm-22.04-py313
           name: raspbian-py313
+          base: raspbian
+        - container: wpilib/raspbian-cross-ubuntu:2026-bookworm-22.04-py314
+          name: raspbian-py314
           base: raspbian
 
     container:
@@ -347,7 +354,7 @@ jobs:
         verify-metadata: false
         user: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         password: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
-        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2025-local
+        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2026-local
 
   publish-rpyrepo-other:
     runs-on: ubuntu-latest
@@ -367,7 +374,7 @@ jobs:
         skip-existing: true     # native packages can be uploaded multiple times
         user: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         password: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
-        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2025-local
+        repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2026-local
 
   publish-pypi:
     runs-on: ubuntu-latest
