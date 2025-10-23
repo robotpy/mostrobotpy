@@ -42,11 +42,11 @@ robotpy_sim = "robotpy_sim.2026"
 robotpy_cli = "robotpy_cli.2026"
 
 [params.requirements]
-semiwrap = "~=0.1.7"
-hatch-meson = "~=0.1.0b2"
+semiwrap = "~=0.2.1"
+hatch-meson = "~=0.1.0"
 hatch-nativelib = "~=0.2.0"
-hatch-robotpy = "~=0.2"
-# robotpy-cli = "~=2026.0.0b1"
+hatch-robotpy = "~=0.2.0"
+robotpy-cli = "~=2026.0.1b1"
 
 [subprojects."robotpy-native-wpiutil"]
 py_version = "native"

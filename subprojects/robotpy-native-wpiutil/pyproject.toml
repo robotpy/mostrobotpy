@@ -3,7 +3,7 @@ build-backend = "hatchling.build"
 requires = [
     "hatchling",
     "hatch-nativelib~=0.2.0",
-    "hatch-robotpy~=0.2",
+    "hatch-robotpy~=0.2.0",
 ]
 
 [project]
