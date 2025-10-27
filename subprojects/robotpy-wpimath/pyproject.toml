@@ -75,6 +75,8 @@ scan_headers_ignore = [
     "frc/estimator/UnscentedKalmanFilter.h",
     "frc/estimator/UnscentedTransform.h",
 
+    "frc/geometry/detail/RotationVectorToMatrix.h",
+
     "frc/system/Discretization.h",
     "frc/system/NumericalIntegration.h",
     "frc/system/NumericalJacobian.h",
@@ -1576,7 +1578,6 @@ DifferentialDriveAccelerationLimiter = "frc/controller/DifferentialDriveAccelera
 DifferentialDriveFeedforward = "frc/controller/DifferentialDriveFeedforward.h"
 DifferentialDriveWheelVoltages = "frc/controller/DifferentialDriveWheelVoltages.h"
 ElevatorFeedforward = "frc/controller/ElevatorFeedforward.h"
-HolonomicDriveController = "frc/controller/HolonomicDriveController.h"
 ImplicitModelFollower = "frc/controller/ImplicitModelFollower.h"
 LTVDifferentialDriveController = "frc/controller/LTVDifferentialDriveController.h"
 LTVUnicycleController = "frc/controller/LTVUnicycleController.h"
