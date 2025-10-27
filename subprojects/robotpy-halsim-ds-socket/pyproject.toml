@@ -18,7 +18,7 @@ dependencies = [
     "robotpy-native-wpinet==2027.0.0a2",
 ]
 
-[project.entry-points."robotpy_sim.2026"]
+[project.entry-points."robotpy_sim.2027"]
 ds-socket = "halsim_ds_socket"
 
 

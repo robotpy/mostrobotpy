@@ -1,8 +1,8 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "semiwrap~=0.1.7",
-    "hatch-meson~=0.1.0b2",
+    "semiwrap~=0.2.1",
+    "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
     "hatchling",
     "robotpy-native-wpilib==2027.0.0a2",
@@ -26,13 +26,13 @@ dependencies = [
     "robotpy-wpimath==2027.0.0a2",
     "robotpy-hal==2027.0.0a2",
     "pyntcore==2027.0.0a2",
-    "robotpy-cli~=2024.0b"
+    "robotpy-cli~=2027.0.0a1"
 ]
 
 [project.urls]
 "Source code" = "https://github.com/robotpy/mostrobotpy"
 
-[project.entry-points."robotpy_cli.2026"]
+[project.entry-points."robotpy_cli.2027"]
 run = "wpilib._impl.start:Main"
 
 
