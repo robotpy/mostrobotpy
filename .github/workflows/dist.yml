@@ -131,7 +131,6 @@ jobs:
         - "macos-14" # arm64
         - "windows-2022"
         python_version:
-        - '3.9'
         - '3.10'
         - '3.11'
         - '3.12'

@@ -33,12 +33,20 @@ exclude_artifacts = [
 
 robot_wheel_platform = "linux-systemcore"
 
+[params.entrypoints]
+# prefix = "actual"
+# - ensures that [project.entry-points.prefix*] are renamed to "actual", which
+#   makes it easy to upgrade them each year (https://github.com/robotpy/robotpy-cli/issues/5)
+# - also reminds me that we have to bump it every year ^_^
+robotpy_sim = "robotpy_sim.2026"
+robotpy_cli = "robotpy_cli.2026"
+
 [params.requirements]
 semiwrap = "~=0.1.7"
 hatch-meson = "~=0.1.0b2"
 hatch-nativelib = "~=0.2.0"
 hatch-robotpy = "~=0.2.1"
-
+robotpy-cli = "~=2027.0.0a1"
 
 [subprojects."robotpy-native-wpiutil"]
 py_version = "native"

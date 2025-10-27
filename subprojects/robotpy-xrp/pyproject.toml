@@ -23,7 +23,7 @@ dependencies = [
     "wpilib==2027.0.0a2"
 ]
 
-[project.entry-points.robotpysimext]
+[project.entry-points."robotpy_sim.2026"]
 xrp = "xrp.extension"
 
 

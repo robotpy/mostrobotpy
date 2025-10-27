@@ -4,21 +4,13 @@ functions:
     - [double]
   AngleModulus:
   FloorDiv:
-    template_impls:
-    - [int64_t, int64_t]
-    # work around GCC 10 issue on raspbian
-    cpp_code: |
-      [](int64_t x, int64_t y) -> int64_t {
-        return frc::FloorDiv(x, y);
-      }
+    # Use // operator instead, it's more efficient
+    # - https://github.com/robotpy/mostrobotpy/pull/200
+    ignore: true
   FloorMod:
-    template_impls:
-    - [int64_t, int64_t]
-    # work around GCC 10 issue on raspbian
-    cpp_code: |
-      [](int64_t x, int64_t y) -> int64_t {
-        return frc::FloorMod(x, y);
-      }
+    # Use % operator instead, it's more efficient
+    # - https://github.com/robotpy/mostrobotpy/pull/200
+    ignore: true
   ApplyDeadband:
     param_override:
       maxMagnitude:
