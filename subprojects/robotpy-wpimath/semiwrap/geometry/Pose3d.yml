@@ -43,6 +43,11 @@ classes:
       ToMatrix:
       ToPose2d:
       RotateAround:
+      Nearest:
+        overloads:
+          std::span<const Pose3d> [const]:
+          std::initializer_list<Pose3d> [const]:
+            ignore: true
 
 inline_code: |
   cls_Pose3d
