@@ -146,7 +146,7 @@ jobs:
         - os: ubuntu-24.04-arm
           python_version: '3.13'
           container: python:3.13-bookworm
-        - os: ubuntu-22.04-arm
+        - os: ubuntu-24.04-arm
           python_version: '3.14'
           container: python:3.14-bookworm
 
@@ -239,9 +239,9 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/systemcore-cross-ubuntu:2025-22.04-py313
+        - container: wpilib/systemcore-cross-ubuntu:2026-24.04-py314
           name: systemcore
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py313
+        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py313
           name: raspbian
 
     container:
@@ -277,20 +277,20 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/systemcore-cross-ubuntu:2025-22.04-py313
+        - container: wpilib/systemcore-cross-ubuntu:2026-24.04-py314
           name: systemcore
           base: systemcore
 
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py311
+        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py311
           name: raspbian-py311
           base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py312
+        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py312
           name: raspbian-py312
           base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py313
+        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py313
           name: raspbian-py313
           base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2026-bookworm-22.04-py314
+        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py314
           name: raspbian-py314
           base: raspbian
 
