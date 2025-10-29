@@ -135,6 +135,7 @@ jobs:
         - '3.11'
         - '3.12'
         - '3.13'
+        - '3.14'
         include:
         - os: ubuntu-24.04-arm
           python_version: '3.11'
@@ -145,6 +146,9 @@ jobs:
         - os: ubuntu-24.04-arm
           python_version: '3.13'
           container: python:3.13-bookworm
+        - os: ubuntu-22.04-arm
+          python_version: '3.14'
+          container: python:3.14-bookworm
 
     container: ${{ matrix.container }}
 
@@ -285,6 +289,9 @@ jobs:
           base: raspbian
         - container: wpilib/raspbian-cross-ubuntu:2025-bookworm-24.04-py313
           name: raspbian-py313
+          base: raspbian
+        - container: wpilib/raspbian-cross-ubuntu:2026-bookworm-22.04-py314
+          name: raspbian-py314
           base: raspbian
 
     container:

@@ -36,6 +36,7 @@ classes:
       RelativeTo:
       ToMatrix:
       ToPose2d:
+      RotateAround:
       Nearest:
         overloads:
           std::span<const Pose3d> [const]:

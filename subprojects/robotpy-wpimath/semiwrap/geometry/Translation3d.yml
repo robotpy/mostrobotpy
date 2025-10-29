@@ -34,6 +34,11 @@ classes:
       operator*:
       operator/:
       operator==:
+      RotateAround:
+      SquaredDistance:
+      SquaredNorm:
+      Dot:
+      Cross:
       Nearest:
         overloads:
           std::span<const Translation3d> [const]:
