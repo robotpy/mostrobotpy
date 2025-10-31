@@ -11,18 +11,18 @@
 [py_versions]
 
 # Usually the same as wpilib_bin_version
-native = "2027.0.0a2"
+native = "2027.0.0a3"
 
 # Will eventually sync with native
-halsim_native = "2027.0.0a2"
+halsim_native = "2027.0.0a3"
 
 # Usually similar to native, but subminor version is bumped for bugfixes
 # - ./rdev.sh ci check_tag will fail if this doesn't match current tag
-wrapper = "2027.0.0a2"
+wrapper = "2027.0.0a3"
 
 [params]
 
-wpilib_bin_version = "2027.0.0-alpha-2"
+wpilib_bin_version = "2027.0.0-alpha-3"
 wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
 # wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 
@@ -33,12 +33,20 @@ exclude_artifacts = [
 
 robot_wheel_platform = "linux-systemcore"
 
+[params.entrypoints]
+# prefix = "actual"
+# - ensures that [project.entry-points.prefix*] are renamed to "actual", which
+#   makes it easy to upgrade them each year (https://github.com/robotpy/robotpy-cli/issues/5)
+# - also reminds me that we have to bump it every year ^_^
+robotpy_sim = "robotpy_sim.2027"
+robotpy_cli = "robotpy_cli.2027"
+
 [params.requirements]
-semiwrap = "~=0.1.7"
-hatch-meson = "~=0.1.0b2"
+semiwrap = "~=0.2.1"
+hatch-meson = "~=0.1.0"
 hatch-nativelib = "~=0.2.0"
 hatch-robotpy = "~=0.2.1"
-
+robotpy-cli = "~=2027.0.0a1"
 
 [subprojects."robotpy-native-wpiutil"]
 py_version = "native"

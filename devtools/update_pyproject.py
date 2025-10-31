@@ -40,7 +40,7 @@ class ProjectUpdater:
         # and retain all the comments
         self.subprojects: typing.Dict[str, ProjectInfo] = {}
         for name, project in self.ctx.subprojects.items():
-            with open(project.pyproject_path, "r") as fp:
+            with open(project.pyproject_path) as fp:
                 data = tomlkit.load(fp)
 
             self.subprojects[name] = ProjectInfo(
@@ -67,6 +67,31 @@ class ProjectUpdater:
     @property
     def wpilib_bin_url(self) -> str:
         return self.cfg.params.wpilib_bin_url
+
+    def _update_entrypoints(
+        self,
+        info: ProjectInfo,
+        pypi_name: str,
+    ):
+        data = info.data
+        eps = data["project"].get("entry-points")
+        if eps is None:
+            return
+
+        for name in list(eps.keys()):
+            for prefix, replace in self.cfg.params.entrypoints.items():
+                if name.startswith(prefix):
+                    if name != replace:
+                        eps[replace] = eps[name]
+                        del eps[name]
+                        print(
+                            f"* {pypi_name}: entry-points.{name} -> entry-points.{replace}"
+                        )
+                        self.commit_changes.add(
+                            f"{pypi_name}: entry-points.{name} -> entry-points.{replace}"
+                        )
+                        info.changed = True
+                    break
 
     def _update_requirements(
         self,
@@ -124,6 +149,12 @@ class ProjectUpdater:
                 pypi_name,
                 "project.dependencies",
                 data["project"]["dependencies"],
+            )
+
+            # project.entry-points
+            self._update_entrypoints(
+                info,
+                pypi_name,
             )
 
     def _update_maven(self, info: ProjectInfo):

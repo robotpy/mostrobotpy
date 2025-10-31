@@ -132,8 +132,9 @@ class Subproject:
 
             tdp = pathlib.Path(td)
             twhl = list(tdp.glob("*.whl"))[0]
-            dst_whl = wheel_path / self._fix_wheel_name(twhl.name)
+            dst_whl = wheel_path / self._fix_wheel_name(twhl)
             shutil.move(twhl, dst_whl)
+            print("Wrote wheel to", dst_whl)
 
         if install:
             # Install the wheel
@@ -147,19 +148,46 @@ class Subproject:
             )
 
     _adjust_wheel_tags = {
-        # pypi only accepts manylinux wheels, and we know we're compatible
-        # TODO(davo): use auditwheel to fix the tags instead
-        "linux_x86_64": "manylinux_2_35_x86_64",
-        "linux_aarch64": "manylinux_2_36_aarch64",
         # needed for compatibility with python compiled with older xcode
         "macosx_11_0_x86_64": "macosx_10_16_x86_64",
         "macosx_12_0_x86_64": "macosx_10_16_x86_64",
     }
 
-    def _fix_wheel_name(self, name: str) -> str:
-        for old, new in self._adjust_wheel_tags.items():
-            old_whl = f"{old}.whl"
-            new_whl = f"{new}.whl"
-            if name.endswith(old_whl):
-                name = f"{name[:-len(old_whl)]}{new_whl}"
+    def _fix_wheel_name(self, wheel_path: pathlib.Path) -> str:
+        if sys.platform == "linux":
+            name = self._fix_linux_wheel_name(wheel_path)
+        else:
+            name = wheel_path.name
+            for old, new in self._adjust_wheel_tags.items():
+                old_whl = f"{old}.whl"
+                new_whl = f"{new}.whl"
+                if name.endswith(old_whl):
+                    name = f"{name[:-len(old_whl)]}{new_whl}"
+
         return name
+
+    def _fix_linux_wheel_name(self, wheel_path: pathlib.Path) -> str:
+        # inspired by https://github.com/hsorby/renamewheel, Apache license
+
+        from auditwheel.error import NonPlatformWheel, WheelToolsError
+        from auditwheel.wheel_abi import analyze_wheel_abi
+        from auditwheel.wheeltools import get_wheel_architecture, get_wheel_libc
+
+        try:
+            arch = get_wheel_architecture(wheel_path.name)
+        except (WheelToolsError, NonPlatformWheel):
+            arch = None
+
+        try:
+            libc = get_wheel_libc(wheel_path.name)
+        except WheelToolsError:
+            libc = None
+
+        try:
+            winfo = analyze_wheel_abi(libc, arch, wheel_path, frozenset(), True, True)
+        except NonPlatformWheel:
+            return wheel_path.name
+        else:
+            parts = wheel_path.name.split("-")
+            parts[-1] = winfo.overall_policy.name
+            return "-".join(parts) + ".whl"
