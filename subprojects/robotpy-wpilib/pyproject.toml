@@ -5,27 +5,27 @@ requires = [
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-wpilib==2027.0.0a3",
-    "robotpy-wpiutil==2027.0.0a3",
-    "robotpy-wpimath==2027.0.0a3",
-    "robotpy-hal==2027.0.0a3",
-    "pyntcore==2027.0.0a3",
+    "robotpy-native-wpilib==0.0.0",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
+    "robotpy-hal==0.0.0",
+    "pyntcore==0.0.0",
 ]
 
 [project]
 name = "wpilib"
-version = "2027.0.0a3"
+version = "0.0.0"
 description = "Binary wrapper for FRC WPILib"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpilib==2027.0.0a3",
-    "robotpy-wpiutil==2027.0.0a3",
-    "robotpy-wpimath==2027.0.0a3",
-    "robotpy-hal==2027.0.0a3",
-    "pyntcore==2027.0.0a3",
+    "robotpy-native-wpilib==0.0.0",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
+    "robotpy-hal==0.0.0",
+    "pyntcore==0.0.0",
     "robotpy-cli~=2027.0.0a1"
 ]
 
@@ -112,7 +112,12 @@ DutyCycle = "frc/DutyCycle.h"
 DutyCycleEncoder = "frc/DutyCycleEncoder.h"
 Encoder = "frc/Encoder.h"
 Errors = "frc/Errors.h"
+ExpansionHub = "frc/ExpansionHub.h"
+ExpansionHubMotor = "frc/ExpansionHubMotor.h"
+ExpansionHubPidConstants = "frc/ExpansionHubPidConstants.h"
+ExpansionHubServo = "frc/ExpansionHubServo.h"
 Filesystem = "rpy/Filesystem.h"
+Gamepad = "frc/Gamepad.h"
 I2C = "frc/I2C.h"
 IterativeRobotBase = "frc/IterativeRobotBase.h"
 Joystick = "frc/Joystick.h"
@@ -156,8 +161,6 @@ MotorController = "frc/motorcontrol/MotorController.h"
 DriverStationModeThread = "frc/internal/DriverStationModeThread.h"
 
 # frc/motorcontrol
-DMC60 = "frc/motorcontrol/DMC60.h"
-Jaguar = "frc/motorcontrol/Jaguar.h"
 Koors40 = "frc/motorcontrol/Koors40.h"
 MotorControllerGroup = "rpy/MotorControllerGroup.h"
 PWMMotorController = "frc/motorcontrol/PWMMotorController.h"
@@ -167,11 +170,9 @@ PWMTalonFX = "frc/motorcontrol/PWMTalonFX.h"
 PWMTalonSRX = "frc/motorcontrol/PWMTalonSRX.h"
 PWMVenom = "frc/motorcontrol/PWMVenom.h"
 PWMVictorSPX = "frc/motorcontrol/PWMVictorSPX.h"
-SD540 = "frc/motorcontrol/SD540.h"
 Spark = "frc/motorcontrol/Spark.h"
 SparkMini = "frc/motorcontrol/SparkMini.h"
 Talon = "frc/motorcontrol/Talon.h"
-Victor = "frc/motorcontrol/Victor.h"
 VictorSP = "frc/motorcontrol/VictorSP.h"
 
 # frc/smartdashboard
@@ -260,6 +261,7 @@ DutyCycleSim = "frc/simulation/DutyCycleSim.h"
 ElevatorSim = "frc/simulation/ElevatorSim.h"
 EncoderSim = "frc/simulation/EncoderSim.h"
 FlywheelSim = "frc/simulation/FlywheelSim.h"
+GamepadSim = "frc/simulation/GamepadSim.h"
 GenericHIDSim = "frc/simulation/GenericHIDSim.h"
 JoystickSim = "frc/simulation/JoystickSim.h"
 LinearSystemSim = "frc/simulation/LinearSystemSim.h"

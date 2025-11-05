@@ -1,0 +1,16 @@
+extra_includes:
+- frc/ExpansionHubMotor.h
+- frc/ExpansionHubServo.h
+
+classes:
+  frc::ExpansionHub:
+    attributes:
+      NumUsbPorts:
+      NumServoPorts:
+      NumMotorPorts:
+    methods:
+      ExpansionHub:
+      MakeServo:
+      MakeMotor:
+      IsHubConnected:
+      GetUsbId:
