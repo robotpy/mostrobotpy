@@ -4,21 +4,21 @@ requires = [
     "semiwrap~=0.2.1",
     "hatch-meson~=0.1.0",
     "hatchling",
-    "robotpy-native-datalog==0.0.0",
-    "robotpy-wpiutil==0.0.0"
+    "robotpy-native-datalog==2027.0.0a3",
+    "robotpy-wpiutil==2027.0.0a3"
 ]
 
 [project]
 name = "robotpy-wpilog"
-version = "0.0.0"
+version = "2027.0.0a3"
 description = "Binary wrapper for FRC wpilog library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-datalog==0.0.0",
-    "robotpy-wpiutil==0.0.0"
+    "robotpy-native-datalog==2027.0.0a3",
+    "robotpy-wpiutil==2027.0.0a3"
 ]
 
 [project.urls]

@@ -33,8 +33,8 @@ version_file = "halsim_ws/version.py"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
-version = "2027.0.0-alpha-3"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-3-26-g8cfc158"
 use_headers = false
 
 extract_to = "halsim_ws/server"
@@ -43,8 +43,8 @@ libs = ["halsim_ws_server"]
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
-version = "2027.0.0-alpha-3"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-3-26-g8cfc158"
 use_headers = false
 
 extract_to = "halsim_ws/client"
