@@ -5,19 +5,19 @@ requires = [
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-wpiutil==0.0.0",
+    "robotpy-native-wpiutil==2027.0.0a3",
 ]
 
 [project]
 name = "robotpy-wpiutil"
-version = "0.0.0"
+version = "2027.0.0a3"
 description = "Binary wrapper for FRC WPIUtil library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpiutil==0.0.0",
+    "robotpy-native-wpiutil==2027.0.0a3",
 ]
 
 [project.urls]
