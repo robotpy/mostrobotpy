@@ -95,7 +95,9 @@ scan_headers_ignore = [
     "gch/*",
     "sleipnir/*",
     "type_casters/*",
+    "unsupported/*",
     "wpi/units/*",
+    "wpimath/protobuf/*",
 
     "wpi/math/util/MathShared.hpp",
 
