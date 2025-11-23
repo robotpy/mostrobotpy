@@ -3,13 +3,13 @@ import pathlib
 import subprocess
 import sys
 import sysconfig
-import typing
+import typing as T
 
 import toposort
 
 from . import config
 from .subproject import Subproject
-from .util import run_pip
+from .util import run_cmd
 
 
 class Context:
@@ -27,13 +27,13 @@ class Context:
         self.wheel_path = self.root_path / "dist"
         self.other_wheel_path = self.root_path / "dist-other"
 
-        subprojects: typing.List[Subproject] = []
+        subprojects: T.List[Subproject] = []
         for project, cfg in self.cfg.subprojects.items():
             # Skip projects that aren't compatible with the robot
             if self.is_robot and not cfg.robot:
                 continue
 
-            subprojects.append(Subproject(cfg, self.subprojects_path / project))
+            subprojects.append(Subproject(self, cfg, self.subprojects_path / project))
 
         # Create a sorted dictionary of subprojects ordered by build order
         si = {p.pyproject_name: i for i, p in enumerate(subprojects)}
@@ -46,6 +46,29 @@ class Context:
             subprojects[i].name: subprojects[i]
             for i in toposort.toposort_flatten(ti, sort=False)
         }
+
+        # build_python is for build dependencies, python is for the target environment
+        # - if crossenv is specified, then we use that instead
+        self._build_python = None
+        self.python = sys.executable
+
+    @property
+    def build_python(self):
+        if self._build_python is None:
+            self._build_python = self.python
+
+            # try to detect if we're running in crossenv's cross python and
+            # use the build python instead
+            if getattr(sys, "cross_compiling", False) == True:
+                pth = pathlib.Path(self._build_python).resolve()
+                if pth.parts[-3:-1] == ("cross", "bin"):
+                    self._build_python = str(
+                        pathlib.Path(
+                            *(pth.parts[:-3] + ("build", "bin", pth.parts[-1]))
+                        )
+                    )
+
+        return self._build_python
 
     def git_commit(self, msg: str, *relpath: str):
         subprocess.run(
@@ -102,13 +125,14 @@ class Context:
                 external.append(req)
 
         if external:
-            run_pip(
+            self.run_pip(
                 "install",
                 *[str(req) for req in external],
+                installing_build_deps=True,
             )
 
         if internal:
-            run_pip(
+            self.run_pip(
                 "install",
                 "--no-index",
                 "--find-links",
@@ -117,3 +141,11 @@ class Context:
                 str(self.other_wheel_path),
                 *[str(req) for req in internal],
             )
+
+    def run_pip(self, *args: str, cwd=None, installing_build_deps: bool = False):
+        if installing_build_deps:
+            python = self.build_python
+        else:
+            python = self.python
+
+        run_cmd(python, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd)

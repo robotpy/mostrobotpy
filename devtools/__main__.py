@@ -7,7 +7,6 @@ import click
 from .ctx import Context
 from . import ci
 from . import update_pyproject
-from . import util
 
 
 #
@@ -83,7 +82,7 @@ def install_prereqs(ctx: Context):
                 if req.name not in repo_deps:
                     reqs.add(req)
 
-    util.run_pip("install", *map(str, reqs))
+    ctx.run_pip("install", *map(str, reqs))
 
 
 @main.command()

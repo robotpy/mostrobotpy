@@ -8,11 +8,17 @@ from packaging.requirements import Requirement
 import tomli
 
 from .config import SubprojectConfig
-from .util import run_cmd, run_pip
+from .util import run_cmd
+
+if T.TYPE_CHECKING:
+    from .ctx import Context
 
 
 class Subproject:
-    def __init__(self, cfg: SubprojectConfig, path: pathlib.Path) -> None:
+    def __init__(
+        self, ctx: "Context", cfg: SubprojectConfig, path: pathlib.Path
+    ) -> None:
+        self.ctx = ctx
         self.cfg = cfg
         self.path = path
         self.pyproject_path = self.path / "pyproject.toml"
@@ -43,15 +49,17 @@ class Subproject:
     #
 
     def develop(self):
-        run_pip("install", "-v", "-e", ".", "--no-build-isolation", cwd=self.path)
+        self.ctx.run_pip(
+            "install", "-v", "-e", ".", "--no-build-isolation", cwd=self.path
+        )
 
     def uninstall(self):
-        run_pip("uninstall", "-y", self.pyproject_name)
+        self.ctx.run_pip("uninstall", "-y", self.pyproject_name)
 
     def scan_headers(self):
         """Returns True if no headers found or False if missing headers were found"""
         result = run_cmd(
-            sys.executable,
+            self.ctx.python,
             "-m",
             "semiwrap",
             "scan-headers",
@@ -64,7 +72,7 @@ class Subproject:
     def update_yaml(self):
         """Resyncs the yaml files with their header files"""
         result = run_cmd(
-            sys.executable,
+            self.ctx.python,
             "-m",
             "semiwrap",
             "update-yaml",
@@ -76,7 +84,7 @@ class Subproject:
 
     def update_init(self):
         run_cmd(
-            sys.executable,
+            self.ctx.python,
             "-m",
             "semiwrap",
             "update-init",
@@ -91,14 +99,14 @@ class Subproject:
         if install_requirements:
             requirements = tests_path / "requirements.txt"
             if requirements.exists():
-                run_pip(
+                self.ctx.run_pip(
                     "install",
                     "-r",
                     str(requirements),
                 )
 
         run_cmd(
-            sys.executable,
+            self.ctx.python,
             "run_tests.py",
             cwd=tests_path,
         )
@@ -120,7 +128,7 @@ class Subproject:
         with tempfile.TemporaryDirectory() as td:
             # I wonder if we should use hatch build instead?
             run_cmd(
-                sys.executable,
+                self.ctx.python,
                 "-m",
                 "build",
                 "--no-isolation",
@@ -138,7 +146,7 @@ class Subproject:
 
         if install:
             # Install the wheel
-            run_pip(
+            self.ctx.run_pip(
                 "install",
                 "--find-links",
                 str(wheel_path),
