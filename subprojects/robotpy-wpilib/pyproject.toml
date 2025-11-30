@@ -181,11 +181,8 @@ DriverStationModeThread = "frc/internal/DriverStationModeThread.h"
 LiveWindow = "frc/livewindow/LiveWindow.h"
 
 # frc/motorcontrol
-DMC60 = "frc/motorcontrol/DMC60.h"
-Jaguar = "frc/motorcontrol/Jaguar.h"
 Koors40 = "frc/motorcontrol/Koors40.h"
 MotorControllerGroup = "rpy/MotorControllerGroup.h"
-NidecBrushless = "frc/motorcontrol/NidecBrushless.h"
 PWMMotorController = "frc/motorcontrol/PWMMotorController.h"
 PWMSparkFlex = "frc/motorcontrol/PWMSparkFlex.h"
 PWMSparkMax = "frc/motorcontrol/PWMSparkMax.h"
@@ -193,10 +190,8 @@ PWMTalonFX = "frc/motorcontrol/PWMTalonFX.h"
 PWMTalonSRX = "frc/motorcontrol/PWMTalonSRX.h"
 PWMVenom = "frc/motorcontrol/PWMVenom.h"
 PWMVictorSPX = "frc/motorcontrol/PWMVictorSPX.h"
-SD540 = "frc/motorcontrol/SD540.h"
 Spark = "frc/motorcontrol/Spark.h"
 Talon = "frc/motorcontrol/Talon.h"
-Victor = "frc/motorcontrol/Victor.h"
 VictorSP = "frc/motorcontrol/VictorSP.h"
 
 # frc/smartdashboard
