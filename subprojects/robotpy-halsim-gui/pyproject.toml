@@ -5,25 +5,25 @@ requires = [
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.0",
     "hatchling",
-    "robotpy-wpiutil==2026.0.0a1",
-    "robotpy-wpimath==2026.0.0a1",
-    "robotpy-hal==2026.0.0a1",
-    "pyntcore==2026.0.0a1",
+    "robotpy-wpiutil==2026.1.1b1",
+    "robotpy-wpimath==2026.1.1b1",
+    "robotpy-hal==2026.1.1b1",
+    "pyntcore==2026.1.1b1",
 ]
 
 [project]
 name = "robotpy-halsim-gui"
-version = "2026.0.0a1"
+version = "2026.1.1b1"
 description = "WPILib simulation GUI"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-wpiutil==2026.0.0a1",
-    "robotpy-wpimath==2026.0.0a1",
-    "robotpy-hal==2026.0.0a1",
-    "pyntcore==2026.0.0a1",
+    "robotpy-wpiutil==2026.1.1b1",
+    "robotpy-wpimath==2026.1.1b1",
+    "robotpy-hal==2026.1.1b1",
+    "pyntcore==2026.1.1b1",
 ]
 
 [project.urls]
@@ -37,7 +37,7 @@ version_file = "halsim_gui/version.py"
 artifact_id = "halsim_gui"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2026.0.0-alpha-1"
+version = "2026.1.1-beta-1"
 use_headers = true
 
 libs = ["halsim_gui"]

@@ -4,25 +4,25 @@ requires = [
     "hatchling",
     "hatch-nativelib~=0.2.0",
     "hatch-robotpy~=0.2.0",
-    "robotpy-native-wpiutil==2026.0.0a1",
-    "robotpy-native-wpinet==2026.0.0a1",
-    "robotpy-native-ntcore==2026.0.0a1",
-    "robotpy-native-wpimath==2026.0.0a1",
-    "robotpy-native-wpihal==2026.0.0a1",
+    "robotpy-native-wpiutil==2026.1.1b1",
+    "robotpy-native-wpinet==2026.1.1b1",
+    "robotpy-native-ntcore==2026.1.1b1",
+    "robotpy-native-wpimath==2026.1.1b1",
+    "robotpy-native-wpihal==2026.1.1b1",
 ]
 
 [project]
 name = "robotpy-native-wpilib"
-version = "2026.0.0a1"
+version = "2026.1.1b1"
 description = "WPILib Robotics Library"
 license = "BSD-3-Clause"
 
 dependencies = [
-    "robotpy-native-wpiutil==2026.0.0a1",
-    "robotpy-native-wpinet==2026.0.0a1",
-    "robotpy-native-ntcore==2026.0.0a1",
-    "robotpy-native-wpimath==2026.0.0a1",
-    "robotpy-native-wpihal==2026.0.0a1",
+    "robotpy-native-wpiutil==2026.1.1b1",
+    "robotpy-native-wpinet==2026.1.1b1",
+    "robotpy-native-ntcore==2026.1.1b1",
+    "robotpy-native-wpimath==2026.1.1b1",
+    "robotpy-native-wpihal==2026.1.1b1",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -32,7 +32,7 @@ packages = ["src/native"]
 artifact_id = "wpilibc-cpp"
 group_id = "edu.wpi.first.wpilibc"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2026.0.0-alpha-1"
+version = "2026.1.1-beta-1"
 
 extract_to = "src/native/wpilib"
 libs = ["wpilibc"]
