@@ -25,7 +25,7 @@ packages = ["src/native"]
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "apriltag-cpp"
 group_id = "edu.wpi.first.apriltag"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
 version = "2026.1.1-beta-1"
 
 extract_to = "src/native/apriltag"

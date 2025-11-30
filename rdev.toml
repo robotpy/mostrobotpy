@@ -22,9 +22,9 @@ wrapper = "2026.1.1b1"
 
 [params]
 
-# wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
+wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
 wpilib_bin_version = "2026.1.1-beta-1"
-wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
+#wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
 
 # Don't update these maven artifacts
 exclude_artifacts = [
