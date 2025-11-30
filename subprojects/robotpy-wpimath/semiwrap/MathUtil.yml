@@ -35,8 +35,12 @@ functions:
     overloads:
       const Translation2d&, const Translation2d&, units::second_t, units::meters_per_second_t:
       const Translation3d&, const Translation3d&, units::second_t, units::meters_per_second_t:
-  CopySignPow:
-    template_impls:
-    - [double]
   CopyDirectionPow:
-    ignore: true
+    overloads:
+      T, double, T:
+        template_impls:
+        - [double]
+      const Eigen::Vector<T, N>&, double, T:
+        ignore: true
+        template_impls:
+        - [double, Eigen::Dynamic]

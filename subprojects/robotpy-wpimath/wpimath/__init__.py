@@ -7,7 +7,7 @@ from . import geometry
 from ._wpimath import (
     angleModulus,
     applyDeadband,
-    copySignPow,
+    copyDirectionPow,
     inputModulus,
     objectToRobotPose,
     slewRateLimit,
@@ -16,7 +16,7 @@ from ._wpimath import (
 __all__ = [
     "angleModulus",
     "applyDeadband",
-    "copySignPow",
+    "copyDirectionPow",
     "inputModulus",
     "objectToRobotPose",
     "slewRateLimit",
