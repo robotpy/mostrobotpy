@@ -1,4 +1,4 @@
-This directory comes from https://github.com/pthom/cvnp/tree/master/cvnp
+This directory comes from https://github.com/pthom/cvnp_nano/tree/main/cvnp_nano
 
  The MIT License (MIT)
 

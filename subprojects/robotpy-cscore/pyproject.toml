@@ -117,5 +117,5 @@ pypackage = "cscore"
 includedir = ["cscore"]
 
 [[tool.semiwrap.export_type_casters.cscore-casters.headers]]
-header = "cvnp/cvnp.h"
+header = "cvnp/cvnp_nano.h"
 types = ["cv::Mat"]

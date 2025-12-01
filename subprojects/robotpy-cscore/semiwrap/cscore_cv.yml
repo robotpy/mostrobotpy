@@ -1,7 +1,7 @@
 
 extra_includes:
 - opencv2/core/core.hpp
-- cvnp/cvnp.h
+- cvnp/cvnp_nano.h
 
 functions:
   CS_PutSourceFrame:
