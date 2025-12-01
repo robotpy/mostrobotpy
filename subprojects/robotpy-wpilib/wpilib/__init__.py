@@ -230,6 +230,8 @@ del _init__wpilib
 
 from .cameraserver import CameraServer
 from .deployinfo import getDeployData
+from .iterativerobotpy import IterativeRobotPy
+from .timedrobotpy import TimedRobotPy
 
 try:
     from .version import version as __version__
@@ -238,4 +240,4 @@ except ImportError:
 
 from ._impl.main import run
 
-__all__ += ["CameraServer", "run"]
+__all__ += ["CameraServer", "run", "IterativeRobotPy", "TimedRobotPy"]
