@@ -5,24 +5,24 @@ requires = [
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.0",
     "hatchling",
-    "robotpy-native-ntcore==2026.0.0a1",
-    "robotpy-wpiutil==2026.0.0a1",
-    "robotpy-wpinet==2026.0.0a1",
+    "robotpy-native-ntcore==2026.1.1b1",
+    "robotpy-wpiutil==2026.1.1b1",
+    "robotpy-wpinet==2026.1.1b1",
 ]
 
 
 [project]
 name = "pyntcore"
-version = "2026.0.0a1"
+version = "2026.1.1b1"
 description = "Binary wrappers for the FRC ntcore library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-ntcore==2026.0.0a1",
-    "robotpy-wpiutil==2026.0.0a1",
-    "robotpy-wpinet==2026.0.0a1",
+    "robotpy-native-ntcore==2026.1.1b1",
+    "robotpy-wpiutil==2026.1.1b1",
+    "robotpy-wpinet==2026.1.1b1",
 ]
 
 [project.urls]

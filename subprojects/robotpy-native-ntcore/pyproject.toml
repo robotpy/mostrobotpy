@@ -4,19 +4,19 @@ requires = [
     "hatchling",
     "hatch-nativelib~=0.2.0",
     "hatch-robotpy~=0.2.0",
-    "robotpy-native-wpiutil==2026.0.0a1",
-    "robotpy-native-wpinet==2026.0.0a1",
+    "robotpy-native-wpiutil==2026.1.1b1",
+    "robotpy-native-wpinet==2026.1.1b1",
 ]
 
 [project]
 name = "robotpy-native-ntcore"
-version = "2026.0.0a1"
+version = "2026.1.1b1"
 description = "WPILib NetworkTables Library"
 license = "BSD-3-Clause"
 
 dependencies = [
-    "robotpy-native-wpiutil==2026.0.0a1",
-    "robotpy-native-wpinet==2026.0.0a1",
+    "robotpy-native-wpiutil==2026.1.1b1",
+    "robotpy-native-wpinet==2026.1.1b1",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -25,8 +25,8 @@ packages = ["src/native"]
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "ntcore-cpp"
 group_id = "edu.wpi.first.ntcore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development"
-version = "2026.0.0-alpha-1"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release"
+version = "2026.1.1-beta-1"
 
 extract_to = "src/native/ntcore"
 libs = ["ntcore"]

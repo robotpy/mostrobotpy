@@ -40,6 +40,9 @@ classes:
       RomiBuiltIn:
       KrakenX60:
       KrakenX60FOC:
+      KrakenX44:
+      KrakenX44FOC:
+      Minion:
       NeoVortex:
 
 inline_code: |

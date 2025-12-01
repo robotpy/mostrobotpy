@@ -4,21 +4,21 @@ requires = [
     "semiwrap~=0.2.1",
     "hatch-meson~=0.1.0",
     "hatchling",
-    "robotpy-native-wpinet==2026.0.0a1",
-    "robotpy-wpiutil==2026.0.0a1"
+    "robotpy-native-wpinet==2026.1.1b1",
+    "robotpy-wpiutil==2026.1.1b1"
 ]
 
 [project]
 name = "robotpy-wpinet"
-version = "2026.0.0a1"
+version = "2026.1.1b1"
 description = "Binary wrapper for FRC wpinet library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpinet==2026.0.0a1",
-    "robotpy-wpiutil==2026.0.0a1"
+    "robotpy-native-wpinet==2026.1.1b1",
+    "robotpy-wpiutil==2026.1.1b1"
 ]
 
 [project.urls]
