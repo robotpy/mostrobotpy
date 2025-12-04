@@ -2,9 +2,9 @@ extra_includes:
 - pybind11/operators.h
 
 classes:
-  frc::Color:
+  wpi::util::Color:
     force_type_casters:
-    - wpi::ct_string
+    - wpi::util::ct_string
     attributes:
       kDenim:
       kFirstBlue:
@@ -168,10 +168,16 @@ classes:
               b:
                 name: blue
           int, int, int:
-          std::string_view:
+      FromString:
       FromHSV:
       HexString:
       operator==:
+
+functions:
+  ceil_int:
+    ignore: true
+  ceil:
+    ignore: true
 
 inline_code: |
   cls_Color
