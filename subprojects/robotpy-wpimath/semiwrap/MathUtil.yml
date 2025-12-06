@@ -38,6 +38,9 @@ functions:
   CopyDirectionPow:
     overloads:
       T, double, T:
-        ignore: true
+        template_impls:
+        - [double]
       const Eigen::Vector<T, N>&, double, T:
         ignore: true
+        template_impls:
+        - [double, Eigen::Dynamic]

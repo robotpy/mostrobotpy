@@ -47,7 +47,3 @@ def parse_input(value: typing.Any, spec: typing.Type[T], fname) -> T:
 def run_cmd(*args: str, cwd=None, check=True):
     print("+", shlex.join(args))
     return subprocess.run(args, cwd=cwd, check=check)
-
-
-def run_pip(*args: str, cwd=None):
-    run_cmd(sys.executable, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd)
