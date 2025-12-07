@@ -31,12 +31,15 @@ Next install dependencies using pip:
     pip install -r rdev_requirements.txt
     pip install numpy
 
-Then run this command to build all the wheels.
+Then run these commands to build all the wheels for the current operating system.
 
-    ./rdev.sh ci run
+    ./rdev.sh ci build-other-wheels
+    ./rdev.sh ci build-meson-wheels
 
 All the resulting wheels are in `dist`, which can be installed using `pip`.
 
+To build wheels for the robot platform, you need to use a crossenv docker image.
+See `.github/workflows/dist.yml` for details.
 
 Development environment
 -----------------------
