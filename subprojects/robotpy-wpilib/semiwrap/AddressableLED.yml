@@ -21,8 +21,8 @@ classes:
       ColorOrder:
   frc::AddressableLED::LEDData:
     force_no_trampoline: true
-    base_qualnames:
-      HAL_AddressableLEDData: ::HAL_AddressableLEDData
+    ignored_bases:
+    - HAL_AddressableLEDData
     methods:
       LEDData:
         overloads:
@@ -41,4 +41,11 @@ classes:
         overloads:
           const Color&:
           const Color8Bit&:
-
+    inline_code: |
+      .def_readwrite("r", &frc::AddressableLED::LEDData::r)
+      .def_readwrite("g", &frc::AddressableLED::LEDData::g)
+      .def_readwrite("b", &frc::AddressableLED::LEDData::b)
+      .def("__eq__", [](frc::AddressableLED::LEDData &self, frc::AddressableLED::LEDData &other) {
+        return self.r == other.r && self.g == other.g && self.b == other.b;
+      })
+      ;

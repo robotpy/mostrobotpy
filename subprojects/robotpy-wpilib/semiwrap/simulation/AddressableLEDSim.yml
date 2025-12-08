@@ -5,6 +5,8 @@ classes:
   frc::sim::AddressableLEDSim:
     force_type_casters:
     - std::function
+    - std::span
+    - std::vector
     methods:
       AddressableLEDSim:
         overloads:
@@ -26,4 +28,21 @@ classes:
       SetRunning:
       RegisterDataCallback:
       GetData:
+        param_override:
+          data:
+            ignore: true
+        cpp_code: |
+          [](frc::sim::AddressableLEDSim &self) {
+            int len = self.GetData(nullptr);
+            std::vector<frc::AddressableLED::LEDData> data(len);
+            self.GetData(data.data());
+            return data;
+          }
       SetData:
+        param_override:
+          length:
+            ignore: true
+        cpp_code: |
+          [](frc::sim::AddressableLEDSim &self, std::span<frc::AddressableLED::LEDData> &data) {
+            self.SetData(data.data(), data.size());
+          }
