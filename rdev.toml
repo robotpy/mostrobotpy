@@ -22,8 +22,8 @@ wrapper = "2027.0.0a3"
 
 [params]
 
-wpilib_bin_version = "2027.0.0-alpha-3"
-wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
+wpilib_bin_version = "2027.0.0-alpha-3-146-g936be71"
+wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 # wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 
 # Don't update these maven artifacts

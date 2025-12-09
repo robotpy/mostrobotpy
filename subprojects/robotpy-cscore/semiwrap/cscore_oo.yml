@@ -1,6 +1,6 @@
 
 classes:
-  cs::VideoProperty:
+  wpi::cs::VideoProperty:
     enums:
       Kind:
     methods:
@@ -20,11 +20,11 @@ classes:
       GetString:
         overloads:
           '[const]':
-          wpi::SmallVectorImpl<char>& [const]:
+          wpi::util::SmallVectorImpl<char>& [const]:
       SetString:
       GetChoices:
       GetLastStatus:
-  cs::VideoSource:
+  wpi::cs::VideoSource:
     enums:
       Kind:
       ConnectionStrategy:
@@ -52,7 +52,7 @@ classes:
       SetConfigJson:
         overloads:
           std::string_view:
-          const wpi::json&:
+          const wpi::util::json&:
       GetConfigJson:
       GetConfigJsonObject:
       GetActualFPS:
@@ -61,7 +61,7 @@ classes:
       GetLastStatus:
       EnumerateSinks:
       EnumerateSources:
-  cs::VideoCamera:
+  wpi::cs::VideoCamera:
     force_no_trampoline: true
     enums:
       WhiteBalance:
@@ -78,7 +78,7 @@ classes:
       SetExposureAuto:
       SetExposureHoldCurrent:
       SetExposureManual:
-  cs::UsbCamera:
+  wpi::cs::UsbCamera:
     force_no_trampoline: true
     methods:
       UsbCamera:
@@ -91,10 +91,10 @@ classes:
       GetPath:
       GetInfo:
       SetConnectVerbose:
-  cs::HttpCamera:
+  wpi::cs::HttpCamera:
     force_no_trampoline: true
     constants:
-    - cs::HttpCamera::HttpCameraKind::kUnknown
+    - wpi::cs::HttpCamera::HttpCameraKind::kUnknown
     enums:
       HttpCameraKind:
     methods:
@@ -113,7 +113,7 @@ classes:
           std::initializer_list<T>:
             ignore: true
       GetUrls:
-  cs::AxisCamera:
+  wpi::cs::AxisCamera:
     force_no_trampoline: true
     methods:
       AxisCamera:
@@ -124,7 +124,7 @@ classes:
           std::string_view, std::span<const std::string>:
           std::string_view, std::initializer_list<T>:
             ignore: true
-  cs::ImageSource:
+  wpi::cs::ImageSource:
     force_no_trampoline: true
     methods:
       NotifyError:
@@ -140,7 +140,7 @@ classes:
           const VideoProperty&, std::initializer_list<T>:
             ignore: true
       ImageSource:
-  cs::VideoSink:
+  wpi::cs::VideoSink:
     enums:
       Kind:
     methods:
@@ -155,7 +155,7 @@ classes:
       SetConfigJson:
         overloads:
           std::string_view:
-          const wpi::json&:
+          const wpi::util::json&:
       GetConfigJson:
       GetConfigJsonObject:
       SetSource:
@@ -163,7 +163,7 @@ classes:
       GetSourceProperty:
       GetLastStatus:
       EnumerateSinks:
-  cs::MjpegServer:
+  wpi::cs::MjpegServer:
     force_no_trampoline: true
     methods:
       MjpegServer:
@@ -177,20 +177,20 @@ classes:
       SetFPS:
       SetCompression:
       SetDefaultCompression:
-  cs::ImageSink:
+  wpi::cs::ImageSink:
     force_no_trampoline: true
     methods:
       SetDescription:
       GetError:
       SetEnabled:
       ImageSink:
-  cs::VideoEvent:
+  wpi::cs::VideoEvent:
     force_no_trampoline: true
     methods:
       GetSource:
       GetSink:
       GetProperty:
-  cs::VideoListener:
+  wpi::cs::VideoListener:
     methods:
       VideoListener:
         overloads:

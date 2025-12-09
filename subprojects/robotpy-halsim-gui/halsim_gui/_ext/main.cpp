@@ -1,8 +1,8 @@
 
 #include <semiwrap_init.halsim_gui._ext._halsim_gui_ext.hpp>
 
-#include <HALSimGuiExt.h>
-#include <hal/Extensions.h>
+#include <wpi/halsim/gui/HALSimGuiExt.hpp>
+#include <wpi/hal/Extensions.h>
 
 SEMIWRAP_PYBIND11_MODULE(m) {
 
