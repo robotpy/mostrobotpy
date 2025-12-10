@@ -27,7 +27,7 @@ jobs:
         python-version: "3.13"
     - name: Install requirements
       run: |
-        pip --disable-pip-version-check install mypy setuptools wheel setuptools_scm
+        pip --disable-pip-version-check install mypy hatchling hatch-vcs editables
         pip --disable-pip-version-check install --no-build-isolation -e .
     - name: Run mypy
       uses: liskin/gh-problem-matcher-wrap@v2
