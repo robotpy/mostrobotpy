@@ -42,7 +42,7 @@ version_file = "cscore/version.py"
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cscore-cpp"
-group_id = "edu.wpi.first.cscore"
+group_id = "org.wpilib.cscore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 version = "2027.0.0-alpha-3-144-g59edbdd"
 
@@ -51,7 +51,7 @@ extract_to = "lib"
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cameraserver-cpp"
-group_id = "edu.wpi.first.cameraserver"
+group_id = "org.wpilib.cameraserver"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 version = "2027.0.0-alpha-3-144-g59edbdd"
 
