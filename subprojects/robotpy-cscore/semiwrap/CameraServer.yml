@@ -3,7 +3,7 @@ extra_includes:
 - optional
 
 classes:
-  frc::CameraServer:
+  wpi::CameraServer:
     force_type_casters:
     - std::optional
     attributes:

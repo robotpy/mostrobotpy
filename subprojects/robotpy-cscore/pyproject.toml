@@ -80,14 +80,14 @@ update_init = [
 
 scan_headers_ignore = [
     # Only wrapping the C++ API
-    "cscore.h",
-    "cscore_c.h",
-    "cscore_raw.h",
+    "wpi/cs/cscore.h",
+    "wpi/cs/cscore_c.h",
+    "wpi/cs/cscore_raw.h",
 
     # Not needed
-    "cameraserver/CameraServerShared.h",
-    "vision/VisionPipeline.h",
-    "vision/VisionRunner.h",
+    "wpi/cameraserver/CameraServerShared.hpp",
+    "wpi/vision/VisionPipeline.hpp",
+    "wpi/vision/VisionRunner.hpp",
 
     # Not wrapping OpenCV or cvnp
     "cvnp/*",
@@ -104,13 +104,13 @@ includes = [
 
 [tool.semiwrap.extension_modules."cscore._cscore".headers]
 # cameraserver
-CameraServer = "cameraserver/CameraServer.h"
+CameraServer = "wpi/cameraserver/CameraServer.hpp"
 
 # cscore
-cscore_cpp = "cscore_cpp.h"
-cscore_oo = "cscore_oo.h"
-cscore_cv = "cscore_cv.h"
-cscore_runloop = "cscore_runloop.h"
+cscore_cpp = "wpi/cs/cscore_cpp.hpp"
+cscore_oo = "wpi/cs/cscore_oo.hpp"
+cscore_cv = "wpi/cs/cscore_cv.hpp"
+cscore_runloop = "wpi/cs/cscore_runloop.hpp"
 
 [tool.semiwrap.export_type_casters.cscore-casters]
 pypackage = "cscore"
