@@ -28,8 +28,8 @@ version_file = "halsim_ds_socket/version.py"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_ds_socket"
 group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
-version = "2027.0.0-alpha-3"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-3-144-g59edbdd"
 use_headers = false
 
 extract_to = "halsim_ds_socket"

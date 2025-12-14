@@ -5,22 +5,22 @@ requires = [
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-romi==0.0.0",
-    "wpilib==0.0.0",
+    "robotpy-native-romi==2027.0.0a3",
+    "wpilib==2027.0.0a3",
 ]
 
 
 [project]
 name = "robotpy-romi"
-version = "0.0.0"
+version = "2027.0.0a3"
 description = "Binary wrapper for WPILib Romi Vendor library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-romi==0.0.0",
-    "wpilib==0.0.0"
+    "robotpy-native-romi==2027.0.0a3",
+    "wpilib==2027.0.0a3"
 ]
 
 [project.urls]
