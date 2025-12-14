@@ -127,7 +127,6 @@ jobs:
       matrix:
         os:
         - "ubuntu-24.04"
-        - "macos-13" # x86_64
         - "macos-14" # arm64
         - "windows-2022"
         python_version:
