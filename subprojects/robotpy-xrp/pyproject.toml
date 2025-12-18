@@ -32,9 +32,9 @@ version_file = "xrp/version.py"
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_xrp"
-group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
-version = "2027.0.0-alpha-3"
+group_id = "org.wpilib.halsim"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-3-144-g59edbdd"
 use_headers = false
 
 extract_to = "xrp/extension"
@@ -58,9 +58,9 @@ depends = ["wpilib", "wpimath_geometry"]
 
 [tool.semiwrap.extension_modules."xrp._xrp".headers]
 # frc/xrp
-XRPGyro = "frc/xrp/XRPGyro.h"
-XRPMotor = "frc/xrp/XRPMotor.h"
-XRPOnBoardIO = "frc/xrp/XRPOnBoardIO.h"
-XRPRangefinder = "frc/xrp/XRPRangefinder.h"
-XRPReflectanceSensor = "frc/xrp/XRPReflectanceSensor.h"
-XRPServo = "frc/xrp/XRPServo.h"
+XRPGyro = "wpi/xrp/XRPGyro.hpp"
+XRPMotor = "wpi/xrp/XRPMotor.hpp"
+XRPOnBoardIO = "wpi/xrp/XRPOnBoardIO.hpp"
+XRPRangefinder = "wpi/xrp/XRPRangefinder.hpp"
+XRPReflectanceSensor = "wpi/xrp/XRPReflectanceSensor.hpp"
+XRPServo = "wpi/xrp/XRPServo.hpp"

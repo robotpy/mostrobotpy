@@ -23,7 +23,7 @@ functions:
   GrabSinkFrameTimeout:
     ignore: true
 classes:
-  cs::CvSource:
+  wpi::cs::CvSource:
     doc: A source for user code to provide OpenCV images as video frames.
     force_no_trampoline: true
     methods:
@@ -34,7 +34,7 @@ classes:
           std::string_view, const VideoMode&:
           std::string_view, VideoMode::PixelFormat, int, int, int:
       PutFrame:
-  cs::CvSink:
+  wpi::cs::CvSink:
     doc: A sink for user code to accept video frames as OpenCV images.
     force_no_trampoline: true
     methods:
@@ -47,14 +47,14 @@ classes:
             ignore: true
       GrabFrame:
         cpp_code: |
-          [](cs::CvSink &self, cv::Mat& image, double timeout) -> std::tuple<uint64_t, cv::Mat> {
+          [](wpi::cs::CvSink &self, cv::Mat& image, double timeout) -> std::tuple<uint64_t, cv::Mat> {
             py::gil_scoped_release unlock;
             auto result = self.GrabFrame(image, timeout);
             return std::make_tuple(result, image);
           }
       GrabFrameNoTimeout:
         cpp_code: |
-          [](cs::CvSink &self, cv::Mat& image) -> std::tuple<uint64_t, cv::Mat> {
+          [](wpi::cs::CvSink &self, cv::Mat& image) -> std::tuple<uint64_t, cv::Mat> {
             py::gil_scoped_release unlock;
             auto result = self.GrabFrameNoTimeout(image);
             return std::make_tuple(result, image);

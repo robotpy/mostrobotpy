@@ -6,7 +6,7 @@ functions:
     overloads:
       CS_Property, CS_Status*:
         ignore: true
-      CS_Property, wpi::SmallVectorImpl<char>&, CS_Status*:
+      CS_Property, wpi::util::SmallVectorImpl<char>&, CS_Status*:
         ignore: true
   GetProperty:
     ignore: true
@@ -24,7 +24,7 @@ functions:
     overloads:
       CS_Property, CS_Status*:
         ignore: true
-      CS_Property, wpi::SmallVectorImpl<char>&, CS_Status*:
+      CS_Property, wpi::util::SmallVectorImpl<char>&, CS_Status*:
         ignore: true
   SetStringProperty:
     ignore: true
@@ -48,13 +48,13 @@ functions:
     overloads:
       CS_Source, CS_Status*:
         ignore: true
-      CS_Source, wpi::SmallVectorImpl<char>&, CS_Status*:
+      CS_Source, wpi::util::SmallVectorImpl<char>&, CS_Status*:
         ignore: true
   GetSourceDescription:
     overloads:
       CS_Source, CS_Status*:
         ignore: true
-      CS_Source, wpi::SmallVectorImpl<char>&, CS_Status*:
+      CS_Source, wpi::util::SmallVectorImpl<char>&, CS_Status*:
         ignore: true
   GetSourceLastFrameTime:
     ignore: true
@@ -82,7 +82,7 @@ functions:
     overloads:
       CS_Source, std::string_view, CS_Status*:
         ignore: true
-      CS_Source, const wpi::json&, CS_Status*:
+      CS_Source, const wpi::util::json&, CS_Status*:
         ignore: true
   GetSourceConfigJson:
     ignore: true
@@ -146,13 +146,13 @@ functions:
     overloads:
       CS_Sink, CS_Status*:
         ignore: true
-      CS_Sink, wpi::SmallVectorImpl<char>&, CS_Status*:
+      CS_Sink, wpi::util::SmallVectorImpl<char>&, CS_Status*:
         ignore: true
   GetSinkDescription:
     overloads:
       CS_Sink, CS_Status*:
         ignore: true
-      CS_Sink, wpi::SmallVectorImpl<char>&, CS_Status*:
+      CS_Sink, wpi::util::SmallVectorImpl<char>&, CS_Status*:
         ignore: true
   GetSinkProperty:
     ignore: true
@@ -166,7 +166,7 @@ functions:
     overloads:
       CS_Sink, std::string_view, CS_Status*:
         ignore: true
-      CS_Sink, const wpi::json&, CS_Status*:
+      CS_Sink, const wpi::util::json&, CS_Status*:
         ignore: true
   GetSinkConfigJson:
     ignore: true
@@ -188,7 +188,7 @@ functions:
     overloads:
       CS_Sink, CS_Status*:
         ignore: true
-      CS_Sink, wpi::SmallVectorImpl<char>&, CS_Status*:
+      CS_Sink, wpi::util::SmallVectorImpl<char>&, CS_Status*:
         ignore: true
   SetSinkEnabled:
     ignore: true
@@ -241,7 +241,7 @@ functions:
   GetNetworkInterfaces:
     ignore: true
 classes:
-  cs::UsbCameraInfo:
+  wpi::cs::UsbCameraInfo:
     attributes:
       dev:
       path:
@@ -249,7 +249,7 @@ classes:
       otherPaths:
       vendorId:
       productId:
-  cs::VideoMode:
+  wpi::cs::VideoMode:
     force_no_trampoline: true
     ignored_bases:
     - CS_VideoMode
@@ -268,7 +268,7 @@ classes:
       .def_readwrite("width", &VideoMode::width)
       .def_readwrite("height", &VideoMode::height)
       .def_readwrite("fps", &VideoMode::fps)
-  cs::RawEvent:
+  wpi::cs::RawEvent:
     attributes:
       kind:
         ignore: true
