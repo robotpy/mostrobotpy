@@ -74,8 +74,7 @@ scan_headers_ignore = [
 name = "wpilib"
 wraps = ["robotpy-native-wpilib"]
 depends = [
-    "wpihal", "wpiutil", "ntcore",
-    "wpimath", "wpimath_geometry", "wpimath_controls", "wpimath_filter",
+    "wpihal", "wpiutil", "ntcore", "wpimath"
 ]
 includes = ["wpilib/src"]
 
@@ -227,7 +226,7 @@ SensorUtil = "wpi/util/SensorUtil.hpp"
 [tool.semiwrap.extension_modules."wpilib.simulation._simulation"]
 name = "wpilib_simulation"
 wraps = ["robotpy-native-wpilib"]
-depends = ["wpilib", "wpimath_controls", "wpimath_geometry", "wpimath_kinematics"]
+depends = ["wpilib", "wpimath"]
 yaml_path = "semiwrap/simulation"
 
 [tool.semiwrap.extension_modules."wpilib.simulation._simulation".headers]
