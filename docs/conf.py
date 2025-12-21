@@ -60,11 +60,6 @@ root = abspath(dirname(__file__))
 
 # WPILib
 gen_package(root, "wpilib", exclude=["wpi_*"])
-gen_package(root, "wpilib.counter")
-gen_package(root, "wpilib.event")
-gen_package(root, "wpilib.drive")
-gen_package(root, "wpilib.interfaces")
-gen_package(root, "wpilib.shuffleboard")
 gen_package(root, "wpilib.simulation")
 gen_package(root, "wpilib.sysid")
 

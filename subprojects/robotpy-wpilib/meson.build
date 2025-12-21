@@ -12,18 +12,6 @@ wpilib_sources += files(
     'wpilib/src/rpy/MotorControllerGroup.cpp',
 )
 
-wpilib_counter_sources += files(
-    'wpilib/counter/counter.cpp',
-)
-
-wpilib_drive_sources += files(
-    'wpilib/drive/drive.cpp',
-)
-
-wpilib_event_sources += files(
-    'wpilib/event/event.cpp',
-)
-
 wpilib_simulation_sources += files(
     'wpilib/simulation/simulation.cpp',
 )
