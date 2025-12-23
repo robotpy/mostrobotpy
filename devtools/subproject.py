@@ -50,7 +50,13 @@ class Subproject:
 
     def develop(self):
         self.ctx.run_pip(
-            "install", "-v", "-e", ".", "--no-build-isolation", cwd=self.path
+            "install",
+            "-v",
+            "-e",
+            ".",
+            "--no-build-isolation",
+            "--config-settings=setup-args=-Dbuildtype=debug",
+            cwd=self.path,
         )
 
     def uninstall(self):
