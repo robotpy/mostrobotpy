@@ -60,11 +60,6 @@ root = abspath(dirname(__file__))
 
 # WPILib
 gen_package(root, "wpilib", exclude=["wpi_*"])
-gen_package(root, "wpilib.counter")
-gen_package(root, "wpilib.event")
-gen_package(root, "wpilib.drive")
-gen_package(root, "wpilib.interfaces")
-gen_package(root, "wpilib.shuffleboard")
 gen_package(root, "wpilib.simulation")
 gen_package(root, "wpilib.sysid")
 
@@ -79,19 +74,6 @@ gen_package(root, "robotpy_apriltag")
 
 # WPIMath
 gen_package(root, "wpimath")
-gen_package(root, "wpimath.controller")
-gen_package(root, "wpimath.estimator")
-gen_package(root, "wpimath.filter")
-gen_package(root, "wpimath.geometry")
-gen_package(root, "wpimath.interpolation")
-gen_package(root, "wpimath.kinematics")
-gen_package(root, "wpimath.optimization")
-gen_package(root, "wpimath.path")
-gen_package(root, "wpimath.spline")
-gen_package(root, "wpimath.system")
-gen_package(root, "wpimath.system.plant")
-gen_package(root, "wpimath.trajectory")
-gen_package(root, "wpimath.trajectory.constraint")
 
 # WPINet
 gen_package(root, "wpinet")
