@@ -33,7 +33,7 @@ dependencies = [
 "Source code" = "https://github.com/robotpy/mostrobotpy"
 
 [project.entry-points."robotpy_cli.2027"]
-run = "wpilib._impl.start:Main"
+run = "wpilib._impl.cli_run:Main"
 
 
 [tool.hatch.build.hooks.robotpy]
