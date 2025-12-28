@@ -20,11 +20,15 @@ authors = [
 license = "BSD-3-Clause"
 dependencies = [
     "robotpy-native-romi==2026.1.1b1",
-    "wpilib==2026.1.1b1"
+    "wpilib==2026.1.1b1",
+    "robotpy-halsim-ws==2026.1.1b1",
 ]
 
 [project.urls]
 "Source code" = "https://github.com/robotpy/mostrobotpy"
+
+[project.entry-points."robotpy_cli.2026"]
+run-romi = "romi.cli:RunRomi"
 
 
 [tool.hatch.build.hooks.robotpy]
