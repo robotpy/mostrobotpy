@@ -50,7 +50,13 @@ class Subproject:
 
     def develop(self):
         self.ctx.run_pip(
-            "install", "-v", "-e", ".", "--no-build-isolation", cwd=self.path
+            "install",
+            "-v",
+            "-e",
+            ".",
+            "--no-build-isolation",
+            "--config-settings=setup-args=-Dbuildtype=debug",
+            cwd=self.path,
         )
 
     def uninstall(self):
@@ -177,23 +183,30 @@ class Subproject:
     def _fix_linux_wheel_name(self, wheel_path: pathlib.Path) -> str:
         # inspired by https://github.com/hsorby/renamewheel, Apache license
 
-        from auditwheel.error import NonPlatformWheel, WheelToolsError
+        from auditwheel.error import AuditwheelError
         from auditwheel.wheel_abi import analyze_wheel_abi
         from auditwheel.wheeltools import get_wheel_architecture, get_wheel_libc
 
         try:
             arch = get_wheel_architecture(wheel_path.name)
-        except (WheelToolsError, NonPlatformWheel):
+        except AuditwheelError:
             arch = None
 
         try:
             libc = get_wheel_libc(wheel_path.name)
-        except WheelToolsError:
+        except AuditwheelError:
             libc = None
 
         try:
-            winfo = analyze_wheel_abi(libc, arch, wheel_path, frozenset(), True, True)
-        except NonPlatformWheel:
+            winfo = analyze_wheel_abi(
+                libc,
+                arch,
+                wheel_path,
+                frozenset(),
+                disable_isa_ext_check=True,
+                allow_graft=True,
+            )
+        except AuditwheelError:
             return wheel_path.name
         else:
             parts = wheel_path.name.split("-")
