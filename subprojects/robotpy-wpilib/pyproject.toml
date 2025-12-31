@@ -31,7 +31,6 @@ dependencies = [
     # For running robot tests
     "pytest>=3.9",
     "pytest-reraise",
-    "tomli",
 ]
 
 [project.urls]

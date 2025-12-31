@@ -4,11 +4,11 @@ from os.path import abspath
 import inspect
 import pathlib
 import sys
+import tomllib
 import typing
 
 import wpilib
 
-import tomli
 import pytest
 
 from ..testing import pytest_plugin
@@ -90,7 +90,7 @@ class RobotTest:
             pyproject_path = project_path / "pyproject.toml"
             if pyproject_path.exists():
                 with open(pyproject_path, "rb") as fp:
-                    d = tomli.load(fp)
+                    d = tomllib.load(fp)
 
                 try:
                     v = d["tool"]["robotpy"]["testing"]["isolated"]
