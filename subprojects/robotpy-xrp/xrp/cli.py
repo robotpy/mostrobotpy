@@ -43,7 +43,7 @@ class RunXrp:
         sim_group = parser.add_argument_group("Additional simulation extensions")
         self.simexts = {}
 
-        for entry_point in entry_points(group="robotpy_sim.2026"):
+        for entry_point in entry_points(group="robotpy_sim.2027"):
             try:
                 sim_ext_module = entry_point.load()
             except ImportError:
