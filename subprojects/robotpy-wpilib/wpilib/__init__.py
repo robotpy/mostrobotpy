@@ -15,7 +15,6 @@ from ._wpilib import (
     Compressor,
     CompressorConfigType,
     CounterBase,
-    DSControlWord,
     DataLogManager,
     DifferentialDrive,
     DigitalInput,
@@ -40,6 +39,7 @@ from ._wpilib import (
     Joystick,
     Koors40,
     LEDPattern,
+    LinearOpMode,
     MecanumDrive,
     Mechanism2d,
     MechanismLigament2d,
@@ -51,6 +51,8 @@ from ._wpilib import (
     NetworkBooleanEvent,
     Notifier,
     OnboardIMU,
+    OpMode,
+    OpModeRobotBase,
     PS4Controller,
     PS5Controller,
     PWM,
@@ -61,6 +63,7 @@ from ._wpilib import (
     PWMTalonSRX,
     PWMVenom,
     PWMVictorSPX,
+    PeriodicOpMode,
     PneumaticHub,
     PneumaticsBase,
     PneumaticsControlModule,
@@ -70,7 +73,6 @@ from ._wpilib import (
     RobotBase,
     RobotController,
     RobotDriveBase,
-    RobotState,
     RuntimeType,
     SendableBuilderImpl,
     SendableChooser,
@@ -117,7 +119,6 @@ __all__ = [
     "Compressor",
     "CompressorConfigType",
     "CounterBase",
-    "DSControlWord",
     "DataLogManager",
     "DifferentialDrive",
     "DigitalInput",
@@ -142,6 +143,7 @@ __all__ = [
     "Joystick",
     "Koors40",
     "LEDPattern",
+    "LinearOpMode",
     "MecanumDrive",
     "Mechanism2d",
     "MechanismLigament2d",
@@ -153,6 +155,8 @@ __all__ = [
     "NetworkBooleanEvent",
     "Notifier",
     "OnboardIMU",
+    "OpMode",
+    "OpModeRobotBase",
     "PS4Controller",
     "PS5Controller",
     "PWM",
@@ -163,6 +167,7 @@ __all__ = [
     "PWMTalonSRX",
     "PWMVenom",
     "PWMVictorSPX",
+    "PeriodicOpMode",
     "PneumaticHub",
     "PneumaticsBase",
     "PneumaticsControlModule",
@@ -172,7 +177,6 @@ __all__ = [
     "RobotBase",
     "RobotController",
     "RobotDriveBase",
-    "RobotState",
     "RuntimeType",
     "SendableBuilderImpl",
     "SendableChooser",
@@ -211,6 +215,10 @@ from ._impl.report_error import reportError, reportWarning
 __all__ += ["reportError", "reportWarning"]
 
 del _init__wpilib
+
+from .opmoderobot import OpModeRobot
+
+__all__ += ["OpModeRobot"]
 
 from .cameraserver import CameraServer
 from .deployinfo import getDeployData
