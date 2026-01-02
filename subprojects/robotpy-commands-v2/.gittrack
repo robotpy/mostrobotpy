@@ -1,0 +1,6 @@
+[git-source-track]
+upstream_root = ../allwpilib/wpilibNewCommands/src/main/java/edu/wpi/first/wpilibj2/command
+upstream_branch = main
+upstream_commit = 0f8aa8aedff3bec7fca50dc43f803b1608d9a421
+validation_root = commands2
+
