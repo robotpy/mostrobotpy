@@ -5,22 +5,22 @@ requires = [
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-xrp==0.0.0",
-    "wpilib==0.0.0",
+    "robotpy-native-xrp==2027.0.0a3",
+    "wpilib==2027.0.0a3",
 ]
 
 
 [project]
 name = "robotpy-xrp"
-version = "0.0.0"
+version = "2027.0.0a3"
 description = "Binary wrapper for WPILib XRP Vendor library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-xrp==0.0.0",
-    "wpilib==0.0.0"
+    "robotpy-native-xrp==2027.0.0a3",
+    "wpilib==2027.0.0a3"
 ]
 
 [project.entry-points."robotpy_cli.2027"]
@@ -36,8 +36,8 @@ version_file = "xrp/version.py"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_xrp"
 group_id = "org.wpilib.halsim"
-repo_url = ""
-version = "0.0.0"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-3-188-g5a3f2ce13"
 use_headers = false
 
 extract_to = "xrp/extension"

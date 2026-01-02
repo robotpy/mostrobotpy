@@ -4,17 +4,17 @@ requires = [
     "hatchling",
     "hatch-nativelib~=0.2.0",
     "hatch-robotpy~=0.2.1",
-    "robotpy-native-wpiutil==0.0.0",
+    "robotpy-native-wpiutil==2027.0.0a3",
 ]
 
 [project]
 name = "robotpy-native-datalog"
-version = "0.0.0"
+version = "2027.0.0a3"
 description = "WPILib Utility Library"
 license = "BSD-3-Clause"
 
 dependencies = [
-    "robotpy-native-wpiutil==0.0.0",
+    "robotpy-native-wpiutil==2027.0.0a3",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -24,8 +24,8 @@ packages = ["src/native"]
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "datalog-cpp"
 group_id = "org.wpilib.datalog"
-repo_url = ""
-version = "0.0.0"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-3-188-g5a3f2ce13"
 
 extract_to = "src/native/datalog"
 libs = ["datalog"]
