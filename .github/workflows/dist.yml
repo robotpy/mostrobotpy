@@ -71,7 +71,38 @@ jobs:
         ./rdev.sh ci check-tag
 
   #
-  # Build other wheels first (OS-specific, not python specific)
+  # Build pure wheels first
+  #
+
+  build-pure:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Install python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+
+    - name: Install deps
+      shell: bash
+      run: |
+        python -m pip --disable-pip-version-check install -r rdev_requirements.txt
+
+    - name: Build + test wheels
+      shell: bash
+      run: |
+        ./rdev.sh ci build-pure-wheels
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: "pypi-pure"
+        path: dist
+
+  #
+  # Build other wheels next (OS-specific, not python specific)
   #
 
   build-other:
@@ -120,7 +151,7 @@ jobs:
 
   build-meson:
     runs-on: ${{ matrix.os }}
-    needs: [setup_concurrency, build-other]
+    needs: [setup_concurrency, build-other, build-pure]
     strategy:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       fail-fast: true
@@ -169,6 +200,12 @@ jobs:
         path: dist-other
         merge-multiple: true
 
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: "pypi-pure"
+        path: dist-other
+        merge-multiple: true
+
     #
     # Platform specific setup
     #
@@ -214,6 +251,12 @@ jobs:
       env:
         SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
+
+    # install + test pure wheels here because this covers all platforms and they need
+    # the meson wheels to run
+    - name: Install and test pure wheels
+      run: |
+        python -m devtools ci install-test-pure-wheels
 
     - name: Ensure all headers are accounted for
       run: |
@@ -391,6 +434,12 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         pattern: pypi-meson-*
+        path: dist/
+        merge-multiple: true
+
+    - uses: actions/download-artifact@v4
+      with:
+        pattern: pypi-pure
         path: dist/
         merge-multiple: true
 

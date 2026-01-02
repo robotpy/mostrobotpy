@@ -44,6 +44,13 @@ class Subproject:
     def is_meson_project(self) -> bool:
         return (self.path / "meson.build").exists()
 
+    def is_native_project(self) -> bool:
+        for req in self.build_requires:
+            if req.name == "hatch-robotpy":
+                return True
+
+        return False
+
     #
     # Tasks
     #

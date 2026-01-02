@@ -160,7 +160,8 @@ class ProjectUpdater:
     def _update_maven(self, info: ProjectInfo):
         data = info.data
         iter = (
-            data["tool"]["hatch"]["build"]["hooks"]
+            data["tool"]["hatch"]["build"]
+            .get("hooks", {})
             .get("robotpy", {})
             .get("maven_lib_download", [])
         )
