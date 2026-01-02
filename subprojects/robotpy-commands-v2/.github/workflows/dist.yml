@@ -1,0 +1,36 @@
+---
+name: dist
+
+on:
+  pull_request:
+  push:
+    branches:
+    - main
+    tags:
+    - '*'
+
+jobs:
+  ci:
+    uses: robotpy/build-actions/.github/workflows/package-pure.yml@v2026
+    with:
+      enable_sphinx_check: false
+    secrets:
+      META_REPO_ACCESS_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}
+      PYPI_API_TOKEN: ${{ secrets.PYPI_PASSWORD }}
+
+  check-mypy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+    - name: Install requirements
+      run: |
+        pip --disable-pip-version-check install mypy hatchling hatch-vcs editables
+        pip --disable-pip-version-check install --no-build-isolation -e .
+    - name: Run mypy
+      uses: liskin/gh-problem-matcher-wrap@v2
+      with:
+        linters: mypy
+        run: mypy --show-column-numbers commands2

@@ -1,0 +1,15 @@
+
+
+# Doc-related stuffs
+/_build
+/_sidebar.rst.inc
+/_sidebar.toml
+
+/commands2.rst
+/commands2
+/commands2.button.rst
+/commands2.button
+/commands2.cmd.rst
+/commands2.cmd/
+/commands2.sysid.rst
+/commands2.sysid/
