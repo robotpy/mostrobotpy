@@ -3,7 +3,7 @@
 import argparse
 import pathlib
 
-from wpiutil.log import DataLog, BooleanLogEntry, StringArrayLogEntry, RawLogEntry
+from wpilog import DataLog, BooleanLogEntry, StringArrayLogEntry, RawLogEntry
 
 
 if __name__ == "__main__":

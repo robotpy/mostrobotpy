@@ -7,7 +7,7 @@
 import argparse
 import datetime
 
-from wpiutil.log import DataLogReader
+from wpilog import DataLogReader
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
