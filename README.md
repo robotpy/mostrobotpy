@@ -33,6 +33,7 @@ Next install dependencies using pip:
 
 Then run these commands to build all the wheels for the current operating system.
 
+    ./rdev.sh ci build-pure-wheels
     ./rdev.sh ci build-other-wheels
     ./rdev.sh ci build-meson-wheels
 

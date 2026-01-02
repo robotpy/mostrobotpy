@@ -93,3 +93,9 @@ gen_package(root, "romi")
 
 # XRP
 gen_package(root, "xrp")
+
+# Commands
+gen_package(root, "commands2")
+gen_package(root, "commands2.button")
+gen_package(root, "commands2.cmd")
+gen_package(root, "commands2.sysid")

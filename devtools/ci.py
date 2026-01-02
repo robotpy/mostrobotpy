@@ -69,7 +69,7 @@ def build_other_wheels(ctx: Context, no_test: bool):
     """
 
     for project in ctx.subprojects.values():
-        if project.is_meson_project():
+        if project.is_meson_project() or not project.is_native_project():
             continue
 
         with ctx.handle_exception(project.name):
@@ -128,6 +128,34 @@ def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[str]):
             )
             if not no_test:
                 project.test(install_requirements=True)
+
+
+@ci.command()
+@click.pass_obj
+def build_pure_wheels(ctx: Context):
+    for project in ctx.subprojects.values():
+        if project.is_meson_project() or project.is_native_project():
+            continue
+
+        ctx.install_build_deps(subproject=project)
+        project.build_wheel(
+            wheel_path=ctx.wheel_path,
+            other_wheel_path=ctx.other_wheel_path,
+            install=False,
+            config_settings=[],
+        )
+
+
+@ci.command()
+@click.pass_obj
+def install_test_pure_wheels(ctx: Context):
+    for project in ctx.subprojects.values():
+        if project.is_meson_project() or project.is_native_project():
+            continue
+
+        with ctx.handle_exception(project.name):
+            ctx.install_from_wheel(subproject=project)
+            project.test(install_requirements=True)
 
 
 @ci.command()

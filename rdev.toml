@@ -148,3 +148,7 @@ robot = false
 [subprojects."robotpy-xrp"]
 py_version = "wrapper"
 robot = false
+
+[subprojects."robotpy-commands-v2"]
+py_version = "wrapper"
+robot = true
