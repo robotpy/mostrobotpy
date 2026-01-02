@@ -142,6 +142,17 @@ class Context:
                 *[str(req) for req in internal],
             )
 
+    def install_from_wheel(self, *, subproject: Subproject):
+        self.run_pip(
+            "install",
+            "--no-index",
+            "--find-links",
+            str(self.wheel_path),
+            "--find-links",
+            str(self.other_wheel_path),
+            subproject.pyproject_name,
+        )
+
     def run_pip(self, *args: str, cwd=None, installing_build_deps: bool = False):
         if installing_build_deps:
             python = self.build_python
