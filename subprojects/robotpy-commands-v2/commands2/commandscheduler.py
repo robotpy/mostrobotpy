@@ -9,13 +9,14 @@ from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Union
 import hal
 from typing_extensions import Self
 from wpilib import (
+    EventLoop,
     RobotBase,
     RobotState,
     TimedRobot,
     Watchdog,
     reportWarning,
 )
-from wpilib.event import EventLoop
+
 from wpiutil import Sendable, SendableBuilder, SendableRegistry
 
 from .command import Command, InterruptionBehavior
