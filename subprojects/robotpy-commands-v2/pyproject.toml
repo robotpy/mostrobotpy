@@ -1,17 +1,17 @@
 [build-system]
-requires = ["hatchling", "hatch-vcs"]
+requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
 name = "robotpy-commands-v2"
-dynamic = ["version"]
+version = "2026.1.1b1"
 description = "WPILib command framework v2"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "BSD-3-Clause"
 license-files = ["LICENSE"]
 dependencies = [
-    "wpilib<2027,>=2026.1.1b1",
+    "wpilib==2026.1.1b1",
     "typing_extensions>=4.1.0,<5",
 ]
 
