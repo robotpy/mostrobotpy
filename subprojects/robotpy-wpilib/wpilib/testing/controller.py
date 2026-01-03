@@ -147,9 +147,7 @@ class RobotTestController:
 
         DriverStationSim.setDsAttached(True)
         DriverStationSim.setRobotMode(
-            RobotMode.HAL_ROBOTMODE_AUTONOMOUS
-            if autonomous
-            else RobotMode.HAL_ROBOTMODE_TELEOPERATED
+            RobotMode.AUTONOMOUS if autonomous else RobotMode.TELEOPERATED
         )
         DriverStationSim.setEnabled(enabled)
 
