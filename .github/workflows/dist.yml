@@ -283,8 +283,6 @@ jobs:
         os:
         - container: wpilib/systemcore-cross-ubuntu:2026-24.04-py314
           name: systemcore
-        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py313
-          name: raspbian
 
     container:
       image: "${{ matrix.os.container }}"
@@ -322,19 +320,6 @@ jobs:
         - container: wpilib/systemcore-cross-ubuntu:2026-24.04-py314
           name: systemcore
           base: systemcore
-
-        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py311
-          name: raspbian-py311
-          base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py312
-          name: raspbian-py312
-          base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py313
-          name: raspbian-py313
-          base: raspbian
-        - container: wpilib/raspbian-cross-ubuntu:2027-bookworm-24.04-py314
-          name: raspbian-py314
-          base: raspbian
 
     container:
       image: "${{ matrix.os.container }}"
