@@ -12,6 +12,7 @@ from ..simulation import (
     stepTimingAsync,
     getProgramStarted,
 )
+from hal._wpiHal import _RobotMode as RobotMode
 
 
 class RobotTestController:
@@ -145,7 +146,9 @@ class RobotTestController:
         assert seconds > 0
 
         DriverStationSim.setDsAttached(True)
-        DriverStationSim.setAutonomous(autonomous)
+        DriverStationSim.setRobotMode(
+            RobotMode.AUTONOMOUS if autonomous else RobotMode.TELEOPERATED
+        )
         DriverStationSim.setEnabled(enabled)
 
         tm = 0.0

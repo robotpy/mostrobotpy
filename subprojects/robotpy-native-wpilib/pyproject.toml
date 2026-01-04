@@ -32,7 +32,7 @@ packages = ["src/native"]
 artifact_id = "wpilibc-cpp"
 group_id = "org.wpilib.wpilibc"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-3-144-g59edbdd"
+version = "2027.0.0-alpha-3-189-g32cd2ddf8"
 
 extract_to = "src/native/wpilib"
 libs = ["wpilibc"]

@@ -7,6 +7,7 @@ import pytest
 
 import hal
 import hal.simulation
+from hal._wpiHal import _RobotMode as RobotMode
 import ntcore
 import wpilib
 from wpilib.simulation import DriverStationSim, pauseTiming, restartTiming
@@ -73,7 +74,7 @@ class RobotTestingPlugin:
         restartTiming()
 
         wpilib.DriverStation.silenceJoystickConnectionWarning(True)
-        DriverStationSim.setAutonomous(False)
+        DriverStationSim.setRobotMode(RobotMode.AUTONOMOUS)
         DriverStationSim.setEnabled(False)
         DriverStationSim.notifyNewData()
 
