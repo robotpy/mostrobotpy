@@ -5,26 +5,38 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-import wpilib
-import wpimath.controller
-import wpimath.trajectory
 import math
+
+import wpilib
+import wpimath
 
 
 class MyRobot(wpilib.TimedRobot):
     kDt = 0.02
+    kMaxVelocity = 1.75
+    kMaxAcceleration = 0.75
+    kP = 1.3
+    kI = 0.0
+    kD = 0.7
+    kS = 1.1
+    kG = 1.2
+    kV = 1.3
 
-    def robotInit(self) -> None:
+    def __init__(self) -> None:
+        super().__init__()
         self.joystick = wpilib.Joystick(1)
         self.encoder = wpilib.Encoder(1, 2)
         self.motor = wpilib.PWMSparkMax(1)
 
         # Create a PID controller whose setpoint's change is subject to maximum
         # velocity and acceleration constraints.
-        self.constraints = wpimath.trajectory.TrapezoidProfile.Constraints(1.75, 0.75)
-        self.controller = wpimath.controller.ProfiledPIDController(
-            1.3, 0, 0.7, self.constraints, self.kDt
+        self.constraints = wpimath.TrapezoidProfile.Constraints(
+            self.kMaxVelocity, self.kMaxAcceleration
         )
+        self.controller = wpimath.ProfiledPIDController(
+            self.kP, self.kI, self.kD, self.constraints, self.kDt
+        )
+        self.feedforward = wpimath.ElevatorFeedforward(self.kS, self.kG, self.kV)
 
         self.encoder.setDistancePerPulse(1 / 360 * 2 * math.pi * 1.5)
 
@@ -35,4 +47,7 @@ class MyRobot(wpilib.TimedRobot):
             self.controller.setGoal(0)
 
         # Run controller and update motor output
-        self.motor.set(self.controller.calculate(self.encoder.getDistance()))
+        self.motor.setVoltage(
+            self.controller.calculate(self.encoder.getDistance())
+            + self.feedforward.calculate(self.controller.getSetpoint().velocity)
+        )

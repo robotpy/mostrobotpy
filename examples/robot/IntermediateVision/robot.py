@@ -15,5 +15,6 @@ class MyRobot(wpilib.TimedRobot):
     many methods for different types of processing.
     """
 
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         wpilib.CameraServer.launch("vision.py:main")

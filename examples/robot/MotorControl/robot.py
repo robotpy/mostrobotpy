@@ -27,8 +27,9 @@ class MyRobot(wpilib.TimedRobot):
     kEncoderPortA = 0
     kEncoderPortB = 1
 
-    def robotInit(self):
+    def __init__(self):
         """Robot initialization function"""
+        super().__init__()
 
         self.motor = wpilib.PWMSparkMax(self.kMotorPort)
         self.joystick = wpilib.Joystick(self.kJoystickPort)

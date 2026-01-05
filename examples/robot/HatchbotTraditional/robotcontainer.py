@@ -5,7 +5,6 @@
 #
 
 import wpilib
-from wpilib.interfaces import GenericHID
 
 import commands2
 import commands2.button
@@ -74,7 +73,7 @@ class RobotContainer:
     def configureButtonBindings(self):
         """
         Use this method to define your button->command mappings. Buttons can be created by
-        instantiating a :GenericHID or one of its subclasses (Joystick or XboxController),
+        instantiating a wpilib.GenericHID or one of its subclasses (Joystick or XboxController),
         and then passing it to a JoystickButton.
         """
 

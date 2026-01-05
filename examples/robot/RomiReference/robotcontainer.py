@@ -12,8 +12,8 @@ import wpilib
 import romi
 
 from commands.arcadedrive import ArcadeDrive
-from commands.autonomous_distance import AutonomousDistance
-from commands.autonomous_time import AutonomousTime
+from commands.autonomousdistance import AutonomousDistance
+from commands.autonomoustime import AutonomousTime
 
 from subsystems.drivetrain import Drivetrain
 
@@ -85,6 +85,6 @@ class RobotContainer:
         """
         return ArcadeDrive(
             self.drivetrain,
-            lambda: self.controller.getRawAxis(1),
-            lambda: self.controller.getRawAxis(2),
+            lambda: -self.controller.getRawAxis(1),
+            lambda: -self.controller.getRawAxis(2),
         )

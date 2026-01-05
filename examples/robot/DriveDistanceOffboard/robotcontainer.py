@@ -7,11 +7,8 @@
 import commands2
 import commands2.cmd
 import commands2.button
-import wpimath.trajectory
-
 import constants
 import subsystems.drivesubsystem
-import commands.drivedistanceprofiled
 
 
 class RobotContainer:
@@ -75,32 +72,12 @@ class RobotContainer:
 
         # Drive forward by 3 meters when the 'A' button is pressed, with a timeout of 10 seconds
         self.driverController.a().onTrue(
-            commands.drivedistanceprofiled.DriveDistanceProfiled(
-                3, self.robotDrive
-            ).withTimeout(10)
+            self.robotDrive.profiledDriveDistance(3).withTimeout(10)
         )
 
         # Do the same thing as above when the 'B' button is pressed, but defined inline
         self.driverController.b().onTrue(
-            commands2.TrapezoidProfileCommand(
-                wpimath.trajectory.TrapezoidProfile(
-                    # Limit the max acceleration and velocity
-                    wpimath.trajectory.TrapezoidProfile.Constraints(
-                        constants.DriveConstants.kMaxSpeedMetersPerSecond,
-                        constants.DriveConstants.kMaxAccelerationMetersPerSecondSquared,
-                    ),
-                ),
-                # Pipe the profile state to the drive
-                lambda setpointState: self.robotDrive.setDriveStates(
-                    setpointState, setpointState
-                ),
-                # End at desired position in meters; implicitly starts at 0
-                lambda: wpimath.trajectory.TrapezoidProfile.State(3, 0),
-                wpimath.trajectory.TrapezoidProfile.State,
-                self.robotDrive,
-            )
-            .beforeStarting(self.robotDrive.resetEncoders)
-            .withTimeout(10)
+            self.robotDrive.dynamicProfiledDriveDistance(3).withTimeout(10)
         )
 
     def getAutonomousCommand(self) -> commands2.Command:

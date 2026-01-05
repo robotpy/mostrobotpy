@@ -8,7 +8,6 @@ import math
 
 import commands2
 import wpilib
-import wpilib.drive
 import wpiutil
 import xrp
 
@@ -20,7 +19,6 @@ class Drivetrain(commands2.Subsystem):
     kWheelDiameterInch = 2.3622  # 60 mm
 
     def __init__(self) -> None:
-        super().__init__()
 
         # The XRP has the left and right motors set to
         # PWM channels 0 and 1 respectively
@@ -33,9 +31,7 @@ class Drivetrain(commands2.Subsystem):
         self.rightEncoder = wpilib.Encoder(6, 7)
 
         # Set up the differential drive controller
-        self.drive = wpilib.drive.DifferentialDrive(
-            self.leftMotor.set, self.rightMotor.set
-        )
+        self.drive = wpilib.DifferentialDrive(self.leftMotor.set, self.rightMotor.set)
 
         # TODO: these don't work
         # wpiutil.SendableRegistry.addChild(self.drive, self.leftMotor)
@@ -43,9 +39,6 @@ class Drivetrain(commands2.Subsystem):
 
         # Set up the XRPGyro
         self.gyro = xrp.XRPGyro()
-
-        # Set up the BuiltInAccelerometer
-        self.accelerometer = wpilib.BuiltInAccelerometer()
 
         # We need to invert one side of the drivetrain so that positive voltages
         # result in both sides moving forward. Depending on how your robot's
@@ -90,27 +83,6 @@ class Drivetrain(commands2.Subsystem):
     def getAverageDistanceInch(self) -> float:
         """Gets the average distance of the TWO encoders."""
         return (self.getLeftDistanceInch() + self.getRightDistanceInch()) / 2.0
-
-    def getAccelX(self) -> float:
-        """The acceleration in the X-axis.
-
-        :returns: The acceleration of the Romi along the X-axis in Gs
-        """
-        return self.accelerometer.getX()
-
-    def getAccelY(self) -> float:
-        """The acceleration in the Y-axis.
-
-        :returns: The acceleration of the Romi along the Y-axis in Gs
-        """
-        return self.accelerometer.getY()
-
-    def getAccelZ(self) -> float:
-        """The acceleration in the Z-axis.
-
-        :returns: The acceleration of the Romi along the Z-axis in Gs
-        """
-        return self.accelerometer.getZ()
 
     def getGyroAngleX(self) -> float:
         """Current angle of the Romi around the X-axis.

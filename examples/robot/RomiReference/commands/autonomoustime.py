@@ -20,8 +20,8 @@ class AutonomousTime(commands2.SequentialCommandGroup):
         :param drivetrain: The drive subsystem on which this command will run
 
         """
-        super().__init__()
 
+        super().__init__()
         self.addCommands(
             DriveTime(-0.6, 2.0, drive),
             TurnTime(-0.5, 1.3, drive),

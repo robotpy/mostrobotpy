@@ -9,6 +9,7 @@ from commands2.button import CommandXboxController
 from commands2.sysid import SysIdRoutine
 
 from subsystems.drive import Drive
+from subsystems.shooter import Shooter
 
 from constants import OIConstants
 
@@ -23,6 +24,7 @@ class SysIdRoutineBot:
     def __init__(self) -> None:
         # The robot's subsystems
         self.drive = Drive()
+        self.shooter = Shooter()
 
         # The driver's controller
         self.controller = CommandXboxController(OIConstants.kDriverControllerPort)
@@ -31,7 +33,7 @@ class SysIdRoutineBot:
         """Use this method to define bindings between conditions and commands. These are useful for
         automating robot behaviors based on button and sensor input.
 
-        Should be called during :meth:`.Robot.robotInit`.
+        Should be called in the robot class constructor.
 
         Event binding methods are available on the :class:`.Trigger` class.
         """
@@ -46,17 +48,37 @@ class SysIdRoutineBot:
 
         # Bind full set of SysId routine tests to buttons; a complete routine should run each of these
         # once.
-        self.controller.a().whileTrue(
+        # Using bumpers as a modifier and combining it with the buttons so that we can have both sets
+        # of bindings at once
+        self.controller.a().and_(self.controller.rightBumper()).whileTrue(
             self.drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward)
         )
-        self.controller.b().whileTrue(
+        self.controller.b().and_(self.controller.rightBumper()).whileTrue(
             self.drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse)
         )
-        self.controller.x().whileTrue(
+        self.controller.x().and_(self.controller.rightBumper()).whileTrue(
             self.drive.sysIdDynamic(SysIdRoutine.Direction.kForward)
         )
-        self.controller.y().whileTrue(
+        self.controller.y().and_(self.controller.rightBumper()).whileTrue(
             self.drive.sysIdDynamic(SysIdRoutine.Direction.kReverse)
+        )
+
+        # Control the shooter wheel with the left trigger
+        self.shooter.setDefaultCommand(
+            self.shooter.runShooter(self.controller.getLeftTriggerAxis)
+        )
+
+        self.controller.a().and_(self.controller.leftBumper()).whileTrue(
+            self.shooter.sysIdQuasistatic(SysIdRoutine.Direction.kForward)
+        )
+        self.controller.b().and_(self.controller.leftBumper()).whileTrue(
+            self.shooter.sysIdQuasistatic(SysIdRoutine.Direction.kReverse)
+        )
+        self.controller.x().and_(self.controller.leftBumper()).whileTrue(
+            self.shooter.sysIdDynamic(SysIdRoutine.Direction.kForward)
+        )
+        self.controller.y().and_(self.controller.leftBumper()).whileTrue(
+            self.shooter.sysIdDynamic(SysIdRoutine.Direction.kReverse)
         )
 
     def getAutonomousCommand(self) -> Command:

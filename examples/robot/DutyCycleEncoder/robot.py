@@ -18,8 +18,9 @@ EXPECTED_ZERO = 0.0
 
 
 class MyRobot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self):
         """Called once at the beginning of the robot program."""
+        super().__init__()
 
         # 2nd parameter is the range of values. This sensor will output between
         # 0 and the passed in value.

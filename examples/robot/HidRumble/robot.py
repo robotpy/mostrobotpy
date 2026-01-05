@@ -13,8 +13,9 @@ class MyRobot(wpilib.TimedRobot):
     This is a demo program showing the use of GenericHID's rumble feature.
     """
 
-    def robotInit(self):
+    def __init__(self):
         """Robot initialization function"""
+        super().__init__()
 
         self.hid = wpilib.XboxController(0)
 

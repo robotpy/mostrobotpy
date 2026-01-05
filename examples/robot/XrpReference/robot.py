@@ -54,8 +54,9 @@ class MyRobot(commands2.TimedCommandRobot):
 
     autonomousCommand: typing.Optional[commands2.Command] = None
 
-    def robotInit(self) -> None:
+    def __init__(self) -> None:
         """
+        super().__init__()
         This function is run when the robot is first started up and should be used for any
         initialization code.
         """

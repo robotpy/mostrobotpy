@@ -20,8 +20,9 @@ class MyRobot(wpilib.TimedRobot):
     kAutonomousPort = 2
     kAlertPort = 3
 
-    def robotInit(self):
+    def __init__(self):
         """Robot initialization function"""
+        super().__init__()
 
         self.allianceOutput = wpilib.DigitalOutput(self.kAlliancePort)
         self.enabledOutput = wpilib.DigitalOutput(self.kEnabledPort)

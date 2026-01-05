@@ -6,11 +6,11 @@
 #
 
 import wpilib
-import wpilib.simulation
-import wpimath.controller
-import wpimath.units
-
 import math
+
+import wpilib.simulation
+import wpimath
+import wpimath.units
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -42,25 +42,38 @@ class MyRobot(wpilib.TimedRobot):
         * math.pow(wpimath.units.inchesToMeters(4), 2)
     )
 
-    def robotInit(self):
+    def __init__(self) -> None:
         """Robot initialization function"""
+        super().__init__()
 
-        self.feedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
+        self.flywheelMotor = wpilib.PWMSparkMax(self.kMotorPort)
+        self.encoder = wpilib.Encoder(self.kEncoderAChannel, self.kEncoderBChannel)
+
+        self.bangBangControler = wpimath.BangBangController()
+
+        # Gains are for example purposes only - must be determined for your own robot!
+        self.feedforward = wpimath.SimpleMotorFeedforwardMeters(
             self.kFlywheelKs, self.kFlywheelKv, self.kFlywheelKa
         )
 
         # Joystick to control setpoint
         self.joystick = wpilib.Joystick(0)
 
-        self.flywheelMotor = wpilib.PWMSparkMax(self.kMotorPort)
-        self.encoder = wpilib.Encoder(self.kEncoderAChannel, self.kEncoderBChannel)
+        # Simulation classes help us simulate our robot
 
-        self.bangBangControler = wpimath.controller.BangBangController()
+        self.gearbox = wpimath.DCMotor.NEO(1)
 
-        # Add bang-bang controler to SmartDashboard and networktables.
+        self.plant = wpimath.LinearSystemId.flywheelSystem(
+            self.gearbox, self.kFlywheelGearing, self.kFlywheelMomentOfInertia
+        )
+
+        self.flywheelSim = wpilib.simulation.FlywheelSim(self.plant, self.gearbox)
+        self.encoderSim = wpilib.simulation.EncoderSim(self.encoder)
+
+        # Add bang-bang controller to SmartDashboard and networktables.
         wpilib.SmartDashboard.putData(self.bangBangControler)
 
-    def teleopPeriodic(self):
+    def teleopPeriodic(self) -> None:
         """Controls flywheel to a set speed (RPM) controlled by a joystick."""
 
         # Scale setpoint value between 0 and maxSetpointValue
@@ -83,3 +96,13 @@ class MyRobot(wpilib.TimedRobot):
         self.flywheelMotor.setVoltage(
             bangOutput + 0.9 * self.feedforward.calculate(setpoint)
         )
+
+    def simulationPeriodic(self) -> None:
+        """Update our simulation. This should be run every robot loop in simulation."""
+        # To update our simulation, we set motor voltage inputs, update the
+        # simulation, and write the simulated velocities to our simulated encoder
+        self.flywheelSim.setInputVoltage(
+            self.flywheelMotor.get() * wpilib.RobotController.getInputVoltage()
+        )
+        self.flywheelSim.update(0.02)
+        self.encoderSim.setRate(self.flywheelSim.getAngularVelocity())

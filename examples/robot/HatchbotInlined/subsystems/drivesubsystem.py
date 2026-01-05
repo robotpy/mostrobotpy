@@ -6,14 +6,11 @@
 
 import commands2
 import wpilib
-import wpilib.drive
-
 import constants
 
 
 class DriveSubsystem(commands2.Subsystem):
     def __init__(self) -> None:
-        super().__init__()
 
         self.left1 = wpilib.PWMVictorSPX(constants.kLeftMotor1Port)
         self.left2 = wpilib.PWMVictorSPX(constants.kLeftMotor2Port)
@@ -29,7 +26,7 @@ class DriveSubsystem(commands2.Subsystem):
         self.right1.setInverted(True)
 
         # The robot's drive
-        self.drive = wpilib.drive.DifferentialDrive(self.left1, self.right1)
+        self.drive = wpilib.DifferentialDrive(self.left1, self.right1)
 
         # The left-side drive encoder
         self.leftEncoder = wpilib.Encoder(

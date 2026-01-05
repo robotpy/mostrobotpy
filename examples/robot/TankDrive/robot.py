@@ -6,7 +6,6 @@
 #
 
 import wpilib
-import wpilib.drive
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -15,12 +14,13 @@ class MyRobot(wpilib.TimedRobot):
     Runs the motors with tank steering.
     """
 
-    def robotInit(self):
+    def __init__(self):
         """Robot initialization function"""
+        super().__init__()
 
         leftMotor = wpilib.PWMSparkMax(0)
         rightMotor = wpilib.PWMSparkMax(1)
-        self.robotDrive = wpilib.drive.DifferentialDrive(leftMotor, rightMotor)
+        self.robotDrive = wpilib.DifferentialDrive(leftMotor, rightMotor)
         self.leftStick = wpilib.Joystick(0)
         self.rightStick = wpilib.Joystick(1)
 

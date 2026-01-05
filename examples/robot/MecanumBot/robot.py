@@ -5,31 +5,32 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
+import wpimath
 import wpilib
-import wpilib.drive
-import wpimath.filter
 
 from drivetrain import Drivetrain
 
 
 class MyRobot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self) -> None:
+        super().__init__()
+
         self.controller = wpilib.XboxController(0)
         self.mecanum = Drivetrain()
 
         # Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.
-        self.xspeedLimiter = wpimath.filter.SlewRateLimiter(3)
-        self.yspeedLimiter = wpimath.filter.SlewRateLimiter(3)
-        self.rotLimiter = wpimath.filter.SlewRateLimiter(3)
+        self.xspeedLimiter = wpimath.SlewRateLimiter(3)
+        self.yspeedLimiter = wpimath.SlewRateLimiter(3)
+        self.rotLimiter = wpimath.SlewRateLimiter(3)
 
-    def autonomousPeriodic(self):
-        self._driveWithJoystick(False)
+    def autonomousPeriodic(self) -> None:
+        self.driveWithJoystick(False)
         self.mecanum.updateOdometry()
 
-    def teleopPeriodic(self):
-        self._driveWithJoystick(True)
+    def teleopPeriodic(self) -> None:
+        self.driveWithJoystick(True)
 
-    def _driveWithJoystick(self, fieldRelative: bool):
+    def driveWithJoystick(self, fieldRelative: bool) -> None:
         # Get the x speed. We are inverting this because Xbox controllers return
         # negative values when we push forward.
         xSpeed = (

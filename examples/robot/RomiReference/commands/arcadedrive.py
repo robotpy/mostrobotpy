@@ -23,7 +23,6 @@ class ArcadeDrive(commands2.Command):
         :param forward:     Callable supplier of forward/backward speed
         :param rotation:    Callable supplier of rotational speed
         """
-        super().__init__()
 
         self.drive = drive
         self.forward = forward

@@ -16,5 +16,6 @@ class MyRobot(wpilib.TimedRobot):
     to the dashboard. Just add this to the robotInit() method in your program.
     """
 
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         CameraServer().launch()

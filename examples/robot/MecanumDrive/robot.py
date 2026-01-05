@@ -6,7 +6,6 @@
 #
 
 import wpilib
-import wpilib.drive
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -24,7 +23,8 @@ class MyRobot(wpilib.TimedRobot):
     # The channel on the driver station that the joystick is connected to
     kJoystickChannel = 0
 
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         self.frontLeft = wpilib.PWMSparkMax(self.kFrontLeftChannel)
         self.rearLeft = wpilib.PWMSparkMax(self.kRearLeftChannel)
         self.frontRight = wpilib.PWMSparkMax(self.kFrontRightChannel)
@@ -35,7 +35,7 @@ class MyRobot(wpilib.TimedRobot):
         self.frontRight.setInverted(True)
         self.rearRight.setInverted(True)
 
-        self.robotDrive = wpilib.drive.MecanumDrive(
+        self.robotDrive = wpilib.MecanumDrive(
             self.frontLeft, self.rearLeft, self.frontRight, self.rearRight
         )
 

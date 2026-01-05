@@ -23,8 +23,6 @@ from cscore import CameraServer as CS
 
 
 def main():
-    CS.enableLogging()
-
     # Get the UsbCamera from CameraServer
     camera = CS.startAutomaticCapture()
     # Set the resolution
@@ -35,7 +33,7 @@ def main():
     # Setup a CvSource. This will send images back to the Dashboard
     outputStream = CS.putVideo("Rectangle", 640, 480)
 
-    # Allocating new images is very expensive, always try to preallocate
+    # Mats are very memory expensive. Lets reuse this Mat.
     mat = np.zeros(shape=(480, 640, 3), dtype=np.uint8)
 
     while True:

@@ -15,11 +15,12 @@ class MyRobot(wpilib.TimedRobot):
     through the SmartDashboard.
     """
 
-    def robotInit(self):
+    def __init__(self):
         """Robot initialization function"""
+        super().__init__()
 
         # Object for dealing with the Power Distribution Panel (PDP).
-        self.pdp = wpilib.PowerDistribution()
+        self.pdp = wpilib.PowerDistribution(0)
 
         # Put the PDP itself to the dashboard
         wpilib.SmartDashboard.putData("PDP", self.pdp)

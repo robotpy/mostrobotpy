@@ -7,19 +7,15 @@
 
 import math
 import wpilib
-import wpimath.controller
-import wpimath.estimator
 import wpimath.units
-import wpimath.trajectory
-import wpimath.system
-import wpimath.system.plant
+import wpimath
 
 kMotorPort = 0
 kEncoderAChannel = 0
 kEncoderBChannel = 1
 kJoystickPort = 0
-kRaisedPosition = wpimath.units.feetToMeters(90.0)
-kLoweredPosition = wpimath.units.feetToMeters(0.0)
+kRaisedPosition = wpimath.units.degreesToRadians(90.0)
+kLoweredPosition = wpimath.units.degreesToRadians(0.0)
 
 # Moment of inertia of the arm, in kg * m^2. Can be estimated with CAD. If finding this constant
 # is difficult, LinearSystem.identifyPositionSystem may be better.
@@ -33,29 +29,38 @@ kArmGearing = 10.0
 class MyRobot(wpilib.TimedRobot):
     """This is a sample program to demonstrate how to use a state-space controller to control an arm."""
 
-    def robotInit(self) -> None:
-        self.profile = wpimath.trajectory.TrapezoidProfile(
-            wpimath.trajectory.TrapezoidProfile.Constraints(
-                wpimath.units.feetToMeters(45),
-                wpimath.units.feetToMeters(90),  # Max elevator speed and acceleration.
+    def __init__(self) -> None:
+        super().__init__()
+        self.profile = wpimath.TrapezoidProfile(
+            wpimath.TrapezoidProfile.Constraints(
+                wpimath.units.degreesToRadians(45),
+                wpimath.units.degreesToRadians(90),  # Max arm speed and acceleration.
             )
         )
 
-        self.lastProfiledReference = wpimath.trajectory.TrapezoidProfile.State()
+        self.lastProfiledReference = wpimath.TrapezoidProfile.State()
 
-        # The plant holds a state-space model of our elevator. This system has the following properties:
+        # The plant holds a state-space model of our arm. This system has the following properties:
 
-        # States: [position, velocity], in meters and meters per second.
+        # States: [position, velocity], in radians and radians per second.
         # Inputs (what we can "put in"): [voltage], in volts.
-        # Outputs (what we can measure): [position], in meters.
-        self.armPlant = wpimath.system.plant.LinearSystemId.singleJointedArmSystem(
-            wpimath.system.plant.DCMotor.NEO(2),
+        # Outputs (what we can measure): [position], in radians.
+        armPlant = wpimath.LinearSystemId.singleJointedArmSystem(
+            wpimath.DCMotor.NEO(2),
             kArmMOI,
             kArmGearing,
         )
 
+        # We only measure the arm position, so use a position-only output model.
+        self.armPlant = wpimath.LinearSystem_2_1_1(
+            armPlant.A(),
+            armPlant.B(),
+            [[1.0, 0.0]],
+            [[0.0]],
+        )
+
         # The observer fuses our encoder data and voltage inputs to reject noise.
-        self.observer = wpimath.estimator.KalmanFilter_2_1_1(
+        self.observer = wpimath.KalmanFilter_2_1_1(
             self.armPlant,
             (
                 0.015,
@@ -68,7 +73,7 @@ class MyRobot(wpilib.TimedRobot):
         )
 
         # A LQR uses feedback to create voltage commands.
-        self.controller = wpimath.controller.LinearQuadraticRegulator_2_1(
+        self.controller = wpimath.LinearQuadraticRegulator_2_1(
             self.armPlant,
             [
                 wpimath.units.degreesToRadians(1.0),
@@ -88,7 +93,7 @@ class MyRobot(wpilib.TimedRobot):
         )
 
         # The state-space loop combines a controller, observer, feedforward and plant for easy control.
-        self.loop = wpimath.system.LinearSystemLoop_2_1_1(
+        self.loop = wpimath.LinearSystemLoop_2_1_1(
             self.armPlant, self.controller, self.observer, 12.0, 0.020
         )
 
@@ -108,7 +113,7 @@ class MyRobot(wpilib.TimedRobot):
         self.loop.reset([self.encoder.getDistance(), self.encoder.getRate()])
 
         # Reset our last reference to the current state.
-        self.lastProfiledReference = wpimath.trajectory.TrapezoidProfile.State(
+        self.lastProfiledReference = wpimath.TrapezoidProfile.State(
             self.encoder.getDistance(), self.encoder.getRate()
         )
 
@@ -116,15 +121,15 @@ class MyRobot(wpilib.TimedRobot):
         # Sets the target position of our arm. This is similar to setting the setpoint of a
         # PID controller.
 
-        goal = wpimath.trajectory.TrapezoidProfile.State()
+        goal = wpimath.TrapezoidProfile.State()
 
         if self.joystick.getTrigger():
             # the trigger is pressed, so we go to the high goal.
-            goal = wpimath.trajectory.TrapezoidProfile.State(kRaisedPosition, 0.0)
+            goal = wpimath.TrapezoidProfile.State(kRaisedPosition, 0.0)
 
         else:
             # Otherwise, we go to the low goal
-            goal = wpimath.trajectory.TrapezoidProfile.State(kLoweredPosition, 0.0)
+            goal = wpimath.TrapezoidProfile.State(kLoweredPosition, 0.0)
 
         # Step our TrapezoidalProfile forward 20ms and set it as our next reference
         self.lastProfiledReference = self.profile.calculate(

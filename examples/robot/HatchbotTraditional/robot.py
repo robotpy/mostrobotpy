@@ -6,8 +6,9 @@
 #
 
 import typing
-import wpilib
+
 import commands2
+import wpilib
 
 from robotcontainer import RobotContainer
 
@@ -20,15 +21,23 @@ class MyRobot(commands2.TimedCommandRobot):
 
     autonomousCommand: typing.Optional[commands2.Command] = None
 
-    def robotInit(self) -> None:
+    def __init__(self) -> None:
         """
         This function is run when the robot is first started up and should be used for any
         initialization code.
         """
+        super().__init__()
 
         # Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         # autonomous chooser on the dashboard.
         self.container = RobotContainer()
+
+        # Start recording to data log
+        wpilib.DataLogManager.start()
+
+        # Record DS control and joystick data.
+        # Change to `false` to not record joystick data.
+        wpilib.DriverStation.startDataLog(wpilib.DataLogManager.getLog(), True)
 
     def disabledInit(self) -> None:
         """This function is called once each time the robot enters Disabled mode."""

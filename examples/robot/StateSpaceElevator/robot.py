@@ -7,12 +7,8 @@
 
 import math
 import wpilib
-import wpimath.controller
-import wpimath.estimator
+import wpimath
 import wpimath.units
-import wpimath.trajectory
-import wpimath.system
-import wpimath.system.plant
 
 kMotorPort = 0
 kEncoderAChannel = 0
@@ -37,15 +33,16 @@ class MyRobot(wpilib.TimedRobot):
     elevator.
     """
 
-    def robotInit(self) -> None:
-        self.profile = wpimath.trajectory.TrapezoidProfile(
-            wpimath.trajectory.TrapezoidProfile.Constraints(
+    def __init__(self) -> None:
+        super().__init__()
+        self.profile = wpimath.TrapezoidProfile(
+            wpimath.TrapezoidProfile.Constraints(
                 wpimath.units.feetToMeters(3.0),
                 wpimath.units.feetToMeters(6.0),  # Max elevator speed and acceleration.
             )
         )
 
-        self.lastProfiledReference = wpimath.trajectory.TrapezoidProfile.State()
+        self.lastProfiledReference = wpimath.TrapezoidProfile.State()
 
         # The plant holds a state-space model of our elevator. This system has the following properties:
 
@@ -54,15 +51,23 @@ class MyRobot(wpilib.TimedRobot):
         # Outputs (what we can measure): [position], in meters.
 
         # This elevator is driven by two NEO motors.
-        self.elevatorPlant = wpimath.system.plant.LinearSystemId.elevatorSystem(
-            wpimath.system.plant.DCMotor.NEO(2),
+        elevatorPlant = wpimath.LinearSystemId.elevatorSystem(
+            wpimath.DCMotor.NEO(2),
             kCarriageMass,
             kDrumRadius,
             kElevatorGearing,
         )
 
+        # The observer and controller use a position-only output model.
+        self.elevatorPlant = wpimath.LinearSystem_2_1_1(
+            elevatorPlant.A(),
+            elevatorPlant.B(),
+            [[1.0, 0.0]],
+            [[0.0]],
+        )
+
         # The observer fuses our encoder data and voltage inputs to reject noise.
-        self.observer = wpimath.estimator.KalmanFilter_2_1_1(
+        self.observer = wpimath.KalmanFilter_2_1_1(
             self.elevatorPlant,
             (
                 wpimath.units.inchesToMeters(2),
@@ -75,7 +80,7 @@ class MyRobot(wpilib.TimedRobot):
         )
 
         # A LQR uses feedback to create voltage commands.
-        self.controller = wpimath.controller.LinearQuadraticRegulator_2_1(
+        self.controller = wpimath.LinearQuadraticRegulator_2_1(
             self.elevatorPlant,
             [
                 wpimath.units.inchesToMeters(1.0),
@@ -93,11 +98,11 @@ class MyRobot(wpilib.TimedRobot):
         )
 
         # The state-space loop combines a controller, observer, feedforward and plant for easy control.
-        self.loop = wpimath.system.LinearSystemLoop_2_1_1(
+        self.loop = wpimath.LinearSystemLoop_2_1_1(
             self.elevatorPlant, self.controller, self.observer, 12.0, 0.020
         )
 
-        # An encoder set up to measure flywheel velocity in radians per second.
+        # An encoder set up to measure elevator height in meters.
         self.encoder = wpilib.Encoder(kEncoderAChannel, kEncoderBChannel)
 
         self.motor = wpilib.PWMSparkMax(kMotorPort)
@@ -113,7 +118,7 @@ class MyRobot(wpilib.TimedRobot):
         self.loop.reset([self.encoder.getDistance(), self.encoder.getRate()])
 
         # Reset our last reference to the current state.
-        self.lastProfiledReference = wpimath.trajectory.TrapezoidProfile.State(
+        self.lastProfiledReference = wpimath.TrapezoidProfile.State(
             self.encoder.getDistance(), self.encoder.getRate()
         )
 
@@ -121,15 +126,15 @@ class MyRobot(wpilib.TimedRobot):
         # Sets the target position of our arm. This is similar to setting the setpoint of a
         # PID controller.
 
-        goal = wpimath.trajectory.TrapezoidProfile.State()
+        goal = wpimath.TrapezoidProfile.State()
 
         if self.joystick.getTrigger():
             # the trigger is pressed, so we go to the high goal.
-            goal = wpimath.trajectory.TrapezoidProfile.State(kHighGoalPosition, 0.0)
+            goal = wpimath.TrapezoidProfile.State(kHighGoalPosition, 0.0)
 
         else:
             # Otherwise, we go to the low goal
-            goal = wpimath.trajectory.TrapezoidProfile.State(kLowGoalPosition, 0.0)
+            goal = wpimath.TrapezoidProfile.State(kLowGoalPosition, 0.0)
 
         # Step our TrapezoidalProfile forward 20ms and set it as our next reference
         self.lastProfiledReference = self.profile.calculate(

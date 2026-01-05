@@ -6,7 +6,6 @@
 #
 
 import wpilib
-import wpilib.drive
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -15,12 +14,13 @@ class MyRobot(wpilib.TimedRobot):
     Runs the motors with arcade steering.
     """
 
-    def robotInit(self):
+    def __init__(self):
         """Robot initialization function"""
+        super().__init__()
 
         leftMotor = wpilib.PWMSparkMax(0)
         rightMotor = wpilib.PWMSparkMax(1)
-        self.robotDrive = wpilib.drive.DifferentialDrive(leftMotor, rightMotor)
+        self.robotDrive = wpilib.DifferentialDrive(leftMotor, rightMotor)
         self.stick = wpilib.Joystick(0)
 
         # We need to invert one side of the drivetrain so that positive voltages
@@ -32,4 +32,4 @@ class MyRobot(wpilib.TimedRobot):
         # Drive with arcade drive.
         # That means that the Y axis drives forward
         # and backward, and the X turns left and right.
-        self.robotDrive.arcadeDrive(self.stick.getY(), self.stick.getX())
+        self.robotDrive.arcadeDrive(-self.stick.getY(), -self.stick.getX())

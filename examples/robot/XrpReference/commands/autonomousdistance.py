@@ -18,7 +18,6 @@ class AutonomousDistance(commands2.SequentialCommandGroup):
 
         :param drivetrain: The drivetrain subsystem on which this command will run
         """
-        super().__init__()
 
         self.addCommands(
             DriveDistance(-0.5, 10, drive),

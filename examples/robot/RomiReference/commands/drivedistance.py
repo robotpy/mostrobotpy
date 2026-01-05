@@ -18,7 +18,6 @@ class DriveDistance(commands2.Command):
         :param inches: The number of inches the robot will drive
         :param drive:  The drivetrain subsystem on which this command will run
         """
-        super().__init__()
 
         self.distance = inches
         self.speed = speed
