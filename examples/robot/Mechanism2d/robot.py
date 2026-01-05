@@ -6,6 +6,7 @@
 #
 
 import wpilib
+import wpiutil
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -20,7 +21,8 @@ class MyRobot(wpilib.TimedRobot):
     kMetersPerPulse = 0.01
     kElevatorMinimumLength = 0.5
 
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         self.elevatorMotor = wpilib.PWMSparkMax(0)
         self.wristMotor = wpilib.PWMSparkMax(1)
         self.wristPot = wpilib.AnalogPotentiometer(1, 90)
@@ -40,7 +42,7 @@ class MyRobot(wpilib.TimedRobot):
             "elevator", self.kElevatorMinimumLength, 90
         )
         self.wrist = self.elevator.appendLigament(
-            "wrist", 0.5, 90, 6, wpilib.Color8Bit(wpilib.Color.kPurple)
+            "wrist", 0.5, 90, 6, wpiutil.Color8Bit(wpiutil.Color.kPurple)
         )
 
         # post the mechanism to the dashboard

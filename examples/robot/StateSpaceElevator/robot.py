@@ -7,12 +7,8 @@
 
 import math
 import wpilib
-import wpimath.controller
-import wpimath.estimator
+import wpimath
 import wpimath.units
-import wpimath.trajectory
-import wpimath.system
-import wpimath.system.plant
 
 kMotorPort = 0
 kEncoderAChannel = 0
@@ -37,15 +33,17 @@ class MyRobot(wpilib.TimedRobot):
     elevator.
     """
 
-    def robotInit(self) -> None:
-        self.profile = wpimath.trajectory.TrapezoidProfile(
-            wpimath.trajectory.TrapezoidProfile.Constraints(
+    def __init__(self) -> None:
+        super().__init__()
+
+        self.profile = wpimath.TrapezoidProfile(
+            wpimath.TrapezoidProfile.Constraints(
                 wpimath.units.feetToMeters(3.0),
                 wpimath.units.feetToMeters(6.0),  # Max elevator speed and acceleration.
             )
         )
 
-        self.lastProfiledReference = wpimath.trajectory.TrapezoidProfile.State()
+        self.lastProfiledReference = wpimath.TrapezoidProfile.State()
 
         # The plant holds a state-space model of our elevator. This system has the following properties:
 
@@ -54,15 +52,15 @@ class MyRobot(wpilib.TimedRobot):
         # Outputs (what we can measure): [position], in meters.
 
         # This elevator is driven by two NEO motors.
-        self.elevatorPlant = wpimath.system.plant.LinearSystemId.elevatorSystem(
-            wpimath.system.plant.DCMotor.NEO(2),
+        self.elevatorPlant = wpimath.LinearSystemId.elevatorSystem(
+            wpimath.DCMotor.NEO(2),
             kCarriageMass,
             kDrumRadius,
             kElevatorGearing,
-        )
+        ).slice(0)
 
         # The observer fuses our encoder data and voltage inputs to reject noise.
-        self.observer = wpimath.estimator.KalmanFilter_2_1_1(
+        self.observer = wpimath.KalmanFilter_2_1_1(
             self.elevatorPlant,
             (
                 wpimath.units.inchesToMeters(2),
@@ -75,29 +73,31 @@ class MyRobot(wpilib.TimedRobot):
         )
 
         # A LQR uses feedback to create voltage commands.
-        self.controller = wpimath.controller.LinearQuadraticRegulator_2_1(
+        self.controller = wpimath.LinearQuadraticRegulator_2_1(
             self.elevatorPlant,
-            [
+            # qelms. State error tolerance, in meters and meters per second.
+            # Decrease this to more heavily penalize state excursion, or make the
+            # controller behave more aggressively.
+            (
                 wpimath.units.inchesToMeters(1.0),
                 wpimath.units.inchesToMeters(10.0),
-            ],  # qelms. Position
-            # and velocity error tolerances, in meters and meters per second. Decrease this to more
-            # heavily penalize state excursion, or make the controller behave more aggressively. In
-            # this example we weight position much more highly than velocity, but this can be
-            # tuned to balance the two.
-            [12.0],  # relms. Control effort (voltage) tolerance. Decrease this to more
-            # heavily penalize control effort, or make the controller less aggressive. 12 is a good
-            # starting point because that is the (approximate) maximum voltage of a battery.
-            0.020,  # Nominal time between loops. 0.020 for TimedRobot, but can be
-            # lower if using notifiers.
+            ),
+            # relms. Control effort (voltage) tolerance. Decrease this to more
+            # heavily penalize control effort, or make the controller less
+            # aggressive. 12 is a good starting point because that is the
+            # (approximate) maximum voltage of a battery.
+            (12.0,),
+            # Nominal time between loops. 20ms for TimedRobot, but can be lower if
+            # using notifiers.
+            0.020,
         )
 
         # The state-space loop combines a controller, observer, feedforward and plant for easy control.
-        self.loop = wpimath.system.LinearSystemLoop_2_1_1(
+        self.loop = wpimath.LinearSystemLoop_2_1_1(
             self.elevatorPlant, self.controller, self.observer, 12.0, 0.020
         )
 
-        # An encoder set up to measure flywheel velocity in radians per second.
+        # An encoder set up to measure elevator height in meters.
         self.encoder = wpilib.Encoder(kEncoderAChannel, kEncoderBChannel)
 
         self.motor = wpilib.PWMSparkMax(kMotorPort)
@@ -113,7 +113,7 @@ class MyRobot(wpilib.TimedRobot):
         self.loop.reset([self.encoder.getDistance(), self.encoder.getRate()])
 
         # Reset our last reference to the current state.
-        self.lastProfiledReference = wpimath.trajectory.TrapezoidProfile.State(
+        self.lastProfiledReference = wpimath.TrapezoidProfile.State(
             self.encoder.getDistance(), self.encoder.getRate()
         )
 
@@ -121,15 +121,13 @@ class MyRobot(wpilib.TimedRobot):
         # Sets the target position of our arm. This is similar to setting the setpoint of a
         # PID controller.
 
-        goal = wpimath.trajectory.TrapezoidProfile.State()
-
         if self.joystick.getTrigger():
             # the trigger is pressed, so we go to the high goal.
-            goal = wpimath.trajectory.TrapezoidProfile.State(kHighGoalPosition, 0.0)
+            goal = wpimath.TrapezoidProfile.State(kHighGoalPosition, 0.0)
 
         else:
             # Otherwise, we go to the low goal
-            goal = wpimath.trajectory.TrapezoidProfile.State(kLowGoalPosition, 0.0)
+            goal = wpimath.TrapezoidProfile.State(kLowGoalPosition, 0.0)
 
         # Step our TrapezoidalProfile forward 20ms and set it as our next reference
         self.lastProfiledReference = self.profile.calculate(

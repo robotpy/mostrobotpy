@@ -5,47 +5,36 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-import math
 import wpilib
-import wpimath.controller
+
+import constants
+from subsystems.elevator import Elevator
 
 
 class MyRobot(wpilib.TimedRobot):
-    kMotorPort = 0
-    kEncoderAChannel = 0
-    kEncoderBChannel = 1
-    kJoystickPort = 0
+    """This is a sample program to demonstrate the use of elevator simulation."""
 
-    kElevatorKp = 5.0
-    kElevatorGearing = 10.0
-    kElevatorDrumRadius = 0.0508  # 2 inches in meters
-    kCarriageMass = 4
+    def __init__(self) -> None:
+        super().__init__()
+        self.joystick = wpilib.Joystick(constants.kJoystickPort)
+        self.elevator = Elevator()
 
-    kMinElevatorHeight = 0.0508  # 2 inches
-    kMaxElevatorHeight = 1.27  # 50 inches
+    def robotPeriodic(self) -> None:
+        # Update the telemetry, including mechanism visualization, regardless of mode.
+        self.elevator.updateTelemetry()
 
-    # distance per pulse = (distance per revolution) / (pulses per revolution)
-    #  = (Pi * D) / ppr
-    kElevatorEncoderDistPerPulse = 2.0 * math.pi * kElevatorDrumRadius / 4096.0
-
-    def robotInit(self) -> None:
-        # standard classes for controlling our elevator
-        self.controller = wpimath.controller.PIDController(self.kElevatorKp, 0, 0)
-        self.encoder = wpilib.Encoder(self.kEncoderAChannel, self.kEncoderBChannel)
-        self.motor = wpilib.PWMSparkMax(self.kMotorPort)
-        self.joystick = wpilib.Joystick(self.kJoystickPort)
-
-        self.encoder.setDistancePerPulse(self.kElevatorEncoderDistPerPulse)
+    def simulationPeriodic(self) -> None:
+        # Update the simulation model.
+        self.elevator.simulationPeriodic()
 
     def teleopPeriodic(self) -> None:
         if self.joystick.getTrigger():
-            # Here, we run PID control like normal, with a constant setpoint of 30in (0.762 meters).
-            pidOutput = self.controller.calculate(self.encoder.getDistance(), 0.762)
-            self.motor.setVoltage(pidOutput)
+            # Here, we set the constant setpoint of 0.75 meters.
+            self.elevator.reachGoal(constants.kSetpoint)
         else:
-            # Otherwise we disable the motor
-            self.motor.set(0.0)
+            # Otherwise, we update the setpoint to 0.
+            self.elevator.reachGoal(0.0)
 
     def disabledInit(self) -> None:
-        # This just makes sure that our simulation code knows that the motor is off
-        self.motor.set(0)
+        # This just makes sure that our simulation code knows that the motor's off.
+        self.elevator.stop()

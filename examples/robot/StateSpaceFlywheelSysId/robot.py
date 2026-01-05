@@ -9,10 +9,6 @@ import math
 import wpilib
 import wpimath
 import wpimath.units
-import wpimath.controller
-import wpimath.system
-import wpimath.system.plant
-import wpimath.estimator
 
 kMotorPort = 0
 kEncoderAChannel = 0
@@ -33,7 +29,9 @@ class MyRobot(wpilib.TimedRobot):
     flywheel.
     """
 
-    def robotInit(self) -> None:
+    def __init__(self) -> None:
+        super().__init__()
+
         # The plant holds a state-space model of our flywheel. This system has the following properties:
         #
         # States: [velocity], in radians per second.
@@ -41,30 +39,28 @@ class MyRobot(wpilib.TimedRobot):
         # Outputs (what we can measure): [velocity], in radians per second.
         #
         # The Kv and Ka constants are found using the FRC Characterization toolsuite.
-        self.flywheelPlant = (
-            wpimath.system.plant.LinearSystemId.identifyVelocitySystemRadians(
-                kFlywheelKv, kFlywheelKa
-            )
+        self.flywheelPlant = wpimath.LinearSystemId.identifyVelocitySystemRadians(
+            kFlywheelKv, kFlywheelKa
         )
 
         # The observer fuses our encoder data and voltage inputs to reject noise.
-        self.observer = wpimath.estimator.KalmanFilter_1_1_1(
+        self.observer = wpimath.KalmanFilter_1_1_1(
             self.flywheelPlant,
-            [3],  # How accurate we think our model is
-            [0.01],  # How accurate we think our encoder data is
+            (3,),  # How accurate we think our model is
+            (0.01,),  # How accurate we think our encoder data is
             0.020,
         )
 
         # A LQR uses feedback to create voltage commands.
-        self.controller = wpimath.controller.LinearQuadraticRegulator_1_1(
+        self.controller = wpimath.LinearQuadraticRegulator_1_1(
             self.flywheelPlant,
-            [8],  # Velocity error tolerance
-            [12],  # Control effort (voltage) tolerance
+            (8,),  # Velocity error tolerance
+            (12,),  # Control effort (voltage) tolerance
             0.020,
         )
 
         # The state-space loop combines a controller, observer, feedforward and plant for easy control.
-        self.loop = wpimath.system.LinearSystemLoop_1_1_1(
+        self.loop = wpimath.LinearSystemLoop_1_1_1(
             self.flywheelPlant, self.controller, self.observer, 12.0, 0.020
         )
 
@@ -87,7 +83,7 @@ class MyRobot(wpilib.TimedRobot):
         # PID controller.
         if self.joystick.getTriggerPressed():
             # We just pressed the trigger, so let's set our next reference
-            self.loop.setNextR([kSpinUpRadPerSec])
+            self.loop.setNextR([kSpinupRadPerSec])
 
         elif self.joystick.getTriggerReleased():
             # We just released the trigger, so let's spin down
@@ -103,5 +99,5 @@ class MyRobot(wpilib.TimedRobot):
         # Send the new calculated voltage to the motors.
         # voltage = duty cycle * battery voltage, so
         # duty cycle = voltage / battery voltage
-        nextVoltage = self.loop.U()
+        nextVoltage = self.loop.U(0)
         self.motor.setVoltage(nextVoltage)

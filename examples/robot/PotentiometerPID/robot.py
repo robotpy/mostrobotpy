@@ -6,7 +6,7 @@
 #
 
 import wpilib
-import wpimath.controller
+import wpimath
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -32,8 +32,10 @@ class MyRobot(wpilib.TimedRobot):
     kI = 0.35
     kD = 0.25
 
-    def robotInit(self):
-        self.pidController = wpimath.controller.PIDController(self.kP, self.kI, self.kD)
+    def __init__(self):
+        super().__init__()
+
+        self.pidController = wpimath.PIDController(self.kP, self.kI, self.kD)
         # Scaling is handled internally
         self.potentiometer = wpilib.AnalogPotentiometer(
             self.kPotChannel, self.kFullHeightMeters
@@ -60,5 +62,5 @@ class MyRobot(wpilib.TimedRobot):
         if self.joystick.getTriggerPressed():
             # index of the elevator setpoint wraps around.
             self.index = (self.index + 1) % len(self.kSetpointMeters)
-            print(f"m_index = {self.index}")
+            print(f"index = {self.index}")
             self.pidController.setSetpoint(self.kSetpointMeters[self.index])

@@ -7,7 +7,6 @@
 
 
 import wpilib
-import wpilib.drive
 
 
 class MyRobot(wpilib.TimedRobot):
@@ -16,21 +15,18 @@ class MyRobot(wpilib.TimedRobot):
     in relation to the starting orientation of the robot (field-oriented controls).
     """
 
-    # gyro calibration constant, may need to be adjusted;
-    # gyro value of 360 is set to correspond to one full revolution
-    kVoltsPerDegreePerSecond = 0.0128
-
     kFrontLeftChannel = 0
     kRearLeftChannel = 1
     kFrontRightChannel = 2
     kRearRightChannel = 3
-    kGyroPort = 0
+    kIMUMountOrientation = wpilib.OnboardIMU.MountOrientation.kFlat
     kJoystickPort = 0
 
-    def robotInit(self):
+    def __init__(self) -> None:
         """Robot initialization function"""
+        super().__init__()
 
-        self.gyro = wpilib.AnalogGyro(self.kGyroPort)
+        self.imu = wpilib.OnboardIMU(self.kIMUMountOrientation)
         self.joystick = wpilib.Joystick(self.kJoystickPort)
 
         frontLeft = wpilib.PWMSparkMax(self.kFrontLeftChannel)
@@ -41,16 +37,14 @@ class MyRobot(wpilib.TimedRobot):
         frontRight.setInverted(True)
         rearRight.setInverted(True)
 
-        self.robotDrive = wpilib.drive.MecanumDrive(
+        self.robotDrive = wpilib.MecanumDrive(
             frontLeft, rearLeft, frontRight, rearRight
         )
 
-        self.gyro.setSensitivity(self.kVoltsPerDegreePerSecond)
-
-    def teleopPeriodic(self):
+    def teleopPeriodic(self) -> None:
         self.robotDrive.driveCartesian(
             -self.joystick.getY(),
             -self.joystick.getX(),
             -self.joystick.getZ(),
-            self.gyro.getRotation2d(),
+            self.imu.getRotation2d(),
         )

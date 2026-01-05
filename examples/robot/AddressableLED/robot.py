@@ -6,49 +6,40 @@
 #
 
 import wpilib
-
-kLEDBuffer = 60
+import wpimath.units
 
 
 class MyRobot(wpilib.TimedRobot):
-    def robotInit(self):
-        # PWM Port 9
-        # Must be a PWM header, not MXP or DIO
-        self.led = wpilib.AddressableLED(9)
+    def __init__(self) -> None:
+        super().__init__()
 
-        # LED Data
-        self.ledData = [wpilib.AddressableLED.LEDData() for _ in range(kLEDBuffer)]
+        # SmartIO port 1
+        self.led = wpilib.AddressableLED(1)
 
-        # Store what the last hue of the first pixel is
-        self.rainbowFirstPixelHue = 0
-
-        # Default to a length of 60, start empty output
-        # Length is expensive to set, so only set it once, then just update data
-        self.led.setLength(kLEDBuffer)
+        # Reuse buffer
+        # Default to a length of 60
+        self.ledData = [wpilib.AddressableLED.LEDData() for _ in range(60)]
+        self.led.setLength(len(self.ledData))
 
         # Set the data
         self.led.setData(self.ledData)
-        self.led.start()
 
-    def robotPeriodic(self):
-        # Fill the buffer with a rainbow
-        self.rainbow()
+        # Create an LED pattern that will display a rainbow across
+        # all hues at maximum saturation and half brightness
+        self.rainbow = wpilib.LEDPattern.rainbow(255, 128)
 
+        # Our LED strip has a density of 120 LEDs per meter
+        self.kLedSpacing = 1 / 120.0
+
+        # Create a new pattern that scrolls the rainbow pattern across the LED strip, moving at a
+        # speed of 1 meter per second.
+        self.scrollingRainbow = self.rainbow.scrollAtAbsoluteSpeed(
+            1,
+            self.kLedSpacing,
+        )
+
+    def robotPeriodic(self) -> None:
+        # Update the buffer with the rainbow animation
+        self.scrollingRainbow.applyTo(self.ledData)
         # Set the LEDs
         self.led.setData(self.ledData)
-
-    def rainbow(self):
-        # For every pixel
-        for i in range(kLEDBuffer):
-            # Calculate the hue - hue is easier for rainbows because the color
-            # shape is a circle so only one value needs to precess
-            hue = (self.rainbowFirstPixelHue + (i * 180 / kLEDBuffer)) % 180
-
-            # Set the value
-            self.ledData[i].setHSV(int(hue), 255, 128)
-
-        # Increase by to make the rainbow "move"
-        self.rainbowFirstPixelHue += 3
-
-        # Check bounds
-        self.rainbowFirstPixelHue %= 180

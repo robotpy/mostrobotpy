@@ -19,7 +19,6 @@ class TurnDegrees(commands2.Command):
         :param degrees: Degrees to turn. Leverages encoders to compare distance.
         :param drive:   The drive subsystem on which this command will run
         """
-        super().__init__()
 
         self.degrees = degrees
         self.speed = speed

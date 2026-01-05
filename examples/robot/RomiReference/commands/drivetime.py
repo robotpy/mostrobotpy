@@ -20,7 +20,6 @@ class DriveTime(commands2.Command):
         :param time:  How much time to drive in seconds
         :param drive: The drivetrain subsystem on which this command will run
         """
-        super().__init__()
 
         self.speed = speed
         self.duration = time

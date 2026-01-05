@@ -24,8 +24,9 @@ class MyRobot(wpilib.TimedRobot):
     autonomous mode.
     """
 
-    def robotInit(self):
+    def __init__(self):
         """Robot initialization function"""
+        super().__init__()
 
         self.encoder = wpilib.Encoder(1, 2, False, wpilib.Encoder.EncodingType.k4X)
 

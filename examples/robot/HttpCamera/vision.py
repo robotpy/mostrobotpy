@@ -10,7 +10,6 @@ from an HTTP camera, then a rectangle is put on the image and sent to the dashbo
 many methods for different types of processing.
 """
 
-import ntcore
 import numpy
 import cscore
 from cscore import CameraServer

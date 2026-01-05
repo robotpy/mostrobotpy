@@ -6,9 +6,8 @@
 
 import math
 import wpilib
-import wpimath.geometry
-import wpimath.kinematics
 import swervemodule
+import wpimath
 
 kMaxSpeed = 3.0  # 3 meters per second
 kMaxAngularSpeed = math.pi  # 1/2 rotation per second
@@ -20,28 +19,28 @@ class Drivetrain:
     """
 
     def __init__(self) -> None:
-        self.frontLeftLocation = wpimath.geometry.Translation2d(0.381, 0.381)
-        self.frontRightLocation = wpimath.geometry.Translation2d(0.381, -0.381)
-        self.backLeftLocation = wpimath.geometry.Translation2d(-0.381, 0.381)
-        self.backRightLocation = wpimath.geometry.Translation2d(-0.381, -0.381)
+        self.frontLeftLocation = wpimath.Translation2d(0.381, 0.381)
+        self.frontRightLocation = wpimath.Translation2d(0.381, -0.381)
+        self.backLeftLocation = wpimath.Translation2d(-0.381, 0.381)
+        self.backRightLocation = wpimath.Translation2d(-0.381, -0.381)
 
         self.frontLeft = swervemodule.SwerveModule(1, 2, 0, 1, 2, 3)
         self.frontRight = swervemodule.SwerveModule(3, 4, 4, 5, 6, 7)
         self.backLeft = swervemodule.SwerveModule(5, 6, 8, 9, 10, 11)
         self.backRight = swervemodule.SwerveModule(7, 8, 12, 13, 14, 15)
 
-        self.gyro = wpilib.AnalogGyro(0)
+        self.imu = wpilib.OnboardIMU(wpilib.OnboardIMU.MountOrientation.kFlat)
 
-        self.kinematics = wpimath.kinematics.SwerveDrive4Kinematics(
+        self.kinematics = wpimath.SwerveDrive4Kinematics(
             self.frontLeftLocation,
             self.frontRightLocation,
             self.backLeftLocation,
             self.backRightLocation,
         )
 
-        self.odometry = wpimath.kinematics.SwerveDrive4Odometry(
+        self.odometry = wpimath.SwerveDrive4Odometry(
             self.kinematics,
-            self.gyro.getRotation2d(),
+            self.imu.getRotation2d(),
             (
                 self.frontLeft.getPosition(),
                 self.frontRight.getPosition(),
@@ -50,7 +49,7 @@ class Drivetrain:
             ),
         )
 
-        self.gyro.reset()
+        self.imu.resetYaw()
 
     def drive(
         self,
@@ -68,19 +67,14 @@ class Drivetrain:
         :param fieldRelative: Whether the provided x and y speeds are relative to the field.
         :param periodSeconds: Time
         """
+        robot_speeds = wpimath.ChassisSpeeds(xSpeed, ySpeed, rot)
+        if fieldRelative:
+            robot_speeds = robot_speeds.toRobotRelative(self.imu.getRotation2d())
+
         swerveModuleStates = self.kinematics.toSwerveModuleStates(
-            wpimath.kinematics.ChassisSpeeds.discretize(
-                (
-                    wpimath.kinematics.ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, rot, self.gyro.getRotation2d()
-                    )
-                    if fieldRelative
-                    else wpimath.kinematics.ChassisSpeeds(xSpeed, ySpeed, rot)
-                ),
-                periodSeconds,
-            )
+            wpimath.ChassisSpeeds.discretize(robot_speeds, periodSeconds)
         )
-        wpimath.kinematics.SwerveDrive4Kinematics.desaturateWheelSpeeds(
+        wpimath.SwerveDrive4Kinematics.desaturateWheelSpeeds(
             swerveModuleStates, kMaxSpeed
         )
         self.frontLeft.setDesiredState(swerveModuleStates[0])
@@ -91,7 +85,7 @@ class Drivetrain:
     def updateOdometry(self) -> None:
         """Updates the field relative position of the robot."""
         self.odometry.update(
-            self.gyro.getRotation2d(),
+            self.imu.getRotation2d(),
             (
                 self.frontLeft.getPosition(),
                 self.frontRight.getPosition(),

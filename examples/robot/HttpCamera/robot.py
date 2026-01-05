@@ -11,7 +11,8 @@ import wpilib.cameraserver
 
 
 class MyRobot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         # Your image processing code will be launched via a stub that will set up logging and initialize NetworkTables
         # to talk to your robot code.
         # https://robotpy.readthedocs.io/en/stable/vision/roborio.html#important-notes

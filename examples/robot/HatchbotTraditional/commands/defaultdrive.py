@@ -16,7 +16,6 @@ class DefaultDrive(commands2.Command):
         forward: typing.Callable[[], float],
         rotation: typing.Callable[[], float],
     ) -> None:
-        super().__init__()
 
         self.drive = drive
         self.forward = forward

@@ -5,7 +5,7 @@
 #
 
 """
-A place for the constant values in the code that may be used in more than one place. 
+A place for the constant values in the code that may be used in more than one place.
 This offers a convenient resources to teams who need to make both quick and universal
 changes.
 """
@@ -14,6 +14,7 @@ import math
 
 
 class DriveConstants:
+    kDt = 0.02
     kLeftMotor1Port = 0
     kLeftMotor2Port = 1
     kRightMotor1Port = 2
@@ -25,14 +26,14 @@ class DriveConstants:
     for *your* robot's drive.
     The SysId tool provides a convenient method for obtaining these values for your robot.
     """
-    ksVolts = 1
-    kvVoltSecondsPerMeter = 0.8
-    kaVoltSecondsSquaredPerMeter = 0.15
+    ks = 1.0  # V
+    kv = 0.8  # V/(m/s)
+    ka = 0.15  # V/(m/s²)
 
-    kp = 1
+    kp = 1.0
 
-    kMaxSpeedMetersPerSecond = 3
-    kMaxAccelerationMetersPerSecondSquared = 3
+    kMaxSpeed = 3.0  # m/s
+    kMaxAcceleration = 3.0  # m/s²
 
 
 class OIConstants:

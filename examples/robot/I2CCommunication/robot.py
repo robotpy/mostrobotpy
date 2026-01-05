@@ -14,11 +14,12 @@ class MyRobot(wpilib.TimedRobot):
     code using the roboRIO's I2C port.
     """
 
-    PORT = wpilib.I2C.Port.kOnboard
+    PORT = wpilib.I2C.Port.kPort0
     DEVICE_ADDRESS = 4
 
-    def robotInit(self):
+    def __init__(self):
         """Robot initialization function"""
+        super().__init__()
 
         self.arduino = wpilib.I2C(self.PORT, self.DEVICE_ADDRESS)
 

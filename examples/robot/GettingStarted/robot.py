@@ -6,20 +6,18 @@
 #
 
 import wpilib
-import wpilib.drive
 
 
 class MyRobot(wpilib.TimedRobot):
-    def robotInit(self):
+    def __init__(self):
         """
         This function is called upon program startup and
         should be used for any initialization code.
         """
+        super().__init__()
         self.leftDrive = wpilib.PWMSparkMax(0)
         self.rightDrive = wpilib.PWMSparkMax(1)
-        self.robotDrive = wpilib.drive.DifferentialDrive(
-            self.leftDrive, self.rightDrive
-        )
+        self.robotDrive = wpilib.DifferentialDrive(self.leftDrive, self.rightDrive)
         self.controller = wpilib.XboxController(0)
         self.timer = wpilib.Timer()
 

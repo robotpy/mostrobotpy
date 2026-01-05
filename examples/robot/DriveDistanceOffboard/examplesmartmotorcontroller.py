@@ -4,11 +4,11 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-import wpilib.interfaces
+import wpilib
 import enum
 
 
-class ExampleSmartMotorController(wpilib.interfaces.MotorController):
+class ExampleSmartMotorController(wpilib.MotorController):
     """A simplified stub class that simulates the API of a common "smart" motor controller.
     Has no actual functionality.
     """
@@ -25,6 +25,9 @@ class ExampleSmartMotorController(wpilib.interfaces.MotorController):
             port: The port for the controller.
         """
         super().__init__()
+        self._speed = 0.0
+        self._inverted = False
+        self._leader = None
 
     def setPID(self, kp: float, ki: float, kd: float) -> None:
         """Example method for setting the PID gains of the smart controller.
@@ -54,7 +57,7 @@ class ExampleSmartMotorController(wpilib.interfaces.MotorController):
         Args:
             leader: The leader to follow.
         """
-        pass
+        self._leader = leader
 
     def getEncoderDistance(self) -> float:
         """Returns the encoder distance.
@@ -77,19 +80,19 @@ class ExampleSmartMotorController(wpilib.interfaces.MotorController):
         pass
 
     def set(self, speed: float) -> None:
-        pass
+        self._speed = -speed if self._inverted else speed
 
     def get(self) -> float:
-        pass
+        return self._speed
 
     def setInverted(self, isInverted: bool) -> None:
-        pass
+        self._inverted = isInverted
 
     def getInverted(self) -> bool:
-        pass
+        return self._inverted
 
     def disable(self) -> None:
-        pass
+        self._speed = 0.0
 
     def stopMotor(self) -> None:
-        pass
+        self._speed = 0.0

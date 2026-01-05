@@ -6,20 +6,21 @@
 #
 
 import wpilib
-import wpimath.controller
-from wpimath.trajectory import TrapezoidProfile
+from wpimath import TrapezoidProfile
 
 import examplesmartmotorcontroller
+import wpimath
 
 
 class MyRobot(wpilib.TimedRobot):
     kDt = 0.02
 
-    def robotInit(self):
+    def __init__(self):
+        super().__init__()
         self.joystick = wpilib.Joystick(1)
         self.motor = examplesmartmotorcontroller.ExampleSmartMotorController(1)
         # Note: These gains are fake, and will have to be tuned for your robot.
-        self.feedforward = wpimath.controller.SimpleMotorFeedforwardMeters(1, 1.5)
+        self.feedforward = wpimath.SimpleMotorFeedforwardMeters(1, 1.5)
 
         # Create a motion profile with the given maximum velocity and maximum
         # acceleration constraints for the next setpoint.

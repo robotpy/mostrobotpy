@@ -22,7 +22,6 @@ class TurnTime(commands2.Command):
         :param time:  How much time to turn in seconds
         :param drive: The drive subsystem on which this command will run
         """
-        super().__init__()
 
         self.rotationalSpeed = speed
         self.duration = time

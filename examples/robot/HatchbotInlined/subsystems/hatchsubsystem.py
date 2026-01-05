@@ -13,7 +13,6 @@ import constants
 
 class HatchSubsystem(commands2.Subsystem):
     def __init__(self) -> None:
-        super().__init__()
 
         self.hatchSolenoid = wpilib.DoubleSolenoid(
             constants.kHatchSolenoidModule,

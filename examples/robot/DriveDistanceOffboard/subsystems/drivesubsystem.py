@@ -5,13 +5,10 @@
 #
 
 import wpilib
-import wpilib.drive
 import commands2
-import wpimath.controller
-import wpimath.trajectory
-
 import constants
 import examplesmartmotorcontroller
+import wpimath
 
 
 class DriveSubsystem(commands2.Subsystem):
@@ -55,14 +52,24 @@ class DriveSubsystem(commands2.Subsystem):
 
         # The feedforward controller (note that these are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!)
         # check DriveConstants for more information.
-        self.feedforward = wpimath.controller.SimpleMotorFeedforwardMeters(
-            constants.DriveConstants.ksVolts,
-            constants.DriveConstants.kvVoltSecondsPerMeter,
-            constants.DriveConstants.kMaxAccelerationMetersPerSecondSquared,
+        self.feedforward = wpimath.SimpleMotorFeedforwardMeters(
+            constants.DriveConstants.ks,
+            constants.DriveConstants.kv,
+            constants.DriveConstants.ka,
         )
 
         # The robot's drive
-        self.drive = wpilib.drive.DifferentialDrive(self.leftLeader, self.rightLeader)
+        self.drive = wpilib.DifferentialDrive(self.leftLeader, self.rightLeader)
+
+        self.profile = wpimath.TrapezoidProfile(
+            wpimath.TrapezoidProfile.Constraints(
+                constants.DriveConstants.kMaxSpeed,
+                constants.DriveConstants.kMaxAcceleration,
+            )
+        )
+        self.timer = wpilib.Timer()
+        self._initialLeftDistance = 0.0
+        self._initialRightDistance = 0.0
 
     def arcadeDrive(self, fwd: float, rot: float):
         """
@@ -75,25 +82,38 @@ class DriveSubsystem(commands2.Subsystem):
 
     def setDriveStates(
         self,
-        left: wpimath.trajectory.TrapezoidProfile.State,
-        right: wpimath.trajectory.TrapezoidProfile.State,
+        currentLeft: wpimath.TrapezoidProfile.State,
+        currentRight: wpimath.TrapezoidProfile.State,
+        nextLeft: wpimath.TrapezoidProfile.State,
+        nextRight: wpimath.TrapezoidProfile.State,
     ):
         """
         Attempts to follow the given drive states using offboard PID.
 
-        :param left:  The left wheel state.
-        :param right: The right wheel state.
+        :param currentLeft: The current left wheel state.
+        :param currentRight: The current right wheel state.
+        :param nextLeft: The next left wheel state.
+        :param nextRight: The next right wheel state.
         """
+        battery_voltage = wpilib.RobotController.getBatteryVoltage()
+        left_feedforward = self.feedforward.calculate(
+            currentLeft.velocity,
+            (nextLeft.velocity - currentLeft.velocity) / constants.DriveConstants.kDt,
+        )
+        right_feedforward = self.feedforward.calculate(
+            currentRight.velocity,
+            (nextRight.velocity - currentRight.velocity) / constants.DriveConstants.kDt,
+        )
         self.leftLeader.setSetPoint(
             examplesmartmotorcontroller.ExampleSmartMotorController.PIDMode.kPosition,
-            left.position,
-            self.feedforward.calculate(left.velocity),
+            currentLeft.position,
+            left_feedforward / battery_voltage,
         )
 
         self.rightLeader.setSetPoint(
             examplesmartmotorcontroller.ExampleSmartMotorController.PIDMode.kPosition,
-            right.position,
-            self.feedforward.calculate(right.velocity),
+            currentRight.position,
+            right_feedforward / battery_voltage,
         )
 
     def getLeftEncoderDistance(self) -> float:
@@ -124,3 +144,80 @@ class DriveSubsystem(commands2.Subsystem):
         :param maxOutput: the maximum output to which the drive will be constrained
         """
         self.drive.setMaxOutput(maxOutput)
+
+    def profiledDriveDistance(self, distance: float) -> commands2.Command:
+        def on_init():
+            self.timer.restart()
+            self.resetEncoders()
+
+        def on_execute():
+            current_time = self.timer.get()
+            current_setpoint = self.profile.calculate(
+                current_time,
+                wpimath.TrapezoidProfile.State(),
+                wpimath.TrapezoidProfile.State(distance, 0),
+            )
+            next_setpoint = self.profile.calculate(
+                current_time + constants.DriveConstants.kDt,
+                wpimath.TrapezoidProfile.State(),
+                wpimath.TrapezoidProfile.State(distance, 0),
+            )
+            self.setDriveStates(
+                current_setpoint, current_setpoint, next_setpoint, next_setpoint
+            )
+
+        def on_end(interrupted: bool):
+            self.leftLeader.set(0)
+            self.rightLeader.set(0)
+
+        def is_finished() -> bool:
+            return self.profile.isFinished(0)
+
+        return commands2.FunctionalCommand(
+            on_init, on_execute, on_end, is_finished, self
+        )
+
+    def dynamicProfiledDriveDistance(self, distance: float) -> commands2.Command:
+        def on_init():
+            self.timer.restart()
+            self._initialLeftDistance = self.getLeftEncoderDistance()
+            self._initialRightDistance = self.getRightEncoderDistance()
+
+        def on_execute():
+            current_time = self.timer.get()
+            current_left = self.profile.calculate(
+                current_time,
+                wpimath.TrapezoidProfile.State(self._initialLeftDistance, 0),
+                wpimath.TrapezoidProfile.State(self._initialLeftDistance + distance, 0),
+            )
+            current_right = self.profile.calculate(
+                current_time,
+                wpimath.TrapezoidProfile.State(self._initialRightDistance, 0),
+                wpimath.TrapezoidProfile.State(
+                    self._initialRightDistance + distance, 0
+                ),
+            )
+            next_left = self.profile.calculate(
+                current_time + constants.DriveConstants.kDt,
+                wpimath.TrapezoidProfile.State(self._initialLeftDistance, 0),
+                wpimath.TrapezoidProfile.State(self._initialLeftDistance + distance, 0),
+            )
+            next_right = self.profile.calculate(
+                current_time + constants.DriveConstants.kDt,
+                wpimath.TrapezoidProfile.State(self._initialRightDistance, 0),
+                wpimath.TrapezoidProfile.State(
+                    self._initialRightDistance + distance, 0
+                ),
+            )
+            self.setDriveStates(current_left, current_right, next_left, next_right)
+
+        def on_end(interrupted: bool):
+            self.leftLeader.set(0)
+            self.rightLeader.set(0)
+
+        def is_finished() -> bool:
+            return self.profile.isFinished(0)
+
+        return commands2.FunctionalCommand(
+            on_init, on_execute, on_end, is_finished, self
+        )
