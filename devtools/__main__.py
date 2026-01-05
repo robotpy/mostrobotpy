@@ -6,6 +6,7 @@ import click
 
 from .ctx import Context
 from . import ci
+from . import examples
 from . import update_pyproject
 
 
@@ -34,6 +35,7 @@ def main(ctx: click.Context, verbose: bool):
 
 
 main.add_command(ci.ci)
+main.add_command(examples.test_examples)
 main.add_command(update_pyproject.update_pyproject)
 
 
