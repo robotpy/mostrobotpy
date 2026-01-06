@@ -17,6 +17,8 @@ from .._controls._controls.system import (
     LinearSystem_3_2_1,
     LinearSystem_3_2_2,
     LinearSystem_3_2_3,
+    RK4,
+    RKDP,
 )
 
 __all__ = [
@@ -37,4 +39,6 @@ __all__ = [
     "LinearSystem_3_2_1",
     "LinearSystem_3_2_2",
     "LinearSystem_3_2_3",
+    "RK4",
+    "RKDP",
 ]
