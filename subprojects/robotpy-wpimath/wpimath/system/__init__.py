@@ -19,6 +19,9 @@ from .._controls._controls.system import (
     LinearSystem_3_2_3,
     RK4,
     RKDP,
+    numericalJacobian,
+    numericalJacobianU,
+    numericalJacobianX,
 )
 
 __all__ = [
@@ -41,4 +44,7 @@ __all__ = [
     "LinearSystem_3_2_3",
     "RK4",
     "RKDP",
+    "numericalJacobian",
+    "numericalJacobianU",
+    "numericalJacobianX",
 ]

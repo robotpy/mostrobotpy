@@ -72,7 +72,6 @@ scan_headers_ignore = [
     "frc/estimator/UnscentedTransform.h",
 
     "frc/system/Discretization.h",
-    "frc/system/NumericalJacobian.h",
 
     "frc/proto/*",
     "frc/*/proto/*",
@@ -1610,7 +1609,7 @@ TravelingSalesman = "frc/path/TravelingSalesman.h"
 LinearSystem = "frc/system/LinearSystem.h"
 LinearSystemLoop = "frc/system/LinearSystemLoop.h"
 NumericalIntegration = "frc/system/NumericalIntegration.h"
-# NumericalJacobian = "frc/system/NumericalJacobian.h"
+NumericalJacobian = "frc/system/NumericalJacobian.h"
 
 # frc/system/plant
 DCMotor = "frc/system/plant/DCMotor.h"
