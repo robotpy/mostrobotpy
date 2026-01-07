@@ -1,4 +1,4 @@
-from wpilib.event import BooleanEvent, EventLoop
+from wpilib import BooleanEvent, EventLoop
 
 
 def test_binary_compositions():
