@@ -4,17 +4,17 @@ requires = [
     "hatchling",
     "hatch-nativelib~=0.2.0",
     "hatch-robotpy~=0.2.0",
-    "robotpy-native-wpiutil==2026.1.1b1",
+    "robotpy-native-wpiutil==2026.1.1",
 ]
 
 [project]
 name = "robotpy-native-wpihal"
-version = "2026.1.1b1"
+version = "2026.1.1"
 description = "WPILib HAL implementation"
 license = "BSD-3-Clause"
 
 dependencies = [
-    "robotpy-native-wpiutil==2026.1.1b1",
+    "robotpy-native-wpiutil==2026.1.1",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -24,7 +24,7 @@ packages = ["src/native"]
 artifact_id = "hal-cpp"
 group_id = "edu.wpi.first.hal"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2026.1.1-beta-1"
+version = "2026.1.1"
 
 extract_to = "src/native/wpihal"
 libs = ["wpiHal"]
