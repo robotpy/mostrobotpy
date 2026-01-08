@@ -9,7 +9,9 @@ build:
     python: "3.11"
   jobs:
     post_install:
+    - python -m robotpy_sphinx.download_and_install robotpy mostrobotpy main dist pypi-other-Linux-X64
     - python -m robotpy_sphinx.download_and_install robotpy mostrobotpy main dist pypi-meson-Linux-X64-3.11
+    - python -m robotpy_sphinx.download_and_install robotpy mostrobotpy main dist pypi-pure
     post_build:
     - mkdir --parents _readthedocs/htmlzip
     - cp --recursive _readthedocs/html _readthedocs/$READTHEDOCS_PROJECT
