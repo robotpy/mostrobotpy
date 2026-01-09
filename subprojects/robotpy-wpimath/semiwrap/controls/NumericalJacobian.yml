@@ -45,7 +45,7 @@ functions:
           args:
             ignore: true
         no_release_gil: true
-        cpp_code: |
+        cpp_code: |-
           [](py::typing::Callable<Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd, py::args)> fn,
              const Eigen::VectorXd& x, const Eigen::VectorXd& u, py::args args) {
              return frc::NumericalJacobianU([=](const Eigen::VectorXd &ix, const Eigen::VectorXd &iu) {

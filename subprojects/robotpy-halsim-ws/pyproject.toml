@@ -7,15 +7,15 @@ requires = [
 
 [project]
 name = "robotpy-halsim-ws"
-version = "2026.1.1b1"
+version = "2026.1.1"
 description = "WPILib simulator websim Extensions"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpihal==2026.1.1b1",
-    "robotpy-native-wpinet==2026.1.1b1",
+    "robotpy-native-wpihal==2026.1.1",
+    "robotpy-native-wpinet==2026.1.1",
 ]
 
 [project.entry-points."robotpy_sim.2026"]
@@ -34,7 +34,7 @@ version_file = "halsim_ws/version.py"
 artifact_id = "halsim_ws_server"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2026.1.1-beta-1"
+version = "2026.1.1"
 use_headers = false
 
 extract_to = "halsim_ws/server"
@@ -44,7 +44,7 @@ libs = ["halsim_ws_server"]
 artifact_id = "halsim_ws_client"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2026.1.1-beta-1"
+version = "2026.1.1"
 use_headers = false
 
 extract_to = "halsim_ws/client"
