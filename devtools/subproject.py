@@ -55,14 +55,14 @@ class Subproject:
     # Tasks
     #
 
-    def develop(self):
+    def develop(self, buildtype: str):
         self.ctx.run_pip(
             "install",
             "-v",
             "-e",
             ".",
             "--no-build-isolation",
-            "--config-settings=setup-args=-Dbuildtype=debug",
+            f"--config-settings=setup-args=-Dbuildtype={buildtype}",
             cwd=self.path,
         )
 
