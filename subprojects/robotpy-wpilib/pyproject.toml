@@ -213,6 +213,8 @@ SysIdRoutineLog = "frc/sysid/SysIdRoutineLog.h"
 Color = "frc/util/Color.h"
 Color8Bit = "frc/util/Color8Bit.h"
 
+# rpy only
+AddressableLEDBuffer = "rpy/AddressableLEDBuffer.h"
 
 [tool.semiwrap.extension_modules."wpilib.counter._counter"]
 name = "wpilib_counter"

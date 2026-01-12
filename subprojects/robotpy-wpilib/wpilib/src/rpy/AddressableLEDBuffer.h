@@ -140,6 +140,16 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return reference to the LED data
    */
+  frc::AddressableLED::LEDData& at(size_t index) {
+    return m_buffer.at(index);
+  }
+
+  /**
+   * Gets the LED data at the specified index.
+   *
+   * @param index the index
+   * @return reference to the LED data
+   */
   frc::AddressableLED::LEDData& operator[](size_t index) {
     return m_buffer.at(index);
   }
@@ -177,7 +187,7 @@ class AddressableLEDBuffer {
      * @param b the b value [0-255]
      */
     void SetRGB(size_t index, int r, int g, int b) {
-      m_data.at(index).SetRGB(r, g, b);
+      at(index).SetRGB(r, g, b);
     }
 
     /**
@@ -189,7 +199,7 @@ class AddressableLEDBuffer {
      * @param v the v value [0-255]
      */
     void SetHSV(size_t index, int h, int s, int v) {
-      m_data.at(index).SetHSV(h, s, v);
+      at(index).SetHSV(h, s, v);
     }
 
     /**
@@ -199,7 +209,7 @@ class AddressableLEDBuffer {
      * @param color the color to write
      */
     void SetLED(size_t index, const frc::Color& color) {
-      m_data.at(index).SetLED(color);
+      at(index).SetLED(color);
     }
 
     /**
@@ -209,7 +219,21 @@ class AddressableLEDBuffer {
      * @param color the color to write
      */
     void SetLED(size_t index, const frc::Color8Bit& color) {
-      m_data.at(index).SetLED(color);
+      at(index).SetLED(color);
+    }
+
+    /**
+     * Gets the LED data at the specified index.
+     *
+     * @param index the index
+     * @return reference to the LED data
+     */
+    frc::AddressableLED::LEDData& at(size_t index) {
+      // std::span::at doesn't exist until C++26
+      if (index >= m_data.size()) {
+        throw std::out_of_range("Index out of range");
+      }
+      return m_data[index];
     }
 
     /**
@@ -219,7 +243,21 @@ class AddressableLEDBuffer {
      * @return reference to the LED data
      */
     frc::AddressableLED::LEDData& operator[](size_t index) {
-      return m_data.at(index);
+      return at(index);
+    }
+
+    /**
+     * Gets the LED data at the specified index.
+     *
+     * @param index the index
+     * @return const reference to the LED data
+     */
+    const frc::AddressableLED::LEDData& at(size_t index) const {
+      // std::span::at doesn't exist until C++26
+      if (index >= m_data.size()) {
+        throw std::out_of_range("Index out of range");
+      }
+      return m_data[index];
     }
 
     /**
@@ -229,8 +267,11 @@ class AddressableLEDBuffer {
      * @return const reference to the LED data
      */
     const frc::AddressableLED::LEDData& operator[](size_t index) const {
-      return m_data.at(index);
+      return at(index);
     }
+
+    auto begin() { return m_data.begin(); }
+    auto end() { return m_data.end(); }
 
     /**
      * Gets the color at the specified index.
@@ -239,7 +280,7 @@ class AddressableLEDBuffer {
      * @return the LED color
      */
     frc::Color GetLED(size_t index) const {
-      const auto& led = m_data.at(index);
+      const auto& led = at(index);
       return frc::Color{led.r / 255.0, led.g / 255.0, led.b / 255.0};
     }
 
@@ -250,7 +291,7 @@ class AddressableLEDBuffer {
      * @return the LED color
      */
     frc::Color8Bit GetLED8Bit(size_t index) const {
-      const auto& led = m_data.at(index);
+      const auto& led = at(index);
       return frc::Color8Bit{led.r, led.g, led.b};
     }
 
