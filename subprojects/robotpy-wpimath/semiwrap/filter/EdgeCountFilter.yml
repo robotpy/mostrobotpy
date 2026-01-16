@@ -1,0 +1,9 @@
+classes:
+  frc::EdgeCounterFilter:
+    methods:
+      EdgeCounterFilter:
+      Calculate:
+      SetWindowTime:
+      GetWindowTime:
+      SetRequiredEdges:
+      GetRequiredEdges:
