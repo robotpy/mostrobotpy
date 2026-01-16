@@ -1470,6 +1470,7 @@ yaml_path = "semiwrap/filter"
 
 [tool.semiwrap.extension_modules."wpimath.filter._filter".headers]
 Debouncer = "frc/filter/Debouncer.h"
+EdgeCountFilter = "frc/filter/EdgeCountFilter.h"
 LinearFilter = "frc/filter/LinearFilter.h"
 MedianFilter = "frc/filter/MedianFilter.h"
 SlewRateLimiter = "frc/filter/SlewRateLimiter.h"
