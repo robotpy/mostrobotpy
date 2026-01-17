@@ -1,9 +1,6 @@
-defaults:
-  subpackage: system
-
 extra_includes:
 - frc_eigen.h
-- frc/EigenCore.h
+- wpi/math/linalg/EigenCore.hpp
 - pybind11/functional.h
 - pybind11/typing.h
 
@@ -29,7 +26,7 @@ functions:
         cpp_code: |
           [](py::typing::Callable<Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd, py::args)> fn,
              const Eigen::VectorXd& x, const Eigen::VectorXd& u, py::args args) {
-             return frc::NumericalJacobianX([=](const Eigen::VectorXd &ix, const Eigen::VectorXd &iu) {
+             return wpi::math::NumericalJacobianX([=](const Eigen::VectorXd &ix, const Eigen::VectorXd &iu) {
                 py::object r = fn(ix, iu, *args);
                 return r.cast<Eigen::VectorXd>();
              }, x, u);
@@ -48,7 +45,7 @@ functions:
         cpp_code: |-
           [](py::typing::Callable<Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd, py::args)> fn,
              const Eigen::VectorXd& x, const Eigen::VectorXd& u, py::args args) {
-             return frc::NumericalJacobianU([=](const Eigen::VectorXd &ix, const Eigen::VectorXd &iu) {
+             return wpi::math::NumericalJacobianU([=](const Eigen::VectorXd &ix, const Eigen::VectorXd &iu) {
                 py::object r = fn(ix, iu, *args);
                 return r.cast<Eigen::VectorXd>();
              }, x, u);
