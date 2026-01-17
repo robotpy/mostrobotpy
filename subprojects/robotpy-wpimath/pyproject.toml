@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "semiwrap~=0.2.1",
+    "semiwrap~=0.2.6",
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.1",
     "hatchling",
@@ -69,8 +69,6 @@ scan_headers_ignore = [
     "wpi/math/random/Normal.hpp",
 
     "wpi/math/system/Discretization.hpp",
-    "wpi/math/system/NumericalIntegration.hpp",
-    "wpi/math/system/NumericalJacobian.hpp",
 
     "wpi/math/proto/*",
     "wpi/math/*/proto/*",
@@ -1496,6 +1494,7 @@ SwerveDrivePoseEstimator3d = "wpi/math/estimator/SwerveDrivePoseEstimator3d.hpp"
 
 # wpi/math/filter
 Debouncer = "wpi/math/filter/Debouncer.hpp"
+# EdgeCountFilter = "frc/filter/EdgeCountFilter.h"
 LinearFilter = "wpi/math/filter/LinearFilter.hpp"
 MedianFilter = "wpi/math/filter/MedianFilter.hpp"
 SlewRateLimiter = "wpi/math/filter/SlewRateLimiter.hpp"
@@ -1564,8 +1563,8 @@ SplineParameterizer = "wpi/math/spline/SplineParameterizer.hpp"
 LinearSystem = "wpi/math/system/LinearSystem.hpp"
 LinearSystemLoop = "wpi/math/system/LinearSystemLoop.hpp"
 # LinearSystemUtil = "wpi/math/system/LinearSystemUtil.hpp"
-# NumericalIntegration = "wpi/math/system/NumericalIntegration.hpp"
-# NumericalJacobian = "wpi/math/system/NumericalJacobian.hpp"
+NumericalIntegration = "wpi/math/system/NumericalIntegration.hpp"
+NumericalJacobian = "wpi/math/system/NumericalJacobian.hpp"
 
 # wpi/math/system/plant
 DCMotor = "wpi/math/system/plant/DCMotor.hpp"

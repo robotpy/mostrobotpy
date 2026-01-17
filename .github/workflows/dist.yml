@@ -234,7 +234,11 @@ jobs:
         fi
 
     - name: Setup sccache
-      uses: mozilla-actions/sccache-action@v0.0.7
+      uses: mozilla-actions/sccache-action@v0.0.9
+      # The sccache 0.13.0 release is missing intel mac builds
+      # see <https://github.com/mozilla/sccache/issues/2554>
+      with:
+        version: "v0.12.0"
 
     - name: Install deps
       run: |
