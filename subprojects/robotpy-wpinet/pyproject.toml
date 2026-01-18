@@ -3,7 +3,7 @@ build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.2.6",
     "hatch-meson~=0.1.0",
-    "semiwrap~=0.2.1",
+    "semiwrap~=0.2.6",
     "hatch-meson~=0.1.0",
     "hatchling",
     "robotpy-native-wpinet==2027.0.0a3",
