@@ -15,7 +15,6 @@ import time
 
 import ntcore
 
-
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 

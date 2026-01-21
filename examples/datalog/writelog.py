@@ -5,7 +5,6 @@ import pathlib
 
 from wpilog import DataLog, BooleanLogEntry, StringArrayLogEntry, RawLogEntry
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("out", type=pathlib.Path)

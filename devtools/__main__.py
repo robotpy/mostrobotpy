@@ -9,7 +9,6 @@ from . import ci
 from . import examples
 from . import update_pyproject
 
-
 #
 # Environment variables for configuring the builds
 #
