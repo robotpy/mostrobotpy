@@ -73,16 +73,14 @@ class Trigger:
             if loop is not None and condition is not None:
                 return init_loop_condition(loop, condition)
 
-        raise TypeError(
-            f"""
+        raise TypeError(f"""
 TypeError: Trigger(): incompatible function arguments. The following argument types are supported:
     1. (self: Trigger)
     2. (self: Trigger, condition: () -> bool)
     3. (self: Trigger, loop: EventLoop, condition: () -> bool)
 
 Invoked with: {format_args_kwargs(self, *args, **kwargs)}
-"""
-        )
+""")
 
     def _add_binding(self, body: Callable[[bool, bool], None]) -> None:
         """

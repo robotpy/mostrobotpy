@@ -8,7 +8,6 @@ from .ctx import Context
 from . import ci
 from . import update_pyproject
 
-
 #
 # Environment variables for configuring the builds
 #
