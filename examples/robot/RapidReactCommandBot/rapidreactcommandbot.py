@@ -31,7 +31,9 @@ class RapidReactCommandBot:
         self.pneumatics = Pneumatics()
 
         # The driver's controller
-        self.driverController = CommandNiDsXboxController(OIConstants.kDriverControllerPort)
+        self.driverController = CommandNiDsXboxController(
+            OIConstants.kDriverControllerPort
+        )
 
     def configureBindings(self) -> None:
         """Use this method to define bindings between conditions and commands. These are useful for
