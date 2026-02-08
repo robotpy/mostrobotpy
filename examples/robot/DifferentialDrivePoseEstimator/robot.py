@@ -19,7 +19,7 @@ class MyRobot(wpilib.TimedRobot):
         self.inst = ntcore.NetworkTableInstance.getDefault()
         self.doubleArrayTopic = self.inst.getDoubleArrayTopic("m_doubleArrayTopic")
 
-        self.controller = wpilib.XboxController(0)
+        self.controller = wpilib.NiDsXboxController(0)
         self.drive = Drivetrain(self.doubleArrayTopic)
 
         # Slew rate limiters to make joystick inputs more gentle; 1/3 sec from 0 to 1.

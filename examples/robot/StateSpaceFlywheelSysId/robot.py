@@ -39,7 +39,7 @@ class MyRobot(wpilib.TimedRobot):
         # Outputs (what we can measure): [velocity], in radians per second.
         #
         # The Kv and Ka constants are found using the FRC Characterization toolsuite.
-        self.flywheelPlant = wpimath.LinearSystemId.identifyVelocitySystemRadians(
+        self.flywheelPlant = wpimath.Models.flywheelFromSysId(
             kFlywheelKv, kFlywheelKa
         )
 

@@ -5,7 +5,7 @@
 #
 
 from commands2 import Command
-from commands2.button import CommandXboxController
+from commands2.button import CommandNiDsXboxController
 from commands2.sysid import SysIdRoutine
 
 from subsystems.drive import Drive
@@ -27,7 +27,7 @@ class SysIdRoutineBot:
         self.shooter = Shooter()
 
         # The driver's controller
-        self.controller = CommandXboxController(OIConstants.kDriverControllerPort)
+        self.controller = CommandNiDsXboxController(OIConstants.kDriverControllerPort)
 
     def configureBindings(self) -> None:
         """Use this method to define bindings between conditions and commands. These are useful for

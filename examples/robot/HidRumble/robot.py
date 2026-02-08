@@ -17,14 +17,14 @@ class MyRobot(wpilib.TimedRobot):
         """Robot initialization function"""
         super().__init__()
 
-        self.hid = wpilib.XboxController(0)
+        self.hid = wpilib.NiDsXboxController(0)
 
     def autonomousInit(self):
         # Turn on rumble at the start of auto
-        self.hid.setRumble(wpilib.XboxController.RumbleType.kLeftRumble, 1.0)
-        self.hid.setRumble(wpilib.XboxController.RumbleType.kRightRumble, 1.0)
+        self.hid.setRumble(wpilib.NiDsXboxController.RumbleType.kLeftRumble, 1.0)
+        self.hid.setRumble(wpilib.NiDsXboxController.RumbleType.kRightRumble, 1.0)
 
     def disabledInit(self):
         # Stop the rumble when entering disabled
-        self.hid.setRumble(wpilib.XboxController.RumbleType.kLeftRumble, 0.0)
-        self.hid.setRumble(wpilib.XboxController.RumbleType.kRightRumble, 0.0)
+        self.hid.setRumble(wpilib.NiDsXboxController.RumbleType.kLeftRumble, 0.0)
+        self.hid.setRumble(wpilib.NiDsXboxController.RumbleType.kRightRumble, 0.0)
