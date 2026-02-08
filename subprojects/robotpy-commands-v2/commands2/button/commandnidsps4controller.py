@@ -1,19 +1,19 @@
-# validated: 2024-01-20 DS d426873ed15b button/CommandPS4Controller.java
+# validated: 2024-01-20 DS d426873ed15b button/CommandNiDsPS4Controller.java
 from typing import Optional
 
-from wpilib import EventLoop, PS4Controller
+from wpilib import EventLoop, NiDsPS4Controller
 
 from ..commandscheduler import CommandScheduler
 from .commandgenerichid import CommandGenericHID
 from .trigger import Trigger
 
 
-class CommandPS4Controller(CommandGenericHID):
+class CommandNiDsPS4Controller(CommandGenericHID):
     """
-    A version of PS4Controller with Trigger factories for command-based.
+    A version of NI DS PS4Controller with Trigger factories for command-based.
     """
 
-    _hid: PS4Controller
+    _hid: NiDsPS4Controller
 
     def __init__(self, port: int):
         """
@@ -22,9 +22,9 @@ class CommandPS4Controller(CommandGenericHID):
         :param port: The port index on the Driver Station that the device is plugged into.
         """
         super().__init__(port)
-        self._hid = PS4Controller(port)
+        self._hid = NiDsPS4Controller(port)
 
-    def getHID(self) -> PS4Controller:
+    def getHID(self) -> NiDsPS4Controller:
         """
         Get the underlying GenericHID object.
 

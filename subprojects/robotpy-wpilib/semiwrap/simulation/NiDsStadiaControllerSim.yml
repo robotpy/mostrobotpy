@@ -1,13 +1,13 @@
 extra_includes:
-- wpi/driverstation/StadiaController.hpp
+- wpi/driverstation/NiDsStadiaController.hpp
 
 classes:
-  wpi::sim::StadiaControllerSim:
+  wpi::sim::NiDsStadiaControllerSim:
     force_no_trampoline: true
     methods:
-      StadiaControllerSim:
+      NiDsStadiaControllerSim:
         overloads:
-          const StadiaController&:
+          const NiDsStadiaController&:
           int:
       SetLeftX:
       SetRightX:
