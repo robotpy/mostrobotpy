@@ -52,7 +52,7 @@ class Drivetrain:
         self.leftEncoderSim = wpilib.simulation.EncoderSim(self.leftEncoder)
         self.rightEncoderSim = wpilib.simulation.EncoderSim(self.rightEncoder)
         self.fieldSim = wpilib.Field2d()
-        self.drivetrainSystem = wpimath.LinearSystemId.identifyDrivetrainSystem(
+        self.drivetrainSystem = wpimath.Models.differentialDriveFromSysId(
             1.98, 0.2, 1.5, 0.3
         )
         self.drivetrainSimulator = wpilib.simulation.DifferentialDrivetrainSim(

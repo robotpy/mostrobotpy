@@ -1,13 +1,13 @@
 extra_includes:
-- wpi/driverstation/PS4Controller.hpp
+- wpi/driverstation/NiDsPS5Controller.hpp
 
 classes:
-  wpi::sim::PS4ControllerSim:
+  wpi::sim::NiDsPS5ControllerSim:
     force_no_trampoline: true
     methods:
-      PS4ControllerSim:
+      NiDsPS5ControllerSim:
         overloads:
-          const PS4Controller&:
+          const NiDsPS5Controller&:
           int:
       SetLeftX:
       SetRightX:
@@ -23,11 +23,9 @@ classes:
       SetR1Button:
       SetL2Button:
       SetR2Button:
-      SetShareButton:
+      SetCreateButton:
       SetOptionsButton:
       SetL3Button:
       SetR3Button:
       SetPSButton:
-      SetTouchpad:
-        ignore: true
       SetTouchpadButton:

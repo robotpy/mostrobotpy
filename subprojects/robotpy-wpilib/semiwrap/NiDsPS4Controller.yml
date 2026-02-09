@@ -1,12 +1,13 @@
 extra_includes:
 - wpi/util/sendable/SendableBuilder.hpp
+- wpi/event/BooleanEvent.hpp
 
 classes:
-  wpi::PS5Controller:
+  wpi::NiDsPS4Controller:
     ignored_bases:
-    - wpi::util::SendableHelper<PS5Controller>
+    - wpi::util::SendableHelper<NiDsPS4Controller>
     methods:
-      PS5Controller:
+      NiDsPS4Controller:
       GetLeftX:
       GetRightX:
       GetLeftY:
@@ -45,10 +46,10 @@ classes:
       GetR2ButtonPressed:
       GetR2ButtonReleased:
       R2:
-      GetCreateButton:
-      GetCreateButtonPressed:
-      GetCreateButtonReleased:
-      Create:
+      GetShareButton:
+      GetShareButtonPressed:
+      GetShareButtonReleased:
+      Share:
       GetOptionsButton:
       GetOptionsButtonPressed:
       GetOptionsButtonReleased:
@@ -65,15 +66,12 @@ classes:
       GetPSButtonPressed:
       GetPSButtonReleased:
       PS:
-      GetTouchpad:
-      GetTouchpadPressed:
-      GetTouchpadReleased:
       Touchpad:
       GetTouchpadButton:
       GetTouchpadButtonPressed:
       GetTouchpadButtonReleased:
       InitSendable:
-  wpi::PS5Controller::Button:
+  wpi::NiDsPS4Controller::Button:
     attributes:
       kSquare:
       kCross:
@@ -83,13 +81,13 @@ classes:
       kR1:
       kL2:
       kR2:
-      kCreate:
+      kShare:
       kOptions:
       kL3:
       kR3:
       kPS:
       kTouchpad:
-  wpi::PS5Controller::Axis:
+  wpi::NiDsPS4Controller::Axis:
     attributes:
       kLeftX:
       kLeftY:

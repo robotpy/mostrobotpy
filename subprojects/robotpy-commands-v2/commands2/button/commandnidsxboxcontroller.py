@@ -1,19 +1,19 @@
 # validated: 2024-01-20 DS 3ba501f9478a button/CommandXboxController.java
 from typing import Optional
 
-from wpilib import EventLoop, XboxController
+from wpilib import EventLoop, NiDsXboxController
 
 from ..commandscheduler import CommandScheduler
 from .commandgenerichid import CommandGenericHID
 from .trigger import Trigger
 
 
-class CommandXboxController(CommandGenericHID):
+class CommandNiDsXboxController(CommandGenericHID):
     """
-    A version of XboxController with Trigger factories for command-based.
+    A version of NI DS XboxController with Trigger factories for command-based.
     """
 
-    _hid: XboxController
+    _hid: NiDsXboxController
 
     def __init__(self, port: int):
         """
@@ -22,9 +22,9 @@ class CommandXboxController(CommandGenericHID):
         :param port: The port index on the Driver Station that the controller is plugged into.
         """
         super().__init__(port)
-        self._hid = XboxController(port)
+        self._hid = NiDsXboxController(port)
 
-    def getHID(self) -> XboxController:
+    def getHID(self) -> NiDsXboxController:
         """
         Get the underlying GenericHID object.
 
@@ -44,7 +44,7 @@ class CommandXboxController(CommandGenericHID):
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getLeftBumper())
+        return Trigger(loop, lambda: self._hid.getLeftBumperButton())
 
     def rightBumper(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -58,7 +58,7 @@ class CommandXboxController(CommandGenericHID):
         """
         if loop is None:
             loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getRightBumper())
+        return Trigger(loop, lambda: self._hid.getRightBumperButton())
 
     def leftStick(self, loop: Optional[EventLoop] = None) -> Trigger:
         """

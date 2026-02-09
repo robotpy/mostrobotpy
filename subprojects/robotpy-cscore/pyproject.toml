@@ -44,7 +44,7 @@ version_file = "cscore/version.py"
 artifact_id = "cscore-cpp"
 group_id = "org.wpilib.cscore"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-3-192-g0fd8210b5"
+version = "2027.0.0-alpha-3-212-g227c89ab2"
 
 staticlibs = ["cscore"]
 extract_to = "lib"
@@ -53,7 +53,7 @@ extract_to = "lib"
 artifact_id = "cameraserver-cpp"
 group_id = "org.wpilib.cameraserver"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-3-192-g0fd8210b5"
+version = "2027.0.0-alpha-3-212-g227c89ab2"
 
 staticlibs = ["cameraserver"]
 extract_to = "lib"

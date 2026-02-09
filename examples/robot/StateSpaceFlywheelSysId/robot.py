@@ -39,9 +39,7 @@ class MyRobot(wpilib.TimedRobot):
         # Outputs (what we can measure): [velocity], in radians per second.
         #
         # The Kv and Ka constants are found using the FRC Characterization toolsuite.
-        self.flywheelPlant = wpimath.LinearSystemId.identifyVelocitySystemRadians(
-            kFlywheelKv, kFlywheelKa
-        )
+        self.flywheelPlant = wpimath.Models.flywheelFromSysId(kFlywheelKv, kFlywheelKa)
 
         # The observer fuses our encoder data and voltage inputs to reject noise.
         self.observer = wpimath.KalmanFilter_1_1_1(

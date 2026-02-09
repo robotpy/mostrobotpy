@@ -1,15 +1,15 @@
 extra_includes:
-- wpi/driverstation/XboxController.hpp
+- wpi/driverstation/NiDsXboxController.hpp
 
 classes:
-  wpi::sim::XboxControllerSim:
+  wpi::sim::NiDsXboxControllerSim:
     force_no_trampoline: true
     typealias:
-    - wpi::XboxController
+    - wpi::NiDsXboxController
     methods:
-      XboxControllerSim:
+      NiDsXboxControllerSim:
         overloads:
-          const XboxController&:
+          const NiDsXboxController&:
           int:
       SetLeftX:
       SetRightX:
@@ -17,10 +17,6 @@ classes:
       SetRightY:
       SetLeftTriggerAxis:
       SetRightTriggerAxis:
-      SetLeftBumper:
-        ignore: true
-      SetRightBumper:
-        ignore: true
       SetLeftStickButton:
       SetRightStickButton:
       SetAButton:

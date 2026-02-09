@@ -37,7 +37,7 @@ version_file = "halsim_gui/version.py"
 artifact_id = "halsim_gui"
 group_id = "org.wpilib.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-3-192-g0fd8210b5"
+version = "2027.0.0-alpha-3-212-g227c89ab2"
 use_headers = true
 
 libs = ["halsim_gui"]

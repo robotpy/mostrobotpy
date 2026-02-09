@@ -1,26 +1,16 @@
 extra_includes:
 - wpi/util/sendable/SendableBuilder.hpp
-- wpi/driverstation/DriverStation.hpp
-- wpi/event/BooleanEvent.hpp
 
 classes:
-  wpi::XboxController:
+  wpi::NiDsStadiaController:
     ignored_bases:
-    - wpi::util::SendableHelper<XboxController>
+    - wpi::util::SendableHelper<NiDsStadiaController>
     methods:
-      XboxController:
+      NiDsStadiaController:
       GetLeftX:
       GetRightX:
       GetLeftY:
       GetRightY:
-      GetLeftTriggerAxis:
-      GetRightTriggerAxis:
-      GetLeftBumper:
-      GetRightBumper:
-      GetLeftBumperPressed:
-      GetRightBumperPressed:
-      GetLeftBumperReleased:
-      GetRightBumperReleased:
       LeftBumper:
       RightBumper:
       GetLeftStickButton:
@@ -47,22 +37,34 @@ classes:
       GetYButtonPressed:
       GetYButtonReleased:
       Y:
-      GetBackButton:
-      GetBackButtonPressed:
-      GetBackButtonReleased:
-      Back:
-      GetStartButton:
-      GetStartButtonPressed:
-      GetStartButtonReleased:
-      Start:
+      GetEllipsesButton:
+      GetEllipsesButtonPressed:
+      GetEllipsesButtonReleased:
+      Ellipses:
+      GetHamburgerButton:
+      GetHamburgerButtonPressed:
+      GetHamburgerButtonReleased:
+      Hamburger:
+      GetStadiaButton:
+      GetStadiaButtonPressed:
+      GetStadiaButtonReleased:
+      Stadia:
+      GetGoogleButton:
+      GetGoogleButtonPressed:
+      GetGoogleButtonReleased:
+      Google:
+      GetFrameButton:
+      GetFrameButtonPressed:
+      GetFrameButtonReleased:
+      Frame:
+      GetLeftTriggerButton:
+      GetLeftTriggerButtonPressed:
+      GetLeftTriggerButtonReleased:
       LeftTrigger:
-        overloads:
-          double, EventLoop* [const]:
-          EventLoop* [const]:
+      GetRightTriggerButton:
+      GetRightTriggerButtonPressed:
+      GetRightTriggerButtonReleased:
       RightTrigger:
-        overloads:
-          double, EventLoop* [const]:
-          EventLoop* [const]:
       GetLeftBumperButton:
       GetLeftBumperButtonPressed:
       GetLeftBumperButtonReleased:
@@ -70,23 +72,26 @@ classes:
       GetRightBumperButtonPressed:
       GetRightBumperButtonReleased:
       InitSendable:
-  wpi::XboxController::Button:
+  wpi::NiDsStadiaController::Button:
     attributes:
-      kLeftBumper:
-      kRightBumper:
-      kLeftStick:
-      kRightStick:
       kA:
       kB:
       kX:
       kY:
-      kBack:
-      kStart:
-  wpi::XboxController::Axis:
+      kLeftBumper:
+      kRightBumper:
+      kLeftStick:
+      kRightStick:
+      kEllipses:
+      kHamburger:
+      kStadia:
+      kRightTrigger:
+      kLeftTrigger:
+      kGoogle:
+      kFrame:
+  wpi::NiDsStadiaController::Axis:
     attributes:
       kLeftX:
       kRightX:
       kLeftY:
       kRightY:
-      kLeftTrigger:
-      kRightTrigger:
