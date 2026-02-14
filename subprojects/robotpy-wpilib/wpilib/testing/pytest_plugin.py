@@ -76,7 +76,9 @@ class RobotTestingPlugin:
         wpilib.DriverStation.silenceJoystickConnectionWarning(True)
         DriverStationSim.setRobotMode(RobotMode.AUTONOMOUS)
         DriverStationSim.setEnabled(False)
+        DriverStationSim.setOpMode(0)
         DriverStationSim.notifyNewData()
+        wpilib.DriverStation.clearOpModes()
 
         # Create the user's robot instance
         robot = self._robot_class()
