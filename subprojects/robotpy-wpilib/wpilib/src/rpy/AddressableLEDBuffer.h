@@ -5,10 +5,12 @@
 #pragma once
 
 #include <span>
+#include <stdexcept>
 #include <vector>
 #include "frc/AddressableLED.h"
 #include "frc/util/Color.h"
 #include "frc/util/Color8Bit.h"
+#include "pybind11/pytypes.h"
 
 namespace frc {
 
@@ -330,6 +332,18 @@ class AddressableLEDBuffer {
       throw std::out_of_range("View range out of bounds");
     }
     return View(std::span(m_buffer).subspan(start, end - start));
+  }
+
+  View operator[](pybind11::slice slice) {
+    ssize_t start = 0, stop = 0, step = 0, slicelength = 0;
+    slice.compute(m_buffer.size(), &start, &stop, &step, &slicelength);
+    if (step != 1) {
+      throw std::out_of_range("step != 1");
+    }
+    if (!slicelength) {
+      throw std::out_of_range("zero length view");
+    }
+    return View(std::span(m_buffer).subspan(start, slicelength));
   }
 
  private:
