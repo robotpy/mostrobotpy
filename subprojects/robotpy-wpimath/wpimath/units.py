@@ -61,7 +61,7 @@ degreesToRadians: typing.Callable[[degrees], radians] = math.radians
 radiansToDegrees: typing.Callable[[radians], degrees] = math.degrees
 
 
-def radiansToRotations(rad: radians) -> float:
+def radiansToRotations(rad: radians) -> turns:
     """Converts given radians to rotations.
 
     :param rad: The radians to convert.
@@ -71,7 +71,7 @@ def radiansToRotations(rad: radians) -> float:
     return rad / math.tau
 
 
-def degreesToRotations(deg: degrees) -> float:
+def degreesToRotations(deg: degrees) -> turns:
     """Converts given degrees to rotations.
 
     :param deg: The degrees to convert.
@@ -81,7 +81,7 @@ def degreesToRotations(deg: degrees) -> float:
     return deg / 360.0
 
 
-def rotationsToDegrees(rotations: float) -> degrees:
+def rotationsToDegrees(rotations: turns) -> degrees:
     """Converts given rotations to degrees.
 
     :param rotations: The rotations to convert.
@@ -91,7 +91,7 @@ def rotationsToDegrees(rotations: float) -> degrees:
     return rotations * 360.0
 
 
-def rotationsToRadians(rotations: float) -> float:
+def rotationsToRadians(rotations: turns) -> radians:
     """Converts given rotations to radians.
 
     :param rotations: The rotations to convert.
