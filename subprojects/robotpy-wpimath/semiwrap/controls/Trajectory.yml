@@ -41,18 +41,18 @@ classes:
 inline_code: |
   cls_State
     .def(
-      py::init<
+      nb::init<
         units::second_t,
         units::meters_per_second_t,
         units::meters_per_second_squared_t,
         Pose2d,
         units::curvature_t
       >(),
-      py::arg("t") = 0_s,
-      py::arg("velocity") = 0_mps,
-      py::arg("acceleration") = 0_mps_sq,
-      py::arg("pose") = Pose2d(),
-      py::arg("curvature") = 0.0
+      nb::arg("t") = 0_s,
+      nb::arg("velocity") = 0_mps,
+      nb::arg("acceleration") = 0_mps_sq,
+      nb::arg("pose") = Pose2d(),
+      nb::arg("curvature") = 0.0
     )
     .def_property_readonly("velocity_fps", [](frc::Trajectory::State * self) -> units::feet_per_second_t {
       return self->velocity;
@@ -65,7 +65,7 @@ inline_code: |
         "t=" + std::to_string(self->t()) + ", "
         "velocity=" + std::to_string(self->velocity()) + ", "
         "acceleration=" + std::to_string(self->acceleration()) + ", "
-        "pose=" + rpy::toString(self->pose) + ", "
+        "pose=" + rnb::toString(self->pose) + ", "
         "curvature=" + std::to_string(self->curvature()) + ")";
     })
-    .def_readwrite("curvature", &frc::Trajectory::State::curvature);
+    .def_rw("curvature", &frc::Trajectory::State::curvature);

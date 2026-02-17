@@ -14,11 +14,11 @@ classes:
       minAcceleration:
       maxAcceleration:
     inline_code: |
-      .def(py::init([](
+      .def(nb::init([](
           units::meters_per_second_squared_t minAcceleration,
           units::meters_per_second_squared_t maxAcceleration) {
         return frc::TrajectoryConstraint::MinMax{minAcceleration, maxAcceleration};
-      }), py::arg("minAcceleration"), py::arg("maxAcceleration"))
+      }), nb::arg("minAcceleration"), nb::arg("maxAcceleration"))
 
       .def("__len__", [](const frc::TrajectoryConstraint::MinMax& self) { return 2; })
       .def("__getitem__", [](const frc::TrajectoryConstraint::MinMax& self, int index) {
@@ -33,6 +33,6 @@ classes:
       })
 
       .def("__repr__", [](const frc::TrajectoryConstraint::MinMax &self) {
-        return py::str("TrajectoryConstraint.MinMax(minAcceleration={}, maxAcceleration={})").format(
+        return nb::str("TrajectoryConstraint.MinMax(minAcceleration={}, maxAcceleration={})").format(
           self.minAcceleration, self.maxAcceleration);
       })

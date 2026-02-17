@@ -2,8 +2,8 @@
 #include <semiwrap.h>
 #include <wpi/StackTrace.h>
 
-py::object &get_hook_ref() {
-  static py::object hook;
+nb::object &get_hook_ref() {
+  static nb::object hook;
   return hook;
 }
 
@@ -14,21 +14,21 @@ std::string final_py_stack_trace_hook(int offset) {
 }
 
 std::string py_stack_trace_hook(int offset) {
-  py::gil_scoped_acquire gil;
+  nb::gil_scoped_acquire gil;
 
   try {
     auto &hook = get_hook_ref();
     if (hook) {
-      return py::cast<std::string>(hook(offset));
+      return nb::cast<std::string>(hook(offset));
     }
-  } catch (py::error_already_set &e) {
+  } catch (nb::python_error &e) {
     e.discard_as_unraisable("wpiutil._stacktrace._stack_trace_hook");
   }
 
   return wpi::GetStackTraceDefault(offset);
 }
 
-void setup_stack_trace_hook(py::object fn) {
+void setup_stack_trace_hook(nb::object fn) {
   get_hook_ref() = fn;
   wpi::SetGetStackTraceImpl(py_stack_trace_hook);
 }

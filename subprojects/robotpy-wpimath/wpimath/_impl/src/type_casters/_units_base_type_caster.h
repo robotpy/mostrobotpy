@@ -1,6 +1,6 @@
 #pragma once
 
-#include <pybind11/pybind11.h>
+#include <nanobind/nanobind.h>
 
 namespace pybind11 {
 namespace detail {

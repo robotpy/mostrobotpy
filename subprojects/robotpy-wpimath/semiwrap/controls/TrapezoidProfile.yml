@@ -60,9 +60,9 @@ classes:
 
       cls_State
         .def(
-          py::init<Distance_t, Velocity_t>(),
-          py::arg("position") = 0,
-          py::arg("velocity") = 0
+          nb::init<Distance_t, Velocity_t>(),
+          nb::arg("position") = 0,
+          nb::arg("velocity") = 0
         )
         .def("__repr__", [clsNameCopy](const State &self) {
           return clsNameCopy + ".State("
@@ -92,7 +92,7 @@ classes:
       velocity:
     methods:
       operator==:
-        cpp_code: py::self == State()
+        cpp_code: nb::self == State()
 templates:
   TrapezoidProfile:
     qualname: frc::TrapezoidProfile

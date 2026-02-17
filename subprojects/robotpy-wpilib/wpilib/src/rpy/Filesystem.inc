@@ -4,12 +4,12 @@
 #include <pybind11/eval.h>
 #include <semiwrap.h>
 
-namespace robotpy::filesystem {
+namespace robotnb::filesystem {
 
 static fs::path getMainPath() {
-  py::gil_scoped_acquire gil;
-  py::dict locals;
-  py::exec(R"(
+  nb::gil_scoped_acquire gil;
+  nb::dict locals;
+  nb::exec(R"(
         found = False
         try:
             from robotpy.main import robot_py_path
@@ -25,10 +25,10 @@ static fs::path getMainPath() {
             if hasattr(main, '__file__'):
                 main_path = os.path.abspath(os.path.dirname(main.__file__))
     )",
-           py::globals(), locals);
+           nb::globals(), locals);
 
   if (locals.contains("main_path")) {
-    return fs::path(py::cast<std::string>(locals["main_path"]));
+    return fs::path(nb::cast<std::string>(locals["main_path"]));
   } else {
 #ifdef __FRC_ROBORIO__
     return fs::path("/home/lvuser/py");
@@ -51,4 +51,4 @@ inline fs::path GetOperatingDirectoryFs() {
 
 inline fs::path GetDeployDirectoryFs() { return GetOperatingDirectoryFs() / "deploy"; }
 
-} // namespace robotpy::filesystem
+} // namespace robotnb::filesystem

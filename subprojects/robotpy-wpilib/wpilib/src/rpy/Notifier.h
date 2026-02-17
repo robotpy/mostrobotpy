@@ -122,7 +122,7 @@ private:
   void UpdateAlarm();
 
   // The thread waiting on the HAL alarm
-  py::object m_thread;
+  nb::object m_thread;
 
   // Held while updating process information
   wpi::mutex m_processMutex;

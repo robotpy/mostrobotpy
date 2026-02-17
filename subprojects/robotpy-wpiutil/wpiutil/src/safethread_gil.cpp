@@ -11,8 +11,8 @@ void SetSafeThreadNotifiers(OnThreadStartFn OnStart, OnThreadEndFn OnEnd);
 }
 
 struct SafeThreadState {
-  py::gil_scoped_acquire *acquire = nullptr;
-  py::gil_scoped_release *release = nullptr;
+  nb::gil_scoped_acquire *acquire = nullptr;
+  nb::gil_scoped_release *release = nullptr;
 };
 
 std::atomic<bool> g_gilstate_managed = false;
@@ -26,9 +26,9 @@ void *on_safe_thread_start() {
   auto *st = new SafeThreadState;
 
   // acquires the GIL and creates pybind11's thread state for this thread
-  st->acquire = new py::gil_scoped_acquire;
+  st->acquire = new nb::gil_scoped_acquire;
   // releases the GIL so the thread can start without it
-  st->release = new py::gil_scoped_release;
+  st->release = new nb::gil_scoped_release;
 
   return st;
 }
@@ -55,9 +55,9 @@ void setup_safethread_gil() {
 
   // atexit handlers get called before the interpreter finalizes -- so
   // we disable on_safe_thread_end before finalizing starts
-  auto atexit = py::module_::import("atexit");
+  auto atexit = nb::module_::import_("atexit");
   atexit.attr("register")(
-      py::cpp_function([]() { g_gilstate_managed = false; }));
+      nb::cpp_function([]() { g_gilstate_managed = false; }));
 
   wpi::impl::SetSafeThreadNotifiers(on_safe_thread_start, on_safe_thread_end);
 }

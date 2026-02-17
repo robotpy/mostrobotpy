@@ -19,14 +19,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](IntegerSubscriber *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = IntegerSubscriber();
-      }, py::doc("Destroys the subscriber"))
+      }, nb::doc("Destroys the subscriber"))
       .def("__enter__", [](IntegerSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](IntegerSubscriber *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](IntegerSubscriber *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = IntegerSubscriber();
       })
   nt::IntegerPublisher:
@@ -42,14 +42,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](IntegerPublisher *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = IntegerPublisher();
-      }, py::doc("Destroys the publisher"))
+      }, nb::doc("Destroys the publisher"))
       .def("__enter__", [](IntegerPublisher *self) {
         return self;
       })
-      .def("__exit__", [](IntegerPublisher *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](IntegerPublisher *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = IntegerPublisher();
       })
   nt::IntegerEntry:
@@ -66,14 +66,14 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](IntegerEntry *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = IntegerEntry();
-      }, py::doc("Destroys the entry"))
+      }, nb::doc("Destroys the entry"))
       .def("__enter__", [](IntegerEntry *self) {
         return self;
       })
-      .def("__exit__", [](IntegerEntry *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](IntegerEntry *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = IntegerEntry();
       })
   nt::IntegerTopic:
@@ -95,13 +95,13 @@ classes:
       GetEntryEx:
     inline_code: |
       .def("close", [](IntegerTopic *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = IntegerTopic();
-      }, py::doc("Destroys the topic"))
+      }, nb::doc("Destroys the topic"))
       .def("__enter__", [](IntegerTopic *self) {
         return self;
       })
-      .def("__exit__", [](IntegerTopic *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](IntegerTopic *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = IntegerTopic();
       })

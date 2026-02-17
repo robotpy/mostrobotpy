@@ -29,5 +29,5 @@ classes:
 inline_code: |
   cls_DutyCycle
     .def("__repr__", [](const DutyCycle &self) {
-      return py::str("<DutyCycle {}>").format(self.GetSourceChannel());
+      return nb::str("<DutyCycle {}>").format(self.GetSourceChannel());
     });

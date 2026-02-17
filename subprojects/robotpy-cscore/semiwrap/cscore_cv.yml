@@ -48,14 +48,14 @@ classes:
       GrabFrame:
         cpp_code: |
           [](cs::CvSink &self, cv::Mat& image, double timeout) -> std::tuple<uint64_t, cv::Mat> {
-            py::gil_scoped_release unlock;
+            nb::gil_scoped_release unlock;
             auto result = self.GrabFrame(image, timeout);
             return std::make_tuple(result, image);
           }
       GrabFrameNoTimeout:
         cpp_code: |
           [](cs::CvSink &self, cv::Mat& image) -> std::tuple<uint64_t, cv::Mat> {
-            py::gil_scoped_release unlock;
+            nb::gil_scoped_release unlock;
             auto result = self.GrabFrameNoTimeout(image);
             return std::make_tuple(result, image);
           }

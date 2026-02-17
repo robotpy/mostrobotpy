@@ -46,5 +46,5 @@ classes:
 inline_code: |
   cls_DutyCycleEncoder
     .def("__repr__", [](const DutyCycleEncoder &self) {
-      return py::str("<DutyCycleEncoder {}>").format(self.GetSourceChannel());
+      return nb::str("<DutyCycleEncoder {}>").format(self.GetSourceChannel());
     });

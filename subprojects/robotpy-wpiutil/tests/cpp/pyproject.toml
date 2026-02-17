@@ -8,4 +8,5 @@ requires = [
 name = "wpiutil_test"
 version = "0.0.1"
 
+[tool.hatch.build.hooks.semiwrap]
 [tool.hatch.build.hooks.meson]

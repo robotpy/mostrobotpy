@@ -19,14 +19,14 @@ classes:
           int, int, uint8_t*:
             ignore: true
     inline_code: |
-      .def("detect", [](AprilTagDetector *self, py::buffer img) {
+      .def("detect", [](AprilTagDetector *self, nb::buffer img) {
 
         // validate the input image buffer
         auto buf = img.request();
         if (buf.ndim != 2) {
-          throw py::value_error("buffer must only have two dimensions");
+          throw nb::value_error("buffer must only have two dimensions");
         } else if (buf.itemsize != 1) {
-          throw py::value_error("buffer elements must be bytes");
+          throw nb::value_error("buffer elements must be bytes");
         }
 
         // We are going to move the detection result into this shared_ptr
@@ -35,7 +35,7 @@ classes:
         // be annoying. 
         std::shared_ptr<AprilTagDetector::Results> c_result;
         {
-          py::gil_scoped_release unlock;
+          nb::gil_scoped_release unlock;
           c_result = std::make_shared<AprilTagDetector::Results>(std::move(self->Detect(buf.shape[1], buf.shape[0], (uint8_t*)buf.ptr)));
         }
 
@@ -44,15 +44,15 @@ classes:
         // the return value as reference_internal so python will keep the python
         // reference for the results object alive for as long as all of its
         // results that we put into the list are alive
-        py::object py_result = py::cast(c_result);
+        nb::object py_result = nb::cast(c_result);
         auto len = c_result->size();
         auto get = py_result.attr("get");
-        py::typing::List<AprilTagDetection> l(len);
+        nb::typing::List<AprilTagDetection> l(len);
         for (size_t i = 0; i < len; i++) {
           l[i] = get(i);
         }
         return l;
-      }, py::arg("image"),
+      }, nb::arg("image"),
         R"doc(
           Detect tags from an 8-bit grayscale image with shape (height, width)
 
@@ -99,4 +99,4 @@ classes:
       // the user deletes them
       .def("get", [](const AprilTagDetector::Results &self, int i) {
         return self[i];
-      }, py::return_value_policy::reference_internal)
+      }, nb::return_value_policy::reference_internal)

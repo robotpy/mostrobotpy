@@ -48,13 +48,13 @@ inline_code: |
   cls_Pose2d
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y, Rotation2d r) {
       return std::make_unique<Pose2d>(x, y, r);
-    }, py::arg("x"), py::arg("y"), py::arg("r"))
+    }, nb::arg("x"), nb::arg("y"), nb::arg("r"))
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y, units::radian_t angle) {
       return std::make_unique<Pose2d>(x, y, Rotation2d(angle));
-    }, py::arg("x"), py::arg("y"), py::arg("angle"))
-    .def(py::init([](units::meter_t x, units::meter_t y, units::radian_t angle) {
+    }, nb::arg("x"), nb::arg("y"), nb::arg("angle"))
+    .def(nb::init([](units::meter_t x, units::meter_t y, units::radian_t angle) {
       return std::make_unique<Pose2d>(x, y, angle);
-    }), py::arg("x"), py::arg("y"), py::arg("angle"))
+    }), nb::arg("x"), nb::arg("y"), nb::arg("angle"))
     .def_property_readonly("x", &Pose2d::X)
     .def_property_readonly("y", &Pose2d::Y)
     .def_property_readonly("x_feet", [](Pose2d * self) -> units::foot_t {
@@ -63,6 +63,6 @@ inline_code: |
     .def_property_readonly("y_feet", [](Pose2d * self) -> units::foot_t {
       return self->Y();
     })
-    .def("__repr__", py::overload_cast<const Pose2d&>(&rpy::toString));
+    .def("__repr__", nb::overload_cast<const Pose2d&>(&rnb::toString));
 
   SetupWPyStruct<frc::Pose2d>(cls_Pose2d);

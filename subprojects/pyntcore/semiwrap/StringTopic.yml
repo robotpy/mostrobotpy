@@ -27,14 +27,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](StringSubscriber *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = StringSubscriber();
-      }, py::doc("Destroys the subscriber"))
+      }, nb::doc("Destroys the subscriber"))
       .def("__enter__", [](StringSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](StringSubscriber *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](StringSubscriber *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = StringSubscriber();
       })
   nt::StringPublisher:
@@ -50,14 +50,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](StringPublisher *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = StringPublisher();
-      }, py::doc("Destroys the publisher"))
+      }, nb::doc("Destroys the publisher"))
       .def("__enter__", [](StringPublisher *self) {
         return self;
       })
-      .def("__exit__", [](StringPublisher *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](StringPublisher *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = StringPublisher();
       })
   nt::StringEntry:
@@ -74,14 +74,14 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](StringEntry *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = StringEntry();
-      }, py::doc("Destroys the entry"))
+      }, nb::doc("Destroys the entry"))
       .def("__enter__", [](StringEntry *self) {
         return self;
       })
-      .def("__exit__", [](StringEntry *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](StringEntry *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = StringEntry();
       })
   nt::StringTopic:
@@ -103,13 +103,13 @@ classes:
       GetEntryEx:
     inline_code: |
       .def("close", [](StringTopic *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = StringTopic();
-      }, py::doc("Destroys the topic"))
+      }, nb::doc("Destroys the topic"))
       .def("__enter__", [](StringTopic *self) {
         return self;
       })
-      .def("__exit__", [](StringTopic *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](StringTopic *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = StringTopic();
       })

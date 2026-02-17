@@ -21,7 +21,7 @@ MANIFEST
 /wpimath/_init__wpimath.py
 /wpimath/wpimath.pc
 /wpimath/wpimath-casters.pc
-/wpimath/wpimath-casters.pybind11.json
+/wpimath/wpimath-casters.nanobind.json
 /wpimath/_controls/_init__controls.py
 /wpimath/_controls/wpimath_controls.pc
 /wpimath/_controls/trampolines/

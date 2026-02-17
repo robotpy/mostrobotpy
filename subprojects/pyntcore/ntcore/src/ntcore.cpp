@@ -6,7 +6,7 @@ SEMIWRAP_PYBIND11_MODULE(m) {
   initWrapper(m);
 
   static int unused;
-  py::capsule cleanup(&unused, [](void *) {
+  nb::capsule cleanup(&unused, [](void *) noexcept {
     pyntcore::resetAllInstances();
   });
 

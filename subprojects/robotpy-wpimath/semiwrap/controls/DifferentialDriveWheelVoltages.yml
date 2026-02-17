@@ -14,8 +14,8 @@ extra_includes:
 
 inline_code: |
   cls_DifferentialDriveWheelVoltages
-    .def(py::init<units::volt_t, units::volt_t>(),
-      py::arg("left") = 0, py::arg("right") = 0)
+    .def(nb::init<units::volt_t, units::volt_t>(),
+      nb::arg("left") = 0, nb::arg("right") = 0)
     .def("__repr__", [](const DifferentialDriveWheelVoltages *self) {
       return "DifferentialDriveWheelVoltages("
         "left=" + std::to_string(self->left()) + ","

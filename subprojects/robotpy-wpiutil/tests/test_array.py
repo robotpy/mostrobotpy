@@ -9,9 +9,9 @@ def test_load_array_int():
 def test_load_array_annotation():
     assert (
         module.load_array_int.__doc__
-        == "load_array_int(arg0: Tuple[typing.SupportsInt, typing.SupportsInt, typing.SupportsInt, typing.SupportsInt]) -> Tuple[int, int, int, int]\n"
+        == "load_array_int(arg: collections.abc.Sequence[int, int, int, int], /) -> tuple[int, int, int, int]"
     )
     assert (
         module.load_array_int1.__doc__
-        == "load_array_int1(arg0: Tuple[typing.SupportsInt]) -> Tuple[int]\n"
+        == "load_array_int1(arg: collections.abc.Sequence[int], /) -> tuple[int]"
     )

@@ -7,53 +7,53 @@
     Call a function to retrieve the (type string, schema) for each nested struct
 */
 void forEachNested(
-    const py::type &t,
+    const nb::type_object &t,
     const std::function<void(std::string_view, std::string_view)> &fn);
 
 /**
     Retrieve the type name for the specified type
 */
-py::str getTypeName(const py::type &t);
+nb::str getTypeName(const nb::type_object &t);
 
 /**
     Retrieve schema for the specified type
 */
-py::str getSchema(const py::type &t);
+nb::str getSchema(const nb::type_object &t);
 
 /**
     Returns the serialized size in bytes
 */
-size_t getSize(const py::type &t);
+size_t getSize(const nb::type_object &t);
 
 /**
     Serialize object into byte buffer
 */
-py::bytes pack(const WPyStruct &v);
+nb::bytes pack(const WPyStruct &v);
 
 /**
     Serialize objects into byte buffer
 */
-py::bytes packArray(const py::sequence &seq);
+nb::bytes packArray(const nb::sequence &seq);
 
 /**
     Serialize object into byte buffer. Buffer must be exact size.
 */
-void packInto(const WPyStruct &v, py::buffer &b);
+void packInto(const WPyStruct &v, const nb::ndarray<uint8_t, nb::shape<-1>, nb::c_contig> &b);
 
 /**
     Convert byte buffer into object of specified type. Buffer must be exact
     size.
 */
-WPyStruct unpack(const py::type &t, const py::buffer &b);
+WPyStruct unpack(const nb::type_object &t, const nb::ndarray<const uint8_t, nb::shape<-1>, nb::c_contig> &b);
 
 /**
     Convert byte buffer into list of objects of specified type. Buffer must be
     exact size.
 */
-py::typing::List<WPyStruct> unpackArray(const py::type &t, const py::buffer &b);
+nb::typed<nb::list, WPyStruct> unpackArray(const nb::type_object &t, const nb::ndarray<const uint8_t, nb::shape<-1>, nb::c_contig> &b);
 
 // /**
 //     Convert byte buffer into passed in object. Buffer must be exact
 //     size.
 // */
-// void unpackInto(const py::buffer &b, WPyStruct *v);
+// void unpackInto(const nb::buffer &b, WPyStruct *v);

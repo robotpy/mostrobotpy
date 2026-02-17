@@ -8,9 +8,9 @@ SEMIWRAP_PYBIND11_MODULE(m)
 
     // ensure that the shuffleboard data is released when python shuts down
     static int unused; // the capsule needs something to reference
-    py::capsule cleanup(&unused, [](void *) {
-        rpy::destroyShuffleboardData();
+    nb::capsule cleanup(&unused, [](void *) noexcept {
+        rnb::destroyShuffleboardData();
     });
-    m.add_object("_sbd_cleanup", cleanup);
-    m.def("_clearShuffleboardData", &rpy::clearShuffleboardData);
+    m.attr("_sbd_cleanup") = cleanup;
+    m.def("_clearShuffleboardData", &rnb::clearShuffleboardData);
 }

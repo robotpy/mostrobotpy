@@ -24,5 +24,5 @@ classes:
 inline_code: |
   cls_Relay
     .def("__repr__", [](const Relay &self) {
-      return py::str("<Relay {}>").format(self.GetChannel());
+      return nb::str("<Relay {}>").format(self.GetChannel());
     });

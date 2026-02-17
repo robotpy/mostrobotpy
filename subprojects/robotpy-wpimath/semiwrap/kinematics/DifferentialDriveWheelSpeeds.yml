@@ -21,12 +21,12 @@ classes:
 inline_code: |
   cls_DifferentialDriveWheelSpeeds
     .def(
-      py::init<units::meters_per_second_t, units::meters_per_second_t>(),
-      py::arg("left") = 0, py::arg("right") = 0
+      nb::init<units::meters_per_second_t, units::meters_per_second_t>(),
+      nb::arg("left") = 0, nb::arg("right") = 0
     )
     .def_static("fromFeet", [](units::feet_per_second_t left, units::feet_per_second_t right){
       return DifferentialDriveWheelSpeeds{left, right};
-    }, py::arg("left"), py::arg("right"))
+    }, nb::arg("left"), nb::arg("right"))
     .def_property("left_fps",
       [](DifferentialDriveWheelSpeeds * self) -> units::feet_per_second_t {
         return self->left;

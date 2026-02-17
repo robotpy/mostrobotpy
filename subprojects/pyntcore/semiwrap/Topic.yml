@@ -42,10 +42,10 @@ classes:
           std::string_view, const PubSubOptions&:
       operator==:
     inline_code: |
-      .def("__repr__", [](py::handle self) {
-        py::object type_name = self.get_type().attr("__qualname__");
+      .def("__repr__", [](nb::handle self) {
+        nb::object type_name = self.get_type().attr("__qualname__");
         std::string name = self.cast<Topic>().GetName();
-        return py::str("<{} {!r}>").format(type_name, name);
+        return nb::str("<{} {!r}>").format(type_name, name);
       })
   nt::Subscriber:
     attributes:
@@ -63,10 +63,10 @@ classes:
           NT_Subscriber:
             ignore: true
     inline_code: |
-      .def("__repr__", [](py::handle self) {
-        py::object type_name = self.get_type().attr("__qualname__");
+      .def("__repr__", [](nb::handle self) {
+        nb::object type_name = self.get_type().attr("__qualname__");
         auto topic = self.cast<const Subscriber&>().GetTopic();
-        return py::str("<{} {!r}>").format(type_name, topic.GetName());
+        return nb::str("<{} {!r}>").format(type_name, topic.GetName());
       })
   nt::Publisher:
     attributes:
@@ -82,8 +82,8 @@ classes:
           NT_Publisher:
             ignore: true
     inline_code: |
-      .def("__repr__", [](py::handle self) {
-        py::object type_name = self.get_type().attr("__qualname__");
+      .def("__repr__", [](nb::handle self) {
+        nb::object type_name = self.get_type().attr("__qualname__");
         auto topic = self.cast<const Publisher&>().GetTopic();
-        return py::str("<{} {!r}>").format(type_name, topic.GetName());
+        return nb::str("<{} {!r}>").format(type_name, topic.GetName());
       })

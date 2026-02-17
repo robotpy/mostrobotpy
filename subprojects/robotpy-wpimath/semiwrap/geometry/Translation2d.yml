@@ -47,10 +47,10 @@ inline_code: |
   cls_Translation2d
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y){
       return std::make_unique<Translation2d>(x, y);
-    }, py::arg("x"), py::arg("y"))
+    }, nb::arg("x"), nb::arg("y"))
     .def_static("fromFeet", [](units::foot_t distance, const Rotation2d &angle) {
       return std::make_unique<Translation2d>(distance, angle);
-    }, py::arg("distance"), py::arg("angle"))
+    }, nb::arg("distance"), nb::arg("angle"))
     .def_property_readonly("x", &Translation2d::X)
     .def_property_readonly("y", &Translation2d::Y)
     .def_property_readonly("x_feet", [](Translation2d * self) -> units::foot_t {
@@ -77,6 +77,6 @@ inline_code: |
           throw std::out_of_range("Translation2d index out of range");
       }
     })
-    .def("__repr__", py::overload_cast<const Translation2d&>(&rpy::toString));
+    .def("__repr__", nb::overload_cast<const Translation2d&>(&rnb::toString));
 
   SetupWPyStruct<frc::Translation2d>(cls_Translation2d);

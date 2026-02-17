@@ -41,9 +41,9 @@ SEMIWRAP_PYBIND11_MODULE(m) {
 #ifndef __FRC_ROBORIO__
   // ensure that the shuffleboard data is released when python shuts down
   static int unused; // the capsule needs something to reference
-  py::capsule cleanup(&unused, [](void *) {
+  nb::capsule cleanup(&unused, [](void *) noexcept {
       frc::impl::ResetShuffleboardInstance();
   });
-  m.add_object("_sf_cleanup", cleanup);
+  m.attr("_sf_cleanup") = cleanup;
 #endif
 }

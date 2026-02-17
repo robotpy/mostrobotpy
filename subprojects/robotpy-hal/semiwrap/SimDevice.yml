@@ -185,41 +185,41 @@ classes:
 inline_code: |2
 
   cls_SimValue
-    .def_property_readonly("value", [](const hal::SimValue &self) -> py::object {
+    .def_property_readonly("value", [](const hal::SimValue &self) -> nb::object {
         HAL_Value value;
         {
-          py::gil_scoped_release release;
+          nb::gil_scoped_release release;
           value = self.GetValue();
         }
         switch (value.type) {
         case HAL_BOOLEAN:
-          return py::bool_(value.data.v_boolean);
+          return nb::bool_(value.data.v_boolean);
         case HAL_DOUBLE:
-          return py::float_(value.data.v_double);
+          return nb::float_(value.data.v_double);
         case HAL_ENUM:
-          return py::int_(value.data.v_enum);
+          return nb::int_(value.data.v_enum);
         case HAL_INT:
-          return py::int_(value.data.v_int);
+          return nb::int_(value.data.v_int);
         case HAL_LONG:
-          return py::int_(value.data.v_long);
+          return nb::int_(value.data.v_long);
         default: 
-          return py::none();
+          return nb::none();
         }
     })
     .def_property_readonly("type", [](const hal::SimValue &self) -> HAL_Type {
-      py::gil_scoped_release release;
+      nb::gil_scoped_release release;
       return self.GetValue().type;
     })
     .def("__bool__", [](const hal::SimValue &self) -> bool {
       return (bool)self;
     })
-    .def("__repr__", [](const hal::SimValue &self) -> py::str {
+    .def("__repr__", [](const hal::SimValue &self) -> nb::str {
         if (!self) {
           return "<SimValue (invalid)>";
         }
         HAL_Value value;
         {
-          py::gil_scoped_release release;
+          nb::gil_scoped_release release;
           value = self.GetValue();
         }
         switch (value.type) {
@@ -244,11 +244,11 @@ inline_code: |2
 
   cls_SimBoolean
     .def_property("value", &SimBoolean::Get, &SimBoolean::Set, release_gil())
-    .def("__repr__", [](const SimBoolean &self) -> py::str {
+    .def("__repr__", [](const SimBoolean &self) -> nb::str {
       if (self) {
         bool value;
         {
-          py::gil_scoped_release release;
+          nb::gil_scoped_release release;
           value = self.Get();
         }
         return std::string("<SimBoolean value=") + (value ? "True" : "False") + ">";
@@ -261,7 +261,7 @@ inline_code: |2
     .def("__bool__", [](const hal::SimDevice &self) -> bool {
       return (bool)self;
     })
-    .def_property_readonly("name", [](const hal::SimDevice &self) -> py::str {
+    .def_property_readonly("name", [](const hal::SimDevice &self) -> nb::str {
       #ifdef __FRC_ROBORIO__
         return "<invalid>";
       #else
@@ -270,14 +270,14 @@ inline_code: |2
         } else {
           const char *name;
           {
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             name = HALSIM_GetSimDeviceName(self);
           }
           return name;
         }
       #endif
     })
-    .def("__repr__", [](const hal::SimDevice &self) -> py::str {
+    .def("__repr__", [](const hal::SimDevice &self) -> nb::str {
       #ifdef __FRC_ROBORIO__
         return "<SimDevice (invalid)>";
       #else
@@ -286,20 +286,20 @@ inline_code: |2
         }
         const char *name;
         {
-          py::gil_scoped_release release;
+          nb::gil_scoped_release release;
           name = HALSIM_GetSimDeviceName(self);
         }
-        return py::str("SimDevice(name={!r})").format(py::str(name));
+        return nb::str("SimDevice(name={!r})").format(nb::str(name));
       #endif
     });
 
   cls_SimDouble
     .def_property("value", &SimDouble::Get, &SimDouble::Set, release_gil())
-    .def("__repr__", [](const SimDouble &self) -> py::str {
+    .def("__repr__", [](const SimDouble &self) -> nb::str {
       if (self) {
         double value;
         {
-          py::gil_scoped_release release;
+          nb::gil_scoped_release release;
           value = self.Get();
         }
         return "<SimDouble value=" + std::to_string(value) + ">";
@@ -310,7 +310,7 @@ inline_code: |2
 
   cls_SimEnum
     .def_property("value", &SimEnum::Get, &SimEnum::Set)
-    .def("__repr__", [](const SimEnum &self) -> py::str {
+    .def("__repr__", [](const SimEnum &self) -> nb::str {
       #ifdef __FRC_ROBORIO__
         return "<SimEnum (invalid)>";
       #else
@@ -323,7 +323,7 @@ inline_code: |2
           const char * option = "<unknown>";
           std::string doption;
           {
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             value = self.Get();
             options = HALSIM_GetSimValueEnumOptions(self, &numOptions);
             doptions = HALSIM_GetSimValueEnumDoubleValues(self, &numdOptions);
@@ -347,11 +347,11 @@ inline_code: |2
 
   cls_SimInt
     .def_property("value", &SimInt::Get, &SimInt::Set)
-    .def("__repr__", [](const SimInt &self) -> py::str {
+    .def("__repr__", [](const SimInt &self) -> nb::str {
       if (self) {
         int32_t value;
         {
-          py::gil_scoped_release release;
+          nb::gil_scoped_release release;
           value = self.Get();
         }
         return "<SimInt value=" + std::to_string(value) + ">";
@@ -362,11 +362,11 @@ inline_code: |2
 
   cls_SimLong
     .def_property("value", &SimLong::Get, &SimLong::Set)
-    .def("__repr__", [](const SimLong &self) -> py::str {
+    .def("__repr__", [](const SimLong &self) -> nb::str {
       if (self) {
         int64_t value;
         {
-          py::gil_scoped_release release;
+          nb::gil_scoped_release release;
           value = self.Get();
         }
         return "<SimLong value=" + std::to_string(value) + ">";

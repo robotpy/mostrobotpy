@@ -15,12 +15,12 @@ classes:
 inline_code: |
   cls_Twist2d
     .def(
-      py::init<units::meter_t, units::meter_t, units::radian_t>(),
-      py::arg("dx") = 0, py::arg("dy") = 0, py::arg("dtheta") = 0
+      nb::init<units::meter_t, units::meter_t, units::radian_t>(),
+      nb::arg("dx") = 0, nb::arg("dy") = 0, nb::arg("dtheta") = 0
     )
     .def_static("fromFeet", [](units::foot_t dx, units::foot_t dy, units::radian_t dtheta){
       return Twist2d{dx, dy, dtheta};
-    }, py::arg("dx") = 0, py::arg("dy") = 0, py::arg("dtheta") = 0)
+    }, nb::arg("dx") = 0, nb::arg("dy") = 0, nb::arg("dtheta") = 0)
     .def_property("dx_feet", 
       [](Twist2d * self) -> units::foot_t {
         return self->dx;

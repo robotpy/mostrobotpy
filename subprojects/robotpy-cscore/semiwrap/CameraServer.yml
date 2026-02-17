@@ -57,12 +57,12 @@ classes:
       SetSize:
     inline_code: |-
       .def_static("waitForever", []() {
-        auto time_module = py::module::import("time");
+        auto time_module = nb::module::import("time");
         while (true) {
           time_module.attr("sleep")(1);
         }
-      }, py::doc("Infinitely loops until the process dies"))
+      }, nb::doc("Infinitely loops until the process dies"))
       .def_static("enableLogging", [](std::optional<int> level) {
-        auto lm = py::module::import("cscore._logging");
+        auto lm = nb::module::import("cscore._logging");
         lm.attr("enableLogging")(level);
-      }, py::arg("level") = py::none(), py::doc("Enable cscore logging"))
+      }, nb::arg("level") = nb::none(), nb::doc("Enable cscore logging"))

@@ -12,10 +12,10 @@ classes:
       operator==:
     inline_code: |
       .def(
-        py::init<
+        nb::init<
           units::meter_t, frc::Rotation2d
         >(),
-        py::arg("distance") = 0, py::arg("angle") = frc::Rotation2d()
+        nb::arg("distance") = 0, nb::arg("angle") = frc::Rotation2d()
       )
       .def_property("distance_ft",
         [](SwerveModulePosition * self) -> units::foot_t {

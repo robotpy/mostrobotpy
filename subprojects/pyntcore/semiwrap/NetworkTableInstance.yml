@@ -45,7 +45,7 @@ classes:
         cpp_code: |
           [](NetworkTableInstance * self) {
             pyntcore::onInstanceDestroy(self);
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             NetworkTableInstance::Destroy(*self);
           }
       GetHandle:
@@ -69,7 +69,7 @@ classes:
           info:
             name: type
         cpp_code: |
-          [](const NetworkTableInstance &self, std::string_view name, const py::type &t) {
+          [](const NetworkTableInstance &self, std::string_view name, const nb::type_object &t) {
             WPyStructInfo info(t);
             return self.GetStructTopic<WPyStruct, WPyStructInfo>(name, info);
           }
@@ -78,7 +78,7 @@ classes:
           info:
             name: type
         cpp_code: |
-          [](const NetworkTableInstance &self, std::string_view name, const py::type &t) {
+          [](const NetworkTableInstance &self, std::string_view name, const nb::type_object &t) {
             WPyStructInfo info(t);
             return self.GetStructArrayTopic<WPyStruct, WPyStructInfo>(name, info);
           }
@@ -112,7 +112,7 @@ classes:
         cpp_code: |
           [](NetworkTableInstance * self) {
             pyntcore::onInstanceStart(self);
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             self->StartLocal();
           }
       StopLocal:
@@ -121,7 +121,7 @@ classes:
           [](NetworkTableInstance * self, std::string_view persist_filename,  const char* listen_address,
              unsigned int port3, unsigned int port4) {
             pyntcore::onInstanceStart(self);
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             self->StartServer(persist_filename, listen_address, port3, port4);
           }
       StopServer:
@@ -129,14 +129,14 @@ classes:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view identity) {
             pyntcore::onInstanceStart(self);
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             self->StartClient3(identity);
           }
       StartClient4:
         cpp_code: |
           [](NetworkTableInstance * self, std::string_view identity) {
             pyntcore::onInstanceStart(self);
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             self->StartClient4(identity);
           }
       StopClient:
@@ -171,13 +171,13 @@ classes:
       operator==:
     inline_code: |
       .def("configPythonLogging", [](NetworkTableInstance * self, 
-        NetworkTableInstance::LogLevel minLevel, NetworkTableInstance::LogLevel maxLevel, py::str logName) {
-          py::module::import("ntcore._logutil").attr("_config_logging")(self, minLevel, maxLevel, logName);
-        }, py::kw_only(),
-          py::arg("min") = NetworkTableInstance::LogLevel::kLogInfo,
-          py::arg("max") = NetworkTableInstance::LogLevel::kLogCritical,
-          py::arg("name") = "nt",
-        py::doc("Configure python logging for this instance.\n"
+        NetworkTableInstance::LogLevel minLevel, NetworkTableInstance::LogLevel maxLevel, nb::str logName) {
+          nb::module::import("ntcore._logutil").attr("_config_logging")(self, minLevel, maxLevel, logName);
+        }, nb::kw_only(),
+          nb::arg("min") = NetworkTableInstance::LogLevel::kLogInfo,
+          nb::arg("max") = NetworkTableInstance::LogLevel::kLogCritical,
+          nb::arg("name") = "nt",
+        nb::doc("Configure python logging for this instance.\n"
                 "\n"
                 ":param min:  Minimum NT level to log\n"
                 ":param max:  Maximum NT level to log\n"
@@ -188,7 +188,7 @@ classes:
       .def("_reset", [](NetworkTableInstance *self) {
         pyntcore::onInstancePreReset(self);
         {
-          py::gil_scoped_release release;
+          nb::gil_scoped_release release;
           nt::ResetInstance(self->GetHandle());
         }
         pyntcore::onInstancePostReset(self);

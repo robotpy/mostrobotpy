@@ -93,5 +93,5 @@ classes:
       operator==:
     inline_code: |
       .def("__repr__", [](NetworkTableEntry self) {
-        return py::str("<NetworkTableEntry {!r}>").format(self.GetName());
+        return nb::str("<NetworkTableEntry {!r}>").format(self.GetName());
       })

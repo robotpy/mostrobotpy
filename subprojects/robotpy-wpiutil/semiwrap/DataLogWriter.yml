@@ -5,13 +5,13 @@ classes:
         overloads:
           std::string_view, std::error_code&, std::string_view:
             cpp_code: |
-              [](std::string_view filename, std::string_view extraHeader) {
+              [](DataLogWriter *self, std::string_view filename, std::string_view extraHeader) {
                 std::error_code ec;
-                auto writer = std::make_unique<DataLogWriter>(filename, ec, extraHeader);
+
+                new (self) DataLogWriter(filename, ec, extraHeader);
                 if (ec) {
                   throw std::system_error(ec);
                 }
-                return writer;
               }
             param_override:
               ec:

@@ -30,7 +30,7 @@ inline_code: |-
   cls_Rectangle2d
     .def_static("fromFeet", [](const Pose2d& center, units::foot_t xWidth, units::foot_t yWidth) {
       return std::make_unique<Rectangle2d>(center, xWidth, yWidth);
-    }, py::arg("center"), py::arg("xWidth"), py::arg("yWidth"))
+    }, nb::arg("center"), nb::arg("xWidth"), nb::arg("yWidth"))
     .def_property_readonly("xwidth", &Rectangle2d::XWidth)
     .def_property_readonly("ywidth", &Rectangle2d::YWidth)
     .def_property_readonly("xwidth_feet", [](Rectangle2d &self) -> units::foot_t {
@@ -39,7 +39,7 @@ inline_code: |-
     .def_property_readonly("ywidth_feet", [](Rectangle2d &self) -> units::foot_t {
       return self.YWidth();
     })
-    .def("__repr__", py::overload_cast<const Rectangle2d&>(&rpy::toString));
+    .def("__repr__", nb::overload_cast<const Rectangle2d&>(&rnb::toString));
 
 
   SetupWPyStruct<frc::Rectangle2d>(cls_Rectangle2d);

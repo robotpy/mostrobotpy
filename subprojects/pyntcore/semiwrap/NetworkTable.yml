@@ -53,7 +53,7 @@ classes:
           info:
             name: type
         cpp_code: |
-          [](const NetworkTable &self, std::string_view name, const py::type &t) {
+          [](const NetworkTable &self, std::string_view name, const nb::type_object &t) {
             WPyStructInfo info(t);
             return self.GetStructTopic<WPyStruct, WPyStructInfo>(name, info);
           }
@@ -62,7 +62,7 @@ classes:
           info:
             name: type
         cpp_code: |
-          [](const NetworkTable &self, std::string_view name, const py::type &t) {
+          [](const NetworkTable &self, std::string_view name, const nb::type_object &t) {
             WPyStructInfo info(t);
             return self.GetStructArrayTopic<WPyStruct, WPyStructInfo>(name, info);
           }
@@ -80,10 +80,10 @@ classes:
       SetDefaultNumber:
       GetNumber:
         cpp_code: |
-          [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
+          [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
             {
-              py::gil_scoped_release release;
+              nb::gil_scoped_release release;
               entry = table->GetEntry(key);
             }
             return pyntcore::GetDoubleEntry(entry, defaultValue);
@@ -92,10 +92,10 @@ classes:
       SetDefaultString:
       GetString:
         cpp_code: |
-          [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
+          [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
             {
-              py::gil_scoped_release release;
+              nb::gil_scoped_release release;
               entry = table->GetEntry(key);
             }
             return pyntcore::GetStringEntry(entry, defaultValue);
@@ -104,10 +104,10 @@ classes:
       SetDefaultBoolean:
       GetBoolean:
         cpp_code: |
-          [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
+          [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
             {
-              py::gil_scoped_release release;
+              nb::gil_scoped_release release;
               entry = table->GetEntry(key);
             }
             return pyntcore::GetBooleanEntry(entry, defaultValue);
@@ -116,10 +116,10 @@ classes:
       SetDefaultBooleanArray:
       GetBooleanArray:
         cpp_code: |
-          [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
+          [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
             {
-              py::gil_scoped_release release;
+              nb::gil_scoped_release release;
               entry = table->GetEntry(key);
             }
             return pyntcore::GetBooleanArrayEntry(entry, defaultValue);
@@ -128,10 +128,10 @@ classes:
       SetDefaultNumberArray:
       GetNumberArray:
         cpp_code: |
-          [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
+          [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
             {
-              py::gil_scoped_release release;
+              nb::gil_scoped_release release;
               entry = table->GetEntry(key);
             }
             return pyntcore::GetDoubleArrayEntry(entry, defaultValue);
@@ -140,10 +140,10 @@ classes:
       SetDefaultStringArray:
       GetStringArray:
         cpp_code: |
-          [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
+          [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
             {
-              py::gil_scoped_release release;
+              nb::gil_scoped_release release;
               entry = table->GetEntry(key);
             }
             return pyntcore::GetStringArrayEntry(entry, defaultValue);
@@ -152,10 +152,10 @@ classes:
       SetDefaultRaw:
       GetRaw:
         cpp_code: |
-          [](NetworkTable * table, std::string_view key, py::object defaultValue) -> py::object {
+          [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
             {
-              py::gil_scoped_release release;
+              nb::gil_scoped_release release;
               entry = table->GetEntry(key);
             }
             return pyntcore::GetRawEntry(entry, defaultValue);

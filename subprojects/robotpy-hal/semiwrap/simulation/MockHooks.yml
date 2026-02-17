@@ -1,6 +1,6 @@
 extra_includes:
 - sim_cb.h
-- pybind11/functional.h
+- nanobind/stl/function.h
 
 strip_prefixes:
 - HALSIM_

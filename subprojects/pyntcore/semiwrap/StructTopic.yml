@@ -24,14 +24,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](nt::StructSubscriber<T, I> *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = nt::StructSubscriber<T, I>();
-      }, py::doc("Destroys the subscriber"))
+      }, nb::doc("Destroys the subscriber"))
       .def("__enter__", [](nt::StructSubscriber<T, I> *self) {
         return self;
       })
-      .def("__exit__", [](nt::StructSubscriber<T, I> *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](nt::StructSubscriber<T, I> *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = nt::StructSubscriber<T, I>();
       })
   nt::StructPublisher:
@@ -50,14 +50,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](nt::StructPublisher<T, I> *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = nt::StructPublisher<T, I>();
-      }, py::doc("Destroys the publisher"))
+      }, nb::doc("Destroys the publisher"))
       .def("__enter__", [](nt::StructPublisher<T, I> *self) {
         return self;
       })
-      .def("__exit__", [](nt::StructPublisher<T, I> *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](nt::StructPublisher<T, I> *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = nt::StructPublisher<T, I>();
       })
   nt::StructEntry:
@@ -80,14 +80,14 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](nt::StructEntry<T, I> *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = nt::StructEntry<T, I>();
-      }, py::doc("Destroys the entry"))
+      }, nb::doc("Destroys the entry"))
       .def("__enter__", [](nt::StructEntry<T, I> *self) {
         return self;
       })
-      .def("__exit__", [](nt::StructEntry<T, I> *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](nt::StructEntry<T, I> *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = nt::StructEntry<T, I>();
       })
   nt::StructTopic:
@@ -106,7 +106,7 @@ classes:
               info:
                 name: type
             cpp_code: |
-              [](Topic topic, const py::type &t) {
+              [](Topic topic, const nb::type_object &t) {
                 WPyStructInfo info(t);
                 return nt::StructTopic<T, I>(topic, info);
               }
@@ -116,14 +116,14 @@ classes:
       GetEntry:
     inline_code: |
       .def("close", [](nt::StructTopic<T, I> *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = nt::StructTopic<T, I>();
-      }, py::doc("Destroys the topic"))
+      }, nb::doc("Destroys the topic"))
       .def("__enter__", [](nt::StructTopic<T, I> *self) {
         return self;
       })
-      .def("__exit__", [](nt::StructTopic<T, I> *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](nt::StructTopic<T, I> *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = nt::StructTopic<T, I>();
       })
 templates:

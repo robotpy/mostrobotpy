@@ -50,7 +50,7 @@ inline_code: |
   cls_Rotation3d
     .def_static("fromDegrees", [](units::degree_t roll, units::degree_t pitch, units::degree_t yaw) {
       return std::make_unique<Rotation3d>(roll, pitch, yaw);
-    }, py::arg("roll"), py::arg("pitch"), py::arg("yaw"))
+    }, nb::arg("roll"), nb::arg("pitch"), nb::arg("yaw"))
     .def_property_readonly("x", &Rotation3d::X)
     .def_property_readonly("y", &Rotation3d::Y)
     .def_property_readonly("z", &Rotation3d::Z)
@@ -67,6 +67,6 @@ inline_code: |
     .def_property_readonly("angle_degrees", [](const Rotation3d * self) -> units::degree_t {
       return self->Angle();
     })
-    .def("__repr__", py::overload_cast<const Rotation3d&>(&rpy::toString));
+    .def("__repr__", nb::overload_cast<const Rotation3d&>(&rnb::toString));
 
   SetupWPyStruct<frc::Rotation3d>(cls_Rotation3d);

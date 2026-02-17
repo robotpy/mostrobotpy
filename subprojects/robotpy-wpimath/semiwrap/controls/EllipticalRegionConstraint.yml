@@ -24,7 +24,7 @@ classes:
                                    units::foot_t yWidth, const Rotation2d& rotation,
                                    const Constraint& constraint) {
           return std::make_shared<EllipticalRegionConstraint<Constraint>>(center, xWidth, yWidth, rotation, constraint);
-        }, py::arg("center"), py::arg("xWidth"), py::arg("yWidth"), py::arg("rotation"), py::arg("constraint"))
+        }, nb::arg("center"), nb::arg("xWidth"), nb::arg("yWidth"), nb::arg("rotation"), nb::arg("constraint"))
       ;
 
 templates:

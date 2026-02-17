@@ -32,13 +32,13 @@ inline_code: |-
   cls_TrajectoryConfig
     .def_static("fromFps", [](units::feet_per_second_t maxVelocity, units::feet_per_second_squared_t maxAcceleration) {
       return std::make_shared<TrajectoryConfig>(maxVelocity, maxAcceleration);
-    }, py::arg("maxVelocity"), py::arg("maxAcceleration"))
+    }, nb::arg("maxVelocity"), nb::arg("maxAcceleration"))
 
     // TODO: robotpy-build bug
 
     .def("setKinematics", static_cast<void (frc::TrajectoryConfig::*)(frc::SwerveDriveKinematics<2>&)>(
   &frc::TrajectoryConfig::SetKinematics<2>),
-        py::arg("kinematics"), release_gil(), py::doc(
+        nb::arg("kinematics"), release_gil(), nb::doc(
       "Adds a swerve drive kinematics constraint to ensure that\n"
   "no wheel velocity of a swerve drive goes above the max velocity.\n"
   "\n"
@@ -47,7 +47,7 @@ inline_code: |-
       
     .def("setKinematics", static_cast<void (frc::TrajectoryConfig::*)(frc::SwerveDriveKinematics<3>&)>(
   &frc::TrajectoryConfig::SetKinematics<3>),
-        py::arg("kinematics"), release_gil(), py::doc(
+        nb::arg("kinematics"), release_gil(), nb::doc(
       "Adds a swerve drive kinematics constraint to ensure that\n"
   "no wheel velocity of a swerve drive goes above the max velocity.\n"
   "\n"
@@ -56,7 +56,7 @@ inline_code: |-
       
     .def("setKinematics", static_cast<void (frc::TrajectoryConfig::*)(frc::SwerveDriveKinematics<4>&)>(
   &frc::TrajectoryConfig::SetKinematics<4>),
-        py::arg("kinematics"), release_gil(), py::doc(
+        nb::arg("kinematics"), release_gil(), nb::doc(
       "Adds a swerve drive kinematics constraint to ensure that\n"
   "no wheel velocity of a swerve drive goes above the max velocity.\n"
   "\n"
@@ -65,7 +65,7 @@ inline_code: |-
       
     .def("setKinematics", static_cast<void (frc::TrajectoryConfig::*)(frc::SwerveDriveKinematics<6>&)>(
   &frc::TrajectoryConfig::SetKinematics<6>),
-        py::arg("kinematics"), release_gil(), py::doc(
+        nb::arg("kinematics"), release_gil(), nb::doc(
       "Adds a swerve drive kinematics constraint to ensure that\n"
   "no wheel velocity of a swerve drive goes above the max velocity.\n"
   "\n"

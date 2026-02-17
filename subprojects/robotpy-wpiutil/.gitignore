@@ -15,7 +15,7 @@ __pycache__
 /build
 
 *.pc
-*.pybind11.json
+*.nanobind.json
 
 /tests/cpp/build
 /tests/cpp/wpiutil_test/_initmodule.py

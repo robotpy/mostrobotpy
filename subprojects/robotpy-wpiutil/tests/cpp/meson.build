@@ -4,6 +4,8 @@ project('wpiutil-test', ['cpp'],
 
 py = import('python').find_installation()
 
+subdir('semiwrap')
+
 py.extension_module(
   'module',
   sources: files(
@@ -13,5 +15,5 @@ py.extension_module(
   ),
   install: true,
   subdir: 'wpiutil_test',
-  dependencies: [dependency('semiwrap'), dependency('wpiutil')],
+  dependencies: [dependency('semiwrap'), dependency('wpiutil'), dependency('nanobind')],
 )

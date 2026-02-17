@@ -1,6 +1,6 @@
 extra_includes:
 - wpi/sendable/Sendable.h
-- pybind11/functional.h
+- nanobind/stl/function.h
 
 classes:
   frc::LiveWindow:
@@ -21,8 +21,8 @@ classes:
 
 inline_code: |
   static int unused;
-  py::capsule cleanup(&unused, [](void *) {
+  nb::capsule cleanup(&unused, [](void *) noexcept {
     frc::LiveWindow::SetEnabledCallback(nullptr);
     frc::LiveWindow::SetDisabledCallback(nullptr);
   });
-  m.add_object("_lw_cleanup", cleanup);
+  m.attr("_lw_cleanup") = cleanup;

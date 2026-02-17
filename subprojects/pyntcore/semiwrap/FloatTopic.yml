@@ -19,14 +19,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](FloatSubscriber *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = FloatSubscriber();
-      }, py::doc("Destroys the subscriber"))
+      }, nb::doc("Destroys the subscriber"))
       .def("__enter__", [](FloatSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](FloatSubscriber *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](FloatSubscriber *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = FloatSubscriber();
       })
   nt::FloatPublisher:
@@ -42,14 +42,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](FloatPublisher *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = FloatPublisher();
-      }, py::doc("Destroys the publisher"))
+      }, nb::doc("Destroys the publisher"))
       .def("__enter__", [](FloatPublisher *self) {
         return self;
       })
-      .def("__exit__", [](FloatPublisher *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](FloatPublisher *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = FloatPublisher();
       })
   nt::FloatEntry:
@@ -66,14 +66,14 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](FloatEntry *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = FloatEntry();
-      }, py::doc("Destroys the entry"))
+      }, nb::doc("Destroys the entry"))
       .def("__enter__", [](FloatEntry *self) {
         return self;
       })
-      .def("__exit__", [](FloatEntry *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](FloatEntry *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = FloatEntry();
       })
   nt::FloatTopic:
@@ -95,13 +95,13 @@ classes:
       GetEntryEx:
     inline_code: |
       .def("close", [](FloatTopic *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = FloatTopic();
-      }, py::doc("Destroys the topic"))
+      }, nb::doc("Destroys the topic"))
       .def("__enter__", [](FloatTopic *self) {
         return self;
       })
-      .def("__exit__", [](FloatTopic *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](FloatTopic *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = FloatTopic();
       })

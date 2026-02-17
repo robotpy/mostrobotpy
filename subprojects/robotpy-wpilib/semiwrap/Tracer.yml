@@ -18,11 +18,11 @@ classes:
 inline_code: |-
   cls_Tracer
     .def("getEpochs",
-      [](Tracer * self) -> py::str {
+      [](Tracer * self) -> nb::str {
         wpi::SmallString<128> buf;
         wpi::raw_svector_ostream s(buf);
         self->PrintEpochs(s);
-        return py::cast(s.str());
+        return nb::cast(s.str());
       },
       "Retreives list of epochs added so far as a string\n"
       "\n"

@@ -74,13 +74,13 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](GenericEntry *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = GenericEntry();
-      }, py::doc("Destroys the entry"))
+      }, nb::doc("Destroys the entry"))
       .def("__enter__", [](GenericEntry *self) {
         return self;
       })
-      .def("__exit__", [](GenericEntry *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](GenericEntry *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = GenericEntry();
       })

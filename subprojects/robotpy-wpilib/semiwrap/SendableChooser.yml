@@ -12,10 +12,10 @@ classes:
       GetSelected:
         # weirdness because return type
         cpp_code: |
-          [](frc::SendableChooser<T> * __that) -> py::object {
+          [](frc::SendableChooser<T> * __that) -> nb::object {
             auto v = __that->GetSelected();
             if (!v) {
-              return py::none();
+              return nb::none();
             }
             return v;
           }
@@ -24,11 +24,11 @@ classes:
         cpp_code: |
           [](frc::SendableChooser<T> *self, std::function<void(T)> fn) {
             self->OnChange([fn](T v) {
-              py::gil_scoped_acquire lock;
+              nb::gil_scoped_acquire lock;
               if (v) {
                 fn(v);
               } else {
-                fn(py::none());
+                fn(nb::none());
               }
             });
           }

@@ -54,10 +54,10 @@ classes:
     inline_code: |
       .def("getControlState",
         [](DriverStation *self) -> std::tuple<bool, bool, bool> {
-          py::gil_scoped_release release;
-          return rpy::GetControlState();
+          nb::gil_scoped_release release;
+          return rnb::GetControlState();
         },
-        py::doc("More efficient way to determine what state the robot is in.\n"
+        nb::doc("More efficient way to determine what state the robot is in.\n"
                 "\n"
                 ":returns: booleans representing enabled, isautonomous, istest\n"
                 "\n"

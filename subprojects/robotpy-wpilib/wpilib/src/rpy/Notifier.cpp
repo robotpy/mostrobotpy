@@ -14,7 +14,7 @@
 #include "frc/Errors.h"
 #include "frc/Timer.h"
 
-#include <pybind11/functional.h>
+#include <nanobind/stl/function.h>
 #include <gilsafe_object.h>
 
 using namespace frc;
@@ -42,7 +42,7 @@ PyNotifier::PyNotifier(std::function<void()> handler) {
   FRC_CheckErrorStatus(status, "InitializeNotifier");
 
   std::function<void()> target([this] {
-    py::gil_scoped_release release;
+    nb::gil_scoped_release release;
 
     try {
       for (;;) {
@@ -86,10 +86,10 @@ PyNotifier::PyNotifier(std::function<void()> handler) {
     _hang_thread_if_finalizing();
   });
 
-  py::gil_scoped_acquire acquire;
+  nb::gil_scoped_acquire acquire;
 
   // create a python thread and start it
-  auto Thread = py::module::import("threading").attr("Thread");
+  auto Thread = nb::module::import("threading").attr("Thread");
   m_thread = Thread("target"_a = target, "daemon"_a = true,
                     "name"_a = "notifier-thread");
   m_thread.attr("start")();

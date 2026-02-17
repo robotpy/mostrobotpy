@@ -7,12 +7,12 @@
 
 using namespace pybind11::literals;
 
-static py::module_ sys_module;
+static nb::module_ sys_module;
 
 SEMIWRAP_PYBIND11_MODULE(m) {
 
   // Add this manually so it can be used from SimValue
-  py::enum_<HAL_Type>(m, "Type")
+  nb::enum_<HAL_Type>(m, "Type")
     .value("UNASSIGNED", HAL_Type::HAL_UNASSIGNED)
     .value("BOOLEAN", HAL_Type::HAL_BOOLEAN)
     .value("DOUBLE", HAL_Type::HAL_DOUBLE)
@@ -21,27 +21,27 @@ SEMIWRAP_PYBIND11_MODULE(m) {
     .value("LONG", HAL_Type::HAL_LONG);
 
   // Add this manually because it would be annoying to do otherwise
-  py::class_<HAL_Value>(m, "Value")
-    .def_readonly("type", &HAL_Value::type)
-    .def_property_readonly("value",
-      [](const HAL_Value &self) -> py::object {
+  nb::class_<HAL_Value>(m, "Value")
+    .def_ro("type", &HAL_Value::type)
+    .def_prop_ro("value",
+      [](const HAL_Value &self) -> nb::object {
         switch (self.type) {
         case HAL_BOOLEAN:
-          return py::bool_(self.data.v_boolean);
+          return nb::bool_(self.data.v_boolean);
         case HAL_DOUBLE:
-          return py::float_(self.data.v_double);
+          return nb::float_(self.data.v_double);
         case HAL_ENUM:
-          return py::int_(self.data.v_enum);
+          return nb::int_(self.data.v_enum);
         case HAL_INT:
-          return py::int_(self.data.v_int);
+          return nb::int_(self.data.v_int);
         case HAL_LONG:
-          return py::int_(self.data.v_long);
+          return nb::int_(self.data.v_long);
         default:
-          return py::none();
+          return nb::none();
         }
       }
     )
-    .def("__repr__", [](const HAL_Value &self) -> py::str {
+    .def("__repr__", [](const HAL_Value &self) -> nb::str {
       switch (self.type) {
         case HAL_BOOLEAN:
           return "<Value type=bool value=" + std::to_string(self.data.v_boolean) + ">";
@@ -74,35 +74,35 @@ SEMIWRAP_PYBIND11_MODULE(m) {
 #endif
 
   // Redirect stderr to python stderr
-  sys_module = py::module_::import("sys");
+  sys_module = nb::module_::import("sys");
 
   HAL_SetPrintErrorImpl([](const char *line, size_t size) {
     if (size == 0) {
       return;
     }
 
-    py::gil_scoped_acquire lock;
+    nb::gil_scoped_acquire lock;
     PyObject *o = PyUnicode_DecodeUTF8(line, size, "replace");
     if (o == nullptr) {
       PyErr_Clear();
-      py::print(py::bytes(line, size), "file"_a=sys_module.attr("stderr"));
+      nb::print(nb::bytes(line, size), "file"_a=sys_module.attr("stderr"));
     } else {
-      py::print(py::reinterpret_steal<py::str>(o), "file"_a=sys_module.attr("stderr"));
+      nb::print(nb::reinterpret_steal<nb::str>(o), "file"_a=sys_module.attr("stderr"));
     }
   });
 
   // Do cleanup on module unload
   static int unused; // the capsule needs something to reference
-  py::capsule cleanup(&unused, [](void *) {
+  nb::capsule cleanup(&unused, [](void *) noexcept {
     {
-      py::gil_scoped_acquire lock;
+      nb::gil_scoped_acquire lock;
       HAL_SetPrintErrorImpl(nullptr);
       sys_module.dec_ref();
       sys_module.release();
     }
 
     {
-      py::gil_scoped_release unlock;
+      nb::gil_scoped_release unlock;
       HAL_Shutdown();
     }
   });

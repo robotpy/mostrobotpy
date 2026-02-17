@@ -47,10 +47,10 @@ inline_code: |
   cls_Rotation2d
     .def_static("fromDegrees", [](units::degree_t value) {
       return std::make_unique<Rotation2d>(value);
-    }, py::arg("value"))
+    }, nb::arg("value"))
     .def_static("fromRotations", [](units::turn_t value) {
       return std::make_unique<Rotation2d>(value);
     })
-    .def("__repr__", py::overload_cast<const Rotation2d&>(&rpy::toString));
+    .def("__repr__", nb::overload_cast<const Rotation2d&>(&rnb::toString));
 
   SetupWPyStruct<frc::Rotation2d>(cls_Rotation2d);

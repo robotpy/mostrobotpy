@@ -1,17 +1,20 @@
 
-#include <pybind11/functional.h>
-#include <pybind11/stl.h>
 #include <semiwrap.h>
+
+#include <nanobind/stl/function.h>
+#include <nanobind/stl/string_view.h>
+#include <nanobind/stl/tuple.h>
+
 #include <wpi/sendable/SendableBuilder.h>
 #include <wpi/sendable/SendableRegistry.h>
 
 class MySendableBuilder : public wpi::SendableBuilder {
 public:
-  MySendableBuilder(py::dict keys) : keys(keys) {}
+  MySendableBuilder(nb::dict keys) : keys(keys) {}
 
   ~MySendableBuilder() {
     // leak this so the python interpreter doesn't crash on shutdown
-    keys.release();
+    // keys.release();
   }
 
   void SetSmartDashboardType(std::string_view type) override {}
@@ -37,8 +40,8 @@ public:
 
   void AddDoubleProperty(std::string_view key, std::function<double()> getter,
                          std::function<void(double)> setter) override {
-    py::gil_scoped_acquire gil;
-    py::object pykey = py::cast(key);
+    nb::gil_scoped_acquire gil;
+    nb::object pykey = nb::cast(key);
     keys[pykey] = std::make_tuple(getter, setter);
   }
 
@@ -145,12 +148,12 @@ public:
   void Update() override {}
   void ClearProperties() override {}
 
-  py::dict keys;
+  nb::dict keys;
 };
 
-void Publish(wpi::SendableRegistry::UID sendableUid, py::dict keys) {
+void Publish(wpi::SendableRegistry::UID sendableUid, nb::dict keys) {
   auto builder = std::make_unique<MySendableBuilder>(keys);
   wpi::SendableRegistry::Publish(sendableUid, std::move(builder));
 }
 
-void sendable_test(py::module &m) { m.def("publish", Publish); }
+void sendable_test(nb::module_ &m) { m.def("publish", Publish); }

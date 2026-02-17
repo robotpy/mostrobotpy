@@ -6,7 +6,7 @@ classes:
     methods:
       InitSendable:
         virtual_xform: |-
-          [&](py::function fn) {
-            auto builderHandle = py::cast(builder, py::return_value_policy::reference);
+          [&](nb::callable fn) {
+            auto builderHandle = nb::cast(builder, nb::rv_policy::reference);
             fn(builderHandle);
           }

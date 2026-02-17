@@ -1,33 +1,28 @@
 
 #pragma once
 
-#include <pybind11/pybind11.h>
+#include <nanobind/nanobind.h>
 
 #include <wpi/ct_string.h>
 
-namespace pybind11 {
-namespace detail {
+NAMESPACE_BEGIN(NB_NAMESPACE)
+NAMESPACE_BEGIN(detail)
 
 template <typename CharT, typename Traits, size_t N>
 struct type_caster<wpi::ct_string<CharT, Traits, N>> {
     using str_type = wpi::ct_string<CharT, Traits, N>;
-    PYBIND11_TYPE_CASTER(str_type, const_name(PYBIND11_STRING_NAME));
+    NB_TYPE_CASTER(str_type, const_name("str"));
 
     // TODO
-    bool load(handle src, bool convert) {
+    bool from_python(handle src, uint8_t, cleanup_list *) noexcept {
         return false;
     }
 
-    static handle cast(const str_type& src,
-                         py::return_value_policy policy,
-                         py::handle parent) {
+    static handle from_cpp(const str_type &src, rv_policy,
+                           cleanup_list *) noexcept {
         const char *buffer = reinterpret_cast<const char *>(src.data());
         auto nbytes = ssize_t(src.size() * sizeof(CharT));
-        handle s = decode_utfN(buffer, nbytes);
-        if (!s) {
-            throw error_already_set();
-        }
-        return s;
+        return decode_utfN(buffer, nbytes);
     }
 
     // copied from py::string_caster
@@ -57,5 +52,5 @@ struct type_caster<wpi::ct_string<CharT, Traits, N>> {
 // struct type_caster<wpi::ct_string<Char, Traits, N>>
 //     : string_caster<wpi::ct_string<Char, Traits, N>, false> {};
 
-} // namespace detail
-} // namespace pybind11
+NAMESPACE_END(detail)
+NAMESPACE_END(NB_NAMESPACE)

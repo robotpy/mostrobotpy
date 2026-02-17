@@ -79,13 +79,13 @@ classes:
 
     template_inline_code: |
       if constexpr (NumModules == 2) {
-        cls_SwerveDriveKinematics.def(py::init<Translation2d, Translation2d>());
+        cls_SwerveDriveKinematics.def(nb::init<Translation2d, Translation2d>());
       } else if constexpr (NumModules == 3) {
-        cls_SwerveDriveKinematics.def(py::init<Translation2d, Translation2d, Translation2d>());
+        cls_SwerveDriveKinematics.def(nb::init<Translation2d, Translation2d, Translation2d>());
       } else if constexpr (NumModules == 4) {
-        cls_SwerveDriveKinematics.def(py::init<Translation2d, Translation2d, Translation2d, Translation2d>());
+        cls_SwerveDriveKinematics.def(nb::init<Translation2d, Translation2d, Translation2d, Translation2d>());
       } else if constexpr (NumModules == 6) {
-        cls_SwerveDriveKinematics.def(py::init<Translation2d, Translation2d, Translation2d, Translation2d, Translation2d, Translation2d>());
+        cls_SwerveDriveKinematics.def(nb::init<Translation2d, Translation2d, Translation2d, Translation2d, Translation2d, Translation2d>());
       }
 
 

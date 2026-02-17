@@ -1,5 +1,5 @@
 // clang-format off
-#include <pybind11/pybind11.h>
+#include <nanobind/nanobind.h>
 
 #include <wpi_array_type_caster.h>
 #include <wpi_span_type_caster.h>
@@ -13,7 +13,9 @@
 #include <limits>
 #include <functional>
 
-#include <pybind11/functional.h>
+#include <nanobind/stl/function.h>
+#include <nanobind/stl/string_view.h>
+#include <nanobind/stl/vector.h>
 
 /*
 array tests
@@ -68,8 +70,8 @@ std::span<const std::string> make_string_span() {
     return vec;
 }
 
-py::object cast_string_span() {
-    return py::cast(make_string_span());
+nb::object cast_string_span() {
+    return nb::cast(make_string_span());
 }
 
 std::span<const uint8_t> load_span_bytes(std::span<const uint8_t> ref) {
@@ -149,11 +151,11 @@ constexpr auto const_string() {
     return wpi::ct_string<char, std::char_traits<char>, 3>{{'#', '1', '2'}};
 }
 
-void sendable_test(py::module &m);
-void struct_test(py::module &m);
+void sendable_test(nb::module_ &m);
+void struct_test(nb::module_ &m);
 
 
-PYBIND11_MODULE(module, m) {
+NB_MODULE(module, m) {
 
     sendable_test(m);
     struct_test(m);

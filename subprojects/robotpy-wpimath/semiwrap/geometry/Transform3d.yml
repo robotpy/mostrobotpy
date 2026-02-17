@@ -44,6 +44,6 @@ inline_code: |
     .def_property_readonly("z_feet", [](const Transform3d * self) -> units::foot_t {
       return self->Z();
     })
-    .def("__repr__", py::overload_cast<const Transform3d&>(&rpy::toString));
+    .def("__repr__", nb::overload_cast<const Transform3d&>(&rnb::toString));
 
   SetupWPyStruct<frc::Transform3d>(cls_Transform3d);

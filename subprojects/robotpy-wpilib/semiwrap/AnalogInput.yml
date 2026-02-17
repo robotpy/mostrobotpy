@@ -41,5 +41,5 @@ classes:
 inline_code: |
   cls_AnalogInput
     .def("__repr__", [](const AnalogInput &self) {
-      return py::str("<AnalogInput {}>").format(self.GetChannel());
+      return nb::str("<AnalogInput {}>").format(self.GetChannel());
     });

@@ -18,7 +18,7 @@ classes:
         overloads:
           std::string_view, wpi::Sendable*:
             cpp_code: |
-              [](py::str &key, std::shared_ptr<wpi::Sendable> data) {
+              [](nb::str &key, std::shared_ptr<wpi::Sendable> data) {
                 if (!data) {
                   throw FRC_MakeError(err::NullParameter, "{}", "value");
                 }
@@ -27,7 +27,7 @@ classes:
                 Py_ssize_t raw_size;
                 const char *raw_str = PyUnicode_AsUTF8AndSize(key.ptr(), &raw_size);
                 if (raw_str == NULL) {
-                  throw py::error_already_set();
+                  throw nb::python_error();
                 }
 
                 std::string_view keyRef(raw_str, raw_size);
@@ -35,7 +35,7 @@ classes:
 
                 // this comes after the PutData to ensure that the original object doesn't die
                 // while PutData is called
-                rpy::addSmartDashboardData(key, data);
+                rnb::addSmartDashboardData(key, data);
               }
           wpi::Sendable*:
             cpp_code: |
@@ -45,8 +45,8 @@ classes:
                 // while PutData is called
                 auto name = wpi::SendableRegistry::GetName(value.get());
                 if (!name.empty()) {
-                  py::str key(name);
-                  rpy::addSmartDashboardData(key, value);
+                  nb::str key(name);
+                  rnb::addSmartDashboardData(key, value);
                 }
               }
       GetData:
@@ -54,61 +54,61 @@ classes:
       SetDefaultBoolean:
       GetBoolean:
         cpp_code: |
-          [](std::string_view key, py::object defaultValue) -> py::object {
+          [](std::string_view key, nb::object defaultValue) -> nb::object {
               nt::Value value;
               {
-                py::gil_scoped_release release;
+                nb::gil_scoped_release release;
                 auto entry = frc::SmartDashboard::GetEntry(key);
                 value = nt::GetEntryValue(entry.GetHandle());
               }
               if (!value || value.type() != NT_BOOLEAN) return defaultValue;
-              return py::cast(value.GetBoolean());
+              return nb::cast(value.GetBoolean());
           }
       PutNumber:
       SetDefaultNumber:
       GetNumber:
         cpp_code: |
-          [](std::string_view key, py::object defaultValue) -> py::object {
+          [](std::string_view key, nb::object defaultValue) -> nb::object {
               nt::Value value;
               {
-                py::gil_scoped_release release;
+                nb::gil_scoped_release release;
                 auto entry = frc::SmartDashboard::GetEntry(key);
                 value = nt::GetEntryValue(entry.GetHandle());
               }
               if (!value || value.type() != NT_DOUBLE) return defaultValue;
-              return py::cast(value.GetDouble());
+              return nb::cast(value.GetDouble());
           }
       PutString:
       SetDefaultString:
       GetString:
         cpp_code: |
-          [](std::string_view key, py::object defaultValue) -> py::object {
+          [](std::string_view key, nb::object defaultValue) -> nb::object {
               nt::Value value;
               {
-                py::gil_scoped_release release;
+                nb::gil_scoped_release release;
                 auto entry = frc::SmartDashboard::GetEntry(key);
                 value = nt::GetEntryValue(entry.GetHandle());
               }
               if (!value || value.type() != NT_STRING) return defaultValue;
-              return py::cast(value.GetString());
+              return nb::cast(value.GetString());
           }
       PutBooleanArray:
       SetDefaultBooleanArray:
       GetBooleanArray:
         cpp_code: |
-          [](std::string_view key, py::object defaultValue) -> py::object {
+          [](std::string_view key, nb::object defaultValue) -> nb::object {
             nt::Value value;
             {
-              py::gil_scoped_release release;
+              nb::gil_scoped_release release;
               auto entry = frc::SmartDashboard::GetEntry(key);
               value = nt::GetEntryValue(entry.GetHandle());
             }
             if (!value || value.type() != NT_BOOLEAN_ARRAY) return defaultValue;
             // ntcore will return bit vector by default. Convert to List[bool]
             auto v = value.value();
-            py::list l(v.data.arr_boolean.size);
+            nb::list l(v.data.arr_boolean.size);
             for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
-              auto b = py::bool_(v.data.arr_boolean.arr[i]);
+              auto b = nb::bool_(v.data.arr_boolean.arr[i]);
                 PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
             }
             return l;
@@ -117,43 +117,43 @@ classes:
       SetDefaultNumberArray:
       GetNumberArray:
         cpp_code: |
-          [](std::string_view key, py::object defaultValue) -> py::object {
+          [](std::string_view key, nb::object defaultValue) -> nb::object {
               nt::Value value;
               {
-                py::gil_scoped_release release;
+                nb::gil_scoped_release release;
                 auto entry = frc::SmartDashboard::GetEntry(key);
                 value = nt::GetEntryValue(entry.GetHandle());
               }
               if (!value || value.type() != NT_DOUBLE_ARRAY) return defaultValue;
-              return py::cast(value.GetDoubleArray());
+              return nb::cast(value.GetDoubleArray());
           }
       PutStringArray:
       SetDefaultStringArray:
       GetStringArray:
         cpp_code: |
-          [](std::string_view key, py::object defaultValue) -> py::object {
+          [](std::string_view key, nb::object defaultValue) -> nb::object {
               nt::Value value;
               {
-                py::gil_scoped_release release;
+                nb::gil_scoped_release release;
                 auto entry = frc::SmartDashboard::GetEntry(key);
                 value = nt::GetEntryValue(entry.GetHandle());
               }
               if (!value || value.type() != NT_STRING_ARRAY) return defaultValue;
-              return py::cast(value.GetStringArray());
+              return nb::cast(value.GetStringArray());
           }
       PutRaw:
       SetDefaultRaw:
       GetRaw:
         cpp_code: |
-          [](std::string_view key, py::object defaultValue) -> py::object {
+          [](std::string_view key, nb::object defaultValue) -> nb::object {
               nt::Value value;
               {
-                py::gil_scoped_release release;
+                nb::gil_scoped_release release;
                 auto entry = frc::SmartDashboard::GetEntry(key);
                 value = nt::GetEntryValue(entry.GetHandle());
               }
               if (!value || value.type() != NT_STRING) return defaultValue;
-              return py::cast(value.GetString());
+              return nb::cast(value.GetString());
           }
       PutValue:
       SetDefaultValue:
@@ -164,8 +164,8 @@ classes:
 inline_code: |-
   // ensure that the smart dashboard data is released when python shuts down
   static int unused; // the capsule needs something to reference
-  py::capsule cleanup(&unused, [](void *) {
-      rpy::destroySmartDashboardData();
+  nb::capsule cleanup(&unused, [](void *) noexcept {
+      rnb::destroySmartDashboardData();
   });
-  m.add_object("_sd_cleanup", cleanup);
-  m.def("_clearSmartDashboardData", &rpy::clearSmartDashboardData);
+  m.attr("_sd_cleanup") = cleanup;
+  m.def("_clearSmartDashboardData", &rnb::clearSmartDashboardData);

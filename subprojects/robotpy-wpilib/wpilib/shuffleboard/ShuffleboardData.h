@@ -10,7 +10,7 @@ namespace rpy {
 // These functions must be called with the GIL held
 //
 
-void addShuffleboardData(py::str &key, std::shared_ptr<wpi::Sendable> data);
+void addShuffleboardData(nb::str &key, std::shared_ptr<wpi::Sendable> data);
 void clearShuffleboardData();
 void destroyShuffleboardData();
 

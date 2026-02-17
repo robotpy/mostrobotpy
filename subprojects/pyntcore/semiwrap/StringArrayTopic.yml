@@ -19,14 +19,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](StringArraySubscriber *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = StringArraySubscriber();
-      }, py::doc("Destroys the subscriber"))
+      }, nb::doc("Destroys the subscriber"))
       .def("__enter__", [](StringArraySubscriber *self) {
         return self;
       })
-      .def("__exit__", [](StringArraySubscriber *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](StringArraySubscriber *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = StringArraySubscriber();
       })
   nt::StringArrayPublisher:
@@ -42,14 +42,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](StringArrayPublisher *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = StringArrayPublisher();
-      }, py::doc("Destroys the publisher"))
+      }, nb::doc("Destroys the publisher"))
       .def("__enter__", [](StringArrayPublisher *self) {
         return self;
       })
-      .def("__exit__", [](StringArrayPublisher *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](StringArrayPublisher *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = StringArrayPublisher();
       })
   nt::StringArrayEntry:
@@ -66,14 +66,14 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](StringArrayEntry *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = StringArrayEntry();
-      }, py::doc("Destroys the entry"))
+      }, nb::doc("Destroys the entry"))
       .def("__enter__", [](StringArrayEntry *self) {
         return self;
       })
-      .def("__exit__", [](StringArrayEntry *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](StringArrayEntry *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = StringArrayEntry();
       })
   nt::StringArrayTopic:
@@ -95,13 +95,13 @@ classes:
       GetEntryEx:
     inline_code: |
       .def("close", [](StringArrayTopic *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = StringArrayTopic();
-      }, py::doc("Destroys the topic"))
+      }, nb::doc("Destroys the topic"))
       .def("__enter__", [](StringArrayTopic *self) {
         return self;
       })
-      .def("__exit__", [](StringArrayTopic *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](StringArrayTopic *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = StringArrayTopic();
       })

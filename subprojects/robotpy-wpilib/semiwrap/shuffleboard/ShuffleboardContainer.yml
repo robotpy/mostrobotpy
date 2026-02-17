@@ -36,7 +36,7 @@ classes:
               sendable:
                 name: defaultValue
             cpp_code: |
-              [](ShuffleboardContainer *self, py::str &key, std::shared_ptr<wpi::Sendable> sendable) -> frc::ComplexWidget& {
+              [](ShuffleboardContainer *self, nb::str &key, std::shared_ptr<wpi::Sendable> sendable) -> frc::ComplexWidget& {
                 if (!sendable) {
                   throw FRC_MakeError(err::NullParameter, "{}", "value");
                 }
@@ -45,7 +45,7 @@ classes:
                 Py_ssize_t raw_size;
                 const char *raw_str = PyUnicode_AsUTF8AndSize(key.ptr(), &raw_size);
                 if (raw_str == NULL) {
-                  throw py::error_already_set();
+                  throw nb::python_error();
                 }
 
                 std::string_view keyRef(raw_str, raw_size);
@@ -53,7 +53,7 @@ classes:
 
                 // this comes after the Add to ensure that the original object doesn't die
                 // while Add is called
-                rpy::addShuffleboardData(key, sendable);
+                rnb::addShuffleboardData(key, sendable);
 
                 return rval;
               }
@@ -71,8 +71,8 @@ classes:
                 // while PutData is called
                 auto name = wpi::SendableRegistry::GetName(value.get());
                 if (!name.empty()) {
-                  py::str key(name);
-                  rpy::addShuffleboardData(key, value);
+                  nb::str key(name);
+                  rnb::addShuffleboardData(key, value);
                 }
                 return rval;
               }

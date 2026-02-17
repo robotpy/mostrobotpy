@@ -19,10 +19,10 @@ classes:
 inline_code: |
   cls_SwerveModuleState
     .def(
-      py::init<
+      nb::init<
         units::meters_per_second_t, frc::Rotation2d
       >(),
-      py::arg("speed") = 0, py::arg("angle") = frc::Rotation2d()
+      nb::arg("speed") = 0, nb::arg("angle") = frc::Rotation2d()
     )
     .def_property("speed_fps",
       [](SwerveModuleState * self) -> units::feet_per_second_t {

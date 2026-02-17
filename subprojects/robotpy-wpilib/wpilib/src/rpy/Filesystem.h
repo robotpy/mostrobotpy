@@ -3,7 +3,7 @@
 
 #include <wpi/fs.h>
 
-namespace robotpy::filesystem {
+namespace robotnb::filesystem {
 
 /**
  * Obtains the operating directory of the program. On the roboRIO, this
@@ -28,6 +28,6 @@ fs::path GetOperatingDirectoryFs();
 // intended to be used by C++ bindings, returns same as GetDeployDirectory
 fs::path GetDeployDirectoryFs();
 
-} // namespace robotpy::filesystem
+} // namespace robotnb::filesystem
 
 #include "Filesystem.inc"

@@ -53,7 +53,7 @@ inline_code: |
   cls_Pose3d
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y, units::foot_t z, Rotation3d r) {
       return std::make_unique<Pose3d>(x, y, z, r);
-    }, py::arg("x"), py::arg("y"), py::arg("z"), py::arg("r"))
+    }, nb::arg("x"), nb::arg("y"), nb::arg("z"), nb::arg("r"))
     .def_property_readonly("x", &Pose3d::X)
     .def_property_readonly("y", &Pose3d::Y)
     .def_property_readonly("z", &Pose3d::Z)
@@ -66,6 +66,6 @@ inline_code: |
     .def_property_readonly("z_feet", [](const Pose3d * self) -> units::foot_t {
       return self->Z();
     })
-    .def("__repr__", py::overload_cast<const Pose3d&>(&rpy::toString));
+    .def("__repr__", nb::overload_cast<const Pose3d&>(&rnb::toString));
 
   SetupWPyStruct<frc::Pose3d>(cls_Pose3d);

@@ -10,7 +10,7 @@ classes:
           }
       CastTo:
         cpp_code: | # TODO: how to annotate this correctly?
-          [](BooleanEvent *self, py::function constructor) -> py::object {
+          [](BooleanEvent *self, nb::callable constructor) -> nb::object {
             return constructor(self, (std::function<bool()>)*self);
           }
         param_override:

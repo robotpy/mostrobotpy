@@ -20,14 +20,14 @@ classes:
       WaitForQueue:
     inline_code: |
       .def("close", [](NetworkTableListener *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = NetworkTableListener();
-      }, py::doc("Destroys the listener"))
+      }, nb::doc("Destroys the listener"))
       .def("__enter__", [](NetworkTableListener *self) {
         return self;
       })
-      .def("__exit__", [](NetworkTableListener *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](NetworkTableListener *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = NetworkTableListener();
       })
   nt::NetworkTableListenerPoller:
@@ -51,13 +51,13 @@ classes:
       ReadQueue:
     inline_code: |
       .def("close", [](NetworkTableListenerPoller *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = NetworkTableListenerPoller();
-      }, py::doc("Destroys the poller"))
+      }, nb::doc("Destroys the poller"))
       .def("__enter__", [](NetworkTableListenerPoller *self) {
         return self;
       })
-      .def("__exit__", [](NetworkTableListenerPoller *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](NetworkTableListenerPoller *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = NetworkTableListenerPoller();
       })

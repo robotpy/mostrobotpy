@@ -23,8 +23,8 @@ inline_code: |-
       double lineWidth, const frc::Color8Bit& color) {
         return self->Append<MechanismLigament2d>(name, length, angle, lineWidth, color);
       },
-      py::arg("name"), py::arg("length"), py::arg("angle"),
-      py::arg("lineWidth") = 6, py::arg("color") = frc::Color8Bit{235, 137, 52},
+      nb::arg("name"), nb::arg("length"), nb::arg("angle"),
+      nb::arg("lineWidth") = 6, nb::arg("color") = frc::Color8Bit{235, 137, 52},
       release_gil(), "Append a ligament node",
-      py::return_value_policy::reference_internal)
+      nb::return_value_policy::reference_internal)
     ;

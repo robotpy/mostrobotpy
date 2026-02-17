@@ -19,14 +19,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](BooleanSubscriber *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = BooleanSubscriber();
-      }, py::doc("Destroys the subscriber"))
+      }, nb::doc("Destroys the subscriber"))
       .def("__enter__", [](BooleanSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](BooleanSubscriber *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](BooleanSubscriber *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = BooleanSubscriber();
       })
   nt::BooleanPublisher:
@@ -42,14 +42,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](BooleanPublisher *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = BooleanPublisher();
-      }, py::doc("Destroys the publisher"))
+      }, nb::doc("Destroys the publisher"))
       .def("__enter__", [](BooleanPublisher *self) {
         return self;
       })
-      .def("__exit__", [](BooleanPublisher *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](BooleanPublisher *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = BooleanPublisher();
       })
   nt::BooleanEntry:
@@ -66,14 +66,14 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](BooleanEntry *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = BooleanEntry();
-      }, py::doc("Destroys the entry"))
+      }, nb::doc("Destroys the entry"))
       .def("__enter__", [](BooleanEntry *self) {
         return self;
       })
-      .def("__exit__", [](BooleanEntry *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](BooleanEntry *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = BooleanEntry();
       })
   nt::BooleanTopic:
@@ -95,13 +95,13 @@ classes:
       GetEntryEx:
     inline_code: |-
       .def("close", [](BooleanTopic *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = BooleanTopic();
-      }, py::doc("Destroys the topic"))
+      }, nb::doc("Destroys the topic"))
       .def("__enter__", [](BooleanTopic *self) {
         return self;
       })
-      .def("__exit__", [](BooleanTopic *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](BooleanTopic *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = BooleanTopic();
       })

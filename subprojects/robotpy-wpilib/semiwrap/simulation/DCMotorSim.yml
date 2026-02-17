@@ -28,8 +28,8 @@ inline_code: |
     // java API compatibility
     .def("getAngularPositionRotations", [](const DCMotorSim &self) {
       return units::turn_t{self.GetAngularPosition()};
-    }, py::doc("Returns the DC motor position in rotations"))
+    }, nb::doc("Returns the DC motor position in rotations"))
     .def("getAngularVelocityRPM", [](const DCMotorSim &self) {
       return units::revolutions_per_minute_t{self.GetAngularVelocity()};
-    }, py::doc("Returns the DC motor velocity in revolutions per minute"))
+    }, nb::doc("Returns the DC motor velocity in revolutions per minute"))
   ;

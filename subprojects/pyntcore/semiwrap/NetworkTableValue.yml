@@ -24,7 +24,7 @@ classes:
           }
       value:
         cpp_code: |
-          [](const Value &self) -> py::object {
+          [](const Value &self) -> nb::object {
             return pyntcore::ntvalue2py(self);
           }
       last_change:
@@ -83,12 +83,12 @@ classes:
           }
       GetBooleanArray:
         cpp_code: |
-          [](Value *self) -> py::object {
+          [](Value *self) -> nb::object {
             pyntcore::ensure_value_is(NT_BOOLEAN_ARRAY, self);
             auto v = self->value();
-            py::list l(v.data.arr_boolean.size);
+            nb::list l(v.data.arr_boolean.size);
             for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
-              auto b = py::bool_(v.data.arr_boolean.arr[i]);
+              auto b = nb::bool_(v.data.arr_boolean.arr[i]);
               PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
             }
             return std::move(l);
@@ -171,14 +171,14 @@ classes:
             ignore: true
           std::vector<std::string>&&, int64_t:
     inline_code: |-
-      .def_static("makeValue", [](py::handle value) {
+      .def_static("makeValue", [](nb::handle value) {
           return pyntcore::py2ntvalue(value);
-        }, py::arg("value"))
+        }, nb::arg("value"))
       .def_static("getFactoryByType", [](nt::NetworkTableType type) {
         return pyntcore::valueFactoryByType(type);
-      }, py::arg("type"))
-      .def("__repr__", [](const Value &self) -> py::str {
+      }, nb::arg("type"))
+      .def("__repr__", [](const Value &self) -> nb::str {
           auto typestr = pyntcore::nttype2str(self.type());
-          auto valrepr = py::repr(pyntcore::ntvalue2py(self));
-          return py::str("<Value type={} value={}>").format(typestr, valrepr);
+          auto valrepr = nb::repr(pyntcore::ntvalue2py(self));
+          return nb::str("<Value type={} value={}>").format(typestr, valrepr);
       })

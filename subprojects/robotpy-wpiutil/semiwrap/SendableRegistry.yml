@@ -4,7 +4,6 @@ extra_includes:
 
 classes:
   wpi::SendableRegistry:
-    nodelete: true
     methods:
       SetLiveWindowBuilderFactory:
       Add:
@@ -40,7 +39,6 @@ classes:
           Sendable*, Sendable*:
             keepalive:
             - [1, 2]
-            - [2, 3]
           Sendable*, void*:
             ignore: true
       Remove:

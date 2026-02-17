@@ -22,12 +22,12 @@ classes:
 
     template_inline_code: |
       cls_ImplicitModelFollower
-        .def(py::init<const frc::LinearSystem<States, Inputs, 1>&, const frc::LinearSystem<States, Inputs, 1>&>(),
-          py::arg("plant"), py::arg("plantRef"))
-        .def(py::init<const frc::LinearSystem<States, Inputs, 2>&, const frc::LinearSystem<States, Inputs, 2>&>(),
-          py::arg("plant"), py::arg("plantRef"))
-        .def(py::init<const frc::LinearSystem<States, Inputs, 3>&, const frc::LinearSystem<States, Inputs, 3>&>(),
-          py::arg("plant"), py::arg("plantRef"))
+        .def(nb::init<const frc::LinearSystem<States, Inputs, 1>&, const frc::LinearSystem<States, Inputs, 1>&>(),
+          nb::arg("plant"), nb::arg("plantRef"))
+        .def(nb::init<const frc::LinearSystem<States, Inputs, 2>&, const frc::LinearSystem<States, Inputs, 2>&>(),
+          nb::arg("plant"), nb::arg("plantRef"))
+        .def(nb::init<const frc::LinearSystem<States, Inputs, 3>&, const frc::LinearSystem<States, Inputs, 3>&>(),
+          nb::arg("plant"), nb::arg("plantRef"))
         ;
 
 templates:

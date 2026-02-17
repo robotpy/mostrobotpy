@@ -34,15 +34,15 @@ classes:
 inline_code: |
   cls_ChassisSpeeds
     .def(
-      py::init<
+      nb::init<
         units::meters_per_second_t, units::meters_per_second_t,
         units::radians_per_second_t
       >(),
-      py::arg("vx") = 0, py::arg("vy") = 0, py::arg("omega") = 0
+      nb::arg("vx") = 0, nb::arg("vy") = 0, nb::arg("omega") = 0
     )
     .def_static("fromFeet", [](units::feet_per_second_t vx, units::feet_per_second_t vy, units::radians_per_second_t omega){
       return ChassisSpeeds{vx, vy, omega};
-    }, py::arg("vx") = 0, py::arg("vy") = 0, py::arg("omega") = 0)
+    }, nb::arg("vx") = 0, nb::arg("vy") = 0, nb::arg("omega") = 0)
     .def_property("vx_fps",
       [](ChassisSpeeds * self) -> units::feet_per_second_t {
         return self->vx;

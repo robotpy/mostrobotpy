@@ -81,5 +81,5 @@ inline_code: |
       });
       return devices;
     }, release_gil(),
-    py::arg("prefix")="",
+    nb::arg("prefix")="",
     "Returns a list of available device names\n");

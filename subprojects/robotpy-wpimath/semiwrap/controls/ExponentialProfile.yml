@@ -34,10 +34,10 @@ classes:
     inline_code: |
       .def_static("fromStateSpace", [](Input_t maxInput, A_t a, B_t b) {
           return typename frc::ExponentialProfile<Distance, Input>::Constraints(maxInput, a, b);
-        }, py::arg("maxInput"), py::arg("a"), py::arg("b"))
+        }, nb::arg("maxInput"), nb::arg("a"), nb::arg("b"))
       .def_static("fromCharacteristics", [](Input_t maxInput, kV_t kv, kA_t ka) {
           return typename frc::ExponentialProfile<Distance, Input>::Constraints(maxInput, kv, ka);
-        }, py::arg("maxInput"), py::arg("kV"), py::arg("kA"))
+        }, nb::arg("maxInput"), nb::arg("kV"), nb::arg("kA"))
 
   frc::ExponentialProfile::State:
     force_no_default_constructor: true
@@ -47,7 +47,7 @@ classes:
     methods:
       operator==:
     inline_code: |
-      .def(py::init<Distance_t, Velocity_t>())
+      .def(nb::init<Distance_t, Velocity_t>())
   frc::ExponentialProfile::ProfileTiming:
     attributes:
       inflectionTime:

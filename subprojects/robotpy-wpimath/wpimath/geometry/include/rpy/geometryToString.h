@@ -64,33 +64,33 @@ inline std::string toString(const frc::Quaternion &self) {
 }
 
 inline std::string toString(const frc::Transform2d &self) {
-  return "Transform2d(" + rpy::toString(self.Translation()) + ", " +
-         rpy::toString(self.Rotation()) + ")";
+  return "Transform2d(" + rnb::toString(self.Translation()) + ", " +
+         rnb::toString(self.Rotation()) + ")";
 }
 
 inline std::string toString(const frc::Transform3d &self) {
-  return "Transform3d(" + rpy::toString(self.Translation()) + ", " +
-         rpy::toString(self.Rotation()) + ")";
+  return "Transform3d(" + rnb::toString(self.Translation()) + ", " +
+         rnb::toString(self.Rotation()) + ")";
 }
 
 inline std::string toString(const frc::Pose2d &self) {
-  return "Pose2d(" + rpy::toString(self.Translation()) + ", " +
-         rpy::toString(self.Rotation()) + ")";
+  return "Pose2d(" + rnb::toString(self.Translation()) + ", " +
+         rnb::toString(self.Rotation()) + ")";
 }
 
 inline std::string toString(const frc::Pose3d &self) {
-  return "Pose3d(" + rpy::toString(self.Translation()) + ", " +
-         rpy::toString(self.Rotation()) + ")";
+  return "Pose3d(" + rnb::toString(self.Translation()) + ", " +
+         rnb::toString(self.Rotation()) + ")";
 }
 
 inline std::string toString(const frc::Rectangle2d &self) {
-  return "Rectangle2d(center=" + rpy::toString(self.Center()) +
+  return "Rectangle2d(center=" + rnb::toString(self.Center()) +
     ", xWidth=" + std::to_string(self.XWidth()()) +
     ", yWidth=" + std::to_string(self.YWidth()()) + ")";
 }
 
 inline std::string toString(const frc::Ellipse2d &self) {
-  return "Ellipse2d(center=" + rpy::toString(self.Center()) +
+  return "Ellipse2d(center=" + rnb::toString(self.Center()) +
     ", xSemiAxis=" + std::to_string(self.XSemiAxis()()) +
     ", ySemiAxis=" + std::to_string(self.YSemiAxis()()) + ")";
 }

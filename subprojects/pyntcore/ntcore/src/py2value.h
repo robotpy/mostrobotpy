@@ -8,15 +8,15 @@ namespace pyntcore {
 
 const char * nttype2str(NT_Type type);
 
-py::object ntvalue2py(const nt::Value &ntvalue);
+nb::object ntvalue2py(const nt::Value &ntvalue);
 
-nt::Value py2ntvalue(py::handle h);
+nt::Value py2ntvalue(nb::handle h);
 
-py::function valueFactoryByType(nt::NetworkTableType type);
+nb::callable valueFactoryByType(nt::NetworkTableType type);
 
 inline void ensure_value_is(NT_Type expected, nt::Value *v) {
     if (v->type() != expected) {
-        throw py::value_error(fmt::format(
+        throw nb::value_error(fmt::format(
             "Value type is {}, not {}", nttype2str(v->type()), nttype2str(expected)
         ));
     }

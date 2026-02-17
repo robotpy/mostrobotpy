@@ -30,14 +30,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](RawSubscriber *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = RawSubscriber();
-      }, py::doc("Destroys the subscriber"))
+      }, nb::doc("Destroys the subscriber"))
       .def("__enter__", [](RawSubscriber *self) {
         return self;
       })
-      .def("__exit__", [](RawSubscriber *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](RawSubscriber *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = RawSubscriber();
       })
   nt::RawPublisher:
@@ -53,14 +53,14 @@ classes:
       GetTopic:
     inline_code: |
       .def("close", [](RawPublisher *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = RawPublisher();
-      }, py::doc("Destroys the publisher"))
+      }, nb::doc("Destroys the publisher"))
       .def("__enter__", [](RawPublisher *self) {
         return self;
       })
-      .def("__exit__", [](RawPublisher *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](RawPublisher *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = RawPublisher();
       })
   nt::RawEntry:
@@ -77,14 +77,14 @@ classes:
       Unpublish:
     inline_code: |
       .def("close", [](RawEntry *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = RawEntry();
-      }, py::doc("Destroys the entry"))
+      }, nb::doc("Destroys the entry"))
       .def("__enter__", [](RawEntry *self) {
         return self;
       })
-      .def("__exit__", [](RawEntry *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](RawEntry *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = RawEntry();
       })
   nt::RawTopic:
@@ -102,13 +102,13 @@ classes:
       GetEntry:
     inline_code: |
       .def("close", [](RawTopic *self) {
-        py::gil_scoped_release release;
+        nb::gil_scoped_release release;
         *self = RawTopic();
-      }, py::doc("Destroys the topic"))
+      }, nb::doc("Destroys the topic"))
       .def("__enter__", [](RawTopic *self) {
         return self;
       })
-      .def("__exit__", [](RawTopic *self, py::args args) {
-        py::gil_scoped_release release;
+      .def("__exit__", [](RawTopic *self, nb::args args) {
+        nb::gil_scoped_release release;
         *self = RawTopic();
       })

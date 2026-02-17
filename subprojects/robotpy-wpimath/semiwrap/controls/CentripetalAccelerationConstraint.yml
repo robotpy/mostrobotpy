@@ -14,4 +14,4 @@ inline_code: |-
   cls_CentripetalAccelerationConstraint
     .def_static("fromFps", [](units::feet_per_second_squared_t maxCentripetalAcceleration) {
       return std::make_shared<CentripetalAccelerationConstraint>(maxCentripetalAcceleration);
-    }, py::arg("maxCentripetalAcceleration"));
+    }, nb::arg("maxCentripetalAcceleration"));

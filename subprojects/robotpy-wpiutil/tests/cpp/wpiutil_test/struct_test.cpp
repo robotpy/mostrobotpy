@@ -1,5 +1,5 @@
 
-#include <pybind11/operators.h>
+#include <nanobind/operators.h>
 #include <wpystruct.h>
 
 //
@@ -63,22 +63,22 @@ struct wpi::Struct<Outer> {
   }
 };
 
-void struct_test(py::module &m) {
+void struct_test(nb::module_ &m) {
 
-  py::class_<ThingA> thingCls(m, "ThingA");
-  thingCls.def(py::init<>());
-  thingCls.def(py::init<int>());
-  thingCls.def_readonly("x", &ThingA::x);
-  thingCls.def(py::self == py::self);
+  nb::class_<ThingA> thingCls(m, "ThingA");
+  thingCls.def(nb::init<>());
+  thingCls.def(nb::init<int>());
+  thingCls.def_ro("x", &ThingA::x);
+  thingCls.def(nb::self == nb::self);
 
   SetupWPyStruct<ThingA>(thingCls);
 
-  py::class_<Outer> outerCls(m, "Outer");
-  outerCls.def(py::init<>());
-  outerCls.def(py::init<ThingA, int>());
-  outerCls.def_readonly("inner", &Outer::inner);
-  outerCls.def_readwrite("c", &Outer::c);
-  outerCls.def(py::self == py::self);
+  nb::class_<Outer> outerCls(m, "Outer");
+  outerCls.def(nb::init<>());
+  outerCls.def(nb::init<ThingA, int>());
+  outerCls.def_ro("inner", &Outer::inner);
+  outerCls.def_rw("c", &Outer::c);
+  outerCls.def(nb::self == nb::self);
 
   SetupWPyStruct<Outer>(outerCls);
 }

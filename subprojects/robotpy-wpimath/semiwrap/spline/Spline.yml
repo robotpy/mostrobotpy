@@ -25,11 +25,11 @@ classes:
     template_inline_code: |
       cls_ControlVector
         .def(
-          py::init<
+          nb::init<
             wpi::array<double, (Degree + 1) / 2>,
             wpi::array<double, (Degree + 1) / 2>>(),
-          py::arg("x"),
-          py::arg("y")
+          nb::arg("x"),
+          nb::arg("y")
         );
   frc::Spline::ControlVector:
     force_no_default_constructor: true

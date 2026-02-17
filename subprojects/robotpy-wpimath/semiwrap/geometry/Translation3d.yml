@@ -49,7 +49,7 @@ inline_code: |
   cls_Translation3d
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y, units::foot_t z){
       return std::make_unique<Translation3d>(x, y, z);
-    }, py::arg("x"), py::arg("y"), py::arg("z"))
+    }, nb::arg("x"), nb::arg("y"), nb::arg("z"))
     .def_property_readonly("x", &Translation3d::X)
     .def_property_readonly("y", &Translation3d::Y)
     .def_property_readonly("z", &Translation3d::Z)
@@ -82,6 +82,6 @@ inline_code: |
           throw std::out_of_range("Translation3d index out of range");
       }
     })
-    .def("__repr__", py::overload_cast<const Translation3d&>(&rpy::toString));
+    .def("__repr__", nb::overload_cast<const Translation3d&>(&rnb::toString));
 
   SetupWPyStruct<frc::Translation3d>(cls_Translation3d);

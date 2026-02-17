@@ -31,7 +31,7 @@ classes:
           info:
             name: type
         cpp_code: |
-          [](DataLog &self, const py::type &t, int64_t timestamp) {
+          [](DataLog &self, const nb::type_object &t, int64_t timestamp) {
             WPyStructInfo info(t);
             return self.AddStructSchema<WPyStruct, WPyStructInfo>(info, timestamp);
           }
@@ -307,18 +307,18 @@ classes:
               info:
                 name: type
             cpp_code: |
-              [](DataLog &log, std::string_view name, const py::type &t, int64_t timestamp) {
+              [](StructLogEntry<WPyStruct, WPyStructInfo> *self, DataLog &log, std::string_view name, const nb::type_object &t, int64_t timestamp) {
                 WPyStructInfo info(t);
-                return std::make_shared<StructLogEntry<WPyStruct, WPyStructInfo>>(log, name, info, timestamp);
+                new (self) StructLogEntry<WPyStruct, WPyStructInfo>(log, name, info, timestamp);
               }
           DataLog&, std::string_view, std::string_view, I..., int64_t:
             param_override:
               info:
                 name: type
             cpp_code: |
-              [](DataLog &log, std::string_view name, std::string_view metadata, const py::type &t, int64_t timestamp) {
+              [](StructLogEntry<WPyStruct, WPyStructInfo> *self, DataLog &log, std::string_view name, std::string_view metadata, const nb::type_object &t, int64_t timestamp) {
                 WPyStructInfo info(t);
-                return std::make_shared<StructLogEntry<WPyStruct, WPyStructInfo>>(log, name, metadata, info, timestamp);
+                new (self) StructLogEntry<WPyStruct, WPyStructInfo>(log, name, metadata, info, timestamp);
               }
       Append:
   wpi::log::StructArrayLogEntry:
@@ -336,18 +336,18 @@ classes:
               info:
                 name: type
             cpp_code: |
-              [](DataLog &log, std::string_view name, const py::type &t, int64_t timestamp) {
+              [](StructArrayLogEntry<WPyStruct, WPyStructInfo> *self, DataLog &log, std::string_view name, const nb::type_object &t, int64_t timestamp) {
                 WPyStructInfo info(t);
-                return std::make_shared<StructArrayLogEntry<WPyStruct, WPyStructInfo>>(log, name, info, timestamp);
+                new (self) StructArrayLogEntry<WPyStruct, WPyStructInfo>(log, name, info, timestamp);
               }
           DataLog&, std::string_view, std::string_view, I..., int64_t:
             param_override:
               info:
                 name: type
             cpp_code: |
-              [](DataLog &log, std::string_view name, std::string_view metadata, const py::type &t, int64_t timestamp) {
+              [](StructArrayLogEntry<WPyStruct, WPyStructInfo> *self, DataLog &log, std::string_view name, std::string_view metadata, const nb::type_object &t, int64_t timestamp) {
                 WPyStructInfo info(t);
-                return std::make_shared<StructArrayLogEntry<WPyStruct, WPyStructInfo>>(log, name, metadata, info, timestamp);
+                new (self) StructArrayLogEntry<WPyStruct, WPyStructInfo>(log, name, metadata, info, timestamp);
               }
       Append:
         overloads:

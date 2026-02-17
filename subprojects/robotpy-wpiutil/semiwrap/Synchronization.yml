@@ -3,7 +3,8 @@ defaults:
 
   subpackage: sync
 extra_includes:
-- pybind11/stl.h
+- nanobind/stl/tuple.h
+- nanobind/stl/vector.h
 
 functions:
   CreateEvent:
@@ -28,7 +29,7 @@ functions:
             ignore: true
         cpp_code: |
           [](std::span<const WPI_Handle> handles) {
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             std::vector<WPI_Handle> signaled(handles.size());
             auto result = wpi::WaitForObjects(handles, signaled);
             signaled.resize(result.size());
@@ -44,7 +45,7 @@ functions:
             ignore: true
         cpp_code: |
           [](std::span<const WPI_Handle> handles, double timeout) {
-            py::gil_scoped_release release;
+            nb::gil_scoped_release release;
             std::vector<WPI_Handle> signaled(handles.size());
             bool timedOut = false;
             auto result = wpi::WaitForObjects(handles, signaled, timeout, &timedOut);

@@ -10,14 +10,14 @@ namespace rpy {
 // All functions here must be called with the GIL held
 //
 
-static py::dict &getSmartDashboardData() {
-  static py::dict data;
+static nb::dict &getSmartDashboardData() {
+  static nb::dict data;
   return data;
 }
 
-void addSmartDashboardData(py::str &key, std::shared_ptr<wpi::Sendable> data) {
+void addSmartDashboardData(nb::str &key, std::shared_ptr<wpi::Sendable> data) {
   auto &sdData = getSmartDashboardData();
-  sdData[key] = py::cast(data);
+  sdData[key] = nb::cast(data);
 }
 
 void clearSmartDashboardData() {

@@ -22,12 +22,12 @@ classes:
 inline_code: |
   cls_MecanumDriveWheelSpeeds
     .def(
-      py::init<
+      nb::init<
         units::meters_per_second_t, units::meters_per_second_t,
         units::meters_per_second_t, units::meters_per_second_t
       >(),
-      py::arg("frontLeft") = 0, py::arg("frontRight") = 0,
-      py::arg("rearLeft") = 0, py::arg("rearRight") = 0
+      nb::arg("frontLeft") = 0, nb::arg("frontRight") = 0,
+      nb::arg("rearLeft") = 0, nb::arg("rearRight") = 0
     )
     .def_static("fromFeet", [](
         units::feet_per_second_t frontLeft,
@@ -36,8 +36,8 @@ inline_code: |
         units::feet_per_second_t rearRight
     ){
       return MecanumDriveWheelSpeeds{frontLeft, frontRight, rearLeft, rearRight};
-    }, py::arg("frontLeft"), py::arg("frontRight"),
-       py::arg("rearLeft"), py::arg("rearRight"))
+    }, nb::arg("frontLeft"), nb::arg("frontRight"),
+       nb::arg("rearLeft"), nb::arg("rearRight"))
     .def_property("frontLeft_fps",
       [](MecanumDriveWheelSpeeds * self) -> units::feet_per_second_t {
         return self->frontLeft;

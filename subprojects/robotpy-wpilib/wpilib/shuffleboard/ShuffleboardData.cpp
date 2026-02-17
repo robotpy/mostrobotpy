@@ -10,14 +10,14 @@ namespace rpy {
 // All functions here must be called with the GIL held
 //
 
-static py::dict &getShuffleboardData() {
-  static py::dict data;
+static nb::dict &getShuffleboardData() {
+  static nb::dict data;
   return data;
 }
 
-void addShuffleboardData(py::str &key, std::shared_ptr<wpi::Sendable> data) {
+void addShuffleboardData(nb::str &key, std::shared_ptr<wpi::Sendable> data) {
   auto &sdData = getShuffleboardData();
-  sdData[key] = py::cast(data);
+  sdData[key] = nb::cast(data);
 }
 
 void clearShuffleboardData() {

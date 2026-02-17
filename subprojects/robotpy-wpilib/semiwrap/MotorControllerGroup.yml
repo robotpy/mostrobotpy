@@ -10,9 +10,9 @@ classes:
     methods:
       PyMotorControllerGroup:
         cpp_code: |
-          [](py::args args) {
+          [](nb::args args) {
             if (args.size() < 1) {
-              throw py::type_error("requires 1+ arguments");
+              throw nb::type_error("requires 1+ arguments");
             }
             std::vector<std::shared_ptr<MotorController>> v;
             v.reserve(args.size());
@@ -20,10 +20,10 @@ classes:
             for (auto &arg: args) {
               try {
                 auto mc = arg.cast<std::shared_ptr<MotorController>>();
-                if (!mc) throw py::cast_error();
+                if (!mc) throw nb::cast_error();
                 v.push_back(mc);
-              } catch (py::cast_error &e) {
-                throw py::type_error(py::str("Argument {} must be a MotorController (got '{}')").format(i, py::repr(arg)));
+              } catch (nb::cast_error &e) {
+                throw nb::type_error(nb::str("Argument {} must be a MotorController (got '{}')").format(i, nb::repr(arg)));
               }
               i++;
             }
