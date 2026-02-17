@@ -3,7 +3,7 @@ extra_includes:
 
 classes:
   frc::FieldObject2d:
-    nodelete: true
+    never_destruct: true
     methods:
       FieldObject2d:
         ignore: true

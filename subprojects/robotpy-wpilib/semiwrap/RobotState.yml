@@ -1,6 +1,6 @@
 classes:
   frc::RobotState:
-    nodelete: true
+    never_destruct: true
     methods:
       IsDisabled:
       IsEnabled:

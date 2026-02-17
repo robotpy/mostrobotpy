@@ -1,6 +1,6 @@
 classes:
   frc::SensorUtil:
-    nodelete: true
+    never_destruct: true
     methods:
       CheckDigitalChannel:
       CheckRelayChannel:
