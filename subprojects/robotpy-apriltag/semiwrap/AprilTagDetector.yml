@@ -1,5 +1,5 @@
 extra_includes:
-- pybind11_typing.h
+- nanobind/ndarray.h
 
 classes:
   frc::AprilTagDetector:
@@ -19,37 +19,23 @@ classes:
           int, int, uint8_t*:
             ignore: true
     inline_code: |
-      .def("detect", [](AprilTagDetector *self, nb::buffer img) {
+      .def("detect", [](AprilTagDetector *self,
+          const nb::ndarray<uint8_t, nb::shape<-1, -1>, nb::c_contig> &img) {
 
-        // validate the input image buffer
-        auto buf = img.request();
-        if (buf.ndim != 2) {
-          throw nb::value_error("buffer must only have two dimensions");
-        } else if (buf.itemsize != 1) {
-          throw nb::value_error("buffer elements must be bytes");
-        }
-
-        // We are going to move the detection result into this shared_ptr
-        // so that python can keep it alive. We don't expose the result directly
-        // to the user because we'd have to pretend it's a list, and that would
-        // be annoying. 
-        std::shared_ptr<AprilTagDetector::Results> c_result;
-        {
+        auto c_result = [&]() {
           nb::gil_scoped_release unlock;
-          c_result = std::make_shared<AprilTagDetector::Results>(std::move(self->Detect(buf.shape[1], buf.shape[0], (uint8_t*)buf.ptr)));
-        }
+          return new AprilTagDetector::Results(
+              self->Detect(static_cast<int>(img.shape(1)), static_cast<int>(img.shape(0)), img.data()));
+        }();
 
-        // This tells python about the shared_ptr, and it'll keep it alive as
-        // long as the python reference is alive. When we call get(), we marked
-        // the return value as reference_internal so python will keep the python
-        // reference for the results object alive for as long as all of its
-        // results that we put into the list are alive
-        nb::object py_result = nb::cast(c_result);
+        nb::capsule owner(c_result, [](void *p) noexcept {
+          delete static_cast<AprilTagDetector::Results *>(p);
+        });
+
+        nb::typed<nb::list, AprilTagDetection> l;
         auto len = c_result->size();
-        auto get = py_result.attr("get");
-        nb::typing::List<AprilTagDetection> l(len);
         for (size_t i = 0; i < len; i++) {
-          l[i] = get(i);
+          l.append(nb::cast((*c_result)[i], nb::rv_policy::reference_internal, owner));
         }
         return l;
       }, nb::arg("image"),
@@ -61,7 +47,7 @@ classes:
       )
       .def("close", [](AprilTagDetector &self) {
         self = AprilTagDetector();
-      }, py::doc("Frees all resources associated with this detector"))
+      }, "Frees all resources associated with this detector")
   frc::AprilTagDetector::Config:
     attributes:
       numThreads:
@@ -99,4 +85,4 @@ classes:
       // the user deletes them
       .def("get", [](const AprilTagDetector::Results &self, int i) {
         return self[i];
-      }, nb::return_value_policy::reference_internal)
+      }, nb::rv_policy::reference_internal)

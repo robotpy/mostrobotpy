@@ -1,5 +1,5 @@
 extra_includes:
-- pybind11/eigen.h
+- nanobind/eigen/dense.h
 
 classes:
   frc::AprilTagDetection:
@@ -23,10 +23,9 @@ classes:
       x:
       y:
     inline_code: |
-      .def(nb::init([](double x, double y) {
-        AprilTagDetection::Point pt{x, y};
-        return std::make_unique<AprilTagDetection::Point>(std::move(pt));
-      }), nb::arg("x"), nb::arg("y"))
+      .def("__init__", [](AprilTagDetection::Point *self, double x, double y) {
+        new (self) AprilTagDetection::Point{x, y};
+      }, nb::arg("x"), nb::arg("y"))
       .def("__len__", [](const AprilTagDetection::Point &self) { return 2; })
       .def("__getitem__", [](const AprilTagDetection::Point &self, int index) {
         switch (index) {

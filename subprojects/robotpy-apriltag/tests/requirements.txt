@@ -1,2 +1,2 @@
 pytest
-opencv-python~=4.6
+opencv-python-headless~=4.6

@@ -30,7 +30,7 @@ classes:
     methods:
       operator==:
     inline_code: |
-      .def(nb::init([](units::meter_t tagSize, double fx, double fy, double cx, double cy) {
-        AprilTagPoseEstimator::Config cfg{tagSize, fx, fy, cx, cy};
-        return std::make_unique<AprilTagPoseEstimator::Config>(std::move(cfg));
-      }), nb::arg("tagSize"), nb::arg("fx"), nb::arg("fy"), nb::arg("cx"), nb::arg("cy"))
+      .def("__init__", [](AprilTagPoseEstimator::Config *self,
+          units::length::meter_t tagSize, double fx, double fy, double cx, double cy) {
+        new (self) AprilTagPoseEstimator::Config{tagSize, fx, fy, cx, cy};
+      }, nb::arg("tagSize"), nb::arg("fx"), nb::arg("fy"), nb::arg("cx"), nb::arg("cy"))
