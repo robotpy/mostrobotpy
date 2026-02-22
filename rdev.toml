@@ -42,7 +42,7 @@ robotpy_sim = "robotpy_sim.2026"
 robotpy_cli = "robotpy_cli.2026"
 
 [params.requirements]
-semiwrap = "~=0.2.6"
+semiwrap = "~=0.3.0"
 hatch-meson = "~=0.1.0"
 hatch-nativelib = "~=0.2.0"
 hatch-robotpy = "~=0.2.0"
