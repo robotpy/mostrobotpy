@@ -1,5 +1,6 @@
 extra_includes:
 - wpystruct.h
+- nanobind/stl/string.h
 
 classes:
   frc::SwerveModulePosition:
@@ -17,7 +18,7 @@ classes:
         >(),
         nb::arg("distance") = 0, nb::arg("angle") = frc::Rotation2d()
       )
-      .def_property("distance_ft",
+      .def_prop_rw("distance_ft",
         [](SwerveModulePosition * self) -> units::foot_t {
           return self->distance;
         },

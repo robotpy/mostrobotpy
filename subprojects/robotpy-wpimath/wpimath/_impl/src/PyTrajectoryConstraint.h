@@ -25,30 +25,30 @@ struct PyTrajectoryConstraint : public TrajectoryConstraint {
 
 }; // namespace frc
 
-namespace pybind11 {
-namespace detail {
+NAMESPACE_BEGIN(NB_NAMESPACE)
+NAMESPACE_BEGIN(detail)
 
 template <> struct type_caster<frc::PyTrajectoryConstraint> {
   using value_conv = make_caster<std::shared_ptr<frc::TrajectoryConstraint>>;
 
-  PYBIND11_TYPE_CASTER(frc::PyTrajectoryConstraint, _("wpimath._controls._controls.constraint.TrajectoryConstraint"));
+  NB_TYPE_CASTER(frc::PyTrajectoryConstraint,
+                 const_name("wpimath._controls._controls.constraint.TrajectoryConstraint"));
 
-  bool load(handle src, bool convert) {
+  bool from_python(handle src, uint8_t flags, cleanup_list *cleanup) noexcept {
     value_conv conv;
-    if (!conv.load(src, convert)) {
+    if (!conv.from_python(src, flags, cleanup)) {
       return false;
     }
 
-    value.m_constraint =
-        cast_op<std::shared_ptr<frc::TrajectoryConstraint>>(std::move(conv));
+    value.m_constraint = (cast_t<std::shared_ptr<frc::TrajectoryConstraint>>) conv;
     return true;
   }
 
-  static handle cast(const frc::PyTrajectoryConstraint &src,
-                     return_value_policy policy, handle parent) {
-    return value_conv::cast(src.m_constraint, policy, parent);
+  static handle from_cpp(const frc::PyTrajectoryConstraint &src,
+                         rv_policy policy, cleanup_list *cleanup) noexcept {
+    return value_conv::from_cpp(src.m_constraint, policy, cleanup);
   }
 };
 
-}; // namespace detail
-}; // namespace pybind11
+NAMESPACE_END(detail)
+NAMESPACE_END(NB_NAMESPACE)

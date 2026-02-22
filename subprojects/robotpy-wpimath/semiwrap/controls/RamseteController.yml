@@ -8,8 +8,8 @@ classes:
         overloads:
           units::unit_t<b_unit>, units::unit_t<zeta_unit>:
             cpp_code: |
-              [](double b, double zeta) {
-                return std::make_shared<RamseteController>(
+              [](RamseteController *self, double b, double zeta) {
+                new (self) RamseteController(
                   units::unit_t<RamseteController::b_unit>{b},
                   units::unit_t<RamseteController::zeta_unit>{zeta});
               }

@@ -1,3 +1,6 @@
+extra_includes:
+- nanobind/stl/shared_ptr.h
+
 defaults:
   subpackage: constraint
 

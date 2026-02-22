@@ -1,6 +1,7 @@
 extra_includes:
 - rpy/geometryToString.h
 - wpystruct.h
+- nanobind/stl/string.h
 
 classes:
   frc::Transform3d:
@@ -32,18 +33,18 @@ classes:
 
 inline_code: |
   cls_Transform3d
-    .def_property_readonly("x", &Transform3d::X)
-    .def_property_readonly("y", &Transform3d::Y)
-    .def_property_readonly("z", &Transform3d::Z)
-    .def_property_readonly("x_feet", [](const Transform3d * self) -> units::foot_t {
+    .def_prop_ro("x", &Transform3d::X)
+    .def_prop_ro("y", &Transform3d::Y)
+    .def_prop_ro("z", &Transform3d::Z)
+    .def_prop_ro("x_feet", [](const Transform3d * self) -> units::foot_t {
       return self->X();
     })
-    .def_property_readonly("y_feet", [](const Transform3d * self) -> units::foot_t {
+    .def_prop_ro("y_feet", [](const Transform3d * self) -> units::foot_t {
       return self->Y();
     })
-    .def_property_readonly("z_feet", [](const Transform3d * self) -> units::foot_t {
+    .def_prop_ro("z_feet", [](const Transform3d * self) -> units::foot_t {
       return self->Z();
     })
-    .def("__repr__", nb::overload_cast<const Transform3d&>(&rnb::toString));
+    .def("__repr__", nb::overload_cast<const Transform3d&>(&rpy::toString));
 
   SetupWPyStruct<frc::Transform3d>(cls_Transform3d);

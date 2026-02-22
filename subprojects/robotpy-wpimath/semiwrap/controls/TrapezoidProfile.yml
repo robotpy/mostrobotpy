@@ -1,3 +1,6 @@
+extra_includes:
+- nanobind/stl/string.h
+
 defaults:
   subpackage: trajectory
 

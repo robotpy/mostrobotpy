@@ -1,5 +1,5 @@
 extra_includes:
-- pybind11/stl.h
+- nanobind/stl/vector.h
 
 classes:
   frc::Spline:

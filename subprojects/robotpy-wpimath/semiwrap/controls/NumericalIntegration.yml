@@ -4,7 +4,7 @@ defaults:
 extra_includes:
 - frc_eigen.h
 - frc/EigenCore.h
-- pybind11/functional.h
+- nanobind/stl/function.h
 
 functions:
   RK4:

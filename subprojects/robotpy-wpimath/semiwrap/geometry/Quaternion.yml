@@ -1,6 +1,7 @@
 extra_includes:
 - rpy/geometryToString.h
 - wpystruct.h
+- nanobind/stl/string.h
 
 functions:
   to_json:
@@ -45,6 +46,6 @@ classes:
 
 inline_code: |
   cls_Quaternion
-    .def("__repr__", nb::overload_cast<const Quaternion&>(&rnb::toString));
+    .def("__repr__", nb::overload_cast<const Quaternion&>(&rpy::toString));
 
   SetupWPyStruct<frc::Quaternion>(cls_Quaternion);

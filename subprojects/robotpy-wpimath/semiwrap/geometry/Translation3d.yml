@@ -1,7 +1,8 @@
 extra_includes:
 - rpy/geometryToString.h
 - wpystruct.h
-- pybind11/eigen.h
+- nanobind/eigen/dense.h
+- nanobind/stl/string.h
 
 functions:
   to_json:
@@ -48,18 +49,18 @@ classes:
 inline_code: |
   cls_Translation3d
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y, units::foot_t z){
-      return std::make_unique<Translation3d>(x, y, z);
+      return Translation3d(x, y, z);
     }, nb::arg("x"), nb::arg("y"), nb::arg("z"))
-    .def_property_readonly("x", &Translation3d::X)
-    .def_property_readonly("y", &Translation3d::Y)
-    .def_property_readonly("z", &Translation3d::Z)
-    .def_property_readonly("x_feet", [](const Translation3d * self) -> units::foot_t {
+    .def_prop_ro("x", &Translation3d::X)
+    .def_prop_ro("y", &Translation3d::Y)
+    .def_prop_ro("z", &Translation3d::Z)
+    .def_prop_ro("x_feet", [](const Translation3d * self) -> units::foot_t {
       return self->X();
     })
-    .def_property_readonly("y_feet", [](const Translation3d * self) -> units::foot_t {
+    .def_prop_ro("y_feet", [](const Translation3d * self) -> units::foot_t {
       return self->Y();
     })
-    .def_property_readonly("z_feet", [](const Translation3d * self) -> units::foot_t {
+    .def_prop_ro("z_feet", [](const Translation3d * self) -> units::foot_t {
       return self->Z();
     })
     .def("distanceFeet", [](Translation3d * self, const Translation3d &other) -> units::foot_t {
@@ -82,6 +83,6 @@ inline_code: |
           throw std::out_of_range("Translation3d index out of range");
       }
     })
-    .def("__repr__", nb::overload_cast<const Translation3d&>(&rnb::toString));
+    .def("__repr__", nb::overload_cast<const Translation3d&>(&rpy::toString));
 
   SetupWPyStruct<frc::Translation3d>(cls_Translation3d);

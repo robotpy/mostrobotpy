@@ -4,8 +4,8 @@ defaults:
 extra_includes:
 - frc_eigen.h
 - frc/EigenCore.h
-- pybind11/functional.h
-- pybind11/typing.h
+- nanobind/stl/function.h
+- nanobind/typing.h
 
 functions:
   NumericalJacobian:
@@ -13,43 +13,44 @@ functions:
       F&&, const Vectord<Cols>&:
         ignore: true
       F&&, const Eigen::VectorXd&:
-        template_impls:
-        - [std::function<Eigen::VectorXd(Eigen::VectorXd)>]
+        no_release_gil: true
+        cpp_code: |
+          [](nb::typed<nb::callable, Eigen::VectorXd(Eigen::VectorXd)> fn,
+             const Eigen::MatrixXd& x) {
+            Eigen::VectorXd xv = x.col(0);
+            return frc::NumericalJacobian([=](const Eigen::VectorXd& ix) {
+              return nb::cast<Eigen::VectorXd>(fn(ix));
+            }, xv);
+          }
   NumericalJacobianX:
     overloads:
       F&&, const Vectord<States>&, const Vectord<Inputs>&, Args&&...:
         ignore: true
       F&&, const Eigen::VectorXd&, const Eigen::VectorXd&, Args&&...:
-        # template_impls:
-        # - ["std::function<Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd, py::args)>", py::args, Eigen::MatrixXd]
-        param_override:
-          args:
-            ignore: true
         no_release_gil: true
         cpp_code: |
-          [](py::typing::Callable<Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd, py::args)> fn,
-             const Eigen::VectorXd& x, const Eigen::VectorXd& u, py::args args) {
+          [](nb::typed<nb::callable, Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd)> fn,
+             const Eigen::MatrixXd& x, const Eigen::MatrixXd& u, nb::args args) {
+             Eigen::VectorXd xv = x.col(0);
+             Eigen::VectorXd uv = u.col(0);
              return frc::NumericalJacobianX([=](const Eigen::VectorXd &ix, const Eigen::VectorXd &iu) {
-                py::object r = fn(ix, iu, *args);
-                return r.cast<Eigen::VectorXd>();
-             }, x, u);
+                nb::object r = fn(ix, iu, *args);
+                return nb::cast<Eigen::VectorXd>(r);
+             }, xv, uv);
           }
   NumericalJacobianU:
     overloads:
       F&&, const Vectord<States>&, const Vectord<Inputs>&, Args&&...:
         ignore: true
       F&&, const Eigen::VectorXd&, const Eigen::VectorXd&, Args&&...:
-        # template_impls:
-        # - ["std::function<Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd, py::args)>", py::args, Eigen::MatrixXd]
-        param_override:
-          args:
-            ignore: true
         no_release_gil: true
         cpp_code: |-
-          [](py::typing::Callable<Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd, py::args)> fn,
-             const Eigen::VectorXd& x, const Eigen::VectorXd& u, py::args args) {
+          [](nb::typed<nb::callable, Eigen::VectorXd(Eigen::VectorXd, Eigen::VectorXd)> fn,
+             const Eigen::MatrixXd& x, const Eigen::MatrixXd& u, nb::args args) {
+             Eigen::VectorXd xv = x.col(0);
+             Eigen::VectorXd uv = u.col(0);
              return frc::NumericalJacobianU([=](const Eigen::VectorXd &ix, const Eigen::VectorXd &iu) {
-                py::object r = fn(ix, iu, *args);
-                return r.cast<Eigen::VectorXd>();
-             }, x, u);
+                nb::object r = fn(ix, iu, *args);
+                return nb::cast<Eigen::VectorXd>(r);
+             }, xv, uv);
           }

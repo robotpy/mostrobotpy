@@ -1,5 +1,6 @@
 extra_includes:
 - wpystruct.h
+- nanobind/stl/string.h
 
 classes:
   frc::Twist3d:
@@ -29,7 +30,7 @@ inline_code: |-
     },
       nb::arg("dx") = 0, nb::arg("dy") = 0, nb::arg("dz") = 0,
       nb::arg("rx") = 0, nb::arg("ry") = 0, nb::arg("rz") = 0)
-    .def_property("dx_feet", 
+    .def_prop_rw("dx_feet", 
       [](Twist3d * self) -> units::foot_t {
         return self->dx;
       },
@@ -37,7 +38,7 @@ inline_code: |-
         self->dx = dx;
       }
     )
-    .def_property("dy_feet", 
+    .def_prop_rw("dy_feet", 
       [](Twist3d * self) -> units::foot_t {
         return self->dy;
       },
@@ -45,7 +46,7 @@ inline_code: |-
         self->dy = dy;
       }
     )
-    .def_property("dz_feet", 
+    .def_prop_rw("dz_feet", 
       [](Twist3d * self) -> units::foot_t {
         return self->dz;
       },
@@ -53,7 +54,7 @@ inline_code: |-
         self->dz = dz;
       }
     )
-    .def_property("rx_degrees", 
+    .def_prop_rw("rx_degrees", 
       [](Twist3d * self) -> units::degree_t {
         return self->rx;
       },
@@ -61,7 +62,7 @@ inline_code: |-
         self->rx = rx;
       }
     )
-    .def_property("ry_degrees", 
+    .def_prop_rw("ry_degrees", 
       [](Twist3d * self) -> units::degree_t {
         return self->ry;
       },
@@ -69,7 +70,7 @@ inline_code: |-
         self->ry = ry;
       }
     )
-    .def_property("rz_degrees", 
+    .def_prop_rw("rz_degrees", 
       [](Twist3d * self) -> units::degree_t {
         return self->rz;
       },

@@ -1,5 +1,6 @@
 extra_includes:
 - wpystruct.h
+- nanobind/stl/string.h
 
 classes:
   frc::MecanumDriveWheelSpeeds:
@@ -38,7 +39,7 @@ inline_code: |
       return MecanumDriveWheelSpeeds{frontLeft, frontRight, rearLeft, rearRight};
     }, nb::arg("frontLeft"), nb::arg("frontRight"),
        nb::arg("rearLeft"), nb::arg("rearRight"))
-    .def_property("frontLeft_fps",
+    .def_prop_rw("frontLeft_fps",
       [](MecanumDriveWheelSpeeds * self) -> units::feet_per_second_t {
         return self->frontLeft;
       },
@@ -46,7 +47,7 @@ inline_code: |
         self->frontLeft = fps;
       }
     )
-    .def_property("frontRight_fps", 
+    .def_prop_rw("frontRight_fps", 
       [](MecanumDriveWheelSpeeds * self) -> units::feet_per_second_t {
         return self->frontRight;
       },
@@ -54,7 +55,7 @@ inline_code: |
         self->frontRight = fps;
       }
     )
-    .def_property("rearLeft_fps",
+    .def_prop_rw("rearLeft_fps",
       [](MecanumDriveWheelSpeeds * self) -> units::feet_per_second_t {
         return self->rearLeft;
       },
@@ -62,7 +63,7 @@ inline_code: |
         self->rearLeft = fps;
       }
     )
-    .def_property("rearRight_fps", 
+    .def_prop_rw("rearRight_fps", 
       [](MecanumDriveWheelSpeeds * self) -> units::feet_per_second_t {
         return self->rearRight;
       },

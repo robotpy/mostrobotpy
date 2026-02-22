@@ -1,3 +1,7 @@
+extra_includes:
+- nanobind/stl/string.h
+- wpystruct.h
+
 defaults:
   subpackage: controller
 
@@ -8,9 +12,6 @@ classes:
     attributes:
       left:
       right:
-
-extra_includes:
-- wpystruct.h
 
 inline_code: |
   cls_DifferentialDriveWheelVoltages

@@ -1,3 +1,6 @@
+extra_includes:
+- nanobind/stl/string.h
+
 defaults:
   subpackage: constraint
 
@@ -14,11 +17,11 @@ classes:
       minAcceleration:
       maxAcceleration:
     inline_code: |
-      .def(nb::init([](
+      .def("__init__", [](frc::TrajectoryConstraint::MinMax *self,
           units::meters_per_second_squared_t minAcceleration,
           units::meters_per_second_squared_t maxAcceleration) {
-        return frc::TrajectoryConstraint::MinMax{minAcceleration, maxAcceleration};
-      }), nb::arg("minAcceleration"), nb::arg("maxAcceleration"))
+        new (self) frc::TrajectoryConstraint::MinMax{minAcceleration, maxAcceleration};
+      }, nb::arg("minAcceleration"), nb::arg("maxAcceleration"))
 
       .def("__len__", [](const frc::TrajectoryConstraint::MinMax& self) { return 2; })
       .def("__getitem__", [](const frc::TrajectoryConstraint::MinMax& self, int index) {

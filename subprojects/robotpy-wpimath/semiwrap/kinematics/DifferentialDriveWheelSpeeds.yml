@@ -1,5 +1,6 @@
 extra_includes:
 - wpystruct.h
+- nanobind/stl/string.h
 
 classes:
   frc::DifferentialDriveWheelSpeeds:
@@ -27,7 +28,7 @@ inline_code: |
     .def_static("fromFeet", [](units::feet_per_second_t left, units::feet_per_second_t right){
       return DifferentialDriveWheelSpeeds{left, right};
     }, nb::arg("left"), nb::arg("right"))
-    .def_property("left_fps",
+    .def_prop_rw("left_fps",
       [](DifferentialDriveWheelSpeeds * self) -> units::feet_per_second_t {
         return self->left;
       },
@@ -35,7 +36,7 @@ inline_code: |
         self->left = left;
       }
     )
-    .def_property("right_fps", 
+    .def_prop_rw("right_fps", 
       [](DifferentialDriveWheelSpeeds * self) -> units::feet_per_second_t {
         return self->right;
       },

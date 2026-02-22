@@ -2,6 +2,7 @@ defaults:
   subpackage: trajectory
 
 extra_includes:
+- nanobind/stl/shared_ptr.h
 - PyTrajectoryConstraint.h
 
 classes:
@@ -38,37 +39,37 @@ inline_code: |-
 
     .def("setKinematics", static_cast<void (frc::TrajectoryConfig::*)(frc::SwerveDriveKinematics<2>&)>(
   &frc::TrajectoryConfig::SetKinematics<2>),
-        nb::arg("kinematics"), release_gil(), nb::doc(
-      "Adds a swerve drive kinematics constraint to ensure that\n"
-  "no wheel velocity of a swerve drive goes above the max velocity.\n"
-  "\n"
-  ":param kinematics: The swerve drive kinematics.")
+        nb::arg("kinematics"), release_gil(),
+        "Adds a swerve drive kinematics constraint to ensure that\n"
+        "no wheel velocity of a swerve drive goes above the max velocity.\n"
+        "\n"
+        ":param kinematics: The swerve drive kinematics."
     )
       
     .def("setKinematics", static_cast<void (frc::TrajectoryConfig::*)(frc::SwerveDriveKinematics<3>&)>(
   &frc::TrajectoryConfig::SetKinematics<3>),
-        nb::arg("kinematics"), release_gil(), nb::doc(
-      "Adds a swerve drive kinematics constraint to ensure that\n"
-  "no wheel velocity of a swerve drive goes above the max velocity.\n"
-  "\n"
-  ":param kinematics: The swerve drive kinematics.")
+        nb::arg("kinematics"), release_gil(),
+        "Adds a swerve drive kinematics constraint to ensure that\n"
+        "no wheel velocity of a swerve drive goes above the max velocity.\n"
+        "\n"
+        ":param kinematics: The swerve drive kinematics."
     )
       
     .def("setKinematics", static_cast<void (frc::TrajectoryConfig::*)(frc::SwerveDriveKinematics<4>&)>(
   &frc::TrajectoryConfig::SetKinematics<4>),
-        nb::arg("kinematics"), release_gil(), nb::doc(
-      "Adds a swerve drive kinematics constraint to ensure that\n"
-  "no wheel velocity of a swerve drive goes above the max velocity.\n"
-  "\n"
-  ":param kinematics: The swerve drive kinematics.")
+        nb::arg("kinematics"), release_gil(),
+        "Adds a swerve drive kinematics constraint to ensure that\n"
+        "no wheel velocity of a swerve drive goes above the max velocity.\n"
+        "\n"
+        ":param kinematics: The swerve drive kinematics."
     )
       
     .def("setKinematics", static_cast<void (frc::TrajectoryConfig::*)(frc::SwerveDriveKinematics<6>&)>(
   &frc::TrajectoryConfig::SetKinematics<6>),
-        nb::arg("kinematics"), release_gil(), nb::doc(
-      "Adds a swerve drive kinematics constraint to ensure that\n"
-  "no wheel velocity of a swerve drive goes above the max velocity.\n"
-  "\n"
-  ":param kinematics: The swerve drive kinematics.")
+        nb::arg("kinematics"), release_gil(),
+        "Adds a swerve drive kinematics constraint to ensure that\n"
+        "no wheel velocity of a swerve drive goes above the max velocity.\n"
+        "\n"
+        ":param kinematics: The swerve drive kinematics."
     )
   ;

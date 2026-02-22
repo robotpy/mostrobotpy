@@ -1,5 +1,6 @@
 extra_includes:
 - wpystruct.h
+- nanobind/stl/string.h
 
 classes:
   frc::SwerveModuleState:
@@ -24,7 +25,7 @@ inline_code: |
       >(),
       nb::arg("speed") = 0, nb::arg("angle") = frc::Rotation2d()
     )
-    .def_property("speed_fps",
+    .def_prop_rw("speed_fps",
       [](SwerveModuleState * self) -> units::feet_per_second_t {
         return self->speed;
       },

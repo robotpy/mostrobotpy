@@ -2,6 +2,7 @@ defaults:
   subpackage: constraint
 
 extra_includes:
+- nanobind/stl/shared_ptr.h
 - PyTrajectoryConstraint.h
 
 classes:

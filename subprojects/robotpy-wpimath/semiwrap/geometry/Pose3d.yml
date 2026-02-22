@@ -1,6 +1,7 @@
 extra_includes:
 - rpy/geometryToString.h
 - wpystruct.h
+- nanobind/stl/string.h
 
 functions:
   to_json:
@@ -52,20 +53,20 @@ classes:
 inline_code: |
   cls_Pose3d
     .def_static("fromFeet", [](units::foot_t x, units::foot_t y, units::foot_t z, Rotation3d r) {
-      return std::make_unique<Pose3d>(x, y, z, r);
+      return Pose3d(x, y, z, r);
     }, nb::arg("x"), nb::arg("y"), nb::arg("z"), nb::arg("r"))
-    .def_property_readonly("x", &Pose3d::X)
-    .def_property_readonly("y", &Pose3d::Y)
-    .def_property_readonly("z", &Pose3d::Z)
-    .def_property_readonly("x_feet", [](const Pose3d * self) -> units::foot_t {
+    .def_prop_ro("x", &Pose3d::X)
+    .def_prop_ro("y", &Pose3d::Y)
+    .def_prop_ro("z", &Pose3d::Z)
+    .def_prop_ro("x_feet", [](const Pose3d * self) -> units::foot_t {
       return self->X();
     })
-    .def_property_readonly("y_feet", [](const Pose3d * self) -> units::foot_t {
+    .def_prop_ro("y_feet", [](const Pose3d * self) -> units::foot_t {
       return self->Y();
     })
-    .def_property_readonly("z_feet", [](const Pose3d * self) -> units::foot_t {
+    .def_prop_ro("z_feet", [](const Pose3d * self) -> units::foot_t {
       return self->Z();
     })
-    .def("__repr__", nb::overload_cast<const Pose3d&>(&rnb::toString));
+    .def("__repr__", nb::overload_cast<const Pose3d&>(&rpy::toString));
 
   SetupWPyStruct<frc::Pose3d>(cls_Pose3d);

@@ -3,6 +3,7 @@ defaults:
 
 extra_includes:
 - rpy/geometryToString.h
+- nanobind/stl/string.h
 
 functions:
   to_json:
@@ -54,10 +55,10 @@ inline_code: |
       nb::arg("pose") = Pose2d(),
       nb::arg("curvature") = 0.0
     )
-    .def_property_readonly("velocity_fps", [](frc::Trajectory::State * self) -> units::feet_per_second_t {
+    .def_prop_ro("velocity_fps", [](frc::Trajectory::State * self) -> units::feet_per_second_t {
       return self->velocity;
     })
-    .def_property_readonly("acceleration_fps", [](frc::Trajectory::State * self) -> units::feet_per_second_squared_t {
+    .def_prop_ro("acceleration_fps", [](frc::Trajectory::State * self) -> units::feet_per_second_squared_t {
       return self->acceleration;
     })
     .def("__repr__", [](frc::Trajectory::State *self) {
@@ -65,7 +66,7 @@ inline_code: |
         "t=" + std::to_string(self->t()) + ", "
         "velocity=" + std::to_string(self->velocity()) + ", "
         "acceleration=" + std::to_string(self->acceleration()) + ", "
-        "pose=" + rnb::toString(self->pose) + ", "
+        "pose=" + rpy::toString(self->pose) + ", "
         "curvature=" + std::to_string(self->curvature()) + ")";
     })
     .def_rw("curvature", &frc::Trajectory::State::curvature);

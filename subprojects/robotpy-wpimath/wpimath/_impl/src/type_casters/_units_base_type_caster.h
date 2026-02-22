@@ -2,8 +2,8 @@
 
 #include <nanobind/nanobind.h>
 
-namespace pybind11 {
-namespace detail {
+NAMESPACE_BEGIN(NB_NAMESPACE)
+NAMESPACE_BEGIN(detail)
 
 /*
   Units type caster assumptions
@@ -23,33 +23,41 @@ namespace detail {
   issues with implicit conversions when default values are used that don't
   match the actual value:
 
-    foo(units::second_t tm = 10_ms);    // if not careful, pybind11 will 
+    foo(units::second_t tm = 10_ms);    // if not careful, pybind11 will
                                         // store as 10 seconds
 */
+
+template <typename T> struct unit_type_name {
+  static constexpr auto name = const_name("float");
+};
+
 template <class U, typename T, template <typename> class S>
 struct type_caster<units::unit_t<U, T, S>> {
   using value_type = units::unit_t<U, T, S>;
 
-  // TODO: there should be a way to include the type with this
-  PYBIND11_TYPE_CASTER(value_type, handle_type_name<value_type>::name);
+  NB_TYPE_CASTER(value_type, unit_type_name<value_type>::name);
 
   // Python -> C++
-  bool load(handle src, bool convert) {
-    if (!src)
+  bool from_python(handle src, uint8_t flags, cleanup_list *) noexcept {
+    if (!src.is_valid()) {
       return false;
-    if (!convert && !PyFloat_Check(src.ptr()))
+    }
+
+    if (!(flags & (uint8_t)cast_flags::convert) && !PyFloat_Check(src.ptr())) {
       return false;
+    }
+
     auto cvted = PyFloat_AsDouble(src.ptr());
     value = value_type(cvted);
     return !(cvted == -1 && PyErr_Occurred());
   }
 
   // C++ -> Python
-  static handle cast(const value_type &src, return_value_policy /* policy */,
-                     handle /* parent */) {
+  static handle from_cpp(const value_type &src, rv_policy,
+                         cleanup_list *) noexcept {
     return PyFloat_FromDouble(src.template to<double>());
   }
 };
 
-} // namespace detail
-} // namespace pybind11
+NAMESPACE_END(detail)
+NAMESPACE_END(NB_NAMESPACE)

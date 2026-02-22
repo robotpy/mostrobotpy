@@ -2,49 +2,52 @@
 
 #include <units/temperature.h>
 
-namespace pybind11 {
-namespace detail {
-template <> struct handle_type_name<units::kelvin_t> {
-  static constexpr auto name = _("wpimath.units.kelvin");
+NAMESPACE_BEGIN(NB_NAMESPACE)
+NAMESPACE_BEGIN(detail)
+
+template <typename T> struct unit_type_name;
+
+template <> struct unit_type_name<units::kelvin_t> {
+  static constexpr auto name = const_name("wpimath.units.kelvin");
 };
 
-template <> struct handle_type_name<units::kelvin> {
-  static constexpr auto name = _("wpimath.units.kelvin");
+template <> struct unit_type_name<units::kelvin> {
+  static constexpr auto name = const_name("wpimath.units.kelvin");
 };
 
-template <> struct handle_type_name<units::celsius_t> {
-  static constexpr auto name = _("wpimath.units.celsius");
+template <> struct unit_type_name<units::celsius_t> {
+  static constexpr auto name = const_name("wpimath.units.celsius");
 };
 
-template <> struct handle_type_name<units::celsius> {
-  static constexpr auto name = _("wpimath.units.celsius");
+template <> struct unit_type_name<units::celsius> {
+  static constexpr auto name = const_name("wpimath.units.celsius");
 };
 
-template <> struct handle_type_name<units::fahrenheit_t> {
-  static constexpr auto name = _("wpimath.units.fahrenheit");
+template <> struct unit_type_name<units::fahrenheit_t> {
+  static constexpr auto name = const_name("wpimath.units.fahrenheit");
 };
 
-template <> struct handle_type_name<units::fahrenheit> {
-  static constexpr auto name = _("wpimath.units.fahrenheit");
+template <> struct unit_type_name<units::fahrenheit> {
+  static constexpr auto name = const_name("wpimath.units.fahrenheit");
 };
 
-template <> struct handle_type_name<units::reaumur_t> {
-  static constexpr auto name = _("wpimath.units.reaumur");
+template <> struct unit_type_name<units::reaumur_t> {
+  static constexpr auto name = const_name("wpimath.units.reaumur");
 };
 
-template <> struct handle_type_name<units::reaumur> {
-  static constexpr auto name = _("wpimath.units.reaumur");
+template <> struct unit_type_name<units::reaumur> {
+  static constexpr auto name = const_name("wpimath.units.reaumur");
 };
 
-template <> struct handle_type_name<units::rankine_t> {
-  static constexpr auto name = _("wpimath.units.rankine");
+template <> struct unit_type_name<units::rankine_t> {
+  static constexpr auto name = const_name("wpimath.units.rankine");
 };
 
-template <> struct handle_type_name<units::rankine> {
-  static constexpr auto name = _("wpimath.units.rankine");
+template <> struct unit_type_name<units::rankine> {
+  static constexpr auto name = const_name("wpimath.units.rankine");
 };
 
-} // namespace detail
-} // namespace pybind11
+NAMESPACE_END(detail)
+NAMESPACE_END(NB_NAMESPACE)
 
 #include "_units_base_type_caster.h"
