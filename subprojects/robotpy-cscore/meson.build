@@ -6,8 +6,6 @@ subdir('semiwrap')
 
 cscore_sources += files(
   'cscore/src/main.cpp',
-  'cscore/cvnp/cvnp.cpp',
-  'cscore/cvnp/cvnp_synonyms.cpp',
 )
 
 #

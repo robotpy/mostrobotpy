@@ -47,17 +47,31 @@ classes:
             ignore: true
       GrabFrame:
         cpp_code: |
-          [](cs::CvSink &self, cv::Mat& image, double timeout) -> std::tuple<uint64_t, cv::Mat> {
-            nb::gil_scoped_release unlock;
-            auto result = self.GrabFrame(image, timeout);
-            return std::make_tuple(result, image);
+          [](cs::CvSink &self, nb::object image_obj, double timeout) -> nb::tuple {
+            auto image = nb::cast<nb::ndarray<>>(image_obj);
+            auto mat = cvnp_nano::nparray_to_mat(image, image_obj);
+
+            uint64_t result;
+            {
+              nb::gil_scoped_release unlock;
+              result = self.GrabFrame(mat, timeout);
+            }
+
+            return nb::make_tuple(result, image_obj);
           }
       GrabFrameNoTimeout:
         cpp_code: |
-          [](cs::CvSink &self, cv::Mat& image) -> std::tuple<uint64_t, cv::Mat> {
-            nb::gil_scoped_release unlock;
-            auto result = self.GrabFrameNoTimeout(image);
-            return std::make_tuple(result, image);
+          [](cs::CvSink &self, nb::object image_obj) -> nb::tuple {
+            auto image = nb::cast<nb::ndarray<>>(image_obj);
+            auto mat = cvnp_nano::nparray_to_mat(image, image_obj);
+
+            uint64_t result;
+            {
+              nb::gil_scoped_release unlock;
+              result = self.GrabFrameNoTimeout(mat);
+            }
+
+            return nb::make_tuple(result, image_obj);
           }
       LastFrameTime:
       LastFrameTimeSource:

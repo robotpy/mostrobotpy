@@ -9,7 +9,7 @@ extern "C" {
 }
 #endif
 
-SEMIWRAP_PYBIND11_MODULE(m) {
+SEMIWRAP_MODULE(m) {
     initWrapper(m);
 
     static int unused; // the capsule needs something to reference
@@ -21,7 +21,7 @@ SEMIWRAP_PYBIND11_MODULE(m) {
         nb::gil_scoped_release __release;
         CS_Shutdown();
     });
-    m.add_object("_cleanup", cleanup);
+    m.attr("_cleanup") = cleanup;
 
     #ifdef __FRC_ROBORIO__
     m.def("_setupWpiNow", WPI_Impl_SetupNowUseDefaultOnRio);
