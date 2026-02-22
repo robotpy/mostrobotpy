@@ -61,6 +61,8 @@ classes:
       SetDefaultStringArray:
       GetTopic:
   nt::GenericEntry:
+    ignored_bases:
+    - GenericPublisher
     methods:
       GenericEntry:
         overloads:
@@ -76,7 +78,7 @@ classes:
       .def("close", [](GenericEntry *self) {
         nb::gil_scoped_release release;
         *self = GenericEntry();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](GenericEntry *self) {
         return self;
       })

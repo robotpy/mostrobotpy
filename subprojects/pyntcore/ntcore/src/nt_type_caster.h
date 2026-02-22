@@ -2,8 +2,10 @@
 
 #include <nanobind/nanobind.h>
 
-namespace pybind11 {
-namespace detail {
+#include <vector>
+
+NAMESPACE_BEGIN(NB_NAMESPACE)
+NAMESPACE_BEGIN(detail)
 
 // ntcore uses std::vector<uint8_t> anytime there is a raw value, so
 // add this specialization to convert to/from bytes directly
@@ -11,29 +13,33 @@ namespace detail {
 template<>
 struct type_caster<std::vector<uint8_t>> {
     using vector_type = std::vector<uint8_t>;
-    PYBIND11_TYPE_CASTER(vector_type, const_name("bytes"));
+    NB_TYPE_CASTER(vector_type, const_name("bytes"));
 
-    bool load(handle src, bool convert) {
-        if (!isinstance<buffer>(src)) {
-            return false;
-        }
-        auto buf = reinterpret_borrow<buffer>(src);
-        auto req = buf.request();
-        if (req.ndim != 1) {
+    bool from_python(handle src, uint8_t, cleanup_list *) noexcept {
+        if (!PyObject_CheckBuffer(src.ptr())) {
             return false;
         }
 
-        auto begin = (const uint8_t*)req.ptr;
-        auto end = begin + req.size*req.itemsize;
+        Py_buffer view;
+        if (PyObject_GetBuffer(src.ptr(), &view, PyBUF_CONTIG_RO) != 0) {
+            PyErr_Clear();
+            return false;
+        }
 
-        value = std::vector<uint8_t>(begin, end);
-        return true;
+        bool ok = view.ndim == 1;
+        if (ok) {
+            auto begin = static_cast<const uint8_t *>(view.buf);
+            value.assign(begin, begin + view.len);
+        }
+
+        PyBuffer_Release(&view);
+        return ok;
     }
 
-    static handle cast(const std::vector<uint8_t> &src, return_value_policy policy, handle parent) {
-        return nb::bytes((char*)src.data(), src.size()).release();
+    static handle from_cpp(const std::vector<uint8_t> &src, rv_policy, cleanup_list *) noexcept {
+        return nb::bytes(reinterpret_cast<const char *>(src.data()), src.size()).release();
     }
 };
 
-}
-}
+NAMESPACE_END(detail)
+NAMESPACE_END(NB_NAMESPACE)

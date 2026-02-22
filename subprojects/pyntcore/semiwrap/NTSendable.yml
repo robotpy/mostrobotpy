@@ -9,12 +9,12 @@ classes:
           NTSendableBuilder&:
             virtual_xform: |
               [&](nb::callable fn) {
-                auto builderHandle = nb::cast(builder, nb::return_value_policy::reference);
+                auto builderHandle = nb::cast(builder, nb::rv_policy::reference);
                 fn(builderHandle);
               }
           wpi::SendableBuilder&:
             virtual_xform: |
               [&](nb::callable fn) {
-                auto builderHandle = nb::cast(builder, nb::return_value_policy::reference);
+                auto builderHandle = nb::cast(builder, nb::rv_policy::reference);
                 fn(builderHandle);
               }

@@ -21,7 +21,7 @@ classes:
       .def("close", [](DoubleSubscriber *self) {
         nb::gil_scoped_release release;
         *self = DoubleSubscriber();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](DoubleSubscriber *self) {
         return self;
       })
@@ -44,7 +44,7 @@ classes:
       .def("close", [](DoublePublisher *self) {
         nb::gil_scoped_release release;
         *self = DoublePublisher();
-      }, nb::doc("Destroys the publisher"))
+      }, "Destroys the publisher")
       .def("__enter__", [](DoublePublisher *self) {
         return self;
       })
@@ -53,6 +53,8 @@ classes:
         *self = DoublePublisher();
       })
   nt::DoubleEntry:
+    ignored_bases:
+    - DoublePublisher
     methods:
       DoubleEntry:
         overloads:
@@ -68,7 +70,7 @@ classes:
       .def("close", [](DoubleEntry *self) {
         nb::gil_scoped_release release;
         *self = DoubleEntry();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](DoubleEntry *self) {
         return self;
       })
@@ -97,7 +99,7 @@ classes:
       .def("close", [](DoubleTopic *self) {
         nb::gil_scoped_release release;
         *self = DoubleTopic();
-      }, nb::doc("Destroys the topic"))
+      }, "Destroys the topic")
       .def("__enter__", [](DoubleTopic *self) {
         return self;
       })

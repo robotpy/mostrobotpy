@@ -21,7 +21,7 @@ classes:
       .def("close", [](IntegerSubscriber *self) {
         nb::gil_scoped_release release;
         *self = IntegerSubscriber();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](IntegerSubscriber *self) {
         return self;
       })
@@ -44,7 +44,7 @@ classes:
       .def("close", [](IntegerPublisher *self) {
         nb::gil_scoped_release release;
         *self = IntegerPublisher();
-      }, nb::doc("Destroys the publisher"))
+      }, "Destroys the publisher")
       .def("__enter__", [](IntegerPublisher *self) {
         return self;
       })
@@ -53,6 +53,8 @@ classes:
         *self = IntegerPublisher();
       })
   nt::IntegerEntry:
+    ignored_bases:
+    - IntegerPublisher
     methods:
       IntegerEntry:
         overloads:
@@ -68,7 +70,7 @@ classes:
       .def("close", [](IntegerEntry *self) {
         nb::gil_scoped_release release;
         *self = IntegerEntry();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](IntegerEntry *self) {
         return self;
       })
@@ -97,7 +99,7 @@ classes:
       .def("close", [](IntegerTopic *self) {
         nb::gil_scoped_release release;
         *self = IntegerTopic();
-      }, nb::doc("Destroys the topic"))
+      }, "Destroys the topic")
       .def("__enter__", [](IntegerTopic *self) {
         return self;
       })

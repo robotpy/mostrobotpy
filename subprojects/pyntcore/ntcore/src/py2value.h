@@ -16,9 +16,10 @@ nb::callable valueFactoryByType(nt::NetworkTableType type);
 
 inline void ensure_value_is(NT_Type expected, nt::Value *v) {
     if (v->type() != expected) {
-        throw nb::value_error(fmt::format(
+        auto msg = fmt::format(
             "Value type is {}, not {}", nttype2str(v->type()), nttype2str(expected)
-        ));
+        );
+        throw nb::value_error(msg.c_str());
     }
 }
 

@@ -2,7 +2,7 @@
 #include <semiwrap_init.ntcore._ntcore.hpp>
 #include "nt_instance.h"
 
-SEMIWRAP_PYBIND11_MODULE(m) {
+SEMIWRAP_MODULE(m) {
   initWrapper(m);
 
   static int unused;
@@ -10,5 +10,5 @@ SEMIWRAP_PYBIND11_MODULE(m) {
     pyntcore::resetAllInstances();
   });
 
-  m.add_object("_st_cleanup", cleanup);
+  m.attr("_st_cleanup") = cleanup;
 }

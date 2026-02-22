@@ -28,7 +28,7 @@ classes:
       .def("close", [](nt::StructArraySubscriber<T, I> *self) {
         nb::gil_scoped_release release;
         *self = nt::StructArraySubscriber<T, I>();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](nt::StructArraySubscriber<T, I> *self) {
         return self;
       })
@@ -62,7 +62,7 @@ classes:
       .def("close", [](nt::StructArrayPublisher<T, I> *self) {
         nb::gil_scoped_release release;
         *self = nt::StructArrayPublisher<T, I>();
-      }, nb::doc("Destroys the publisher"))
+      }, "Destroys the publisher")
       .def("__enter__", [](nt::StructArrayPublisher<T, I> *self) {
         return self;
       })
@@ -71,6 +71,8 @@ classes:
         *self = nt::StructArrayPublisher<T, I>();
       })
   nt::StructArrayEntry:
+    ignored_bases:
+    - StructArrayPublisher<T, I...>
     template_params:
     - T
     - I
@@ -92,7 +94,7 @@ classes:
       .def("close", [](nt::StructArrayEntry<T, I> *self) {
         nb::gil_scoped_release release;
         *self = nt::StructArrayEntry<T, I>();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](nt::StructArrayEntry<T, I> *self) {
         return self;
       })
@@ -112,14 +114,7 @@ classes:
           NT_Topic, I...:
             ignore: true
           Topic, I...:
-            param_override:
-              info:
-                name: type
-            cpp_code: |
-              [](Topic topic, const nb::type_object &t) {
-                WPyStructInfo info(t);
-                return nt::StructArrayTopic<T, I>(topic, info);
-              }
+            ignore: true
       Subscribe:
         overloads:
           U&&, const PubSubOptions&:
@@ -133,10 +128,15 @@ classes:
             ignore: true
           std::span<const T>, const PubSubOptions&:
     inline_code: |
+      .def("__init__", [](nt::StructArrayTopic<T, I> *self, Topic topic, const nb::type_object &t) {
+        WPyStructInfo info(t);
+        new (self) nt::StructArrayTopic<T, I>(topic, info);
+      }, nb::arg("topic"), nb::arg("type"),
+        "Construct from a generic topic.\n\n:param topic: Topic\n:param type: optional struct type info")
       .def("close", [](nt::StructArrayTopic<T, I> *self) {
         nb::gil_scoped_release release;
         *self = nt::StructArrayTopic<T, I>();
-      }, nb::doc("Destroys the topic"))
+      }, "Destroys the topic")
       .def("__enter__", [](nt::StructArrayTopic<T, I> *self) {
         return self;
       })

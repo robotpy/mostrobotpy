@@ -21,7 +21,7 @@ classes:
       .def("close", [](StringArraySubscriber *self) {
         nb::gil_scoped_release release;
         *self = StringArraySubscriber();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](StringArraySubscriber *self) {
         return self;
       })
@@ -44,7 +44,7 @@ classes:
       .def("close", [](StringArrayPublisher *self) {
         nb::gil_scoped_release release;
         *self = StringArrayPublisher();
-      }, nb::doc("Destroys the publisher"))
+      }, "Destroys the publisher")
       .def("__enter__", [](StringArrayPublisher *self) {
         return self;
       })
@@ -53,6 +53,8 @@ classes:
         *self = StringArrayPublisher();
       })
   nt::StringArrayEntry:
+    ignored_bases:
+    - StringArrayPublisher
     methods:
       StringArrayEntry:
         overloads:
@@ -68,7 +70,7 @@ classes:
       .def("close", [](StringArrayEntry *self) {
         nb::gil_scoped_release release;
         *self = StringArrayEntry();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](StringArrayEntry *self) {
         return self;
       })
@@ -97,7 +99,7 @@ classes:
       .def("close", [](StringArrayTopic *self) {
         nb::gil_scoped_release release;
         *self = StringArrayTopic();
-      }, nb::doc("Destroys the topic"))
+      }, "Destroys the topic")
       .def("__enter__", [](StringArrayTopic *self) {
         return self;
       })

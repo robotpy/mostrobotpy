@@ -4,7 +4,8 @@
 #include <vector>
 
 // type casters
-#include <pybind11/stl.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
 #include <wpi_span_type_caster.h>
 
 
@@ -57,7 +58,7 @@ nb::object ntvalue2py(const nt::Value &ntvalue) {
     return nb::bytes((const char *)v.data.v_raw.data, v.data.v_raw.size);
 
   case NT_BOOLEAN_ARRAY: {
-    nb::list l(v.data.arr_boolean.size);
+    nb::list l = nb::steal<nb::list>(PyList_New(v.data.arr_boolean.size));
     for (size_t i = 0; i < v.data.arr_boolean.size; i++) {
       auto b = nb::bool_(v.data.arr_boolean.arr[i]);
       PyList_SET_ITEM(l.ptr(), i, b.release().ptr());
@@ -66,7 +67,7 @@ nb::object ntvalue2py(const nt::Value &ntvalue) {
   }
 
   case NT_DOUBLE_ARRAY: {
-    nb::list l(v.data.arr_double.size);
+    nb::list l = nb::steal<nb::list>(PyList_New(v.data.arr_double.size));
     for (size_t i = 0; i < v.data.arr_double.size; i++) {
       auto d = nb::float_(v.data.arr_double.arr[i]);
       PyList_SET_ITEM(l.ptr(), i, d.release().ptr());
@@ -87,7 +88,7 @@ nb::object ntvalue2py(const nt::Value &ntvalue) {
   }
 
   case NT_INTEGER_ARRAY: {
-    nb::list l(v.data.arr_int.size);
+    nb::list l = nb::steal<nb::list>(PyList_New(v.data.arr_int.size));
     for (size_t i = 0; i < v.data.arr_int.size; i++) {
       auto d = nb::int_(v.data.arr_int.arr[i]);
       PyList_SET_ITEM(l.ptr(), i, d.release().ptr());
@@ -96,7 +97,7 @@ nb::object ntvalue2py(const nt::Value &ntvalue) {
   }
 
   case NT_FLOAT_ARRAY: {
-    nb::list l(v.data.arr_float.size);
+    nb::list l = nb::steal<nb::list>(PyList_New(v.data.arr_float.size));
     for (size_t i = 0; i < v.data.arr_float.size; i++) {
       auto d = nb::float_(v.data.arr_float.arr[i]);
       PyList_SET_ITEM(l.ptr(), i, d.release().ptr());
@@ -111,36 +112,36 @@ nb::object ntvalue2py(const nt::Value &ntvalue) {
 
 nt::Value py2ntvalue(nb::handle h) {
   if (nb::isinstance<nb::bool_>(h)) {
-    return nt::Value::MakeBoolean(h.cast<bool>());
+    return nt::Value::MakeBoolean(nb::cast<bool>(h));
   } else if (nb::isinstance<nb::float_>(h)) {
-    return nt::Value::MakeDouble(h.cast<double>());
+    return nt::Value::MakeDouble(nb::cast<double>(h));
   } else if (nb::isinstance<nb::int_>(h)) {
-    return nt::Value::MakeInteger(h.cast<int64_t>());
+    return nt::Value::MakeInteger(nb::cast<int64_t>(h));
   } else if (nb::isinstance<nb::str>(h)) {
-    return nt::Value::MakeString(h.cast<std::string>());
+    return nt::Value::MakeString(nb::cast<std::string>(h));
   } else if (nb::isinstance<nb::bytes>(h)) {
-    return nt::Value::MakeRaw(h.cast<std::span<const uint8_t>>());
-  } else if (nb::isinstance<nb::none>(h)) {
+    return nt::Value::MakeRaw(nb::cast<std::span<const uint8_t>>(h));
+  } else if (h.is_none()) {
     throw nb::value_error("Cannot put None into NetworkTable");
   }
 
-  auto seq = h.cast<nb::sequence>();
-  if (seq.size() == 0) {
+  auto seq = nb::cast<nb::sequence>(h);
+  if (nb::len(seq) == 0) {
     throw nb::type_error("If you use a list here, cannot be empty");
   }
   // check the first item
   auto i1 = seq[0];
   if (nb::isinstance<nb::bool_>(i1)) {
-    auto v = h.cast<std::vector<int>>();
+    auto v = nb::cast<std::vector<int>>(h);
     return nt::Value::MakeBooleanArray(v);
   } else if (nb::isinstance<nb::float_>(i1)) {
-    auto v = h.cast<std::vector<double>>();
+    auto v = nb::cast<std::vector<double>>(h);
     return nt::Value::MakeDoubleArray(v);
   } else if (nb::isinstance<nb::int_>(i1)) {
-    auto v = h.cast<std::vector<int64_t>>();
+    auto v = nb::cast<std::vector<int64_t>>(h);
     return nt::Value::MakeIntegerArray(v);
   } else if (nb::isinstance<nb::str>(i1)) {
-    auto v = h.cast<std::vector<std::string>>();
+    auto v = nb::cast<std::vector<std::string>>(h);
     return nt::Value::MakeStringArray(v);
   } else {
     throw nb::value_error("Can only put bool/int/float/str/bytes or lists/tuples of them");
@@ -148,7 +149,7 @@ nt::Value py2ntvalue(nb::handle h) {
 }
 
 nb::callable valueFactoryByType(nt::NetworkTableType type) {
-  nb::object PyNtValue = nb::module::import("ntcore").attr("Value");
+  nb::object PyNtValue = nb::module_::import_("ntcore").attr("Value");
   switch (type) {
   case nt::NetworkTableType::kBoolean:
     return PyNtValue.attr("makeBoolean");

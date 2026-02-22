@@ -21,7 +21,7 @@ classes:
       .def("close", [](BooleanSubscriber *self) {
         nb::gil_scoped_release release;
         *self = BooleanSubscriber();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](BooleanSubscriber *self) {
         return self;
       })
@@ -44,7 +44,7 @@ classes:
       .def("close", [](BooleanPublisher *self) {
         nb::gil_scoped_release release;
         *self = BooleanPublisher();
-      }, nb::doc("Destroys the publisher"))
+      }, "Destroys the publisher")
       .def("__enter__", [](BooleanPublisher *self) {
         return self;
       })
@@ -53,6 +53,8 @@ classes:
         *self = BooleanPublisher();
       })
   nt::BooleanEntry:
+    ignored_bases:
+    - BooleanPublisher
     methods:
       BooleanEntry:
         overloads:
@@ -68,7 +70,7 @@ classes:
       .def("close", [](BooleanEntry *self) {
         nb::gil_scoped_release release;
         *self = BooleanEntry();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](BooleanEntry *self) {
         return self;
       })
@@ -97,7 +99,7 @@ classes:
       .def("close", [](BooleanTopic *self) {
         nb::gil_scoped_release release;
         *self = BooleanTopic();
-      }, nb::doc("Destroys the topic"))
+      }, "Destroys the topic")
       .def("__enter__", [](BooleanTopic *self) {
         return self;
       })

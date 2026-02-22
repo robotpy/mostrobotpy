@@ -1,5 +1,5 @@
 cls_NetworkTableEntry
-    .def_property_readonly("value", [](const nt::NetworkTableEntry &self) {
+    .def_prop_ro("value", [](const nt::NetworkTableEntry &self) {
         nt::Value v;
         {
             nb::gil_scoped_release release;
@@ -15,8 +15,8 @@ cls_NetworkTableEntry
     .def("setValue", [](nt::NetworkTableEntry *self, bool value) {
         return self->SetValue(nt::Value::MakeBoolean(value));
     }, nb::arg("value"), release_gil())
-    .def("setValue", [](nt::NetworkTableEntry *self, nb::bytes value) {
-        auto v = nt::Value::MakeRaw(value.cast<std::span<const uint8_t>>());
+    .def("setValue", [](nt::NetworkTableEntry *self, nb::object value) {
+        auto v = nt::Value::MakeRaw(nb::cast<std::span<const uint8_t>>(value));
         nb::gil_scoped_release release;
         return self->SetValue(v);
     }, nb::arg("value"))
@@ -34,8 +34,8 @@ cls_NetworkTableEntry
     .def("setDefaultValue", [](nt::NetworkTableEntry *self, bool value) {
         return self->SetDefaultValue(nt::Value::MakeBoolean(value));
     }, nb::arg("value"), release_gil())
-    .def("setDefaultValue", [](nt::NetworkTableEntry *self, nb::bytes value) {
-        auto v = nt::Value::MakeRaw(value.cast<std::span<const uint8_t>>());
+    .def("setDefaultValue", [](nt::NetworkTableEntry *self, nb::object value) {
+        auto v = nt::Value::MakeRaw(nb::cast<std::span<const uint8_t>>(value));
         nb::gil_scoped_release release;
         return self->SetDefaultValue(v);
     }, nb::arg("value"))

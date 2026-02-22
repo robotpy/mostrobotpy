@@ -21,7 +21,7 @@ classes:
       .def("close", [](FloatSubscriber *self) {
         nb::gil_scoped_release release;
         *self = FloatSubscriber();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](FloatSubscriber *self) {
         return self;
       })
@@ -44,7 +44,7 @@ classes:
       .def("close", [](FloatPublisher *self) {
         nb::gil_scoped_release release;
         *self = FloatPublisher();
-      }, nb::doc("Destroys the publisher"))
+      }, "Destroys the publisher")
       .def("__enter__", [](FloatPublisher *self) {
         return self;
       })
@@ -53,6 +53,8 @@ classes:
         *self = FloatPublisher();
       })
   nt::FloatEntry:
+    ignored_bases:
+    - FloatPublisher
     methods:
       FloatEntry:
         overloads:
@@ -68,7 +70,7 @@ classes:
       .def("close", [](FloatEntry *self) {
         nb::gil_scoped_release release;
         *self = FloatEntry();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](FloatEntry *self) {
         return self;
       })
@@ -97,7 +99,7 @@ classes:
       .def("close", [](FloatTopic *self) {
         nb::gil_scoped_release release;
         *self = FloatTopic();
-      }, nb::doc("Destroys the topic"))
+      }, "Destroys the topic")
       .def("__enter__", [](FloatTopic *self) {
         return self;
       })

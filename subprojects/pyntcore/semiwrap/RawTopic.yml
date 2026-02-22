@@ -32,7 +32,7 @@ classes:
       .def("close", [](RawSubscriber *self) {
         nb::gil_scoped_release release;
         *self = RawSubscriber();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](RawSubscriber *self) {
         return self;
       })
@@ -55,7 +55,7 @@ classes:
       .def("close", [](RawPublisher *self) {
         nb::gil_scoped_release release;
         *self = RawPublisher();
-      }, nb::doc("Destroys the publisher"))
+      }, "Destroys the publisher")
       .def("__enter__", [](RawPublisher *self) {
         return self;
       })
@@ -64,6 +64,8 @@ classes:
         *self = RawPublisher();
       })
   nt::RawEntry:
+    ignored_bases:
+    - RawPublisher
     methods:
       RawEntry:
         overloads:
@@ -79,7 +81,7 @@ classes:
       .def("close", [](RawEntry *self) {
         nb::gil_scoped_release release;
         *self = RawEntry();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](RawEntry *self) {
         return self;
       })
@@ -104,7 +106,7 @@ classes:
       .def("close", [](RawTopic *self) {
         nb::gil_scoped_release release;
         *self = RawTopic();
-      }, nb::doc("Destroys the topic"))
+      }, "Destroys the topic")
       .def("__enter__", [](RawTopic *self) {
         return self;
       })

@@ -79,6 +79,9 @@ classes:
       PutNumber:
       SetDefaultNumber:
       GetNumber:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
@@ -91,6 +94,9 @@ classes:
       PutString:
       SetDefaultString:
       GetString:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
@@ -103,6 +109,9 @@ classes:
       PutBoolean:
       SetDefaultBoolean:
       GetBoolean:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
@@ -115,6 +124,9 @@ classes:
       PutBooleanArray:
       SetDefaultBooleanArray:
       GetBooleanArray:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
@@ -127,6 +139,9 @@ classes:
       PutNumberArray:
       SetDefaultNumberArray:
       GetNumberArray:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
@@ -139,6 +154,9 @@ classes:
       PutStringArray:
       SetDefaultStringArray:
       GetStringArray:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;
@@ -151,6 +169,9 @@ classes:
       PutRaw:
       SetDefaultRaw:
       GetRaw:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           [](NetworkTable * table, std::string_view key, nb::object defaultValue) -> nb::object {
             nt::NetworkTableEntry entry;

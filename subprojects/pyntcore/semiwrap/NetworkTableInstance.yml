@@ -170,14 +170,20 @@ classes:
         ignore: true
       operator==:
     inline_code: |
+      .def("addLogger", [](NetworkTableInstance *self,
+        NetworkTableInstance::LogLevel minLevel,
+        NetworkTableInstance::LogLevel maxLevel,
+        std::function<void(const nt::Event&)> callback) {
+          return self->AddLogger(static_cast<unsigned int>(minLevel), static_cast<unsigned int>(maxLevel), std::move(callback));
+        }, nb::arg("minLevel"), nb::arg("maxLevel"), nb::arg("callback"))
       .def("configPythonLogging", [](NetworkTableInstance * self, 
         NetworkTableInstance::LogLevel minLevel, NetworkTableInstance::LogLevel maxLevel, nb::str logName) {
-          nb::module::import("ntcore._logutil").attr("_config_logging")(self, minLevel, maxLevel, logName);
+          nb::module_::import_("ntcore._logutil").attr("_config_logging")(self, minLevel, maxLevel, logName);
         }, nb::kw_only(),
           nb::arg("min") = NetworkTableInstance::LogLevel::kLogInfo,
           nb::arg("max") = NetworkTableInstance::LogLevel::kLogCritical,
           nb::arg("name") = "nt",
-        nb::doc("Configure python logging for this instance.\n"
+        ("Configure python logging for this instance.\n"
                 "\n"
                 ":param min:  Minimum NT level to log\n"
                 ":param max:  Maximum NT level to log\n"

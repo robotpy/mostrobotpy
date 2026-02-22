@@ -1,3 +1,6 @@
+extra_includes:
+- nanobind/stl/string_view.h
+
 classes:
   nt::MultiSubscriber:
     methods:
@@ -12,7 +15,7 @@ classes:
       .def("close", [](MultiSubscriber *self) {
         nb::gil_scoped_release release;
         *self = MultiSubscriber();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](MultiSubscriber *self) {
         return self;
       })

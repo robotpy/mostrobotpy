@@ -22,7 +22,7 @@ classes:
       .def("close", [](NetworkTableListener *self) {
         nb::gil_scoped_release release;
         *self = NetworkTableListener();
-      }, nb::doc("Destroys the listener"))
+      }, "Destroys the listener")
       .def("__enter__", [](NetworkTableListener *self) {
         return self;
       })
@@ -50,10 +50,16 @@ classes:
       RemoveListener:
       ReadQueue:
     inline_code: |
+      .def("addLogger", [](NetworkTableListenerPoller *self,
+          nt::NetworkTableInstance::LogLevel minLevel,
+          nt::NetworkTableInstance::LogLevel maxLevel) {
+        nb::gil_scoped_release release;
+        return self->AddLogger(static_cast<unsigned int>(minLevel), static_cast<unsigned int>(maxLevel));
+      }, nb::arg("minLevel"), nb::arg("maxLevel"))
       .def("close", [](NetworkTableListenerPoller *self) {
         nb::gil_scoped_release release;
         *self = NetworkTableListenerPoller();
-      }, nb::doc("Destroys the poller"))
+      }, "Destroys the poller")
       .def("__enter__", [](NetworkTableListenerPoller *self) {
         return self;
       })

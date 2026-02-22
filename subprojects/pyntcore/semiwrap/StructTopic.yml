@@ -26,7 +26,7 @@ classes:
       .def("close", [](nt::StructSubscriber<T, I> *self) {
         nb::gil_scoped_release release;
         *self = nt::StructSubscriber<T, I>();
-      }, nb::doc("Destroys the subscriber"))
+      }, "Destroys the subscriber")
       .def("__enter__", [](nt::StructSubscriber<T, I> *self) {
         return self;
       })
@@ -52,7 +52,7 @@ classes:
       .def("close", [](nt::StructPublisher<T, I> *self) {
         nb::gil_scoped_release release;
         *self = nt::StructPublisher<T, I>();
-      }, nb::doc("Destroys the publisher"))
+      }, "Destroys the publisher")
       .def("__enter__", [](nt::StructPublisher<T, I> *self) {
         return self;
       })
@@ -61,6 +61,8 @@ classes:
         *self = nt::StructPublisher<T, I>();
       })
   nt::StructEntry:
+    ignored_bases:
+    - StructPublisher<T, I...>
     template_params:
     - T
     - I
@@ -82,7 +84,7 @@ classes:
       .def("close", [](nt::StructEntry<T, I> *self) {
         nb::gil_scoped_release release;
         *self = nt::StructEntry<T, I>();
-      }, nb::doc("Destroys the entry"))
+      }, "Destroys the entry")
       .def("__enter__", [](nt::StructEntry<T, I> *self) {
         return self;
       })
@@ -102,23 +104,21 @@ classes:
           NT_Topic, I...:
             ignore: true
           Topic, I...:
-            param_override:
-              info:
-                name: type
-            cpp_code: |
-              [](Topic topic, const nb::type_object &t) {
-                WPyStructInfo info(t);
-                return nt::StructTopic<T, I>(topic, info);
-              }
+            ignore: true
       Subscribe:
       Publish:
       PublishEx:
       GetEntry:
     inline_code: |
+      .def("__init__", [](nt::StructTopic<T, I> *self, Topic topic, const nb::type_object &t) {
+        WPyStructInfo info(t);
+        new (self) nt::StructTopic<T, I>(topic, info);
+      }, nb::arg("topic"), nb::arg("type"),
+        "Construct from a generic topic.\n\n:param topic: Topic\n:param type: optional struct type info")
       .def("close", [](nt::StructTopic<T, I> *self) {
         nb::gil_scoped_release release;
         *self = nt::StructTopic<T, I>();
-      }, nb::doc("Destroys the topic"))
+      }, "Destroys the topic")
       .def("__enter__", [](nt::StructTopic<T, I> *self) {
         return self;
       })

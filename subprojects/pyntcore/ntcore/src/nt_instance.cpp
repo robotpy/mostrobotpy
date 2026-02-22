@@ -12,24 +12,24 @@ namespace pyntcore {
 void onInstanceStart(nt::NetworkTableInstance *instance) {
     g_known_instances.emplace(instance->GetHandle());
 
-    nb::module::import("ntcore._logutil")
+    nb::module_::import_("ntcore._logutil")
         .attr("NtLogForwarder").attr("onInstanceStart")(instance);
 }
 
 void onInstancePreReset(nt::NetworkTableInstance *instance) {
-    nb::module::import("ntcore._logutil")
+    nb::module_::import_("ntcore._logutil")
         .attr("NtLogForwarder").attr("onInstanceDestroy")(instance);
 }
 
 void onInstancePostReset(nt::NetworkTableInstance *instance) {
-    nb::module::import("ntcore.util")
+    nb::module_::import_("ntcore.util")
         .attr("_NtProperty").attr("onInstancePostReset")(instance);
 }
 
 void onInstanceDestroy(nt::NetworkTableInstance *instance) {
-    nb::module::import("ntcore._logutil")
+    nb::module_::import_("ntcore._logutil")
         .attr("NtLogForwarder").attr("onInstanceDestroy")(instance);
-    nb::module::import("ntcore.util")
+    nb::module_::import_("ntcore.util")
         .attr("_NtProperty").attr("onInstanceDestroy")(instance);
 
     g_known_instances.erase(instance->GetHandle());

@@ -24,36 +24,69 @@ classes:
       GetLastChange:
       GetValue:
       GetBoolean:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetBooleanEntry
       GetInteger:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetIntegerEntry
       GetFloat:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetFloatEntry
       GetDouble:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetDoubleEntry
       GetString:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetStringEntry
       GetRaw:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetRawEntry
       GetBooleanArray:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetBooleanArrayEntry
       GetIntegerArray:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetIntegerArrayEntry
       GetFloatArray:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetFloatArrayEntry
       GetDoubleArray:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetDoubleArrayEntry
       GetStringArray:
+        param_override:
+          defaultValue:
+            enable_none: true
         cpp_code: |
           &pyntcore::GetStringArrayEntry
       ReadQueue:
