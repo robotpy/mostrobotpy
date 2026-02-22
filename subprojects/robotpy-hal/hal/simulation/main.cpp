@@ -7,15 +7,15 @@
 
 void HALSIM_ResetGlobalHandles();
 
-SEMIWRAP_PYBIND11_MODULE(m) {
+SEMIWRAP_MODULE(m) {
 
   nb::class_<SimCB> cls_SimCB(m, "SimCB");
   cls_SimCB.doc() = "Simulation callback handle";
-  cls_SimCB.def("cancel", &SimCB::Cancel, nb::doc("Cancel the callback"));
+  cls_SimCB.def("cancel", &SimCB::Cancel, "Cancel the callback");
 
   nb::class_<SimValueCB> cls_SimValueCB(m, "SimValueCB");
   cls_SimValueCB.doc() = "Simulation callback handle";
-  cls_SimValueCB.def("cancel", &SimValueCB::Cancel, nb::doc("Cancel the callback"));
+  cls_SimValueCB.def("cancel", &SimValueCB::Cancel, "Cancel the callback");
 
   initWrapper(m);
 

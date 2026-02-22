@@ -1,6 +1,9 @@
 
 #pragma once
 
+#include <cstdint>
+#include <functional>
+
 #include <hal/SimDevice.h>
 
 class SimValueCB {

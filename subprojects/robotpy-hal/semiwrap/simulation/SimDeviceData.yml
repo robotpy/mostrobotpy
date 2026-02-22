@@ -1,6 +1,7 @@
 extra_includes:
 - sim_value_cb.h
 - nanobind/stl/function.h
+- nanobind/stl/unique_ptr.h
 
 strip_prefixes:
 - HALSIM_

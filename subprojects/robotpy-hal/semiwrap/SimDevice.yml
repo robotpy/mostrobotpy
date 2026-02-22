@@ -185,7 +185,7 @@ classes:
 inline_code: |2
 
   cls_SimValue
-    .def_property_readonly("value", [](const hal::SimValue &self) -> nb::object {
+    .def_prop_ro("value", [](const hal::SimValue &self) -> nb::object {
         HAL_Value value;
         {
           nb::gil_scoped_release release;
@@ -206,7 +206,7 @@ inline_code: |2
           return nb::none();
         }
     })
-    .def_property_readonly("type", [](const hal::SimValue &self) -> HAL_Type {
+    .def_prop_ro("type", [](const hal::SimValue &self) -> HAL_Type {
       nb::gil_scoped_release release;
       return self.GetValue().type;
     })
@@ -215,7 +215,7 @@ inline_code: |2
     })
     .def("__repr__", [](const hal::SimValue &self) -> nb::str {
         if (!self) {
-          return "<SimValue (invalid)>";
+          return nb::str("<SimValue (invalid)>");
         }
         HAL_Value value;
         {
@@ -225,25 +225,25 @@ inline_code: |2
         switch (value.type) {
         case HAL_BOOLEAN:
           if (value.data.v_boolean) {
-            return "<SimValue (bool) True>";
+            return nb::str("<SimValue (bool) True>");
           } else {
-            return "<SimValue (bool) False>";
+            return nb::str("<SimValue (bool) False>");
           }
         case HAL_DOUBLE:
-          return "<SimValue (double) " + std::to_string(value.data.v_double) + ">";
+          return nb::str("<SimValue (double) {}>").format(value.data.v_double);
         case HAL_ENUM:
-          return "<SimValue (enum) " + std::to_string(value.data.v_enum) + ">";
+          return nb::str("<SimValue (enum) {}>").format(value.data.v_enum);
         case HAL_INT:
-          return "<SimValue (int) " + std::to_string(value.data.v_int) + ">";
+          return nb::str("<SimValue (int) {}>").format(value.data.v_int);
         case HAL_LONG:
-          return "<SimValue (long) " + std::to_string(value.data.v_long) + ">";
+          return nb::str("<SimValue (long) {}>").format(value.data.v_long);
         default:
-          return "<SimValue (unknown)>";
+          return nb::str("<SimValue (unknown)>");
         }
     });
 
   cls_SimBoolean
-    .def_property("value", &SimBoolean::Get, &SimBoolean::Set, release_gil())
+    .def_prop_rw("value", &SimBoolean::Get, &SimBoolean::Set, release_gil())
     .def("__repr__", [](const SimBoolean &self) -> nb::str {
       if (self) {
         bool value;
@@ -251,9 +251,9 @@ inline_code: |2
           nb::gil_scoped_release release;
           value = self.Get();
         }
-        return std::string("<SimBoolean value=") + (value ? "True" : "False") + ">";
+        return nb::str("<SimBoolean value={}>").format(value ? "True" : "False");
       } else {
-        return "<SimBoolean (invalid)>";
+        return nb::str("<SimBoolean (invalid)>");
       }
     });
 
@@ -261,28 +261,28 @@ inline_code: |2
     .def("__bool__", [](const hal::SimDevice &self) -> bool {
       return (bool)self;
     })
-    .def_property_readonly("name", [](const hal::SimDevice &self) -> nb::str {
+    .def_prop_ro("name", [](const hal::SimDevice &self) -> nb::str {
       #ifdef __FRC_ROBORIO__
-        return "<invalid>";
+        return nb::str("<invalid>");
       #else
         if (!self) {
-          return "<invalid>";
+          return nb::str("<invalid>");
         } else {
           const char *name;
           {
             nb::gil_scoped_release release;
             name = HALSIM_GetSimDeviceName(self);
           }
-          return name;
+          return nb::str(name);
         }
       #endif
     })
     .def("__repr__", [](const hal::SimDevice &self) -> nb::str {
       #ifdef __FRC_ROBORIO__
-        return "<SimDevice (invalid)>";
+        return nb::str("<SimDevice (invalid)>");
       #else
         if (!self) {
-          return "<SimDevice (invalid)>";
+          return nb::str("<SimDevice (invalid)>");
         }
         const char *name;
         {
@@ -294,7 +294,7 @@ inline_code: |2
     });
 
   cls_SimDouble
-    .def_property("value", &SimDouble::Get, &SimDouble::Set, release_gil())
+    .def_prop_rw("value", &SimDouble::Get, &SimDouble::Set, release_gil())
     .def("__repr__", [](const SimDouble &self) -> nb::str {
       if (self) {
         double value;
@@ -302,17 +302,17 @@ inline_code: |2
           nb::gil_scoped_release release;
           value = self.Get();
         }
-        return "<SimDouble value=" + std::to_string(value) + ">";
+        return nb::str("<SimDouble value={}>").format(value);
       } else {
-        return "<SimDouble (invalid)>";
+        return nb::str("<SimDouble (invalid)>");
       }
     });
 
   cls_SimEnum
-    .def_property("value", &SimEnum::Get, &SimEnum::Set)
+    .def_prop_rw("value", &SimEnum::Get, &SimEnum::Set)
     .def("__repr__", [](const SimEnum &self) -> nb::str {
       #ifdef __FRC_ROBORIO__
-        return "<SimEnum (invalid)>";
+        return nb::str("<SimEnum (invalid)>");
       #else
         if (self) {
           int32_t value;
@@ -337,16 +337,15 @@ inline_code: |2
             doption = " dvalue=" + std::to_string(doptions[value]);
           }
 
-          return "<SimEnum name=" + std::string(option) +
-                        " value=" + std::to_string(value) + doption + ">";
+          return nb::str("<SimEnum name={} value={}{}>").format(option, value, doption);
         } else {
-          return "<SimEnum (invalid)>";
+          return nb::str("<SimEnum (invalid)>");
         }
       #endif
     });
 
   cls_SimInt
-    .def_property("value", &SimInt::Get, &SimInt::Set)
+    .def_prop_rw("value", &SimInt::Get, &SimInt::Set)
     .def("__repr__", [](const SimInt &self) -> nb::str {
       if (self) {
         int32_t value;
@@ -354,14 +353,14 @@ inline_code: |2
           nb::gil_scoped_release release;
           value = self.Get();
         }
-        return "<SimInt value=" + std::to_string(value) + ">";
+        return nb::str("<SimInt value={}>").format(value);
       } else {
-        return "<SimInt (invalid)>";
+        return nb::str("<SimInt (invalid)>");
       }
     });
 
   cls_SimLong
-    .def_property("value", &SimLong::Get, &SimLong::Set)
+    .def_prop_rw("value", &SimLong::Get, &SimLong::Set)
     .def("__repr__", [](const SimLong &self) -> nb::str {
       if (self) {
         int64_t value;
@@ -369,8 +368,8 @@ inline_code: |2
           nb::gil_scoped_release release;
           value = self.Get();
         }
-        return "<SimLong value=" + std::to_string(value) + ">";
+        return nb::str("<SimLong value={}>").format(value);
       } else {
-        return "<SimLong (invalid)>";
+        return nb::str("<SimLong (invalid)>");
       }
     });

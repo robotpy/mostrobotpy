@@ -1,15 +1,12 @@
 
-
 #include <hal/HALBase.h>
 #include <hal/DriverStation.h>
 #include <hal/Value.h>
 #include <semiwrap_init.hal._wpiHal.hpp>
 
-using namespace pybind11::literals;
+static nb::object sys_module;
 
-static nb::module_ sys_module;
-
-SEMIWRAP_PYBIND11_MODULE(m) {
+SEMIWRAP_MODULE(m) {
 
   // Add this manually so it can be used from SimValue
   nb::enum_<HAL_Type>(m, "Type")
@@ -44,17 +41,17 @@ SEMIWRAP_PYBIND11_MODULE(m) {
     .def("__repr__", [](const HAL_Value &self) -> nb::str {
       switch (self.type) {
         case HAL_BOOLEAN:
-          return "<Value type=bool value=" + std::to_string(self.data.v_boolean) + ">";
+          return nb::str("<Value type=bool value={}>").format(self.data.v_boolean);
         case HAL_DOUBLE:
-          return "<Value type=double value=" + std::to_string(self.data.v_double) + ">";
+          return nb::str("<Value type=double value={}>").format(self.data.v_double);
         case HAL_ENUM:
-          return "<Value type=enum value=" + std::to_string(self.data.v_enum) + ">";
+          return nb::str("<Value type=enum value={}>").format(self.data.v_enum);
         case HAL_INT:
-          return "<Value type=int value=" + std::to_string(self.data.v_int) + ">";
+          return nb::str("<Value type=int value={}>").format(self.data.v_int);
         case HAL_LONG:
-          return "<Value type=long value=" + std::to_string(self.data.v_long) + ">";
+          return nb::str("<Value type=long value={}>").format(self.data.v_long);
         default:
-          return "<Value type=invalid>";
+          return nb::str("<Value type=invalid>");
         }
     });
 
@@ -74,7 +71,7 @@ SEMIWRAP_PYBIND11_MODULE(m) {
 #endif
 
   // Redirect stderr to python stderr
-  sys_module = nb::module_::import("sys");
+  sys_module = nb::module_::import_("sys");
 
   HAL_SetPrintErrorImpl([](const char *line, size_t size) {
     if (size == 0) {
@@ -85,9 +82,9 @@ SEMIWRAP_PYBIND11_MODULE(m) {
     PyObject *o = PyUnicode_DecodeUTF8(line, size, "replace");
     if (o == nullptr) {
       PyErr_Clear();
-      nb::print(nb::bytes(line, size), "file"_a=sys_module.attr("stderr"));
+      nb::print(nb::bytes(line, size), nb::handle(), sys_module.attr("stderr"));
     } else {
-      nb::print(nb::reinterpret_steal<nb::str>(o), "file"_a=sys_module.attr("stderr"));
+      nb::print(nb::steal<nb::str>(o), nb::handle(), sys_module.attr("stderr"));
     }
   });
 
@@ -106,5 +103,5 @@ SEMIWRAP_PYBIND11_MODULE(m) {
       HAL_Shutdown();
     }
   });
-  m.add_object("_cleanup", cleanup);
+  m.attr("_cleanup") = cleanup;
 }
