@@ -5,24 +5,24 @@ requires = [
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.0",
     "hatchling",
-    "robotpy-wpiutil==2026.2.1",
-    "robotpy-wpinet==2026.2.1",
-    "pyntcore==2026.2.1",
+    "robotpy-wpiutil==2026.2.1.1",
+    "robotpy-wpinet==2026.2.1.1",
+    "pyntcore==2026.2.1.1",
     # "numpy", # required for pybind11-stubgen to not complain, broken in raspbian CI
 ]
 
 [project]
 name = "robotpy-cscore"
-version = "2026.2.1"
+version = "2026.2.1.1"
 description = "RobotPy bindings for cscore image processing library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-wpiutil==2026.2.1",
-    "robotpy-wpinet==2026.2.1",
-    "pyntcore==2026.2.1",
+    "robotpy-wpiutil==2026.2.1.1",
+    "robotpy-wpinet==2026.2.1.1",
+    "pyntcore==2026.2.1.1",
 ]
 
 [project.urls]

@@ -10,7 +10,7 @@ requires = [
 
 [project]
 name = "robotpy-wpiutil"
-version = "2026.2.1"
+version = "2026.2.1.1"
 description = "Binary wrapper for FRC WPIUtil library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
