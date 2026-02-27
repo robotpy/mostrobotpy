@@ -5,27 +5,27 @@ requires = [
     "hatch-meson~=0.1.0",
     "hatch-robotpy~=0.2.0",
     "hatchling",
-    "robotpy-native-wpilib==2026.2.1",
-    "robotpy-wpiutil==2026.2.1.1",
-    "robotpy-wpimath==2026.2.1.1",
-    "robotpy-hal==2026.2.1.1",
-    "pyntcore==2026.2.1.1",
+    "robotpy-native-wpilib==2026.2.2",
+    "robotpy-wpiutil==2026.2.2",
+    "robotpy-wpimath==2026.2.2",
+    "robotpy-hal==2026.2.2",
+    "pyntcore==2026.2.2",
 ]
 
 [project]
 name = "wpilib"
-version = "2026.2.1.1"
+version = "2026.2.2"
 description = "Binary wrapper for FRC WPILib"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpilib==2026.2.1",
-    "robotpy-wpiutil==2026.2.1.1",
-    "robotpy-wpimath==2026.2.1.1",
-    "robotpy-hal==2026.2.1.1",
-    "pyntcore==2026.2.1.1",
+    "robotpy-native-wpilib==2026.2.2",
+    "robotpy-wpiutil==2026.2.2",
+    "robotpy-wpimath==2026.2.2",
+    "robotpy-hal==2026.2.2",
+    "pyntcore==2026.2.2",
     "robotpy-cli~=2026.0.1"
 ]
 
