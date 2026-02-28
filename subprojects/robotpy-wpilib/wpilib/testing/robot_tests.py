@@ -12,7 +12,43 @@ To use these, add the following to a python file in your tests directory::
 
 import pytest
 
+import wpilib
+from hal._wpiHal import _RobotMode as RobotMode
+from hal._wpiHal import opMode_GetRobotMode
+from wpilib.simulation import DriverStationSim, stepTiming
+
 from .controller import RobotTestController
+
+
+def _step_timing_with_mode(
+    control: RobotTestController,
+    *,
+    seconds: float,
+    robot_mode: RobotMode,
+    enabled: bool,
+    assert_alive: bool = True,
+    record_opmode_ids: set[int] | None = None,
+) -> float:
+    """Step simulation time while explicitly setting the robot mode."""
+
+    assert control.robot_is_alive, "did you call control.run_robot()?"
+    assert seconds > 0
+
+    DriverStationSim.setDsAttached(True)
+    DriverStationSim.setRobotMode(robot_mode)
+    DriverStationSim.setEnabled(enabled)
+
+    tm = 0.0
+    while tm < seconds + 0.01:
+        DriverStationSim.notifyNewData()
+        stepTiming(0.2)
+        if record_opmode_ids is not None:
+            record_opmode_ids.add(wpilib.DriverStation.getOpModeId())
+        if assert_alive:
+            assert control.robot_is_alive
+        tm += 0.2
+
+    return tm
 
 
 def test_autonomous(control: RobotTestController):
@@ -72,3 +108,42 @@ def test_practice(control: RobotTestController):
 
         # Run teleop + enabled for 2 minutes
         control.step_timing(seconds=120, autonomous=False, enabled=True)
+
+
+@pytest.mark.filterwarnings("ignore")
+def test_all_opmodes(control: RobotTestController):
+    """Runs each registered opmode briefly."""
+
+    with control.run_robot():
+        opmodes = DriverStationSim.getOpModeOptions()
+        if len(opmodes) == 0:
+            pytest.skip("robot did not register opmodes")
+
+        selected = []
+        seen = set()
+        for opmode in reversed(opmodes):
+            mode = opMode_GetRobotMode(opmode.id)
+            if mode == RobotMode.UNKNOWN:
+                continue
+            key = (opmode.name, mode)
+            if key in seen:
+                continue
+            seen.add(key)
+            selected.append((opmode, mode))
+
+        for opmode, mode in reversed(selected):
+            DriverStationSim.setOpMode(opmode.id)
+
+            _step_timing_with_mode(control, seconds=0.5, robot_mode=mode, enabled=False)
+            opmode_ids = set()
+            _step_timing_with_mode(
+                control,
+                seconds=2.0,
+                robot_mode=mode,
+                enabled=True,
+                record_opmode_ids=opmode_ids,
+            )
+            _step_timing_with_mode(control, seconds=0.5, robot_mode=mode, enabled=False)
+            assert (
+                opmode.id in opmode_ids
+            ), f"opmode {opmode.name} ({opmode.id}) did not run"
