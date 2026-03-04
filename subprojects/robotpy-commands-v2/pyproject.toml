@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "robotpy-commands-v2"
-version = "0.0.0"
+version = "2027.0.0a3"
 description = "WPILib command framework v2"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "BSD-3-Clause"
 license-files = ["LICENSE"]
 dependencies = [
-    "wpilib==0.0.0",
+    "wpilib==2027.0.0a3",
     "typing_extensions>=4.1.0,<5",
 ]
 
