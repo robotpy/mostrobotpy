@@ -19,24 +19,6 @@ classes:
           std::string_view, int:
           std::string_view, std::string_view:
           const cs::VideoSource&:
-      AddAxisCamera:
-        overloads:
-          std::string_view:
-          const char*:
-            ignore: true
-          const std::string&:
-            ignore: true
-          std::span<const std::string>:
-          std::initializer_list<T>:
-            ignore: true
-          std::string_view, std::string_view:
-          std::string_view, const char*:
-            ignore: true
-          std::string_view, const std::string&:
-            ignore: true
-          std::string_view, std::span<const std::string>:
-          std::string_view, std::initializer_list<T>:
-            ignore: true
       AddSwitchedCamera:
       GetVideo:
         overloads:

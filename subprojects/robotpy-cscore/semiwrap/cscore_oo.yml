@@ -113,17 +113,6 @@ classes:
           std::initializer_list<T>:
             ignore: true
       GetUrls:
-  wpi::cs::AxisCamera:
-    force_no_trampoline: true
-    methods:
-      AxisCamera:
-        overloads:
-          std::string_view, std::string_view:
-          std::string_view, const char*:
-          std::string_view, const std::string&:
-          std::string_view, std::span<const std::string>:
-          std::string_view, std::initializer_list<T>:
-            ignore: true
   wpi::cs::ImageSource:
     force_no_trampoline: true
     methods:
