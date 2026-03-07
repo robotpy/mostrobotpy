@@ -1,0 +1,27 @@
+classes:
+  wpi::cs::VideoMode:
+    force_no_trampoline: true
+    attributes:
+      pixelFormat:
+      width:
+      height:
+      fps:
+    enums:
+      PixelFormat:
+    methods:
+      VideoMode:
+        overloads:
+          "":
+          PixelFormat, int, int, int:
+          wpi::util::PixelFormat, int, int, int:
+          const CS_VideoMode&:
+            ignore: true
+      operator==:
+      operator!=:
+      CompareWithoutFps:
+    inline_code: |
+      .def_readwrite("pixelFormat", &VideoMode::pixelFormat)
+      .def_readwrite("width", &VideoMode::width)
+      .def_readwrite("height", &VideoMode::height)
+      .def_readwrite("fps", &VideoMode::fps)
+  

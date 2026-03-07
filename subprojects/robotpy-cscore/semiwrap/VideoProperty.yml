@@ -1,0 +1,27 @@
+classes:
+  wpi::cs::VideoProperty:
+    enums:
+      Kind:
+    methods:
+      VideoProperty:
+        overloads:
+          "":
+      GetName:
+      GetKind:
+      IsBoolean:
+      IsInteger:
+      IsString:
+      IsEnum:
+      Get:
+      Set:
+      GetMin:
+      GetMax:
+      GetStep:
+      GetDefault:
+      GetString:
+        overloads:
+          '[const]':
+          wpi::util::SmallVectorImpl<char>& [const]:
+      SetString:
+      GetChoices:
+      GetLastStatus:

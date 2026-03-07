@@ -1,0 +1,18 @@
+classes:
+  wpi::cs::VideoCamera:
+    force_no_trampoline: true
+    enums:
+      WhiteBalance:
+    methods:
+      VideoCamera:
+        overloads:
+          "":
+          CS_Source:
+      SetBrightness:
+      GetBrightness:
+      SetWhiteBalanceAuto:
+      SetWhiteBalanceHoldCurrent:
+      SetWhiteBalanceManual:
+      SetExposureAuto:
+      SetExposureHoldCurrent:
+      SetExposureManual:

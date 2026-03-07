@@ -108,9 +108,24 @@ CameraServer = "wpi/cameraserver/CameraServer.hpp"
 
 # cscore
 cscore_cpp = "wpi/cs/cscore_cpp.hpp"
-cscore_oo = "wpi/cs/cscore_oo.hpp"
-cscore_cv = "wpi/cs/cscore_cv.hpp"
 cscore_runloop = "wpi/cs/cscore_runloop.hpp"
+
+CvSink = "wpi/cs/CvSink.hpp"
+CvSource = "wpi/cs/CvSource.hpp"
+HttpCamera = "wpi/cs/HttpCamera.hpp"
+ImageSink = "wpi/cs/ImageSink.hpp"
+ImageSource = "wpi/cs/ImageSource.hpp"
+MjpegServer = "wpi/cs/MjpegServer.hpp"
+RawEvent = "wpi/cs/RawEvent.hpp"
+UsbCamera = "wpi/cs/UsbCamera.hpp"
+UsbCameraInfo = "wpi/cs/UsbCameraInfo.hpp"
+VideoCamera = "wpi/cs/VideoCamera.hpp"
+VideoEvent = "wpi/cs/VideoEvent.hpp"
+VideoListener = "wpi/cs/VideoListener.hpp"
+VideoMode = "wpi/cs/VideoMode.hpp"
+VideoProperty = "wpi/cs/VideoProperty.hpp"
+VideoSink = "wpi/cs/VideoSink.hpp"
+VideoSource = "wpi/cs/VideoSource.hpp"
 
 [tool.semiwrap.export_type_casters.cscore-casters]
 pypackage = "cscore"
