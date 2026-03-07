@@ -9,7 +9,7 @@ import commands2
 from subsystems.drivesubsystem import DriveSubsystem
 
 
-class HalveDriveSpeed(commands2.Command):
+class HalveDriveVelocity(commands2.Command):
     def __init__(self, drive: DriveSubsystem) -> None:
         self.drive = drive
 

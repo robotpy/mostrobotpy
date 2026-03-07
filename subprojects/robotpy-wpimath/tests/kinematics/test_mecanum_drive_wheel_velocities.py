@@ -1,16 +1,16 @@
 import pytest
 
-from wpimath import MecanumDriveWheelSpeeds
+from wpimath import MecanumDriveWheelVelocities
 
 
 def test_plus():
-    left = MecanumDriveWheelSpeeds(
+    left = MecanumDriveWheelVelocities(
         frontLeft=1.0,
         frontRight=0.5,
         rearLeft=2.0,
         rearRight=1.5,
     )
-    right = MecanumDriveWheelSpeeds(
+    right = MecanumDriveWheelVelocities(
         frontLeft=2.0,
         frontRight=1.5,
         rearLeft=0.5,
@@ -26,13 +26,13 @@ def test_plus():
 
 
 def test_minus():
-    left = MecanumDriveWheelSpeeds(
+    left = MecanumDriveWheelVelocities(
         frontLeft=1.0,
         frontRight=0.5,
         rearLeft=2.0,
         rearRight=1.5,
     )
-    right = MecanumDriveWheelSpeeds(
+    right = MecanumDriveWheelVelocities(
         frontLeft=2.0,
         frontRight=1.5,
         rearLeft=0.5,
@@ -48,14 +48,14 @@ def test_minus():
 
 
 def test_unary_minus():
-    speeds = MecanumDriveWheelSpeeds(
+    velocities = MecanumDriveWheelVelocities(
         frontLeft=1.0,
         frontRight=0.5,
         rearLeft=2.0,
         rearRight=1.5,
     )
 
-    result = -speeds
+    result = -velocities
 
     assert result.frontLeft == -1.0
     assert result.frontRight == -0.5
@@ -64,14 +64,14 @@ def test_unary_minus():
 
 
 def test_multiplication():
-    speeds = MecanumDriveWheelSpeeds(
+    velocities = MecanumDriveWheelVelocities(
         frontLeft=1.0,
         frontRight=0.5,
         rearLeft=2.0,
         rearRight=1.5,
     )
 
-    result = speeds * 2
+    result = velocities * 2
 
     assert result.frontLeft == 2.0
     assert result.frontRight == 1.0
@@ -80,14 +80,14 @@ def test_multiplication():
 
 
 def test_division():
-    speeds = MecanumDriveWheelSpeeds(
+    velocities = MecanumDriveWheelVelocities(
         frontLeft=1.0,
         frontRight=0.5,
         rearLeft=2.0,
         rearRight=1.5,
     )
 
-    result = speeds / 2
+    result = velocities / 2
 
     assert result.frontLeft == 0.5
     assert result.frontRight == 0.25

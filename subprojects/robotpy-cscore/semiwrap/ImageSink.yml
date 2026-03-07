@@ -1,0 +1,9 @@
+
+classes:
+  wpi::cs::ImageSink:
+    force_no_trampoline: true
+    methods:
+      SetDescription:
+      GetError:
+      SetEnabled:
+      ImageSink:
