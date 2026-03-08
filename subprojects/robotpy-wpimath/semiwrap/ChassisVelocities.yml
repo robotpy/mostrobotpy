@@ -2,7 +2,7 @@ extra_includes:
 - wpystruct.h
 
 classes:
-  wpi::math::ChassisSpeeds:
+  wpi::math::ChassisVelocities:
     force_no_default_constructor: true
     attributes:
       vx:
@@ -13,11 +13,11 @@ classes:
       Discretize:
         overloads:
           wpi::units::meters_per_second_t, wpi::units::meters_per_second_t, wpi::units::radians_per_second_t, wpi::units::second_t:
-          const ChassisSpeeds&, wpi::units::second_t:
+          const ChassisVelocities&, wpi::units::second_t:
       operator+:
       operator-:
         overloads:
-          const ChassisSpeeds& [const]:
+          const ChassisVelocities& [const]:
           '[const]':
       operator*:
       operator/:
@@ -26,7 +26,7 @@ classes:
       ToFieldRelative:
 
 inline_code: |
-  cls_ChassisSpeeds
+  cls_ChassisVelocities
     .def(
       py::init<
         wpi::units::meters_per_second_t, wpi::units::meters_per_second_t,
@@ -35,34 +35,34 @@ inline_code: |
       py::arg("vx") = 0, py::arg("vy") = 0, py::arg("omega") = 0
     )
     .def_static("fromFeet", [](wpi::units::feet_per_second_t vx, wpi::units::feet_per_second_t vy, wpi::units::radians_per_second_t omega){
-      return ChassisSpeeds{vx, vy, omega};
+      return ChassisVelocities{vx, vy, omega};
     }, py::arg("vx") = 0, py::arg("vy") = 0, py::arg("omega") = 0)
     .def_property("vx_fps",
-      [](ChassisSpeeds * self) -> wpi::units::feet_per_second_t {
+      [](ChassisVelocities * self) -> wpi::units::feet_per_second_t {
         return self->vx;
       },
-      [](ChassisSpeeds * self, wpi::units::feet_per_second_t vx) {
+      [](ChassisVelocities * self, wpi::units::feet_per_second_t vx) {
         self->vx = vx;
       }
     )
     .def_property("vy_fps", 
-      [](ChassisSpeeds * self) -> wpi::units::feet_per_second_t {
+      [](ChassisVelocities * self) -> wpi::units::feet_per_second_t {
         return self->vy;
       },
-      [](ChassisSpeeds * self, wpi::units::feet_per_second_t vy) {
+      [](ChassisVelocities * self, wpi::units::feet_per_second_t vy) {
         self->vy = vy;
       }
     )
     .def_property("omega_dps", 
-      [](ChassisSpeeds * self) -> wpi::units::degrees_per_second_t {
+      [](ChassisVelocities * self) -> wpi::units::degrees_per_second_t {
         return self->omega;
       },
-      [](ChassisSpeeds * self, wpi::units::degrees_per_second_t omega) {
+      [](ChassisVelocities * self, wpi::units::degrees_per_second_t omega) {
         self->omega = omega;
       }
     )
-    .def("__len__", [](const ChassisSpeeds &self) { return 3; })
-    .def("__getitem__", [](const ChassisSpeeds &self, int index) {
+    .def("__len__", [](const ChassisVelocities &self) { return 3; })
+    .def("__getitem__", [](const ChassisVelocities &self, int index) {
       switch (index) {
         case 0:
           return self.vx();
@@ -71,14 +71,14 @@ inline_code: |
         case 2:
           return self.omega();
         default:
-          throw std::out_of_range("ChassisSpeeds index out of range");
+          throw std::out_of_range("ChassisVelocities index out of range");
       }
     })
-    .def("__repr__", [](const ChassisSpeeds &cs) -> std::string {
-      return "ChassisSpeeds(vx=" + std::to_string(cs.vx()) + ", "
+    .def("__repr__", [](const ChassisVelocities &cs) -> std::string {
+      return "ChassisVelocities(vx=" + std::to_string(cs.vx()) + ", "
                            "vy=" + std::to_string(cs.vy()) + ", "
                            "omega=" + std::to_string(cs.omega()) + ")";
     })
   ;
 
-  SetupWPyStruct<wpi::math::ChassisSpeeds>(cls_ChassisSpeeds);
+  SetupWPyStruct<wpi::math::ChassisVelocities>(cls_ChassisVelocities);

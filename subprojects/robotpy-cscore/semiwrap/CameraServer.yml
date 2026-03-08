@@ -24,7 +24,9 @@ classes:
         overloads:
           "":
           const cs::VideoSource&:
+          const cs::VideoSource&, wpi::util::PixelFormat:
           std::string_view:
+          std::string_view, wpi::util::PixelFormat:
       PutVideo:
       AddServer:
         overloads:

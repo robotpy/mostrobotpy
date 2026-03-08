@@ -1,0 +1,9 @@
+classes:
+  wpi::cs::UsbCameraInfo:
+    attributes:
+      dev:
+      path:
+      name:
+      otherPaths:
+      vendorId:
+      productId:
