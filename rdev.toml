@@ -11,19 +11,19 @@
 [py_versions]
 
 # Usually the same as wpilib_bin_version
-native = "2026.2.1"
+native = "2026.2.2"
 
 # Will eventually sync with native
-halsim_native = "2026.2.1"
+halsim_native = "2026.2.2"
 
 # Usually similar to native, but subminor version is bumped for bugfixes
 # - ./rdev.sh ci check_tag will fail if this doesn't match current tag
-wrapper = "2026.2.1.1"
+wrapper = "2026.2.2"
 
 [params]
 
 wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
-wpilib_bin_version = "2026.2.1"
+wpilib_bin_version = "2026.2.2"
 #wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development"
 
 # Don't update these maven artifacts

@@ -7,15 +7,15 @@ requires = [
 
 [project]
 name = "robotpy-halsim-ds-socket"
-version = "2026.2.1"
+version = "2026.2.2"
 description = "WPILib simulator DS Socket Extension"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpihal==2026.2.1",
-    "robotpy-native-wpinet==2026.2.1",
+    "robotpy-native-wpihal==2026.2.2",
+    "robotpy-native-wpinet==2026.2.2",
 ]
 
 [project.entry-points."robotpy_sim.2026"]
@@ -29,7 +29,7 @@ version_file = "halsim_ds_socket/version.py"
 artifact_id = "halsim_ds_socket"
 group_id = "edu.wpi.first.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2026.2.1"
+version = "2026.2.2"
 use_headers = false
 
 extract_to = "halsim_ds_socket"
