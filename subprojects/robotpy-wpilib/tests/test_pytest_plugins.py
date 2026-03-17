@@ -7,6 +7,7 @@ import pytest
 def _make_robot_module(pytester):
     pytester.makepyfile(robot_module="""
 import wpilib
+from hal import RobotMode
 
 
 class DummyRobot(wpilib.TimedRobot):
@@ -50,6 +51,42 @@ class IterativeStateRobot(wpilib.TimedRobot):
     def teleopPeriodic(self):
         self.did_teleop_periodic = True
 
+
+class OpModeAuto(wpilib.OpMode):
+    label = "OpModeAuto"
+
+    def __init__(self, robot):
+        super().__init__()
+        self._robot = robot
+
+    def opModeRun(self, op_mode_id: int):
+        self._robot.opmode_test_observed.add(self.label)
+
+    def opModeStop(self):
+        pass
+
+
+class OpModeTeleop(wpilib.OpMode):
+    label = "OpModeTeleop"
+
+    def __init__(self, robot):
+        super().__init__()
+        self._robot = robot
+
+    def opModeRun(self, op_mode_id: int):
+        self._robot.opmode_test_observed.add(self.label)
+
+    def opModeStop(self):
+        pass
+
+
+class OpModeDemoRobot(wpilib.OpModeRobot):
+    def __init__(self):
+        super().__init__()
+        self.opmode_test_observed = set()
+        self.addOpMode(OpModeAuto, RobotMode.AUTONOMOUS, "OpModeAuto")
+        self.addOpMode(OpModeTeleop, RobotMode.TELEOPERATED, "OpModeTeleop")
+        self.publishOpModes()
 """)
 
 
@@ -295,7 +332,42 @@ def test_builtin_tests_module(pytester, isolated):
 
     result = pytester.runpytest_subprocess("-q")
 
-    result.assert_outcomes(passed=4)
+    result.assert_outcomes(passed=4, skipped=1)
+
+
+@pytest.mark.parametrize("isolated", [False, True])
+def test_builtin_tests_module_opmode(pytester, isolated):
+    _make_robot_module(pytester)
+    if isolated:
+        _configure_isolated_plugin(pytester, robot_class="OpModeDemoRobot")
+    else:
+        _configure_robot_testing_plugin(pytester, robot_class="OpModeDemoRobot")
+    pytester.makepyfile(pyfrc_test="from wpilib.testing.robot_tests import *\n")
+
+    result = pytester.runpytest_subprocess("-q")
+
+    result.assert_outcomes(passed=5)
+
+
+@pytest.mark.parametrize("isolated", [False, True])
+def test_opmode_robot_runs_opmodes(pytester, isolated):
+    _make_robot_module(pytester)
+    if isolated:
+        _configure_isolated_plugin(pytester, robot_class="OpModeDemoRobot")
+    else:
+        _configure_robot_testing_plugin(pytester, robot_class="OpModeDemoRobot")
+    pytester.makepyfile(test_robot="""
+from wpilib.testing.robot_tests import test_all_opmodes
+
+
+def test_opmodes_run(robot, control):
+    test_all_opmodes(control)
+    assert robot.opmode_test_observed == {"OpModeAuto", "OpModeTeleop"}
+""")
+
+    result = pytester.runpytest_subprocess("-q")
+
+    result.assert_outcomes(passed=2)
 
 
 def _run_robot_suite(pytester, isolated, robot_class, test_source, *args):
