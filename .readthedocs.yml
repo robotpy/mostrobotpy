@@ -4,13 +4,13 @@ sphinx:
   configuration: docs/conf.py
 
 build:
-  os: ubuntu-22.04
+  os: ubuntu-24.04
   tools:
-    python: "3.11"
+    python: "3.14"
   jobs:
     post_install:
     - python -m robotpy_sphinx.download_and_install robotpy mostrobotpy main dist pypi-other-Linux-X64
-    - python -m robotpy_sphinx.download_and_install robotpy mostrobotpy main dist pypi-meson-Linux-X64-3.11
+    - python -m robotpy_sphinx.download_and_install robotpy mostrobotpy main dist pypi-meson-Linux-X64-3.14
     - python -m robotpy_sphinx.download_and_install robotpy mostrobotpy main dist pypi-pure
     post_build:
     - mkdir --parents _readthedocs/htmlzip
