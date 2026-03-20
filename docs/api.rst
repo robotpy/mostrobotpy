@@ -8,12 +8,7 @@ WPILib API
 
   wpilib
   wpilib.cameraserver
-  wpilib.counter
   wpilib.deployinfo
-  wpilib.drive
-  wpilib.event
-  wpilib.interfaces
-  wpilib.shuffleboard
   wpilib.simulation
   wpilib.sysid
 
@@ -62,22 +57,17 @@ tailored to the needs of robotics applications.
   :maxdepth: 1
 
   wpimath
-  wpimath.controller
-  wpimath.estimator
-  wpimath.filter
-  wpimath.geometry
-  wpimath.interpolation
-  wpimath.kinematics
-  wpimath.optimization
-  wpimath.path
-  wpimath.spline
-  wpimath.system
-  wpimath.system.plant
-  wpimath.trajectory
-  wpimath.trajectory.constraint
   wpimath.units
 
 .. _wpinet_api:
+
+WPILog API
+----------
+
+.. toctree::
+  :maxdepth: 1
+
+  wpilog
 
 WPINet API
 ------------
@@ -105,7 +95,6 @@ of things in it.
   :maxdepth: 1
 
   wpiutil
-  wpiutil.log
   wpiutil.sync
   wpiutil.wpistruct
 

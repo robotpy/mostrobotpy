@@ -75,12 +75,14 @@ gen_package(root, "robotpy_apriltag")
 # WPIMath
 gen_package(root, "wpimath")
 
+# WPILog
+gen_package(root, "wpilog")
+
 # WPINet
 gen_package(root, "wpinet")
 
 # WPIUtil
 gen_package(root, "wpiutil")
-gen_package(root, "wpiutil.log")
 gen_package(root, "wpiutil.sync")
 gen_package(root, "wpiutil.wpistruct")
 
