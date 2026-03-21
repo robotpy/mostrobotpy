@@ -11,6 +11,7 @@ WPILib API
   wpilib.deployinfo
   wpilib.simulation
   wpilib.sysid
+  wpilib.testing
 
 .. _ntcore_api:
 
