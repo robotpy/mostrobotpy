@@ -175,7 +175,9 @@ class Subproject:
     }
 
     def _fix_wheel_name(self, wheel_path: pathlib.Path) -> str:
-        if sys.platform == "linux":
+        if self.ctx.is_robot:
+            name = wheel_path.name
+        elif sys.platform == "linux":
             name = self._fix_linux_wheel_name(wheel_path)
         else:
             name = wheel_path.name
