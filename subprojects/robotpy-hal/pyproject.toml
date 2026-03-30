@@ -4,23 +4,23 @@ requires = [
     "semiwrap~=0.3.0",
     "hatch-meson~=0.1.0",
     "hatchling",
-    "pyntcore==2027.0.0a4",
-    "robotpy-native-wpihal==2027.0.0a4",
-    "robotpy-wpiutil==2027.0.0a4",
+    "pyntcore==0.0.0",
+    "robotpy-native-wpihal==0.0.0",
+    "robotpy-wpiutil==0.0.0",
 ]
 
 [project]
 name = "robotpy-hal"
-version = "2027.0.0a4"
-description = "Binary wrapper for FRC HAL"
+version = "0.0.0"
+description = "Binary wrapper for WPILib HAL"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "pyntcore==2027.0.0a4",
-    "robotpy-native-wpihal==2027.0.0a4",
-    "robotpy-wpiutil==2027.0.0a4",
+    "pyntcore==0.0.0",
+    "robotpy-native-wpihal==0.0.0",
+    "robotpy-wpiutil==0.0.0",
 ]
 
 [project.urls]
@@ -68,7 +68,7 @@ DriverStation = "wpi/hal/DriverStation.hpp"
 DriverStationTypes_c = "wpi/hal/DriverStationTypes.h"
 DriverStationTypes = "wpi/hal/DriverStationTypes.hpp"
 Extensions = "wpi/hal/Extensions.h"
-HALBase = "wpi/hal/HALBase.h"
+HAL = "wpi/hal/HAL.h"
 Main = "wpi/hal/Main.h"
 Notifier_c = "wpi/hal/Notifier.h"
 Notifier = "wpi/hal/Notifier.hpp"
