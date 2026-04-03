@@ -110,7 +110,7 @@ class TestAddressableLEDBufferView:
     def test_single_led(self):
         """Test setting a single LED through a view"""
         buffer = AddressableLEDBuffer(10)
-        view = buffer.createView(5, 5)
+        view = buffer[5:6]
         color = Color.kAqua
         view.setLED(0, color)
         assert buffer.getLED(5) == color
@@ -119,7 +119,7 @@ class TestAddressableLEDBufferView:
     def test_segment(self):
         """Test segment view"""
         buffer = AddressableLEDBuffer(10)
-        view = buffer.createView(2, 8)
+        view = buffer[2:9]
         view.setLED(0, Color.kAqua)
         assert buffer.getLED(2) == Color.kAqua
 
@@ -130,7 +130,7 @@ class TestAddressableLEDBufferView:
     def test_manual_reversed(self):
         """Test manually reversed view"""
         buffer = AddressableLEDBuffer(10)
-        view = buffer.createView(8, 2)
+        view = buffer[8:1:-1]
 
         # LED 0 in the view should write to LED 8 on the real buffer
         view.setLED(0, Color.kAqua)
@@ -144,7 +144,7 @@ class TestAddressableLEDBufferView:
     def test_full_manual_reversed(self):
         """Test full manual reversed view"""
         buffer = AddressableLEDBuffer(10)
-        view = buffer.createView(9, 0)
+        view = buffer[9::-1]
         view.setLED(0, Color.kWhite)
         assert buffer.getLED(9) == Color.kWhite
 
@@ -155,7 +155,7 @@ class TestAddressableLEDBufferView:
     def test_reversed(self):
         """Test reversed view"""
         buffer = AddressableLEDBuffer(10)
-        view = buffer.createView(0, 9).reversed()
+        view = buffer[:].reversed()
         view.setLED(0, Color.kWhite)
         assert buffer.getLED(9) == Color.kWhite
 

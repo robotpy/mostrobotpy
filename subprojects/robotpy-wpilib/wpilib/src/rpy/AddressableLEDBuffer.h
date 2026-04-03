@@ -322,19 +322,11 @@ class AddressableLEDBuffer {
   /**
    * Creates a read/write view of this buffer.
    *
-   * @param start the starting index (inclusive)
-   * @param end the ending index (exclusive)
+   * @param slice the desired slice of the buffer (e.g. 2:4), step must be unspecified or 1
    * @return View object representing the view
    * @throws std::out_of_range if the view would exceed buffer bounds
    */
-  View CreateView(size_t start, size_t end) {
-    if (start >= m_buffer.size() || end >= m_buffer.size()) {
-      throw std::out_of_range("View range out of bounds");
-    }
-    return View(std::span(m_buffer).subspan(start, end - start));
-  }
-
-  View operator[](pybind11::slice slice) {
+  View CreateView(pybind11::slice slice) {
     ssize_t start = 0, stop = 0, step = 0, slicelength = 0;
     slice.compute(m_buffer.size(), &start, &stop, &step, &slicelength);
     if (step != 1) {

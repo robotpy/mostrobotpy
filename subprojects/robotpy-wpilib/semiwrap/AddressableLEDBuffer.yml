@@ -22,6 +22,7 @@ classes:
       end:
         ignore: true
       CreateView:
+        rename: __getitem__
         keepalive:
         - [0, 1]
     inline_code: |
