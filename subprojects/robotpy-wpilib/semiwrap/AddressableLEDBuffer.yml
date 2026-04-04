@@ -1,0 +1,57 @@
+classes:
+  frc::AddressableLEDBuffer:
+    methods:
+      AddressableLEDBuffer:
+      SetRGB:
+      SetHSV:
+      SetLED:
+        overloads:
+          size_t, const frc::Color&:
+          size_t, const frc::Color8Bit&:
+      size:
+        rename: __len__
+      GetRed:
+      GetGreen:
+      GetBlue:
+      GetLED:
+      GetLED8Bit:
+      at:
+        rename: __getitem__
+      begin:
+        ignore: true
+      end:
+        ignore: true
+      CreateView:
+        rename: __getitem__
+        keepalive:
+        - [0, 1]
+    inline_code: |
+      .def("__iter__", [](frc::AddressableLEDBuffer& self) {
+        return py::make_iterator(self.begin(), self.end());
+      }, py::keep_alive<0, 1>())
+  frc::AddressableLEDBuffer::View:
+    methods:
+      size:
+        rename: __len__
+      SetRGB:
+      SetHSV:
+      SetLED:
+        overloads:
+          size_t, const frc::Color&:
+          size_t, const frc::Color8Bit&:
+      at:
+        rename: __getitem__
+        overloads:
+          size_t:
+          size_t [const]:
+            ignore: true
+      begin:
+        ignore: true
+      end:
+        ignore: true
+      GetLED:
+      GetLED8Bit:
+    inline_code: |
+      .def("__iter__", [](frc::AddressableLEDBuffer::View& self) {
+        return py::make_iterator(self.begin(), self.end());
+      }, py::keep_alive<0, 1>())
