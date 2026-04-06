@@ -18,11 +18,7 @@ def group_name(request):
 
 
 def get_active_alerts(level: Alert.Level) -> T.List[str]:
-    return [
-        a.text
-        for a in AlertSim.getAll()
-        if a.level == level and a.isActive()
-    ]
+    return [a.text for a in AlertSim.getAll() if a.level == level and a.isActive()]
 
 
 def is_alert_active(text: str, level: Alert.Level):
