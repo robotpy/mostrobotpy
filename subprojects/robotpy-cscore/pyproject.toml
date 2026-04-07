@@ -2,7 +2,7 @@
 build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.3.0",
-    "hatch-meson~=0.1.0",
+    "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
     "robotpy-wpiutil==2027.0.0a4",
@@ -43,8 +43,8 @@ version_file = "cscore/version.py"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cscore-cpp"
 group_id = "org.wpilib.cscore"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
-version = "2027.0.0-alpha-4"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-4-71-gdfc8098b9"
 
 staticlibs = ["cscore"]
 extract_to = "lib"
@@ -52,8 +52,8 @@ extract_to = "lib"
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "cameraserver-cpp"
 group_id = "org.wpilib.cameraserver"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
-version = "2027.0.0-alpha-4"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-4-71-gdfc8098b9"
 
 staticlibs = ["cameraserver"]
 extract_to = "lib"

@@ -301,7 +301,7 @@ jobs:
         fetch-depth: 0
 
     - name: Setup cross environment for meson
-      uses: robotpy/build-actions/setup-cross-meson@v2025
+      uses: robotpy/build-actions/setup-cross-meson@v2027
 
     - name: Install deps
       shell: bash
@@ -343,7 +343,7 @@ jobs:
         path: dist-other
 
     - name: Setup cross environment for meson
-      uses: robotpy/build-actions/setup-cross-meson@v2025
+      uses: robotpy/build-actions/setup-cross-meson@v2027
 
     - run: apt-get update
     - name: Setup ccache
