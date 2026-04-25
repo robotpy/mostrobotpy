@@ -3,7 +3,7 @@ import threading
 from wpilib import simulation as wsim
 from wpimath.units import seconds
 from wpilib.opmoderobot import OpModeRobot
-from wpilib import OpMode, DriverStation
+from wpilib import OpMode, RobotState
 from hal._wpiHal import RobotMode
 from wpiutil import Color
 
@@ -55,7 +55,7 @@ def sim_timing_setup():
     wsim.setProgramStarted(False)
     yield
     wsim.resumeTiming()
-    DriverStation.clearOpModes()
+    RobotState.clearOpModes()
 
 
 def test_add_op_mode():
@@ -73,8 +73,8 @@ def test_add_op_mode():
             )
             self.addOpMode(
                 OneArgOpMode,
-                RobotMode.TEST,
-                "OneArgOpMode-Test",
+                RobotMode.UTILITY,
+                "OneArgOpMode-Utility",
                 "Group",
                 "Description",
                 Color.WHITE,
@@ -146,6 +146,7 @@ def test_none_periodic():
     robot = MyMockRobot()
 
     robot_thread = threading.Thread(target=robot.startCompetition)
+    robot_thread.daemon = True  # Make thread daemon so it doesn't block test exit
     robot_thread.start()
 
     wsim.waitForProgramStart()
@@ -155,4 +156,4 @@ def test_none_periodic():
     assert robot.none_periodic_count == 2
 
     robot.endCompetition()
-    robot_thread.join()
+    robot_thread.join(timeout=1.0)  # Add timeout to prevent hanging
