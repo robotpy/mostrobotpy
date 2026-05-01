@@ -11,14 +11,14 @@
 [py_versions]
 
 # Usually the same as wpilib_bin_version
-native = "2027.0.0a4"
+native = "2027.0.0a5"
 
 # Will eventually sync with native
-halsim_native = "2027.0.0a4"
+halsim_native = "2027.0.0a5"
 
 # Usually similar to native, but subminor version is bumped for bugfixes
 # - ./rdev.sh ci check_tag will fail if this doesn't match current tag
-wrapper = "2027.0.0a4"
+wrapper = "2027.0.0a5"
 
 [params]
 

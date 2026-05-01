@@ -8,7 +8,7 @@ requires = [
 
 [project]
 name = "robotpy-native-wpiutil"
-version = "2027.0.0a4"
+version = "2027.0.0a5"
 description = "WPILib Utility Library"
 license = "BSD-3-Clause"
 
