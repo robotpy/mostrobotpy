@@ -5,25 +5,25 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-wpiutil==2027.0.0a5",
-    "robotpy-wpimath==2027.0.0a5",
-    "robotpy-hal==2027.0.0a5",
-    "pyntcore==2027.0.0a5",
+    "robotpy-wpiutil==2027.0.0a5.post1",
+    "robotpy-wpimath==2027.0.0a5.post1",
+    "robotpy-hal==2027.0.0a5.post1",
+    "pyntcore==2027.0.0a5.post1",
 ]
 
 [project]
 name = "robotpy-halsim-gui"
-version = "2027.0.0a5"
+version = "2027.0.0a5.post1"
 description = "WPILib simulation GUI"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-wpiutil==2027.0.0a5",
-    "robotpy-wpimath==2027.0.0a5",
-    "robotpy-hal==2027.0.0a5",
-    "pyntcore==2027.0.0a5",
+    "robotpy-wpiutil==2027.0.0a5.post1",
+    "robotpy-wpimath==2027.0.0a5.post1",
+    "robotpy-hal==2027.0.0a5.post1",
+    "pyntcore==2027.0.0a5.post1",
 ]
 
 [project.urls]

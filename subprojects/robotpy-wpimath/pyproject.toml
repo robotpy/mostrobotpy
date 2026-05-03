@@ -6,13 +6,13 @@ requires = [
     "hatch-robotpy~=0.2.1",
     "hatchling",
     "robotpy-native-wpimath==2027.0.0a5",
-    "robotpy-wpiutil==2027.0.0a5",
+    "robotpy-wpiutil==2027.0.0a5.post1",
     # "numpy", # broken in raspbian CI
 ]
 
 [project]
 name = "robotpy-wpimath"
-version = "2027.0.0a5"
+version = "2027.0.0a5.post1"
 description = "Binary wrapper for WPILib Math library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
@@ -20,7 +20,7 @@ authors = [
 license = "BSD-3-Clause"
 dependencies = [
     "robotpy-native-wpimath==2027.0.0a5",
-    "robotpy-wpiutil==2027.0.0a5",
+    "robotpy-wpiutil==2027.0.0a5.post1",
 ]
 
 [project.urls]

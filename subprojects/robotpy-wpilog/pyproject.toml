@@ -5,12 +5,12 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatchling",
     "robotpy-native-datalog==2027.0.0a5",
-    "robotpy-wpiutil==2027.0.0a5"
+    "robotpy-wpiutil==2027.0.0a5.post1"
 ]
 
 [project]
 name = "robotpy-wpilog"
-version = "2027.0.0a5"
+version = "2027.0.0a5.post1"
 description = "Binary wrapper for WPILib logging library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
@@ -18,7 +18,7 @@ authors = [
 license = "BSD-3-Clause"
 dependencies = [
     "robotpy-native-datalog==2027.0.0a5",
-    "robotpy-wpiutil==2027.0.0a5"
+    "robotpy-wpiutil==2027.0.0a5.post1"
 ]
 
 [project.urls]

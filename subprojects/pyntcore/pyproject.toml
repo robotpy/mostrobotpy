@@ -6,15 +6,15 @@ requires = [
     "hatch-robotpy~=0.2.1",
     "hatchling",
     "robotpy-native-ntcore==2027.0.0a5",
-    "robotpy-wpiutil==2027.0.0a5",
-    "robotpy-wpinet==2027.0.0a5",
-    "robotpy-wpilog==2027.0.0a5",
+    "robotpy-wpiutil==2027.0.0a5.post1",
+    "robotpy-wpinet==2027.0.0a5.post1",
+    "robotpy-wpilog==2027.0.0a5.post1",
 ]
 
 
 [project]
 name = "pyntcore"
-version = "2027.0.0a5"
+version = "2027.0.0a5.post1"
 description = "Binary wrappers for the FIRST ntcore library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
@@ -22,9 +22,9 @@ authors = [
 license = "BSD-3-Clause"
 dependencies = [
     "robotpy-native-ntcore==2027.0.0a5",
-    "robotpy-wpiutil==2027.0.0a5",
-    "robotpy-wpinet==2027.0.0a5",
-    "robotpy-wpilog==2027.0.0a5",
+    "robotpy-wpiutil==2027.0.0a5.post1",
+    "robotpy-wpinet==2027.0.0a5.post1",
+    "robotpy-wpilog==2027.0.0a5.post1",
 ]
 
 [project.urls]
