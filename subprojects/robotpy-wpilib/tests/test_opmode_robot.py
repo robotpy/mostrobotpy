@@ -1,9 +1,10 @@
+import importlib
 import pytest
 import threading
 from wpilib import simulation as wsim
 from wpimath.units import seconds
-from wpilib.opmoderobot import OpModeRobot
-from wpilib import OpMode, RobotState
+from wpilib.opmoderobot import OpModeRobot, autonomous, teleop, utility
+from wpilib import OpMode, RobotState, autonomous as top_level_autonomous
 from hal._wpiHal import RobotMode
 from wpiutil import Color
 
@@ -60,6 +61,45 @@ def sim_timing_setup():
     yield
     wsim.resumeTiming()
     RobotState.clearOpModes()
+
+
+def test_opmode_decorators_attach_metadata():
+    @autonomous(group="Drive", description="Auto desc")
+    class AutoMode(OpMode):
+        pass
+
+    metadata = AutoMode.__wpilib_opmode_metadata__
+    assert metadata.mode == RobotMode.AUTONOMOUS
+    assert metadata.name == "AutoMode"
+    assert metadata.group == "Drive"
+    assert metadata.description == "Auto desc"
+
+
+def test_opmode_decorator_rejects_multiple_modes():
+    with pytest.raises(ValueError, match="multiple opmode decorators"):
+
+        @teleop
+        @autonomous
+        class BadMode(OpMode):
+            pass
+
+
+def test_opmode_decorator_preserves_explicit_metadata():
+    @utility(
+        name="Arm Test",
+        group="Mechanisms",
+        description="tests arm",
+        textColor=Color.WHITE,
+        backgroundColor=Color.BLACK,
+    )
+    class UtilityMode(OpMode):
+        pass
+
+    metadata = UtilityMode.__wpilib_opmode_metadata__
+    assert metadata.name == "Arm Test"
+    assert metadata.textColor == Color.WHITE
+    assert metadata.backgroundColor == Color.BLACK
+    assert top_level_autonomous is autonomous
 
 
 def test_add_op_mode():
@@ -187,3 +227,63 @@ def test_robot_periodic(periodic_robot_test_fixture):
     # Additional time steps should continue calling RobotPeriodic
     wsim.stepTiming(kPeriod)
     assert robot.periodic_count == 2
+
+
+def test_opmode_robot_auto_discovers_decorated_modules(tmp_path, monkeypatch):
+    pkg = tmp_path / "samplebot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "default_auto_mode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+@autonomous
+class DefaultAutoMode(PeriodicOpMode):
+    pass
+""")
+    (pkg / "default_tele_mode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import teleop
+@teleop
+class DefaultTeleMode(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("samplebot.robot")
+    robot = module.Robot()
+
+    options = wsim.DriverStationSim.getOpModeOptions()
+    assert {opt.name for opt in options} == {"DefaultAutoMode", "DefaultTeleMode"}
+
+
+def test_opmode_robot_skips_non_candidate_files(tmp_path, monkeypatch):
+    pkg = tmp_path / "safeimportbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "default_auto_mode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+@autonomous
+class DefaultAutoMode(PeriodicOpMode):
+    pass
+""")
+    (pkg / "helper.py").write_text("raise RuntimeError('should not import')\n")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("safeimportbot.robot")
+    module.Robot()
+
+    options = wsim.DriverStationSim.getOpModeOptions()
+    assert {opt.name for opt in options} == {"DefaultAutoMode"}
