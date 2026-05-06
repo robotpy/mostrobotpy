@@ -133,8 +133,13 @@ def _decorator_name(node: ast.expr) -> str | None:
 
 
 def _contains_opmode_decorator(path: Path) -> bool:
-    source = path.read_text()
-    tree = ast.parse(source, filename=str(path))
+    try:
+        source = path.read_text()
+        tree = ast.parse(source, filename=str(path))
+    except Exception as exc:
+        raise RuntimeError(
+            f"Failed to parse opmode scan file {path.resolve()}: {exc}"
+        ) from exc
 
     for stmt in tree.body:
         if not isinstance(stmt, ast.ClassDef):
@@ -169,30 +174,53 @@ def _module_name_from_path(robot_module, scan_root: Path, path: Path) -> str:
 def _discover_decorated_opmodes(robot: "OpModeRobot") -> None:
     robot_module = inspect.getmodule(type(robot))
     if robot_module is None or getattr(robot_module, "__file__", None) is None:
-        return
+        raise RuntimeError(
+            f"Unable to resolve robot module source file for {type(robot).__module__}.{type(robot).__qualname__}"
+        )
 
     scan_root = Path(robot_module.__file__).resolve().parent
     discovered: set[type] = set()
+    registered_names: set[tuple[RobotMode, str]] = set()
 
     for path in _iter_scan_files(scan_root):
         if not _contains_opmode_decorator(path):
             continue
 
         module_name = _module_name_from_path(robot_module, scan_root, path)
-        module = importlib.import_module(module_name)
+        try:
+            module = importlib.import_module(module_name)
+        except Exception as exc:
+            raise RuntimeError(
+                f"Failed to import opmode discovery candidate {path.resolve()}: {exc}"
+            ) from exc
         for value in vars(module).values():
             metadata = getattr(value, "__wpilib_opmode_metadata__", None)
             if metadata is None or not inspect.isclass(value):
                 continue
             if value in discovered:
                 continue
+            if not issubclass(value, OpMode):
+                raise TypeError(
+                    f"Decorated class {value.__module__}.{value.__qualname__} must inherit from OpMode"
+                )
+
+            name = metadata.name or value.__name__
+            group = metadata.group or ""
+            description = metadata.description or ""
+            registration_key = (metadata.mode, name)
+            if registration_key in registered_names:
+                raise ValueError(
+                    f"duplicate opmode registration for mode {metadata.mode} and name {name!r}"
+                )
+
+            registered_names.add(registration_key)
             discovered.add(value)
             robot.addOpMode(
                 value,
                 metadata.mode,
-                metadata.name or value.__name__,
-                metadata.group,
-                metadata.description,
+                name,
+                group,
+                description,
                 metadata.textColor,
                 metadata.backgroundColor,
             )

@@ -287,3 +287,136 @@ class DefaultAutoMode(PeriodicOpMode):
 
     options = wsim.DriverStationSim.getOpModeOptions()
     assert {opt.name for opt in options} == {"DefaultAutoMode"}
+
+
+def test_opmode_robot_fails_on_syntax_error_in_scan_tree(tmp_path, monkeypatch):
+    pkg = tmp_path / "brokenbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "broken.py").write_text("def nope(:\n")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("brokenbot.robot")
+
+    with pytest.raises(RuntimeError, match="broken.py"):
+        module.Robot()
+
+
+def test_opmode_robot_fails_on_candidate_import_error(tmp_path, monkeypatch):
+    pkg = tmp_path / "importbrokenbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "bad_auto.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+raise RuntimeError('boom')
+@autonomous
+class BadAuto(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("importbrokenbot.robot")
+
+    with pytest.raises(RuntimeError, match="bad_auto.py"):
+        module.Robot()
+
+
+def test_opmode_robot_rejects_duplicate_names_within_mode(tmp_path, monkeypatch):
+    pkg = tmp_path / "duplicatebot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "drive_modes.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import teleop
+@teleop(name='Drive')
+class DriveModeA(PeriodicOpMode):
+    pass
+@teleop(name='Drive')
+class DriveModeB(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("duplicatebot.robot")
+
+    with pytest.raises(ValueError, match="duplicate"):
+        module.Robot()
+
+
+def test_opmode_robot_rejects_decorated_non_opmode_class(tmp_path, monkeypatch):
+    pkg = tmp_path / "typecheckbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "not_an_opmode.py").write_text("""\
+from wpilib.opmoderobot import autonomous
+@autonomous
+class NotAnOpMode:
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("typecheckbot.robot")
+
+    with pytest.raises(TypeError, match="OpMode"):
+        module.Robot()
+
+
+def test_expansion_hub_style_project_discovers_split_opmodes(tmp_path, monkeypatch):
+    pkg = tmp_path / "expansionhubsample"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    motor0 = None
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "defaultautomode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+@autonomous
+class DefaultAutoMode(PeriodicOpMode):
+    def __init__(self, robot):
+        self.robot = robot
+""")
+    (pkg / "defaulttelemode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import teleop
+@teleop
+class DefaultTeleMode(PeriodicOpMode):
+    def __init__(self, robot):
+        self.robot = robot
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("expansionhubsample.robot")
+    module.Robot()
+
+    options = wsim.DriverStationSim.getOpModeOptions()
+    assert {opt.name for opt in options} == {"DefaultAutoMode", "DefaultTeleMode"}
