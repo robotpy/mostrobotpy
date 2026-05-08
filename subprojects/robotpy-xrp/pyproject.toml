@@ -37,7 +37,7 @@ version_file = "xrp/version.py"
 artifact_id = "halsim_xrp"
 group_id = "org.wpilib.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
-version = "2027.0.0-alpha-5"
+version = "2027.0.0-alpha-6"
 use_headers = false
 
 extract_to = "xrp/extension"
@@ -60,7 +60,7 @@ wraps = ["robotpy-native-xrp"]
 depends = ["wpilib", "wpimath"]
 
 [tool.semiwrap.extension_modules."xrp._xrp".headers]
-# frc/xrp
+# wpi/xrp
 XRPGyro = "wpi/xrp/XRPGyro.hpp"
 XRPMotor = "wpi/xrp/XRPMotor.hpp"
 XRPOnBoardIO = "wpi/xrp/XRPOnBoardIO.hpp"
