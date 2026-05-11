@@ -210,13 +210,28 @@ def _contains_opmode_decorator(path: Path) -> bool:
     return False
 
 
+def _is_scannable_python_file(path: Path) -> bool:
+    if path.suffix != ".py":
+        return False
+    if any(part.startswith(".") for part in path.parts):
+        return False
+    if "__pycache__" in path.parts:
+        return False
+    return True
+
+
 def _iter_scan_files(root: Path):
-    for path in root.rglob("*.py"):
-        if any(part.startswith(".") for part in path.parts):
-            continue
-        if "__pycache__" in path.parts:
-            continue
-        yield path
+    for path in root.iterdir():
+        if path.is_file() and _is_scannable_python_file(path):
+            yield path
+
+    opmodes_dir = root / "opmodes"
+    if not opmodes_dir.is_dir():
+        return
+
+    for path in opmodes_dir.rglob("*.py"):
+        if _is_scannable_python_file(path):
+            yield path
 
 
 def _module_name_from_path(robot_module, scan_root: Path, path: Path) -> str:
@@ -339,12 +354,13 @@ class OpModeRobot(OpModeRobotBase):
     driverStationConnected() function is called the first time the driver station
     connects to the robot.
 
-    Decorated opmodes are auto-discovered from Python modules in the same
-    package directory as the robot class. Any class decorated with
-    ``@autonomous``, ``@teleop``, or ``@utility`` is imported, validated as an
-    ``OpMode`` subclass, registered automatically, and then published to the
-    Driver Station during robot initialization. Selection names must be unique
-    within each robot mode.
+    Decorated opmodes are auto-discovered from a limited set of Python modules
+    near the robot class: ``*.py`` files directly beside ``robot.py`` and
+    ``opmodes/**/*.py`` recursively under an ``opmodes`` subpackage. Any class
+    decorated with ``@autonomous``, ``@teleop``, or ``@utility`` in those files
+    is imported, validated as an ``OpMode`` subclass, registered automatically,
+    and then published to the Driver Station during robot initialization.
+    Selection names must be unique within each robot mode.
 
     Robot subclasses may declare a framework-managed user controls object using
     the ``user_controls=...`` class keyword::

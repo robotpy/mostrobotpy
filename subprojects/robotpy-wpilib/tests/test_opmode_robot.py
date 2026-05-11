@@ -280,6 +280,16 @@ class DefaultAutoMode(PeriodicOpMode):
     pass
 """)
     (pkg / "helper.py").write_text("raise RuntimeError('should not import')\n")
+    nested = pkg / "support"
+    nested.mkdir()
+    (nested / "bad_auto.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+raise RuntimeError('should not import nested module outside opmodes')
+@autonomous
+class BadAuto(PeriodicOpMode):
+    pass
+""")
 
     monkeypatch.syspath_prepend(str(tmp_path))
     module = importlib.import_module("safeimportbot.robot")
@@ -287,6 +297,45 @@ class DefaultAutoMode(PeriodicOpMode):
 
     options = wsim.DriverStationSim.getOpModeOptions()
     assert {opt.name for opt in options} == {"DefaultAutoMode"}
+
+
+def test_opmode_robot_discovers_opmodes_package_recursively(tmp_path, monkeypatch):
+    pkg = tmp_path / "nestedopmodesbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    opmodes = pkg / "opmodes"
+    opmodes.mkdir()
+    (opmodes / "__init__.py").write_text("")
+    (opmodes / "drive.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import teleop
+@teleop
+class DriveMode(PeriodicOpMode):
+    pass
+""")
+    nested = opmodes / "test"
+    nested.mkdir()
+    (nested / "__init__.py").write_text("")
+    (nested / "servo.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import utility
+@utility
+class ServoMode(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("nestedopmodesbot.robot")
+    module.Robot()
+
+    options = wsim.DriverStationSim.getOpModeOptions()
+    assert {opt.name for opt in options} == {"DriveMode", "ServoMode"}
 
 
 def test_opmode_robot_fails_on_syntax_error_in_scan_tree(tmp_path, monkeypatch):
