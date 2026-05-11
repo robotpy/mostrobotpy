@@ -14,4 +14,5 @@ class DefaultUserControls(UserControls):
         self._gamepads = tuple(Gamepad(port) for port in range(6))
 
     def getGamepad(self, port: int) -> Gamepad:
+        """Return the Gamepad instance for the specified driver station port."""
         return self._gamepads[port]
