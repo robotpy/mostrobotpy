@@ -84,6 +84,14 @@ def test_opmode_decorator_rejects_multiple_modes():
             pass
 
 
+def test_opmode_decorator_rejects_non_opmode_class_eagerly():
+    with pytest.raises(TypeError, match="must inherit from OpMode"):
+
+        @autonomous
+        class NotAnOpMode:
+            pass
+
+
 def test_opmode_decorator_preserves_explicit_metadata():
     @utility(
         name="Arm Test",
@@ -431,7 +439,7 @@ class NotAnOpMode:
     monkeypatch.syspath_prepend(str(tmp_path))
     module = importlib.import_module("typecheckbot.robot")
 
-    with pytest.raises(TypeError, match="OpMode"):
+    with pytest.raises(RuntimeError, match="OpMode"):
         module.Robot()
 
 
