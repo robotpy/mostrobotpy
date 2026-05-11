@@ -78,6 +78,26 @@ def autonomous(
 
 
 def autonomous(_cls=None, **kwargs):
+    """
+    Decorator for automatic registration of autonomous opmode classes.
+
+    May be used with or without arguments::
+
+        @autonomous
+        class DefaultAutoMode(PeriodicOpMode):
+            ...
+
+        @autonomous(name="Two Ball", group="Autos", description="Example")
+        class TwoBallAuto(PeriodicOpMode):
+            ...
+
+    ``name`` is shown as the selection name in the Driver Station and must be
+    unique across autonomous opmodes in the project. If omitted, the class name
+    is used. ``group`` controls Driver Station grouping and defaults to
+    ungrouped. ``description`` is optional. ``textColor`` and
+    ``backgroundColor`` are optional display colors; both must be provided to
+    have an effect.
+    """
     return _make_opmode_decorator(RobotMode.AUTONOMOUS, _cls, **kwargs)
 
 
@@ -99,6 +119,26 @@ def teleop(
 
 
 def teleop(_cls=None, **kwargs):
+    """
+    Decorator for automatic registration of teleoperated opmode classes.
+
+    May be used with or without arguments::
+
+        @teleop
+        class DefaultTeleMode(PeriodicOpMode):
+            ...
+
+        @teleop(name="Drive", group="Main")
+        class DriveMode(PeriodicOpMode):
+            ...
+
+    ``name`` is shown as the selection name in the Driver Station and must be
+    unique across teleoperated opmodes in the project. If omitted, the class
+    name is used. ``group`` controls Driver Station grouping and defaults to
+    ungrouped. ``description`` is optional. ``textColor`` and
+    ``backgroundColor`` are optional display colors; both must be provided to
+    have an effect.
+    """
     return _make_opmode_decorator(RobotMode.TELEOPERATED, _cls, **kwargs)
 
 
@@ -120,6 +160,25 @@ def utility(
 
 
 def utility(_cls=None, **kwargs):
+    """
+    Decorator for automatic registration of utility opmode classes.
+
+    May be used with or without arguments::
+
+        @utility
+        class ServoTest(PeriodicOpMode):
+            ...
+
+        @utility(name="Servo Test", group="Mechanisms")
+        class ServoTest(PeriodicOpMode):
+            ...
+
+    ``name`` is shown as the selection name in the Driver Station and must be
+    unique across utility opmodes in the project. If omitted, the class name is
+    used. ``group`` controls Driver Station grouping and defaults to ungrouped.
+    ``description`` is optional. ``textColor`` and ``backgroundColor`` are
+    optional display colors; both must be provided to have an effect.
+    """
     return _make_opmode_decorator(RobotMode.UTILITY, _cls, **kwargs)
 
 
@@ -279,6 +338,13 @@ class OpModeRobot(OpModeRobotBase):
     selected. When no opmode is selected, nonePeriodic() is called. The
     driverStationConnected() function is called the first time the driver station
     connects to the robot.
+
+    Decorated opmodes are auto-discovered from Python modules in the same
+    package directory as the robot class. Any class decorated with
+    ``@autonomous``, ``@teleop``, or ``@utility`` is imported, validated as an
+    ``OpMode`` subclass, registered automatically, and then published to the
+    Driver Station during robot initialization. Selection names must be unique
+    within each robot mode.
 
     Robot subclasses may declare a framework-managed user controls object using
     the ``user_controls=...`` class keyword::
