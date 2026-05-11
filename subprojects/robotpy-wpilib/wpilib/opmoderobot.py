@@ -37,6 +37,11 @@ def _attach_opmode_metadata(
     textColor: Color | None = None,
     backgroundColor: Color | None = None,
 ) -> _OpModeType:
+    if not issubclass(cls, OpMode):
+        raise TypeError(
+            f"Decorated class {cls.__module__}.{cls.__qualname__} must inherit from OpMode"
+        )
+
     if hasattr(cls, "__wpilib_opmode_metadata__"):
         raise ValueError("multiple opmode decorators are not allowed")
 
