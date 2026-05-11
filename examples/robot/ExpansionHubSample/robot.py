@@ -5,11 +5,11 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-from wpilib import ExpansionHubMotor, ExpansionHubServo
+from wpilib import DefaultUserControls, ExpansionHubMotor, ExpansionHubServo
 from wpilib.opmoderobot import OpModeRobot
 
 
-class Robot(OpModeRobot):
+class Robot(OpModeRobot, user_controls=DefaultUserControls):
     def __init__(self):
         super().__init__()
         self.motor0 = ExpansionHubMotor(0, 0)

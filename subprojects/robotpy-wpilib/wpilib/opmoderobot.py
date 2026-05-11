@@ -4,7 +4,7 @@ import inspect
 from dataclasses import dataclass
 from hal import RobotMode
 from pathlib import Path
-from typing import Callable, Optional, TypeVar, overload
+from typing import Any, Callable, Optional, TypeVar, overload
 from wpiutil import Color
 
 __all__ = ["OpModeRobot", "autonomous", "teleop", "utility"]
@@ -24,6 +24,7 @@ class _OpModeMetadata:
 
 _OpModeType = TypeVar("_OpModeType", bound=type[OpMode])
 _DECORATOR_NAMES = {"autonomous", "teleop", "utility"}
+_SUPPORTED_CTOR_PARAM_NAMES = frozenset({"robot", "user_controls"})
 
 
 def _attach_opmode_metadata(
@@ -171,6 +172,44 @@ def _module_name_from_path(robot_module, scan_root: Path, path: Path) -> str:
     return ".".join(parts)
 
 
+def _resolve_opmode_constructor_kwargs(
+    opmodeCls: type,
+    robot: "OpModeRobot",
+    user_controls: Any | None,
+) -> dict[str, Any]:
+    kwargs: dict[str, Any] = {}
+    initializer = opmodeCls.__dict__.get("__init__")
+    if initializer is None:
+        return kwargs
+
+    for parameter in list(inspect.signature(initializer).parameters.values())[1:]:
+        if parameter.kind in (
+            inspect.Parameter.VAR_POSITIONAL,
+            inspect.Parameter.VAR_KEYWORD,
+        ):
+            raise TypeError(
+                f"{opmodeCls.__module__}.{opmodeCls.__qualname__} constructor cannot use *args or **kwargs"
+            )
+
+        if parameter.name not in _SUPPORTED_CTOR_PARAM_NAMES:
+            raise TypeError(
+                f"{opmodeCls.__module__}.{opmodeCls.__qualname__} uses unsupported constructor parameter name {parameter.name!r}; "
+                "supported names are 'robot' and 'user_controls'"
+            )
+
+        if parameter.name == "robot":
+            kwargs[parameter.name] = robot
+        elif user_controls is not None:
+            kwargs[parameter.name] = user_controls
+        elif parameter.default is inspect.Parameter.empty:
+            raise TypeError(
+                f"{opmodeCls.__module__}.{opmodeCls.__qualname__} requires 'user_controls', "
+                f"but {type(robot).__module__}.{type(robot).__qualname__} did not declare user_controls"
+            )
+
+    return kwargs
+
+
 def _discover_decorated_opmodes(robot: "OpModeRobot") -> None:
     robot_module = inspect.getmodule(type(robot))
     if robot_module is None or getattr(robot_module, "__file__", None) is None:
@@ -240,11 +279,55 @@ class OpModeRobot(OpModeRobotBase):
     selected. When no opmode is selected, nonePeriodic() is called. The
     driverStationConnected() function is called the first time the driver station
     connects to the robot.
+
+    Robot subclasses may declare a framework-managed user controls object using
+    the ``user_controls=...`` class keyword::
+
+        from wpilib import DefaultUserControls
+
+        class Robot(OpModeRobot, user_controls=DefaultUserControls):
+            ...
+
+    When declared, the controls class is instantiated once per robot and may be
+    injected into opmode constructors by naming a parameter ``user_controls``.
+    The robot instance may likewise be injected by naming a parameter ``robot``.
+    Supported opmode constructor shapes therefore include::
+
+        __init__(self)
+        __init__(self, robot)
+        __init__(self, user_controls)
+        __init__(self, robot, user_controls)
+
+    Injection is strict by parameter name: any other constructor parameter name
+    is rejected with ``TypeError``.
     """
+
+    __wpilib_user_controls_type__: type | None = None
+
+    def __init_subclass__(cls, *, user_controls: type | None = None, **kwargs):
+        super().__init_subclass__(**kwargs)
+        if user_controls is not None and not isinstance(user_controls, type):
+            raise TypeError("user_controls must be a type")
+        if user_controls is not None:
+            cls.__wpilib_user_controls_type__ = user_controls
 
     def __init__(self):
         super().__init__()
+        self._user_controls = self._make_user_controls_instance()
         _discover_decorated_opmodes(self)
+
+    def _make_user_controls_instance(self):
+        user_controls_type = type(self).__wpilib_user_controls_type__
+        if user_controls_type is None:
+            return None
+
+        try:
+            return user_controls_type()
+        except TypeError as exc:
+            raise TypeError(
+                f"{type(self).__module__}.{type(self).__qualname__} declared user_controls={user_controls_type.__module__}.{user_controls_type.__qualname__}, "
+                "but it could not be constructed without arguments"
+            ) from exc
 
     def addOpMode(
         self,
@@ -264,8 +347,10 @@ class OpModeRobot(OpModeRobotBase):
         only one has no effect (if only one is provided, it will be ignored).
 
         :param opmodeCls: opmode class; must be a public, non-abstract subclass of OpMode
-                          with a constructor that either takes no arguments or accepts a
-                          single argument of this class's type (the latter is preferred).
+                          with constructor parameters named only 'robot' and/or
+                          'user_controls'. These dependencies are injected by name.
+                          Supported constructor forms are (), (robot),
+                          (user_controls), and (robot, user_controls).
         :param mode: robot mode
         :param name: name of the operating mode
         :param group: group of the operating mode
@@ -274,13 +359,12 @@ class OpModeRobot(OpModeRobotBase):
         :param backgroundColor: background color
         """
 
+        constructor_kwargs = _resolve_opmode_constructor_kwargs(
+            opmodeCls, self, self._user_controls
+        )
+
         def makeOpModeInstance() -> OpMode:
-            # Try to instantiate with robot argument first
-            try:
-                return opmodeCls(self)  # type: ignore
-            except TypeError:
-                # Fallback to no-argument constructor
-                return opmodeCls()  # type: ignore
+            return opmodeCls(**constructor_kwargs)  # type: ignore[arg-type]
 
         if textColor is None or backgroundColor is None:
             self.addOpModeFactory(

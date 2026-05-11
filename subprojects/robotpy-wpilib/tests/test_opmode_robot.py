@@ -420,3 +420,88 @@ class DefaultTeleMode(PeriodicOpMode):
 
     options = wsim.DriverStationSim.getOpModeOptions()
     assert {opt.name for opt in options} == {"DefaultAutoMode", "DefaultTeleMode"}
+
+
+def test_add_op_mode_injects_robot_and_user_controls_by_parameter_name(tmp_path, monkeypatch):
+    pkg = tmp_path / "controlsbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib import OpMode
+from wpilib.opmoderobot import OpModeRobot
+
+class ExampleControls:
+    def __init__(self):
+        self.token = object()
+
+class ExampleMode(OpMode):
+    def __init__(self, user_controls, robot):
+        super().__init__()
+        self.user_controls = user_controls
+        self.robot = robot
+
+class Robot(OpModeRobot, user_controls=ExampleControls):
+    def __init__(self):
+        self.factories = []
+        super().__init__()
+        self.addOpMode(ExampleMode, 0, 'ExampleMode')
+
+    def addOpModeFactory(self, *args):
+        self.factories.append(args)
+
+    def publishOpModes(self):
+        pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("controlsbot.robot")
+    robot = module.Robot()
+
+    opmode = robot.factories[0][0]()
+    assert opmode.robot is robot
+    assert opmode.user_controls is robot._user_controls
+
+
+def test_add_op_mode_rejects_unsupported_constructor_parameter_name(tmp_path, monkeypatch):
+    pkg = tmp_path / "badcontrolsbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib import OpMode
+from wpilib.opmoderobot import OpModeRobot
+
+class ExampleControls:
+    pass
+
+class BadMode(OpMode):
+    def __init__(self, controls):
+        super().__init__()
+
+class Robot(OpModeRobot, user_controls=ExampleControls):
+    def __init__(self):
+        super().__init__()
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("badcontrolsbot.robot")
+    robot = module.Robot()
+
+    with pytest.raises(TypeError, match="unsupported constructor parameter name 'controls'"):
+        robot.addOpMode(module.BadMode, RobotMode.TELEOPERATED, "BadMode")
+
+
+def test_robot_subclass_keyword_rejects_non_type_user_controls(tmp_path, monkeypatch):
+    pkg = tmp_path / "invalidcontrolsbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+
+class Robot(OpModeRobot, user_controls=42):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+
+    with pytest.raises(TypeError, match="user_controls must be a type"):
+        importlib.import_module("invalidcontrolsbot.robot")
