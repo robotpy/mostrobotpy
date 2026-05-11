@@ -479,7 +479,9 @@ class DefaultTeleMode(PeriodicOpMode):
     assert {opt.name for opt in options} == {"DefaultAutoMode", "DefaultTeleMode"}
 
 
-def test_add_op_mode_injects_robot_and_user_controls_by_parameter_name(tmp_path, monkeypatch):
+def test_add_op_mode_injects_robot_and_user_controls_by_parameter_name(
+    tmp_path, monkeypatch
+):
     pkg = tmp_path / "controlsbot"
     pkg.mkdir()
     (pkg / "__init__.py").write_text("")
@@ -519,7 +521,9 @@ class Robot(OpModeRobot, user_controls=ExampleControls):
     assert opmode.user_controls is robot._user_controls
 
 
-def test_add_op_mode_rejects_unsupported_constructor_parameter_name(tmp_path, monkeypatch):
+def test_add_op_mode_rejects_unsupported_constructor_parameter_name(
+    tmp_path, monkeypatch
+):
     pkg = tmp_path / "badcontrolsbot"
     pkg.mkdir()
     (pkg / "__init__.py").write_text("")
@@ -543,7 +547,9 @@ class Robot(OpModeRobot, user_controls=ExampleControls):
     module = importlib.import_module("badcontrolsbot.robot")
     robot = module.Robot()
 
-    with pytest.raises(TypeError, match="unsupported constructor parameter name 'controls'"):
+    with pytest.raises(
+        TypeError, match="unsupported constructor parameter name 'controls'"
+    ):
         robot.addOpMode(module.BadMode, RobotMode.TELEOPERATED, "BadMode")
 
 
