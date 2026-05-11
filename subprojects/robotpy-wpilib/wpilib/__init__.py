@@ -235,8 +235,16 @@ __all__ += ["reportError", "reportWarning"]
 del _init__wpilib
 
 from .opmoderobot import OpModeRobot, autonomous, teleop, utility
+from .usercontrols import DefaultUserControls, UserControls
 
-__all__ += ["OpModeRobot", "autonomous", "teleop", "utility"]
+__all__ += [
+    "OpModeRobot",
+    "autonomous",
+    "teleop",
+    "utility",
+    "DefaultUserControls",
+    "UserControls",
+]
 
 from .cameraserver import CameraServer
 from .deployinfo import getDeployData
