@@ -1,9 +1,10 @@
+import importlib
 import pytest
 import threading
 from wpilib import simulation as wsim
 from wpimath.units import seconds
-from wpilib.opmoderobot import OpModeRobot
-from wpilib import OpMode, RobotState
+from wpilib.opmoderobot import OpModeRobot, autonomous, teleop, utility
+from wpilib import OpMode, RobotState, autonomous as top_level_autonomous
 from hal._wpiHal import RobotMode
 from wpiutil import Color
 
@@ -60,6 +61,53 @@ def sim_timing_setup():
     yield
     wsim.resumeTiming()
     RobotState.clearOpModes()
+
+
+def test_opmode_decorators_attach_metadata():
+    @autonomous(group="Drive", description="Auto desc")
+    class AutoMode(OpMode):
+        pass
+
+    metadata = AutoMode.__wpilib_opmode_metadata__
+    assert metadata.mode == RobotMode.AUTONOMOUS
+    assert metadata.name == "AutoMode"
+    assert metadata.group == "Drive"
+    assert metadata.description == "Auto desc"
+
+
+def test_opmode_decorator_rejects_multiple_modes():
+    with pytest.raises(ValueError, match="multiple opmode decorators"):
+
+        @teleop
+        @autonomous
+        class BadMode(OpMode):
+            pass
+
+
+def test_opmode_decorator_rejects_non_opmode_class_eagerly():
+    with pytest.raises(TypeError, match="must inherit from OpMode"):
+
+        @autonomous
+        class NotAnOpMode:
+            pass
+
+
+def test_opmode_decorator_preserves_explicit_metadata():
+    @utility(
+        name="Arm Test",
+        group="Mechanisms",
+        description="tests arm",
+        textColor=Color.WHITE,
+        backgroundColor=Color.BLACK,
+    )
+    class UtilityMode(OpMode):
+        pass
+
+    metadata = UtilityMode.__wpilib_opmode_metadata__
+    assert metadata.name == "Arm Test"
+    assert metadata.textColor == Color.WHITE
+    assert metadata.backgroundColor == Color.BLACK
+    assert top_level_autonomous is autonomous
 
 
 def test_add_op_mode():
@@ -187,3 +235,336 @@ def test_robot_periodic(periodic_robot_test_fixture):
     # Additional time steps should continue calling RobotPeriodic
     wsim.stepTiming(kPeriod)
     assert robot.periodic_count == 2
+
+
+def test_opmode_robot_auto_discovers_decorated_modules(tmp_path, monkeypatch):
+    pkg = tmp_path / "samplebot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "default_auto_mode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+@autonomous
+class DefaultAutoMode(PeriodicOpMode):
+    pass
+""")
+    (pkg / "default_tele_mode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import teleop
+@teleop
+class DefaultTeleMode(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("samplebot.robot")
+    robot = module.Robot()
+
+    options = wsim.DriverStationSim.getOpModeOptions()
+    assert {opt.name for opt in options} == {"DefaultAutoMode", "DefaultTeleMode"}
+
+
+def test_opmode_robot_skips_non_candidate_files(tmp_path, monkeypatch):
+    pkg = tmp_path / "safeimportbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "default_auto_mode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+@autonomous
+class DefaultAutoMode(PeriodicOpMode):
+    pass
+""")
+    (pkg / "helper.py").write_text("raise RuntimeError('should not import')\n")
+    nested = pkg / "support"
+    nested.mkdir()
+    (nested / "bad_auto.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+raise RuntimeError('should not import nested module outside opmodes')
+@autonomous
+class BadAuto(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("safeimportbot.robot")
+    module.Robot()
+
+    options = wsim.DriverStationSim.getOpModeOptions()
+    assert {opt.name for opt in options} == {"DefaultAutoMode"}
+
+
+def test_opmode_robot_discovers_opmodes_package_recursively(tmp_path, monkeypatch):
+    pkg = tmp_path / "nestedopmodesbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    opmodes = pkg / "opmodes"
+    opmodes.mkdir()
+    (opmodes / "__init__.py").write_text("")
+    (opmodes / "drive.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import teleop
+@teleop
+class DriveMode(PeriodicOpMode):
+    pass
+""")
+    nested = opmodes / "test"
+    nested.mkdir()
+    (nested / "__init__.py").write_text("")
+    (nested / "servo.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import utility
+@utility
+class ServoMode(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("nestedopmodesbot.robot")
+    module.Robot()
+
+    options = wsim.DriverStationSim.getOpModeOptions()
+    assert {opt.name for opt in options} == {"DriveMode", "ServoMode"}
+
+
+def test_opmode_robot_fails_on_syntax_error_in_scan_tree(tmp_path, monkeypatch):
+    pkg = tmp_path / "brokenbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "broken.py").write_text("def nope(:\n")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("brokenbot.robot")
+
+    with pytest.raises(RuntimeError, match="broken.py"):
+        module.Robot()
+
+
+def test_opmode_robot_fails_on_candidate_import_error(tmp_path, monkeypatch):
+    pkg = tmp_path / "importbrokenbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "bad_auto.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+raise RuntimeError('boom')
+@autonomous
+class BadAuto(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("importbrokenbot.robot")
+
+    with pytest.raises(RuntimeError, match="bad_auto.py"):
+        module.Robot()
+
+
+def test_opmode_robot_rejects_duplicate_names_within_mode(tmp_path, monkeypatch):
+    pkg = tmp_path / "duplicatebot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "drive_modes.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import teleop
+@teleop(name='Drive')
+class DriveModeA(PeriodicOpMode):
+    pass
+@teleop(name='Drive')
+class DriveModeB(PeriodicOpMode):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("duplicatebot.robot")
+
+    with pytest.raises(ValueError, match="duplicate"):
+        module.Robot()
+
+
+def test_opmode_robot_rejects_decorated_non_opmode_class(tmp_path, monkeypatch):
+    pkg = tmp_path / "typecheckbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "not_an_opmode.py").write_text("""\
+from wpilib.opmoderobot import autonomous
+@autonomous
+class NotAnOpMode:
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("typecheckbot.robot")
+
+    with pytest.raises(RuntimeError, match="OpMode"):
+        module.Robot()
+
+
+def test_expansion_hub_style_project_discovers_split_opmodes(tmp_path, monkeypatch):
+    pkg = tmp_path / "expansionhubsample"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+class Robot(OpModeRobot):
+    motor0 = None
+    def __init__(self):
+        super().__init__()
+""")
+    (pkg / "defaultautomode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import autonomous
+@autonomous
+class DefaultAutoMode(PeriodicOpMode):
+    def __init__(self, robot):
+        self.robot = robot
+""")
+    (pkg / "defaulttelemode.py").write_text("""\
+from wpilib import PeriodicOpMode
+from wpilib.opmoderobot import teleop
+@teleop
+class DefaultTeleMode(PeriodicOpMode):
+    def __init__(self, robot):
+        self.robot = robot
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("expansionhubsample.robot")
+    module.Robot()
+
+    options = wsim.DriverStationSim.getOpModeOptions()
+    assert {opt.name for opt in options} == {"DefaultAutoMode", "DefaultTeleMode"}
+
+
+def test_add_op_mode_injects_robot_and_user_controls_by_parameter_name(
+    tmp_path, monkeypatch
+):
+    pkg = tmp_path / "controlsbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib import OpMode
+from wpilib.opmoderobot import OpModeRobot
+
+class ExampleControls:
+    def __init__(self):
+        self.token = object()
+
+class ExampleMode(OpMode):
+    def __init__(self, user_controls, robot):
+        super().__init__()
+        self.user_controls = user_controls
+        self.robot = robot
+
+class Robot(OpModeRobot, user_controls=ExampleControls):
+    def __init__(self):
+        self.factories = []
+        super().__init__()
+        self.addOpMode(ExampleMode, 0, 'ExampleMode')
+
+    def addOpModeFactory(self, *args):
+        self.factories.append(args)
+
+    def publishOpModes(self):
+        pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("controlsbot.robot")
+    robot = module.Robot()
+
+    opmode = robot.factories[0][0]()
+    assert opmode.robot is robot
+    assert opmode.user_controls is robot._user_controls
+
+
+def test_add_op_mode_rejects_unsupported_constructor_parameter_name(
+    tmp_path, monkeypatch
+):
+    pkg = tmp_path / "badcontrolsbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib import OpMode
+from wpilib.opmoderobot import OpModeRobot
+
+class ExampleControls:
+    pass
+
+class BadMode(OpMode):
+    def __init__(self, controls):
+        super().__init__()
+
+class Robot(OpModeRobot, user_controls=ExampleControls):
+    def __init__(self):
+        super().__init__()
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    module = importlib.import_module("badcontrolsbot.robot")
+    robot = module.Robot()
+
+    with pytest.raises(
+        TypeError, match="unsupported constructor parameter name 'controls'"
+    ):
+        robot.addOpMode(module.BadMode, RobotMode.TELEOPERATED, "BadMode")
+
+
+def test_robot_subclass_keyword_rejects_non_type_user_controls(tmp_path, monkeypatch):
+    pkg = tmp_path / "invalidcontrolsbot"
+    pkg.mkdir()
+    (pkg / "__init__.py").write_text("")
+    (pkg / "robot.py").write_text("""\
+from wpilib.opmoderobot import OpModeRobot
+
+class Robot(OpModeRobot, user_controls=42):
+    pass
+""")
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+
+    with pytest.raises(TypeError, match="user_controls must be a type"):
+        importlib.import_module("invalidcontrolsbot.robot")

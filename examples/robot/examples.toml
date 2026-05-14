@@ -19,6 +19,7 @@ base = [
   "ElevatorTrapezoidProfile",
   "Encoder",
   "EventLoop",
+  "ExpansionHubSample",
   "FlywheelBangBangController",
   "GettingStarted",
   "Gyro",
