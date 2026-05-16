@@ -1,0 +1,23 @@
+classes:
+  wpi::cs::HttpCamera:
+    force_no_trampoline: true
+    constants:
+    - wpi::cs::HttpCamera::HttpCameraKind::kUnknown
+    enums:
+      HttpCameraKind:
+    methods:
+      HttpCamera:
+        overloads:
+          std::string_view, std::string_view, HttpCameraKind:
+          std::string_view, const char*, HttpCameraKind:
+          std::string_view, const std::string&, HttpCameraKind:
+          std::string_view, std::span<const std::string>, HttpCameraKind:
+          std::string_view, std::initializer_list<T>, HttpCameraKind:
+            ignore: true
+      GetHttpCameraKind:
+      SetUrls:
+        overloads:
+          std::span<const std::string>:
+          std::initializer_list<T>:
+            ignore: true
+      GetUrls:

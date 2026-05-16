@@ -1,9 +1,7 @@
-
-
-#ifndef __FRC_ROBORIO__
-#include <hal/Notifier.h>
-#include <hal/handles/HandlesInternal.h>
-#include <hal/simulation/NotifierData.h>
+#ifndef __FIRST_SYSTEMCORE__
+#include "wpi/hal/Notifier.hpp"
+#include "wpi/hal/handles/HandlesInternal.hpp"
+#include "wpi/hal/simulation/NotifierData.h"
 
 void HALSIM_ResetGlobalHandles() {
 
@@ -15,11 +13,11 @@ void HALSIM_ResetGlobalHandles() {
     HALSIM_GetNotifierInfo(info, sz);
 
     for (int i = 0; i < sz; i++) {
-      HAL_CleanNotifier(info->handle);
+      HAL_DestroyNotifier(info->handle);
     }
   }
 
-  hal::HandleBase::ResetGlobalHandles();
+  wpi::hal::HandleBase::ResetGlobalHandles();
 }
 
 #else

@@ -2,7 +2,7 @@ extra_includes:
 - rpy/AddressableLEDBuffer.h
 
 classes:
-  frc::LEDPattern:
+  wpi::LEDPattern:
     enums:
       GradientType:
     methods:
@@ -10,17 +10,17 @@ classes:
       LEDPattern:
       ApplyTo:
         overloads:
-          std::span<frc::AddressableLED::LEDData> [const]:
-          LEDReader, std::function<void (int, frc::Color)> [const]:
-          std::span<frc::AddressableLED::LEDData>, std::function<void (int, frc::Color)> [const]:
+          std::span<wpi::AddressableLED::LEDData> [const]:
+          LEDReader, std::function<void (int, wpi::util::Color)> [const]:
+          std::span<wpi::AddressableLED::LEDData>, std::function<void (int, wpi::util::Color)> [const]:
       Reversed:
       OffsetBy:
-      ScrollAtRelativeSpeed:
-      ScrollAtAbsoluteSpeed:
+      ScrollAtRelativeVelocity:
+      ScrollAtAbsoluteVelocity:
       Blink:
         overloads:
-          units::second_t, units::second_t:
-          units::second_t:
+          wpi::units::second_t, wpi::units::second_t:
+          wpi::units::second_t:
       SynchronizedBlink:
       Breathe:
       OverlayOn:
@@ -31,32 +31,32 @@ classes:
       ProgressMaskLayer:
       Steps:
         overloads:
-          std::span<const std::pair<double, Color>>:
-          std::initializer_list<std::pair<double, Color>>:
+          std::span<const std::pair<double, wpi::util::Color>>:
+          std::initializer_list<std::pair<double, wpi::util::Color>>:
             ignore: true
       Gradient:
         overloads:
-          GradientType, std::span<const Color>:
-          GradientType, std::initializer_list<Color>:
+          GradientType, std::span<const wpi::util::Color>:
+          GradientType, std::initializer_list<wpi::util::Color>:
             ignore: true
       Rainbow:
       MapIndex:
     inline_code: |
-      .def("applyTo", [](const frc::LEDPattern& self, frc::AddressableLEDBuffer& data) {
-        self.ApplyTo(static_cast<std::span<frc::AddressableLED::LEDData>>(data));
+      .def("applyTo", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer& data) {
+        self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data));
       }, py::arg("data"), release_gil(), py::prepend())
-      .def("applyTo", [](const frc::LEDPattern& self, frc::AddressableLEDBuffer& data,
-                         std::function<void (int, frc::Color)> writer) {
-        self.ApplyTo(static_cast<std::span<frc::AddressableLED::LEDData>>(data), std::move(writer));
+      .def("applyTo", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer& data,
+                         std::function<void (int, wpi::util::Color)> writer) {
+        self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data), std::move(writer));
       }, py::arg("data"), py::arg("writer").none(false), release_gil(), py::prepend())
-      .def("applyTo", [](const frc::LEDPattern& self, frc::AddressableLEDBuffer::View& data) {
-        self.ApplyTo(static_cast<std::span<frc::AddressableLED::LEDData>>(data));
+      .def("applyTo", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer::View& data) {
+        self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data));
       }, py::arg("data"), release_gil(), py::prepend())
-      .def("applyTo", [](const frc::LEDPattern& self, frc::AddressableLEDBuffer::View& data,
-                         std::function<void (int, frc::Color)> writer) {
-        self.ApplyTo(static_cast<std::span<frc::AddressableLED::LEDData>>(data), std::move(writer));
+      .def("applyTo", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer::View& data,
+                         std::function<void (int, wpi::util::Color)> writer) {
+        self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data), std::move(writer));
       }, py::arg("data"), py::arg("writer").none(false), release_gil(), py::prepend())
-  frc::LEDPattern::LEDReader:
+  wpi::LEDPattern::LEDReader:
     methods:
       LEDReader:
       size:

@@ -1,0 +1,7 @@
+classes:
+  wpi::cs::VideoEvent:
+    force_no_trampoline: true
+    methods:
+      GetSource:
+      GetSink:
+      GetProperty:

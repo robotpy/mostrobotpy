@@ -1,5 +1,0 @@
-classes:
-  frc::LayoutType:
-    methods:
-      LayoutType:
-      GetLayoutName:

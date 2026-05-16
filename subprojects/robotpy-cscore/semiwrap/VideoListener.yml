@@ -1,0 +1,7 @@
+classes:
+  wpi::cs::VideoListener:
+    methods:
+      VideoListener:
+        overloads:
+          "":
+          std::function<void (const VideoEvent& event)>, int, bool:

@@ -1,0 +1,27 @@
+
+classes:
+  wpi::cs::VideoSink:
+    enums:
+      Kind:
+    methods:
+      VideoSink:
+        overloads:
+          "":
+      GetHandle:
+      operator==:
+      GetKind:
+      GetName:
+      GetDescription:
+      GetProperty:
+      EnumerateProperties:
+      SetConfigJson:
+        overloads:
+          std::string_view:
+          const wpi::util::json&:
+      GetConfigJson:
+      GetConfigJsonObject:
+      SetSource:
+      GetSource:
+      GetSourceProperty:
+      GetLastStatus:
+      EnumerateSinks:

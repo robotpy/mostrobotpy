@@ -2,10 +2,10 @@ import pathlib
 import shutil
 import sys
 import tempfile
+import tomllib
 import typing as T
 
 from packaging.requirements import Requirement
-import tomli
 
 from .config import SubprojectConfig
 from .util import run_cmd
@@ -24,9 +24,9 @@ class Subproject:
         self.pyproject_path = self.path / "pyproject.toml"
         self.name = path.name
 
-        # Use tomli here because it's faster and we just need the data
+        # Use tomllib here because it's faster and we just need the data
         with open(self.pyproject_path, "rb") as fp:
-            self.pyproject_data = tomli.load(fp)
+            self.pyproject_data = tomllib.load(fp)
 
         self.build_requires = [
             Requirement(req) for req in self.pyproject_data["build-system"]["requires"]
@@ -175,7 +175,9 @@ class Subproject:
     }
 
     def _fix_wheel_name(self, wheel_path: pathlib.Path) -> str:
-        if sys.platform == "linux":
+        if self.ctx.is_robot:
+            name = wheel_path.name
+        elif sys.platform == "linux":
             name = self._fix_linux_wheel_name(wheel_path)
         else:
             name = wheel_path.name

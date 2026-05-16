@@ -1,0 +1,16 @@
+
+classes:
+  wpi::cs::MjpegServer:
+    force_no_trampoline: true
+    methods:
+      MjpegServer:
+        overloads:
+          "":
+          std::string_view, std::string_view, int:
+          std::string_view, int:
+      GetListenAddress:
+      GetPort:
+      SetResolution:
+      SetFPS:
+      SetCompression:
+      SetDefaultCompression:

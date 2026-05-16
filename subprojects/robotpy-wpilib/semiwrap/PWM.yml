@@ -1,31 +1,21 @@
 extra_includes:
-- wpi/sendable/SendableBuilder.h
-- frc/AddressableLED.h
-- wpi/SmallString.h
+- wpi/util/sendable/SendableBuilder.hpp
+- wpi/hardware/led/AddressableLED.hpp
+- wpi/util/SmallString.hpp
 
 classes:
-  frc::PWM:
+  wpi::PWM:
     ignored_bases:
-    - wpi::SendableHelper<PWM>
-    enums:
-      PeriodMultiplier:
+    - wpi::util::SendableHelper<PWM>
     methods:
       PWM:
       SetPulseTime:
       GetPulseTime:
-      SetPosition:
-      GetPosition:
-      SetSpeed:
-      GetSpeed:
       SetDisabled:
-      SetPeriodMultiplier:
-      SetZeroLatch:
-      EnableDeadbandElimination:
-      SetBounds:
-      GetBounds:
-      SetAlwaysHighMode:
       GetChannel:
       InitSendable:
+      SetOutputPeriod:
+      SetSimDevice:
 
 inline_code: |
   cls_PWM

@@ -3,7 +3,9 @@ extra_includes:
 - optional
 
 classes:
-  frc::CameraServer:
+  wpi::CameraServer:
+    force_type_casters:
+    - std::optional
     attributes:
       kBasePort:
       kSize640x480:
@@ -17,30 +19,14 @@ classes:
           std::string_view, int:
           std::string_view, std::string_view:
           const cs::VideoSource&:
-      AddAxisCamera:
-        overloads:
-          std::string_view:
-          const char*:
-            ignore: true
-          const std::string&:
-            ignore: true
-          std::span<const std::string>:
-          std::initializer_list<T>:
-            ignore: true
-          std::string_view, std::string_view:
-          std::string_view, const char*:
-            ignore: true
-          std::string_view, const std::string&:
-            ignore: true
-          std::string_view, std::span<const std::string>:
-          std::string_view, std::initializer_list<T>:
-            ignore: true
       AddSwitchedCamera:
       GetVideo:
         overloads:
           "":
           const cs::VideoSource&:
+          const cs::VideoSource&, wpi::util::PixelFormat:
           std::string_view:
+          std::string_view, wpi::util::PixelFormat:
       PutVideo:
       AddServer:
         overloads:

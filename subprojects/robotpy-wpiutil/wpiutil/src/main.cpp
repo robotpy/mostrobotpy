@@ -7,15 +7,15 @@ void cleanup_stack_trace_hook();
 void setup_safethread_gil();
 void cleanup_safethread_gil();
 
-#ifndef __FRC_ROBORIO__
+#ifndef __FIRST_SYSTEMCORE__
 
-namespace wpi::impl {
+namespace wpi::util::impl {
 void ResetSendableRegistry();
-} // namespace wpi::impl
+} // namespace wpi::util::impl
 
 void cleanup_sendable_registry() {
   py::gil_scoped_release unlock;
-  wpi::impl::ResetSendableRegistry();
+  wpi::util::impl::ResetSendableRegistry();
 }
 
 #else

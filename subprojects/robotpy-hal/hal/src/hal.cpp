@@ -1,8 +1,8 @@
 
 
-#include <hal/HALBase.h>
-#include <hal/DriverStation.h>
-#include <hal/Value.h>
+#include "wpi/hal/HAL.h"
+#include "wpi/hal/DriverStation.h"
+#include "wpi/hal/Value.h"
 #include <semiwrap_init.hal._wpiHal.hpp>
 
 using namespace pybind11::literals;
@@ -60,8 +60,8 @@ SEMIWRAP_PYBIND11_MODULE(m) {
 
   initWrapper(m);
 
-#ifdef __FRC_ROBORIO__
-  m.attr("__halplatform__") = "roboRIO";
+#ifdef __FIRST_SYSTEMCORE__
+  m.attr("__halplatform__") = "Systemcore";
   m.attr("__hal_simulation__") = false;
 #else
   m.attr("__halplatform__") = "sim";

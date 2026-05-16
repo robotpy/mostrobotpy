@@ -3,8 +3,8 @@
 
 #include <functional>
 
-#include <HALSimGuiExt.h>
-#include <hal/Extensions.h>
+#include <wpi/halsim/gui/HALSimGuiExt.hpp>
+#include <wpi/hal/Extensions.h>
 
 std::function<void()> g_gui_exit;
 

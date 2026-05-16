@@ -2,32 +2,32 @@
 build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.3.0",
-    "hatch-meson~=0.1.0",
-    "hatch-robotpy~=0.2.0",
+    "hatch-meson~=0.1.2",
+    "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-romi==2026.2.2",
-    "wpilib==2026.2.2",
+    "robotpy-native-romi==2027.0.0a6",
+    "wpilib==2027.0.0a6",
 ]
 
 
 [project]
 name = "robotpy-romi"
-version = "2026.2.2"
+version = "2027.0.0a6"
 description = "Binary wrapper for WPILib Romi Vendor library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-romi==2026.2.2",
-    "wpilib==2026.2.2",
-    "robotpy-halsim-ws==2026.2.2",
+    "robotpy-native-romi==2027.0.0a6",
+    "wpilib==2027.0.0a6",
+    "robotpy-halsim-ws==2027.0.0a6",
 ]
 
 [project.urls]
 "Source code" = "https://github.com/robotpy/mostrobotpy"
 
-[project.entry-points."robotpy_cli.2026"]
+[project.entry-points."robotpy_cli.2027"]
 run-romi = "romi.cli:RunRomi"
 
 
@@ -49,11 +49,11 @@ update_init = ["romi"]
 name = "romi"
 wraps = ["robotpy-native-romi"]
 depends = [
-    "wpilib", "wpimath_geometry"
+    "wpilib", "wpimath"
 ]
 
 [tool.semiwrap.extension_modules."romi._romi".headers]
-# frc/romi
-OnBoardIO = "frc/romi/OnBoardIO.h"
-RomiGyro = "frc/romi/RomiGyro.h"
-RomiMotor = "frc/romi/RomiMotor.h"
+# wpi/romi
+OnBoardIO = "wpi/romi/OnBoardIO.hpp"
+RomiGyro = "wpi/romi/RomiGyro.hpp"
+RomiMotor = "wpi/romi/RomiMotor.hpp"

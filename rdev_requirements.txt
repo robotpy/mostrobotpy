@@ -4,7 +4,6 @@ click
 packaging
 pytest
 tomlkit
-tomli
 toposort
 validobj~=1.2
 

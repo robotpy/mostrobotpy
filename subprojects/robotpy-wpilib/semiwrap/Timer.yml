@@ -1,8 +1,8 @@
 functions:
   Wait:
-  GetTime:
+  GetSystemTime:
 classes:
-  frc::Timer:
+  wpi::Timer:
     methods:
       Timer:
       Get:
@@ -10,7 +10,7 @@ classes:
       Start:
       Restart:
       Stop:
-      GetFPGATimestamp:
+      GetMonotonicTimestamp:
       GetMatchTime:
       HasElapsed:
       AdvanceIfElapsed:

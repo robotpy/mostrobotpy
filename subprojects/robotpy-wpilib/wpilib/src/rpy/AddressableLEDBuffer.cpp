@@ -7,7 +7,7 @@
 #include <stdexcept>
 #include <span>
 
-namespace frc {
+namespace wpi {
 
 void AddressableLEDBuffer::SetRGB(size_t index, int r, int g, int b) {
   m_buffer.at(index).SetRGB(r, g, b);
@@ -17,11 +17,11 @@ void AddressableLEDBuffer::SetHSV(size_t index, int h, int s, int v) {
   m_buffer.at(index).SetHSV(h, s, v);
 }
 
-void AddressableLEDBuffer::SetLED(size_t index, const Color& color) {
+void AddressableLEDBuffer::SetLED(size_t index, const wpi::util::Color& color) {
   m_buffer.at(index).SetLED(color);
 }
 
-void AddressableLEDBuffer::SetLED(size_t index, const Color8Bit& color) {
+void AddressableLEDBuffer::SetLED(size_t index, const wpi::util::Color8Bit& color) {
   m_buffer.at(index).SetLED(color);
 }
 
@@ -33,14 +33,14 @@ int AddressableLEDBuffer::GetGreen(size_t index) const {
 
 int AddressableLEDBuffer::GetBlue(size_t index) const { return m_buffer.at(index).b; }
 
-Color AddressableLEDBuffer::GetLED(size_t index) const {
+wpi::util::Color AddressableLEDBuffer::GetLED(size_t index) const {
   const auto& led = m_buffer.at(index);
-  return Color{led.r / 255.0, led.g / 255.0, led.b / 255.0};
+  return wpi::util::Color{led.r / 255.0, led.g / 255.0, led.b / 255.0};
 }
 
-Color8Bit AddressableLEDBuffer::GetLED8Bit(size_t index) const {
+wpi::util::Color8Bit AddressableLEDBuffer::GetLED8Bit(size_t index) const {
   const auto& led = m_buffer.at(index);
-  return Color8Bit{led.r, led.g, led.b};
+  return wpi::util::Color8Bit{led.r, led.g, led.b};
 }
 
 AddressableLED::LEDData& AddressableLEDBuffer::at(size_t index) {
@@ -64,12 +64,12 @@ void AddressableLEDBuffer::View::SetHSV(size_t index, int h, int s, int v) {
   at(index).SetHSV(h, s, v);
 }
 
-void AddressableLEDBuffer::View::SetLED(size_t index, const Color& color) {
+void AddressableLEDBuffer::View::SetLED(size_t index, const wpi::util::Color& color) {
   at(index).SetLED(color);
 }
 
 void AddressableLEDBuffer::View::SetLED(size_t index,
-                                        const Color8Bit& color) {
+                                        const wpi::util::Color8Bit& color) {
   at(index).SetLED(color);
 }
 
@@ -100,14 +100,14 @@ const AddressableLED::LEDData& AddressableLEDBuffer::View::operator[](
   return at(index);
 }
 
-Color AddressableLEDBuffer::View::GetLED(size_t index) const {
+wpi::util::Color AddressableLEDBuffer::View::GetLED(size_t index) const {
   const auto& led = at(index);
-  return Color{led.r / 255.0, led.g / 255.0, led.b / 255.0};
+  return wpi::util::Color{led.r / 255.0, led.g / 255.0, led.b / 255.0};
 }
 
-Color8Bit AddressableLEDBuffer::View::GetLED8Bit(size_t index) const {
+wpi::util::Color8Bit AddressableLEDBuffer::View::GetLED8Bit(size_t index) const {
   const auto& led = at(index);
-  return Color8Bit{led.r, led.g, led.b};
+  return wpi::util::Color8Bit{led.r, led.g, led.b};
 }
 
 AddressableLEDBuffer::View::View(std::span<AddressableLED::LEDData> data)
@@ -126,4 +126,4 @@ AddressableLEDBuffer::View AddressableLEDBuffer::CreateView(
   return View(std::span(m_buffer).subspan(start, slicelength));
 }
 
-}  // namespace frc
+}  // namespace wpi

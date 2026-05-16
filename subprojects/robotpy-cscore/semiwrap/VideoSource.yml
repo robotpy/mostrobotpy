@@ -1,0 +1,45 @@
+
+extra_includes:
+- wpi/cs/VideoSink.hpp
+
+classes:
+  wpi::cs::VideoSource:
+    enums:
+      Kind:
+      ConnectionStrategy:
+    methods:
+      VideoSource:
+        overloads:
+          "":
+      GetHandle:
+      operator==:
+      GetKind:
+      GetName:
+      GetDescription:
+      GetLastFrameTime:
+      SetConnectionStrategy:
+      IsConnected:
+      IsEnabled:
+      GetProperty:
+      EnumerateProperties:
+      GetVideoMode:
+      SetVideoMode:
+        overloads:
+          const VideoMode&:
+          VideoMode::PixelFormat, int, int, int:
+          wpi::util::PixelFormat, int, int, int:
+      SetPixelFormat:
+      SetResolution:
+      SetFPS:
+      SetConfigJson:
+        overloads:
+          std::string_view:
+          const wpi::util::json&:
+      GetConfigJson:
+      GetConfigJsonObject:
+      GetActualFPS:
+      GetActualDataRate:
+      EnumerateVideoModes:
+      GetLastStatus:
+      EnumerateSinks:
+      EnumerateSources:

@@ -14,6 +14,8 @@
 
 /ntcore.rst
 /ntcore/
+/ntcore.meta.rst
+/ntcore.meta/
 
 /robotpy_apriltag.rst
 /robotpy_apriltag/
@@ -31,6 +33,8 @@
 /wpilib.shuffleboard/
 /wpilib.simulation.rst
 /wpilib.simulation/
+/wpilib.sysid.rst
+/wpilib.sysid/
 /wpilib/
 
 /wpimath.controller.rst
@@ -62,14 +66,30 @@
 /wpimath.trajectory/
 /wpimath/
 
+/wpilog.rst
+/wpilog/
+
 /wpinet.rst
 /wpinet/
 
 /wpiutil.rst
 /wpiutil/
-/wpiutil.log.rst
-/wpiutil.log/
 /wpiutil.sync.rst
 /wpiutil.sync/
 /wpiutil.wpistruct.rst
 /wpiutil.wpistruct/
+
+/commands2.button.rst
+/commands2.button/
+/commands2.cmd.rst
+/commands2.cmd/
+/commands2.rst
+/commands2.sysid.rst
+/commands2.sysid/
+/commands2/
+
+/romi.rst
+/romi/
+
+/xrp.rst
+/xrp/

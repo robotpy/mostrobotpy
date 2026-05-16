@@ -1,8 +1,8 @@
 extra_includes:
-- frc/AddressableLED.h
+- wpi/hardware/led/AddressableLED.hpp
 
 classes:
-  frc::sim::AddressableLEDSim:
+  wpi::sim::AddressableLEDSim:
     force_type_casters:
     - std::function
     - std::span
@@ -10,31 +10,23 @@ classes:
     methods:
       AddressableLEDSim:
         overloads:
-          '':
           const AddressableLED&:
-      CreateForChannel:
-      CreateForIndex:
+          int:
       RegisterInitializedCallback:
       GetInitialized:
       SetInitialized:
-      RegisterOutputPortCallback:
-      GetOutputPort:
-      SetOutputPort:
       RegisterLengthCallback:
       GetLength:
       SetLength:
-      RegisterRunningCallback:
-      GetRunning:
-      SetRunning:
       RegisterDataCallback:
       GetData:
         param_override:
           data:
             ignore: true
         cpp_code: |
-          [](frc::sim::AddressableLEDSim &self) {
+          [](wpi::sim::AddressableLEDSim &self) {
             int len = self.GetData(nullptr);
-            std::vector<frc::AddressableLED::LEDData> data(len);
+            std::vector<wpi::AddressableLED::LEDData> data(len);
             self.GetData(data.data());
             return data;
           }
@@ -43,6 +35,17 @@ classes:
           length:
             ignore: true
         cpp_code: |
-          [](frc::sim::AddressableLEDSim &self, std::span<frc::AddressableLED::LEDData> &data) {
-            self.SetData(data.data(), data.size());
+          [](wpi::sim::AddressableLEDSim &self, std::span<wpi::AddressableLED::LEDData> &data) {
+            if (static_cast<int>(data.size()) != self.GetLength()) {
+               std::string msg = fmt::format("data must have length {} (got {})", self.GetLength(), data.size());
+               throw py::value_error(msg);
+            }
+            self.SetData(data.data());
           }
+      RegisterStartCallback:
+      GetStart:
+      SetStart:
+      GetGlobalData:
+        ignore: true
+      SetGlobalData:
+        ignore: true

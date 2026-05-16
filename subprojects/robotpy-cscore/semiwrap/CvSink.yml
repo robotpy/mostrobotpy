@@ -1,0 +1,33 @@
+
+classes:
+  wpi::cs::CvSink:
+    doc: A sink for user code to accept video frames as OpenCV images.
+    force_no_trampoline: true
+    methods:
+      CvSink:
+        overloads:
+          "":
+            ignore: true
+          std::string_view:
+          std::string_view, std::function<void (uint64_t time)>:
+            ignore: true
+          std::string_view, wpi::util::PixelFormat:
+      GrabFrame:
+        cpp_code: |
+          [](wpi::cs::CvSink &self, cv::Mat& image, double timeout) -> std::tuple<uint64_t, cv::Mat> {
+            py::gil_scoped_release unlock;
+            auto result = self.GrabFrame(image, timeout);
+            return std::make_tuple(result, image);
+          }
+      GrabFrameDirect:
+      GrabFrameDirectLastTime:
+      GrabFrameNoTimeoutDirect:
+      GrabFrameNoTimeout:
+        cpp_code: |
+          [](wpi::cs::CvSink &self, cv::Mat& image) -> std::tuple<uint64_t, cv::Mat> {
+            py::gil_scoped_release unlock;
+            auto result = self.GrabFrameNoTimeout(image);
+            return std::make_tuple(result, image);
+          }
+      LastFrameTime:
+      LastFrameTimeSource:

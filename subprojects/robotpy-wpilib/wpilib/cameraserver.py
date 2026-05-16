@@ -72,16 +72,16 @@ class CameraServer:
             # who do not. cscore handle values indicate type with bits 24-30
 
             if vision_py:
+                hal.reportUsage("RobotPy/CameraServer", vision_py)
                 if not vision_py.startswith("/"):
-                    vision_py = "/home/lvuser/py/" + vision_py
+                    vision_py = "/home/systemcore/py/" + vision_py
                 args.append(vision_py)
-                hal.report(hal.tResourceType.kResourceType_PCVideoServer, 0x51)
             else:
-                hal.report(hal.tResourceType.kResourceType_PCVideoServer, 0x52)
+                hal.reportUsage("RobotPy/CameraServer", "")
 
             # We open a pipe to it so that when this process exits, it dies
             proc = subprocess.Popen(
-                args, close_fds=True, stdin=subprocess.PIPE, cwd="/home/lvuser/py"
+                args, close_fds=True, stdin=subprocess.PIPE, cwd="/home/systemcore/py"
             )
             th = threading.Thread(target=cls._monitor_child, args=(proc,))
             th.daemon = True

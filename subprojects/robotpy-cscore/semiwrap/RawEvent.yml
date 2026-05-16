@@ -1,0 +1,39 @@
+classes:
+  wpi::cs::RawEvent:
+    attributes:
+      kind:
+        ignore: true
+      sourceHandle:
+        ignore: true
+      sinkHandle:
+        ignore: true
+      name:
+        ignore: true
+      mode:
+        ignore: true
+      propertyHandle:
+        ignore: true
+      propertyKind:
+        ignore: true
+      value:
+        ignore: true
+      valueStr:
+        ignore: true
+      listener:
+        ignore: true
+    enums:
+      Kind:
+        ignore: true
+    methods:
+      RawEvent:
+        overloads:
+          "":
+            ignore: true
+          RawEvent::Kind:
+            ignore: true
+          std::string_view, CS_Handle, RawEvent::Kind:
+            ignore: true
+          std::string_view, CS_Source, const VideoMode&:
+            ignore: true
+          std::string_view, CS_Source, RawEvent::Kind, CS_Property, CS_PropertyKind, int, std::string_view:
+            ignore: true

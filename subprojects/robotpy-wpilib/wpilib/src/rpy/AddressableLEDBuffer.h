@@ -7,12 +7,12 @@
 #include <span>
 #include <stdexcept>
 #include <vector>
-#include "frc/AddressableLED.h"
-#include "frc/util/Color.h"
-#include "frc/util/Color8Bit.h"
 #include "pybind11/pytypes.h"
+#include "wpi/hardware/led/AddressableLED.hpp"
+#include "wpi/util/Color.hpp"
+#include "wpi/util/Color8Bit.hpp"
 
-namespace frc {
+namespace wpi {
 
 /**
  * Buffer storage for Addressable LEDs.
@@ -52,7 +52,7 @@ class AddressableLEDBuffer {
    * @param index the index to write
    * @param color the color to write
    */
-  void SetLED(size_t index, const frc::Color& color);
+  void SetLED(size_t index, const wpi::util::Color& color);
 
   /**
    * Sets a specific LED in the buffer.
@@ -60,7 +60,7 @@ class AddressableLEDBuffer {
    * @param index the index to write
    * @param color the color to write
    */
-  void SetLED(size_t index, const frc::Color8Bit& color);
+  void SetLED(size_t index, const wpi::util::Color8Bit& color);
 
   /**
    * Gets the buffer length.
@@ -99,7 +99,7 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return the LED color
    */
-  frc::Color GetLED(size_t index) const;
+  wpi::util::Color GetLED(size_t index) const;
 
   /**
    * Gets the color at the specified index.
@@ -107,12 +107,12 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return the LED color
    */
-  frc::Color8Bit GetLED8Bit(size_t index) const;
+  wpi::util::Color8Bit GetLED8Bit(size_t index) const;
 
   /**
    * Implicit conversion to span of LED data
    */
-  operator std::span<frc::AddressableLED::LEDData>() {
+  operator std::span<wpi::AddressableLED::LEDData>() {
     return std::span{m_buffer};
   }
 
@@ -122,7 +122,7 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return reference to the LED data
    */
-  frc::AddressableLED::LEDData& at(size_t index);
+  wpi::AddressableLED::LEDData& at(size_t index);
 
   /**
    * Gets the LED data at the specified index.
@@ -130,7 +130,7 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return reference to the LED data
    */
-  frc::AddressableLED::LEDData& operator[](size_t index);
+  wpi::AddressableLED::LEDData& operator[](size_t index);
 
   /**
    * Gets the LED data at the specified index.
@@ -138,7 +138,7 @@ class AddressableLEDBuffer {
    * @param index the index
    * @return const reference to the LED data
    */
-  const frc::AddressableLED::LEDData& operator[](size_t index) const;
+  const wpi::AddressableLED::LEDData& operator[](size_t index) const;
 
   auto begin() { return m_buffer.begin(); }
   auto end() { return m_buffer.end(); }
@@ -180,7 +180,7 @@ class AddressableLEDBuffer {
      * @param index the index to write
      * @param color the color to write
      */
-    void SetLED(size_t index, const frc::Color& color);
+    void SetLED(size_t index, const wpi::util::Color& color);
 
     /**
      * Sets a specific LED in the view.
@@ -188,7 +188,7 @@ class AddressableLEDBuffer {
      * @param index the index to write
      * @param color the color to write
      */
-    void SetLED(size_t index, const frc::Color8Bit& color);
+    void SetLED(size_t index, const wpi::util::Color8Bit& color);
 
     /**
      * Gets the LED data at the specified index.
@@ -196,7 +196,7 @@ class AddressableLEDBuffer {
      * @param index the index
      * @return reference to the LED data
      */
-    frc::AddressableLED::LEDData& at(size_t index);
+    wpi::AddressableLED::LEDData& at(size_t index);
 
     /**
      * Gets the LED data at the specified index.
@@ -204,7 +204,7 @@ class AddressableLEDBuffer {
      * @param index the index
      * @return reference to the LED data
      */
-    frc::AddressableLED::LEDData& operator[](size_t index);
+    wpi::AddressableLED::LEDData& operator[](size_t index);
 
     /**
      * Gets the LED data at the specified index.
@@ -212,7 +212,7 @@ class AddressableLEDBuffer {
      * @param index the index
      * @return const reference to the LED data
      */
-    const frc::AddressableLED::LEDData& at(size_t index) const;
+    const wpi::AddressableLED::LEDData& at(size_t index) const;
 
     /**
      * Gets the LED data at the specified index.
@@ -220,7 +220,7 @@ class AddressableLEDBuffer {
      * @param index the index
      * @return const reference to the LED data
      */
-    const frc::AddressableLED::LEDData& operator[](size_t index) const;
+    const wpi::AddressableLED::LEDData& operator[](size_t index) const;
 
     auto begin() { return m_data.begin(); }
     auto end() { return m_data.end(); }
@@ -231,7 +231,7 @@ class AddressableLEDBuffer {
      * @param index the index
      * @return the LED color
      */
-    frc::Color GetLED(size_t index) const;
+    wpi::util::Color GetLED(size_t index) const;
 
     /**
      * Gets the color at the specified index.
@@ -239,27 +239,27 @@ class AddressableLEDBuffer {
      * @param index the index
      * @return the LED color
      */
-    frc::Color8Bit GetLED8Bit(size_t index) const;
+    wpi::util::Color8Bit GetLED8Bit(size_t index) const;
 
     /**
      * Implicit conversion to span of LED data
      */
-    operator std::span<frc::AddressableLED::LEDData>() {
+    operator std::span<wpi::AddressableLED::LEDData>() {
       return m_data;
     }
 
     /**
      * Implicit conversion to span of const LED data
      */
-    operator std::span<const frc::AddressableLED::LEDData>() const {
+    operator std::span<const wpi::AddressableLED::LEDData>() const {
       return m_data;
     }
 
    private:
     friend class AddressableLEDBuffer;
-    explicit View(std::span<frc::AddressableLED::LEDData> data);
+    explicit View(std::span<wpi::AddressableLED::LEDData> data);
 
-    std::span<frc::AddressableLED::LEDData> m_data;
+    std::span<wpi::AddressableLED::LEDData> m_data;
   };
 
   /**
@@ -272,7 +272,7 @@ class AddressableLEDBuffer {
   View CreateView(pybind11::slice slice);
 
  private:
-  std::vector<frc::AddressableLED::LEDData> m_buffer;
+  std::vector<wpi::AddressableLED::LEDData> m_buffer;
 };
 
 }  // namespace frc

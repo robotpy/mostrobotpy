@@ -24,6 +24,10 @@ class Parameters:
     wpilib_bin_version: str
     wpilib_bin_url: str
 
+    mrclib_bin_version: str
+    mrclib_bin_url: str
+    mrclib_artifacts: T.Set[str]
+
     #: renames [project.entry-points.KEY*] to [project.entry-points.VALUE]
     entrypoints: T.Dict[str, str]
 

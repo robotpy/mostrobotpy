@@ -1,5 +1,5 @@
 classes:
-  frc::SendableBuilderImpl:
+  wpi::SendableBuilderImpl:
     methods:
       SendableBuilderImpl:
       SetTable:
@@ -9,12 +9,9 @@ classes:
       Update:
       StartListeners:
       StopListeners:
-      StartLiveWindowMode:
-      StopLiveWindowMode:
       ClearProperties:
       SetSmartDashboardType:
       SetActuator:
-      SetSafeState:
       SetUpdateTable:
         cpp_code: |
           [](SendableBuilderImpl *self, std::function<void()> func) {

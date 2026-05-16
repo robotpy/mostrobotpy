@@ -2,23 +2,25 @@
 build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.3.0",
-    "hatch-meson~=0.1.0",
+    "hatch-meson~=0.1.2",
     "hatchling",
-    "robotpy-native-wpihal==2026.2.2",
-    "robotpy-wpiutil==2026.2.2",
+    "pyntcore==2027.0.0a6",
+    "robotpy-native-wpihal==2027.0.0a6",
+    "robotpy-wpiutil==2027.0.0a6",
 ]
 
 [project]
 name = "robotpy-hal"
-version = "2026.2.2"
-description = "Binary wrapper for FRC HAL"
+version = "2027.0.0a6"
+description = "Binary wrapper for WPILib HAL"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpihal==2026.2.2",
-    "robotpy-wpiutil==2026.2.2",
+    "pyntcore==2027.0.0a6",
+    "robotpy-native-wpihal==2027.0.0a6",
+    "robotpy-wpiutil==2027.0.0a6",
 ]
 
 [project.urls]
@@ -43,8 +45,13 @@ update_init = []
 # somewhere. If you find something that you need, file a bug and we can add it!
 
 scan_headers_ignore = [
-    "hal/*",
+    "wpi/hal/*",
 
+    # TODO: might want this in the future
+    "mrc/*",
+    "mrclib/*",
+
+    "src/ds_types_fmt.h",
     "sim_cb.h",
     "sim_value_cb.h",
 ]
@@ -52,37 +59,35 @@ scan_headers_ignore = [
 [tool.semiwrap.extension_modules."hal._wpiHal"]
 name = "wpihal"
 wraps = ["robotpy-native-wpihal"]
-depends = ["wpiutil"]
+depends = ["wpiutil", "ntcore"]
 
 [tool.semiwrap.extension_modules."hal._wpiHal".headers]
 # hal
-Accelerometer = "hal/Accelerometer.h"
-CANAPITypes = "hal/CANAPITypes.h"
-DriverStation = "hal/DriverStation.h"
-DriverStationTypes = "hal/DriverStationTypes.h"
-Extensions = "hal/Extensions.h"
-FRCUsageReporting = "hal/FRCUsageReporting.h"
-HALBase = "hal/HALBase.h"
-Main = "hal/Main.h"
-Notifier = "hal/Notifier.h"
-SPITypes = "hal/SPITypes.h"
-SimDevice = "hal/SimDevice.h"
-Threads = "hal/Threads.h"
-# Types = "hal/Types.h"
-# Value = "hal/Value.h"
-
-# hal/cpp
-SerialHelper = { header="hal/cpp/SerialHelper.h", enable_if="platform_machine == 'roborio'" }
+CANAPITypes = "wpi/hal/CANAPITypes.h"
+DriverStation_c = "wpi/hal/DriverStation.h"
+DriverStation = "wpi/hal/DriverStation.hpp"
+DriverStationTypes_c = "wpi/hal/DriverStationTypes.h"
+DriverStationTypes = "wpi/hal/DriverStationTypes.hpp"
+Extensions = "wpi/hal/Extensions.h"
+HAL = "wpi/hal/HAL.h"
+Main = "wpi/hal/Main.h"
+Notifier_c = "wpi/hal/Notifier.h"
+Notifier = "wpi/hal/Notifier.hpp"
+SimDevice_c = "wpi/hal/SimDevice.h"
+SimDevice = "wpi/hal/SimDevice.hpp"
+Threads = "wpi/hal/Threads.h"
+UsageReporting = "wpi/hal/UsageReporting.hpp"
 
 [tool.semiwrap.extension_modules."hal.simulation._simulation"]
 name = "hal_simulation"
 wraps = ["robotpy-native-wpihal"]
-depends = ["wpiutil"]
+depends = ["wpiutil", "ntcore"]
 yaml_path = "semiwrap/simulation"
 
 [tool.semiwrap.extension_modules."hal.simulation._simulation".headers]
-DriverStationData = "hal/simulation/DriverStationData.h"
-MockHooks = "hal/simulation/MockHooks.h"
-NotifierData = "hal/simulation/NotifierData.h"
-Reset = "hal/simulation/Reset.h"
-SimDeviceData = "hal/simulation/SimDeviceData.h"
+DriverStationData = "wpi/hal/simulation/DriverStationData.h"
+MockHooks_c = "wpi/hal/simulation/MockHooks.h"
+MockHooks = "wpi/hal/simulation/MockHooks.hpp"
+NotifierData = "wpi/hal/simulation/NotifierData.h"
+Reset = "wpi/hal/simulation/Reset.h"
+SimDeviceData = "wpi/hal/simulation/SimDeviceData.h"

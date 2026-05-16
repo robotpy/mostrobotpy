@@ -1,17 +1,14 @@
 extra_includes:
-- wpi/sendable/SendableBuilder.h
+- wpi/util/sendable/SendableBuilder.hpp
 
 classes:
-  frc::DigitalOutput:
+  wpi::DigitalOutput:
     ignored_bases:
-    - wpi::SendableHelper<DigitalOutput>
+    - wpi::util::SendableHelper<DigitalOutput>
     methods:
       DigitalOutput:
       Set:
       Get:
-      GetPortHandleForRouting:
-      GetAnalogTriggerTypeForRouting:
-      IsAnalogTrigger:
       GetChannel:
       Pulse:
       IsPulsing:

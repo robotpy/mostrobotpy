@@ -2,28 +2,28 @@
 build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.3.0",
-    "hatch-meson~=0.1.0",
-    "hatch-robotpy~=0.2.0",
+    "hatch-meson~=0.1.2",
+    "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-wpiutil==2026.2.2",
-    "robotpy-wpimath==2026.2.2",
-    "robotpy-hal==2026.2.2",
-    "pyntcore==2026.2.2",
+    "robotpy-wpiutil==2027.0.0a6",
+    "robotpy-wpimath==2027.0.0a6",
+    "robotpy-hal==2027.0.0a6",
+    "pyntcore==2027.0.0a6",
 ]
 
 [project]
 name = "robotpy-halsim-gui"
-version = "2026.2.2"
+version = "2027.0.0a6"
 description = "WPILib simulation GUI"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-wpiutil==2026.2.2",
-    "robotpy-wpimath==2026.2.2",
-    "robotpy-hal==2026.2.2",
-    "pyntcore==2026.2.2",
+    "robotpy-wpiutil==2027.0.0a6",
+    "robotpy-wpimath==2027.0.0a6",
+    "robotpy-hal==2027.0.0a6",
+    "pyntcore==2027.0.0a6",
 ]
 
 [project.urls]
@@ -35,9 +35,9 @@ version_file = "halsim_gui/version.py"
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_gui"
-group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2026.2.2"
+group_id = "org.wpilib.halsim"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
+version = "2027.0.0-alpha-6"
 use_headers = true
 
 libs = ["halsim_gui"]

@@ -1,0 +1,10 @@
+/build
+/dist
+*.pc
+*.so
+*.dll
+*.dylib
+
+/wpilog/_init__wpilog.py
+/wpilog/version.py
+/wpilog/trampolines

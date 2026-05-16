@@ -2,31 +2,31 @@
 build-backend = "hatchling.build"
 requires = [
     "semiwrap~=0.3.0",
-    "hatch-meson~=0.1.0",
-    "hatch-robotpy~=0.2.0",
+    "hatch-meson~=0.1.2",
+    "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-xrp==2026.2.2",
-    "wpilib==2026.2.2",
+    "robotpy-native-xrp==2027.0.0a6",
+    "wpilib==2027.0.0a6",
 ]
 
 
 [project]
 name = "robotpy-xrp"
-version = "2026.2.2"
+version = "2027.0.0a6"
 description = "Binary wrapper for WPILib XRP Vendor library"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-xrp==2026.2.2",
-    "wpilib==2026.2.2"
+    "robotpy-native-xrp==2027.0.0a6",
+    "wpilib==2027.0.0a6"
 ]
 
-[project.entry-points."robotpy_cli.2026"]
+[project.entry-points."robotpy_cli.2027"]
 run-xrp = "xrp.cli:RunXrp"
 
-[project.entry-points."robotpy_sim.2026"]
+[project.entry-points."robotpy_sim.2027"]
 xrp = "xrp.extension"
 
 
@@ -35,9 +35,9 @@ version_file = "xrp/version.py"
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "halsim_xrp"
-group_id = "edu.wpi.first.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release"
-version = "2026.2.2"
+group_id = "org.wpilib.halsim"
+repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
+version = "2027.0.0-alpha-6"
 use_headers = false
 
 extract_to = "xrp/extension"
@@ -57,13 +57,13 @@ update_init = ["xrp"]
 [tool.semiwrap.extension_modules."xrp._xrp"]
 name = "xrp"
 wraps = ["robotpy-native-xrp"]
-depends = ["wpilib", "wpimath_geometry"]
+depends = ["wpilib", "wpimath"]
 
 [tool.semiwrap.extension_modules."xrp._xrp".headers]
-# frc/xrp
-XRPGyro = "frc/xrp/XRPGyro.h"
-XRPMotor = "frc/xrp/XRPMotor.h"
-XRPOnBoardIO = "frc/xrp/XRPOnBoardIO.h"
-XRPRangefinder = "frc/xrp/XRPRangefinder.h"
-XRPReflectanceSensor = "frc/xrp/XRPReflectanceSensor.h"
-XRPServo = "frc/xrp/XRPServo.h"
+# wpi/xrp
+XRPGyro = "wpi/xrp/XRPGyro.hpp"
+XRPMotor = "wpi/xrp/XRPMotor.hpp"
+XRPOnBoardIO = "wpi/xrp/XRPOnBoardIO.hpp"
+XRPRangefinder = "wpi/xrp/XRPRangefinder.hpp"
+XRPReflectanceSensor = "wpi/xrp/XRPReflectanceSensor.hpp"
+XRPServo = "wpi/xrp/XRPServo.hpp"

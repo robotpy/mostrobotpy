@@ -9,38 +9,37 @@
 #include <memory>
 
 
-#include "frc/motorcontrol/MotorController.h"
-#include "wpi/sendable/Sendable.h"
-#include "wpi/sendable/SendableHelper.h"
+#include "wpi/hardware/motor/MotorController.hpp"
+#include "wpi/util/sendable/Sendable.hpp"
+#include "wpi/util/sendable/SendableHelper.hpp"
 
-namespace frc {
+namespace wpi {
 
-class PyMotorControllerGroup : public wpi::Sendable,
+class PyMotorControllerGroup : public wpi::util::Sendable,
                              public MotorController,
-                             public wpi::SendableHelper<PyMotorControllerGroup> {
+                             public wpi::util::SendableHelper<PyMotorControllerGroup> {
  public:
-  PyMotorControllerGroup(std::vector<std::shared_ptr<frc::MotorController>> &&args) :
+  PyMotorControllerGroup(std::vector<std::shared_ptr<wpi::MotorController>> &&args) :
     m_motorControllers(args) {}
   ~PyMotorControllerGroup() override = default;
 
   PyMotorControllerGroup(PyMotorControllerGroup&&) = default;
   PyMotorControllerGroup& operator=(PyMotorControllerGroup&&) = default;
 
-  void Set(double speed) override;
-  void SetVoltage(units::volt_t output) override;
-  double Get() const override;
+  void SetThrottle(double throttle) override;
+  void SetVoltage(wpi::units::volt_t voltage) override;
+  double GetThrottle() const override;
   void SetInverted(bool isInverted) override;
   bool GetInverted() const override;
   void Disable() override;
-  void StopMotor() override;
 
-  void InitSendable(wpi::SendableBuilder& builder) override;
+  void InitSendable(wpi::util::SendableBuilder& builder) override;
 
  private:
   void Initialize();
 
   bool m_isInverted = false;
-  std::vector<std::shared_ptr<frc::MotorController>> m_motorControllers;
+  std::vector<std::shared_ptr<wpi::MotorController>> m_motorControllers;
 };
 
 }  // namespace rpy

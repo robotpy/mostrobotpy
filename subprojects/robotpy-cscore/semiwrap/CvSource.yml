@@ -1,0 +1,17 @@
+classes:
+  wpi::cs::CvSource:
+    doc: A source for user code to provide OpenCV images as video frames.
+    force_no_trampoline: true
+    methods:
+      CvSource:
+        overloads:
+          "":
+            ignore: true
+          std::string_view, const VideoMode&:
+          std::string_view, VideoMode::PixelFormat, int, int, int:
+          std::string_view, wpi::util::PixelFormat, int, int, int:
+      PutFrame:
+        overloads:
+          cv::Mat&:
+          cv::Mat&, wpi::util::PixelFormat, bool:
+  

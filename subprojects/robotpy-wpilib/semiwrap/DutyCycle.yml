@@ -1,14 +1,10 @@
 extra_includes:
-- wpi/sendable/SendableBuilder.h
-- frc/AnalogTrigger.h
-- frc/DigitalSource.h
-- frc/DMA.h
-- frc/DMASample.h
+- wpi/util/sendable/SendableBuilder.hpp
 
 classes:
-  frc::DutyCycle:
+  wpi::DutyCycle:
     ignored_bases:
-    - wpi::SendableHelper<DutyCycle>
+    - wpi::util::SendableHelper<DutyCycle>
     methods:
       DutyCycle:
         overloads:
@@ -20,9 +16,6 @@ classes:
       GetFrequency:
       GetOutput:
       GetHighTime:
-      GetOutputScaleFactor:
-        ignore: true # not in beta 1
-      GetFPGAIndex:
       GetSourceChannel:
       InitSendable:
 

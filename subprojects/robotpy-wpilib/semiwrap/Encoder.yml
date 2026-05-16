@@ -1,25 +1,19 @@
 extra_includes:
-- wpi/sendable/SendableBuilder.h
-- frc/DigitalSource.h
-- frc/DigitalGlitchFilter.h
-- frc/DMA.h
-- frc/DMASample.h
+- wpi/util/sendable/SendableBuilder.hpp
 
 classes:
-  frc::Encoder:
+  wpi::Encoder:
     ignored_bases:
-    - wpi::SendableHelper<Encoder>
+    - wpi::util::SendableHelper<Encoder>
     typealias:
-    - frc::Encoder::EncodingType
-    enums:
-      IndexingType:
+    - wpi::Encoder::EncodingType
     methods:
       Encoder:
         overloads:
           int, int, bool, EncodingType:
             param_override:
               encodingType:
-                default: frc::Encoder::EncodingType::k4X
+                default: wpi::Encoder::EncodingType::X4
           DigitalSource*, DigitalSource*, bool, EncodingType:
             ignore: true
           DigitalSource&, DigitalSource&, bool, EncodingType:
@@ -27,7 +21,7 @@ classes:
           std::shared_ptr<DigitalSource>, std::shared_ptr<DigitalSource>, bool, EncodingType:
             param_override:
               encodingType:
-                default: frc::Encoder::EncodingType::k4X
+                default: wpi::Encoder::EncodingType::X4
       Get:
       Reset:
       GetPeriod:
@@ -44,16 +38,6 @@ classes:
       SetReverseDirection:
       SetSamplesToAverage:
       GetSamplesToAverage:
-      SetIndexSource:
-        overloads:
-          int, IndexingType:
-            param_override:
-              type:
-                default: frc::Encoder::IndexingType::kResetOnRisingEdge
-          const DigitalSource&, IndexingType:
-            param_override:
-              type:
-                default: frc::Encoder::IndexingType::kResetOnRisingEdge
       SetSimDevice:
       GetFPGAIndex:
       InitSendable:

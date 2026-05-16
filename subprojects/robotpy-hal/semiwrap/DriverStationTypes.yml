@@ -1,48 +1,34 @@
 strip_prefixes:
 - HAL_
 
+extra_includes:
+- src/ds_types_fmt.h
+
 enums:
-  HAL_AllianceStationID:
-    value_prefix: HAL_AllianceStationID
-  HAL_MatchType:
-    value_prefix: HAL_kMatchType
+  RobotMode:
 classes:
-  HAL_ControlWord:
-    attributes:
-      enabled:
-      autonomous:
-      test:
-      eStop:
-      fmsAttached:
-      dsAttached:
-      control_reserved:
-  HAL_JoystickAxes:
-    attributes:
-      count:
-      axes:
-      raw:
-  HAL_JoystickPOVs:
-    attributes:
-      count:
-      povs:
-  HAL_JoystickButtons:
-    attributes:
-      buttons:
-      count:
-  HAL_JoystickDescriptor:
-    attributes:
-      isXbox:
-      type:
-      name:
-      axisCount:
-      axisTypes:
-      buttonCount:
-      povCount:
-  HAL_MatchInfo:
-    attributes:
-      eventName:
-      matchType:
-      matchNumber:
-      replayNumber:
-      gameSpecificMessage:
-      gameSpecificMessageSize:
+  wpi::hal::ControlWord:
+    methods:
+      ControlWord:
+        overloads:
+          "":
+          int64_t, RobotMode, bool, bool, bool, bool:
+          HAL_ControlWord:
+      Update:
+        overloads:
+          int64_t, RobotMode, bool, bool, bool, bool:
+          HAL_ControlWord:
+      IsEnabled:
+      GetRobotMode:
+      GetOpModeId:
+      SetOpModeId:
+      IsEStopped:
+      IsFMSAttached:
+      IsDSAttached:
+      IsAutonomous:
+      IsAutonomousEnabled:
+      IsTeleop:
+      IsTeleopEnabled:
+      IsUtility:
+      IsUtilityEnabled:
+      GetValue:

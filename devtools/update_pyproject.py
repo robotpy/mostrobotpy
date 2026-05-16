@@ -68,6 +68,18 @@ class ProjectUpdater:
     def wpilib_bin_url(self) -> str:
         return self.cfg.params.wpilib_bin_url
 
+    def _get_artifact_maven_settings(
+        self, artifact_id: str
+    ) -> typing.Tuple[str, str, str]:
+        if artifact_id in self.cfg.params.mrclib_artifacts:
+            return (
+                "mrclib",
+                self.cfg.params.mrclib_bin_url,
+                self.cfg.params.mrclib_bin_version,
+            )
+
+        return "wpilib", self.wpilib_bin_url, self.wpilib_bin_version
+
     def _update_entrypoints(
         self,
         info: ProjectInfo,
@@ -172,32 +184,35 @@ class ProjectUpdater:
                 continue
 
             artifact_id = dl["artifact_id"]
+            artifact_type, repo_url, version = self._get_artifact_maven_settings(
+                artifact_id
+            )
 
-            if dl["repo_url"] != self.wpilib_bin_url:
+            if dl["repo_url"] != repo_url:
                 print(
                     "* ",
                     artifact_id,
                     "repo url:",
                     dl["repo_url"],
                     "=>",
-                    self.wpilib_bin_url,
+                    repo_url,
                 )
-                self.commit_changes.add(f"repo updated to {self.wpilib_bin_url}")
+                self.commit_changes.add(f"{artifact_type} repo updated to {repo_url}")
                 info.changed = True
-                dl["repo_url"] = self.wpilib_bin_url
+                dl["repo_url"] = repo_url
 
-            if dl["version"] != self.wpilib_bin_version:
+            if dl["version"] != version:
                 print(
                     "* ",
                     artifact_id,
                     "so version:",
                     dl["version"],
                     "=>",
-                    self.wpilib_bin_version,
+                    version,
                 )
-                self.commit_changes.add(f"lib updated to {self.wpilib_bin_version}")
+                self.commit_changes.add(f"{artifact_type} lib updated to {version}")
                 info.changed = True
-                dl["version"] = self.wpilib_bin_version
+                dl["version"] = version
 
     def update_maven(self):
         for data in self.subprojects.values():

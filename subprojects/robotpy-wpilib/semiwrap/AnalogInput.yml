@@ -1,40 +1,15 @@
 extra_includes:
-- wpi/sendable/SendableBuilder.h
-- frc/DMA.h
-- frc/DMASample.h
+- wpi/util/sendable/SendableBuilder.hpp
 
 classes:
-  frc::AnalogInput:
+  wpi::AnalogInput:
     ignored_bases:
-    - wpi::SendableHelper<AnalogInput>
-    attributes:
-      kAccumulatorModuleNumber:
-      kAccumulatorNumChannels:
-      kAccumulatorChannels:
+    - wpi::util::SendableHelper<AnalogInput>
     methods:
       AnalogInput:
       GetValue:
-      GetAverageValue:
       GetVoltage:
-      GetAverageVoltage:
       GetChannel:
-      SetAverageBits:
-      GetAverageBits:
-      SetOversampleBits:
-      GetOversampleBits:
-      GetLSBWeight:
-      GetOffset:
-      IsAccumulatorChannel:
-      InitAccumulator:
-      SetAccumulatorInitialValue:
-      ResetAccumulator:
-      SetAccumulatorCenter:
-      SetAccumulatorDeadband:
-      GetAccumulatorValue:
-      GetAccumulatorCount:
-      GetAccumulatorOutput:
-      SetSampleRate:
-      GetSampleRate:
       SetSimDevice:
       InitSendable:
 

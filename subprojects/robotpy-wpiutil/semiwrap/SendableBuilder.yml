@@ -1,11 +1,10 @@
 classes:
-  wpi::SendableBuilder:
+  wpi::util::SendableBuilder:
     enums:
       BackendKind:
     methods:
       SetSmartDashboardType:
       SetActuator:
-      SetSafeState:
       AddBooleanProperty:
       PublishConstBoolean:
       AddIntegerProperty:

@@ -6,11 +6,11 @@ def test_wpilib_simulation():
 
 
 def test_addressableled_sim():
-    sim = wpilib.simulation.AddressableLEDSim.createForIndex(0)
     led = wpilib.AddressableLED(0)
-    assert not sim.getRunning()
-    led.start()
-    assert sim.getRunning()
+    sim = wpilib.simulation.AddressableLEDSim(led)
+    assert not sim.getStart()
+    led.setStart(1)
+    assert sim.getStart()
 
     data = [
         wpilib.AddressableLED.LEDData(1, 2, 3),
@@ -21,5 +21,5 @@ def test_addressableled_sim():
     led.setData(data)
     assert sim.getData() == data
 
-    led.stop()
-    assert not sim.getRunning()
+    led.setStart(0)
+    assert not sim.getStart()

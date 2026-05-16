@@ -1,53 +1,34 @@
-enums:
-  RadioLEDState:
-
 classes:
-  frc::CANStatus:
+  wpi::CANStatus:
     attributes:
       percentBusUtilization:
       busOffCount:
       txFullCount:
       receiveErrorCount:
       transmitErrorCount:
-  frc::RobotController:
+  wpi::RobotController:
     nodelete: true
     methods:
-      GetFPGAVersion:
-      GetFPGARevision:
       GetSerialNumber:
       GetComments:
       GetTeamNumber:
       SetTimeSource:
       GetTime:
-      GetFPGATime:
-      GetUserButton:
+      GetMonotonicTime:
       IsSysActive:
       IsBrownedOut:
       GetRSLState:
       IsSystemTimeValid:
       GetInputVoltage:
-      GetInputCurrent:
       GetVoltage3V3:
       GetCurrent3V3:
       SetEnabled3V3:
       GetEnabled3V3:
       GetFaultCount3V3:
-      GetVoltage5V:
-      GetCurrent5V:
-      SetEnabled5V:
-      GetEnabled5V:
-      GetFaultCount5V:
-      GetVoltage6V:
-      GetCurrent6V:
-      SetEnabled6V:
-      GetEnabled6V:
-      GetFaultCount6V:
       GetBatteryVoltage:
       GetBrownoutVoltage:
       SetBrownoutVoltage:
       GetCPUTemp:
-      SetRadioLEDState:
-      GetRadioLEDState:
       GetCANStatus:
       GetCommsDisableCount:
       ResetRailFaultCounts:

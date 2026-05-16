@@ -1,0 +1,14 @@
+classes:
+  wpi::cs::UsbCamera:
+    force_no_trampoline: true
+    methods:
+      UsbCamera:
+        overloads:
+          "":
+          std::string_view, int:
+          std::string_view, std::string_view:
+      EnumerateUsbCameras:
+      SetPath:
+      GetPath:
+      GetInfo:
+      SetConnectVerbose:
