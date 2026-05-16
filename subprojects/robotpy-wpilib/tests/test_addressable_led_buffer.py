@@ -4,7 +4,8 @@
 
 import pytest
 
-from wpilib import AddressableLEDBuffer, Color, Color8Bit
+from wpilib import AddressableLEDBuffer
+from wpiutil import Color, Color8Bit
 
 AddressableLEDBufferView = AddressableLEDBuffer.View
 
@@ -45,19 +46,19 @@ class TestAddressableLEDBuffer:
     def test_get_color(self):
         """Test getting colors from buffer"""
         buffer = AddressableLEDBuffer(4)
-        denim_color_8bit = Color8Bit(Color.kDenim)
-        first_blue_color_8bit = Color8Bit(Color.kFirstBlue)
-        first_red_color_8bit = Color8Bit(Color.kFirstRed)
+        denim_color_8bit = Color8Bit(Color.DENIM)
+        first_blue_color_8bit = Color8Bit(Color.FIRST_BLUE)
+        first_red_color_8bit = Color8Bit(Color.FIRST_RED)
 
-        buffer.setLED(0, Color.kFirstBlue)
+        buffer.setLED(0, Color.FIRST_BLUE)
         buffer.setLED(1, denim_color_8bit)
-        buffer.setLED(2, Color.kFirstRed)
-        buffer.setLED(3, Color.kFirstBlue)
+        buffer.setLED(2, Color.FIRST_RED)
+        buffer.setLED(3, Color.FIRST_BLUE)
 
-        assert buffer.getLED(0) == Color.kFirstBlue
-        assert buffer.getLED(1) == Color.kDenim
-        assert buffer.getLED(2) == Color.kFirstRed
-        assert buffer.getLED(3) == Color.kFirstBlue
+        assert buffer.getLED(0) == Color.FIRST_BLUE
+        assert buffer.getLED(1) == Color.DENIM
+        assert buffer.getLED(2) == Color.FIRST_RED
+        assert buffer.getLED(3) == Color.FIRST_BLUE
         assert buffer.getLED8Bit(0) == first_blue_color_8bit
         assert buffer.getLED8Bit(1) == denim_color_8bit
         assert buffer.getLED8Bit(2) == first_red_color_8bit
@@ -111,7 +112,7 @@ class TestAddressableLEDBufferView:
         """Test setting a single LED through a view"""
         buffer = AddressableLEDBuffer(10)
         view = buffer[5:6]
-        color = Color.kAqua
+        color = Color.AQUA
         view.setLED(0, color)
         assert buffer.getLED(5) == color
         assert view.getLED(0) == color
@@ -120,11 +121,11 @@ class TestAddressableLEDBufferView:
         """Test segment view"""
         buffer = AddressableLEDBuffer(10)
         view = buffer[2:9]
-        view.setLED(0, Color.kAqua)
-        assert buffer.getLED(2) == Color.kAqua
+        view.setLED(0, Color.AQUA)
+        assert buffer.getLED(2) == Color.AQUA
 
-        view.setLED(6, Color.kAzure)
-        assert buffer.getLED(8) == Color.kAzure
+        view.setLED(6, Color.AZURE)
+        assert buffer.getLED(8) == Color.AZURE
 
     @pytest.mark.skip("reversed views are not implemented")
     def test_manual_reversed(self):
@@ -133,31 +134,31 @@ class TestAddressableLEDBufferView:
         view = buffer[8:1:-1]
 
         # LED 0 in the view should write to LED 8 on the real buffer
-        view.setLED(0, Color.kAqua)
-        assert buffer.getLED(8) == Color.kAqua
+        view.setLED(0, Color.AQUA)
+        assert buffer.getLED(8) == Color.AQUA
 
         # LED 6 in the view should write to LED 2 on the real buffer
-        view.setLED(6, Color.kAzure)
-        assert buffer.getLED(2) == Color.kAzure
+        view.setLED(6, Color.AZURE)
+        assert buffer.getLED(2) == Color.AZURE
 
     @pytest.mark.skip("reversed views are not implemented")
     def test_full_manual_reversed(self):
         """Test full manual reversed view"""
         buffer = AddressableLEDBuffer(10)
         view = buffer[9::-1]
-        view.setLED(0, Color.kWhite)
-        assert buffer.getLED(9) == Color.kWhite
+        view.setLED(0, Color.WHITE)
+        assert buffer.getLED(9) == Color.WHITE
 
-        buffer.setLED(8, Color.kRed)
-        assert view.getLED(1) == Color.kRed
+        buffer.setLED(8, Color.RED)
+        assert view.getLED(1) == Color.RED
 
     @pytest.mark.skip("reversed views are not implemented")
     def test_reversed(self):
         """Test reversed view"""
         buffer = AddressableLEDBuffer(10)
         view = buffer[:].reversed()
-        view.setLED(0, Color.kWhite)
-        assert buffer.getLED(9) == Color.kWhite
+        view.setLED(0, Color.WHITE)
+        assert buffer.getLED(9) == Color.WHITE
 
-        view.setLED(9, Color.kRed)
-        assert buffer.getLED(0) == Color.kRed
+        view.setLED(9, Color.RED)
+        assert buffer.getLED(0) == Color.RED
