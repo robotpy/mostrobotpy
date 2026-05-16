@@ -115,7 +115,7 @@ AddressableLEDBuffer::View::View(std::span<AddressableLED::LEDData> data)
 
 AddressableLEDBuffer::View AddressableLEDBuffer::CreateView(
     pybind11::slice slice) {
-  ssize_t start = 0, stop = 0, step = 0, slicelength = 0;
+  size_t start = 0, stop = 0, step = 0, slicelength = 0;
   slice.compute(m_buffer.size(), &start, &stop, &step, &slicelength);
   if (step != 1) {
     throw std::out_of_range("step != 1");
