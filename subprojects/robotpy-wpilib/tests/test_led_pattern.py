@@ -180,7 +180,9 @@ def test_rainbow_at_full_size():
     pattern.applyTo(buffer)
 
     for led in range(len(buffer)):
-        assert buffer.getLED8Bit(led) == Color8Bit(Color.fromHSV(led, saturation, value))
+        assert buffer.getLED8Bit(led) == Color8Bit(
+            Color.fromHSV(led, saturation, value)
+        )
 
 
 def test_rainbow_odd_size():
