@@ -6,6 +6,7 @@ subdir('semiwrap')
 
 wpilib_sources += files(
     'wpilib/src/main.cpp',
+    'wpilib/src/rpy/AddressableLEDBuffer.cpp',
     'wpilib/src/rpy/Notifier.cpp',
     'wpilib/src/rpy/SmartDashboardData.cpp',
     'wpilib/src/rpy/MotorControllerGroup.cpp',
