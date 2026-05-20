@@ -117,6 +117,13 @@ class AddressableLEDBuffer {
   }
 
   /**
+   * Implicit conversion to span of const LED data
+   */
+  operator std::span<const wpi::AddressableLED::LEDData>() const {
+    return std::span{m_buffer};
+  }
+
+  /**
    * Gets the LED data at the specified index.
    *
    * @param index the index
