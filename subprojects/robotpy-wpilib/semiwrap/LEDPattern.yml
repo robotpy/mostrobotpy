@@ -11,8 +11,16 @@ classes:
       ApplyTo:
         overloads:
           std::span<wpi::AddressableLED::LEDData> [const]:
+            cpp_code: |
+              [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer::View data) {
+                return self.ApplyTo(data);
+              }
           LEDReader, std::function<void (int, wpi::util::Color)> [const]:
           std::span<wpi::AddressableLED::LEDData>, std::function<void (int, wpi::util::Color)> [const]:
+            cpp_code: |
+              [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer::View data, std::function<void(int, wpi::util::Color)> writer) {
+                return self.ApplyTo(data, writer);
+              }
       Reversed:
       OffsetBy:
       ScrollAtRelativeVelocity:
@@ -44,18 +52,11 @@ classes:
     inline_code: |
       .def("applyTo", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer& data) {
         self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data));
-      }, py::arg("data"), release_gil(), py::prepend())
+      }, py::arg("data"), release_gil())
       .def("applyTo", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer& data,
                          std::function<void (int, wpi::util::Color)> writer) {
         self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data), std::move(writer));
-      }, py::arg("data"), py::arg("writer").none(false), release_gil(), py::prepend())
-      .def("applyTo", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer::View& data) {
-        self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data));
-      }, py::arg("data"), release_gil(), py::prepend())
-      .def("applyTo", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer::View& data,
-                         std::function<void (int, wpi::util::Color)> writer) {
-        self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data), std::move(writer));
-      }, py::arg("data"), py::arg("writer").none(false), release_gil(), py::prepend())
+      }, py::arg("data"), py::arg("writer").none(false), release_gil())
   wpi::LEDPattern::LEDReader:
     methods:
       LEDReader:
