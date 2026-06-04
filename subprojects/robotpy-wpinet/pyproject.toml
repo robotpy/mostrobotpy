@@ -6,21 +6,22 @@ requires = [
     "semiwrap~=0.3.0",
     "hatch-meson~=0.1.2",
     "hatchling",
-    "robotpy-native-wpinet==2027.0.0a6",
-    "robotpy-wpiutil==2027.0.0a6"
+    "robotpy-native-wpinet==0.0.0",
+    "robotpy-wpiutil==0.0.0"
 ]
 
 [project]
 name = "robotpy-wpinet"
-version = "2027.0.0a6"
+version = "0.0.0"
 description = "Binary wrapper for WPILib networking library"
+requires-python = ">=3.11"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpinet==2027.0.0a6",
-    "robotpy-wpiutil==2027.0.0a6"
+    "robotpy-native-wpinet==0.0.0",
+    "robotpy-wpiutil==0.0.0"
 ]
 
 [project.urls]
