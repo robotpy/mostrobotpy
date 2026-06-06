@@ -15,6 +15,7 @@ requires = [
 name = "robotpy-native-wpilib"
 version = "2027.0.0a6"
 description = "WPILib Robotics Library"
+requires-python = ">=3.11"
 license = "BSD-3-Clause"
 
 dependencies = [
@@ -31,8 +32,8 @@ packages = ["src/native"]
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "wpilibc-cpp"
 group_id = "org.wpilib.wpilibc"
-repo_url = "https://frcmaven.wpi.edu/artifactory/release-2027"
-version = "2027.0.0-alpha-6"
+repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+version = "2027.0.0-alpha-6-42-gfdc6fd9cb"
 
 extract_to = "src/native/wpilib"
 libs = ["wpilibc"]
