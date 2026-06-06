@@ -1,3 +1,6 @@
+extra_includes:
+- rpy/AddressableLEDBuffer.h
+
 functions:
   format_as:
     ignore: true
@@ -11,7 +14,10 @@ classes:
         overloads:
           std::span<const LEDData>:
           std::initializer_list<LEDData>:
-            ignore: true
+            cpp_code: |
+              [](wpi::AddressableLED& self, const wpi::AddressableLEDBuffer& data) {
+                return self.SetData(data);
+              }, py::prepend()
       SetColorOrder:
       GetChannel:
       SetStart:
