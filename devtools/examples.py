@@ -55,14 +55,12 @@ def _load_tests_config(config_path: pathlib.Path) -> ExamplesConfig:
         raise click.ClickException(str(exc))
 
 
-@click.command(name="test-examples")
-@click.argument("test_name", required=False)
-@click.option("-x", "--exitfirst", is_flag=True, help="Exit on first failed test.")
-def test_examples(test_name: str | None, exitfirst: bool) -> None:
-    """Run tests on robot examples."""
-    root = pathlib.Path(__file__).parent.parent / "examples" / "robot"
-    config_path = root / "examples.toml"
-
+def _test_robot_type(
+    test_name: str | None,
+    exitfirst: bool,
+    root: pathlib.Path,
+    config_path: pathlib.Path,
+):
     cfg = _load_tests_config(config_path)
     base_tests = cfg.tests.base
     ignored_tests = cfg.tests.ignored
@@ -103,3 +101,18 @@ def test_examples(test_name: str | None, exitfirst: bool) -> None:
         sys.exit(1)
 
     print("All tests successful!")
+
+
+@click.command(name="test-examples")
+@click.argument("test_name", required=False)
+@click.option("-x", "--exitfirst", is_flag=True, help="Exit on first failed test.")
+def test_examples(test_name: str | None, exitfirst: bool) -> None:
+    """Run tests on full robot examples."""
+    root = pathlib.Path(__file__).parent.parent / "examples" / "robot"
+    config_path = root / "examples.toml"
+    _test_robot_type(test_name, exitfirst, root, config_path)
+
+    """Run tests on robot snippets."""
+    root = pathlib.Path(__file__).parent.parent / "snippets" / "robot"
+    config_path = root / "snippets.toml"
+    _test_robot_type(test_name, exitfirst, root, config_path)
