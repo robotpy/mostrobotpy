@@ -91,8 +91,11 @@ def build_other_wheels(ctx: Context, no_test: bool):
     "--cross",
     help="meson cross.txt file (installed at ~/.local/share/meson/cross/FILENAME)",
 )
+@click.option("--buildtype", help="meson build type (debug, release, etc)")
 @click.pass_obj
-def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[str]):
+def build_meson_wheels(
+    ctx: Context, no_test: bool, cross: T.Optional[str], buildtype: T.Optional[str]
+):
     """
     Builds wheels that use meson, runs tests.
 
@@ -113,6 +116,9 @@ def build_meson_wheels(ctx: Context, no_test: bool, cross: T.Optional[str]):
     config_settings = []
     if cross:
         config_settings.append(f"setup-args=--cross-file={cross}")
+
+    if buildtype:
+        config_settings.append(f"setup-args=-Dbuildtype={buildtype}")
 
     for project in ctx.subprojects.values():
         if not project.is_meson_project():

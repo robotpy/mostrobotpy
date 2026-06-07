@@ -166,19 +166,29 @@ jobs:
         - '3.12'
         - '3.13'
         - '3.14'
+        publish:
+        - true
         include:
         - os: ubuntu-24.04-arm
           python_version: '3.11'
+          publish: true
           container: python:3.11-bookworm
         - os: ubuntu-24.04-arm
           python_version: '3.12'
+          publish: true
           container: python:3.12-bookworm
         - os: ubuntu-24.04-arm
           python_version: '3.13'
+          publish: true
           container: python:3.13-bookworm
         - os: ubuntu-24.04-arm
           python_version: '3.14'
+          publish: true
           container: python:3.14-bookworm
+        - os: ubuntu-24.04
+          python_version: '3.14'
+          publish: false
+          build_arg: '--buildtype=debug'
 
     container: ${{ matrix.container }}
 
@@ -250,7 +260,7 @@ jobs:
 
     - name: Build + test wheels
       run: |
-        python -m devtools ci build-meson-wheels
+        python -m devtools ci build-meson-wheels ${{ matrix.build_arg }}
       env:
         SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
@@ -277,6 +287,7 @@ jobs:
       with:
         name: "pypi-meson-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python_version }}"
         path: dist
+        if: matrix.publish
 
   #
   # Build robot/raspbian wheels
