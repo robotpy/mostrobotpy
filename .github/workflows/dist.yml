@@ -47,10 +47,10 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
     - uses: psf/black@stable
 
-    - uses: actions/setup-python@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: "3.13"
 
@@ -77,12 +77,12 @@ jobs:
   build-pure:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Install python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: '3.13'
 
@@ -96,7 +96,7 @@ jobs:
       run: |
         ./rdev.sh ci build-pure-wheels
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: "pypi-pure"
         path: dist
@@ -120,13 +120,13 @@ jobs:
     container: ${{ matrix.container }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Install python
       if: matrix.os != 'ubuntu-24.04-arm'
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: '3.13'
 
@@ -140,7 +140,7 @@ jobs:
       run: |
         ./rdev.sh ci build-other-wheels
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: "pypi-other-${{ runner.os }}-${{ runner.arch }}"
         path: dist
@@ -193,23 +193,23 @@ jobs:
     container: ${{ matrix.container }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
     - name: Install python
       if: matrix.os != 'ubuntu-24.04-arm'
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python_version }}
 
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         pattern: "pypi-other-${{ runner.os }}-*"
         path: dist-other
         merge-multiple: true
 
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         pattern: "pypi-pure"
         path: dist-other
@@ -244,11 +244,7 @@ jobs:
         fi
 
     - name: Setup sccache
-      uses: mozilla-actions/sccache-action@v0.0.9
-      # The sccache 0.13.0 release is missing intel mac builds
-      # see <https://github.com/mozilla/sccache/issues/2554>
-      with:
-        version: "v0.12.0"
+      uses: mozilla-actions/sccache-action@v0.0.10
 
     - name: Install deps
       run: |
@@ -283,7 +279,7 @@ jobs:
       run: |
         python -m devtools ci update-yaml
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: "pypi-meson-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python_version }}"
         path: dist
@@ -307,7 +303,7 @@ jobs:
       image: "${{ matrix.os.container }}"
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
@@ -324,7 +320,7 @@ jobs:
       run: |
         /build/venv/bin/cross-python -m devtools ci build-other-wheels --no-test
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: cross-other-${{ matrix.os.name }}
         path: dist
@@ -344,11 +340,11 @@ jobs:
       image: "${{ matrix.os.container }}"
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         name: "cross-other-${{ matrix.os.base }}"
         path: dist-other
@@ -374,7 +370,7 @@ jobs:
         /build/venv/bin/cross-python -m devtools ci build-meson-wheels --no-test --cross=cross.txt
 
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v7
       with:
         name: cross-meson-${{ matrix.os.name }}
         path: dist
@@ -389,7 +385,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         pattern: cross-meson-*
         path: dist/
@@ -408,7 +404,7 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         pattern: cross-other-*
         path: dist/
@@ -430,17 +426,17 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         pattern: pypi-meson-*
         path: dist/
         merge-multiple: true
 
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         pattern: pypi-pure
         path: dist/
@@ -459,11 +455,11 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
 
-    - uses: actions/download-artifact@v4
+    - uses: actions/download-artifact@v8
       with:
         pattern: pypi-other-*
         path: dist/
