@@ -14,10 +14,6 @@ classes:
         overloads:
           std::span<const LEDData>:
           std::initializer_list<LEDData>:
-            cpp_code: |
-              [](wpi::AddressableLED& self, const wpi::AddressableLEDBuffer& data) {
-                return self.SetData(data);
-              }, py::prepend()
             ignore: true
       SetColorOrder:
       GetChannel:
