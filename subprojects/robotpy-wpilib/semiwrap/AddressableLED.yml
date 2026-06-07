@@ -18,6 +18,7 @@ classes:
               [](wpi::AddressableLED& self, const wpi::AddressableLEDBuffer& data) {
                 return self.SetData(data);
               }, py::prepend()
+            ignore: true
       SetColorOrder:
       GetChannel:
       SetStart:

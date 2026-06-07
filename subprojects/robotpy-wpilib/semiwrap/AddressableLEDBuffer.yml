@@ -23,6 +23,7 @@ classes:
         ignore: true
       CreateView:
         rename: __getitem__
+        no_release_gil: true
         keepalive:
         - [0, 1]
     inline_code: |
