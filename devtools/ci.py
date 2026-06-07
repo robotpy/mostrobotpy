@@ -189,8 +189,9 @@ def scan_headers(ctx: Context):
 
 
 @ci.command()
+@click.option("--write", default=False, is_flag=True)
 @click.pass_obj
-def update_yaml(ctx: Context):
+def update_yaml(ctx: Context, write: bool):
     """Run update-yaml on all projects"""
     failed_subprojects = 0
     for project in ctx.subprojects.values():
@@ -199,7 +200,7 @@ def update_yaml(ctx: Context):
                 print("- Skipping", project.name, file=sys.stderr)
                 continue
 
-            if not project.update_yaml():
+            if not project.update_yaml(write):
                 failed_subprojects += 1
 
     if failed_subprojects != 0:

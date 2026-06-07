@@ -82,14 +82,16 @@ class Subproject:
         )
         return result.returncode == 0
 
-    def update_yaml(self):
+    def update_yaml(self, write: bool):
         """Resyncs the yaml files with their header files"""
+        args = ["--write"] if write else []
+
         result = run_cmd(
             self.ctx.python,
             "-m",
             "semiwrap",
             "update-yaml",
-            "--write",
+            *args,
             cwd=self.path,
             check=False,
         )
