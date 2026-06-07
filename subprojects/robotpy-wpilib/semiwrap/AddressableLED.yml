@@ -25,7 +25,7 @@ classes:
     inline_code: |
       .def("setData", [](wpi::AddressableLED& self, const wpi::AddressableLEDBuffer& data) {
             return self.SetData(data); 
-          }, py::prepend());
+          }, release_gil(), py::prepend());
   wpi::AddressableLED::LEDData:
     force_no_trampoline: true
     ignored_bases:
