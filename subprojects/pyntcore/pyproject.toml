@@ -5,16 +5,16 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-ntcore==0.0.0",
-    "robotpy-wpiutil==0.0.0",
-    "robotpy-wpinet==0.0.0",
-    "robotpy-wpilog==0.0.0",
+    "robotpy-native-ntcore==2027.0.0a6",
+    "robotpy-wpiutil==2027.0.0a6.post1",
+    "robotpy-wpinet==2027.0.0a6.post1",
+    "robotpy-wpilog==2027.0.0a6.post1",
 ]
 
 
 [project]
 name = "pyntcore"
-version = "0.0.0"
+version = "2027.0.0a6.post1"
 description = "Binary wrappers for the FIRST ntcore library"
 requires-python = ">=3.11"
 authors = [
@@ -22,10 +22,10 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-ntcore==0.0.0",
-    "robotpy-wpiutil==0.0.0",
-    "robotpy-wpinet==0.0.0",
-    "robotpy-wpilog==0.0.0",
+    "robotpy-native-ntcore==2027.0.0a6",
+    "robotpy-wpiutil==2027.0.0a6.post1",
+    "robotpy-wpinet==2027.0.0a6.post1",
+    "robotpy-wpilog==2027.0.0a6.post1",
 ]
 
 [project.urls]
