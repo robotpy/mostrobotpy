@@ -5,14 +5,14 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-wpimath==2027.0.0a6",
-    "robotpy-wpiutil==2027.0.0a6.post1",
+    "robotpy-native-wpimath==0.0.0",
+    "robotpy-wpiutil==0.0.0",
     # "numpy", # broken in raspbian CI
 ]
 
 [project]
 name = "robotpy-wpimath"
-version = "2027.0.0a6.post1"
+version = "0.0.0"
 description = "Binary wrapper for WPILib Math library"
 requires-python = ">=3.11"
 authors = [
@@ -20,8 +20,8 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpimath==2027.0.0a6",
-    "robotpy-wpiutil==2027.0.0a6.post1",
+    "robotpy-native-wpimath==0.0.0",
+    "robotpy-wpiutil==0.0.0",
 ]
 
 [project.urls]
@@ -1460,6 +1460,7 @@ MathUtil = "wpi/math/util/MathUtil.hpp"
 # StateSpaceUtil = "wpi/math/util/StateSpaceUtil.hpp"
 
 # wpi/math/controller
+AntiTipping = "wpi/math/controller/AntiTipping.hpp"
 ArmFeedforward = "wpi/math/controller/ArmFeedforward.hpp"
 BangBangController = "wpi/math/controller/BangBangController.hpp"
 ControlAffinePlantInversionFeedforward = "wpi/math/controller/ControlAffinePlantInversionFeedforward.hpp"
@@ -1494,6 +1495,7 @@ SwerveDrivePoseEstimator3d = "wpi/math/estimator/SwerveDrivePoseEstimator3d.hpp"
 # UnscentedTransform = "wpi/math/estimator/UnscentedTransform.hpp"
 
 # wpi/math/filter
+BiquadFilter = "wpi/math/filter/BiquadFilter.hpp"
 Debouncer = "wpi/math/filter/Debouncer.hpp"
 EdgeCounterFilter = "wpi/math/filter/EdgeCounterFilter.hpp"
 LinearFilter = "wpi/math/filter/LinearFilter.hpp"
