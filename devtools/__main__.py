@@ -52,10 +52,21 @@ def info(ctx: Context):
 @click.option(
     "--buildtype", default="debug", help="meson build type (debug, release, etc)"
 )
+@click.option(
+    "--stop-at",
+    metavar="PACKAGE",
+    help="Build projects in normal order through PACKAGE, then stop",
+)
 @click.pass_obj
-def develop(ctx: Context, package: str, test: bool, buildtype: str):
+def develop(ctx: Context, package: str, test: bool, buildtype: str, stop_at: str):
     """Install robotpy packages in editable mode"""
+    if stop_at and stop_at not in ctx.subprojects:
+        raise click.BadParameter(f"invalid package {stop_at}", param_hint="--stop-at")
+
     if package:
+        if stop_at:
+            raise click.UsageError("--stop-at cannot be used when PACKAGE is specified")
+
         for project in ctx.subprojects.values():
             if project.name == package:
                 project.develop(buildtype)
@@ -69,6 +80,8 @@ def develop(ctx: Context, package: str, test: bool, buildtype: str):
             project.develop(buildtype)
             if test:
                 project.test()
+            if project.name == stop_at:
+                break
 
 
 @main.command()
