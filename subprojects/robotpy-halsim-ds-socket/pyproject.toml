@@ -1,7 +1,7 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "hatchling", 
+    "hatchling",
     "hatch-robotpy~=0.2.1",
 ]
 
@@ -30,7 +30,7 @@ version_file = "halsim_ds_socket/version.py"
 artifact_id = "halsim_ds_socket"
 group_id = "org.wpilib.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-6-66-g489b993e6"
+version = "2027.0.0-alpha-6-121-g54b023998"
 use_headers = false
 
 extract_to = "halsim_ds_socket"
