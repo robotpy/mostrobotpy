@@ -1,2 +1,9 @@
 [config]
 acronyms = ["CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "PCM", "PDH", "PDP", "PID", "PWM", "RIO", "SPI", "URI", "URL", "USB"]
+
+[[mapping]]
+scope = "subprojects/robotpy-wpiutil/tests/test_sendable.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"

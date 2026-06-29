@@ -22,9 +22,9 @@ def custom_now_getter():
 
 @pytest.fixture
 def custom_fixture():
-    wpiutil.SetNowImpl(custom_now_getter)
+    wpiutil.set_now_impl(custom_now_getter)
     yield
-    wpiutil.SetNowImpl(None)
+    wpiutil.set_now_impl(None)
 
 
 def test_custom_timestamp(custom_fixture):
@@ -39,7 +39,7 @@ def test_custom_timestamp(custom_fixture):
     assert 100_000_000 == wpiutil.now()
 
     # Set it back to the standard implementation and expect its roughly milliseconds since 1970
-    wpiutil.SetNowImpl(None)
+    wpiutil.set_now_impl(None)
     wpi_now = wpiutil.now() * 1e-6
     py_now = int(time.time())
     assert py_now == pytest.approx(wpi_now, abs=1)

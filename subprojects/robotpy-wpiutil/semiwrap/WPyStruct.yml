@@ -2,21 +2,21 @@ defaults:
   subpackage: wpistruct
 
 functions:
-  forEachNested:
+  for_each_nested:
     no_release_gil: true
-  getTypeName:
+  get_type_name:
     no_release_gil: true
-  getSchema:
+  get_schema:
     no_release_gil: true
-  getSize:
+  get_size:
     no_release_gil: true
   pack:
     no_release_gil: true
-  packArray:
+  pack_array:
     no_release_gil: true
-  packInto:
+  pack_into:
     no_release_gil: true
   unpack:
     no_release_gil: true
-  unpackArray:
+  unpack_array:
     no_release_gil: true
