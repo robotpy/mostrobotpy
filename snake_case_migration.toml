@@ -2923,6 +2923,11 @@ name = "copyMakeBorder"
 reason = "OpenCV API name"
 
 [[ignored]]
+scope = "subprojects/robotpy-romi/romi/cli.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 plugin hook; other providers migrate in later task"
+
+[[ignored]]
 scope = "subprojects/robotpy-wpilib/wpilib/_impl/cli_sim.py"
 name = "loadExtension"
 reason = "robotpy_sim.2027 plugin hook; other providers migrate in later task"
