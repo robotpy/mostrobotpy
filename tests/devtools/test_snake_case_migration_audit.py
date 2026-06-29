@@ -1,5 +1,12 @@
-from devtools.snake_case_migration.manifest import Ignore, Manifest, Mapping
-from devtools.snake_case_migration.audit import audit_python_source
+import subprocess
+import sys
+from pathlib import Path
+
+from devtools.snake_case_migration.manifest import Ignore, Manifest, Mapping, save_manifest
+from devtools.snake_case_migration.audit import (
+    audit_python_source,
+    audit_semiwrap_yaml_source,
+)
 
 
 def test_audit_reports_camel_case_defs_and_attrs():
@@ -77,3 +84,96 @@ def test_audit_ignores_explicit_ignored_names():
     messages = audit_python_source("def knownLegacyName():\n    pass\n", manifest)
 
     assert not messages
+
+
+def test_cli_audit_scans_pyi_files(tmp_path: Path):
+    manifest_path = tmp_path / "manifest.toml"
+    stub_path = tmp_path / "module.pyi"
+    save_manifest(
+        manifest_path,
+        Manifest(
+            mappings=[
+                Mapping(
+                    kind="method",
+                    old="getAngularPositionRotations",
+                    new="get_angular_position_rotations",
+                    source="test",
+                )
+            ]
+        ),
+    )
+    stub_path.write_text("class DCMotorSim:\n    def getAngularPositionRotations(self): ...\n")
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "devtools.snake_case_migration",
+            "--manifest",
+            str(manifest_path),
+            "audit",
+            str(tmp_path),
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+
+    assert result.returncode == 1
+    assert "module.pyi" in result.stdout
+    assert "getAngularPositionRotations" in result.stdout
+
+
+def test_audit_reports_semiwrap_yaml_public_def_and_rename_names():
+    messages = audit_semiwrap_yaml_source(
+        '''\
+classes:
+  wpi::sim::DCMotorSim:
+    methods:
+      GetAngularPosition:
+    inline_code: |
+      .def("getAngularPositionRotations", [] {})
+      .def_readwrite("pixelFormat", &VideoMode::pixelFormat)
+      .def("robot_init", [] {})
+      .def("__eq__", [] {})
+      .def("lowercase", [] {})
+      .def("TypeName", [] {})
+      .def("_privateTypeName", [] {})
+      .def("_private_value", [] {})
+      .def("get_angle_degrees", [] {})
+      .def("snake_case", [] {})
+      .def("CxxInputIdentifier", [] {})
+      .def("kValue", [] {})
+      .def("OPMode", [] {})
+      .def("already_snake", [] {})
+      .def("getHTTPServer", [] {})
+      .def_static("enumerateDevices", [] {})
+    overloads:
+      wpi::units::turn_t:
+        rename: angularPosition
+      other:
+        rename: angular_position
+  CxxInputIdentifier:
+''',
+        Manifest(
+            ignored=[Ignore(name="OPMode", reason="test ignore")],
+            mappings=[
+                Mapping(
+                    kind="method",
+                    old="getHTTPServer",
+                    new="get_http_server",
+                    source="test",
+                )
+            ],
+        ),
+    )
+
+    assert any(".def" in message and "getAngularPositionRotations" in message for message in messages)
+    assert any(".def_readwrite" in message and "pixelFormat" in message for message in messages)
+    assert any(".def_static" in message and "enumerateDevices" in message for message in messages)
+    assert any("rename" in message and "angularPosition" in message for message in messages)
+    assert any("getHTTPServer" in message and "expected 'get_http_server'" in message for message in messages)
+    assert not any("GetAngularPosition" in message for message in messages)
+    assert not any("CxxInputIdentifier" in message for message in messages)
+    assert not any("'TypeName'" in message for message in messages)
+    assert not any("OPMode" in message for message in messages)

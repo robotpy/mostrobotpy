@@ -6,7 +6,7 @@ from pathlib import Path
 
 import tomlkit
 
-from .audit import audit_python_source
+from .audit import audit_python_source, audit_semiwrap_yaml_source, iter_audit_files
 from .manifest import Manifest, load_manifest, save_manifest
 from .names import DEFAULT_ACRONYMS
 from .rewrite_py import rewrite_python_source
@@ -154,8 +154,13 @@ def _run_rewrite_text(paths: list[Path], manifest_path: Path, write: bool) -> in
 def _run_audit(paths: list[Path], manifest_path: Path) -> int:
     manifest = load_manifest(manifest_path)
     found = False
-    for path in iter_python_files(paths):
-        for message in audit_python_source(path.read_text(), manifest):
+    for path in iter_audit_files(paths):
+        source = path.read_text()
+        if path.suffix in {".yml", ".yaml"}:
+            messages = audit_semiwrap_yaml_source(source, manifest)
+        else:
+            messages = audit_python_source(source, manifest)
+        for message in messages:
             print(f"{path}: {message}")
             found = True
     return 1 if found else 0

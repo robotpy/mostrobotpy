@@ -40,7 +40,7 @@ class WaitUntilCommand(Command):
         current mode. When the DS is not connected to FMS or in practice mode, the command will not
         wait.
 
-        see :func:`wpilib.DriverStation.GetMatchTime`
+        see :func:`wpilib.DriverStation.get_match_time`
 
         :param time: the match time at which to end, in seconds
         """
