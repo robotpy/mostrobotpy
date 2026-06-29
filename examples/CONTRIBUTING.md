@@ -17,10 +17,10 @@ Shorter thoughts
 
 Testing:
 
-* New examples must run! you *must* test your code on either a robot or in
+* New examples must run! You *must* test your code on either a robot or in
   simulation. If there's something broken in RobotPy, file an issue to get it
   fixed
-  * you can find instructions on how to test a vision file [here](https://robotpy.readthedocs.io/en/stable/vision/other.html#vision-other-runcustom)!
+  * You can find instructions on how to test a vision file [here](https://robotpy.readthedocs.io/en/stable/vision/other.html#vision-other-runcustom)!
 * Format your code with black
 
 General:
@@ -33,9 +33,9 @@ General:
 Naming:
 
 * Filenames should always be all lowercase
-* Function names are camelCase
-* Class names start with a capital letter
-* Class method names are camelCase
+* Function names should be snake_case
+* Class names should use PascalCase
+* Class method names should be snake_case
 * Class member variables such as `m_name` should be `self.name` in Python
 * Protected/private methods/members can optionally be prefixed with `_`
 
@@ -55,7 +55,7 @@ a few examples:
 ```python
 
 # OK: just a constant
-My_CONSTANT = 42
+MY_CONSTANT = 42
 
 # BAD: at global scope
 motor = wpilib.Talon(1)

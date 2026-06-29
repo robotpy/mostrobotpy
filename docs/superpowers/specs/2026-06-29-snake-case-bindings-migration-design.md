@@ -38,9 +38,9 @@ The target naming policy is:
 Lifecycle and framework hooks are part of the API migration. Examples include:
 
 - `robotInit` -> `robot_init`
-- `teleop_periodic` -> `teleop_periodic`
-- `autonomous_init` -> `autonomous_init`
-- `simulation_periodic` -> `simulation_periodic`
+- `teleopPeriodic` -> `teleop_periodic`
+- `autonomousInit` -> `autonomous_init`
+- `simulationPeriodic` -> `simulation_periodic`
 
 Acronym handling should use semiwrap's `name_transform` acronym map where semiwrap generates names. The reusable migration tool should use the same acronym map or an exported copy of it for pure-Python rewrites so names stay consistent across generated and manual code. Expected examples include:
 
@@ -49,7 +49,7 @@ Acronym handling should use semiwrap's `name_transform` acronym map where semiwr
 - `toJSON` -> `to_json`
 - `getI2CHandle` -> `get_i2c_handle`
 
-Common RobotPy/WPILib acronyms to support include `DS`, `CAN`, `PWM`, `I2C`, `SPI`, `NT`, `JSON`, `PID`, `IMu`, `HAL`, `JNI`, `uSB`, `HTTP`, `uRI`, `uRL`, `CPu`, `FPGA`, `FMS`, `PCM`, `PDP`, `PDH`, `RIO`, and project-specific additions discovered during migration.
+Common RobotPy/WPILib acronyms to support include `DS`, `CAN`, `PWM`, `I2C`, `SPI`, `NT`, `JSON`, `PID`, `IMU`, `HAL`, `JNI`, `USB`, `HTTP`, `URI`, `URL`, `CPU`, `FPGA`, `FMS`, `PCM`, `PDP`, `PDH`, `RIO`, and project-specific additions discovered during migration.
 
 ## Semiwrap configuration
 
@@ -79,10 +79,10 @@ The tool should provide these responsibilities:
    - Convert non-type camelCase/Pascal-ish identifiers to snake_case.
    - Convert enum values to CAPS_CASE.
    - Preserve dunder names and explicitly ignored names.
-   - use semiwrap's acronym map when possible, with local configuration for pure-Python-only terms.
+   - Use semiwrap's acronym map when possible, with local configuration for pure-Python-only terms.
 
 2. **Manifest generation and maintenance**
-   - Generate or update a readable manifest, preferably yAML or TOML.
+   - Generate or update a readable manifest, preferably YAML or TOML.
    - Store mappings grouped by category: generated API, pure Python definitions, keyword arguments, attributes, enum values, manual overrides, and ignored names.
    - Preserve manual edits when regenerating.
    - Record the rationale for manual overrides and ignored names.
@@ -124,7 +124,7 @@ The manifest should be deterministic enough that rerunning the generator does no
 
 Automatic conversion is the default, but manual exceptions are expected. Exceptions should be recorded in the manifest.
 
-use an exception when:
+Use an exception when:
 
 - The automatic name is technically correct but awkward or un-Pythonic.
 - The C++ spelling contains redundant prefixes that should not be carried into Python.
@@ -152,7 +152,7 @@ The migration should happen on one repo-wide branch, but changes should be commi
    - Run the automated rewriter.
    - Manually resolve exceptions.
    - Run the subproject's `tests/run_tests.py` when present.
-   - Commit source, tests, semiwrap yAML overrides, and manifest changes for that subproject together.
+   - Commit source, tests, semiwrap YAML overrides, and manifest changes for that subproject together.
 
 4. **Examples/snippets/docs commit**
    - Rewrite repo-level examples, snippets, and docs after the package APIs are stable.
@@ -165,11 +165,11 @@ The migration should happen on one repo-wide branch, but changes should be commi
 
 ## Build and test strategy
 
-use the repository's existing development workflow:
+Use the repository's existing development workflow:
 
 - Prefer `./rdev.sh develop` for building the full repository.
 - Prefer `./rdev.sh develop NAME` for rebuilding an individual project.
-- use `./rdev.sh develop --stop-at NAME` when dependencies also need to be rebuilt.
+- Use `./rdev.sh develop --stop-at NAME` when dependencies also need to be rebuilt.
 - Each subproject with tests should be verified using its `tests/run_tests.py`.
 
 The migration should use editable installs for Python projects where practical.
@@ -202,14 +202,14 @@ When a failure occurs, classify it before fixing:
    - Add or adjust tests that lock in the intended name.
 
 4. **Test expectation failure**
-   - update tests to the new snake_case API unless the failure reveals a real behavioral regression.
+   - Update tests to the new snake_case API unless the failure reveals a real behavioral regression.
 
 ## Scope inventory
 
 The current repository contains many independent migration surfaces:
 
 - 12 semiwrap-enabled projects.
-- About 305 semiwrap yAML files.
+- About 305 semiwrap YAML files.
 - About 176 subproject Python files.
 - About 127 example/snippet Python files.
 - `robotpy-commands-v2`, a large pure-Python package that will require substantial manual and automated renaming.

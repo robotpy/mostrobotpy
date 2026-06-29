@@ -20,10 +20,10 @@ class Intake:
         )
 
     def deploy(self) -> None:
-        self.piston.set_throttle(wpilib.DoubleSolenoid.Value.FORWARD)
+        self.piston.set(wpilib.DoubleSolenoid.Value.FORWARD)
 
     def retract(self) -> None:
-        self.piston.set_throttle(wpilib.DoubleSolenoid.Value.REVERSE)
+        self.piston.set(wpilib.DoubleSolenoid.Value.REVERSE)
         self.motor.set_throttle(0)  # turn off the motor
 
     def activate(self, velocity: float) -> None:

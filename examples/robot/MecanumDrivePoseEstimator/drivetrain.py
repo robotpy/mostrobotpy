@@ -133,10 +133,10 @@ class Drivetrain:
     ) -> None:
         """Method to drive the robot using joystick info.
 
-        :param xVelocity: Velocity of the robot in the x direction (forward).
-        :param yVelocity: Velocity of the robot in the y direction (sideways).
+        :param x_velocity: Velocity of the robot in the x direction (forward).
+        :param y_velocity: Velocity of the robot in the y direction (sideways).
         :param rot: Angular rate of the robot.
-        :param fieldRelative: Whether the provided x and y velocities are relative to the field.
+        :param field_relative: Whether the provided x and y velocities are relative to the field.
         """
         chassis_velocities = wpimath.ChassisVelocities(x_velocity, y_velocity, rot)
         if field_relative:

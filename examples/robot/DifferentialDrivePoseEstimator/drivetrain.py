@@ -133,7 +133,7 @@ class Drivetrain:
     def drive(self, x_velocity: float, rot: float) -> None:
         """Drives the robot with the given linear velocity and angular velocity.
 
-        :param xVelocity: Linear velocity in m/s.
+        :param x_velocity: Linear velocity in m/s.
         :param rot: Angular velocity in rad/s.
         """
         wheel_velocities = self.kinematics.to_wheel_velocities(

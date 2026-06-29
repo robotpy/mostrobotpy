@@ -1,6 +1,6 @@
 # Snake Case Bindings Migration Implementation Plan
 
-> **For agentic workers:** REQuIRED SuB-SKILL: use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Convert all mostrobotpy Python bindings, pure-Python code, tests, examples, snippets, and docs to snake_case APIs with CAPS_CASE enum values and no compatibility aliases.
 
@@ -15,9 +15,9 @@
 - Convert pure-Python package code, tests, examples, snippets, docs, and internal project-local names to snake_case where practical.
 - Keep class, type, and enum type names in PascalCase.
 - Add no compatibility aliases for old camelCase names.
-- use semiwrap's `name_transform` acronym support where appropriate.
+- Use semiwrap's `name_transform` acronym support where appropriate.
 - If semiwrap bugs are encountered, dispatch a subagent to fix `/home/virtuald/src/frc/codex/semiwrap` immediately; do not use worktrees and do not work around the bug in mostrobotpy.
-- use one repo-wide migration branch with separate per-subproject commits.
+- Use one repo-wide migration branch with separate per-subproject commits.
 - Prefer `./rdev.sh develop` for the full repo, `./rdev.sh develop robotpy-wpilib` for one project, and `./rdev.sh develop --stop-at robotpy-wpilib` for dependency-chain builds.
 - Verify each subproject with its `tests/run_tests.py` when present.
 - Do not touch the unrelated untracked `networktables.json` file.
@@ -202,7 +202,7 @@ git commit -m "tools: scaffold snake case migration CLI"
 
 **Interfaces:**
 - Consumes: `semiwrap.name_transform.resolve_name_transform`.
-- Produces: `DEFAuLT_ACRONyMS`, `to_snake_case(name: str, kind: NameKind = "method") -> str`, `to_caps_case(name: str) -> str`, and `is_probably_type_name(name: str) -> bool`.
+- Produces: `DEFAULT_ACRONYMS`, `to_snake_case(name: str, kind: NameKind = "method") -> str`, `to_caps_case(name: str) -> str`, and `is_probably_type_name(name: str) -> bool`.
 
 - [ ] **Step 1: Write failing conversion tests**
 
@@ -210,7 +210,7 @@ Extend `tests/devtools/test_snake_case_migration_names.py`:
 
 ```python
 from devtools.snake_case_migration.names import (
-    DEFAuLT_ACRONyMS,
+    DEFAULT_ACRONYMS,
     is_probably_type_name,
     to_caps_case,
     to_snake_case,
@@ -218,7 +218,7 @@ from devtools.snake_case_migration.names import (
 
 
 def test_snake_case_uses_wpilib_acronyms():
-    assert "FPGA" in DEFAuLT_ACRONyMS
+    assert "FPGA" in DEFAULT_ACRONYMS
     assert to_snake_case("GetFPGATime") == "get_fpga_time"
     assert to_snake_case("isDSAttached") == "is_ds_attached"
     assert to_snake_case("toJSON") == "to_json"
@@ -227,13 +227,13 @@ def test_snake_case_uses_wpilib_acronyms():
 
 def test_caps_case_uses_wpilib_acronyms():
     assert to_caps_case("kHTTPServer") == "K_HTTP_SERVER"
-    assert to_caps_case("valueOne") == "VALuE_ONE"
+    assert to_caps_case("valueOne") == "VALUE_ONE"
 
 
 def test_type_name_detection_keeps_pascal_case_types():
     assert is_probably_type_name("TimedRobot") is True
     assert is_probably_type_name("NetworkTableInstance") is True
-    assert is_probably_type_name("get_default") is False
+    assert is_probably_type_name("getDefault") is False
     assert is_probably_type_name("robotInit") is False
 ```
 
@@ -260,7 +260,7 @@ from semiwrap.name_transform import resolve_name_transform
 
 NameKind = Literal["function", "method", "attribute", "enum_value", "parameter"]
 
-DEFAuLT_ACRONyMS: tuple[str, ...] = (
+DEFAULT_ACRONYMS: tuple[str, ...] = (
     "mDNS",
     "DS",
     "CAN",
@@ -270,14 +270,14 @@ DEFAuLT_ACRONyMS: tuple[str, ...] = (
     "NT",
     "JSON",
     "PID",
-    "IMu",
+    "IMU",
     "HAL",
     "JNI",
-    "uSB",
+    "USB",
     "HTTP",
-    "uRI",
-    "uRL",
-    "CPu",
+    "URI",
+    "URL",
+    "CPU",
     "FPGA",
     "FMS",
     "PCM",
@@ -286,8 +286,8 @@ DEFAuLT_ACRONyMS: tuple[str, ...] = (
     "RIO",
 )
 
-_SNAKE_TRANSFORM = resolve_name_transform("snake_case", acronyms=DEFAuLT_ACRONyMS)
-_CAPS_TRANSFORM = resolve_name_transform("CAPS_CASE", acronyms=DEFAuLT_ACRONyMS)
+_SNAKE_TRANSFORM = resolve_name_transform("snake_case", acronyms=DEFAULT_ACRONYMS)
+_CAPS_TRANSFORM = resolve_name_transform("CAPS_CASE", acronyms=DEFAULT_ACRONYMS)
 
 
 def is_dunder(name: str) -> bool:
@@ -342,7 +342,7 @@ git commit -m "tools: add semiwrap-backed snake case conversion"
 - Create: `snake_case_migration.toml`
 
 **Interfaces:**
-- Consumes: `DEFAuLT_ACRONyMS` from Task 2.
+- Consumes: `DEFAULT_ACRONYMS` from Task 2.
 - Produces: `Manifest`, `Mapping`, `Ignore`, `load_manifest(path)`, `save_manifest(path, manifest)`, `merge_mapping(manifest, mapping)`, CLI commands `manifest init` and `manifest check`.
 
 - [ ] **Step 1: Write failing manifest tests**
@@ -368,7 +368,7 @@ def test_manifest_round_trip_is_deterministic(tmp_path: Path):
         acronyms=["DS", "FPGA"],
         mappings=[
             Mapping(kind="method", old="GetFPGATime", new="get_fpga_time", source="test"),
-            Mapping(kind="enum_value", old="K_ValueOne", new="K_VALuE_ONE", source="test"),
+            Mapping(kind="enum_value", old="kValueOne", new="K_VALUE_ONE", source="test"),
         ],
         ignored=[Ignore(name="__iter__", reason="dunder protocol")],
     )
@@ -422,7 +422,7 @@ from pathlib import Path
 
 import tomlkit
 
-from .names import DEFAuLT_ACRONyMS
+from .names import DEFAULT_ACRONYMS
 
 
 @dataclasses.dataclass(slots=True)
@@ -444,7 +444,7 @@ class Ignore:
 
 @dataclasses.dataclass(slots=True)
 class Manifest:
-    acronyms: list[str] = dataclasses.field(default_factory=lambda: list(DEFAuLT_ACRONyMS))
+    acronyms: list[str] = dataclasses.field(default_factory=lambda: list(DEFAULT_ACRONYMS))
     mappings: list[Mapping] = dataclasses.field(default_factory=list)
     ignored: list[Ignore] = dataclasses.field(default_factory=list)
     semiwrap_bugs: list[dict[str, str]] = dataclasses.field(default_factory=list)
@@ -467,7 +467,7 @@ def merge_mapping(manifest: Manifest, mapping: Mapping) -> None:
 
 def load_manifest(path: str | Path) -> Manifest:
     data = tomlkit.parse(Path(path).read_text())
-    manifest = Manifest(acronyms=list(data.get("config", {}).get("acronyms", DEFAuLT_ACRONyMS)))
+    manifest = Manifest(acronyms=list(data.get("config", {}).get("acronyms", DEFAULT_ACRONYMS)))
     for item in data.get("mapping", []):
         manifest.mappings.append(Mapping(**dict(item)))
     for item in data.get("ignored", []):
@@ -506,7 +506,7 @@ def save_manifest(path: str | Path, manifest: Manifest) -> None:
     Path(path).write_text(tomlkit.dumps(doc))
 ```
 
-update `devtools/snake_case_migration/cli.py` so `manifest init` and `manifest check` work:
+Update `devtools/snake_case_migration/cli.py` so `manifest init` and `manifest check` work:
 
 ```python
 from __future__ import annotations
@@ -612,9 +612,9 @@ def test_rewrite_definitions_calls_attrs_and_keywords():
     manifest = Manifest(
         mappings=[
             Mapping(kind="method", old="robotInit", new="robot_init", source="test"),
-            Mapping(kind="method", old="get_default", new="get_default", source="test"),
-            Mapping(kind="method", old="set_expiration", new="set_expiration", source="test"),
-            Mapping(kind="parameter", old="initial_pose", new="initial_pose", source="test"),
+            Mapping(kind="method", old="getDefault", new="get_default", source="test"),
+            Mapping(kind="method", old="setExpiration", new="set_expiration", source="test"),
+            Mapping(kind="parameter", old="initialPose", new="initial_pose", source="test"),
         ]
     )
     source = '''\
@@ -622,9 +622,9 @@ import wpilib
 
 class MyRobot(wpilib.TimedRobot):
     def robotInit(self):
-        inst = wpilib.DriverStation.get_default()
-        self.drive.set_expiration(timeout=0.1)
-        self.odometry.reset_position(initial_pose=self.pose)
+        inst = wpilib.DriverStation.getDefault()
+        self.drive.setExpiration(timeout=0.1)
+        self.odometry.resetPosition(initialPose=self.pose)
 '''
     assert rewrite_python_source(source, manifest) == '''\
 import wpilib
@@ -633,7 +633,7 @@ class MyRobot(wpilib.TimedRobot):
     def robot_init(self):
         inst = wpilib.DriverStation.get_default()
         self.drive.set_expiration(timeout=0.1)
-        self.odometry.reset_position(initial_pose=self.pose)
+        self.odometry.resetPosition(initial_pose=self.pose)
 '''
 
 
@@ -753,7 +753,7 @@ import libcst as cst
 from .manifest import Manifest
 from .names import is_dunder, is_probably_type_name
 
-_CAMEL_RE = re.compile(r"[a-z][A-za-z0-9]*[A-z][A-za-z0-9]*")
+_CAMEL_RE = re.compile(r"[a-z][A-Za-z0-9]*[A-Z][A-Za-z0-9]*")
 
 
 class _AuditVisitor(cst.CSTVisitor):
@@ -786,7 +786,7 @@ def audit_python_source(source: str, manifest: Manifest) -> list[str]:
     return visitor.messages
 ```
 
-update `devtools/snake_case_migration/cli.py` to import the modules without circular imports and keep existing behavior. Full file should still expose the commands from Task 3.
+Update `devtools/snake_case_migration/cli.py` to import the modules without circular imports and keep existing behavior. Full file should still expose the commands from Task 3.
 
 - [ ] **Step 4: Run tests to verify they pass**
 
@@ -959,20 +959,20 @@ from pathlib import Path
 
 from .manifest import Manifest
 
-TExT_SuFFIxES = {".md", ".rst", ".py", ".toml", ".yml", ".yaml"}
+TEXT_SUFFIXES = {".md", ".rst", ".py", ".toml", ".yml", ".yaml"}
 
 
 def iter_text_files(paths: list[Path]) -> list[Path]:
     files: list[Path] = []
     for path in paths:
-        if path.is_file() and path.suffix in TExT_SuFFIxES:
+        if path.is_file() and path.suffix in TEXT_SUFFIXES:
             files.append(path)
         elif path.is_dir():
             files.extend(
                 p
                 for p in path.rglob("*")
                 if p.is_file()
-                and p.suffix in TExT_SuFFIxES
+                and p.suffix in TEXT_SUFFIXES
                 and "__pycache__" not in p.parts
                 and ".git" not in p.parts
             )
@@ -987,7 +987,7 @@ def rewrite_text_source(source: str, manifest: Manifest) -> str:
     return result
 ```
 
-update `devtools/snake_case_migration/cli.py` to add shared path arguments, `--write`, and implementations. The command dispatch should:
+Update `devtools/snake_case_migration/cli.py` to add shared path arguments, `--write`, and implementations. The command dispatch should:
 
 ```python
 # after parsing args and loading manifest_path where needed:
@@ -998,12 +998,12 @@ update `devtools/snake_case_migration/cli.py` to add shared path arguments, `--w
 # - audit: run audit_python_source() for each Python file; print messages and return 1 if any messages are found.
 ```
 
-use this exact semiwrap config for every pyproject command:
+Use this exact semiwrap config for every pyproject command:
 
 ```toml
 name_transform.default = "snake_case"
 name_transform.enum_value = "CAPS_CASE"
-name_transform.acronyms = ["mDNS", "DS", "CAN", "PWM", "I2C", "SPI", "NT", "JSON", "PID", "IMu", "HAL", "JNI", "uSB", "HTTP", "uRI", "uRL", "CPu", "FPGA", "FMS", "PCM", "PDP", "PDH", "RIO"]
+name_transform.acronyms = ["mDNS", "DS", "CAN", "PWM", "I2C", "SPI", "NT", "JSON", "PID", "IMU", "HAL", "JNI", "USB", "HTTP", "URI", "URL", "CPU", "FPGA", "FMS", "PCM", "PDP", "PDH", "RIO"]
 ```
 
 - [ ] **Step 4: Run all migration tool tests**
@@ -1086,7 +1086,7 @@ python -m devtools.snake_case_migration pyproject --write \
 Run:
 
 ```bash
-python - <<'Py'
+python - <<'PY'
 from pathlib import Path
 paths = [
     'subprojects/pyntcore/pyproject.toml',
@@ -1109,7 +1109,7 @@ for path in paths:
     assert 'name_transform.enum_value = "CAPS_CASE"' in text, path
     assert 'name_transform.acronyms' in text, path
 print('verified', len(paths), 'semiwrap pyprojects')
-Py
+PY
 ```
 
 Expected: `verified 13 semiwrap pyprojects`.
@@ -1142,7 +1142,7 @@ git commit -m "build: enable snake case semiwrap name transforms"
 ### Task 7: Migrate foundational semiwrap packages in dependency order
 
 **Files:**
-- Modify per package: package source, tests, semiwrap yAML overrides, generated import files, and `snake_case_migration.toml`.
+- Modify per package: package source, tests, semiwrap YAML overrides, generated import files, and `snake_case_migration.toml`.
 - Packages in this task: `robotpy-wpiutil`, `robotpy-wpinet`, `robotpy-wpilog`, `robotpy-wpimath`, `robotpy-hal`, `pyntcore`.
 
 **Interfaces:**
@@ -1213,7 +1213,7 @@ git add subprojects/robotpy-wpimath snake_case_migration.toml
 git commit -m "refactor: migrate robotpy-wpimath to snake case"
 ```
 
-Expected: tests pass. Pay special attention to constructor keyword arguments such as `initial_pose`, `gyroAngle`, `front_left`, `front_right`, `rear_left`, `rear_right`, `minAcceleration`, and `maxAcceleration`; they must become snake_case unless recorded as external serialized names.
+Expected: tests pass. Pay special attention to constructor keyword arguments such as `initialPose`, `gyroAngle`, `frontLeft`, `frontRight`, `rearLeft`, `rearRight`, `minAcceleration`, and `maxAcceleration`; they must become snake_case unless recorded as external serialized names.
 
 - [ ] **Step 5: Migrate `robotpy-hal`**
 
@@ -1252,7 +1252,7 @@ Expected: tests pass. Inline binding method `configPythonLogging` should become 
 ### Task 8: Migrate higher-level semiwrap packages
 
 **Files:**
-- Modify per package: package source, tests, semiwrap yAML overrides, generated import files, and `snake_case_migration.toml`.
+- Modify per package: package source, tests, semiwrap YAML overrides, generated import files, and `snake_case_migration.toml`.
 - Packages in this task: `robotpy-apriltag`, `robotpy-cscore`, `robotpy-wpilib`, `robotpy-romi`, `robotpy-xrp`, `robotpy-halsim-gui`.
 
 **Interfaces:**
@@ -1305,7 +1305,7 @@ git add subprojects/robotpy-wpilib snake_case_migration.toml
 git commit -m "refactor: migrate robotpy-wpilib to snake case"
 ```
 
-Expected: tests pass. Lifecycle hooks such as `robotInit`, `disabled_periodic`, `teleop_periodic`, `autonomous_init`, `testInit`, and `simulation_periodic` must be migrated in framework dispatch and tests.
+Expected: tests pass. Lifecycle hooks such as `robotInit`, `disabledPeriodic`, `teleopPeriodic`, `autonomousInit`, `testInit`, and `simulationPeriodic` must be migrated in framework dispatch and tests.
 
 - [ ] **Step 4: Migrate `robotpy-romi`**
 
@@ -1456,7 +1456,7 @@ Expected: tests pass.
 Run:
 
 ```bash
-python - <<'Py'
+python - <<'PY'
 from pathlib import Path
 native = sorted(Path('subprojects').glob('robotpy-native-*/pyproject.toml'))
 for path in native:
@@ -1464,7 +1464,7 @@ for path in native:
     assert 'name_transform.default' not in text, path
     assert '[tool.semiwrap]' not in text, path
 print('verified native pyprojects:', len(native))
-Py
+PY
 ```
 
 Expected: prints `verified native pyprojects: 10`.
@@ -1505,7 +1505,7 @@ git commit -m "refactor: update native package metadata for snake case migration
 - Modify: `snippets/**/*.py`
 - Modify: `docs/**/*.rst`
 - Modify: `docs/**/*.md`
-- Modify: `examples/CONTRIBuTING.md`
+- Modify: `examples/CONTRIBUTING.md`
 - Modify: `snake_case_migration.toml`
 
 **Interfaces:**
@@ -1528,7 +1528,7 @@ Expected: remaining audit messages are either user-defined type names or are fix
 Run:
 
 ```bash
-python -m devtools.snake_case_migration rewrite-text --write docs examples/CONTRIBuTING.md README.md
+python -m devtools.snake_case_migration rewrite-text --write docs examples/CONTRIBUTING.md README.md
 ```
 
 Expected: command exits 0 and only replaces manifest-mapped names.

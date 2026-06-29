@@ -81,7 +81,7 @@ gen_package(root, "wpilog")
 # WPINet
 gen_package(root, "wpinet")
 
-# WPIutil
+# WPIUtil
 gen_package(root, "wpiutil")
 gen_package(root, "wpiutil.sync")
 gen_package(root, "wpiutil.wpistruct")
@@ -93,7 +93,7 @@ gen_package(root, "hal.simulation")
 # ROMI
 gen_package(root, "romi")
 
-# xRP
+# XRP
 gen_package(root, "xrp")
 
 # Commands

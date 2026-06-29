@@ -5226,38 +5226,6 @@ source = "manual"
 reason = "Task 11 examples/docs migration"
 
 [[mapping]]
-scope = "global"
-kind = "method"
-old = "U"
-new = "u"
-source = "manual"
-reason = "Task 11 examples/docs migration"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "X"
-new = "x"
-source = "manual"
-reason = "Task 11 examples/docs migration"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "Y"
-new = "y"
-source = "manual"
-reason = "Task 11 examples/docs migration"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "Z"
-new = "z"
-source = "manual"
-reason = "Task 11 examples/docs migration"
-
-[[mapping]]
 scope = "subprojects/pyntcore/ntcore/_logutil.py"
 kind = "method"
 old = "onInstanceDestroy"

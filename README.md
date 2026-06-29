@@ -23,7 +23,7 @@ found in the `subprojects` directory. Each subproject can be built like
 any other python project, but it is recommended that you use our `rdev.sh`
 tool instead.
 
-you must have a working C++ build system and python development headers
+You must have a working C++ build system and python development headers
 installed for your system.
 
 Next install dependencies using pip:
@@ -58,7 +58,7 @@ For pure python development, you can just edit the files in this repository in-p
 changes will take effect immediately.
 
 If you are changing C++/wrapper code, you will need to rebuild the package that you are
-modifying. you can either run the develop command above (which rebuilds everything) or
+modifying. You can either run the develop command above (which rebuilds everything) or
 rebuild an individual package:
 
     ./rdev.sh develop NAME

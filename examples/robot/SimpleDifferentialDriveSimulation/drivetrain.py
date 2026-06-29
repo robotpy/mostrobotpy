@@ -107,7 +107,7 @@ class Drivetrain:
     def drive(self, x_velocity: float, rot: float) -> None:
         """Controls the robot using arcade drive.
 
-        :param xVelocity: the velocity for the x axis
+        :param x_velocity: the velocity for the x axis
         :param rot: the rotation
         """
         self.set_velocities(
