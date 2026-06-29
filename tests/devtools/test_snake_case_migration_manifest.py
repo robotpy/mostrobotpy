@@ -2,6 +2,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+import tomlkit
+
 from devtools.snake_case_migration.manifest import (
     Ignore,
     Manifest,
@@ -10,6 +12,32 @@ from devtools.snake_case_migration.manifest import (
     merge_mapping,
     save_manifest,
 )
+
+REQUIRED_ACRONYMS = [
+    "mDNS",
+    "DS",
+    "CAN",
+    "PWM",
+    "I2C",
+    "SPI",
+    "NT",
+    "JSON",
+    "PID",
+    "IMU",
+    "HAL",
+    "JNI",
+    "USB",
+    "HTTP",
+    "URI",
+    "URL",
+    "CPU",
+    "FPGA",
+    "FMS",
+    "PCM",
+    "PDP",
+    "PDH",
+    "RIO",
+]
 
 
 def test_manifest_init_cli_writes_manifest(tmp_path):
@@ -27,6 +55,31 @@ def test_manifest_init_cli_writes_manifest(tmp_path):
         check=True,
     )
     assert "[config]" in path.read_text()
+
+
+def test_pyproject_cli_writes_required_name_transform_settings(tmp_path: Path):
+    path = tmp_path / "pyproject.toml"
+    path.write_text("[tool.semiwrap]\n")
+
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "devtools.snake_case_migration",
+            "pyproject",
+            "--write",
+            str(path),
+        ],
+        check=True,
+    )
+
+    output = path.read_text()
+    assert 'name_transform.default = "snake_case"' in output
+    assert 'name_transform.enum_value = "CAPS_CASE"' in output
+    assert (
+        tomlkit.parse(output)["tool"]["semiwrap"]["name_transform"]["acronyms"]
+        == REQUIRED_ACRONYMS
+    )
 
 
 def test_manifest_round_trip_is_deterministic(tmp_path: Path):

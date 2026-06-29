@@ -16,13 +16,26 @@ class _AuditVisitor(cst.CSTVisitor):
 
     def __init__(self, manifest: Manifest):
         self.allowed = {ignored.name for ignored in manifest.ignored}
+        self.mapped_old_names = {
+            mapping.old: mapping.new
+            for mapping in manifest.mappings
+            if mapping.old != mapping.new
+        }
         self.messages: list[str] = []
 
     def _check(self, name: str, context: str) -> None:
-        if name in self.allowed or is_dunder(name) or is_probably_type_name(name):
+        if name in self.allowed or is_dunder(name):
+            return
+        if name in self.mapped_old_names:
+            self.messages.append(
+                f"{context}: mapped old name {name!r} remains; "
+                f"expected {self.mapped_old_names[name]!r}"
+            )
+            return
+        if is_probably_type_name(name):
             return
         if _CAMEL_RE.search(name):
-            self.messages.append(f"{context}: remaining camelCase name {name!r}")
+            self.messages.append(f"{context}: unmapped camelCase candidate {name!r}")
 
     def _name_is_checked_by_specific_visitor(self, node: cst.Name) -> bool:
         parent = self.get_metadata(ParentNodeProvider, node)
