@@ -13,7 +13,7 @@ htmlcov
 *.dll
 *.dylib
 
-build 
+build
 dist
 MANIFEST
 

@@ -24,4 +24,3 @@ classes:
       .def_readwrite("width", &VideoMode::width)
       .def_readwrite("height", &VideoMode::height)
       .def_readwrite("fps", &VideoMode::fps)
-  
