@@ -1,3 +1,5 @@
+import subprocess
+import sys
 from pathlib import Path
 
 from devtools.snake_case_migration.manifest import (
@@ -10,13 +12,34 @@ from devtools.snake_case_migration.manifest import (
 )
 
 
+def test_manifest_init_cli_writes_manifest(tmp_path):
+    path = tmp_path / "manifest.toml"
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "devtools.snake_case_migration",
+            "--manifest",
+            str(path),
+            "manifest",
+            "init",
+        ],
+        check=True,
+    )
+    assert "[config]" in path.read_text()
+
+
 def test_manifest_round_trip_is_deterministic(tmp_path: Path):
     path = tmp_path / "snake_case_migration.toml"
     manifest = Manifest(
         acronyms=["DS", "FPGA"],
         mappings=[
-            Mapping(kind="method", old="GetFPGATime", new="get_fpga_time", source="test"),
-            Mapping(kind="enum_value", old="kValueOne", new="K_VALUE_ONE", source="test"),
+            Mapping(
+                kind="method", old="GetFPGATime", new="get_fpga_time", source="test"
+            ),
+            Mapping(
+                kind="enum_value", old="kValueOne", new="K_VALUE_ONE", source="test"
+            ),
         ],
         ignored=[Ignore(name="__iter__", reason="dunder protocol")],
     )
@@ -68,7 +91,12 @@ def test_merge_mapping_preserves_manual_override():
     )
     merge_mapping(
         manifest,
-        Mapping(kind="method", old="ConfigPythonLogging", new="config_python_logging", source="generated"),
+        Mapping(
+            kind="method",
+            old="ConfigPythonLogging",
+            new="config_python_logging",
+            source="generated",
+        ),
     )
     assert manifest.mappings[0].new == "configure_python_logging"
     assert manifest.mappings[0].source == "manual"
