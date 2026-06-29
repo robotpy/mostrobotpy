@@ -2,8 +2,579 @@
 acronyms = ["CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "PCM", "PDH", "PDP", "PID", "PWM", "RIO", "SPI", "URI", "URL", "USB"]
 
 [[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_coordinate_system.py"
+kind = "method"
+old = "check_pose3d_convert"
+new = "check_pose_3_d_convert"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_coordinate_system.py"
+kind = "method"
+old = "check_transform3d_convert"
+new = "check_transform_3_d_convert"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_coordinate_system.py"
+kind = "method"
+old = "test_pose3d_edn_to_ned"
+new = "test_pose_3_d_edn_to_ned"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_coordinate_system.py"
+kind = "method"
+old = "test_pose3d_edn_to_nwu"
+new = "test_pose_3_d_edn_to_nwu"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_coordinate_system.py"
+kind = "method"
+old = "test_transform3d_edn_to_ned"
+new = "test_transform_3_d_edn_to_ned"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_coordinate_system.py"
+kind = "method"
+old = "test_transform3d_edn_to_nwu"
+new = "test_transform_3_d_edn_to_nwu"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_pose3d.py"
+kind = "method"
+old = "test_to_pose2d"
+new = "test_to_pose_2_d"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_rotation3d.py"
+kind = "method"
+old = "test_to_rotation2d"
+new = "test_to_rotation_2_d"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_translation3d.py"
+kind = "method"
+old = "test_to_translation2d"
+new = "test_to_translation_2_d"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_twist2d.py"
+kind = "method"
+old = "test_pose2d_log"
+new = "test_pose_2_d_log"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/geometry/test_twist3d.py"
+kind = "method"
+old = "test_pose2d_log"
+new = "test_pose_2_d_log"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_mecanum_drive_odometry3d.py"
+kind = "method"
+old = "odometry3d_test"
+new = "odometry_3_d_test"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_mecanum_drive_odometry3d.py"
+kind = "parameter"
+old = "odometry3d_test"
+new = "odometry_3_d_test"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_swerve.py"
+kind = "method"
+old = "s4"
+new = "s_4"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_swerve.py"
+kind = "method"
+old = "test_swerve4_normalize"
+new = "test_swerve_4_normalize"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_swerve.py"
+kind = "method"
+old = "test_swerve4_odometry"
+new = "test_swerve_4_odometry"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_swerve.py"
+kind = "method"
+old = "test_swerve4_straightline"
+new = "test_swerve_4_straightline"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_swerve.py"
+kind = "parameter"
+old = "s4"
+new = "s_4"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_swerve_drive_odometry3d.py"
+kind = "method"
+old = "odometry3d_test"
+new = "odometry_3_d_test"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/kinematics/test_swerve_drive_odometry3d.py"
+kind = "parameter"
+old = "odometry3d_test"
+new = "odometry_3_d_test"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_biquad_filter.py"
+kind = "method"
+old = "test_butterworth_4th_order_low_pass"
+new = "test_butterworth_4_th_order_low_pass"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_biquad_filter.py"
+kind = "method"
+old = "test_chebyshev1_factory_matches_scipy"
+new = "test_chebyshev_1_factory_matches_scipy"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_biquad_filter.py"
+kind = "method"
+old = "test_chebyshev2_factory_matches_scipy"
+new = "test_chebyshev_2_factory_matches_scipy"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_biquad_filter.py"
+kind = "method"
+old = "test_notch_60hz"
+new = "test_notch_60_hz"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_interpolation.py"
+kind = "method"
+old = "test_pose2d"
+new = "test_pose_2_d"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_interpolation.py"
+kind = "method"
+old = "test_rotation2d"
+new = "test_rotation_2_d"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_system.py"
+kind = "method"
+old = "test_rk4_exponential"
+new = "test_rk_4_exponential"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_system.py"
+kind = "method"
+old = "test_rk4_exponential_with_u"
+new = "test_rk_4_exponential_with_u"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_system.py"
+kind = "method"
+old = "test_rk4_time_varying"
+new = "test_rk_4_time_varying"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_trajectory.py"
+kind = "method"
+old = "getTestTrajectory"
+new = "get_test_trajectory"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_trajectory_exponential_profile.py"
+kind = "parameter"
+old = "val1"
+new = "val_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_trajectory_exponential_profile.py"
+kind = "parameter"
+old = "val2"
+new = "val_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_units.py"
+kind = "method"
+old = "test_units_check_default_by_name1"
+new = "test_units_check_default_by_name_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_units.py"
+kind = "method"
+old = "test_units_check_default_by_name2"
+new = "test_units_check_default_by_name_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_units.py"
+kind = "method"
+old = "test_units_check_default_by_num1"
+new = "test_units_check_default_by_num_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_units.py"
+kind = "method"
+old = "test_units_check_default_by_num2"
+new = "test_units_check_default_by_num_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_units.py"
+kind = "method"
+old = "test_units_ft2m"
+new = "test_units_ft_2_m"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_units.py"
+kind = "method"
+old = "test_units_ms2s"
+new = "test_units_ms_2_s"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/tests/test_units.py"
+kind = "method"
+old = "test_units_s2ms"
+new = "test_units_s_2_ms"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "degreesToRotations"
+new = "degrees_to_rotations"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "feetToMeters"
+new = "feet_to_meters"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "inchesToMeters"
+new = "inches_to_meters"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "kilogramsToLbs"
+new = "kilograms_to_lbs"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "lbsToKilograms"
+new = "lbs_to_kilograms"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "metersToFeet"
+new = "meters_to_feet"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "metersToInches"
+new = "meters_to_inches"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "millisecondsToSeconds"
+new = "milliseconds_to_seconds"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "radiansPerSecondToRotationsPerMinute"
+new = "radians_per_second_to_rotations_per_minute"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "radiansToRotations"
+new = "radians_to_rotations"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "rotationsPerMinuteToRadiansPerSecond"
+new = "rotations_per_minute_to_radians_per_second"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "rotationsToDegrees"
+new = "rotations_to_degrees"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "rotationsToRadians"
+new = "rotations_to_radians"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpimath/wpimath/units.py"
+kind = "method"
+old = "secondsToMilliseconds"
+new = "seconds_to_milliseconds"
+source = "scan-py"
+
+[[mapping]]
 scope = "subprojects/robotpy-wpiutil/tests/test_sendable.py"
 kind = "method"
 old = "initSendable"
 new = "init_sendable"
 source = "scan-py"
+
+[[ignored]]
+scope = "global"
+name = "ControlAffinePlantInversionFeedforward_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ControlAffinePlantInversionFeedforward_2_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ControlAffinePlantInversionFeedforward_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ExtendedKalmanFilter_1_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ExtendedKalmanFilter_2_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ExtendedKalmanFilter_2_1_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ExtendedKalmanFilter_2_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ImplicitModelFollower_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ImplicitModelFollower_2_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "ImplicitModelFollower_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "KalmanFilter_1_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "KalmanFilter_2_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "KalmanFilter_2_1_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "KalmanFilter_2_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "KalmanFilter_3_2_3"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearPlantInversionFeedforward_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearPlantInversionFeedforward_2_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearPlantInversionFeedforward_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearPlantInversionFeedforward_3_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearQuadraticRegulator_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearQuadraticRegulator_2_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearQuadraticRegulator_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearQuadraticRegulator_3_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystemLoop_1_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystemLoop_2_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystemLoop_2_1_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystemLoop_2_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystemLoop_3_2_3"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_1_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_1_1_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_1_1_3"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_2_1_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_2_1_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_2_1_3"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_2_2_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_2_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_2_2_3"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_3_2_1"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_3_2_2"
+reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "LinearSystem_3_2_3"
+reason = "Generated PascalCase type alias; type names remain PascalCase"

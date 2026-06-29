@@ -51,8 +51,8 @@ classes:
       cls_Constraints
         .def("__repr__", [clsNameCopy](const Constraints &self) {
           return clsNameCopy + ".Constraints("
-            "maxVelocity=" + std::to_string(self.maxVelocity()) + ", "
-            "maxAcceleration=" + std::to_string(self.maxAcceleration()) + ")";
+            "max_velocity=" + std::to_string(self.maxVelocity()) + ", "
+            "max_acceleration=" + std::to_string(self.maxAcceleration()) + ")";
         });
 
       cls_State

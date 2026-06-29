@@ -1,7 +1,7 @@
 import pytest
 import math
 from wpimath import Rotation2d, SwerveModuleAcceleration
-from wpimath.units import feetToMeters
+from wpimath.units import feet_to_meters
 
 K_EPSILON = 1e-9
 
@@ -31,9 +31,9 @@ def test_equals():
 
 
 def test_feet_constructor():
-    accel = SwerveModuleAcceleration.fromFps(10, Rotation2d(1.5))
+    accel = SwerveModuleAcceleration.from_fps(10, Rotation2d(1.5))
 
-    assert accel.acceleration == pytest.approx(feetToMeters(10), abs=K_EPSILON)
+    assert accel.acceleration == pytest.approx(feet_to_meters(10), abs=K_EPSILON)
     assert accel.angle.radians() == pytest.approx(1.5, abs=K_EPSILON)
 
     assert accel.acceleration_fpss == pytest.approx(10, abs=K_EPSILON)

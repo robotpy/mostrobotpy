@@ -43,7 +43,7 @@ def test_inequality():
     assert one != two
 
 
-def test_pose2d_log():
+def test_pose_2_d_log():
     end = Pose2d(x=5, y=5, angle=math.radians(90))
     start = Pose2d()
 

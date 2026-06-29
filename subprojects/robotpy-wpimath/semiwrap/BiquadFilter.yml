@@ -44,9 +44,9 @@ classes:
     inline_code: |
       .def(py::init([](double b0, double b1, double b2, double a1, double a2) {
         return wpi::math::BiquadFilter::Section{b0, b1, b2, a1, a2};
-      }), py::arg("b0"), py::arg("b1"), py::arg("b2"), py::arg("a1"), py::arg("a2"))
+      }), py::arg("b_0"), py::arg("b_1"), py::arg("b_2"), py::arg("a_1"), py::arg("a_2"))
 
       .def("__repr__", [](const wpi::math::BiquadFilter::Section &self) {
-        return py::str("BiquadFilter.Section(b0={}, b1={}, b2={}, a1={}, a2={})").format(
+        return py::str("BiquadFilter.Section(b_0={}, b_1={}, b_2={}, a_1={}, a_2={})").format(
           self.b0, self.b1, self.b2, self.a1, self.a2);
       })
