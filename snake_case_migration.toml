@@ -5450,6 +5450,20 @@ new = "load_extension"
 source = "scan-py"
 
 [[mapping]]
+scope = "subprojects/robotpy-halsim-ws/halsim_ws/client/main.py"
+kind = "method"
+old = "loadExtension"
+new = "load_extension"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-halsim-ws/halsim_ws/server/main.py"
+kind = "method"
+old = "loadExtension"
+new = "load_extension"
+source = "scan-py"
+
+[[mapping]]
 scope = "subprojects/robotpy-wpilib/tests/conftest.py"
 kind = "function"
 old = "_resetWpilibSimulationData"
