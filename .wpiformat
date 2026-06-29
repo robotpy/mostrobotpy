@@ -1,0 +1,13 @@
+generatedFileExclude {
+  .*/type_casters/
+  .*\.py$
+  .*\.py$
+}
+
+modifiableFileExclude {
+    subprojects/robotpy-cscore/cscore/cvnp
+}
+
+licenseUpdateExclude {
+    .*
+}
