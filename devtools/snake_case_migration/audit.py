@@ -12,9 +12,7 @@ _CAMEL_RE = re.compile(r"[a-z][A-Za-z0-9]*[A-Z][A-Za-z0-9]*")
 
 class _AuditVisitor(cst.CSTVisitor):
     def __init__(self, manifest: Manifest):
-        mapped = {mapping.old for mapping in manifest.mappings}
-        ignored = {ignored.name for ignored in manifest.ignored}
-        self.allowed = mapped | ignored
+        self.allowed = {ignored.name for ignored in manifest.ignored}
         self.messages: list[str] = []
 
     def _check(self, name: str, context: str) -> None:
