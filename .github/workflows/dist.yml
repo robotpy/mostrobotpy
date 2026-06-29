@@ -48,6 +48,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+    - name: Fetch all history and metadata
+      run: |
+        git checkout -b pr
+        git branch -f main origin/main
     - uses: psf/black@stable
 
     - uses: actions/setup-python@v6
@@ -69,6 +75,31 @@ jobs:
       shell: bash
       run: |
         ./rdev.sh ci check-tag
+
+    - name: Install wpiformat
+      run: python -m pip install wpiformat==2026.64
+
+    - name: Run wpiformat
+      run: wpiformat
+
+    - name: Check output
+      run: git --no-pager diff --exit-code HEAD
+    - name: Generate diff
+      run: git diff HEAD > wpiformat-fixes.patch
+      if: ${{ failure() }}
+    - uses: actions/upload-artifact@v7
+      with:
+        archive: false
+        path: wpiformat-fixes.patch
+      if: ${{ failure() }}
+
+    - name: Write to job summary
+      run: |
+        echo '```diff' >> $GITHUB_STEP_SUMMARY
+        cat wpiformat-fixes.patch >> $GITHUB_STEP_SUMMARY
+        echo '' >> $GITHUB_STEP_SUMMARY
+        echo '```' >> $GITHUB_STEP_SUMMARY
+      if: ${{ failure() }}
 
   #
   # Build pure wheels first
