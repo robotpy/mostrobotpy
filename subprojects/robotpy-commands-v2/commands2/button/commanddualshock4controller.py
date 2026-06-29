@@ -24,13 +24,13 @@ class CommandDualShock4Controller:
                     or the DualShock4Controller object to use for this controller.
         """
         if isinstance(hid, int):
-            self._hid = CommandGenericHID.getCommandGenericHID(hid)
-            self._controller = DualShock4Controller(self._hid.getHID())
+            self._hid = CommandGenericHID.get_command_generic_hid(hid)
+            self._controller = DualShock4Controller(self._hid.get_hid())
         else:
-            self._hid = CommandGenericHID(hid.getHID())
+            self._hid = CommandGenericHID(hid.get_hid())
             self._controller = hid
 
-    def getHID(self) -> CommandGenericHID:
+    def get_hid(self) -> CommandGenericHID:
         """
         Get the underlying CommandGenericHID object.
 
@@ -38,7 +38,7 @@ class CommandDualShock4Controller:
         """
         return self._hid
 
-    def getController(self) -> DualShock4Controller:
+    def get_controller(self) -> DualShock4Controller:
         """
         Get the wrapped controller object.
 
@@ -119,7 +119,7 @@ class CommandDualShock4Controller:
         """
         return self.button(DualShock4Controller.Button.SHARE, loop)
 
-    def PS(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def ps(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the PS button's digital signal.
 
@@ -129,7 +129,7 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the PS button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.PS, loop)
+        return self.button(DualShock4Controller.Button.ps, loop)
 
     def options(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -143,7 +143,7 @@ class CommandDualShock4Controller:
         """
         return self.button(DualShock4Controller.Button.OPTIONS, loop)
 
-    def L3(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l_3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the L 3 button's digital signal.
 
@@ -153,9 +153,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the L 3 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.L3, loop)
+        return self.button(DualShock4Controller.Button.l_3, loop)
 
-    def R3(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r_3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R 3 button's digital signal.
 
@@ -165,9 +165,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the R 3 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.R3, loop)
+        return self.button(DualShock4Controller.Button.r_3, loop)
 
-    def L1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the L 1 button's digital signal.
 
@@ -177,9 +177,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the L 1 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.L1, loop)
+        return self.button(DualShock4Controller.Button.l_1, loop)
 
-    def R1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R 1 button's digital signal.
 
@@ -189,9 +189,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the R 1 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.R1, loop)
+        return self.button(DualShock4Controller.Button.r_1, loop)
 
-    def dpadUp(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Up button's digital signal.
 
@@ -203,7 +203,7 @@ class CommandDualShock4Controller:
         """
         return self.button(DualShock4Controller.Button.DPAD_UP, loop)
 
-    def dpadDown(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_down(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Down button's digital signal.
 
@@ -215,7 +215,7 @@ class CommandDualShock4Controller:
         """
         return self.button(DualShock4Controller.Button.DPAD_DOWN, loop)
 
-    def dpadLeft(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_left(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Left button's digital signal.
 
@@ -227,7 +227,7 @@ class CommandDualShock4Controller:
         """
         return self.button(DualShock4Controller.Button.DPAD_LEFT, loop)
 
-    def dpadRight(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_right(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Right button's digital signal.
 
@@ -251,7 +251,7 @@ class CommandDualShock4Controller:
         """
         return self.button(DualShock4Controller.Button.TOUCHPAD, loop)
 
-    def L2(
+    def l_2(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -268,13 +268,13 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance that is true when the L 2 axis exceeds the
                   provided threshold, attached to the given event loop.
         """
-        return self.axisGreaterThan(
-            DualShock4Controller.Axis.L2,
+        return self.axis_greater_than(
+            DualShock4Controller.Axis.l_2,
             threshold,
             loop,
         )
 
-    def R2(
+    def r_2(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -291,13 +291,13 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance that is true when the R 2 axis exceeds the
                   provided threshold, attached to the given event loop.
         """
-        return self.axisGreaterThan(
-            DualShock4Controller.Axis.R2,
+        return self.axis_greater_than(
+            DualShock4Controller.Axis.r_2,
             threshold,
             loop,
         )
 
-    def axisLessThan(
+    def axis_less_than(
         self,
         axis: DualShock4Controller.Axis,
         threshold: float,
@@ -314,9 +314,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance that is true when the axis value is less than
                   the provided threshold.
         """
-        return self._hid.axisLessThan(axis.value, threshold, loop)
+        return self._hid.axis_less_than(axis.value, threshold, loop)
 
-    def axisGreaterThan(
+    def axis_greater_than(
         self,
         axis: DualShock4Controller.Axis,
         threshold: float,
@@ -333,9 +333,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance that is true when the axis value is greater
                   than the provided threshold.
         """
-        return self._hid.axisGreaterThan(axis.value, threshold, loop)
+        return self._hid.axis_greater_than(axis.value, threshold, loop)
 
-    def axisMagnitudeGreaterThan(
+    def axis_magnitude_greater_than(
         self,
         axis: DualShock4Controller.Axis,
         threshold: float,
@@ -352,60 +352,60 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance that is true when the axis magnitude is
                   greater than the provided threshold.
         """
-        return self._hid.axisMagnitudeGreaterThan(axis.value, threshold, loop)
+        return self._hid.axis_magnitude_greater_than(axis.value, threshold, loop)
 
-    def getAxis(self, axis: DualShock4Controller.Axis) -> float:
+    def get_axis(self, axis: DualShock4Controller.Axis) -> float:
         """
         Get the value of the axis.
 
         :param axis: the :class:`wpilib.DualShock4Controller.Axis` to read
         """
-        return self._hid.getRawAxis(axis.value)
+        return self._hid.get_raw_axis(axis.value)
 
-    def getLeftX(self) -> float:
+    def get_left_x(self) -> float:
         """
         Get the Left X value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftX()
+        return self._controller.get_left_x()
 
-    def getLeftY(self) -> float:
+    def get_left_y(self) -> float:
         """
         Get the Left Y value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftY()
+        return self._controller.get_left_y()
 
-    def getRightX(self) -> float:
+    def get_right_x(self) -> float:
         """
         Get the Right X value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getRightX()
+        return self._controller.get_right_x()
 
-    def getRightY(self) -> float:
+    def get_right_y(self) -> float:
         """
         Get the Right Y value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getRightY()
+        return self._controller.get_right_y()
 
-    def getL2(self) -> float:
+    def get_l_2(self) -> float:
         """
         Get the L 2 value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getL2()
+        return self._controller.get_l_2()
 
-    def getR2(self) -> float:
+    def get_r_2(self) -> float:
         """
         Get the R 2 value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getR2()
+        return self._controller.get_r_2()

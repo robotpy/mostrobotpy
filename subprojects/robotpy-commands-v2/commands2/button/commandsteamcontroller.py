@@ -24,13 +24,13 @@ class CommandSteamController:
                     or the SteamController object to use for this controller.
         """
         if isinstance(hid, int):
-            self._hid = CommandGenericHID.getCommandGenericHID(hid)
-            self._controller = SteamController(self._hid.getHID())
+            self._hid = CommandGenericHID.get_command_generic_hid(hid)
+            self._controller = SteamController(self._hid.get_hid())
         else:
-            self._hid = CommandGenericHID(hid.getHID())
+            self._hid = CommandGenericHID(hid.get_hid())
             self._controller = hid
 
-    def getHID(self) -> CommandGenericHID:
+    def get_hid(self) -> CommandGenericHID:
         """
         Get the underlying CommandGenericHID object.
 
@@ -38,7 +38,7 @@ class CommandSteamController:
         """
         return self._hid
 
-    def getController(self) -> SteamController:
+    def get_controller(self) -> SteamController:
         """
         Get the wrapped controller object.
 
@@ -143,7 +143,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.VIEW, loop)
 
-    def leftStick(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_stick(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Left Stick button's digital signal.
 
@@ -155,7 +155,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.LEFT_STICK, loop)
 
-    def rightStick(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_stick(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Right Stick button's digital signal.
 
@@ -167,7 +167,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.RIGHT_STICK, loop)
 
-    def leftBumper(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_bumper(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Left Bumper button's digital signal.
 
@@ -179,7 +179,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.LEFT_BUMPER, loop)
 
-    def rightBumper(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_bumper(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Right Bumper button's digital signal.
 
@@ -191,7 +191,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.RIGHT_BUMPER, loop)
 
-    def dpadUp(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Up button's digital signal.
 
@@ -203,7 +203,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.DPAD_UP, loop)
 
-    def dpadDown(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_down(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Down button's digital signal.
 
@@ -215,7 +215,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.DPAD_DOWN, loop)
 
-    def dpadLeft(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_left(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Left button's digital signal.
 
@@ -227,7 +227,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.DPAD_LEFT, loop)
 
-    def dpadRight(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_right(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Right button's digital signal.
 
@@ -239,7 +239,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.DPAD_RIGHT, loop)
 
-    def QAM(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def qam(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the QAM button's digital signal.
 
@@ -249,9 +249,9 @@ class CommandSteamController:
         :returns: a Trigger instance representing the QAM button's digital signal
                   attached to the given loop.
         """
-        return self.button(SteamController.Button.QAM, loop)
+        return self.button(SteamController.Button.qam, loop)
 
-    def rightPaddle1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_paddle_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Right Paddle 1 button's digital signal.
 
@@ -263,7 +263,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.RIGHT_PADDLE_1, loop)
 
-    def leftPaddle1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_paddle_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Left Paddle 1 button's digital signal.
 
@@ -275,7 +275,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.LEFT_PADDLE_1, loop)
 
-    def rightPaddle2(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_paddle_2(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Right Paddle 2 button's digital signal.
 
@@ -287,7 +287,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.RIGHT_PADDLE_2, loop)
 
-    def leftPaddle2(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_paddle_2(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Left Paddle 2 button's digital signal.
 
@@ -299,7 +299,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.LEFT_PADDLE_2, loop)
 
-    def leftTouchpad(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_touchpad(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Left Touchpad button's digital signal.
 
@@ -311,7 +311,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.LEFT_TOUCHPAD, loop)
 
-    def rightTouchpad(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_touchpad(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Right Touchpad button's digital signal.
 
@@ -323,7 +323,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.RIGHT_TOUCHPAD, loop)
 
-    def leftStickTouch(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_stick_touch(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Left Stick Touch button's digital signal.
 
@@ -335,7 +335,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.LEFT_STICK_TOUCH, loop)
 
-    def rightStickTouch(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_stick_touch(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Right Stick Touch button's digital signal.
 
@@ -347,7 +347,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.RIGHT_STICK_TOUCH, loop)
 
-    def leftGripTouch(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_grip_touch(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Left Grip Touch button's digital signal.
 
@@ -359,7 +359,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.LEFT_GRIP_TOUCH, loop)
 
-    def rightGripTouch(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_grip_touch(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Right Grip Touch button's digital signal.
 
@@ -371,7 +371,7 @@ class CommandSteamController:
         """
         return self.button(SteamController.Button.RIGHT_GRIP_TOUCH, loop)
 
-    def leftTrigger(
+    def left_trigger(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -388,13 +388,13 @@ class CommandSteamController:
         :returns: a Trigger instance that is true when the Left Trigger axis exceeds the
                   provided threshold, attached to the given event loop.
         """
-        return self.axisGreaterThan(
+        return self.axis_greater_than(
             SteamController.Axis.LEFT_TRIGGER,
             threshold,
             loop,
         )
 
-    def rightTrigger(
+    def right_trigger(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -411,13 +411,13 @@ class CommandSteamController:
         :returns: a Trigger instance that is true when the Right Trigger axis exceeds the
                   provided threshold, attached to the given event loop.
         """
-        return self.axisGreaterThan(
+        return self.axis_greater_than(
             SteamController.Axis.RIGHT_TRIGGER,
             threshold,
             loop,
         )
 
-    def axisLessThan(
+    def axis_less_than(
         self,
         axis: SteamController.Axis,
         threshold: float,
@@ -434,9 +434,9 @@ class CommandSteamController:
         :returns: a Trigger instance that is true when the axis value is less than
                   the provided threshold.
         """
-        return self._hid.axisLessThan(axis.value, threshold, loop)
+        return self._hid.axis_less_than(axis.value, threshold, loop)
 
-    def axisGreaterThan(
+    def axis_greater_than(
         self,
         axis: SteamController.Axis,
         threshold: float,
@@ -453,9 +453,9 @@ class CommandSteamController:
         :returns: a Trigger instance that is true when the axis value is greater
                   than the provided threshold.
         """
-        return self._hid.axisGreaterThan(axis.value, threshold, loop)
+        return self._hid.axis_greater_than(axis.value, threshold, loop)
 
-    def axisMagnitudeGreaterThan(
+    def axis_magnitude_greater_than(
         self,
         axis: SteamController.Axis,
         threshold: float,
@@ -472,60 +472,60 @@ class CommandSteamController:
         :returns: a Trigger instance that is true when the axis magnitude is
                   greater than the provided threshold.
         """
-        return self._hid.axisMagnitudeGreaterThan(axis.value, threshold, loop)
+        return self._hid.axis_magnitude_greater_than(axis.value, threshold, loop)
 
-    def getAxis(self, axis: SteamController.Axis) -> float:
+    def get_axis(self, axis: SteamController.Axis) -> float:
         """
         Get the value of the axis.
 
         :param axis: the :class:`wpilib.SteamController.Axis` to read
         """
-        return self._hid.getRawAxis(axis.value)
+        return self._hid.get_raw_axis(axis.value)
 
-    def getLeftX(self) -> float:
+    def get_left_x(self) -> float:
         """
         Get the Left X value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftX()
+        return self._controller.get_left_x()
 
-    def getLeftY(self) -> float:
+    def get_left_y(self) -> float:
         """
         Get the Left Y value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftY()
+        return self._controller.get_left_y()
 
-    def getRightX(self) -> float:
+    def get_right_x(self) -> float:
         """
         Get the Right X value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getRightX()
+        return self._controller.get_right_x()
 
-    def getRightY(self) -> float:
+    def get_right_y(self) -> float:
         """
         Get the Right Y value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getRightY()
+        return self._controller.get_right_y()
 
-    def getLeftTrigger(self) -> float:
+    def get_left_trigger(self) -> float:
         """
         Get the Left Trigger value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftTrigger()
+        return self._controller.get_left_trigger()
 
-    def getRightTrigger(self) -> float:
+    def get_right_trigger(self) -> float:
         """
         Get the Right Trigger value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getRightTrigger()
+        return self._controller.get_right_trigger()

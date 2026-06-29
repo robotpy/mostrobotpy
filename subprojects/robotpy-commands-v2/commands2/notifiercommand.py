@@ -22,7 +22,7 @@ class NotifierCommand(Command):
     """
 
     def __init__(
-        self, toRun: Callable[[], Any], period: units.seconds, *requirements: Subsystem
+        self, to_run: Callable[[], Any], period: units.seconds, *requirements: Subsystem
     ):
         """
         Creates a new NotifierCommand.
@@ -33,14 +33,14 @@ class NotifierCommand(Command):
         """
         super().__init__()
 
-        assert callable(toRun)
+        assert callable(to_run)
 
-        self._notifier = Notifier(toRun)
+        self._notifier = Notifier(to_run)
         self._period = period
-        self.addRequirements(*requirements)
+        self.add_requirements(*requirements)
 
     def initialize(self):
-        self._notifier.startPeriodic(self._period)
+        self._notifier.start_periodic(self._period)
 
     def end(self, interrupted: bool):
         self._notifier.stop()

@@ -9,29 +9,29 @@ if TYPE_CHECKING:
 import pytest
 
 
-def test_commandInMultipleGroups():
-    command1 = commands2.Command()
-    command2 = commands2.Command()
+def test_command_in_multiple_groups():
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
 
-    commands2.ParallelCommandGroup(command1, command2)
+    commands2.ParallelCommandGroup(command_1, command_2)
     with pytest.raises(commands2.IllegalCommandUse):
-        commands2.ParallelCommandGroup(command1, command2)
+        commands2.ParallelCommandGroup(command_1, command_2)
 
 
-def test_commandInGroupExternallyScheduled(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
+def test_command_in_group_externally_scheduled(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
 
-    commands2.ParallelCommandGroup(command1, command2)
+    commands2.ParallelCommandGroup(command_1, command_2)
 
     with pytest.raises(commands2.IllegalCommandUse):
-        scheduler.schedule(command1)
+        scheduler.schedule(command_1)
 
 
-def test_redecoratedCommandError(scheduler: commands2.CommandScheduler):
+def test_redecorated_command_error(scheduler: commands2.CommandScheduler):
     command = commands2.InstantCommand()
-    command.withTimeout(10).until(lambda: False)
+    command.with_timeout(10).until(lambda: False)
     with pytest.raises(commands2.IllegalCommandUse):
-        command.withTimeout(10)
-    scheduler.removeComposedCommand(command)
-    command.withTimeout(10)
+        command.with_timeout(10)
+    scheduler.remove_composed_command(command)
+    command.with_timeout(10)

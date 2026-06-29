@@ -17,8 +17,8 @@ class StartEndCommand(FunctionalCommand):
 
     def __init__(
         self,
-        onInit: Callable[[], Any],
-        onEnd: Callable[[], Any],
+        on_init: Callable[[], Any],
+        on_end: Callable[[], Any],
         *requirements: Subsystem,
     ):
         """
@@ -29,8 +29,8 @@ class StartEndCommand(FunctionalCommand):
         :param onEnd: the Callable to run on command end
         :param requirements: the subsystems required by this command
         """
-        assert callable(onInit)
-        assert callable(onEnd)
+        assert callable(on_init)
+        assert callable(on_end)
         super().__init__(
-            onInit, lambda: None, lambda _: onEnd(), lambda: False, *requirements
+            on_init, lambda: None, lambda _: on_end(), lambda: False, *requirements
         )

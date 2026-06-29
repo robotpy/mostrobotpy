@@ -22,13 +22,13 @@ class CommandNiDsPS4Controller:
 
         :param port: The port index on the Driver Station that the device is plugged into.
         """
-        self._command_hid = CommandGenericHID.getCommandGenericHID(port)
-        self._hid = NiDsPS4Controller(self._command_hid.getHID())
+        self._command_hid = CommandGenericHID.get_command_generic_hid(port)
+        self._hid = NiDsPS4Controller(self._command_hid.get_hid())
 
     def __getattr__(self, name: str):
         return getattr(self._command_hid, name)
 
-    def getHID(self) -> CommandGenericHID:
+    def get_hid(self) -> CommandGenericHID:
         """
         Get the underlying CommandGenericHID object.
 
@@ -36,7 +36,7 @@ class CommandNiDsPS4Controller:
         """
         return self._command_hid
 
-    def getNiDsPS4Controller(self) -> NiDsPS4Controller:
+    def get_ni_ds_ps_4_controller(self) -> NiDsPS4Controller:
         """
         Get the underlying NiDsPS4Controller object.
 
@@ -44,7 +44,7 @@ class CommandNiDsPS4Controller:
         """
         return self._hid
 
-    def L2(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l_2(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the L2 button's digital signal.
 
@@ -55,10 +55,10 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getL2Button())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_l_2_button())
 
-    def R2(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r_2(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the R2 button's digital signal.
 
@@ -69,10 +69,10 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getR2Button())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_r_2_button())
 
-    def L1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the L1 button's digital signal.
 
@@ -83,10 +83,10 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getL1Button())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_l_1_button())
 
-    def R1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the R1 button's digital signal.
 
@@ -97,10 +97,10 @@ class CommandNiDsPS4Controller:
             loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getR1Button())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_r_1_button())
 
-    def L3(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l_3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the L3 button's digital signal.
 
@@ -111,10 +111,10 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getL3Button())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_l_3_button())
 
-    def R3(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r_3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the R3 button's digital signal.
 
@@ -125,8 +125,8 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getR3Button())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_r_3_button())
 
     def square(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -139,8 +139,8 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getSquareButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_square_button())
 
     def cross(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -153,8 +153,8 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getCrossButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_cross_button())
 
     def triangle(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -167,8 +167,8 @@ class CommandNiDsPS4Controller:
                   given loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getTriangleButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_triangle_button())
 
     def circle(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -181,8 +181,8 @@ class CommandNiDsPS4Controller:
             loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getCircleButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_circle_button())
 
     def share(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -195,10 +195,10 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getShareButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_share_button())
 
-    def PS(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def ps(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the PS button's digital signal.
 
@@ -209,8 +209,8 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getPSButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_ps_button())
 
     def options(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -223,8 +223,8 @@ class CommandNiDsPS4Controller:
                   given loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getOptionsButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_options_button())
 
     def touchpad(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -237,55 +237,55 @@ class CommandNiDsPS4Controller:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getTouchpad())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_touchpad())
 
-    def getLeftX(self) -> float:
+    def get_left_x(self) -> float:
         """
         Get the X axis value of left side of the controller. Right is positive.
 
         :returns: the axis value.
         """
-        return self._hid.getLeftX()
+        return self._hid.get_left_x()
 
-    def getRightX(self) -> float:
+    def get_right_x(self) -> float:
         """
         Get the X axis value of right side of the controller. Right is positive.
 
         :returns: the axis value.
         """
-        return self._hid.getRightX()
+        return self._hid.get_right_x()
 
-    def getLeftY(self) -> float:
+    def get_left_y(self) -> float:
         """
         Get the Y axis value of left side of the controller. Back is positive.
 
         :returns: the axis value.
         """
-        return self._hid.getLeftY()
+        return self._hid.get_left_y()
 
-    def getRightY(self) -> float:
+    def get_right_y(self) -> float:
         """
         Get the Y axis value of right side of the controller. Back is positive.
 
         :returns: the axis value.
         """
-        return self._hid.getRightY()
+        return self._hid.get_right_y()
 
-    def getL2Axis(self) -> float:
+    def get_l_2_axis(self) -> float:
         """
         Get the L2 axis value of the controller. Note that this axis is bound to the range of [0, 1] as
         opposed to the usual [-1, 1].
 
         :returns: the axis value.
         """
-        return self._hid.getL2Axis()
+        return self._hid.get_l_2_axis()
 
-    def getR2Axis(self) -> float:
+    def get_r_2_axis(self) -> float:
         """
         Get the R2 axis value of the controller. Note that this axis is bound to the range of [0, 1] as
         opposed to the usual [-1, 1].
 
         :returns: the axis value.
         """
-        return self._hid.getR2Axis()
+        return self._hid.get_r_2_axis()

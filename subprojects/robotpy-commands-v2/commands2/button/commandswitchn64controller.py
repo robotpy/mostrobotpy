@@ -24,13 +24,13 @@ class CommandSwitchN64Controller:
                     or the SwitchN64Controller object to use for this controller.
         """
         if isinstance(hid, int):
-            self._hid = CommandGenericHID.getCommandGenericHID(hid)
-            self._controller = SwitchN64Controller(self._hid.getHID())
+            self._hid = CommandGenericHID.get_command_generic_hid(hid)
+            self._controller = SwitchN64Controller(self._hid.get_hid())
         else:
-            self._hid = CommandGenericHID(hid.getHID())
+            self._hid = CommandGenericHID(hid.get_hid())
             self._controller = hid
 
-    def getHID(self) -> CommandGenericHID:
+    def get_hid(self) -> CommandGenericHID:
         """
         Get the underlying CommandGenericHID object.
 
@@ -38,7 +38,7 @@ class CommandSwitchN64Controller:
         """
         return self._hid
 
-    def getController(self) -> SwitchN64Controller:
+    def get_controller(self) -> SwitchN64Controller:
         """
         Get the wrapped controller object.
 
@@ -155,7 +155,7 @@ class CommandSwitchN64Controller:
         """
         return self.button(SwitchN64Controller.Button.C_DOWN, loop)
 
-    def L(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the L button's digital signal.
 
@@ -165,9 +165,9 @@ class CommandSwitchN64Controller:
         :returns: a Trigger instance representing the L button's digital signal
                   attached to the given loop.
         """
-        return self.button(SwitchN64Controller.Button.L, loop)
+        return self.button(SwitchN64Controller.Button.l, loop)
 
-    def R(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R button's digital signal.
 
@@ -177,9 +177,9 @@ class CommandSwitchN64Controller:
         :returns: a Trigger instance representing the R button's digital signal
                   attached to the given loop.
         """
-        return self.button(SwitchN64Controller.Button.R, loop)
+        return self.button(SwitchN64Controller.Button.r, loop)
 
-    def dpadUp(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Up button's digital signal.
 
@@ -191,7 +191,7 @@ class CommandSwitchN64Controller:
         """
         return self.button(SwitchN64Controller.Button.DPAD_UP, loop)
 
-    def dpadDown(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_down(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Down button's digital signal.
 
@@ -203,7 +203,7 @@ class CommandSwitchN64Controller:
         """
         return self.button(SwitchN64Controller.Button.DPAD_DOWN, loop)
 
-    def dpadLeft(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_left(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Left button's digital signal.
 
@@ -215,7 +215,7 @@ class CommandSwitchN64Controller:
         """
         return self.button(SwitchN64Controller.Button.DPAD_LEFT, loop)
 
-    def dpadRight(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_right(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Right button's digital signal.
 
@@ -239,7 +239,7 @@ class CommandSwitchN64Controller:
         """
         return self.button(SwitchN64Controller.Button.C_RIGHT, loop)
 
-    def ZR(
+    def zr(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -256,13 +256,13 @@ class CommandSwitchN64Controller:
         :returns: a Trigger instance that is true when the ZR axis exceeds the
                   provided threshold, attached to the given event loop.
         """
-        return self.axisGreaterThan(
-            SwitchN64Controller.Axis.ZR,
+        return self.axis_greater_than(
+            SwitchN64Controller.Axis.zr,
             threshold,
             loop,
         )
 
-    def axisLessThan(
+    def axis_less_than(
         self,
         axis: SwitchN64Controller.Axis,
         threshold: float,
@@ -279,9 +279,9 @@ class CommandSwitchN64Controller:
         :returns: a Trigger instance that is true when the axis value is less than
                   the provided threshold.
         """
-        return self._hid.axisLessThan(axis.value, threshold, loop)
+        return self._hid.axis_less_than(axis.value, threshold, loop)
 
-    def axisGreaterThan(
+    def axis_greater_than(
         self,
         axis: SwitchN64Controller.Axis,
         threshold: float,
@@ -298,9 +298,9 @@ class CommandSwitchN64Controller:
         :returns: a Trigger instance that is true when the axis value is greater
                   than the provided threshold.
         """
-        return self._hid.axisGreaterThan(axis.value, threshold, loop)
+        return self._hid.axis_greater_than(axis.value, threshold, loop)
 
-    def axisMagnitudeGreaterThan(
+    def axis_magnitude_greater_than(
         self,
         axis: SwitchN64Controller.Axis,
         threshold: float,
@@ -317,44 +317,44 @@ class CommandSwitchN64Controller:
         :returns: a Trigger instance that is true when the axis magnitude is
                   greater than the provided threshold.
         """
-        return self._hid.axisMagnitudeGreaterThan(axis.value, threshold, loop)
+        return self._hid.axis_magnitude_greater_than(axis.value, threshold, loop)
 
-    def getAxis(self, axis: SwitchN64Controller.Axis) -> float:
+    def get_axis(self, axis: SwitchN64Controller.Axis) -> float:
         """
         Get the value of the axis.
 
         :param axis: the :class:`wpilib.SwitchN64Controller.Axis` to read
         """
-        return self._hid.getRawAxis(axis.value)
+        return self._hid.get_raw_axis(axis.value)
 
-    def getLeftX(self) -> float:
+    def get_left_x(self) -> float:
         """
         Get the Left X value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftX()
+        return self._controller.get_left_x()
 
-    def getLeftY(self) -> float:
+    def get_left_y(self) -> float:
         """
         Get the Left Y value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftY()
+        return self._controller.get_left_y()
 
-    def getZAxis(self) -> float:
+    def get_z_axis(self) -> float:
         """
         Get the Z Axis value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getZAxis()
+        return self._controller.get_z_axis()
 
-    def getZR(self) -> float:
+    def get_zr(self) -> float:
         """
         Get the ZR value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getZR()
+        return self._controller.get_zr()

@@ -24,13 +24,13 @@ class CommandSwitchProController:
                     or the SwitchProController object to use for this controller.
         """
         if isinstance(hid, int):
-            self._hid = CommandGenericHID.getCommandGenericHID(hid)
-            self._controller = SwitchProController(self._hid.getHID())
+            self._hid = CommandGenericHID.get_command_generic_hid(hid)
+            self._controller = SwitchProController(self._hid.get_hid())
         else:
-            self._hid = CommandGenericHID(hid.getHID())
+            self._hid = CommandGenericHID(hid.get_hid())
             self._controller = hid
 
-    def getHID(self) -> CommandGenericHID:
+    def get_hid(self) -> CommandGenericHID:
         """
         Get the underlying CommandGenericHID object.
 
@@ -38,7 +38,7 @@ class CommandSwitchProController:
         """
         return self._hid
 
-    def getController(self) -> SwitchProController:
+    def get_controller(self) -> SwitchProController:
         """
         Get the wrapped controller object.
 
@@ -143,7 +143,7 @@ class CommandSwitchProController:
         """
         return self.button(SwitchProController.Button.PLUS, loop)
 
-    def leftStick(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_stick(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Left Stick button's digital signal.
 
@@ -155,7 +155,7 @@ class CommandSwitchProController:
         """
         return self.button(SwitchProController.Button.LEFT_STICK, loop)
 
-    def rightStick(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_stick(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Right Stick button's digital signal.
 
@@ -167,7 +167,7 @@ class CommandSwitchProController:
         """
         return self.button(SwitchProController.Button.RIGHT_STICK, loop)
 
-    def L(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the L button's digital signal.
 
@@ -177,9 +177,9 @@ class CommandSwitchProController:
         :returns: a Trigger instance representing the L button's digital signal
                   attached to the given loop.
         """
-        return self.button(SwitchProController.Button.L, loop)
+        return self.button(SwitchProController.Button.l, loop)
 
-    def R(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R button's digital signal.
 
@@ -189,9 +189,9 @@ class CommandSwitchProController:
         :returns: a Trigger instance representing the R button's digital signal
                   attached to the given loop.
         """
-        return self.button(SwitchProController.Button.R, loop)
+        return self.button(SwitchProController.Button.r, loop)
 
-    def dpadUp(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Up button's digital signal.
 
@@ -203,7 +203,7 @@ class CommandSwitchProController:
         """
         return self.button(SwitchProController.Button.DPAD_UP, loop)
 
-    def dpadDown(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_down(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Down button's digital signal.
 
@@ -215,7 +215,7 @@ class CommandSwitchProController:
         """
         return self.button(SwitchProController.Button.DPAD_DOWN, loop)
 
-    def dpadLeft(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_left(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Left button's digital signal.
 
@@ -227,7 +227,7 @@ class CommandSwitchProController:
         """
         return self.button(SwitchProController.Button.DPAD_LEFT, loop)
 
-    def dpadRight(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def dpad_right(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Right button's digital signal.
 
@@ -251,7 +251,7 @@ class CommandSwitchProController:
         """
         return self.button(SwitchProController.Button.CAPTURE, loop)
 
-    def ZL(
+    def zl(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -268,13 +268,13 @@ class CommandSwitchProController:
         :returns: a Trigger instance that is true when the ZL axis exceeds the
                   provided threshold, attached to the given event loop.
         """
-        return self.axisGreaterThan(
-            SwitchProController.Axis.ZL,
+        return self.axis_greater_than(
+            SwitchProController.Axis.zl,
             threshold,
             loop,
         )
 
-    def ZR(
+    def zr(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -291,13 +291,13 @@ class CommandSwitchProController:
         :returns: a Trigger instance that is true when the ZR axis exceeds the
                   provided threshold, attached to the given event loop.
         """
-        return self.axisGreaterThan(
-            SwitchProController.Axis.ZR,
+        return self.axis_greater_than(
+            SwitchProController.Axis.zr,
             threshold,
             loop,
         )
 
-    def axisLessThan(
+    def axis_less_than(
         self,
         axis: SwitchProController.Axis,
         threshold: float,
@@ -314,9 +314,9 @@ class CommandSwitchProController:
         :returns: a Trigger instance that is true when the axis value is less than
                   the provided threshold.
         """
-        return self._hid.axisLessThan(axis.value, threshold, loop)
+        return self._hid.axis_less_than(axis.value, threshold, loop)
 
-    def axisGreaterThan(
+    def axis_greater_than(
         self,
         axis: SwitchProController.Axis,
         threshold: float,
@@ -333,9 +333,9 @@ class CommandSwitchProController:
         :returns: a Trigger instance that is true when the axis value is greater
                   than the provided threshold.
         """
-        return self._hid.axisGreaterThan(axis.value, threshold, loop)
+        return self._hid.axis_greater_than(axis.value, threshold, loop)
 
-    def axisMagnitudeGreaterThan(
+    def axis_magnitude_greater_than(
         self,
         axis: SwitchProController.Axis,
         threshold: float,
@@ -352,60 +352,60 @@ class CommandSwitchProController:
         :returns: a Trigger instance that is true when the axis magnitude is
                   greater than the provided threshold.
         """
-        return self._hid.axisMagnitudeGreaterThan(axis.value, threshold, loop)
+        return self._hid.axis_magnitude_greater_than(axis.value, threshold, loop)
 
-    def getAxis(self, axis: SwitchProController.Axis) -> float:
+    def get_axis(self, axis: SwitchProController.Axis) -> float:
         """
         Get the value of the axis.
 
         :param axis: the :class:`wpilib.SwitchProController.Axis` to read
         """
-        return self._hid.getRawAxis(axis.value)
+        return self._hid.get_raw_axis(axis.value)
 
-    def getLeftX(self) -> float:
+    def get_left_x(self) -> float:
         """
         Get the Left X value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftX()
+        return self._controller.get_left_x()
 
-    def getLeftY(self) -> float:
+    def get_left_y(self) -> float:
         """
         Get the Left Y value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getLeftY()
+        return self._controller.get_left_y()
 
-    def getRightX(self) -> float:
+    def get_right_x(self) -> float:
         """
         Get the Right X value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getRightX()
+        return self._controller.get_right_x()
 
-    def getRightY(self) -> float:
+    def get_right_y(self) -> float:
         """
         Get the Right Y value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getRightY()
+        return self._controller.get_right_y()
 
-    def getZL(self) -> float:
+    def get_zl(self) -> float:
         """
         Get the ZL value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getZL()
+        return self._controller.get_zl()
 
-    def getZR(self) -> float:
+    def get_zr(self) -> float:
         """
         Get the ZR value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.getZR()
+        return self._controller.get_zr()

@@ -14,7 +14,7 @@ class RunCommand(FunctionalCommand):
     If you only wish to execute a Callable once, use :class:`commands2.InstantCommand`.
     """
 
-    def __init__(self, toRun: Callable[[], Any], *requirements: Subsystem):
+    def __init__(self, to_run: Callable[[], Any], *requirements: Subsystem):
         """
         Creates a new RunCommand. The Callable will be run continuously until the command ends. Does
         not run when disabled.
@@ -22,7 +22,7 @@ class RunCommand(FunctionalCommand):
         :param toRun: the Callable to run
         :param requirements: the subsystems to require
         """
-        assert callable(toRun)
+        assert callable(to_run)
         super().__init__(
-            lambda: None, toRun, lambda interrupted: None, lambda: False, *requirements
+            lambda: None, to_run, lambda interrupted: None, lambda: False, *requirements
         )

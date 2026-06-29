@@ -22,13 +22,13 @@ class CommandNiDsXboxController:
 
         :param port: The port index on the Driver Station that the controller is plugged into.
         """
-        self._command_hid = CommandGenericHID.getCommandGenericHID(port)
-        self._hid = NiDsXboxController(self._command_hid.getHID())
+        self._command_hid = CommandGenericHID.get_command_generic_hid(port)
+        self._hid = NiDsXboxController(self._command_hid.get_hid())
 
     def __getattr__(self, name: str):
         return getattr(self._command_hid, name)
 
-    def getHID(self) -> CommandGenericHID:
+    def get_hid(self) -> CommandGenericHID:
         """
         Get the underlying CommandGenericHID object.
 
@@ -36,7 +36,7 @@ class CommandNiDsXboxController:
         """
         return self._command_hid
 
-    def getNiDsXboxController(self) -> NiDsXboxController:
+    def get_ni_ds_xbox_controller(self) -> NiDsXboxController:
         """
         Get the underlying NiDsXboxController object.
 
@@ -44,7 +44,7 @@ class CommandNiDsXboxController:
         """
         return self._hid
 
-    def leftBumper(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_bumper(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the left bumper's digital signal.
 
@@ -55,10 +55,10 @@ class CommandNiDsXboxController:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getLeftBumperButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_left_bumper_button())
 
-    def rightBumper(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_bumper(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the right bumper's digital signal.
 
@@ -69,10 +69,10 @@ class CommandNiDsXboxController:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getRightBumperButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_right_bumper_button())
 
-    def leftStick(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def left_stick(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the left stick button's digital signal.
 
@@ -83,10 +83,10 @@ class CommandNiDsXboxController:
                   given loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getLeftStickButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_left_stick_button())
 
-    def rightStick(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def right_stick(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the right stick button's digital signal.
 
@@ -97,8 +97,8 @@ class CommandNiDsXboxController:
                   given loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getRightStickButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_right_stick_button())
 
     def a(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -111,8 +111,8 @@ class CommandNiDsXboxController:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getAButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_a_button())
 
     def b(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -125,8 +125,8 @@ class CommandNiDsXboxController:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getBButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_b_button())
 
     def x(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -139,8 +139,8 @@ class CommandNiDsXboxController:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getXButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_x_button())
 
     def y(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -153,8 +153,8 @@ class CommandNiDsXboxController:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getYButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_y_button())
 
     def start(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -167,8 +167,8 @@ class CommandNiDsXboxController:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getStartButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_start_button())
 
     def back(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -181,10 +181,10 @@ class CommandNiDsXboxController:
                   loop.
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getBackButton())
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_back_button())
 
-    def leftTrigger(
+    def left_trigger(
         self, threshold: float = 0.5, loop: Optional[EventLoop] = None
     ) -> Trigger:
         """
@@ -200,10 +200,10 @@ class CommandNiDsXboxController:
             threshold, attached to the given event loop
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getLeftTriggerAxis() > threshold)
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_left_trigger_axis() > threshold)
 
-    def rightTrigger(
+    def right_trigger(
         self, threshold: float = 0.5, loop: Optional[EventLoop] = None
     ) -> Trigger:
         """
@@ -219,55 +219,55 @@ class CommandNiDsXboxController:
                   threshold, attached to the given event loop
         """
         if loop is None:
-            loop = CommandScheduler.getInstance().getDefaultButtonLoop()
-        return Trigger(loop, lambda: self._hid.getRightTriggerAxis() > threshold)
+            loop = CommandScheduler.get_instance().get_default_button_loop()
+        return Trigger(loop, lambda: self._hid.get_right_trigger_axis() > threshold)
 
-    def getLeftX(self) -> float:
+    def get_left_x(self) -> float:
         """
         Get the X axis value of left side of the controller. Right is positive.
 
         :returns: The axis value.
         """
-        return self._hid.getLeftX()
+        return self._hid.get_left_x()
 
-    def getRightX(self) -> float:
+    def get_right_x(self) -> float:
         """
         Get the X axis value of right side of the controller. Right is positive.
 
         :returns: The axis value.
         """
-        return self._hid.getRightX()
+        return self._hid.get_right_x()
 
-    def getLeftY(self) -> float:
+    def get_left_y(self) -> float:
         """
         Get the Y axis value of left side of the controller. Back is positive.
 
         :returns: The axis value.
         """
-        return self._hid.getLeftY()
+        return self._hid.get_left_y()
 
-    def getRightY(self) -> float:
+    def get_right_y(self) -> float:
         """
         Get the Y axis value of right side of the controller. Back is positive.
 
         :returns: The axis value.
         """
-        return self._hid.getRightY()
+        return self._hid.get_right_y()
 
-    def getLeftTriggerAxis(self) -> float:
+    def get_left_trigger_axis(self) -> float:
         """
         Get the left trigger (LT) axis value of the controller. Note that this axis is bound to the
         range of [0, 1] as opposed to the usual [-1, 1].
 
         :returns: The axis value.
         """
-        return self._hid.getLeftTriggerAxis()
+        return self._hid.get_left_trigger_axis()
 
-    def getRightTriggerAxis(self) -> float:
+    def get_right_trigger_axis(self) -> float:
         """
         Get the right trigger (RT) axis value of the controller. Note that this axis is bound to the
         range of [0, 1] as opposed to the usual [-1, 1].
 
         :returns: The axis value.
         """
-        return self._hid.getRightTriggerAxis()
+        return self._hid.get_right_trigger_axis()

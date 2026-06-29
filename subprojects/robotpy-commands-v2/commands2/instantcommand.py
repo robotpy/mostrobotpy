@@ -15,7 +15,7 @@ class InstantCommand(FunctionalCommand):
     """
 
     def __init__(
-        self, toRun: Optional[Callable[[], None]] = None, *requirements: Subsystem
+        self, to_run: Optional[Callable[[], None]] = None, *requirements: Subsystem
     ):
         """
         Creates a new InstantCommand that runs the given Callable with the given requirements.
@@ -23,9 +23,9 @@ class InstantCommand(FunctionalCommand):
         :param toRun: the Runnable to run
         :param requirements: the subsystems required by this command
         """
-        assert toRun is None or callable(toRun)
+        assert to_run is None or callable(to_run)
         super().__init__(
-            toRun or (lambda: None),
+            to_run or (lambda: None),
             lambda: None,
             lambda _: None,
             lambda: True,

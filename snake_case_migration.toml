@@ -2,6 +2,750 @@
 acronyms = ["CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "PCM", "PDH", "PDP", "PID", "PWM", "RIO", "SPI", "URI", "URL", "USB"]
 
 [[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_activeButtonLoop"
+new = "_active_button_loop"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_composedCommands"
+new = "_composed_commands"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_currentCommandIndex"
+new = "_current_command_index"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_defaultButtonLoop"
+new = "_default_button_loop"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_defaultCommand"
+new = "_default_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_endingCommands"
+new = "_ending_commands"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_executeActions"
+new = "_execute_actions"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_finishActions"
+new = "_finish_actions"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_inRunLoop"
+new = "_in_run_loop"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_initActions"
+new = "_init_actions"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_interruptActions"
+new = "_interrupt_actions"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_interruptBehavior"
+new = "_interrupt_behavior"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_isFinished"
+new = "_is_finished"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_onEnd"
+new = "_on_end"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_onExecute"
+new = "_on_execute"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_onInit"
+new = "_on_init"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_runsWhenDisabled"
+new = "_runs_when_disabled"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_scheduledCommands"
+new = "_scheduled_commands"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_selectedCommand"
+new = "_selected_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_toCancel"
+new = "_to_cancel"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_toSchedule"
+new = "_to_schedule"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addBooleanProperty"
+new = "add_boolean_property"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addDoubleProperty"
+new = "add_double_property"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addIntegerArrayProperty"
+new = "add_integer_array_property"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addIntegerProperty"
+new = "add_integer_property"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addStringArrayProperty"
+new = "add_string_array_property"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addStringProperty"
+new = "add_string_property"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "cancelCmd"
+new = "cancel_cmd"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "conditionalCommand"
+new = "conditional_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "currentCommand"
+new = "current_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "dontRunWhenDisabled"
+new = "dont_run_when_disabled"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "endCounter"
+new = "end_counter"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "endsAfter"
+new = "ends_after"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "endsBefore"
+new = "ends_before"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getAButton"
+new = "get_a_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getBButton"
+new = "get_b_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getBackButton"
+new = "get_back_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getCircleButton"
+new = "get_circle_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getCrossButton"
+new = "get_cross_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getL1Button"
+new = "get_l_1_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getL2Button"
+new = "get_l_2_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getL3Button"
+new = "get_l_3_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getLeftBumperButton"
+new = "get_left_bumper_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getLeftStickButton"
+new = "get_left_stick_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getMatchTime"
+new = "get_match_time"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getOptionsButton"
+new = "get_options_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getPOV"
+new = "get_pov"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getPSButton"
+new = "get_ps_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getR1Button"
+new = "get_r_1_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getR2Button"
+new = "get_r_2_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getR3Button"
+new = "get_r_3_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRightBumperButton"
+new = "get_right_bumper_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRightStickButton"
+new = "get_right_stick_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getShareButton"
+new = "get_share_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getSquareButton"
+new = "get_square_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getStartButton"
+new = "get_start_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTopic"
+new = "get_topic"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTouchpad"
+new = "get_touchpad"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTriangleButton"
+new = "get_triangle_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getXButton"
+new = "get_x_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getYButton"
+new = "get_y_button"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "hasDefaultCommand"
+new = "has_default_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "hasElapsed"
+new = "has_elapsed"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "hasOtherRun"
+new = "has_other_run"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "hasRunCondition"
+new = "has_run_condition"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isAlreadyDeadline"
+new = "is_already_deadline"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isDisabled"
+new = "is_disabled"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isRunning"
+new = "is_running"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "logState"
+new = "log_state"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "loopCache"
+new = "loop_cache"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "missingRequirement"
+new = "missing_requirement"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "notInterrupted"
+new = "not_interrupted"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "onlyIfCondition"
+new = "only_if_condition"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "outputVolts"
+new = "output_volts"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "printEpochs"
+new = "print_epochs"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rampRate"
+new = "ramp_rate"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "requiringCommand"
+new = "requiring_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "runWhenDisabled"
+new = "run_when_disabled"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "scheduleCommand"
+new = "schedule_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "selectCommand"
+new = "select_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "selectedCommand"
+new = "selected_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "selfCancels"
+new = "self_cancels"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setSmartDashboardType"
+new = "set_smart_dashboard_type"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "startCounter"
+new = "start_counter"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "stepVoltage"
+new = "step_voltage"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "toSchedule"
+new = "to_schedule"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "unlessCondition"
+new = "unless_condition"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "waitCommand"
+new = "wait_command"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kCancelIncoming"
+new = "K_CANCEL_INCOMING"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kCancelSelf"
+new = "K_CANCEL_SELF"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kForward"
+new = "K_FORWARD"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kReverse"
+new = "K_REVERSE"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRising"
+new = "K_RISING"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
 scope = "subprojects/pyntcore/ntcore/_logutil.py"
 kind = "method"
 old = "onInstanceDestroy"
@@ -196,6 +940,4304 @@ old = "getId"
 new = "get_id"
 source = "manual"
 reason = "robotpy-apriltag generated AprilTagDetection API"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "L1"
+new = "l_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "L2"
+new = "l_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "L3"
+new = "l_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "PS"
+new = "ps"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "R1"
+new = "r_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "R2"
+new = "r_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "R3"
+new = "r_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getL2"
+new = "get_l_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getR2"
+new = "get_r_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "L1"
+new = "l_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "L2"
+new = "l_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "L3"
+new = "l_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "PS"
+new = "ps"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "R1"
+new = "r_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "R2"
+new = "r_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "R3"
+new = "r_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getL2"
+new = "get_l_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getR2"
+new = "get_r_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "leftFunction"
+new = "left_function"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "leftPaddle1"
+new = "left_paddle_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "rightFunction"
+new = "right_function"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "rightPaddle1"
+new = "right_paddle_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "L1"
+new = "l_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "L2"
+new = "l_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "L3"
+new = "l_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "PS"
+new = "ps"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "R1"
+new = "r_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "R2"
+new = "r_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "R3"
+new = "r_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getL2"
+new = "get_l_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getR2"
+new = "get_r_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "L"
+new = "l"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "R"
+new = "r"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "Z"
+new = "z"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getCStickX"
+new = "get_c_stick_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getCStickY"
+new = "get_c_stick_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getLTrigger"
+new = "get_l_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "getRTrigger"
+new = "get_r_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "faceDown"
+new = "face_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "faceLeft"
+new = "face_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "faceRight"
+new = "face_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "faceUp"
+new = "face_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getGamepad"
+new = "get_gamepad"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getLeftTriggerAxis"
+new = "get_left_trigger_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getRightTriggerAxis"
+new = "get_right_trigger_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "leftBumper"
+new = "left_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "leftPaddle1"
+new = "left_paddle_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "leftPaddle2"
+new = "left_paddle_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "leftStick"
+new = "left_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "leftTrigger"
+new = "left_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "misc1"
+new = "misc_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "misc2"
+new = "misc_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "misc3"
+new = "misc_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "misc4"
+new = "misc_4"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "misc5"
+new = "misc_5"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "misc6"
+new = "misc_6"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "rightBumper"
+new = "right_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "rightPaddle1"
+new = "right_paddle_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "rightPaddle2"
+new = "right_paddle_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "rightStick"
+new = "right_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamepad.py"
+kind = "method"
+old = "rightTrigger"
+new = "right_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "_resetCommandGenericHIDData"
+new = "_reset_command_generic_hid_data"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "getCommandGenericHID"
+new = "get_command_generic_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "getRawAxis"
+new = "get_raw_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "isConnected"
+new = "is_connected"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povCenter"
+new = "pov_center"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povDown"
+new = "pov_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povDownLeft"
+new = "pov_down_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povDownRight"
+new = "pov_down_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povLeft"
+new = "pov_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povRight"
+new = "pov_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povUp"
+new = "pov_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povUpLeft"
+new = "pov_up_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "povUpRight"
+new = "pov_up_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgenerichid.py"
+kind = "method"
+old = "setRumble"
+new = "set_rumble"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getDirectionDegrees"
+new = "get_direction_degrees"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getDirectionRadians"
+new = "get_direction_radians"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getJoystick"
+new = "get_joystick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getMagnitude"
+new = "get_magnitude"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getThrottle"
+new = "get_throttle"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getThrottleChannel"
+new = "get_throttle_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getTwist"
+new = "get_twist"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getTwistChannel"
+new = "get_twist_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getX"
+new = "get_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getXChannel"
+new = "get_x_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getY"
+new = "get_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getYChannel"
+new = "get_y_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getZ"
+new = "get_z"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "getZChannel"
+new = "get_z_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "setThrottleChannel"
+new = "set_throttle_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "setTwistChannel"
+new = "set_twist_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "setXChannel"
+new = "set_x_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "setYChannel"
+new = "set_y_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandjoystick.py"
+kind = "method"
+old = "setZChannel"
+new = "set_z_channel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getLeftTrigger"
+new = "get_left_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getRightTrigger"
+new = "get_right_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "leftBumper"
+new = "left_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "leftStick"
+new = "left_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "leftTrigger"
+new = "left_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "rightBumper"
+new = "right_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "rightStick"
+new = "right_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandlogitechf310controller.py"
+kind = "method"
+old = "rightTrigger"
+new = "right_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "L1"
+new = "l_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "L2"
+new = "l_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "L3"
+new = "l_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "PS"
+new = "ps"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "R1"
+new = "r_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "R2"
+new = "r_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "R3"
+new = "r_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "getL2Axis"
+new = "get_l_2_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "getNiDsPS4Controller"
+new = "get_ni_ds_ps_4_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "getR2Axis"
+new = "get_r_2_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "getLeftTriggerAxis"
+new = "get_left_trigger_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "getNiDsXboxController"
+new = "get_ni_ds_xbox_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "getRightTriggerAxis"
+new = "get_right_trigger_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "leftBumper"
+new = "left_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "leftStick"
+new = "left_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "leftTrigger"
+new = "left_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "rightBumper"
+new = "right_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "rightStick"
+new = "right_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontroller.py"
+kind = "method"
+old = "rightTrigger"
+new = "right_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "QAM"
+new = "qam"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getLeftTrigger"
+new = "get_left_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getRightTrigger"
+new = "get_right_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "leftBumper"
+new = "left_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "leftGripTouch"
+new = "left_grip_touch"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "leftPaddle1"
+new = "left_paddle_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "leftPaddle2"
+new = "left_paddle_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "leftStick"
+new = "left_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "leftStickTouch"
+new = "left_stick_touch"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "leftTouchpad"
+new = "left_touchpad"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "leftTrigger"
+new = "left_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "rightBumper"
+new = "right_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "rightGripTouch"
+new = "right_grip_touch"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "rightPaddle1"
+new = "right_paddle_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "rightPaddle2"
+new = "right_paddle_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "rightStick"
+new = "right_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "rightStickTouch"
+new = "right_stick_touch"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "rightTouchpad"
+new = "right_touchpad"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
+kind = "method"
+old = "rightTrigger"
+new = "right_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "C"
+new = "c"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "L"
+new = "l"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "R"
+new = "r"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "Z"
+new = "z"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "ZL"
+new = "zl"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getCStickX"
+new = "get_c_stick_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getCStickY"
+new = "get_c_stick_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getLTrigger"
+new = "get_l_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "getRTrigger"
+new = "get_r_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "C"
+new = "c"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "GL"
+new = "gl"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "GR"
+new = "gr"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "L"
+new = "l"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "R"
+new = "r"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "ZL"
+new = "zl"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "ZR"
+new = "zr"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getZL"
+new = "get_zl"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "getZR"
+new = "get_zr"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "leftStick"
+new = "left_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
+kind = "method"
+old = "rightStick"
+new = "right_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "L"
+new = "l"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "R"
+new = "r"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "ZR"
+new = "zr"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "getZAxis"
+new = "get_z_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "getZR"
+new = "get_zr"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "L"
+new = "l"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "R"
+new = "r"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "ZL"
+new = "zl"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "ZR"
+new = "zr"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getZL"
+new = "get_zl"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "getZR"
+new = "get_zr"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "leftStick"
+new = "left_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
+kind = "method"
+old = "rightStick"
+new = "right_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "axisGreaterThan"
+new = "axis_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "axisLessThan"
+new = "axis_less_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "axisMagnitudeGreaterThan"
+new = "axis_magnitude_greater_than"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "dpadDown"
+new = "dpad_down"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "dpadLeft"
+new = "dpad_left"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "dpadRight"
+new = "dpad_right"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "dpadUp"
+new = "dpad_up"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getAxis"
+new = "get_axis"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getController"
+new = "get_controller"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getHID"
+new = "get_hid"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getLeftTrigger"
+new = "get_left_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getLeftX"
+new = "get_left_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getLeftY"
+new = "get_left_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getRightTrigger"
+new = "get_right_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getRightX"
+new = "get_right_x"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "getRightY"
+new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "leftBumper"
+new = "left_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "leftStick"
+new = "left_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "leftTrigger"
+new = "left_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "rightBumper"
+new = "right_bumper"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "rightStick"
+new = "right_stick"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandxboxcontroller.py"
+kind = "method"
+old = "rightTrigger"
+new = "right_trigger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/joystickbutton.py"
+kind = "parameter"
+old = "buttonNumber"
+new = "button_number"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/povbutton.py"
+kind = "parameter"
+old = "povNumber"
+new = "pov_number"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/trigger.py"
+kind = "method"
+old = "getAsBoolean"
+new = "get_as_boolean"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/trigger.py"
+kind = "method"
+old = "onChange"
+new = "on_change"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/trigger.py"
+kind = "method"
+old = "onFalse"
+new = "on_false"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/trigger.py"
+kind = "method"
+old = "onTrue"
+new = "on_true"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/trigger.py"
+kind = "method"
+old = "toggleOnFalse"
+new = "toggle_on_false"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/trigger.py"
+kind = "method"
+old = "toggleOnTrue"
+new = "toggle_on_true"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/trigger.py"
+kind = "method"
+old = "whileFalse"
+new = "while_false"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/trigger.py"
+kind = "method"
+old = "whileTrue"
+new = "while_true"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "method"
+old = "repeatingSequence"
+new = "repeating_sequence"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "method"
+old = "runEnd"
+new = "run_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "method"
+old = "runOnce"
+new = "run_once"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "method"
+old = "startEnd"
+new = "start_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "method"
+old = "startRun"
+new = "start_run"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "method"
+old = "waitSeconds"
+new = "wait_seconds"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "method"
+old = "waitUntil"
+new = "wait_until"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "parameter"
+old = "onFalse"
+new = "on_false"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/cmd.py"
+kind = "parameter"
+old = "onTrue"
+new = "on_true"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "addRequirements"
+new = "add_requirements"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "alongWith"
+new = "along_with"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "andThen"
+new = "and_then"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "asProxy"
+new = "as_proxy"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "beforeStarting"
+new = "before_starting"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "deadlineFor"
+new = "deadline_for"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "finallyDo"
+new = "finally_do"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "getName"
+new = "get_name"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "getRequirements"
+new = "get_requirements"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "getSubsystem"
+new = "get_subsystem"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "handleInterrupt"
+new = "handle_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "hasRequirement"
+new = "has_requirement"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "ignoringDisable"
+new = "ignoring_disable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "isScheduled"
+new = "is_scheduled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "onlyIf"
+new = "only_if"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "onlyWhile"
+new = "only_while"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "raceWith"
+new = "race_with"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "setName"
+new = "set_name"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "setSubsystem"
+new = "set_subsystem"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "withInterruptBehavior"
+new = "with_interrupt_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "withName"
+new = "with_name"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "method"
+old = "withTimeout"
+new = "with_timeout"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/command.py"
+kind = "parameter"
+old = "doesRunWhenDisabled"
+new = "does_run_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "_initCommand"
+new = "_init_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "cancelAll"
+new = "cancel_all"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "clearComposedCommands"
+new = "clear_composed_commands"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "getActiveButtonLoop"
+new = "get_active_button_loop"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "getDefaultButtonLoop"
+new = "get_default_button_loop"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "getDefaultCommand"
+new = "get_default_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "getInstance"
+new = "get_instance"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "isComposed"
+new = "is_composed"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "isScheduled"
+new = "is_scheduled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "onCommandExecute"
+new = "on_command_execute"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "onCommandFinish"
+new = "on_command_finish"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "onCommandInitialize"
+new = "on_command_initialize"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "onCommandInterrupt"
+new = "on_command_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "onCommandInterruptWithCause"
+new = "on_command_interrupt_with_cause"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "printWatchdogEpochs"
+new = "print_watchdog_epochs"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "registerComposedCommands"
+new = "register_composed_commands"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "registerSubsystem"
+new = "register_subsystem"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "removeComposedCommand"
+new = "remove_composed_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "removeDefaultCommand"
+new = "remove_default_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "requireNotComposed"
+new = "require_not_composed"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "requireNotComposedOrScheduled"
+new = "require_not_composed_or_scheduled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "resetInstance"
+new = "reset_instance"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "setActiveButtonLoop"
+new = "set_active_button_loop"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "setDefaultCommand"
+new = "set_default_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "setPeriod"
+new = "set_period"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "unregisterAllSubsystems"
+new = "unregister_all_subsystems"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "method"
+old = "unregisterSubsystem"
+new = "unregister_subsystem"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/commandscheduler.py"
+kind = "parameter"
+old = "defaultCommand"
+new = "default_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/conditionalcommand.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/conditionalcommand.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/conditionalcommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/conditionalcommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/conditionalcommand.py"
+kind = "parameter"
+old = "onFalse"
+new = "on_false"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/conditionalcommand.py"
+kind = "parameter"
+old = "onTrue"
+new = "on_true"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/deferredcommand.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/deferredcommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/functionalcommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/functionalcommand.py"
+kind = "parameter"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/functionalcommand.py"
+kind = "parameter"
+old = "onEnd"
+new = "on_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/functionalcommand.py"
+kind = "parameter"
+old = "onExecute"
+new = "on_execute"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/functionalcommand.py"
+kind = "parameter"
+old = "onInit"
+new = "on_init"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/instantcommand.py"
+kind = "parameter"
+old = "toRun"
+new = "to_run"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/notifiercommand.py"
+kind = "parameter"
+old = "toRun"
+new = "to_run"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/parallelcommandgroup.py"
+kind = "method"
+old = "addCommands"
+new = "add_commands"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/parallelcommandgroup.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/parallelcommandgroup.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/parallelcommandgroup.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/paralleldeadlinegroup.py"
+kind = "method"
+old = "addCommands"
+new = "add_commands"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/paralleldeadlinegroup.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/paralleldeadlinegroup.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/paralleldeadlinegroup.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/paralleldeadlinegroup.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/paralleldeadlinegroup.py"
+kind = "method"
+old = "setDeadline"
+new = "set_deadline"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/parallelracegroup.py"
+kind = "method"
+old = "addCommands"
+new = "add_commands"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/parallelracegroup.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/parallelracegroup.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/parallelracegroup.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/printcommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/proxycommand.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/proxycommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/proxycommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/repeatcommand.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/repeatcommand.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/repeatcommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/repeatcommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/runcommand.py"
+kind = "parameter"
+old = "toRun"
+new = "to_run"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/schedulecommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/schedulecommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/selectcommand.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/selectcommand.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/selectcommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/selectcommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/sequentialcommandgroup.py"
+kind = "method"
+old = "addCommands"
+new = "add_commands"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/sequentialcommandgroup.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/sequentialcommandgroup.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/sequentialcommandgroup.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/sequentialcommandgroup.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/startendcommand.py"
+kind = "parameter"
+old = "onEnd"
+new = "on_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/startendcommand.py"
+kind = "parameter"
+old = "onInit"
+new = "on_init"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "addChild"
+new = "add_child"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "getCurrentCommand"
+new = "get_current_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "getDefaultCommand"
+new = "get_default_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "getName"
+new = "get_name"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "getSubsystem"
+new = "get_subsystem"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "removeDefaultCommand"
+new = "remove_default_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "runEnd"
+new = "run_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "runOnce"
+new = "run_once"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "setDefaultCommand"
+new = "set_default_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "setName"
+new = "set_name"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "setSubsystem"
+new = "set_subsystem"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "simulationPeriodic"
+new = "simulation_periodic"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "startEnd"
+new = "start_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/subsystem.py"
+kind = "method"
+old = "startRun"
+new = "start_run"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/waitcommand.py"
+kind = "method"
+old = "initSendable"
+new = "init_sendable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/waitcommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/waitcommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/waituntilcommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/waituntilcommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/wrappercommand.py"
+kind = "method"
+old = "getInterruptionBehavior"
+new = "get_interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/wrappercommand.py"
+kind = "method"
+old = "getRequirements"
+new = "get_requirements"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/wrappercommand.py"
+kind = "method"
+old = "isFinished"
+new = "is_finished"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/wrappercommand.py"
+kind = "method"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/compositiontestbase.py"
+kind = "method"
+old = "composeSingle"
+new = "compose_single"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/compositiontestbase.py"
+kind = "method"
+old = "test_runWhenDisabled"
+new = "test_run_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/compositiontestbase.py"
+kind = "parameter"
+old = "command1"
+new = "command_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/compositiontestbase.py"
+kind = "parameter"
+old = "command2"
+new = "command_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/compositiontestbase.py"
+kind = "parameter"
+old = "command3"
+new = "command_3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/compositiontestbase.py"
+kind = "parameter"
+old = "interruptionBehavior"
+new = "interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/compositiontestbase.py"
+kind = "parameter"
+old = "runsWhenDisabled"
+new = "runs_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_alongWith"
+new = "test_along_with"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_andThen"
+new = "test_and_then"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_andThenLambda"
+new = "test_and_then_lambda"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_beforeStarting"
+new = "test_before_starting"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_deadlineFor"
+new = "test_deadline_for"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_finallyDo"
+new = "test_finally_do"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_handleInterrupt"
+new = "test_handle_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_ignoringDisable"
+new = "test_ignoring_disable"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_onlyIf"
+new = "test_only_if"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_raceWith"
+new = "test_race_with"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_decorators.py"
+kind = "method"
+old = "test_withName"
+new = "test_with_name"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_requirements.py"
+kind = "method"
+old = "test_defaultCommandRequirementError"
+new = "test_default_command_requirement_error"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_requirements.py"
+kind = "method"
+old = "test_requirementInterrupt"
+new = "test_requirement_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_requirements.py"
+kind = "method"
+old = "test_requirementUninterruptible"
+new = "test_requirement_uninterruptible"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_schedule.py"
+kind = "method"
+old = "test_instantSchedule"
+new = "test_instant_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_schedule.py"
+kind = "method"
+old = "test_multiSchedule"
+new = "test_multi_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_schedule.py"
+kind = "method"
+old = "test_notScheduledCancel"
+new = "test_not_scheduled_cancel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_schedule.py"
+kind = "method"
+old = "test_schedulerCancel"
+new = "test_scheduler_cancel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_command_schedule.py"
+kind = "method"
+old = "test_singleIterationSchedule"
+new = "test_single_iteration_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_commandgroup_error.py"
+kind = "method"
+old = "test_commandInGroupExternallyScheduled"
+new = "test_command_in_group_externally_scheduled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_commandgroup_error.py"
+kind = "method"
+old = "test_commandInMultipleGroups"
+new = "test_command_in_multiple_groups"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_commandgroup_error.py"
+kind = "method"
+old = "test_redecoratedCommandError"
+new = "test_redecorated_command_error"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_conditional_command.py"
+kind = "method"
+old = "test_conditionalCommand"
+new = "test_conditional_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_conditional_command.py"
+kind = "method"
+old = "test_conditionalCommandRequirement"
+new = "test_conditional_command_requirement"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_default_command.py"
+kind = "method"
+old = "test_defaultCommandDisableResume"
+new = "test_default_command_disable_resume"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_default_command.py"
+kind = "method"
+old = "test_defaultCommandInterruptResume"
+new = "test_default_command_interrupt_resume"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_default_command.py"
+kind = "method"
+old = "test_defaultCommandSchedule"
+new = "test_default_command_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_functional_command.py"
+kind = "method"
+old = "test_functionalCommandSchedule"
+new = "test_functional_command_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_instant_command.py"
+kind = "method"
+old = "test_instantCommandSchedule"
+new = "test_instant_command_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_notifier_command.py"
+kind = "method"
+old = "test_notifierCommandScheduler"
+new = "test_notifier_command_scheduler"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelcommandgroup.py"
+kind = "method"
+old = "test_notScheduledCancel"
+new = "test_not_scheduled_cancel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelcommandgroup.py"
+kind = "method"
+old = "test_parallelGroupInterrupt"
+new = "test_parallel_group_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelcommandgroup.py"
+kind = "method"
+old = "test_parallelGroupRequirement"
+new = "test_parallel_group_requirement"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelcommandgroup.py"
+kind = "method"
+old = "test_parallelGroupRequirementError"
+new = "test_parallel_group_requirement_error"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelcommandgroup.py"
+kind = "method"
+old = "test_parallelGroupSchedule"
+new = "test_parallel_group_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_paralleldeadlinegroup.py"
+kind = "method"
+old = "test_parallelDeadlineInterrupt"
+new = "test_parallel_deadline_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_paralleldeadlinegroup.py"
+kind = "method"
+old = "test_parallelDeadlineRequirement"
+new = "test_parallel_deadline_requirement"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_paralleldeadlinegroup.py"
+kind = "method"
+old = "test_parallelDeadlineRequirementError"
+new = "test_parallel_deadline_requirement_error"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_paralleldeadlinegroup.py"
+kind = "method"
+old = "test_parallelDeadlineSchedule"
+new = "test_parallel_deadline_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelracegroup.py"
+kind = "method"
+old = "test_notScheduledCancel"
+new = "test_not_scheduled_cancel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelracegroup.py"
+kind = "method"
+old = "test_parallelRaceInterrupt"
+new = "test_parallel_race_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelracegroup.py"
+kind = "method"
+old = "test_parallelRaceOnlyCallsEndOnce"
+new = "test_parallel_race_only_calls_end_once"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelracegroup.py"
+kind = "method"
+old = "test_parallelRaceRequirement"
+new = "test_parallel_race_requirement"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelracegroup.py"
+kind = "method"
+old = "test_parallelRaceRequirementError"
+new = "test_parallel_race_requirement_error"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelracegroup.py"
+kind = "method"
+old = "test_parallelRaceSchedule"
+new = "test_parallel_race_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_parallelracegroup.py"
+kind = "method"
+old = "test_parallelRaceScheduleTwiceTest"
+new = "test_parallel_race_schedule_twice_test"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_printcommand.py"
+kind = "method"
+old = "test_printCommandSchedule"
+new = "test_print_command_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_proxycommand.py"
+kind = "method"
+old = "test_proxyCommandEnd"
+new = "test_proxy_command_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_proxycommand.py"
+kind = "method"
+old = "test_proxyCommandSchedule"
+new = "test_proxy_command_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_repeatcommand.py"
+kind = "method"
+old = "composeSingle"
+new = "compose_single"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_repeatcommand.py"
+kind = "method"
+old = "test_callsMethodsCorrectly"
+new = "test_calls_methods_correctly"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_robotdisabledcommand.py"
+kind = "method"
+old = "test_conditionalRunWhenDisabled"
+new = "test_conditional_run_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_robotdisabledcommand.py"
+kind = "method"
+old = "test_parallelConditionalRunWhenDisabledTest"
+new = "test_parallel_conditional_run_when_disabled_test"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_robotdisabledcommand.py"
+kind = "method"
+old = "test_parallelGroupRunWhenDisabled"
+new = "test_parallel_group_run_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_robotdisabledcommand.py"
+kind = "method"
+old = "test_robotDisabledCommandCancel"
+new = "test_robot_disabled_command_cancel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_robotdisabledcommand.py"
+kind = "method"
+old = "test_runWhenDisabled"
+new = "test_run_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_robotdisabledcommand.py"
+kind = "method"
+old = "test_selectRunWhenDisabled"
+new = "test_select_run_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_robotdisabledcommand.py"
+kind = "method"
+old = "test_sequentialGroupRunWhenDisabled"
+new = "test_sequential_group_run_when_disabled"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_runcommand.py"
+kind = "method"
+old = "test_runCommandSchedule"
+new = "test_run_command_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulecommand.py"
+kind = "method"
+old = "test_scheduleCommandDuringRun"
+new = "test_schedule_command_during_run"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulecommand.py"
+kind = "method"
+old = "test_scheduleCommandSchedule"
+new = "test_schedule_command_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_scheduler.py"
+kind = "method"
+old = "test_scheduleScheduledNoOp"
+new = "test_schedule_scheduled_no_op"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_scheduler.py"
+kind = "method"
+old = "test_schedulerCancelAll"
+new = "test_scheduler_cancel_all"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_scheduler.py"
+kind = "method"
+old = "test_schedulerInterruptLambda"
+new = "test_scheduler_interrupt_lambda"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_scheduler.py"
+kind = "method"
+old = "test_schedulerLambdaTestNoInterrupt"
+new = "test_scheduler_lambda_test_no_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_scheduler.py"
+kind = "method"
+old = "test_unregisterSubsystem"
+new = "test_unregister_subsystem"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulingrecursion.py"
+kind = "method"
+old = "test_cancelFromEnd"
+new = "test_cancel_from_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulingrecursion.py"
+kind = "method"
+old = "test_cancelFromInitialize"
+new = "test_cancel_from_initialize"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulingrecursion.py"
+kind = "method"
+old = "test_defaultCommandGetsRescheduledAfterSelfCanceling"
+new = "test_default_command_gets_rescheduled_after_self_canceling"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulingrecursion.py"
+kind = "method"
+old = "test_scheduleFromEnd"
+new = "test_schedule_from_end"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulingrecursion.py"
+kind = "method"
+old = "test_scheduleFromEndInterrupt"
+new = "test_schedule_from_end_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulingrecursion.py"
+kind = "method"
+old = "test_scheduleInitializeFromDefaultCommand"
+new = "test_schedule_initialize_from_default_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_schedulingrecursion.py"
+kind = "parameter"
+old = "interruptionBehavior"
+new = "interruption_behavior"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_selectcommand.py"
+kind = "method"
+old = "test_selectCommand"
+new = "test_select_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_selectcommand.py"
+kind = "method"
+old = "test_selectCommandInvalidKey"
+new = "test_select_command_invalid_key"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_selectcommand.py"
+kind = "method"
+old = "test_selectCommandRequirement"
+new = "test_select_command_requirement"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_sequentialcommandgroup.py"
+kind = "method"
+old = "test_notScheduledCancel"
+new = "test_not_scheduled_cancel"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_sequentialcommandgroup.py"
+kind = "method"
+old = "test_sequentialGroupInterrupt"
+new = "test_sequential_group_interrupt"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_sequentialcommandgroup.py"
+kind = "method"
+old = "test_sequentialGroupRequirement"
+new = "test_sequential_group_requirement"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_sequentialcommandgroup.py"
+kind = "method"
+old = "test_sequentialGroupSchedule"
+new = "test_sequential_group_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_startendcommand.py"
+kind = "method"
+old = "test_startEndCommandSchedule"
+new = "test_start_end_command_schedule"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_sysidroutine.py"
+kind = "method"
+old = "recordState"
+new = "record_state"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_booleanSupplier"
+new = "test_boolean_supplier"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_cancelWhenActive"
+new = "test_cancel_when_active"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_onChange"
+new = "test_on_change"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_onFalse"
+new = "test_on_false"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_onTrue"
+new = "test_on_true"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_toggleOnTrue"
+new = "test_toggle_on_true"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_triggerComposition"
+new = "test_trigger_composition"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_triggerCompositionSupplier"
+new = "test_trigger_composition_supplier"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_whileTrueLambdaRunCommand"
+new = "test_while_true_lambda_run_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_whileTrueOnce"
+new = "test_while_true_once"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_trigger.py"
+kind = "method"
+old = "test_whileTrueRepeatedly"
+new = "test_while_true_repeatedly"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_waitcommand.py"
+kind = "method"
+old = "test_waitCommand"
+new = "test_wait_command"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_waitcommand.py"
+kind = "method"
+old = "test_withTimeout"
+new = "test_with_timeout"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/test_waituntilcommand.py"
+kind = "method"
+old = "test_waitUntil"
+new = "test_wait_until"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/util.py"
+kind = "method"
+old = "addAndGet"
+new = "add_and_get"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/util.py"
+kind = "method"
+old = "incrementAndGet"
+new = "increment_and_get"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/util.py"
+kind = "method"
+old = "isPressed"
+new = "is_pressed"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/tests/util.py"
+kind = "method"
+old = "setPressed"
+new = "set_pressed"
+source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-cscore/cscore/__init__.py"
