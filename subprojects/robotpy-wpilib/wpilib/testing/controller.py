@@ -42,7 +42,7 @@ class RobotTestController:
                 robot.start_competition()
                 assert self._robot_finished
             finally:
-                # always call endCompetition or python hangs
+                # always call end_competition or python hangs
                 robot.end_competition()
                 del robot
 
@@ -68,7 +68,7 @@ class RobotTestController:
             # make sure the thread didn't die
             assert self._cond.wait_for(lambda: self._robot_started, timeout=1)
 
-        # This is the same thing that waitForProgramStart does
+        # This is the same thing that wait_for_program_start does
         for _ in range(1000):
             if get_program_started():
                 break

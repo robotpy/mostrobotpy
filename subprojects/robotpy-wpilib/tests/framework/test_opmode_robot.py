@@ -176,13 +176,13 @@ def test_robot_periodic(periodic_robot_test_fixture):
 
     wsim.wait_for_program_start()
 
-    # RobotPeriodic should be called regardless of state
+    # robot_periodic should be called regardless of state
     assert robot.periodic_count == 0
 
     # Time step to get periodic calls on 20 ms robot loop
     wsim.step_timing(k_period)
     assert robot.periodic_count == 1
 
-    # Additional time steps should continue calling RobotPeriodic
+    # Additional time steps should continue calling robot_periodic
     wsim.step_timing(k_period)
     assert robot.periodic_count == 2

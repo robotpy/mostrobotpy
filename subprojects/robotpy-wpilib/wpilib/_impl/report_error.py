@@ -74,7 +74,7 @@ def report_error(error: str, print_trace: bool = False) -> None:
     Optionally appends stack trace to error message.
 
     :param error: message to show
-    :param printTrace: If True, appends stack trace to error string
+    :param print_trace: If True, appends stack trace to error string
     """
     report_error_internal(error, print_trace, from_user=True)
 
@@ -85,6 +85,6 @@ def report_warning(error: str, print_trace: bool = False) -> None:
     Optionally appends stack trace to error message.
 
     :param error: message to show
-    :param printTrace: If True, appends stack trace to error string
+    :param print_trace: If True, appends stack trace to error string
     """
     report_error_internal(error, print_trace, from_user=True, is_warning=True)

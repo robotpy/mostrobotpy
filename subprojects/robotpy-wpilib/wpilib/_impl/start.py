@@ -125,7 +125,7 @@ class RobotStarter:
                 try:
                     robot.end_competition()
                 except:
-                    self.logger.warning("endCompetition raised an exception")
+                    self.logger.warning("end_competition raised an exception")
 
             th.join(1)
             if th.is_alive():
@@ -191,7 +191,7 @@ class RobotStarter:
 
         wpilib.SmartDashboard.init()
 
-        # Call DriverStationBackend.refreshData() to kick things off
+        # Call DriverStationBackend.refresh_data() to kick things off
         wpilib.DriverStationBackend.refresh_data()
 
         try:
@@ -230,6 +230,6 @@ class RobotStarter:
                 self.logger.info("Robot code exited")
                 return True
             else:
-                # startCompetition never returns unless exception occurs....
-                report_error("Unexpected return from startCompetition() method.", False)
+                # start_competition never returns unless exception occurs....
+                report_error("Unexpected return from start_competition() method.", False)
                 return False

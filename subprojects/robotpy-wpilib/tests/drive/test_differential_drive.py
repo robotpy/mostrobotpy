@@ -45,22 +45,22 @@ def test_arcade_drive_ik():
     assert v.left == pytest.approx(0.0)
     assert v.right == pytest.approx(-0.5)
 
-    # Left turn (negative sign xSpeed)
+    # Left turn (negative sign x_speed)
     v = DifferentialDrive.arcade_drive_ik(-0.0, 1.0, False)
     assert v.left == pytest.approx(-1.0)
     assert v.right == pytest.approx(1.0)
 
-    # Left turn (positive sign xSpeed)
+    # Left turn (positive sign x_speed)
     v = DifferentialDrive.arcade_drive_ik(0.0, 1.0, False)
     assert v.left == pytest.approx(-1.0)
     assert v.right == pytest.approx(1.0)
 
-    # Right turn (negative sign xSpeed)
+    # Right turn (negative sign x_speed)
     v = DifferentialDrive.arcade_drive_ik(-0.0, -1.0, False)
     assert v.left == pytest.approx(1.0)
     assert v.right == pytest.approx(-1.0)
 
-    # Right turn (positive sign xSpeed)
+    # Right turn (positive sign x_speed)
     v = DifferentialDrive.arcade_drive_ik(0.0, -1.0, False)
     assert v.left == pytest.approx(1.0)
     assert v.right == pytest.approx(-1.0)
