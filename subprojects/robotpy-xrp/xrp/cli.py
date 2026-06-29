@@ -104,7 +104,7 @@ class RunXrp:
                 print("robotpy-halsim-gui is not installed!", file=sys.stderr)
                 return False
             else:
-                halsim_gui.loadExtension()
+                halsim_gui.load_extension()
 
         cwd = os.getcwd()
 

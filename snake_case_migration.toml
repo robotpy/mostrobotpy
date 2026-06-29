@@ -2687,6 +2687,14 @@ old = "initSendable"
 new = "init_sendable"
 source = "scan-py"
 
+[[mapping]]
+scope = "subprojects/robotpy-xrp/xrp/extension/main.py"
+kind = "method"
+old = "loadOneExtension"
+new = "load_one_extension"
+source = "manual"
+reason = "robotpy-hal generated API"
+
 [[ignored]]
 scope = "global"
 name = "ControlAffinePlantInversionFeedforward_1_1"
@@ -2996,3 +3004,18 @@ reason = "robotpy-commands-v2 API not in Task 8"
 scope = "subprojects/robotpy-wpilib/wpilib/testing/pytest_plugin.py"
 name = "resetInstance"
 reason = "robotpy-commands-v2 API not in Task 8"
+
+[[ignored]]
+scope = "subprojects/robotpy-xrp/xrp/cli.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 plugin hook; other providers migrate in later task"
+
+[[ignored]]
+scope = "subprojects/robotpy-xrp/xrp/extension/__init__.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 plugin provider hook; migrate atomically with all providers in later task"
+
+[[ignored]]
+scope = "subprojects/robotpy-xrp/xrp/extension/main.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 plugin provider hook; migrate atomically with all providers in later task"
