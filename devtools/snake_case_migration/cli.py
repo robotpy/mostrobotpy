@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import argparse
 from collections.abc import Sequence
+from pathlib import Path
+
+from .manifest import Manifest, load_manifest, save_manifest
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -9,6 +12,7 @@ def build_parser() -> argparse.ArgumentParser:
         prog="snake_case_migration",
         description="Migrate semiwrap-based Python projects to snake_case APIs.",
     )
+    parser.add_argument("--manifest", default="snake_case_migration.toml")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     manifest = subparsers.add_parser("manifest", help="Create or update manifest files")
@@ -26,5 +30,18 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = build_parser()
-    parser.parse_args(argv)
+    args = parser.parse_args(argv)
+    manifest_path = Path(args.manifest)
+
+    if args.command == "manifest" and args.manifest_command == "init":
+        if manifest_path.exists():
+            load_manifest(manifest_path)
+        else:
+            save_manifest(manifest_path, Manifest())
+        return 0
+
+    if args.command == "manifest" and args.manifest_command == "check":
+        load_manifest(manifest_path)
+        return 0
+
     return 0
