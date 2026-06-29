@@ -30,7 +30,7 @@ class CommandScheduler(Sendable):
     """
     The scheduler responsible for running Commands. A Command-based robot should call
     :meth:`.run` on the singleton instance in its periodic block in order to run commands
-    synchronously from the main loop. Subsystems should be registered with the scheduler using :meth:`.registerSubsystem` in order for their :meth:`commands2.Subsystem.periodic`
+    synchronously from the main loop. Subsystems should be registered with the scheduler using :meth:`.register_subsystem` in order for their :meth:`commands2.Subsystem.periodic`
     methods to be called and for their default commands to be scheduled.
     """
 
@@ -334,11 +334,11 @@ class CommandScheduler(Sendable):
         Sets the default command for a subsystem. Registers that subsystem if it is not already
         registered. Default commands will run whenever there is no other command currently scheduled
         that requires the subsystem. Default commands should be written to never end (i.e. their
-        :func:`commands2.Command.isFinished` method should return False), as they would simply be re-scheduled if they
+        :func:`commands2.Command.is_finished` method should return False), as they would simply be re-scheduled if they
         do. Default commands must also require their subsystem.
 
         :param subsystem: the subsystem whose default command will be set
-        :param defaultCommand: the default command to associate with the subsystem
+        :param default_command: the default command to associate with the subsystem
         """
         if subsystem is None:
             report_warning("Tried to set a default command for a null subsystem", True)

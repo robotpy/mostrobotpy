@@ -83,7 +83,7 @@ class Command(Sendable):
         The action to take when the command ends. Called when either the command finishes normally, or
         when it interrupted/canceled.
 
-        Do not schedule commands here that share requirements with this command. Use :meth:`.andThen` instead.
+        Do not schedule commands here that share requirements with this command. Use :meth:`.and_then` instead.
 
         :param interrupted: whether the command was interrupted/canceled
         """
@@ -101,7 +101,7 @@ class Command(Sendable):
     def get_requirements(self) -> Set[Subsystem]:
         """
         Specifies the set of subsystems used by this command. Two commands cannot use the same
-        subsystem at the same time. If another command is scheduled that shares a requirement, :meth:`.getInterruptionBehavior` will be checked and followed. If no subsystems are required, return
+        subsystem at the same time. If another command is scheduled that shares a requirement, :meth:`.get_interruption_behavior` will be checked and followed. If no subsystems are required, return
         an empty set.
 
         .. note:: it is recommended that user implementations contain the requirements as a field, and
