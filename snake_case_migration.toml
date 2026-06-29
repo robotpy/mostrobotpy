@@ -5436,6 +5436,13 @@ new = "wait_for_first_notifier"
 source = "scan-py"
 
 [[mapping]]
+scope = "subprojects/robotpy-halsim-ds-socket/halsim_ds_socket/main.py"
+kind = "method"
+old = "loadExtension"
+new = "load_extension"
+source = "scan-py"
+
+[[mapping]]
 scope = "subprojects/robotpy-halsim-gui/halsim_gui/main.py"
 kind = "method"
 old = "loadExtension"
