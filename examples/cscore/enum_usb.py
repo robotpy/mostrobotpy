@@ -4,50 +4,50 @@ import cscore as cs
 
 
 def main():
-    for caminfo in cs.UsbCamera.enumerateUsbCameras():
+    for caminfo in cs.UsbCamera.enumerate_usb_cameras():
         print("%s: %s (%s)" % (caminfo.dev, caminfo.path, caminfo.name))
-        if caminfo.otherPaths:
+        if caminfo.other_paths:
             print("Other device paths:")
-            for path in caminfo.otherPaths:
+            for path in caminfo.other_paths:
                 print(" ", path)
 
         camera = cs.UsbCamera("usbcam", caminfo.dev)
 
         print("Properties:")
-        for prop in camera.enumerateProperties():
-            kind = prop.getKind()
-            if kind == cs.VideoProperty.Kind.kBoolean:
+        for prop in camera.enumerate_properties():
+            kind = prop.get_kind()
+            if kind == cs.VideoProperty.Kind.K_BOOLEAN:
                 print(
-                    prop.getName(),
-                    "(bool) value=%s default=%s" % (prop.get(), prop.getDefault()),
+                    prop.get_name(),
+                    "(bool) value=%s default=%s" % (prop.get(), prop.get_default()),
                 )
-            elif kind == cs.VideoProperty.Kind.kInteger:
+            elif kind == cs.VideoProperty.Kind.K_INTEGER:
                 print(
-                    prop.getName(),
+                    prop.get_name(),
                     "(int): value=%s min=%s max=%s step=%s default=%s"
                     % (
                         prop.get(),
-                        prop.getMin(),
-                        prop.getMax(),
-                        prop.getStep(),
-                        prop.getDefault(),
+                        prop.get_min(),
+                        prop.get_max(),
+                        prop.get_step(),
+                        prop.get_default(),
                     ),
                 )
-            elif kind == cs.VideoProperty.Kind.kString:
-                print(prop.getName(), "(string):", prop.getString())
-            elif kind == cs.VideoProperty.Kind.kEnum:
-                print(prop.getName(), "(enum): value=%s" % prop.get())
-                for i, choice in enumerate(prop.getChoices()):
+            elif kind == cs.VideoProperty.Kind.K_STRING:
+                print(prop.get_name(), "(string):", prop.get_string())
+            elif kind == cs.VideoProperty.Kind.K_ENUM:
+                print(prop.get_name(), "(enum): value=%s" % prop.get())
+                for i, choice in enumerate(prop.get_choices()):
                     if choice:
                         print("    %s: %s" % (i, choice))
 
         print("Video Modes")
-        for mode in camera.enumerateVideoModes():
-            if mode.pixelFormat == cs.VideoMode.PixelFormat.kMJPEG:
+        for mode in camera.enumerate_video_modes():
+            if mode.pixel_format == cs.VideoMode.PixelFormat.K_MJPEG:
                 fmt = "MJPEG"
-            elif mode.pixelFormat == cs.VideoMode.PixelFormat.kYUYV:
+            elif mode.pixel_format == cs.VideoMode.PixelFormat.K_YUYV:
                 fmt = "YUYV"
-            elif mode.pixelFormat == cs.VideoMode.PixelFormat.kRGB565:
+            elif mode.pixel_format == cs.VideoMode.PixelFormat.K_RGB_565:
                 fmt = "RGB565"
             else:
                 fmt = "Unknown"

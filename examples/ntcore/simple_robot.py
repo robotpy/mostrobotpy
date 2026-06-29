@@ -19,15 +19,15 @@ import ntcore
 if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
-    inst = ntcore.NetworkTableInstance.getDefault()
+    inst = ntcore.NetworkTableInstance.get_default()
 
-    inst.startServer()
-    sd = inst.getTable("SmartDashboard")
+    inst.start_server()
+    sd = inst.get_table("SmartDashboard")
 
     i = 0
     while True:
-        print("dsTime:", sd.getNumber("dsTime", -1))
+        print("dsTime:", sd.get_number("dsTime", -1))
 
-        sd.putNumber("robotTime", i)
+        sd.put_number("robotTime", i)
         time.sleep(1)
         i += 1

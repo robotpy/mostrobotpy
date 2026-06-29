@@ -16,92 +16,92 @@ class Elevator:
 
     def __init__(self) -> None:
         # This gearbox represents a gearbox containing 4 Vex 775pro motors.
-        self.elevatorGearbox = wpimath.DCMotor.vex775Pro(4)
+        self.elevator_gearbox = wpimath.DCMotor.vex_775_pro(4)
 
         # Standard classes for controlling our elevator
         self.controller = wpimath.ProfiledPIDController(
-            constants.kElevatorKp,
-            constants.kElevatorKi,
-            constants.kElevatorKd,
+            constants.K_ELEVATOR_KP,
+            constants.K_ELEVATOR_KI,
+            constants.K_ELEVATOR_KD,
             wpimath.TrapezoidProfile.Constraints(2.45, 2.45),
         )
         self.feedforward = wpimath.ElevatorFeedforward(
-            constants.kElevatorkS,
-            constants.kElevatorkG,
-            constants.kElevatorkV,
-            constants.kElevatorkA,
+            constants.K_ELEVATORK_S,
+            constants.K_ELEVATORK_G,
+            constants.K_ELEVATORK_V,
+            constants.K_ELEVATORK_A,
         )
         self.encoder = wpilib.Encoder(
-            constants.kEncoderAChannel, constants.kEncoderBChannel
+            constants.K_ENCODER_A_CHANNEL, constants.K_ENCODER_B_CHANNEL
         )
-        self.motor = wpilib.PWMSparkMax(constants.kMotorPort)
+        self.motor = wpilib.PWMSparkMax(constants.K_MOTOR_PORT)
 
         # Simulation classes help us simulate what's going on, including gravity.
-        self.elevatorSim = wpilib.simulation.ElevatorSim(
-            self.elevatorGearbox,
-            constants.kElevatorGearing,
-            constants.kCarriageMass,
-            constants.kElevatorDrumRadius,
-            constants.kMinElevatorHeight,
-            constants.kMaxElevatorHeight,
+        self.elevator_sim = wpilib.simulation.ElevatorSim(
+            self.elevator_gearbox,
+            constants.K_ELEVATOR_GEARING,
+            constants.K_CARRIAGE_MASS,
+            constants.K_ELEVATOR_DRUM_RADIUS,
+            constants.K_MIN_ELEVATOR_HEIGHT,
+            constants.K_MAX_ELEVATOR_HEIGHT,
             True,
             0,
             [0.01, 0.0],
         )
-        self.encoderSim = wpilib.simulation.EncoderSim(self.encoder)
-        self.motorSim = wpilib.simulation.PWMMotorControllerSim(self.motor)
+        self.encoder_sim = wpilib.simulation.EncoderSim(self.encoder)
+        self.motor_sim = wpilib.simulation.PWMMotorControllerSim(self.motor)
 
         # Create a Mechanism2d visualization of the elevator
         self.mech2d = wpilib.Mechanism2d(20, 50)
-        self.mech2dRoot = self.mech2d.getRoot("Elevator Root", 10, 0)
-        self.elevatorMech2d = self.mech2dRoot.appendLigament(
-            "Elevator", self.elevatorSim.getPosition(), 90
+        self.mech_2_d_root = self.mech2d.get_root("Elevator Root", 10, 0)
+        self.elevator_mech_2_d = self.mech_2_d_root.append_ligament(
+            "Elevator", self.elevator_sim.get_position(), 90
         )
 
-        self.encoder.setDistancePerPulse(constants.kElevatorEncoderDistPerPulse)
+        self.encoder.set_distance_per_pulse(constants.K_ELEVATOR_ENCODER_DIST_PER_PULSE)
 
         # Publish Mechanism2d to SmartDashboard
         # To view the Elevator visualization, select Network Tables -> SmartDashboard -> Elevator Sim
-        wpilib.SmartDashboard.putData("Elevator Sim", self.mech2d)
+        wpilib.SmartDashboard.put_data("Elevator Sim", self.mech2d)
 
-    def simulationPeriodic(self) -> None:
+    def simulation_periodic(self) -> None:
         # In this method, we update our simulation of what our elevator is doing
         # First, we set our "inputs" (voltages)
-        self.elevatorSim.setInputVoltage(
-            self.motorSim.getThrottle() * wpilib.RobotController.getBatteryVoltage()
+        self.elevator_sim.set_input_voltage(
+            self.motor_sim.get_throttle() * wpilib.RobotController.get_battery_voltage()
         )
 
         # Next, we update it. The standard loop time is 20ms.
-        self.elevatorSim.update(0.020)
+        self.elevator_sim.update(0.020)
 
         # Finally, we set our simulated encoder's readings and simulated battery voltage
-        self.encoderSim.setDistance(self.elevatorSim.getPosition())
+        self.encoder_sim.set_distance(self.elevator_sim.get_position())
         # SimBattery estimates loaded battery voltages
-        wpilib.simulation.RoboRioSim.setVInVoltage(
-            wpilib.simulation.BatterySim.calculate([self.elevatorSim.getCurrentDraw()])
+        wpilib.simulation.RoboRioSim.set_v_in_voltage(
+            wpilib.simulation.BatterySim.calculate([self.elevator_sim.get_current_draw()])
         )
 
-    def reachGoal(self, goal: float) -> None:
+    def reach_goal(self, goal: float) -> None:
         """Run control loop to reach and maintain goal.
 
         :param goal: the position to maintain
         """
 
-        self.controller.setGoal(goal)
+        self.controller.set_goal(goal)
 
         # With the setpoint value we run PID control like normal
-        pidOutput = self.controller.calculate(self.encoder.getDistance())
-        feedforwardOutput = self.feedforward.calculate(
-            self.controller.getSetpoint().velocity
+        pid_output = self.controller.calculate(self.encoder.get_distance())
+        feedforward_output = self.feedforward.calculate(
+            self.controller.get_setpoint().velocity
         )
-        self.motor.setVoltage(pidOutput + feedforwardOutput)
+        self.motor.set_voltage(pid_output + feedforward_output)
 
     def stop(self) -> None:
         """Stop the control loop and motor output."""
-        self.controller.setGoal(0.0)
-        self.motor.setThrottle(0.0)
+        self.controller.set_goal(0.0)
+        self.motor.set_throttle(0.0)
 
-    def updateTelemetry(self) -> None:
+    def update_telemetry(self) -> None:
         """Update telemetry, including the mechanism visualization."""
         # Update elevator visualization with position
-        self.elevatorMech2d.setLength(self.encoder.getDistance())
+        self.elevator_mech_2_d.set_length(self.encoder.get_distance())

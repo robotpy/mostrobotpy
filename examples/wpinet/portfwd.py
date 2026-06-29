@@ -11,7 +11,7 @@ if __name__ == "__main__":
     parser.add_argument("remotePort", type=int, help="remote port number")
     args = parser.parse_args()
 
-    wpinet.PortForwarder.getInstance().add(args.port, args.remoteHost, args.remotePort)
+    wpinet.PortForwarder.get_instance().add(args.port, args.remote_host, args.remote_port)
 
     while True:
         time.sleep(1)

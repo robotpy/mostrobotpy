@@ -80,15 +80,15 @@ WPINet API
 
 .. _wpiutil_api:
 
-WPIUtil API
+WPIutil API
 -----------
 
-The C++ version of the WPIUtil library contains various utilities that
+The C++ version of the WPIutil library contains various utilities that
 user code and WPILib can use to accomplish common tasks that aren't 
 necessarily provided by the C++ standard library.
 
-Much of the content in WPIUtil is not useful for Python teams, so we
-don't provide access to most of WPIUtil directly. Luckily, RobotPy teams have
+Much of the content in WPIutil is not useful for Python teams, so we
+don't provide access to most of WPIutil directly. Luckily, RobotPy teams have
 access to the full Python standard library, which has many of the same types
 of things in it.
 
@@ -126,10 +126,10 @@ These are special devices for use with the ROMI product.
 
   romi
 
-XRP API
+xRP API
 -------
 
-These are special devices for use with the XRP product.
+These are special devices for use with the xRP product.
 
 .. toctree::
   :maxdepth: 1

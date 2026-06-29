@@ -17,10 +17,10 @@ Shorter thoughts
 
 Testing:
 
-* New examples must run! You *must* test your code on either a robot or in
+* New examples must run! you *must* test your code on either a robot or in
   simulation. If there's something broken in RobotPy, file an issue to get it
   fixed
-  * You can find instructions on how to test a vision file [here](https://robotpy.readthedocs.io/en/stable/vision/other.html#vision-other-runcustom)!
+  * you can find instructions on how to test a vision file [here](https://robotpy.readthedocs.io/en/stable/vision/other.html#vision-other-runcustom)!
 * Format your code with black
 
 General:
@@ -55,7 +55,7 @@ a few examples:
 ```python
 
 # OK: just a constant
-MY_CONSTANT = 42
+My_CONSTANT = 42
 
 # BAD: at global scope
 motor = wpilib.Talon(1)
@@ -153,8 +153,8 @@ Command-based robot specific things
 -----------------------------------
 
 We use `commands2.TimedCommandRobot` instead of TimedRobot. It provides a 
-`robotPeriodic` method for you, so it doesn't need to be included from
-the java code unless robotPeriodic function does something other than
+`robot_periodic` method for you, so it doesn't need to be included from
+the java code unless robot_periodic function does something other than
 run the command scheduler.
 
 Java examples will often have a `Constants.java` file with a bunch of constants

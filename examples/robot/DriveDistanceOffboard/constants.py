@@ -14,11 +14,11 @@ import math
 
 
 class DriveConstants:
-    kDt = 0.02
-    kLeftMotor1Port = 0
-    kLeftMotor2Port = 1
-    kRightMotor1Port = 2
-    kRightMotor2Port = 3
+    K_DT = 0.02
+    K_LEFT_MOTOR_1_PORT = 0
+    K_LEFT_MOTOR_2_PORT = 1
+    K_RIGHT_MOTOR_1_PORT = 2
+    K_RIGHT_MOTOR_2_PORT = 3
 
     """
     These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
@@ -32,9 +32,9 @@ class DriveConstants:
 
     kp = 1.0
 
-    kMaxVelocity = 3.0  # m/s
-    kMaxAcceleration = 3.0  # m/s²
+    K_MAX_VELOCITY = 3.0  # m/s
+    K_MAX_ACCELERATION = 3.0  # m/s²
 
 
 class OIConstants:
-    kDriverControllerPort = 0
+    K_DRIVER_CONTROLLER_PORT = 0

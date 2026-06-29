@@ -20,6 +20,14 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "_configureButtonBindings"
+new = "_configure_button_bindings"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "_currentCommandIndex"
 new = "_current_command_index"
 source = "manual"
@@ -40,6 +48,14 @@ old = "_defaultCommand"
 new = "_default_command"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_driveVoltage"
+new = "_drive_voltage"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -68,6 +84,14 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "_getAverageTurningDistance"
+new = "_get_average_turning_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "_inRunLoop"
 new = "_in_run_loop"
 source = "manual"
@@ -80,6 +104,22 @@ old = "_initActions"
 new = "_init_actions"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_initialLeftDistance"
+new = "_initial_left_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "_initialRightDistance"
+new = "_initial_right_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -180,10 +220,34 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "addConnectionListener"
+new = "add_connection_listener"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "addDoubleProperty"
 new = "add_double_property"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addEntryListener"
+new = "add_entry_listener"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addFollower"
+new = "add_follower"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -204,6 +268,14 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "addListener"
+new = "add_listener"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "addStringArrayProperty"
 new = "add_string_array_property"
 source = "manual"
@@ -220,10 +292,410 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "addSwitchedCamera"
+new = "add_switched_camera"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "addVisionMeasurement"
+new = "add_vision_measurement"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "alertOutput"
+new = "alert_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "allianceOutput"
+new = "alliance_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "allianceString"
+new = "alliance_string"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "angleDeg"
+new = "angle_deg"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "angularPosition"
+new = "angular_position"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "angularVelocity"
+new = "angular_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "applyDeadband"
+new = "apply_deadband"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "arbFeedforward"
+new = "arb_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "arcadeDriveCommand"
+new = "arcade_drive_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armGearbox"
+new = "arm_gearbox"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armKp"
+new = "arm_kp"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armLigament"
+new = "arm_ligament"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armPivot"
+new = "arm_pivot"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armPlant"
+new = "arm_plant"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armServo"
+new = "arm_servo"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armSetpointDegrees"
+new = "arm_setpoint_degrees"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armSim"
+new = "arm_sim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "armTower"
+new = "arm_tower"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "atGoal"
+new = "at_goal"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "atSetpoint"
+new = "at_setpoint"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "atTargetVelocity"
+new = "at_target_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "autoString"
+new = "auto_string"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "autonomousCommand"
+new = "autonomous_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "autonomousOutput"
+new = "autonomous_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backLeft"
+new = "back_left"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backLeftEncoder"
+new = "back_left_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backLeftFeedforward"
+new = "back_left_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backLeftLocation"
+new = "back_left_location"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backLeftMotor"
+new = "back_left_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backLeftOutput"
+new = "back_left_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backLeftPIDController"
+new = "back_left_pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backRight"
+new = "back_right"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backRightEncoder"
+new = "back_right_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backRightFeedforward"
+new = "back_right_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backRightLocation"
+new = "back_right_location"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backRightMotor"
+new = "back_right_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backRightOutput"
+new = "back_right_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "backRightPIDController"
+new = "back_right_pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "ballSensor"
+new = "ball_sensor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "bangBangControler"
+new = "bang_bang_controler"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "bangOutput"
+new = "bang_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "busId"
+new = "bus_id"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "cameraInField"
+new = "camera_in_field"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "cameraToObject"
+new = "camera_to_object"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "cameraToObjectEntry"
+new = "camera_to_object_entry"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "cameraToObjectTopic"
+new = "camera_to_object_topic"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "cancelCmd"
 new = "cancel_cmd"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "chassisVelocities"
+new = "chassis_velocities"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "complexAuto"
+new = "complex_auto"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -236,6 +708,38 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "configureBindings"
+new = "configure_bindings"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "configureButtonBindings"
+new = "configure_button_bindings"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "cosineScale"
+new = "cosine_scale"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "crossColor"
+new = "cross_color"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "currentCommand"
 new = "current_command"
 source = "manual"
@@ -244,10 +748,378 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "currentLeft"
+new = "current_left"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "currentRight"
+new = "current_right"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "cvMjpegServer"
+new = "cv_mjpeg_server"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "cvSource"
+new = "cv_source"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "defaultVal"
+new = "default_val"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "degreesToRadians"
+new = "degrees_to_radians"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "desaturateWheelVelocities"
+new = "desaturate_wheel_velocities"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "desiredVelocity"
+new = "desired_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "differentialDriveFromSysId"
+new = "differential_drive_from_sys_id"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "disableCompressorCommand"
+new = "disable_compressor_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "dontRunWhenDisabled"
 new = "dont_run_when_disabled"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "doubleArrayTopic"
+new = "double_array_topic"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "doubleSolenoid"
+new = "double_solenoid"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveDistanceCommand"
+new = "drive_distance_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveEncoder"
+new = "drive_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveEncoderChannelA"
+new = "drive_encoder_channel_a"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveEncoderChannelB"
+new = "drive_encoder_channel_b"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveFeedforward"
+new = "drive_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveFullVelocity"
+new = "drive_full_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveHalfVelocity"
+new = "drive_half_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveMotor"
+new = "drive_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveMotorChannel"
+new = "drive_motor_channel"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveOutput"
+new = "drive_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "drivePIDController"
+new = "drive_pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveSubsystem"
+new = "drive_subsystem"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driveWithJoystick"
+new = "drive_with_joystick"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "driverController"
+new = "driver_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "drivetrainSimulator"
+new = "drivetrain_simulator"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "drivetrainSystem"
+new = "drivetrain_system"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "dutyCycle"
+new = "duty_cycle"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "dutyCycleEncoder"
+new = "duty_cycle_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "dynamicProfiledDriveDistance"
+new = "dynamic_profiled_drive_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "elevatorEncoder"
+new = "elevator_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "elevatorFromPhysicalConstants"
+new = "elevator_from_physical_constants"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "elevatorGearbox"
+new = "elevator_gearbox"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "elevatorMech2d"
+new = "elevator_mech_2_d"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "elevatorMotor"
+new = "elevator_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "elevatorPlant"
+new = "elevator_plant"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "elevatorSim"
+new = "elevator_sim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "enableAnalog"
+new = "enable_analog"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "enableContinuousInput"
+new = "enable_continuous_input"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "enableDigital"
+new = "enable_digital"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "enableHybrid"
+new = "enable_hybrid"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "enabledOutput"
+new = "enabled_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "enabledString"
+new = "enabled_string"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "encoderRotation"
+new = "encoder_rotation"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "encoderSim"
+new = "encoder_sim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -276,10 +1148,306 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "enumerateProperties"
+new = "enumerate_properties"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "enumerateUsbCameras"
+new = "enumerate_usb_cameras"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "enumerateVideoModes"
+new = "enumerate_video_modes"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "estimateMOI"
+new = "estimate_moi"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "estimatedRobotPose"
+new = "estimated_robot_pose"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "feederMotor"
+new = "feeder_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "feedforwardOutput"
+new = "feedforward_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "fieldApproximation"
+new = "field_approximation"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "fieldRelative"
+new = "field_relative"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "fieldSim"
+new = "field_sim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "flipCode"
+new = "flip_code"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "flywheelFromPhysicalConstants"
+new = "flywheel_from_physical_constants"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "flywheelFromSysId"
+new = "flywheel_from_sys_id"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "flywheelMotor"
+new = "flywheel_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "flywheelPlant"
+new = "flywheel_plant"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "flywheelSim"
+new = "flywheel_sim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "forwardChannel"
+new = "forward_channel"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "fromCharacteristics"
+new = "from_characteristics"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontLeftEncoder"
+new = "front_left_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontLeftFeedforward"
+new = "front_left_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontLeftLocation"
+new = "front_left_location"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontLeftMotor"
+new = "front_left_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontLeftOutput"
+new = "front_left_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontLeftPIDController"
+new = "front_left_pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontRightEncoder"
+new = "front_right_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontRightFeedforward"
+new = "front_right_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontRightLocation"
+new = "front_right_location"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontRightMotor"
+new = "front_right_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontRightOutput"
+new = "front_right_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "frontRightPIDController"
+new = "front_right_pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "generateTrajectory"
+new = "generate_trajectory"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getAButton"
 new = "get_a_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getAlliance"
+new = "get_alliance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getAngularVelocity"
+new = "get_angular_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getArcadeDriveCommand"
+new = "get_arcade_drive_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getAutonomousCommand"
+new = "get_autonomous_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getAverageDistanceInch"
+new = "get_average_distance_inch"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getAverageEncoderDistance"
+new = "get_average_encoder_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -300,6 +1468,46 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "getBatteryVoltage"
+new = "get_battery_voltage"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getBoolean"
+new = "get_boolean"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getBooleanArray"
+new = "get_boolean_array"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getButtonAPressed"
+new = "get_button_a_pressed"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getCenter"
+new = "get_center"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getCircleButton"
 new = "get_circle_button"
 source = "manual"
@@ -308,10 +1516,202 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "getCorner"
+new = "get_corner"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getCrossButton"
 new = "get_cross_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getCurrent"
+new = "get_current"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getCurrentDistances"
+new = "get_current_distances"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getCurrentDraw"
+new = "get_current_draw"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getCurrentState"
+new = "get_current_state"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getDistance"
+new = "get_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getDoubleArrayTopic"
+new = "get_double_array_topic"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getDoubleTopic"
+new = "get_double_topic"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getEncoderDistance"
+new = "get_encoder_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getEncoderRate"
+new = "get_encoder_rate"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getEstimatedGlobalPose"
+new = "get_estimated_global_pose"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getEstimatedPosition"
+new = "get_estimated_position"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getFinishEntry"
+new = "get_finish_entry"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getFloatArray"
+new = "get_float_array"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getFrequency"
+new = "get_frequency"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getGyroAngleX"
+new = "get_gyro_angle_x"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getGyroAngleY"
+new = "get_gyro_angle_y"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getGyroAngleZ"
+new = "get_gyro_angle_z"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getInputVoltage"
+new = "get_input_voltage"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getInteger"
+new = "get_integer"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getIntegerArray"
+new = "get_integer_array"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getIntegerArrayTopic"
+new = "get_integer_array_topic"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getInverted"
+new = "get_inverted"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getKind"
+new = "get_kind"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -348,10 +1748,50 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "getLeftDistanceInch"
+new = "get_left_distance_inch"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getLeftEncoderCount"
+new = "get_left_encoder_count"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getLeftEncoderDistance"
+new = "get_left_encoder_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getLeftPosition"
+new = "get_left_position"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getLeftStickButton"
 new = "get_left_stick_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getLeftVelocity"
+new = "get_left_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -364,10 +1804,42 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "getMax"
+new = "get_max"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getMin"
+new = "get_min"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getNumber"
+new = "get_number"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getOptionsButton"
 new = "get_options_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getOutput"
+new = "get_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -384,6 +1856,62 @@ old = "getPSButton"
 new = "get_ps_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getPeriod"
+new = "get_period"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getPose"
+new = "get_pose"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getPosition"
+new = "get_position"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getPressure"
+new = "get_pressure"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getPressureSwitchValue"
+new = "get_pressure_switch_value"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getProperty"
+new = "get_property"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getQuaternion"
+new = "get_quaternion"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -412,10 +1940,66 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "getRate"
+new = "get_rate"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRaw"
+new = "get_raw"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRawButtonPressed"
+new = "get_raw_button_pressed"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getRightBumperButton"
 new = "get_right_bumper_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRightDistanceInch"
+new = "get_right_distance_inch"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRightEncoderCount"
+new = "get_right_encoder_count"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRightEncoderDistance"
+new = "get_right_encoder_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRightPosition"
+new = "get_right_position"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -428,10 +2012,50 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "getRightVelocity"
+new = "get_right_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getRotation2d"
+new = "get_rotation_2_d"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getSetMetadataData"
+new = "get_set_metadata_data"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getSetpoint"
+new = "get_setpoint"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getShareButton"
 new = "get_share_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getSize"
+new = "get_size"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -452,10 +2076,90 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "getStartData"
+new = "get_start_data"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getState"
+new = "get_state"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getStep"
+new = "get_step"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getStringArray"
+new = "get_string_array"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTagPose"
+new = "get_tag_pose"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTemperature"
+new = "get_temperature"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTimestamp"
+new = "get_timestamp"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getTopic"
 new = "get_topic"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTotalCurrent"
+new = "get_total_current"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTotalEnergy"
+new = "get_total_energy"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTotalPower"
+new = "get_total_power"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -476,6 +2180,46 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "getTriggerPressed"
+new = "get_trigger_pressed"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getTriggerReleased"
+new = "get_trigger_released"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getUserButtonPressed"
+new = "get_user_button_pressed"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getVelocity"
+new = "get_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "getVoltage"
+new = "get_voltage"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "getXButton"
 new = "get_x_button"
 source = "manual"
@@ -488,6 +2232,38 @@ old = "getYButton"
 new = "get_y_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "goalState"
+new = "goal_state"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "grabHatch"
+new = "grab_hatch"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "grayMat"
+new = "gray_mat"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "hasCargo"
+new = "has_cargo"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -524,10 +2300,114 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "hatchSolenoid"
+new = "hatch_solenoid"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "hatchSubsystem"
+new = "hatch_subsystem"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "inchPerDegree"
+new = "inch_per_degree"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "initDouble"
+new = "init_double"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "initialPose"
+new = "initial_pose"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "inputModulus"
+new = "input_modulus"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "intakeButton"
+new = "intake_button"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "intakeCommand"
+new = "intake_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "isAlreadyDeadline"
 new = "is_already_deadline"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isAutonomous"
+new = "is_autonomous"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isBallAtKickerEvent"
+new = "is_ball_at_kicker_event"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isCompressorEnabled"
+new = "is_compressor_enabled"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isControl"
+new = "is_control"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isDeployed"
+new = "is_deployed"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -540,10 +2420,178 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "isEnabled"
+new = "is_enabled"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isFinish"
+new = "is_finish"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isInverted"
+new = "is_inverted"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "isRunning"
 new = "is_running"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isSetMetadata"
+new = "is_set_metadata"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "isStart"
+new = "is_start"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "joystickAButton"
+new = "joystick_a_button"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "joystickBButton"
+new = "joystick_b_button"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "lastProfiledReference"
+new = "last_profiled_reference"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "ledData"
+new = "led_data"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftDistance"
+new = "left_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftDrive"
+new = "left_drive"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftEncoder"
+new = "left_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftEncoderSim"
+new = "left_encoder_sim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftFeedforward"
+new = "left_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftFollower"
+new = "left_follower"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftLeader"
+new = "left_leader"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftMotor"
+new = "left_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftOutput"
+new = "left_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "leftPIDController"
+new = "left_pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "loadField"
+new = "load_field"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "loadPreferences"
+new = "load_preferences"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -564,10 +2612,90 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "matchTime"
+new = "match_time"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "maxOutput"
+new = "max_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "mech2dRoot"
+new = "mech_2_d_root"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "missingRequirement"
 new = "missing_requirement"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "mjpegServer"
+new = "mjpeg_server"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "moduleType"
+new = "module_type"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "motorSim"
+new = "motor_sim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "myRobot"
+new = "my_robot"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "nextLeft"
+new = "next_left"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "nextRight"
+new = "next_right"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "nextVoltage"
+new = "next_voltage"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -580,10 +2708,58 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "objectInField"
+new = "object_in_field"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "objectToRobotPose"
+new = "object_to_robot_pose"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "onboardButtonA"
+new = "onboard_button_a"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "onboardIO"
+new = "onboard_io"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "onlyIfCondition"
 new = "only_if_condition"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "otherPaths"
+new = "other_paths"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "outlineColor"
+new = "outline_color"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -596,10 +2772,146 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "percentOfRange"
+new = "percent_of_range"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "periodSeconds"
+new = "period_seconds"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "pidController"
+new = "pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "pidOutput"
+new = "pid_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "pixelFormat"
+new = "pixel_format"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "pollStorage"
+new = "poll_storage"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "poseEstConfig"
+new = "pose_est_config"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "poseEstimator"
+new = "pose_estimator"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "pressureTransducer"
+new = "pressure_transducer"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "printEpochs"
 new = "print_epochs"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "profiledDriveDistance"
+new = "profiled_drive_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "propName"
+new = "prop_name"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "propVal"
+new = "prop_val"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "pubTags"
+new = "pub_tags"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "publishCameraToObject"
+new = "publish_camera_to_object"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "putBoolean"
+new = "put_boolean"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "putNumber"
+new = "put_number"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "radiansToDegrees"
+new = "radians_to_degrees"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -612,10 +2924,282 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "reachGoal"
+new = "reach_goal"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "reachSetpoint"
+new = "reach_setpoint"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "readQueue"
+new = "read_queue"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rectColor"
+new = "rect_color"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "releaseHatch"
+new = "release_hatch"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "remoteHost"
+new = "remote_host"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "remotePort"
+new = "remote_port"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "requiringCommand"
 new = "requiring_command"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "resetEncoder"
+new = "reset_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "resetEncoders"
+new = "reset_encoders"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "resetGyro"
+new = "reset_gyro"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "resetOdometry"
+new = "reset_odometry"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "resetPosition"
+new = "reset_position"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "resetYaw"
+new = "reset_yaw"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "retractCommand"
+new = "retract_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "reverseChannel"
+new = "reverse_channel"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "reverseDirection"
+new = "reverse_direction"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightDistance"
+new = "right_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightDrive"
+new = "right_drive"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightEncoder"
+new = "right_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightEncoderSim"
+new = "right_encoder_sim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightFeedforward"
+new = "right_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightFollower"
+new = "right_follower"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightLeader"
+new = "right_leader"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightMotor"
+new = "right_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightOutput"
+new = "right_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rightPIDController"
+new = "right_pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "robotDrive"
+new = "robot_drive"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "robotInField"
+new = "robot_in_field"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "robotToCamera"
+new = "robot_to_camera"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rotLimiter"
+new = "rot_limiter"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rotateBy"
+new = "rotate_by"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "rotationalVelocity"
+new = "rotational_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "runCommand"
+new = "run_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "runShooter"
+new = "run_shooter"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -632,6 +3216,22 @@ old = "scheduleCommand"
 new = "schedule_command"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "scrollAtAbsoluteVelocity"
+new = "scroll_at_absolute_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "scrollingRainbow"
+new = "scrolling_rainbow"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -660,10 +3260,370 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "setAlliance"
+new = "set_alliance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setAssumedFrequency"
+new = "set_assumed_frequency"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setDesiredVelocity"
+new = "set_desired_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setDistance"
+new = "set_distance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setDistancePerPulse"
+new = "set_distance_per_pulse"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setDoubleArray"
+new = "set_double_array"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setDriveStates"
+new = "set_drive_states"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setExpiration"
+new = "set_expiration"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setGoal"
+new = "set_goal"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setInput"
+new = "set_input"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setInputVoltage"
+new = "set_input_voltage"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setInputs"
+new = "set_inputs"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setInverted"
+new = "set_inverted"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setMaxOutput"
+new = "set_max_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setMinRate"
+new = "set_min_rate"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setNextR"
+new = "set_next_r"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setP"
+new = "set_p"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setPID"
+new = "set_pid"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setPose"
+new = "set_pose"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setRate"
+new = "set_rate"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setResolution"
+new = "set_resolution"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setRobotPose"
+new = "set_robot_pose"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setSafetyEnabled"
+new = "set_safety_enabled"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setSamplesToAverage"
+new = "set_samples_to_average"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setSetPoint"
+new = "set_set_point"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setSetpoint"
+new = "set_setpoint"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "setSmartDashboardType"
 new = "set_smart_dashboard_type"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setSource"
+new = "set_source"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setTolerance"
+new = "set_tolerance"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setVInVoltage"
+new = "set_v_in_voltage"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setVelocities"
+new = "set_velocities"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setVideoMode"
+new = "set_video_mode"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "setpointRotationsPerSecond"
+new = "setpoint_rotations_per_second"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "shiftedOutput"
+new = "shifted_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "shootCommand"
+new = "shoot_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "shootTrigger"
+new = "shoot_trigger"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "shooterEncoder"
+new = "shooter_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "shooterFeedback"
+new = "shooter_feedback"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "shooterFeedforward"
+new = "shooter_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "shooterMotor"
+new = "shooter_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "shooterVelocity"
+new = "shooter_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "simpleAuto"
+new = "simple_auto"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "singleJointedArmFromPhysicalConstants"
+new = "single_jointed_arm_from_physical_constants"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "squareInputs"
+new = "square_inputs"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "startClient3"
+new = "start_client_3"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "startClient4"
+new = "start_client_4"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -676,10 +3636,90 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "startDataLog"
+new = "start_data_log"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "startTime"
+new = "start_time"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "stateMessage"
+new = "state_message"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "stepVoltage"
 new = "step_voltage"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "stopMotor"
+new = "stop_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "sysIdDynamic"
+new = "sys_id_dynamic"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "sysIdQuasistatic"
+new = "sys_id_quasistatic"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "tagsTable"
+new = "tags_table"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "temperatureCelsius"
+new = "temperature_celsius"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "toPose2d"
+new = "to_pose_2_d"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "toRobotRelative"
+new = "to_robot_relative"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -692,6 +3732,134 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "toSwerveModuleVelocities"
+new = "to_swerve_module_velocities"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "toWheelVelocities"
+new = "to_wheel_velocities"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "totalCurrent"
+new = "total_current"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "totalEnergy"
+new = "total_energy"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "totalPower"
+new = "total_power"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "transformBy"
+new = "transform_by"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turnFeedforward"
+new = "turn_feedforward"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turnOutput"
+new = "turn_output"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turnToAngleCommand"
+new = "turn_to_angle_command"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turningEncoder"
+new = "turning_encoder"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turningEncoderChannelA"
+new = "turning_encoder_channel_a"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turningEncoderChannelB"
+new = "turning_encoder_channel_b"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turningMotor"
+new = "turning_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turningMotorChannel"
+new = "turning_motor_channel"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turningPIDController"
+new = "turning_pid_controller"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "turningValue"
+new = "turning_value"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "unlessCondition"
 new = "unless_condition"
 source = "manual"
@@ -700,10 +3868,322 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
+old = "updateOdometry"
+new = "update_odometry"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "updateTelemetry"
+new = "update_telemetry"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "velocityLimiter"
+new = "velocity_limiter"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "vex775Pro"
+new = "vex_775_pro"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "visionMeasurement2d"
+new = "vision_measurement_2_d"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "visionMeasurement3d"
+new = "vision_measurement_3_d"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
 old = "waitCommand"
 new = "wait_command"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "wheelVelocities"
+new = "wheel_velocities"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "wristMotor"
+new = "wrist_motor"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "wristPot"
+new = "wrist_pot"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "writeBulk"
+new = "write_bulk"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "writeString"
+new = "write_string"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "xVelocity"
+new = "x_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "xaxisVelocity"
+new = "xaxis_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "xaxisVelocitySupplier"
+new = "xaxis_velocity_supplier"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "xvelocityLimiter"
+new = "xvelocity_limiter"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "yVelocity"
+new = "y_velocity"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "yvelocityLimiter"
+new = "yvelocity_limiter"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "zaxisRotate"
+new = "zaxis_rotate"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "attribute"
+old = "zaxisRotateSupplier"
+new = "zaxis_rotate_supplier"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "X4"
+new = "X_4"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "k2024Crescendo"
+new = "K_2024_CRESCENDO"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kA"
+new = "K_A"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kAlertPort"
+new = "K_ALERT_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kAlliancePort"
+new = "K_ALLIANCE_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kAngleSetpoint"
+new = "K_ANGLE_SETPOINT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kArmEncoderDistPerPulse"
+new = "K_ARM_ENCODER_DIST_PER_PULSE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kArmGearing"
+new = "K_ARM_GEARING"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kArmLength"
+new = "K_ARM_LENGTH"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kArmMOI"
+new = "K_ARM_MOI"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kArmMass"
+new = "K_ARM_MASS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kArmPKey"
+new = "K_ARM_P_KEY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kArmPositionKey"
+new = "K_ARM_POSITION_KEY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kArmReduction"
+new = "K_ARM_REDUCTION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kAutoBackupDistanceInches"
+new = "K_AUTO_BACKUP_DISTANCE_INCHES"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kAutoDriveDistanceInches"
+new = "K_AUTO_DRIVE_DISTANCE_INCHES"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kAutoDriveVelocity"
+new = "K_AUTO_DRIVE_VELOCITY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kAutonomousPort"
+new = "K_AUTONOMOUS_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kBallSensorPort"
+new = "K_BALL_SENSOR_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kBoolean"
+new = "K_BOOLEAN"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -724,10 +4204,730 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "enum_value"
+old = "kCarriageMass"
+new = "K_CARRIAGE_MASS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kCompressorButton"
+new = "K_COMPRESSOR_BUTTON"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kCountsPerMotorShaftRev"
+new = "K_COUNTS_PER_MOTOR_SHAFT_REV"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kCountsPerRevolution"
+new = "K_COUNTS_PER_REVOLUTION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kD"
+new = "K_D"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDefaultArmKp"
+new = "K_DEFAULT_ARM_KP"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDefaultArmSetpointDegrees"
+new = "K_DEFAULT_ARM_SETPOINT_DEGREES"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDoubleSolenoidForwardButton"
+new = "K_DOUBLE_SOLENOID_FORWARD_BUTTON"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDoubleSolenoidReverseButton"
+new = "K_DOUBLE_SOLENOID_REVERSE_BUTTON"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDriveDistance"
+new = "K_DRIVE_DISTANCE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDriveTrainMotorCount"
+new = "K_DRIVE_TRAIN_MOTOR_COUNT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDriveVelocity"
+new = "K_DRIVE_VELOCITY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDriverControllerPort"
+new = "K_DRIVER_CONTROLLER_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDrumRadius"
+new = "K_DRUM_RADIUS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kDt"
+new = "K_DT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorDrumRadius"
+new = "K_ELEVATOR_DRUM_RADIUS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorEncoderDistPerPulse"
+new = "K_ELEVATOR_ENCODER_DIST_PER_PULSE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorGearing"
+new = "K_ELEVATOR_GEARING"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorKd"
+new = "K_ELEVATOR_KD"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorKi"
+new = "K_ELEVATOR_KI"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorKp"
+new = "K_ELEVATOR_KP"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorMaxV"
+new = "K_ELEVATOR_MAX_V"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorMinimumLength"
+new = "K_ELEVATOR_MINIMUM_LENGTH"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorkA"
+new = "K_ELEVATORK_A"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorkG"
+new = "K_ELEVATORK_G"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorkS"
+new = "K_ELEVATORK_S"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kElevatorkV"
+new = "K_ELEVATORK_V"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEnabledPort"
+new = "K_ENABLED_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderAChannel"
+new = "K_ENCODER_A_CHANNEL"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderBChannel"
+new = "K_ENCODER_B_CHANNEL"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderCPR"
+new = "K_ENCODER_CPR"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderDistancePerPulse"
+new = "K_ENCODER_DISTANCE_PER_PULSE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderPortA"
+new = "K_ENCODER_PORT_A"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderPortB"
+new = "K_ENCODER_PORT_B"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderPorts"
+new = "K_ENCODER_PORTS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderResolution"
+new = "K_ENCODER_RESOLUTION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEncoderReversed"
+new = "K_ENCODER_REVERSED"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kEnum"
+new = "K_ENUM"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFeederMotorPort"
+new = "K_FEEDER_MOTOR_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFeederVelocity"
+new = "K_FEEDER_VELOCITY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFlywheelGearing"
+new = "K_FLYWHEEL_GEARING"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFlywheelKa"
+new = "K_FLYWHEEL_KA"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFlywheelKs"
+new = "K_FLYWHEEL_KS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFlywheelKv"
+new = "K_FLYWHEEL_KV"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFlywheelMomentOfInertia"
+new = "K_FLYWHEEL_MOMENT_OF_INERTIA"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
 old = "kForward"
 new = "K_FORWARD"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFrontLeftChannel"
+new = "K_FRONT_LEFT_CHANNEL"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kFrontRightChannel"
+new = "K_FRONT_RIGHT_CHANNEL"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kG"
+new = "K_G"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kGearRatio"
+new = "K_GEAR_RATIO"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kGearingRatio"
+new = "K_GEARING_RATIO"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kHatchSolenoidModule"
+new = "K_HATCH_SOLENOID_MODULE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kHatchSolenoidModuleType"
+new = "K_HATCH_SOLENOID_MODULE_TYPE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kHatchSolenoidPorts"
+new = "K_HATCH_SOLENOID_PORTS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kHighGoalPosition"
+new = "K_HIGH_GOAL_POSITION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kI"
+new = "K_I"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kIMUMountOrientation"
+new = "K_IMU_MOUNT_ORIENTATION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kInteger"
+new = "K_INTEGER"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kJoystickPort"
+new = "K_JOYSTICK_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLedSpacing"
+new = "K_LED_SPACING"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLeftEncoderPorts"
+new = "K_LEFT_ENCODER_PORTS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLeftEncoderReversed"
+new = "K_LEFT_ENCODER_REVERSED"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLeftMotor1Port"
+new = "K_LEFT_MOTOR_1_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLeftMotor2Port"
+new = "K_LEFT_MOTOR_2_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLeftMotorPort"
+new = "K_LEFT_MOTOR_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLowGoalPosition"
+new = "K_LOW_GOAL_POSITION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLoweredPosition"
+new = "K_LOWERED_POSITION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kLowerkSetpoint"
+new = "K_LOWERK_SETPOINT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMJPEG"
+new = "K_MJPEG"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMaxAcceleration"
+new = "K_MAX_ACCELERATION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMaxAngleRads"
+new = "K_MAX_ANGLE_RADS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMaxAngularVelocity"
+new = "K_MAX_ANGULAR_VELOCITY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMaxElevatorHeight"
+new = "K_MAX_ELEVATOR_HEIGHT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMaxSetpointValue"
+new = "K_MAX_SETPOINT_VALUE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMaxTurnAccelerationDegPerSSquared"
+new = "K_MAX_TURN_ACCELERATION_DEG_PER_S_SQUARED"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMaxTurnRateDegPerS"
+new = "K_MAX_TURN_RATE_DEG_PER_S"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMaxVelocity"
+new = "K_MAX_VELOCITY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMetersPerPulse"
+new = "K_METERS_PER_PULSE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMinAngleRads"
+new = "K_MIN_ANGLE_RADS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMinElevatorHeight"
+new = "K_MIN_ELEVATOR_HEIGHT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kModuleMaxAngularAcceleration"
+new = "K_MODULE_MAX_ANGULAR_ACCELERATION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kModuleMaxAngularVelocity"
+new = "K_MODULE_MAX_ANGULAR_VELOCITY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMotorPort"
+new = "K_MOTOR_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kMovementWitchcraft"
+new = "K_MOVEMENT_WITCHCRAFT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kOffset"
+new = "K_OFFSET"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kP"
+new = "K_P"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kPosition"
+new = "K_POSITION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRGB565"
+new = "K_RGB_565"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRaisedPosition"
+new = "K_RAISED_POSITION"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRearLeftChannel"
+new = "K_REAR_LEFT_CHANNEL"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRearRightChannel"
+new = "K_REAR_RIGHT_CHANNEL"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "global"
@@ -740,10 +4940,322 @@ reason = "Task 9 pure-Python migration"
 [[mapping]]
 scope = "global"
 kind = "enum_value"
+old = "kRightEncoderPorts"
+new = "K_RIGHT_ENCODER_PORTS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRightEncoderReversed"
+new = "K_RIGHT_ENCODER_REVERSED"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRightMotor1Port"
+new = "K_RIGHT_MOTOR_1_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRightMotor2Port"
+new = "K_RIGHT_MOTOR_2_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kRightMotorPort"
+new = "K_RIGHT_MOTOR_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
 old = "kRising"
 new = "K_RISING"
 source = "manual"
 reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kS"
+new = "K_S"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kScale"
+new = "K_SCALE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kSetpoint"
+new = "K_SETPOINT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kShooterFreeRPS"
+new = "K_SHOOTER_FREE_RPS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kShooterMotorPort"
+new = "K_SHOOTER_MOTOR_PORT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kShooterTargetRPS"
+new = "K_SHOOTER_TARGET_RPS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kShooterToleranceRPS"
+new = "K_SHOOTER_TOLERANCE_RPS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kSolenoidButton"
+new = "K_SOLENOID_BUTTON"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kSolenoidPorts"
+new = "K_SOLENOID_PORTS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kSpinUpRadPerSec"
+new = "K_SPIN_UP_RAD_PER_SEC"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kSpinupRadPerSec"
+new = "K_SPINUP_RAD_PER_SEC"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kString"
+new = "K_STRING"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kTimeout"
+new = "K_TIMEOUT"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kTrackWidth"
+new = "K_TRACK_WIDTH"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kTrackwidth"
+new = "K_TRACKWIDTH"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kTurnD"
+new = "K_TURN_D"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kTurnI"
+new = "K_TURN_I"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kTurnP"
+new = "K_TURN_P"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kTurnRateToleranceDegPerS"
+new = "K_TURN_RATE_TOLERANCE_DEG_PER_S"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kTurnToleranceDeg"
+new = "K_TURN_TOLERANCE_DEG"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kV"
+new = "K_V"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kValueRemote"
+new = "K_VALUE_REMOTE"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kVelocity"
+new = "K_VELOCITY"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kWheelDiameter"
+new = "K_WHEEL_DIAMETER"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kWheelDiameterInch"
+new = "K_WHEEL_DIAMETER_INCH"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kWheelDiameterInches"
+new = "K_WHEEL_DIAMETER_INCHES"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kWheelRadius"
+new = "K_WHEEL_RADIUS"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "kYUYV"
+new = "K_YUYV"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "CIM"
+new = "cim"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "NEO"
+new = "neo"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "U"
+new = "u"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "X"
+new = "x"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "Y"
+new = "y"
+source = "manual"
+reason = "Task 11 examples/docs migration"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "Z"
+new = "z"
+source = "manual"
+reason = "Task 11 examples/docs migration"
 
 [[mapping]]
 scope = "subprojects/pyntcore/ntcore/_logutil.py"
@@ -1430,6 +5942,22 @@ kind = "method"
 old = "getRightY"
 new = "get_right_y"
 source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "LTrigger"
+new = "l_trigger"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "RTrigger"
+new = "r_trigger"
+source = "manual"
+reason = "Task 9 pure-Python migration"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
@@ -2638,6 +7166,22 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
 kind = "method"
+old = "LTrigger"
+new = "l_trigger"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "RTrigger"
+new = "r_trigger"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
 old = "axisGreaterThan"
 new = "axis_greater_than"
 source = "scan-py"
@@ -2872,6 +7416,38 @@ kind = "method"
 old = "rightStick"
 new = "right_stick"
 source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "CDown"
+new = "c_down"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "CLeft"
+new = "c_left"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "CRight"
+new = "c_right"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "CUp"
+new = "c_up"
+source = "manual"
+reason = "Task 9 pure-Python migration"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
@@ -5245,70 +9821,6 @@ kind = "parameter"
 old = "waitForFirstNotifier"
 new = "wait_for_first_notifier"
 source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
-kind = "method"
-old = "LTrigger"
-new = "l_trigger"
-source = "manual"
-reason = "Task 9 pure-Python migration"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
-kind = "method"
-old = "RTrigger"
-new = "r_trigger"
-source = "manual"
-reason = "Task 9 pure-Python migration"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
-kind = "method"
-old = "LTrigger"
-new = "l_trigger"
-source = "manual"
-reason = "Task 9 pure-Python migration"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
-kind = "method"
-old = "RTrigger"
-new = "r_trigger"
-source = "manual"
-reason = "Task 9 pure-Python migration"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
-kind = "method"
-old = "CLeft"
-new = "c_left"
-source = "manual"
-reason = "Task 9 pure-Python migration"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
-kind = "method"
-old = "CUp"
-new = "c_up"
-source = "manual"
-reason = "Task 9 pure-Python migration"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
-kind = "method"
-old = "CDown"
-new = "c_down"
-source = "manual"
-reason = "Task 9 pure-Python migration"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
-kind = "method"
-old = "CRight"
-new = "c_right"
-source = "manual"
-reason = "Task 9 pure-Python migration"
 
 [[mapping]]
 scope = "subprojects/robotpy-halsim-gui/halsim_gui/main.py"
@@ -7836,8 +12348,18 @@ reason = "External Python logging.Logger API name"
 
 [[ignored]]
 scope = "global"
+name = "lineType"
+reason = "OpenCV keyword argument name"
+
+[[ignored]]
+scope = "global"
 name = "makeRecord"
 reason = "External Python logging.Logger API name"
+
+[[ignored]]
+scope = "global"
+name = "putText"
+reason = "OpenCV API name"
 
 [[ignored]]
 scope = "subprojects/robotpy-apriltag/tests/test_detection.py"

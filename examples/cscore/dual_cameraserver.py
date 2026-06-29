@@ -12,12 +12,12 @@ from cscore import CameraServer as CS
 
 
 def main():
-    CS.enableLogging()
+    CS.enable_logging()
 
-    usb1 = CS.startAutomaticCapture(dev=0)
-    usb2 = CS.startAutomaticCapture(dev=1)
+    usb1 = CS.start_automatic_capture(dev=0)
+    usb2 = CS.start_automatic_capture(dev=1)
 
-    CS.waitForever()
+    CS.wait_forever()
 
 
 if __name__ == "__main__":

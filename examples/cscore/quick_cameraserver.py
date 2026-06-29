@@ -12,10 +12,10 @@ from cscore import CameraServer as CS
 
 
 def main():
-    CS.enableLogging()
+    CS.enable_logging()
 
-    CS.startAutomaticCapture()
-    CS.waitForever()
+    CS.start_automatic_capture()
+    CS.wait_forever()
 
 
 if __name__ == "__main__":
