@@ -4,34 +4,34 @@ from driverstation.joystick_test_macros import button_test, axis_test
 
 
 def test_buttons():
-    def ps4_button_test(btn_name):
+    def ps_4_button_test(btn_name):
         button_test(NiDsPS4Controller, NiDsPS4ControllerSim, btn_name)
 
-    def ps4_axis_test(axis_name):
+    def ps_4_axis_test(axis_name):
         axis_test(NiDsPS4Controller, NiDsPS4ControllerSim, axis_name)
 
-    ps4_button_test("SquareButton")
-    ps4_button_test("CrossButton")
-    ps4_button_test("CircleButton")
-    ps4_button_test("TriangleButton")
+    ps_4_button_test("square_button")
+    ps_4_button_test("cross_button")
+    ps_4_button_test("circle_button")
+    ps_4_button_test("triangle_button")
 
-    ps4_button_test("L1Button")
-    ps4_button_test("R1Button")
-    ps4_button_test("L2Button")
-    ps4_button_test("R2Button")
+    ps_4_button_test("l_1_button")
+    ps_4_button_test("r_1_button")
+    ps_4_button_test("l_2_button")
+    ps_4_button_test("r_2_button")
 
-    ps4_button_test("ShareButton")
-    ps4_button_test("OptionsButton")
+    ps_4_button_test("share_button")
+    ps_4_button_test("options_button")
 
-    ps4_button_test("L3Button")
-    ps4_button_test("R3Button")
+    ps_4_button_test("l_3_button")
+    ps_4_button_test("r_3_button")
 
-    ps4_button_test("PSButton")
-    ps4_button_test("TouchpadButton")
+    ps_4_button_test("ps_button")
+    ps_4_button_test("touchpad_button")
 
-    ps4_axis_test("LeftX")
-    ps4_axis_test("RightX")
-    ps4_axis_test("LeftY")
-    ps4_axis_test("RightY")
-    ps4_axis_test("L2Axis")
-    ps4_axis_test("R2Axis")
+    ps_4_axis_test("left_x")
+    ps_4_axis_test("right_x")
+    ps_4_axis_test("left_y")
+    ps_4_axis_test("right_y")
+    ps_4_axis_test("l_2_axis")
+    ps_4_axis_test("r_2_axis")

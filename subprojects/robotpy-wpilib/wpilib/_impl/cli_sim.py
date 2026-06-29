@@ -58,7 +58,7 @@ class RobotSim:
                 print("robotpy-halsim-gui is not installed!", file=sys.stderr)
                 exit(1)
             else:
-                halsim_gui.loadExtension()
+                halsim_gui.load_extension()
 
         # Some extensions (gui) changes the current directory
         cwd = os.getcwd()
