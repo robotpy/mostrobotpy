@@ -394,6 +394,13 @@ new = "wait_for_first_notifier"
 source = "scan-py"
 
 [[mapping]]
+scope = "subprojects/robotpy-halsim-gui/halsim_gui/main.py"
+kind = "method"
+old = "loadExtension"
+new = "load_extension"
+source = "scan-py"
+
+[[mapping]]
 scope = "subprojects/robotpy-wpilib/tests/conftest.py"
 kind = "function"
 old = "_resetWpilibSimulationData"
