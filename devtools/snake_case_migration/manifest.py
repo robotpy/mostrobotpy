@@ -37,6 +37,10 @@ def _mapping_key(mapping: Mapping) -> tuple[str, str, str]:
     return (mapping.scope, mapping.kind, mapping.old)
 
 
+def _semiwrap_bug_key(bug: dict[str, str]) -> tuple[tuple[str, str], ...]:
+    return tuple(sorted(bug.items()))
+
+
 def merge_mapping(manifest: Manifest, mapping: Mapping) -> None:
     incoming_key = _mapping_key(mapping)
     for idx, existing in enumerate(manifest.mappings):
@@ -66,7 +70,7 @@ def save_manifest(path: str | Path, manifest: Manifest) -> None:
     doc.add("config", config)
 
     mappings = tomlkit.aot()
-    for mapping in sorted(manifest.mappings, key=lambda m: (m.scope, m.old, m.kind)):
+    for mapping in sorted(manifest.mappings, key=_mapping_key):
         item = tomlkit.table()
         for field in ("scope", "kind", "old", "new", "source", "reason"):
             value = getattr(mapping, field)
@@ -87,7 +91,7 @@ def save_manifest(path: str | Path, manifest: Manifest) -> None:
         doc.add("ignored", ignored_items)
 
     semiwrap_bugs = tomlkit.aot()
-    for bug in manifest.semiwrap_bugs:
+    for bug in sorted(manifest.semiwrap_bugs, key=_semiwrap_bug_key):
         item = tomlkit.table()
         for key in sorted(bug):
             item.add(key, bug[key])
