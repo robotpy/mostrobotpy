@@ -84,11 +84,11 @@ def test_minus():
 def test_nearest():
     origin = Pose2d(x=0, y=0, rotation=Rotation2d.from_degrees(0))
 
-    pose1 = Pose2d(
+    pose_1 = Pose2d(
         Translation2d(distance=1.0, angle=Rotation2d.from_degrees((45))),
         Rotation2d.from_degrees(0),
     )
-    pose2 = Pose2d(
+    pose_2 = Pose2d(
         Translation2d(distance=2.0, angle=Rotation2d.from_degrees((90))),
         Rotation2d.from_degrees(0),
     )
@@ -108,11 +108,11 @@ def test_nearest():
     assert origin.nearest([pose5, pose3, pose4]).x == pytest.approx(pose3.x)
     assert origin.nearest([pose5, pose3, pose4]).y == pytest.approx(pose3.y)
 
-    assert origin.nearest([pose1, pose2, pose3]).x == pytest.approx(pose1.x)
-    assert origin.nearest([pose1, pose2, pose3]).y == pytest.approx(pose1.y)
+    assert origin.nearest([pose_1, pose_2, pose3]).x == pytest.approx(pose_1.x)
+    assert origin.nearest([pose_1, pose_2, pose3]).y == pytest.approx(pose_1.y)
 
-    assert origin.nearest([pose4, pose2, pose3]).x == pytest.approx(pose2.x)
-    assert origin.nearest([pose4, pose2, pose3]).y == pytest.approx(pose2.y)
+    assert origin.nearest([pose4, pose_2, pose3]).x == pytest.approx(pose_2.x)
+    assert origin.nearest([pose4, pose_2, pose3]).y == pytest.approx(pose_2.y)
 
     # Rotation component sort (when distance is the same)
     # Use the same translation because using different angles at the same

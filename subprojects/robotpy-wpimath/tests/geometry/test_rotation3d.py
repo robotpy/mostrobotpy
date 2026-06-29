@@ -59,21 +59,21 @@ def test_init_axis_angle_and_roll_pitch_yaw():
 
 def test_init_rotation_matrix():
     # No rotation
-    R1 = np.identity(3)
-    rot1 = Rotation3d(R1)
+    r_1 = np.identity(3)
+    rot1 = Rotation3d(r_1)
     assert Rotation3d() == rot1
 
     # 90 degree CCW rotation around z-axis
-    R2 = np.zeros((3, 3))
-    R2[:, 0] = [0.0, 1.0, 0.0]
-    R2[:, 1] = [-1.0, 0.0, 0.0]
-    R2[:, 2] = [0.0, 0.0, 1.0]
-    rot2 = Rotation3d(R2)
+    r_2 = np.zeros((3, 3))
+    r_2[:, 0] = [0.0, 1.0, 0.0]
+    r_2[:, 1] = [-1.0, 0.0, 0.0]
+    r_2[:, 2] = [0.0, 0.0, 1.0]
+    rot2 = Rotation3d(r_2)
     expected2 = Rotation3d(roll=0, pitch=0, yaw=math.radians(90))
     assert expected2 == rot2
 
     # Matrix that isn't orthogonal
-    R3 = np.array(
+    r_3 = np.array(
         [
             [1.0, 0.0, 0.0],
             [1.0, 0.0, 0.0],
@@ -81,7 +81,7 @@ def test_init_rotation_matrix():
         ]
     )
     with pytest.raises(ValueError):
-        Rotation3d(R3)
+        Rotation3d(r_3)
 
     # Matrix that's orthogonal but not special orthogonal
     R4 = np.identity(3) * 2.0

@@ -37,6 +37,7 @@ REQUIRED_ACRONYMS = [
     "PDP",
     "PDH",
     "RIO",
+    "OpMode",
 ]
 
 

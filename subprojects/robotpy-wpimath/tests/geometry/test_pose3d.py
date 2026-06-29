@@ -296,8 +296,8 @@ def test_nearest():
     # Distance sort
     # poses are in order of closest to farthest away from the origin at
     # various positions in 3D space.
-    pose1 = Pose3d(x=1, y=0, z=0, rotation=Rotation3d())
-    pose2 = Pose3d(x=0, y=2, z=0, rotation=Rotation3d())
+    pose_1 = Pose3d(x=1, y=0, z=0, rotation=Rotation3d())
+    pose_2 = Pose3d(x=0, y=2, z=0, rotation=Rotation3d())
     pose3 = Pose3d(x=0, y=0, z=3, rotation=Rotation3d())
     pose4 = Pose3d(x=2, y=2, z=2, rotation=Rotation3d())
     pose5 = Pose3d(x=3, y=3, z=3, rotation=Rotation3d())
@@ -306,13 +306,13 @@ def test_nearest():
     assert origin.nearest([pose5, pose3, pose4]).y == pytest.approx(pose3.y)
     assert origin.nearest([pose5, pose3, pose4]).z == pytest.approx(pose3.z)
 
-    assert origin.nearest([pose1, pose2, pose3]).x == pytest.approx(pose1.x)
-    assert origin.nearest([pose1, pose2, pose3]).y == pytest.approx(pose1.y)
-    assert origin.nearest([pose1, pose2, pose3]).z == pytest.approx(pose1.z)
+    assert origin.nearest([pose_1, pose_2, pose3]).x == pytest.approx(pose_1.x)
+    assert origin.nearest([pose_1, pose_2, pose3]).y == pytest.approx(pose_1.y)
+    assert origin.nearest([pose_1, pose_2, pose3]).z == pytest.approx(pose_1.z)
 
-    assert origin.nearest([pose4, pose2, pose3]).x == pytest.approx(pose2.x)
-    assert origin.nearest([pose4, pose2, pose3]).y == pytest.approx(pose2.y)
-    assert origin.nearest([pose4, pose2, pose3]).z == pytest.approx(pose2.z)
+    assert origin.nearest([pose4, pose_2, pose3]).x == pytest.approx(pose_2.x)
+    assert origin.nearest([pose4, pose_2, pose3]).y == pytest.approx(pose_2.y)
+    assert origin.nearest([pose4, pose_2, pose3]).z == pytest.approx(pose_2.z)
 
     # Rotation component sort (when distance is the same)
     # Use the same translation to avoid distance differences
