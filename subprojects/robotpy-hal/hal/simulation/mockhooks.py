@@ -14,7 +14,7 @@ def wait_for_program_start(
 
     :param timeout: Amount of time to wait
     :param delta:   Amount of time to sleep between checks
-    :param waitForFirstNotifier: Wait for the first notifier alarm to be armed
+    :param wait_for_first_notifier: Wait for the first notifier alarm to be armed
     """
 
     # This is basically the same thing that the C version of this function

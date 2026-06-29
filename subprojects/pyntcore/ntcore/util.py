@@ -105,13 +105,13 @@ def ntproperty(
     variables like a normal variable.
 
     :param key: A full NetworkTables key (eg ``/SmartDashboard/foo``)
-    :param defaultValue: Default value to use if not in the table
-    :type  defaultValue: any
-    :param writeDefault: If True, put the default value to the table,
-                         overwriting existing values
+    :param default_value: Default value to use if not in the table
+    :type  default_value: any
+    :param write_default: If True, put the default value to the table,
+                          overwriting existing values
     :param doc: If given, will be the docstring of the property.
     :param persistent: If True, persist set values across restarts.
-                       *writeDefault* is ignored if this is True.
+                       *write_default* is ignored if this is True.
     :param type: Specify the type of this entry. If not specified,
                  will autodetect the type from the default value
     :param inst: The NetworkTables instance to use.
