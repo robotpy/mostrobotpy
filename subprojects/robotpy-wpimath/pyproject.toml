@@ -95,6 +95,9 @@ scan_headers_ignore = [
     "PyTrajectoryConstraint.h",
     "_units_base_type_caster.h",
 ]
+name_transform.default = "snake_case"
+name_transform.enum_value = "CAPS_CASE"
+name_transform.acronyms = ["mDNS", "DS", "CAN", "PWM", "I2C", "SPI", "NT", "JSON", "PID", "IMU", "HAL", "JNI", "USB", "HTTP", "URI", "URL", "CPU", "FPGA", "FMS", "PCM", "PDP", "PDH", "RIO"]
 
 [tool.semiwrap.export_type_casters.wpimath-casters]
 pypackage = "wpimath"

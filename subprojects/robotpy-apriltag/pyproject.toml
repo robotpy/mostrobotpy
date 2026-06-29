@@ -57,6 +57,9 @@ scan_headers_ignore = [
   "tag16h5.h",
   "tag36h11.h",
 ]
+name_transform.default = "snake_case"
+name_transform.enum_value = "CAPS_CASE"
+name_transform.acronyms = ["mDNS", "DS", "CAN", "PWM", "I2C", "SPI", "NT", "JSON", "PID", "IMU", "HAL", "JNI", "USB", "HTTP", "URI", "URL", "CPU", "FPGA", "FMS", "PCM", "PDP", "PDH", "RIO"]
 
 [tool.semiwrap.extension_modules."robotpy_apriltag._apriltag"]
 name = "apriltag"
