@@ -22,6 +22,13 @@ def test_caps_case_uses_wpilib_acronyms():
     assert to_caps_case("valueOne") == "VALUE_ONE"
 
 
+def test_name_transforms_preserve_leading_underscores():
+    assert to_snake_case("_now") == "_now"
+    assert to_snake_case("_GetFPGATime") == "_get_fpga_time"
+    assert to_snake_case("__privateName") == "__private_name"
+    assert to_caps_case("_kValue") == "_K_VALUE"
+
+
 def test_type_name_detection_keeps_pascal_case_types():
     assert is_probably_type_name("TimedRobot") is True
     assert is_probably_type_name("NetworkTableInstance") is True
