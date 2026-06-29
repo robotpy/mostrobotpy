@@ -15,7 +15,7 @@ class ScheduleCommand(Command):
         """
         Creates a new ScheduleCommand that schedules the given commands when initialized.
 
-        :param toSchedule: the commands to schedule
+        :param commands: the commands to schedule
         """
         super().__init__()
         self._to_schedule = set(commands)

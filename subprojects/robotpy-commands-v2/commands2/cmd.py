@@ -145,8 +145,8 @@ def either(on_true: Command, on_false: Command, selector: Callable[[], bool]) ->
     """
     Runs one of two commands, based on the boolean selector function.
 
-    :param onTrue: the command to run if the selector function returns true
-    :param onFalse: the command to run if the selector function returns false
+    :param on_true: the command to run if the selector function returns true
+    :param on_false: the command to run if the selector function returns false
     :param selector: the selector function
     :returns: the command
     """

@@ -27,8 +27,8 @@ class ConditionalCommand(Command):
         """
         Creates a new ConditionalCommand.
 
-        :param onTrue: the command to run if the condition is true
-        :param onFalse: the command to run if the condition is false
+        :param on_true: the command to run if the condition is true
+        :param on_false: the command to run if the condition is false
         :param condition: the condition to determine which command to run
         """
         super().__init__()
@@ -77,8 +77,8 @@ class ConditionalCommand(Command):
 
     def init_sendable(self, builder: SendableBuilder):
         super().init_sendable(builder)
-        builder.add_string_property("onTrue", self.on_true.get_name, lambda _: None)
-        builder.add_string_property("onFalse", self.on_false.get_name, lambda _: None)
+        builder.add_string_property("on_true", self.on_true.get_name, lambda _: None)
+        builder.add_string_property("on_false", self.on_false.get_name, lambda _: None)
 
         def _selected():
             if self.selected_command is None:

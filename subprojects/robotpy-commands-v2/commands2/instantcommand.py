@@ -20,7 +20,7 @@ class InstantCommand(FunctionalCommand):
         """
         Creates a new InstantCommand that runs the given Callable with the given requirements.
 
-        :param toRun: the Runnable to run
+        :param to_run: the Runnable to run
         :param requirements: the subsystems required by this command
         """
         assert to_run is None or callable(to_run)

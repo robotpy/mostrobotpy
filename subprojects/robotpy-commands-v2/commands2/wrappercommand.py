@@ -48,7 +48,7 @@ class WrapperCommand(Command):
         when it interrupted/canceled.
 
         Do not schedule commands here that share requirements with this command. Use
-        :func:`commands2.Command.andThen` instead.
+        :func:`commands2.Command.and_then` instead.
 
         :param interrupted: whether the command was interrupted/canceled
         """

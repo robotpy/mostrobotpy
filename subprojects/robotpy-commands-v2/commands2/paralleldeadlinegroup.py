@@ -33,7 +33,7 @@ class ParallelDeadlineGroup(Command):
         :param deadline: the command that determines when the composition ends
         :param commands: the commands to be executed
 
-        :raises IllegalCommandUse: if the deadline command is also in the otherCommands argument
+        :raises IllegalCommandUse: if the deadline command is also in the commands argument
         """
         super().__init__()
         self._commands: Dict[Command, bool] = {}

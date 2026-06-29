@@ -100,9 +100,9 @@ class CommandScheduler(Sendable):
 
         self._in_run_loop = False
         self._to_schedule: Dict[Command, None] = {}
-        # python: toCancelInterruptors stored in _toCancel dict
+        # python: to_cancel_interruptors stored in _to_cancel dict
         self._to_cancel: Dict[Command, Optional[Command]] = {}
-        # self._toCancelInterruptors: List[Optional[Command]] = []
+        # self._to_cancel_interruptors: List[Optional[Command]] = []
         self._ending_commands: Set[Command] = set()
 
         self._watchdog = Watchdog(TimedRobot.DEFAULT_PERIOD, lambda: None)
@@ -242,7 +242,7 @@ class CommandScheduler(Sendable):
                 subsystem.simulation_periodic()
             self._watchdog.add_epoch(f"{subsystem.get_name()}.periodic()")
 
-        # Cache the active instance to avoid concurrency problems if setActiveLoop() is
+        # Cache the active instance to avoid concurrency problems if set_active_button_loop() is
         # called from inside the button bindings.
         loop_cache = self._active_button_loop
         # Poll buttons for new commands to add.

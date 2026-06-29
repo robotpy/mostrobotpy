@@ -165,7 +165,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -185,7 +185,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -205,7 +205,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -225,7 +225,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -249,7 +249,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -270,7 +270,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -291,7 +291,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -312,7 +312,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -332,7 +332,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -365,7 +365,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -387,7 +387,7 @@ class Command(Sendable):
                   The command the decorator was called on cannot be scheduled
                   independently or be added to a different composition (namely,
                   decorators), unless it is manually cleared from the list of composed
-                  commands with :func:`commands2.CommandScheduler.removeComposedCommand`.
+                  commands with :func:`commands2.CommandScheduler.remove_composed_command`.
                   The command composition returned from this method can be further
                   decorated without issue.
 
@@ -400,7 +400,7 @@ class Command(Sendable):
         """
         Decorates this command to run or stop when disabled.
 
-        :param doesRunWhenDisabled: true to run when disabled.
+        :param does_run_when_disabled: true to run when disabled.
         :returns: the decorated command
         """
         from .wrappercommand import WrapperCommand
@@ -415,7 +415,7 @@ class Command(Sendable):
         """
         Decorates this command to have a different InterruptionBehavior interruption behavior.
 
-        :param interruptBehavior: the desired interrupt behavior
+        :param behavior: the desired interrupt behavior
         :returns: the decorated command
         """
         from .wrappercommand import WrapperCommand
@@ -493,7 +493,7 @@ class Command(Sendable):
         """
         How the command behaves when another command with a shared requirement is scheduled.
 
-        :returns: a variant of InterruptionBehavior, defaulting to {@link InterruptionBehavior#kCancelSelf kCancelSelf}.
+        :returns: a variant of InterruptionBehavior, defaulting to {@link InterruptionBehavior#K_CANCEL_SELF K_CANCEL_SELF}.
         """
         return InterruptionBehavior.K_CANCEL_SELF
 

@@ -13,7 +13,7 @@ from .subsystem import Subsystem
 class NotifierCommand(Command):
     """
     A command that starts a notifier to run the given Callable periodically in a separate thread. Has
-    no end condition as-is; either subclass it or use :func:`commands2.Command.withTimeout` or :func:`commands2.Command.until` to give it one.
+    no end condition as-is; either subclass it or use :func:`commands2.Command.with_timeout` or :func:`commands2.Command.until` to give it one.
 
     .. warning:: Do not use this class unless you are confident in your ability
                  to make the executed code thread-safe. If you do not know what
@@ -27,7 +27,7 @@ class NotifierCommand(Command):
         """
         Creates a new NotifierCommand.
 
-        :param toRun: the Callable for the notifier to run
+        :param to_run: the Callable for the notifier to run
         :param period: the period at which the notifier should run, in seconds
         :param requirements: the subsystems required by this command
         """

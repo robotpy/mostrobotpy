@@ -37,13 +37,13 @@ class SysIdRoutine(SysIdRoutineLog):
     class Config:
         """Hardware-independent configuration for a SysId test routine.
 
-        :param rampRate:    The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
+        :param ramp_rate:    The voltage ramp rate used for quasistatic test routines. Defaults to 1 volt
                             per second if left null.
-        :param stepVoltage: The step voltage output used for dynamic test routines. Defaults to 7
+        :param step_voltage: The step voltage output used for dynamic test routines. Defaults to 7
                             volts if left null.
         :param timeout:     Safety timeout for the test routine commands. Defaults to 10 seconds if left
                             null.
-        :param recordState: Optional handle for recording test state in a third-party logging
+        :param record_state: Optional handle for recording test state in a third-party logging
                             solution. If provided, the test routine state will be passed to this callback instead of
                             logged in WPILog.
         """
@@ -63,7 +63,7 @@ class SysIdRoutine(SysIdRoutineLog):
         :param drive:     Sends the SysId-specified drive signal to the mechanism motors during test
                           routines.
         :param log:       Returns measured data of the mechanism motors during test routines. To return
-                          data, call `motor(string motorName)` on the supplied `SysIdRoutineLog` instance, and then
+                          data, call `motor(name)` on the supplied `SysIdRoutineLog` instance, and then
                           call one or more of the chainable logging handles (e.g. `voltage`) on the returned
                           `MotorLog`. Multiple motors can be logged in a single callback by calling `motor`
                           multiple times.

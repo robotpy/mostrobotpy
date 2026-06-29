@@ -20,10 +20,10 @@ class Subsystem(Sendable):
     provide methods through which they can be used by Commands. Subsystems are used by the
     CommandScheduler's resource management system to ensure multiple robot actions are not
     "fighting" over the same hardware; Commands that use a subsystem should include that subsystem in
-    their :func:`commands2.Command.getRequirements` method, and resources used within a subsystem should
+    their :func:`commands2.Command.get_requirements` method, and resources used within a subsystem should
     generally remain encapsulated and not be shared by other parts of the robot.
 
-    Subsystems must be registered with the scheduler with the :func:`commands2.CommandScheduler.registerSubsystem`
+    Subsystems must be registered with the scheduler with the :func:`commands2.CommandScheduler.register_subsystem`
     method in order for the :func:`.periodic` method to be called. It is recommended that this method be called from the
     constructor of users' Subsystem implementations.
     """
@@ -61,10 +61,10 @@ class Subsystem(Sendable):
         """
         Sets the default Command of the subsystem. The default command will be automatically
         scheduled when no other commands are scheduled that require the subsystem. Default commands
-        should generally not end on their own, i.e. their :func:`commands2.Command.isFinished` method should
+        should generally not end on their own, i.e. their :func:`commands2.Command.is_finished` method should
         always return false. Will automatically register this subsystem with the CommandScheduler.
 
-        :param defaultCommand: the default command to associate with this subsystem
+        :param command: the default command to associate with this subsystem
         """
         from .commandscheduler import CommandScheduler
 
