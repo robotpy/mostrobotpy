@@ -49,7 +49,7 @@ from robotcontainer import RobotContainer
 class MyRobot(commands2.TimedCommandRobot):
     """
     Command v2 robots are encouraged to inherit from TimedCommandRobot, which
-    has an implementation of robotPeriodic which runs the scheduler for you
+    has an implementation of robot_periodic which runs the scheduler for you
     """
 
     autonomous_command: typing.Optional[commands2.Command] = None

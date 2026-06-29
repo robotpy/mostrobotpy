@@ -38,7 +38,7 @@ class MyRobot(wpilib.TimedRobot):
         self.motor = wpilib.PWMSparkMax(self.K_MOTOR_PORT)
         self.joystick = wpilib.Joystick(self.K_JOYSTICK_PORT)
         self.encoder = wpilib.Encoder(self.K_ENCODER_PORT_A, self.K_ENCODER_PORT_B)
-        # Use SetDistancePerPulse to set the multiplier for GetDistance
+        # Use set_distance_per_pulse to set the multiplier for get_distance
         # This is set up assuming a 6 inch wheel with a 360 CPR encoder.
         self.encoder.set_distance_per_pulse((math.pi * 6) / 360.0)
 
@@ -52,7 +52,7 @@ class MyRobot(wpilib.TimedRobot):
         self.motor.feed()
 
     def robot_periodic(self):
-        """The RobotPeriodic function is called every control packet no matter the robot mode."""
+        """The robot_periodic function is called every control packet no matter the robot mode."""
         wpilib.SmartDashboard.put_number("Encoder", self.encoder.get_distance())
 
     def teleop_periodic(self):

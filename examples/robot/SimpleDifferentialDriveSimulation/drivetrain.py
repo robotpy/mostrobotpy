@@ -154,7 +154,7 @@ class Drivetrain:
         self.left_encoder_sim.set_rate(self.drivetrain_simulator.get_left_velocity())
         self.right_encoder_sim.set_distance(self.drivetrain_simulator.get_right_position())
         self.right_encoder_sim.set_rate(self.drivetrain_simulator.get_right_velocity())
-        # self.gyroSim.setAngle(-self.drivetrainSimulator.getHeading().getDegrees())
+        # self.gyro_sim.set_angle(-self.drivetrain_simulator.get_heading().degrees())
 
     def periodic(self) -> None:
         """Update odometry - this should be run every robot loop."""

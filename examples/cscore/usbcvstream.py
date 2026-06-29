@@ -38,7 +38,7 @@ def main():
 
         print("got frame at time", time, test.shape)
 
-        cv2.flip(test, flip_code=0, dst=flip)
+        cv2.flip(test, 0, flip)
         cv_source.put_frame(flip)
 
 

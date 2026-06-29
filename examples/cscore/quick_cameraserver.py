@@ -28,6 +28,6 @@ if __name__ == "__main__":
     # import ntcore
     # nt = ntcore.NetworkTableInstance.get_default()
     # nt.set_server_team(XXXX)
-    # nt.start_client4(__file__)
+    # nt.start_client_4(__file__)
 
     main()

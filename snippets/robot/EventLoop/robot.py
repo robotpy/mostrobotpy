@@ -33,7 +33,7 @@ class MyRobot(wpilib.TimedRobot):
 
         is_ball_at_kicker_event = wpilib.BooleanEvent(
             self.loop, lambda: False
-        )  # self.kickerSensor.getRange() < KICKER_THRESHOLD
+        )  # self.kicker_sensor.get_range() < KICKER_THRESHOLD
         intake_button = wpilib.BooleanEvent(
             self.loop, lambda: self.joystick.get_raw_button(2)
         )

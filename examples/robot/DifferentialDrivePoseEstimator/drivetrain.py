@@ -154,17 +154,17 @@ class Drivetrain:
 
         The object could be a target or a fiducial marker.
 
-        :param objectInField: The object's field-relative position.
-        :param robotToCamera: The transformation from the robot's pose to the camera's pose.
-        :param cameraToObjectEntry: The networktables entry publishing and querying example
+        :param object_in_field: The object's field-relative position.
+        :param robot_to_camera: The transformation from the robot's pose to the camera's pose.
+        :param camera_to_object_entry: The networktables entry publishing and querying example
             computer vision measurements.
         """
         robot_in_field = wpimath.Pose3d(drivetrain_simulator.get_pose())
         camera_in_field = robot_in_field.transform_by(robot_to_camera)
         camera_to_object = wpimath.Transform3d(camera_in_field, object_in_field)
 
-        # Publishes double array with Translation3D elements {x, y, z} and Rotation3D elements
-        # {w, x, y, z} which describe the cameraToObject transformation.
+        # Publishes double array with Translation3d elements {x, y, z} and Rotation3d elements
+        # {w, x, y, z} which describe the camera_to_object transformation.
         quaternion = camera_to_object.rotation().get_quaternion()
         val = [
             camera_to_object.x,
@@ -188,14 +188,14 @@ class Drivetrain:
 
         The object could be a target or a fiducial marker.
 
-        :param objectInField: The object's field-relative pose.
-        :param robotToCamera: The transformation from the robot's pose to the camera's pose.
-        :param cameraToObjectEntry: The networktables entry publishing and querying example
+        :param object_in_field: The object's field-relative pose.
+        :param robot_to_camera: The transformation from the robot's pose to the camera's pose.
+        :param camera_to_object_entry: The networktables entry publishing and querying example
             computer vision measurements.
         """
         val = camera_to_object_entry.get()
 
-        # Reconstruct cameraToObject Transform3d from networktables.
+        # Reconstruct camera_to_object Transform3d from networktables.
         translation = wpimath.Translation3d(val[0], val[1], val[2])
         rotation = wpimath.Rotation3d(
             wpimath.Quaternion(val[3], val[4], val[5], val[6])
@@ -214,7 +214,7 @@ class Drivetrain:
             self.right_encoder.get_distance(),
         )
 
-        # Publish cameraToObject transformation to networktables --this would normally be handled by
+        # Publish camera_to_object transformation to networktables --this would normally be handled by
         # the computer vision solution.
         self.publish_camera_to_object(
             self.object_in_field,
@@ -253,7 +253,7 @@ class Drivetrain:
         self.left_encoder_sim.set_rate(self.drivetrain_simulator.get_left_velocity())
         self.right_encoder_sim.set_distance(self.drivetrain_simulator.get_right_position())
         self.right_encoder_sim.set_rate(self.drivetrain_simulator.get_right_velocity())
-        # self.gyroSim.setAngle(-self.drivetrainSimulator.getHeading().getDegrees())
+        # self.gyro_sim.set_angle(-self.drivetrain_simulator.get_heading().degrees())
 
     def periodic(self) -> None:
         """This function is called periodically, no matter the mode."""

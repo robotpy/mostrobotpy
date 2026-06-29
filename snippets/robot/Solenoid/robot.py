@@ -77,12 +77,12 @@ class MyRobot(wpilib.TimedRobot):
             "Pressure Switch", self.compressor.get_pressure_switch_value()
         )
 
-        # The output of GetRawButton is true/false depending on whether
-        # the button is pressed; Set takes a boolean for whether
+        # The output of get_raw_button is true/false depending on whether
+        # the button is pressed; set takes a boolean for whether
         # to retract the solenoid (false) or extend it (true).
         self.solenoid.set(self.joystick.get_raw_button(K_SOLENOID_BUTTON))
 
-        # GetRawButtonPressed will only return true once per press.
+        # get_raw_button_pressed will only return true once per press.
         # If a button is pressed, set the solenoid to the respective channel.
 
         if self.joystick.get_raw_button_pressed(K_DOUBLE_SOLENOID_FORWARD_BUTTON):

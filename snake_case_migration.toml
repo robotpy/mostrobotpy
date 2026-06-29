@@ -1228,14 +1228,6 @@ reason = "Task 11 examples/docs migration"
 [[mapping]]
 scope = "global"
 kind = "attribute"
-old = "flipCode"
-new = "flip_code"
-source = "manual"
-reason = "Task 11 examples/docs migration"
-
-[[mapping]]
-scope = "global"
-kind = "attribute"
 old = "flywheelFromPhysicalConstants"
 new = "flywheel_from_physical_constants"
 source = "manual"

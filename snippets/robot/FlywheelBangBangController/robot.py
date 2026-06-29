@@ -76,7 +76,7 @@ class MyRobot(wpilib.TimedRobot):
     def teleop_periodic(self) -> None:
         """Controls flywheel to a set velocity (RPM) controlled by a joystick."""
 
-        # Scale setpoint value between 0 and maxSetpointValue
+        # Scale setpoint value between 0 and K_MAX_SETPOINT_VALUE
         setpoint = max(
             0.0,
             self.joystick.get_raw_axis(0)
