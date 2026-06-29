@@ -30,6 +30,7 @@ DEFAULT_ACRONYMS: tuple[str, ...] = (
     "PDP",
     "PDH",
     "RIO",
+    "OpMode",
 )
 
 _SNAKE_TRANSFORM = resolve_name_transform("snake_case", acronyms=DEFAULT_ACRONYMS)

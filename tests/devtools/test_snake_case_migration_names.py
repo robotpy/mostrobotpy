@@ -11,10 +11,14 @@ from devtools.snake_case_migration.names import (
 
 def test_snake_case_uses_wpilib_acronyms():
     assert "FPGA" in DEFAULT_ACRONYMS
+    assert "OpMode" in DEFAULT_ACRONYMS
     assert to_snake_case("GetFPGATime") == "get_fpga_time"
     assert to_snake_case("isDSAttached") == "is_ds_attached"
     assert to_snake_case("toJSON") == "to_json"
     assert to_snake_case("getI2CHandle") == "get_i2c_handle"
+    assert to_snake_case("GetOpMode") == "get_opmode"
+    assert to_snake_case("OpModeOption") == "opmode_option"
+    assert to_snake_case("PublishOpModes") == "publish_opmodes"
 
 
 def test_caps_case_uses_wpilib_acronyms():

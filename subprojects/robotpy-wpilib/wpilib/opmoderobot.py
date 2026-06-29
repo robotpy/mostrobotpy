@@ -24,7 +24,7 @@ class OpModeRobot(OpModeRobotBase):
     def __init__(self):
         super().__init__()
 
-    def add_op_mode(
+    def add_opmode(
         self,
         opmode_cls: type,
         mode: RobotMode,
@@ -35,7 +35,7 @@ class OpModeRobot(OpModeRobotBase):
         background_color: Optional[Color] = None,
     ) -> None:
         """
-        Adds an operating mode option. It's necessary to call publish_op_modes() to
+        Adds an operating mode option. It's necessary to call publish_opmodes() to
         make the added modes visible to the driver station.
 
         The text_color and background_color parameters are optional, but setting
@@ -52,7 +52,7 @@ class OpModeRobot(OpModeRobotBase):
         :param background_color: background color
         """
 
-        def make_op_mode_instance() -> OpMode:
+        def make_opmode_instance() -> OpMode:
             # Try to instantiate with robot argument first
             try:
                 return opmode_cls(self)  # type: ignore
@@ -61,12 +61,12 @@ class OpModeRobot(OpModeRobotBase):
                 return opmode_cls()  # type: ignore
 
         if text_color is None or background_color is None:
-            self.add_op_mode_factory(
-                make_op_mode_instance, mode, name, group or "", description or ""
+            self.add_opmode_factory(
+                make_opmode_instance, mode, name, group or "", description or ""
             )
         else:
-            self.add_op_mode_factory(
-                make_op_mode_instance,
+            self.add_opmode_factory(
+                make_opmode_instance,
                 mode,
                 name,
                 group or "",

@@ -11,27 +11,27 @@ class MockOpMode(OpMode):
     def __init__(self):
         super().__init__()
         self.disabled_periodic_count = 0
-        self.op_mode_run_count = 0
-        self.op_mode_stop_count = 0
+        self.opmode_run_count = 0
+        self.opmode_stop_count = 0
 
     def disabled_periodic(self):
         self.disabled_periodic_count += 1
 
-    def op_mode_run(self, op_mode_id: int):
-        self.op_mode_run_count += 1
+    def opmode_run(self, opmode_id: int):
+        self.opmode_run_count += 1
 
-    def op_mode_stop(self):
-        self.op_mode_stop_count += 1
+    def opmode_stop(self):
+        self.opmode_stop_count += 1
 
 
 class OneArgOpMode(OpMode):
     def __init__(self, robot):
         super().__init__()
 
-    def op_mode_run(self, op_mode_id: int):
+    def opmode_run(self, opmode_id: int):
         pass
 
-    def op_mode_stop(self):
+    def opmode_stop(self):
         pass
 
 
@@ -58,14 +58,14 @@ def sim_timing_setup():
     wsim.set_program_started(False)
     yield
     wsim.resume_timing()
-    RobotState.clear_op_modes()
+    RobotState.clear_opmodes()
 
 
-def test_add_op_mode():
+def test_add_opmode():
     class MyMockRobot(MockRobot):
         def __init__(self):
             super().__init__()
-            self.add_op_mode(
+            self.add_opmode(
                 MockOpMode,
                 RobotMode.AUTONOMOUS,
                 "NoArgOpMode-Auto",
@@ -74,7 +74,7 @@ def test_add_op_mode():
                 Color.WHITE,
                 Color.BLACK,
             )
-            self.add_op_mode(
+            self.add_opmode(
                 OneArgOpMode,
                 RobotMode.UTILITY,
                 "OneArgOpMode-Utility",
@@ -83,12 +83,12 @@ def test_add_op_mode():
                 Color.WHITE,
                 Color.BLACK,
             )
-            self.add_op_mode(MockOpMode, RobotMode.TELEOPERATED, "NoArgOpMode")
-            self.add_op_mode(OneArgOpMode, RobotMode.TELEOPERATED, "OneArgOpMode")
-            self.publish_op_modes()
+            self.add_opmode(MockOpMode, RobotMode.TELEOPERATED, "NoArgOpMode")
+            self.add_opmode(OneArgOpMode, RobotMode.TELEOPERATED, "OneArgOpMode")
+            self.publish_opmodes()
 
     robot = MyMockRobot()
-    options = wsim.DriverStationSim.get_op_mode_options()
+    options = wsim.DriverStationSim.get_opmode_options()
 
     assert len(options) == 4
 
@@ -107,33 +107,33 @@ def test_add_op_mode():
     assert tele_opt.background_color == -1
 
 
-def test_clear_op_modes():
+def test_clear_opmodes():
     class MyMockRobot(MockRobot):
         def __init__(self):
             super().__init__()
-            self.add_op_mode(MockOpMode, RobotMode.TELEOPERATED, "NoArgOpMode")
-            self.publish_op_modes()
+            self.add_opmode(MockOpMode, RobotMode.TELEOPERATED, "NoArgOpMode")
+            self.publish_opmodes()
 
     robot = MyMockRobot()
-    robot.clear_op_modes()
+    robot.clear_opmodes()
 
-    options = wsim.DriverStationSim.get_op_mode_options()
+    options = wsim.DriverStationSim.get_opmode_options()
     assert len(options) == 0
 
 
-def test_remove_op_mode():
+def test_remove_opmode():
     class MyMockRobot(MockRobot):
         def __init__(self):
             super().__init__()
-            self.add_op_mode(MockOpMode, RobotMode.TELEOPERATED, "NoArgOpMode")
-            self.add_op_mode(OneArgOpMode, RobotMode.TELEOPERATED, "OneArgOpMode")
-            self.publish_op_modes()
+            self.add_opmode(MockOpMode, RobotMode.TELEOPERATED, "NoArgOpMode")
+            self.add_opmode(OneArgOpMode, RobotMode.TELEOPERATED, "OneArgOpMode")
+            self.publish_opmodes()
 
     robot = MyMockRobot()
-    robot.remove_op_mode(RobotMode.TELEOPERATED, "NoArgOpMode")
-    robot.publish_op_modes()
+    robot.remove_opmode(RobotMode.TELEOPERATED, "NoArgOpMode")
+    robot.publish_opmodes()
 
-    options = wsim.DriverStationSim.get_op_mode_options()
+    options = wsim.DriverStationSim.get_opmode_options()
     assert len(options) == 1
     assert options[0].name == "OneArgOpMode"
 
@@ -143,8 +143,8 @@ def periodic_robot_test_fixture():
     class MyMockRobot(MockRobot):
         def __init__(self):
             super().__init__()
-            self.add_op_mode(MockOpMode, RobotMode.TELEOPERATED, "NoArgOpMode")
-            self.publish_op_modes()
+            self.add_opmode(MockOpMode, RobotMode.TELEOPERATED, "NoArgOpMode")
+            self.publish_opmodes()
 
     robot = MyMockRobot()
 

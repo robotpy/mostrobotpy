@@ -1,5 +1,5 @@
 [config]
-acronyms = ["CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "PCM", "PDH", "PDP", "PID", "PWM", "RIO", "SPI", "URI", "URL", "USB"]
+acronyms = ["CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "PWM", "RIO", "SPI", "URI", "URL", "USB"]
 
 [[mapping]]
 scope = "global"
@@ -10363,7 +10363,7 @@ reason = "robotpy-wpilib generated API"
 scope = "subprojects/robotpy-wpilib/tests/framework/test_opmode_robot.py"
 kind = "method"
 old = "clearOpModes"
-new = "clear_op_modes"
+new = "clear_opmodes"
 source = "manual"
 reason = "robotpy-wpilib generated API"
 
@@ -10378,7 +10378,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-wpilib/tests/framework/test_opmode_robot.py"
 kind = "method"
 old = "getOpModeOptions"
-new = "get_op_mode_options"
+new = "get_opmode_options"
 source = "manual"
 reason = "robotpy-wpilib generated API"
 
@@ -10393,7 +10393,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-wpilib/tests/framework/test_opmode_robot.py"
 kind = "method"
 old = "publishOpModes"
-new = "publish_op_modes"
+new = "publish_opmodes"
 source = "manual"
 reason = "robotpy-wpilib generated API"
 
@@ -10401,7 +10401,7 @@ reason = "robotpy-wpilib generated API"
 scope = "subprojects/robotpy-wpilib/tests/framework/test_opmode_robot.py"
 kind = "method"
 old = "removeOpMode"
-new = "remove_op_mode"
+new = "remove_opmode"
 source = "manual"
 reason = "robotpy-wpilib generated API"
 
@@ -11514,14 +11514,14 @@ reason = "robotpy-wpilib generated API"
 scope = "subprojects/robotpy-wpilib/wpilib/opmoderobot.py"
 kind = "method"
 old = "addOpMode"
-new = "add_op_mode"
+new = "add_opmode"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-wpilib/wpilib/opmoderobot.py"
 kind = "method"
 old = "addOpModeFactory"
-new = "add_op_mode_factory"
+new = "add_opmode_factory"
 source = "manual"
 reason = "robotpy-wpilib generated API"
 
@@ -11529,7 +11529,7 @@ reason = "robotpy-wpilib generated API"
 scope = "subprojects/robotpy-wpilib/wpilib/opmoderobot.py"
 kind = "method"
 old = "makeOpModeInstance"
-new = "make_op_mode_instance"
+new = "make_opmode_instance"
 source = "scan-py"
 
 [[mapping]]
