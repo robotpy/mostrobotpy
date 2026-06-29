@@ -60,12 +60,12 @@ name_transform.default = "snake_case"
 name_transform.enum_value = "CAPS_CASE"
 name_transform.acronyms = ["mDNS", "DS", "CAN", "PWM", "I2C", "SPI", "NT", "JSON", "PID", "IMU", "HAL", "JNI", "USB", "HTTP", "URI", "URL", "CPU", "FPGA", "FMS", "PCM", "PDP", "PDH", "RIO"]
 
-[tool.semiwrap.extension_modules."hal._wpiHal"]
+[tool.semiwrap.extension_modules."hal._wpi_hal"]
 name = "wpihal"
 wraps = ["robotpy-native-wpihal"]
 depends = ["wpiutil", "ntcore"]
 
-[tool.semiwrap.extension_modules."hal._wpiHal".headers]
+[tool.semiwrap.extension_modules."hal._wpi_hal".headers]
 # hal
 CANAPITypes = "wpi/hal/CANAPITypes.h"
 DriverStation_c = "wpi/hal/DriverStation.h"

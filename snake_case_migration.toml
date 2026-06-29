@@ -142,6 +142,20 @@ new = "table_2"
 source = "scan-py"
 
 [[mapping]]
+scope = "subprojects/robotpy-hal/hal/simulation/mockhooks.py"
+kind = "method"
+old = "waitForProgramStart"
+new = "wait_for_program_start"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-hal/hal/simulation/mockhooks.py"
+kind = "parameter"
+old = "waitForFirstNotifier"
+new = "wait_for_first_notifier"
+source = "scan-py"
+
+[[mapping]]
 scope = "subprojects/robotpy-wpimath/tests/geometry/test_coordinate_system.py"
 kind = "method"
 old = "check_pose3d_convert"
