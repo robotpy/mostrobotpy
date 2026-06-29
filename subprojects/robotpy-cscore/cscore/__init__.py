@@ -19,9 +19,9 @@ from ._cscore import (
     VideoProperty,
     VideoSink,
     VideoSource,
-    runMainRunLoop,
-    runMainRunLoopTimeout,
-    stopMainRunLoop,
+    run_main_run_loop,
+    run_main_run_loop_timeout,
+    stop_main_run_loop,
 )
 
 __all__ = [
@@ -42,14 +42,14 @@ __all__ = [
     "VideoProperty",
     "VideoSink",
     "VideoSource",
-    "runMainRunLoop",
-    "runMainRunLoopTimeout",
-    "stopMainRunLoop",
+    "run_main_run_loop",
+    "run_main_run_loop_timeout",
+    "stop_main_run_loop",
 ]
 
-from ._logging import enableLogging
+from ._logging import enable_logging
 
-__all__.append("enableLogging")
+__all__.append("enable_logging")
 
 try:
     from .version import __version__

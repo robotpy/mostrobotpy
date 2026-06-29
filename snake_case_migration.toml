@@ -198,6 +198,188 @@ source = "manual"
 reason = "robotpy-apriltag generated AprilTagDetection API"
 
 [[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/__init__.py"
+kind = "function"
+old = "runMainRunLoop"
+new = "run_main_run_loop"
+source = "manual"
+reason = "cscore generated runloop API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/__init__.py"
+kind = "function"
+old = "runMainRunLoopTimeout"
+new = "run_main_run_loop_timeout"
+source = "manual"
+reason = "cscore generated runloop API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/__init__.py"
+kind = "function"
+old = "stopMainRunLoop"
+new = "stop_main_run_loop"
+source = "manual"
+reason = "cscore generated runloop API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/__main__.py"
+kind = "method"
+old = "getDefault"
+new = "get_default"
+source = "manual"
+reason = "pyntcore generated NetworkTableInstance API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/__main__.py"
+kind = "method"
+old = "setServer"
+new = "set_server"
+source = "manual"
+reason = "pyntcore generated NetworkTableInstance API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/__main__.py"
+kind = "method"
+old = "setServerTeam"
+new = "set_server_team"
+source = "manual"
+reason = "pyntcore generated NetworkTableInstance API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/__main__.py"
+kind = "method"
+old = "startAutomaticCapture"
+new = "start_automatic_capture"
+source = "manual"
+reason = "cscore generated CameraServer API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/__main__.py"
+kind = "method"
+old = "startClient"
+new = "start_client"
+source = "manual"
+reason = "pyntcore generated NetworkTableInstance API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/_logging.py"
+kind = "function"
+old = "_setLogger"
+new = "_set_logger"
+source = "manual"
+reason = "cscore generated logging API with leading underscore preserved"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/_logging.py"
+kind = "method"
+old = "enableLogging"
+new = "enable_logging"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "method"
+old = "getError"
+new = "get_error"
+source = "manual"
+reason = "cscore generated ImageSink API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "method"
+old = "getVideo"
+new = "get_video"
+source = "manual"
+reason = "cscore generated CameraServer API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "method"
+old = "grabFrame"
+new = "grab_frame"
+source = "manual"
+reason = "cscore generated CvSink API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "method"
+old = "notifyError"
+new = "notify_error"
+source = "manual"
+reason = "cscore generated VideoSink API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "method"
+old = "putFrame"
+new = "put_frame"
+source = "manual"
+reason = "cscore generated CvSource API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "method"
+old = "putVideo"
+new = "put_video"
+source = "manual"
+reason = "cscore generated CameraServer API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "method"
+old = "startAutomaticCapture"
+new = "start_automatic_capture"
+source = "manual"
+reason = "cscore generated CameraServer API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "variable"
+old = "cvSink"
+new = "cv_sink"
+source = "manual"
+reason = "local variable migrated to snake_case"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/grip.py"
+kind = "variable"
+old = "outputStream"
+new = "output_stream"
+source = "manual"
+reason = "local variable migrated to snake_case"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/cscore/imagewriter.py"
+kind = "method"
+old = "setImage"
+new = "set_image"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/semiwrap/CameraServer.yml"
+kind = "method"
+old = "enableLogging"
+new = "enable_logging"
+source = "manual"
+reason = "custom cscore semiwrap API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/semiwrap/CameraServer.yml"
+kind = "method"
+old = "waitForever"
+new = "wait_forever"
+source = "manual"
+reason = "custom cscore semiwrap API"
+
+[[mapping]]
+scope = "subprojects/robotpy-cscore/tests/test_cv.py"
+kind = "method"
+old = "grabFrame"
+new = "grab_frame"
+source = "manual"
+reason = "cscore generated CvSink API"
+
+[[mapping]]
 scope = "subprojects/robotpy-hal/hal/simulation/mockhooks.py"
 kind = "method"
 old = "waitForProgramStart"
@@ -812,4 +994,14 @@ reason = "External Python logging.Logger API name"
 [[ignored]]
 scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
 name = "cvtColor"
+reason = "OpenCV API name"
+
+[[ignored]]
+scope = "subprojects/robotpy-cscore/cscore/__main__.py"
+name = "basicConfig"
+reason = "Python logging API name"
+
+[[ignored]]
+scope = "subprojects/robotpy-cscore/cscore/imagewriter.py"
+name = "copyMakeBorder"
 reason = "OpenCV API name"

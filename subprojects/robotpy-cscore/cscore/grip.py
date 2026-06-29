@@ -1,6 +1,6 @@
 import inspect
 
-from .cameraserver import CameraServer
+from ._cscore import CameraServer
 
 
 def run(grip_pipeline):
@@ -12,20 +12,20 @@ def run(grip_pipeline):
     if inspect.isclass(grip_pipeline):
         grip_pipeline = grip_pipeline()
 
-    cs = CameraServer.getInstance()
-    cs.enableLogging()
+    cs = CameraServer
+    cs.enable_logging()
 
-    cs.startAutomaticCapture()
-    cvSink = cs.getVideo()
+    cs.start_automatic_capture()
+    cv_sink = cs.get_video()
 
-    outputStream = None
+    output_stream = None
     img = None
 
     while True:
-        time, img = cvSink.grabFrame(img)
+        time, img = cv_sink.grab_frame(img)
         if time == 0:
-            if outputStream:
-                outputStream.notifyError(cvSink.getError())
+            if output_stream:
+                output_stream.notify_error(cv_sink.get_error())
 
             continue
 
@@ -33,9 +33,9 @@ def run(grip_pipeline):
         out_img = grip_pipeline.process(img)
         if out_img is not None:
             try:
-                outputStream.putFrame(out_img)
+                output_stream.put_frame(out_img)
             except AttributeError:
-                if outputStream is None:
-                    outputStream = cs.putVideo("GRIP", img.shape[1], img.shape[0])
+                if output_stream is None:
+                    output_stream = cs.put_video("GRIP", img.shape[1], img.shape[0])
                 else:
                     raise
