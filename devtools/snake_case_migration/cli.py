@@ -4,7 +4,9 @@ import argparse
 from collections.abc import Sequence
 from pathlib import Path
 
+from .audit import audit_python_source
 from .manifest import Manifest, load_manifest, save_manifest
+from .rewrite_py import rewrite_python_source
 
 
 def build_parser() -> argparse.ArgumentParser:
