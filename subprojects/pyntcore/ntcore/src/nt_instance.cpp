@@ -11,40 +11,40 @@ static std::set<NT_Inst> g_known_instances;
 
 namespace pyntcore {
 
-void onInstanceStart(wpi::nt::NetworkTableInstance* instance) {
+void on_instance_start(wpi::nt::NetworkTableInstance* instance) {
   g_known_instances.emplace(instance->GetHandle());
 
   py::module::import("ntcore._logutil")
       .attr("NtLogForwarder")
-      .attr("onInstanceStart")(instance);
+      .attr("on_instance_start")(instance);
 }
 
-void onInstancePreReset(wpi::nt::NetworkTableInstance* instance) {
+void on_instance_pre_reset(wpi::nt::NetworkTableInstance* instance) {
   py::module::import("ntcore._logutil")
       .attr("NtLogForwarder")
-      .attr("onInstanceDestroy")(instance);
+      .attr("on_instance_destroy")(instance);
 }
 
-void onInstancePostReset(wpi::nt::NetworkTableInstance* instance) {
+void on_instance_post_reset(wpi::nt::NetworkTableInstance* instance) {
   py::module::import("ntcore.util")
       .attr("_NtProperty")
-      .attr("onInstancePostReset")(instance);
+      .attr("on_instance_post_reset")(instance);
 }
 
-void onInstanceDestroy(wpi::nt::NetworkTableInstance* instance) {
+void on_instance_destroy(wpi::nt::NetworkTableInstance* instance) {
   py::module::import("ntcore._logutil")
       .attr("NtLogForwarder")
-      .attr("onInstanceDestroy")(instance);
+      .attr("on_instance_destroy")(instance);
   py::module::import("ntcore.util")
       .attr("_NtProperty")
-      .attr("onInstanceDestroy")(instance);
+      .attr("on_instance_destroy")(instance);
 
   g_known_instances.erase(instance->GetHandle());
 }
 
 // reset all instances to clear out any potential python references that
 // might be hanging around in a callback or something
-void resetAllInstances() {
+void reset_all_instances() {
   std::set<NT_Inst> known_instances;
   known_instances.swap(g_known_instances);
 

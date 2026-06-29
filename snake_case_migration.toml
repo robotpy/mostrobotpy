@@ -2,6 +2,146 @@
 acronyms = ["CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "PCM", "PDH", "PDP", "PID", "PWM", "RIO", "SPI", "URI", "URL", "USB"]
 
 [[mapping]]
+scope = "subprojects/pyntcore/ntcore/_logutil.py"
+kind = "method"
+old = "onInstanceDestroy"
+new = "on_instance_destroy"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/_logutil.py"
+kind = "method"
+old = "onInstanceStart"
+new = "on_instance_start"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/_logutil.py"
+kind = "parameter"
+old = "logName"
+new = "log_name"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/_logutil.py"
+kind = "parameter"
+old = "maxLevel"
+new = "max_level"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/_logutil.py"
+kind = "parameter"
+old = "minLevel"
+new = "min_level"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/_logutil.py"
+kind = "parameter"
+old = "ntLogger"
+new = "nt_logger"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/util.py"
+kind = "method"
+old = "getChoices"
+new = "get_choices"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/util.py"
+kind = "method"
+old = "getSelected"
+new = "get_selected"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/util.py"
+kind = "method"
+old = "onInstanceDestroy"
+new = "on_instance_destroy"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/util.py"
+kind = "method"
+old = "onInstancePostReset"
+new = "on_instance_post_reset"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/util.py"
+kind = "method"
+old = "setSelected"
+new = "set_selected"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/util.py"
+kind = "parameter"
+old = "defaultValue"
+new = "default_value"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/util.py"
+kind = "parameter"
+old = "isNew"
+new = "is_new"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/ntcore/util.py"
+kind = "parameter"
+old = "writeDefault"
+new = "write_default"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/tests/test_api.py"
+kind = "parameter"
+old = "nt1"
+new = "nt_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/tests/test_api.py"
+kind = "parameter"
+old = "nt2"
+new = "nt_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/tests/test_network_table.py"
+kind = "method"
+old = "table1"
+new = "table_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/tests/test_network_table.py"
+kind = "method"
+old = "table2"
+new = "table_2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/tests/test_network_table.py"
+kind = "parameter"
+old = "table1"
+new = "table_1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/pyntcore/tests/test_network_table.py"
+kind = "parameter"
+old = "table2"
+new = "table_2"
+source = "scan-py"
+
+[[mapping]]
 scope = "subprojects/robotpy-wpimath/tests/geometry/test_coordinate_system.py"
 kind = "method"
 old = "check_pose3d_convert"
@@ -578,3 +718,23 @@ reason = "Generated PascalCase type alias; type names remain PascalCase"
 scope = "global"
 name = "LinearSystem_3_2_3"
 reason = "Generated PascalCase type alias; type names remain PascalCase"
+
+[[ignored]]
+scope = "global"
+name = "_NtProperty"
+reason = "Private class name; type/class names remain PascalCase while preserving leading underscore"
+
+[[ignored]]
+scope = "global"
+name = "getLogger"
+reason = "External Python logging API name"
+
+[[ignored]]
+scope = "global"
+name = "isEnabledFor"
+reason = "External Python logging.Logger API name"
+
+[[ignored]]
+scope = "global"
+name = "makeRecord"
+reason = "External Python logging.Logger API name"

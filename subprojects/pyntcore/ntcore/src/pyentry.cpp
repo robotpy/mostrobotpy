@@ -12,93 +12,93 @@
 namespace pyntcore {
 
 py::object GetBooleanEntry(const wpi::nt::NetworkTableEntry& entry,
-                           py::object defaultValue) {
+                           py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_BOOLEAN) {
-    return defaultValue;
+    return default_value;
   }
   return py::cast(value.GetBoolean());
 }
 
 py::object GetDoubleEntry(const wpi::nt::NetworkTableEntry& entry,
-                          py::object defaultValue) {
+                          py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_DOUBLE) {
-    return defaultValue;
+    return default_value;
   }
   return py::cast(value.GetDouble());
 }
 
 py::object GetFloatEntry(const wpi::nt::NetworkTableEntry& entry,
-                         py::object defaultValue) {
+                         py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_FLOAT) {
-    return defaultValue;
+    return default_value;
   }
   return py::cast(value.GetFloat());
 }
 
 py::object GetIntegerEntry(const wpi::nt::NetworkTableEntry& entry,
-                           py::object defaultValue) {
+                           py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_INTEGER) {
-    return defaultValue;
+    return default_value;
   }
   return py::cast(value.GetInteger());
 }
 
 py::object GetStringEntry(const wpi::nt::NetworkTableEntry& entry,
-                          py::object defaultValue) {
+                          py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_STRING) {
-    return defaultValue;
+    return default_value;
   }
   auto s = value.GetString();
   return py::str(s.data(), s.size());
 }
 
 py::object GetRawEntry(const wpi::nt::NetworkTableEntry& entry,
-                       py::object defaultValue) {
+                       py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_RAW) {
-    return defaultValue;
+    return default_value;
   }
   return py::cast(value.GetRaw());
 }
 
 py::object GetBooleanArrayEntry(const wpi::nt::NetworkTableEntry& entry,
-                                py::object defaultValue) {
+                                py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_BOOLEAN_ARRAY) {
-    return defaultValue;
+    return default_value;
   }
   // ntcore will return bit vector by default. Convert to List[bool]
   auto v = value.value();
@@ -111,67 +111,67 @@ py::object GetBooleanArrayEntry(const wpi::nt::NetworkTableEntry& entry,
 }
 
 py::object GetDoubleArrayEntry(const wpi::nt::NetworkTableEntry& entry,
-                               py::object defaultValue) {
+                               py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_DOUBLE_ARRAY) {
-    return defaultValue;
+    return default_value;
   }
   return py::cast(value.GetDoubleArray());
 }
 
 py::object GetFloatArrayEntry(const wpi::nt::NetworkTableEntry& entry,
-                              py::object defaultValue) {
+                              py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_FLOAT_ARRAY) {
-    return defaultValue;
+    return default_value;
   }
   return py::cast(value.GetFloatArray());
 }
 
 py::object GetIntegerArrayEntry(const wpi::nt::NetworkTableEntry& entry,
-                                py::object defaultValue) {
+                                py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_INTEGER_ARRAY) {
-    return defaultValue;
+    return default_value;
   }
   return py::cast(value.GetIntegerArray());
 }
 
 py::object GetStringArrayEntry(const wpi::nt::NetworkTableEntry& entry,
-                               py::object defaultValue) {
+                               py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value || value.type() != NT_STRING_ARRAY) {
-    return defaultValue;
+    return default_value;
   }
   std::span<const std::string> rval = value.GetStringArray();
   return py::cast(rval);
 }
 
 py::object GetValueEntry(const wpi::nt::NetworkTableEntry& entry,
-                         py::object defaultValue) {
+                         py::object default_value) {
   wpi::nt::Value value;
   {
     py::gil_scoped_release release;
     value = wpi::nt::GetEntryValue(entry.GetHandle());
   }
   if (!value) {
-    return defaultValue;
+    return default_value;
   }
   return ntvalue2py(value);
 }
