@@ -142,6 +142,62 @@ new = "table_2"
 source = "scan-py"
 
 [[mapping]]
+scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
+kind = "attribute"
+old = "pose1"
+new = "pose_1"
+source = "manual"
+reason = "robotpy-apriltag generated AprilTagPoseEstimate field"
+
+[[mapping]]
+scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
+kind = "attribute"
+old = "pose2"
+new = "pose_2"
+source = "manual"
+reason = "robotpy-apriltag generated AprilTagPoseEstimate field"
+
+[[mapping]]
+scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
+kind = "method"
+old = "addFamily"
+new = "add_family"
+source = "manual"
+reason = "robotpy-apriltag generated AprilTagDetector API"
+
+[[mapping]]
+scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
+kind = "method"
+old = "estimateOrthogonalIteration"
+new = "estimate_orthogonal_iteration"
+source = "manual"
+reason = "robotpy-apriltag generated AprilTagPoseEstimator API"
+
+[[mapping]]
+scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
+kind = "method"
+old = "getFamily"
+new = "get_family"
+source = "manual"
+reason = "robotpy-apriltag generated AprilTagDetection API"
+
+[[mapping]]
+scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
+kind = "method"
+old = "getHamming"
+new = "get_hamming"
+source = "manual"
+reason = "robotpy-apriltag generated AprilTagDetection API"
+
+[[mapping]]
+scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
+kind = "method"
+old = "getId"
+new = "get_id"
+source = "manual"
+reason = "robotpy-apriltag generated AprilTagDetection API"
+
+[[mapping]]
 scope = "subprojects/robotpy-hal/hal/simulation/mockhooks.py"
 kind = "method"
 old = "waitForProgramStart"
@@ -752,3 +808,8 @@ reason = "External Python logging.Logger API name"
 scope = "global"
 name = "makeRecord"
 reason = "External Python logging.Logger API name"
+
+[[ignored]]
+scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
+name = "cvtColor"
+reason = "OpenCV API name"
