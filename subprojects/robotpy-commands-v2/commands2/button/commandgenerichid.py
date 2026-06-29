@@ -53,7 +53,7 @@ class CommandGenericHID:
 
         :param button: The button index
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: A trigger instance attached to the event loop
         """
@@ -73,7 +73,7 @@ class CommandGenericHID:
         :param angle: POV angle in degrees, or -1 for the center / not pressed.
         :param pov: index of the POV to read (starting at 0). Defaults to 0.
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance based around this angle of a POV on the HID.
         """
@@ -84,7 +84,7 @@ class CommandGenericHID:
     def pov_up(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 0 degree angle (up) of the default (index 0) POV
-        on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+        on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance based around the 0 degree angle of a POV on the HID.
         """
@@ -93,7 +93,7 @@ class CommandGenericHID:
     def pov_up_right(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 45 degree angle (right up) of the default (index
-        0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
+        0) POV on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`.
 
         :returns: a Trigger instance based around the 45 degree angle of a POV on the HID.
         """
@@ -102,7 +102,7 @@ class CommandGenericHID:
     def pov_right(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 90 degree angle (right) of the default (index 0)
-        POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
+        POV on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`.
 
         :returns: a Trigger instance based around the 90 degree angle of a POV on the HID.
         """
@@ -111,7 +111,7 @@ class CommandGenericHID:
     def pov_down_right(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 135 degree angle (right down) of the default
-        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
+        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`.
 
         :returns: a Trigger instance based around the 135 degree angle of a POV on the HID.
         """
@@ -120,7 +120,7 @@ class CommandGenericHID:
     def pov_down(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 180 degree angle (down) of the default (index 0)
-        POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
+        POV on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`.
 
         :returns: a Trigger instance based around the 180 degree angle of a POV on the HID.
         """
@@ -129,7 +129,7 @@ class CommandGenericHID:
     def pov_down_left(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 225 degree angle (down left) of the default
-        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
+        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`.
 
         :returns: a Trigger instance based around the 225 degree angle of a POV on the HID.
         """
@@ -138,7 +138,7 @@ class CommandGenericHID:
     def pov_left(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 270 degree angle (left) of the default (index 0)
-        POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
+        POV on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`.
 
         :returns: a Trigger instance based around the 270 degree angle of a POV on the HID.
         """
@@ -147,7 +147,7 @@ class CommandGenericHID:
     def pov_up_left(self) -> Trigger:
         """
         Constructs a Trigger instance based around the 315 degree angle (left up) of the default (index
-        0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
+        0) POV on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`.
 
         :returns: a Trigger instance based around the 315 degree angle of a POV on the HID.
         """
@@ -156,7 +156,7 @@ class CommandGenericHID:
     def pov_center(self) -> Trigger:
         """
         Constructs a Trigger instance based around the center (not pressed) position of the default
-        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.getDefaultButtonLoop`.
+        (index 0) POV on the HID, attached to :func:`commands2.CommandScheduler.get_default_button_loop`.
 
         :returns: a Trigger instance based around the center position of a POV on the HID.
         """

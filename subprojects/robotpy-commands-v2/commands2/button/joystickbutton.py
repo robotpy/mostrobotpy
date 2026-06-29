@@ -14,6 +14,6 @@ class JoystickButton(Trigger):
         Creates a joystick button for triggering commands.
 
         :param joystick: The GenericHID object that has the button (e.g. Joystick, KinectStick, etc)
-        :param buttonNumber: The button number (see :func:`wpilib.GenericHID.getRawButton`
+        :param button_number: The button number (see :func:`wpilib.GenericHID.get_raw_button`
         """
         super().__init__(lambda: joystick.get_raw_button(button_number))

@@ -64,7 +64,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Cross button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Cross button's digital signal
                   attached to the given loop.
@@ -76,7 +76,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Circle button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Circle button's digital signal
                   attached to the given loop.
@@ -88,7 +88,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Square button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Square button's digital signal
                   attached to the given loop.
@@ -100,7 +100,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Triangle button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Triangle button's digital signal
                   attached to the given loop.
@@ -112,7 +112,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Share button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Share button's digital signal
                   attached to the given loop.
@@ -124,19 +124,19 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the PS button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the PS button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.ps, loop)
+        return self.button(DualShock4Controller.Button.PS, loop)
 
     def options(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Options button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Options button's digital signal
                   attached to the given loop.
@@ -148,55 +148,55 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the L 3 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the L 3 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.l_3, loop)
+        return self.button(DualShock4Controller.Button.L_3, loop)
 
     def r_3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R 3 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the R 3 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.r_3, loop)
+        return self.button(DualShock4Controller.Button.R_3, loop)
 
     def l_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the L 1 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the L 1 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.l_1, loop)
+        return self.button(DualShock4Controller.Button.L_1, loop)
 
     def r_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R 1 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the R 1 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.r_1, loop)
+        return self.button(DualShock4Controller.Button.R_1, loop)
 
     def dpad_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Up button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Up button's digital signal
                   attached to the given loop.
@@ -208,7 +208,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Dpad Down button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Down button's digital signal
                   attached to the given loop.
@@ -220,7 +220,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Dpad Left button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Left button's digital signal
                   attached to the given loop.
@@ -232,7 +232,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Dpad Right button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Right button's digital signal
                   attached to the given loop.
@@ -244,7 +244,7 @@ class CommandDualShock4Controller:
         Constructs a Trigger instance around the Touchpad button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Touchpad button's digital signal
                   attached to the given loop.
@@ -263,13 +263,13 @@ class CommandDualShock4Controller:
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
                           should be in the range [0, 1] where 0 is the unpressed state of the axis.
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance that is true when the L 2 axis exceeds the
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
-            DualShock4Controller.Axis.l_2,
+            DualShock4Controller.Axis.L_2,
             threshold,
             loop,
         )
@@ -286,13 +286,13 @@ class CommandDualShock4Controller:
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
                           should be in the range [0, 1] where 0 is the unpressed state of the axis.
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance that is true when the R 2 axis exceeds the
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
-            DualShock4Controller.Axis.r_2,
+            DualShock4Controller.Axis.R_2,
             threshold,
             loop,
         )

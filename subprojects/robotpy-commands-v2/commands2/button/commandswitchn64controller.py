@@ -64,7 +64,7 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the A button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the A button's digital signal
                   attached to the given loop.
@@ -76,31 +76,31 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the B button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the B button's digital signal
                   attached to the given loop.
         """
         return self.button(SwitchN64Controller.Button.B, loop)
 
-    def CLeft(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def c_left(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the C Left button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the C Left button's digital signal
                   attached to the given loop.
         """
         return self.button(SwitchN64Controller.Button.C_LEFT, loop)
 
-    def CUp(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def c_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the C Up button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the C Up button's digital signal
                   attached to the given loop.
@@ -112,7 +112,7 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the Capture button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Capture button's digital signal
                   attached to the given loop.
@@ -124,7 +124,7 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the Home button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Home button's digital signal
                   attached to the given loop.
@@ -136,19 +136,19 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the Start button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Start button's digital signal
                   attached to the given loop.
         """
         return self.button(SwitchN64Controller.Button.START, loop)
 
-    def CDown(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def c_down(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the C Down button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the C Down button's digital signal
                   attached to the given loop.
@@ -160,31 +160,31 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the L button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the L button's digital signal
                   attached to the given loop.
         """
-        return self.button(SwitchN64Controller.Button.l, loop)
+        return self.button(SwitchN64Controller.Button.L, loop)
 
     def r(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the R button's digital signal
                   attached to the given loop.
         """
-        return self.button(SwitchN64Controller.Button.r, loop)
+        return self.button(SwitchN64Controller.Button.R, loop)
 
     def dpad_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Up button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Up button's digital signal
                   attached to the given loop.
@@ -196,7 +196,7 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the Dpad Down button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Down button's digital signal
                   attached to the given loop.
@@ -208,7 +208,7 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the Dpad Left button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Left button's digital signal
                   attached to the given loop.
@@ -220,19 +220,19 @@ class CommandSwitchN64Controller:
         Constructs a Trigger instance around the Dpad Right button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Right button's digital signal
                   attached to the given loop.
         """
         return self.button(SwitchN64Controller.Button.DPAD_RIGHT, loop)
 
-    def CRight(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def c_right(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the C Right button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the C Right button's digital signal
                   attached to the given loop.
@@ -251,13 +251,13 @@ class CommandSwitchN64Controller:
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
                           should be in the range [0, 1] where 0 is the unpressed state of the axis.
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance that is true when the ZR axis exceeds the
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
-            SwitchN64Controller.Axis.zr,
+            SwitchN64Controller.Axis.ZR,
             threshold,
             loop,
         )

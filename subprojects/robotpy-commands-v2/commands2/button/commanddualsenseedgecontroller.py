@@ -64,7 +64,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Cross button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Cross button's digital signal
                   attached to the given loop.
@@ -76,7 +76,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Circle button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Circle button's digital signal
                   attached to the given loop.
@@ -88,7 +88,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Square button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Square button's digital signal
                   attached to the given loop.
@@ -100,7 +100,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Triangle button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Triangle button's digital signal
                   attached to the given loop.
@@ -112,7 +112,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Create button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Create button's digital signal
                   attached to the given loop.
@@ -124,19 +124,19 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the PS button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the PS button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualSenseEdgeController.Button.ps, loop)
+        return self.button(DualSenseEdgeController.Button.PS, loop)
 
     def options(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Options button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Options button's digital signal
                   attached to the given loop.
@@ -148,55 +148,55 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the L 3 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the L 3 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualSenseEdgeController.Button.l_3, loop)
+        return self.button(DualSenseEdgeController.Button.L_3, loop)
 
     def r_3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R 3 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the R 3 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualSenseEdgeController.Button.r_3, loop)
+        return self.button(DualSenseEdgeController.Button.R_3, loop)
 
     def l_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the L 1 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the L 1 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualSenseEdgeController.Button.l_1, loop)
+        return self.button(DualSenseEdgeController.Button.L_1, loop)
 
     def r_1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R 1 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the R 1 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualSenseEdgeController.Button.r_1, loop)
+        return self.button(DualSenseEdgeController.Button.R_1, loop)
 
     def dpad_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the Dpad Up button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Up button's digital signal
                   attached to the given loop.
@@ -208,7 +208,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Dpad Down button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Down button's digital signal
                   attached to the given loop.
@@ -220,7 +220,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Dpad Left button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Left button's digital signal
                   attached to the given loop.
@@ -232,7 +232,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Dpad Right button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Dpad Right button's digital signal
                   attached to the given loop.
@@ -244,7 +244,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Microphone button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Microphone button's digital signal
                   attached to the given loop.
@@ -256,7 +256,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Right Paddle 1 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Right Paddle 1 button's digital signal
                   attached to the given loop.
@@ -268,7 +268,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Left Paddle 1 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Left Paddle 1 button's digital signal
                   attached to the given loop.
@@ -280,7 +280,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Touchpad button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Touchpad button's digital signal
                   attached to the given loop.
@@ -292,7 +292,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Left Function button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Left Function button's digital signal
                   attached to the given loop.
@@ -304,7 +304,7 @@ class CommandDualSenseEdgeController:
         Constructs a Trigger instance around the Right Function button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance representing the Right Function button's digital signal
                   attached to the given loop.
@@ -323,13 +323,13 @@ class CommandDualSenseEdgeController:
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
                           should be in the range [0, 1] where 0 is the unpressed state of the axis.
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance that is true when the L 2 axis exceeds the
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
-            DualSenseEdgeController.Axis.l_2,
+            DualSenseEdgeController.Axis.L_2,
             threshold,
             loop,
         )
@@ -346,13 +346,13 @@ class CommandDualSenseEdgeController:
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
                           should be in the range [0, 1] where 0 is the unpressed state of the axis.
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance that is true when the R 2 axis exceeds the
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
-            DualSenseEdgeController.Axis.r_2,
+            DualSenseEdgeController.Axis.R_2,
             threshold,
             loop,
         )

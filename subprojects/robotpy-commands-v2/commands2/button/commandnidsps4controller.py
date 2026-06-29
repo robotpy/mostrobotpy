@@ -49,7 +49,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the L2 button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the L2 button's digital signal attached to the given
                   loop.
@@ -63,7 +63,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the R2 button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the R2 button's digital signal attached to the given
                   loop.
@@ -77,7 +77,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the L1 button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the L1 button's digital signal attached to the given
                   loop.
@@ -91,7 +91,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the R1 button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the R1 button's digital signal attached to the given
             loop.
@@ -105,7 +105,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the L3 button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the L3 button's digital signal attached to the given
                   loop.
@@ -119,7 +119,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the R3 button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the R3 button's digital signal attached to the given
                   loop.
@@ -133,7 +133,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the square button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the square button's digital signal attached to the given
                   loop.
@@ -147,7 +147,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the cross button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the cross button's digital signal attached to the given
                   loop.
@@ -161,7 +161,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the triangle button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the triangle button's digital signal attached to the
                   given loop.
@@ -175,7 +175,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the circle button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the circle button's digital signal attached to the given
             loop.
@@ -189,7 +189,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the share button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the share button's digital signal attached to the given
                   loop.
@@ -203,7 +203,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the PS button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the PS button's digital signal attached to the given
                   loop.
@@ -217,7 +217,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the options button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the options button's digital signal attached to the
                   given loop.
@@ -231,7 +231,7 @@ class CommandNiDsPS4Controller:
         Constructs an event instance around the touchpad's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the touchpad's digital signal attached to the given
                   loop.

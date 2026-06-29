@@ -49,7 +49,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the left bumper's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the right bumper's digital signal attached to the given
                   loop.
@@ -63,7 +63,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the right bumper's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the left bumper's digital signal attached to the given
                   loop.
@@ -77,7 +77,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the left stick button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the left stick button's digital signal attached to the
                   given loop.
@@ -91,7 +91,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the right stick button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the right stick button's digital signal attached to the
                   given loop.
@@ -105,7 +105,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the A button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the A button's digital signal attached to the given
                   loop.
@@ -119,7 +119,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the B button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the B button's digital signal attached to the given
                   loop.
@@ -133,7 +133,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the X button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the X button's digital signal attached to the given
                   loop.
@@ -147,7 +147,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the Y button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the Y button's digital signal attached to the given
                   loop.
@@ -161,7 +161,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the start button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the start button's digital signal attached to the given
                   loop.
@@ -175,7 +175,7 @@ class CommandNiDsXboxController:
         Constructs an event instance around the back button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the back button's digital signal attached to the given
                   loop.
@@ -194,7 +194,7 @@ class CommandNiDsXboxController:
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
                           should be in the range [0, 1] where 0 is the unpressed state of the axis.
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance that is true when the left trigger's axis exceeds the provided
             threshold, attached to the given event loop
@@ -213,7 +213,7 @@ class CommandNiDsXboxController:
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
                           should be in the range [0, 1] where 0 is the unpressed state of the axis.
         :param loop: the event loop instance to attach the Trigger to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: a Trigger instance that is true when the right trigger's axis exceeds the provided
                   threshold, attached to the given event loop

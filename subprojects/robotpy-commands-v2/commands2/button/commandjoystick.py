@@ -50,7 +50,7 @@ class CommandJoystick:
         Constructs an event instance around the trigger button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the trigger button's digital signal attached to the
             given loop.
@@ -64,7 +64,7 @@ class CommandJoystick:
         Constructs an event instance around the top button's digital signal.
 
         :param loop: the event loop instance to attach the event to, defaults
-                     to :func:`commands2.CommandScheduler.getDefaultButtonLoop`
+                     to :func:`commands2.CommandScheduler.get_default_button_loop`
 
         :returns: an event instance representing the top button's digital signal attached to the given
                   loop.

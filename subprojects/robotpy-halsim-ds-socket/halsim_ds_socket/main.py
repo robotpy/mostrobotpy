@@ -5,7 +5,7 @@ from os.path import abspath, dirname, join
 logger = logging.getLogger("halsim_ds_socket")
 
 
-def load_extension():
+def loadExtension():
     try:
         import hal
     except ImportError as e:

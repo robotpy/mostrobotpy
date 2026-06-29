@@ -15,6 +15,6 @@ class POVButton(Trigger):
 
         :param joystick: The GenericHID object that has the POV
         :param angle: The desired angle in degrees (e.g. 90, 270)
-        :param povNumber: The POV number (see :func:`wpilib.GenericHID.getPOV`)
+        :param pov_number: The POV number (see :func:`wpilib.GenericHID.get_pov`)
         """
         super().__init__(lambda: joystick.get_pov(pov_number) == angle)

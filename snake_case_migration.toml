@@ -965,13 +965,6 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
-old = "PS"
-new = "ps"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
-kind = "method"
 old = "R1"
 new = "r_1"
 source = "scan-py"
@@ -1121,13 +1114,6 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgeco
 kind = "method"
 old = "L3"
 new = "l_3"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
-kind = "method"
-old = "PS"
-new = "ps"
 source = "scan-py"
 
 [[mapping]]
@@ -1315,13 +1301,6 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
-old = "PS"
-new = "ps"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
-kind = "method"
 old = "R1"
 new = "r_1"
 source = "scan-py"
@@ -1450,27 +1429,6 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4contr
 kind = "method"
 old = "getRightY"
 new = "get_right_y"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
-kind = "method"
-old = "L"
-new = "l"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
-kind = "method"
-old = "R"
-new = "r"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
-kind = "method"
-old = "Z"
-new = "z"
 source = "scan-py"
 
 [[mapping]]
@@ -2281,13 +2239,6 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
-old = "PS"
-new = "ps"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
-kind = "method"
 old = "R1"
 new = "r_1"
 source = "scan-py"
@@ -2458,13 +2409,6 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsxboxcontrol
 kind = "method"
 old = "rightTrigger"
 new = "right_trigger"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandsteamcontroller.py"
-kind = "method"
-old = "QAM"
-new = "qam"
 source = "scan-py"
 
 [[mapping]]
@@ -2694,41 +2638,6 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
 kind = "method"
-old = "C"
-new = "c"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
-kind = "method"
-old = "L"
-new = "l"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
-kind = "method"
-old = "R"
-new = "r"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
-kind = "method"
-old = "Z"
-new = "z"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
-kind = "method"
-old = "ZL"
-new = "zl"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
-kind = "method"
 old = "axisGreaterThan"
 new = "axis_greater_than"
 source = "scan-py"
@@ -2836,55 +2745,6 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontro
 kind = "method"
 old = "getRTrigger"
 new = "get_r_trigger"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
-kind = "method"
-old = "C"
-new = "c"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
-kind = "method"
-old = "GL"
-new = "gl"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
-kind = "method"
-old = "GR"
-new = "gr"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
-kind = "method"
-old = "L"
-new = "l"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
-kind = "method"
-old = "R"
-new = "r"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
-kind = "method"
-old = "ZL"
-new = "zl"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2procontroller.py"
-kind = "method"
-old = "ZR"
-new = "zr"
 source = "scan-py"
 
 [[mapping]]
@@ -3016,27 +2876,6 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
 kind = "method"
-old = "L"
-new = "l"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
-kind = "method"
-old = "R"
-new = "r"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
-kind = "method"
-old = "ZR"
-new = "zr"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
-kind = "method"
 old = "axisGreaterThan"
 new = "axis_greater_than"
 source = "scan-py"
@@ -3130,34 +2969,6 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64contro
 kind = "method"
 old = "getZR"
 new = "get_zr"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
-kind = "method"
-old = "L"
-new = "l"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
-kind = "method"
-old = "R"
-new = "r"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
-kind = "method"
-old = "ZL"
-new = "zl"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchprocontroller.py"
-kind = "method"
-old = "ZR"
-new = "zr"
 source = "scan-py"
 
 [[mapping]]
@@ -5436,28 +5247,71 @@ new = "wait_for_first_notifier"
 source = "scan-py"
 
 [[mapping]]
-scope = "subprojects/robotpy-halsim-ds-socket/halsim_ds_socket/main.py"
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
 kind = "method"
-old = "loadExtension"
-new = "load_extension"
-source = "scan-py"
+old = "LTrigger"
+new = "l_trigger"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandgamecubecontroller.py"
+kind = "method"
+old = "RTrigger"
+new = "r_trigger"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "LTrigger"
+new = "l_trigger"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitch2gccontroller.py"
+kind = "method"
+old = "RTrigger"
+new = "r_trigger"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "CLeft"
+new = "c_left"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "CUp"
+new = "c_up"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "CDown"
+new = "c_down"
+source = "manual"
+reason = "Task 9 pure-Python migration"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandswitchn64controller.py"
+kind = "method"
+old = "CRight"
+new = "c_right"
+source = "manual"
+reason = "Task 9 pure-Python migration"
 
 [[mapping]]
 scope = "subprojects/robotpy-halsim-gui/halsim_gui/main.py"
-kind = "method"
-old = "loadExtension"
-new = "load_extension"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-halsim-ws/halsim_ws/client/main.py"
-kind = "method"
-old = "loadExtension"
-new = "load_extension"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-halsim-ws/halsim_ws/server/main.py"
 kind = "method"
 old = "loadExtension"
 new = "load_extension"
@@ -7999,6 +7853,36 @@ reason = "Python logging API name"
 scope = "subprojects/robotpy-cscore/cscore/imagewriter.py"
 name = "copyMakeBorder"
 reason = "OpenCV API name"
+
+[[ignored]]
+scope = "subprojects/robotpy-halsim-ds-socket/halsim_ds_socket/__init__.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 external plugin hook"
+
+[[ignored]]
+scope = "subprojects/robotpy-halsim-ds-socket/halsim_ds_socket/main.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 external plugin hook"
+
+[[ignored]]
+scope = "subprojects/robotpy-halsim-ws/halsim_ws/client/__init__.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 external plugin hook"
+
+[[ignored]]
+scope = "subprojects/robotpy-halsim-ws/halsim_ws/client/main.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 external plugin hook"
+
+[[ignored]]
+scope = "subprojects/robotpy-halsim-ws/halsim_ws/server/__init__.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 external plugin hook"
+
+[[ignored]]
+scope = "subprojects/robotpy-halsim-ws/halsim_ws/server/main.py"
+name = "loadExtension"
+reason = "robotpy_sim.2027 external plugin hook"
 
 [[ignored]]
 scope = "subprojects/robotpy-romi/romi/cli.py"
