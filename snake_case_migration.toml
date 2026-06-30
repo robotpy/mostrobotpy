@@ -4020,54 +4020,6 @@ reason = "Task 11 examples/docs migration"
 [[mapping]]
 scope = "global"
 kind = "enum_value"
-old = "L_1"
-new = "L1"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "L_2"
-new = "L2"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "L_3"
-new = "L3"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "R_1"
-new = "R1"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "R_2"
-new = "R2"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "R_3"
-new = "R3"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "enum_value"
 old = "X4"
 new = "X_4"
 source = "manual"
@@ -5266,134 +5218,6 @@ source = "manual"
 reason = "Task 11 examples/docs migration"
 
 [[mapping]]
-scope = "global"
-kind = "method"
-old = "get_l_1_button"
-new = "get_l1_button"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_l_2"
-new = "get_l2"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_l_2_axis"
-new = "get_l2_axis"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_l_2_button"
-new = "get_l2_button"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_l_3_button"
-new = "get_l3_button"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_r_1_button"
-new = "get_r1_button"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_r_2"
-new = "get_r2"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_r_2_axis"
-new = "get_r2_axis"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_r_2_button"
-new = "get_r2_button"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "get_r_3_button"
-new = "get_r3_button"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "l_1"
-new = "l1"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "l_2"
-new = "l2"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "l_3"
-new = "l3"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "r_1"
-new = "r1"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "r_2"
-new = "r2"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
-scope = "global"
-kind = "method"
-old = "r_3"
-new = "r3"
-source = "manual"
-reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
-
-[[mapping]]
 scope = "subprojects/pyntcore/ntcore/_logutil.py"
 kind = "method"
 old = "onInstanceDestroy"
@@ -5588,6 +5412,182 @@ old = "getId"
 new = "get_id"
 source = "manual"
 reason = "robotpy-apriltag generated AprilTagDetection API"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "enum_value"
+old = "L_1"
+new = "L1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "enum_value"
+old = "L_2"
+new = "L2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "enum_value"
+old = "L_3"
+new = "L3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "enum_value"
+old = "R_1"
+new = "R1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "enum_value"
+old = "R_2"
+new = "R2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "enum_value"
+old = "R_3"
+new = "R3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_l_1_button"
+new = "get_l1_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_l_2"
+new = "get_l2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_l_2_axis"
+new = "get_l2_axis"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_l_2_button"
+new = "get_l2_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_l_3_button"
+new = "get_l3_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_r_1_button"
+new = "get_r1_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_r_2"
+new = "get_r2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_r_2_axis"
+new = "get_r2_axis"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_r_2_button"
+new = "get_r2_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "get_r_3_button"
+new = "get_r3_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "l_1"
+new = "l1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "l_2"
+new = "l2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "l_3"
+new = "l3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "r_1"
+new = "r1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "r_2"
+new = "r2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button"
+kind = "method"
+old = "r_3"
+new = "r3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
@@ -9966,6 +9966,182 @@ new = "load_extension"
 source = "scan-py"
 
 [[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "enum_value"
+old = "L_1"
+new = "L1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "enum_value"
+old = "L_2"
+new = "L2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "enum_value"
+old = "L_3"
+new = "L3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "enum_value"
+old = "R_1"
+new = "R1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "enum_value"
+old = "R_2"
+new = "R2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "enum_value"
+old = "R_3"
+new = "R3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_l_1_button"
+new = "get_l1_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_l_2"
+new = "get_l2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_l_2_axis"
+new = "get_l2_axis"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_l_2_button"
+new = "get_l2_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_l_3_button"
+new = "get_l3_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_r_1_button"
+new = "get_r1_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_r_2"
+new = "get_r2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_r_2_axis"
+new = "get_r2_axis"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_r_2_button"
+new = "get_r2_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "get_r_3_button"
+new = "get_r3_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "l_1"
+new = "l1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "l_2"
+new = "l2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "l_3"
+new = "l3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "r_1"
+new = "r1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "r_2"
+new = "r2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "subprojects/robotpy-wpilib/semiwrap"
+kind = "method"
+old = "r_3"
+new = "r3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
 scope = "subprojects/robotpy-wpilib/tests/conftest.py"
 kind = "function"
 old = "_resetWpilibSimulationData"
@@ -12268,6 +12444,16 @@ source = "manual"
 reason = "robotpy-hal generated API"
 
 [[ignored]]
+scope = "examples/cscore"
+name = "basicConfig"
+reason = "Python logging API name"
+
+[[ignored]]
+scope = "examples/ntcore"
+name = "basicConfig"
+reason = "Python logging API name"
+
+[[ignored]]
 scope = "global"
 name = "ControlAffinePlantInversionFeedforward_1_1"
 reason = "Generated PascalCase type alias; type names remain PascalCase"
@@ -12498,6 +12684,11 @@ name = "putText"
 reason = "OpenCV API name"
 
 [[ignored]]
+scope = "snippets/robot/AprilTagsVision"
+name = "cvtColor"
+reason = "OpenCV API name"
+
+[[ignored]]
 scope = "subprojects/robotpy-apriltag/tests/test_detection.py"
 name = "cvtColor"
 reason = "OpenCV API name"
@@ -12548,6 +12739,36 @@ name = "loadExtension"
 reason = "robotpy_sim.2027 plugin hook; other providers migrate in later task"
 
 [[ignored]]
+scope = "subprojects/robotpy-wpilib"
+name = "LinearSystemSim_1_1_1"
+reason = "Generated simulation type alias name"
+
+[[ignored]]
+scope = "subprojects/robotpy-wpilib"
+name = "LinearSystemSim_1_1_2"
+reason = "Generated simulation type alias name"
+
+[[ignored]]
+scope = "subprojects/robotpy-wpilib"
+name = "LinearSystemSim_2_1_1"
+reason = "Generated simulation type alias name"
+
+[[ignored]]
+scope = "subprojects/robotpy-wpilib"
+name = "LinearSystemSim_2_1_2"
+reason = "Generated simulation type alias name"
+
+[[ignored]]
+scope = "subprojects/robotpy-wpilib"
+name = "LinearSystemSim_2_2_1"
+reason = "Generated simulation type alias name"
+
+[[ignored]]
+scope = "subprojects/robotpy-wpilib"
+name = "LinearSystemSim_2_2_2"
+reason = "Generated simulation type alias name"
+
+[[ignored]]
 scope = "subprojects/robotpy-wpilib/wpilib/_impl/cli_sim.py"
 name = "loadExtension"
 reason = "robotpy_sim.2027 plugin hook; other providers migrate in later task"
@@ -12556,36 +12777,6 @@ reason = "robotpy_sim.2027 plugin hook; other providers migrate in later task"
 scope = "subprojects/robotpy-wpilib/wpilib/_impl/cli_test.py"
 name = "_TryAgain"
 reason = "Internal exception type name; type names remain PascalCase"
-
-[[ignored]]
-scope = "subprojects/robotpy-wpilib/wpilib/simulation/__init__.py"
-name = "LinearSystemSim_1_1_1"
-reason = "Generated simulation type alias name"
-
-[[ignored]]
-scope = "subprojects/robotpy-wpilib/wpilib/simulation/__init__.py"
-name = "LinearSystemSim_1_1_2"
-reason = "Generated simulation type alias name"
-
-[[ignored]]
-scope = "subprojects/robotpy-wpilib/wpilib/simulation/__init__.py"
-name = "LinearSystemSim_2_1_1"
-reason = "Generated simulation type alias name"
-
-[[ignored]]
-scope = "subprojects/robotpy-wpilib/wpilib/simulation/__init__.py"
-name = "LinearSystemSim_2_1_2"
-reason = "Generated simulation type alias name"
-
-[[ignored]]
-scope = "subprojects/robotpy-wpilib/wpilib/simulation/__init__.py"
-name = "LinearSystemSim_2_2_1"
-reason = "Generated simulation type alias name"
-
-[[ignored]]
-scope = "subprojects/robotpy-wpilib/wpilib/simulation/__init__.py"
-name = "LinearSystemSim_2_2_2"
-reason = "Generated simulation type alias name"
 
 [[ignored]]
 scope = "subprojects/robotpy-wpilib/wpilib/testing/pytest_isolated_tests_plugin.py"

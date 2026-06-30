@@ -46,29 +46,38 @@ REQUIRED_ACRONYMS = [
     "OpMode",
 ]
 
+CONTROLLER_ACRONYM_CLEANUP_SCOPES = (
+    "subprojects/robotpy-commands-v2/commands2/button",
+    "subprojects/robotpy-wpilib/semiwrap",
+)
+CONTROLLER_ACRONYM_CLEANUP_NAMES = {
+    ("method", "l_1"): "l1",
+    ("method", "l_2"): "l2",
+    ("method", "l_3"): "l3",
+    ("method", "r_1"): "r1",
+    ("method", "r_2"): "r2",
+    ("method", "r_3"): "r3",
+    ("method", "get_l_1_button"): "get_l1_button",
+    ("method", "get_l_2_button"): "get_l2_button",
+    ("method", "get_l_3_button"): "get_l3_button",
+    ("method", "get_r_1_button"): "get_r1_button",
+    ("method", "get_r_2_button"): "get_r2_button",
+    ("method", "get_r_3_button"): "get_r3_button",
+    ("method", "get_l_2_axis"): "get_l2_axis",
+    ("method", "get_r_2_axis"): "get_r2_axis",
+    ("method", "get_l_2"): "get_l2",
+    ("method", "get_r_2"): "get_r2",
+    ("enum_value", "L_1"): "L1",
+    ("enum_value", "L_2"): "L2",
+    ("enum_value", "L_3"): "L3",
+    ("enum_value", "R_1"): "R1",
+    ("enum_value", "R_2"): "R2",
+    ("enum_value", "R_3"): "R3",
+}
 CONTROLLER_ACRONYM_CLEANUP_MAPPINGS = {
-    ("global", "method", "l_1"): "l1",
-    ("global", "method", "l_2"): "l2",
-    ("global", "method", "l_3"): "l3",
-    ("global", "method", "r_1"): "r1",
-    ("global", "method", "r_2"): "r2",
-    ("global", "method", "r_3"): "r3",
-    ("global", "method", "get_l_1_button"): "get_l1_button",
-    ("global", "method", "get_l_2_button"): "get_l2_button",
-    ("global", "method", "get_l_3_button"): "get_l3_button",
-    ("global", "method", "get_r_1_button"): "get_r1_button",
-    ("global", "method", "get_r_2_button"): "get_r2_button",
-    ("global", "method", "get_r_3_button"): "get_r3_button",
-    ("global", "method", "get_l_2_axis"): "get_l2_axis",
-    ("global", "method", "get_r_2_axis"): "get_r2_axis",
-    ("global", "method", "get_l_2"): "get_l2",
-    ("global", "method", "get_r_2"): "get_r2",
-    ("global", "enum_value", "L_1"): "L1",
-    ("global", "enum_value", "L_2"): "L2",
-    ("global", "enum_value", "L_3"): "L3",
-    ("global", "enum_value", "R_1"): "R1",
-    ("global", "enum_value", "R_2"): "R2",
-    ("global", "enum_value", "R_3"): "R3",
+    (scope, kind, old): new
+    for scope in CONTROLLER_ACRONYM_CLEANUP_SCOPES
+    for (kind, old), new in CONTROLLER_ACRONYM_CLEANUP_NAMES.items()
 }
 
 
@@ -124,6 +133,13 @@ def test_root_manifest_documents_controller_acronym_cleanup():
         (mapping.scope, mapping.kind, mapping.old): mapping.reason
         for mapping in manifest.mappings
     }
+
+    cleanup_global_keys = [
+        key
+        for key, reason in reasons.items()
+        if key[0] == "global" and "Controller acronym cleanup" in reason
+    ]
+    assert cleanup_global_keys == []
 
     for key, expected_new in CONTROLLER_ACRONYM_CLEANUP_MAPPINGS.items():
         assert mappings.get(key) == expected_new

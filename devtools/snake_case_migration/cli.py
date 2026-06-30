@@ -157,9 +157,9 @@ def _run_audit(paths: list[Path], manifest_path: Path) -> int:
     for path in iter_audit_files(paths):
         source = path.read_text()
         if path.suffix in {".yml", ".yaml"}:
-            messages = audit_semiwrap_yaml_source(source, manifest)
+            messages = audit_semiwrap_yaml_source(source, manifest, path=path)
         else:
-            messages = audit_python_source(source, manifest)
+            messages = audit_python_source(source, manifest, path=path)
         for message in messages:
             print(f"{path}: {message}")
             found = True

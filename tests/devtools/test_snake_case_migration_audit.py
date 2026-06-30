@@ -32,6 +32,72 @@ def test_audit_labels_mapped_old_names_remaining_after_rewrite():
     ]
 
 
+def test_audit_applies_scoped_mapping_to_matching_path():
+    manifest = Manifest(
+        mappings=[
+            Mapping(
+                scope="subprojects/robotpy-commands-v2/commands2/button/foo.py",
+                kind="method",
+                old="r_1",
+                new="r1",
+                source="test",
+            ),
+        ]
+    )
+
+    messages = audit_python_source(
+        "def use():\n    r_1()\n",
+        manifest,
+        path="subprojects/robotpy-commands-v2/commands2/button/foo.py",
+    )
+
+    assert messages == ["name: mapped old name 'r_1' remains; expected 'r1'"]
+
+
+def test_audit_skips_scoped_mapping_for_unrelated_path():
+    manifest = Manifest(
+        mappings=[
+            Mapping(
+                scope="subprojects/robotpy-commands-v2/commands2/button/foo.py",
+                kind="method",
+                old="r_1",
+                new="r1",
+                source="test",
+            ),
+        ]
+    )
+
+    messages = audit_python_source(
+        "def use():\n    r_1()\n",
+        manifest,
+        path="subprojects/robotpy-wpimath/tests/geometry/test_rotation3d.py",
+    )
+
+    assert messages == []
+
+
+def test_audit_applies_global_mapping_to_any_path():
+    manifest = Manifest(
+        mappings=[
+            Mapping(
+                scope="global",
+                kind="method",
+                old="r_1",
+                new="r1",
+                source="test",
+            ),
+        ]
+    )
+
+    messages = audit_python_source(
+        "def use():\n    r_1()\n",
+        manifest,
+        path="subprojects/robotpy-wpimath/tests/geometry/test_rotation3d.py",
+    )
+
+    assert messages == ["name: mapped old name 'r_1' remains; expected 'r1'"]
+
+
 def test_audit_labels_unmapped_camel_case_candidates():
     messages = audit_python_source(
         "def use():\n    possibleOldName = 1\n    MyCommand()\n    __robotInit__()\n",
@@ -84,6 +150,34 @@ def test_audit_ignores_explicit_ignored_names():
     messages = audit_python_source("def knownLegacyName():\n    pass\n", manifest)
 
     assert not messages
+
+
+def test_audit_applies_scoped_ignores_only_to_matching_path():
+    manifest = Manifest(
+        ignored=[
+            Ignore(
+                scope="subprojects/robotpy-commands-v2/commands2/button/foo.py",
+                name="knownLegacyName",
+                reason="kept for compatibility",
+            ),
+        ]
+    )
+
+    matching_messages = audit_python_source(
+        "def knownLegacyName():\n    pass\n",
+        manifest,
+        path="subprojects/robotpy-commands-v2/commands2/button/foo.py",
+    )
+    unrelated_messages = audit_python_source(
+        "def knownLegacyName():\n    pass\n",
+        manifest,
+        path="subprojects/robotpy-wpimath/tests/geometry/test_rotation3d.py",
+    )
+
+    assert matching_messages == []
+    assert unrelated_messages == [
+        "function: unmapped camelCase candidate 'knownLegacyName'"
+    ]
 
 
 def test_cli_audit_scans_pyi_files(tmp_path: Path):

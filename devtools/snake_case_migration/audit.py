@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import posixpath
 import re
 from pathlib import Path
 
@@ -34,16 +35,61 @@ def iter_audit_files(paths: list[Path]) -> list[Path]:
     return sorted(files)
 
 
+def _normalize_scope_path(path: str | Path) -> str:
+    return posixpath.normpath(str(path).replace("\\", "/"))
+
+
+def _normalize_audit_path(path: str | Path | None) -> str | None:
+    if path is None:
+        return None
+
+    path_obj = Path(path)
+    if path_obj.is_absolute():
+        try:
+            path_obj = path_obj.resolve().relative_to(Path.cwd().resolve())
+        except ValueError:
+            pass
+    return _normalize_scope_path(path_obj)
+
+
+def _scope_matches_path(scope: str, audit_path: str | None) -> bool:
+    if scope == "global":
+        return True
+    if audit_path is None:
+        return False
+
+    normalized_scope = _normalize_scope_path(scope).rstrip("/")
+    return audit_path == normalized_scope or audit_path.startswith(
+        f"{normalized_scope}/"
+    )
+
+
+def _scoped_ignored_names(manifest: Manifest, path: str | Path | None) -> set[str]:
+    audit_path = _normalize_audit_path(path)
+    return {
+        ignored.name
+        for ignored in manifest.ignored
+        if _scope_matches_path(ignored.scope, audit_path)
+    }
+
+
+def _scoped_mapped_old_names(
+    manifest: Manifest, path: str | Path | None
+) -> dict[str, str]:
+    audit_path = _normalize_audit_path(path)
+    return {
+        mapping.old: mapping.new
+        for mapping in manifest.mappings
+        if mapping.old != mapping.new and _scope_matches_path(mapping.scope, audit_path)
+    }
+
+
 class _AuditVisitor(cst.CSTVisitor):
     METADATA_DEPENDENCIES = (ParentNodeProvider,)
 
-    def __init__(self, manifest: Manifest):
-        self.allowed = {ignored.name for ignored in manifest.ignored}
-        self.mapped_old_names = {
-            mapping.old: mapping.new
-            for mapping in manifest.mappings
-            if mapping.old != mapping.new
-        }
+    def __init__(self, manifest: Manifest, path: str | Path | None = None):
+        self.allowed = _scoped_ignored_names(manifest, path)
+        self.mapped_old_names = _scoped_mapped_old_names(manifest, path)
         self.messages: list[str] = []
 
     def _check(self, name: str, context: str) -> None:
@@ -87,8 +133,10 @@ class _AuditVisitor(cst.CSTVisitor):
             self._check(node.value, "name")
 
 
-def audit_python_source(source: str, manifest: Manifest) -> list[str]:
-    visitor = _AuditVisitor(manifest)
+def audit_python_source(
+    source: str, manifest: Manifest, path: str | Path | None = None
+) -> list[str]:
+    visitor = _AuditVisitor(manifest, path)
     MetadataWrapper(cst.parse_module(source)).visit(visitor)
     return visitor.messages
 
@@ -99,13 +147,14 @@ def _is_probably_type_like_public_name(name: str) -> bool:
 
 
 def _check_public_output_name(
-    name: str, context: str, manifest: Manifest, messages: list[str]
+    name: str,
+    context: str,
+    allowed: set[str],
+    mapped_old_names: dict[str, str],
+    messages: list[str],
 ) -> None:
-    if name in {ignored.name for ignored in manifest.ignored} or is_dunder(name):
+    if name in allowed or is_dunder(name):
         return
-    mapped_old_names = {
-        mapping.old: mapping.new for mapping in manifest.mappings if mapping.old != mapping.new
-    }
     if name in mapped_old_names:
         messages.append(
             f"{context}: mapped old name {name!r} remains; "
@@ -118,14 +167,22 @@ def _check_public_output_name(
         messages.append(f"{context}: unmapped camelCase candidate {name!r}")
 
 
-def audit_semiwrap_yaml_source(source: str, manifest: Manifest) -> list[str]:
+def audit_semiwrap_yaml_source(
+    source: str, manifest: Manifest, path: str | Path | None = None
+) -> list[str]:
+    allowed = _scoped_ignored_names(manifest, path)
+    mapped_old_names = _scoped_mapped_old_names(manifest, path)
     messages: list[str] = []
     for lineno, line in enumerate(source.splitlines(), 1):
         def_match = _SEMIWRAP_DEF_RE.search(line)
         if def_match is not None:
             method, name = def_match.groups()
             _check_public_output_name(
-                name, f"semiwrap .{method} line {lineno}", manifest, messages
+                name,
+                f"semiwrap .{method} line {lineno}",
+                allowed,
+                mapped_old_names,
+                messages,
             )
             continue
 
@@ -133,6 +190,10 @@ def audit_semiwrap_yaml_source(source: str, manifest: Manifest) -> list[str]:
         if rename_match is not None:
             name = rename_match.group(1)
             _check_public_output_name(
-                name, f"semiwrap rename line {lineno}", manifest, messages
+                name,
+                f"semiwrap rename line {lineno}",
+                allowed,
+                mapped_old_names,
+                messages,
             )
     return messages
