@@ -18,42 +18,42 @@ class TestParallelRaceGroupComposition(MultiCompositionTestBase):
         return commands2.ParallelRaceGroup(*members)
 
 
-def test_parallelRaceSchedule(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
+def test_parallel_race_schedule(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
 
-    start_spying_on(command1)
-    start_spying_on(command2)
+    start_spying_on(command_1)
+    start_spying_on(command_2)
 
-    group = commands2.ParallelRaceGroup(command1, command2)
+    group = commands2.ParallelRaceGroup(command_1, command_2)
 
     scheduler.schedule(group)
 
-    verify(command1).initialize()
-    verify(command2).initialize()
+    verify(command_1).initialize()
+    verify(command_2).initialize()
 
-    command1.isFinished = lambda: True
+    command_1.is_finished = lambda: True
     scheduler.run()
-    command2.isFinished = lambda: True
+    command_2.is_finished = lambda: True
     scheduler.run()
 
-    verify(command1).execute()
-    verify(command1).end(False)
-    verify(command2).execute()
-    verify(command2).end(True)
-    verify(command2, never()).end(False)
+    verify(command_1).execute()
+    verify(command_1).end(False)
+    verify(command_2).execute()
+    verify(command_2).end(True)
+    verify(command_2, never()).end(False)
 
-    assert not scheduler.isScheduled(group)
+    assert not scheduler.is_scheduled(group)
 
 
-def test_parallelRaceInterrupt(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
+def test_parallel_race_interrupt(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
 
-    start_spying_on(command1)
-    start_spying_on(command2)
+    start_spying_on(command_1)
+    start_spying_on(command_2)
 
-    group = commands2.ParallelRaceGroup(command1, command2)
+    group = commands2.ParallelRaceGroup(command_1, command_2)
 
     scheduler.schedule(group)
 
@@ -61,123 +61,123 @@ def test_parallelRaceInterrupt(scheduler: commands2.CommandScheduler):
     scheduler.run()
     scheduler.cancel(group)
 
-    verify(command1, times(2)).execute()
-    verify(command1, never()).end(False)
-    verify(command1).end(True)
+    verify(command_1, times(2)).execute()
+    verify(command_1, never()).end(False)
+    verify(command_1).end(True)
 
-    verify(command2, times(2)).execute()
-    verify(command2, never()).end(False)
-    verify(command2).end(True)
+    verify(command_2, times(2)).execute()
+    verify(command_2, never()).end(False)
+    verify(command_2).end(True)
 
-    assert not scheduler.isScheduled(group)
+    assert not scheduler.is_scheduled(group)
 
 
-def test_notScheduledCancel(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
+def test_not_scheduled_cancel(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
 
-    group = commands2.ParallelRaceGroup(command1, command2)
+    group = commands2.ParallelRaceGroup(command_1, command_2)
 
     scheduler.cancel(group)
 
 
-def test_parallelRaceRequirement(scheduler: commands2.CommandScheduler):
+def test_parallel_race_requirement(scheduler: commands2.CommandScheduler):
     system1 = commands2.Subsystem()
     system2 = commands2.Subsystem()
     system3 = commands2.Subsystem()
     system4 = commands2.Subsystem()
 
-    command1 = commands2.Command()
-    command1.addRequirements(system1, system2)
-    command2 = commands2.Command()
-    command2.addRequirements(system3)
-    command3 = commands2.Command()
-    command3.addRequirements(system3, system4)
+    command_1 = commands2.Command()
+    command_1.add_requirements(system1, system2)
+    command_2 = commands2.Command()
+    command_2.add_requirements(system3)
+    command_3 = commands2.Command()
+    command_3.add_requirements(system3, system4)
 
-    group = commands2.ParallelRaceGroup(command1, command2)
+    group = commands2.ParallelRaceGroup(command_1, command_2)
 
     scheduler.schedule(group)
-    scheduler.schedule(command3)
+    scheduler.schedule(command_3)
 
-    assert not scheduler.isScheduled(group)
-    assert scheduler.isScheduled(command3)
+    assert not scheduler.is_scheduled(group)
+    assert scheduler.is_scheduled(command_3)
 
 
-def test_parallelRaceRequirementError():
+def test_parallel_race_requirement_error():
     system1 = commands2.Subsystem()
     system2 = commands2.Subsystem()
     system3 = commands2.Subsystem()
 
-    command1 = commands2.Command()
-    command1.addRequirements(system1, system2)
-    command2 = commands2.Command()
-    command2.addRequirements(system2, system3)
+    command_1 = commands2.Command()
+    command_1.add_requirements(system1, system2)
+    command_2 = commands2.Command()
+    command_2.add_requirements(system2, system3)
 
     with pytest.raises(commands2.IllegalCommandUse):
-        commands2.ParallelRaceGroup(command1, command2)
+        commands2.ParallelRaceGroup(command_1, command_2)
 
 
-def test_parallelRaceOnlyCallsEndOnce(scheduler: commands2.CommandScheduler):
+def test_parallel_race_only_calls_end_once(scheduler: commands2.CommandScheduler):
     system1 = commands2.Subsystem()
     system2 = commands2.Subsystem()
 
-    command1 = commands2.Command()
-    command1.addRequirements(system1)
-    command2 = commands2.Command()
-    command2.addRequirements(system2)
-    command3 = commands2.Command()
+    command_1 = commands2.Command()
+    command_1.add_requirements(system1)
+    command_2 = commands2.Command()
+    command_2.add_requirements(system2)
+    command_3 = commands2.Command()
 
-    group1 = commands2.SequentialCommandGroup(command1, command2)
-    group2 = commands2.ParallelRaceGroup(group1, command3)
+    group1 = commands2.SequentialCommandGroup(command_1, command_2)
+    group2 = commands2.ParallelRaceGroup(group1, command_3)
 
     scheduler.schedule(group2)
     scheduler.run()
-    command1.isFinished = lambda: True
+    command_1.is_finished = lambda: True
     scheduler.run()
-    command2.isFinished = lambda: True
+    command_2.is_finished = lambda: True
     scheduler.run()
-    assert not scheduler.isScheduled(group2)
+    assert not scheduler.is_scheduled(group2)
 
 
-def test_parallelRaceScheduleTwiceTest(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
+def test_parallel_race_schedule_twice_test(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
 
-    start_spying_on(command1)
-    start_spying_on(command2)
+    start_spying_on(command_1)
+    start_spying_on(command_2)
 
-    group = commands2.ParallelRaceGroup(command1, command2)
+    group = commands2.ParallelRaceGroup(command_1, command_2)
 
     scheduler.schedule(group)
 
-    verify(command1).initialize()
-    verify(command2).initialize()
+    verify(command_1).initialize()
+    verify(command_2).initialize()
 
-    command1.isFinished = lambda: True
+    command_1.is_finished = lambda: True
     scheduler.run()
-    command2.isFinished = lambda: True
+    command_2.is_finished = lambda: True
     scheduler.run()
 
-    verify(command1).execute()
-    verify(command1).end(False)
-    verify(command2).execute()
-    verify(command2).end(True)
-    verify(command2, never()).end(False)
+    verify(command_1).execute()
+    verify(command_1).end(False)
+    verify(command_2).execute()
+    verify(command_2).end(True)
+    verify(command_2, never()).end(False)
 
-    assert not scheduler.isScheduled(group)
+    assert not scheduler.is_scheduled(group)
 
-    reset(command1)
-    reset(command2)
+    reset(command_1)
+    reset(command_2)
 
     scheduler.schedule(group)
 
-    verify(command1).initialize()
-    verify(command2).initialize()
+    verify(command_1).initialize()
+    verify(command_2).initialize()
 
     scheduler.run()
     scheduler.run()
-    assert scheduler.isScheduled(group)
-    command2.isFinished = lambda: True
+    assert scheduler.is_scheduled(group)
+    command_2.is_finished = lambda: True
     scheduler.run()
 
-    assert not scheduler.isScheduled(group)
+    assert not scheduler.is_scheduled(group)

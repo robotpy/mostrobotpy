@@ -18,17 +18,17 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Initialize NT4 client
-    inst = ntcore.NetworkTableInstance.getDefault()
+    inst = ntcore.NetworkTableInstance.get_default()
 
     identity = f"{basename(__file__)}-{os.getpid()}"
-    inst.startClient4(identity)
+    inst.start_client_4(identity)
 
-    inst.setServer(args.ip)
+    inst.set_server(args.ip)
 
     # publish two values
-    table = inst.getTable("data")
-    pub1 = table.getDoubleTopic("1").publish()
-    pub2 = table.getDoubleTopic("2").publish()
+    table = inst.get_table("data")
+    pub1 = table.get_double_topic("1").publish()
+    pub2 = table.get_double_topic("2").publish()
 
     i = 3
 

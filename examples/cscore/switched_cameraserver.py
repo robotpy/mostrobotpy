@@ -14,27 +14,27 @@ import ntcore
 
 
 def main():
-    CS.enableLogging()
+    CS.enable_logging()
 
     usb0 = UsbCamera("Camera 0", 0)
     usb1 = UsbCamera("Camera 1", 1)
 
-    server = CS.addSwitchedCamera("Switched")
-    server.setSource(usb0)
+    server = CS.add_switched_camera("Switched")
+    server.set_source(usb0)
 
     # Use networktables to switch the source
     # -> obviously, you can switch them however you'd like
-    def _listener(source, key, value, isNew):
+    def _listener(source, key, value, is_new):
         if str(value) == "0":
-            server.setSource(usb0)
+            server.set_source(usb0)
         elif str(value) == "1":
-            server.setSource(usb1)
+            server.set_source(usb1)
 
-    table = ntcore.NetworkTableInstance.getDefault().getTable("/CameraPublisher")
-    table.putString("selected", "0")
-    table.addEntryListener(_listener, key="selected")
+    table = ntcore.NetworkTableInstance.get_default().get_table("/CameraPublisher")
+    table.put_string("selected", "0")
+    table.add_entry_listener(_listener, key="selected")
 
-    CS.waitForever()
+    CS.wait_forever()
 
 
 if __name__ == "__main__":
@@ -44,8 +44,8 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.DEBUG)
 
     # You should change this to connect to the RoboRIO
-    nt = ntcore.NetworkTableInstance.getDefault()
-    nt.setServer("localhost")
-    nt.startClient4(__file__)
+    nt = ntcore.NetworkTableInstance.get_default()
+    nt.set_server("localhost")
+    nt.start_client_4(__file__)
 
     main()

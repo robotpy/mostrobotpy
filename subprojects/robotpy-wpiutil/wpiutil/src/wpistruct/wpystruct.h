@@ -91,7 +91,7 @@ struct WPyStructConverter {
 
   virtual WPyStruct Unpack(std::span<const uint8_t> data) const = 0;
 
-  // virtual void UnpackInto(WPyStruct *pyv,
+  // virtual void Unpack_into(WPyStruct *pyv,
   //                         std::span<const uint8_t> data) const = 0;
 
   virtual void ForEachNested(
@@ -123,7 +123,7 @@ struct WPyStructCppConverter : WPyStructConverter {
     return WPyStruct{py::cast(wpi::util::UnpackStruct<T>(data))};
   }
 
-  // void UnpackInto(WPyStruct *pyv,
+  // void Unpack_into(WPyStruct *pyv,
   //                 std::span<const uint8_t> data) const override {
   //   py::gil_scoped_acquire gil;
   //   T *v = pyv->py.cast<T *>();
@@ -160,12 +160,12 @@ struct WPyStructPyConverter : WPyStructConverter {
     m_size = o.attr("size").cast<size_t>();
 
     m_pack = py::reinterpret_borrow<py::function>(o.attr("pack"));
-    m_packInto = py::reinterpret_borrow<py::function>(o.attr("packInto"));
+    m_pack_into = py::reinterpret_borrow<py::function>(o.attr("pack_into"));
     m_unpack = py::reinterpret_borrow<py::function>(o.attr("unpack"));
-    // m_unpackInto =
-    // py::reinterpret_borrow<py::function>(o.attr("unpackInto"));
-    m_forEachNested =
-        py::reinterpret_borrow<py::function>(o.attr("forEachNested"));
+    // m_unpack_into =
+    // py::reinterpret_borrow<py::function>(o.attr("unpack_into"));
+    m_for_each_nested =
+        py::reinterpret_borrow<py::function>(o.attr("for_each_nested"));
   }
 
   // copy all the relevant attributes locally
@@ -174,10 +174,10 @@ struct WPyStructPyConverter : WPyStructConverter {
   size_t m_size;
 
   py::function m_pack;
-  py::function m_packInto;
+  py::function m_pack_into;
   py::function m_unpack;
-  // py::function m_unpackInto;
-  py::function m_forEachNested;  // might be none
+  // py::function m_unpack_into;
+  py::function m_for_each_nested;  // might be none
 
   std::string_view GetTypeName() const override { return m_typename; }
 
@@ -206,20 +206,20 @@ struct WPyStructPyConverter : WPyStructConverter {
     return WPyStruct(m_unpack(view));
   }
 
-  // void UnpackInto(WPyStruct *pyv,
+  // void Unpack_into(WPyStruct *pyv,
   //                 std::span<const uint8_t> data) const override {
   //   py::gil_scoped_acquire gil;
   //   auto view =
   //       py::memoryview::from_memory((const void *)data.data(), data.size());
-  //   m_unpackInto(pyv->py, view);
+  //   m_unpack_into(pyv->py, view);
   // }
 
   void ForEachNested(
       const std::function<void(std::string_view, std::string_view)>& fn)
       const override {
     py::gil_scoped_acquire gil;
-    if (!m_forEachNested.is_none()) {
-      m_forEachNested(fn);
+    if (!m_for_each_nested.is_none()) {
+      m_for_each_nested(fn);
     }
   }
 };
@@ -292,9 +292,9 @@ struct wpi::util::Struct<WPyStruct, WPyStructInfo> {
     return info->Unpack(data);
   }
 
-  // static void UnpackInto(WPyStruct *v, std::span<const uint8_t> data,
+  // static void Unpack_into(WPyStruct *v, std::span<const uint8_t> data,
   //                        const WPyStructInfo &info) {
-  //   info->UnpackInto(v, data);
+  //   info->Unpack_into(v, data);
   // }
 
   static void Pack(std::span<uint8_t> data, const WPyStruct& value,

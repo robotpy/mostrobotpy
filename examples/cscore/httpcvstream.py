@@ -11,14 +11,14 @@ import cv2
 
 def main():
     camera = cs.HttpCamera("httpcam", "http://localhost:8081/?action=stream")
-    camera.setVideoMode(cs.VideoMode.PixelFormat.kMJPEG, 320, 240, 30)
+    camera.set_video_mode(cs.VideoMode.PixelFormat.K_MJPEG, 320, 240, 30)
 
     cvsink = cs.CvSink("cvsink")
-    cvsink.setSource(camera)
+    cvsink.set_source(camera)
 
-    cvSource = cs.CvSource("cvsource", cs.VideoMode.PixelFormat.kMJPEG, 320, 240, 30)
-    cvMjpegServer = cs.MjpegServer("cvhttpserver", 8083)
-    cvMjpegServer.setSource(cvSource)
+    cv_source = cs.CvSource("cvsource", cs.VideoMode.PixelFormat.K_MJPEG, 320, 240, 30)
+    cv_mjpeg_server = cs.MjpegServer("cvhttpserver", 8083)
+    cv_mjpeg_server.set_source(cv_source)
 
     print("OpenCV output mjpg server listening at http://0.0.0.0:8083")
 
@@ -26,15 +26,15 @@ def main():
     flip = np.zeros(shape=(240, 320, 3), dtype=np.uint8)
 
     while True:
-        time, test = cvsink.grabFrame(test)
+        time, test = cvsink.grab_frame(test)
         if time == 0:
-            print("error:", cvsink.getError())
+            print("error:", cvsink.get_error())
             continue
 
         print("got frame at time", time, test.shape)
 
-        cv2.flip(test, flipCode=0, dst=flip)
-        cvSource.putFrame(flip)
+        cv2.flip(test, 0, flip)
+        cv_source.put_frame(flip)
 
 
 if __name__ == "__main__":

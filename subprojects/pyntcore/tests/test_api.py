@@ -13,86 +13,86 @@ logger = logging.getLogger("test")
 
 # test defaults
 def doc(nt):
-    t = nt.getTable("nope")
+    t = nt.get_table("nope")
 
-    assert t.getBoolean("b", None) is None
-    assert t.getNumber("n", None) is None
-    assert t.getString("s", None) is None
-    assert t.getBooleanArray("ba", None) is None
-    assert t.getNumberArray("na", None) is None
-    assert t.getStringArray("sa", None) is None
-    assert t.getValue("v", None) is None
+    assert t.get_boolean("b", None) is None
+    assert t.get_number("n", None) is None
+    assert t.get_string("s", None) is None
+    assert t.get_boolean_array("ba", None) is None
+    assert t.get_number_array("na", None) is None
+    assert t.get_string_array("sa", None) is None
+    assert t.get_value("v", None) is None
 
-    assert t.getBoolean("b", True) is True
-    assert t.getNumber("n", 1) == 1
-    assert t.getString("s", "sss") == "sss"
-    assert t.getBooleanArray("ba", (True,)) == (True,)
-    assert t.getNumberArray("na", (1,)) == (1,)
-    assert t.getStringArray("sa", ("ss",)) == ("ss",)
-    assert t.getValue("v", "vvv") == "vvv"
+    assert t.get_boolean("b", True) is True
+    assert t.get_number("n", 1) == 1
+    assert t.get_string("s", "sss") == "sss"
+    assert t.get_boolean_array("ba", (True,)) == (True,)
+    assert t.get_number_array("na", (1,)) == (1,)
+    assert t.get_string_array("sa", ("ss",)) == ("ss",)
+    assert t.get_value("v", "vvv") == "vvv"
 
 
-def do(nt1, nt2, t):
-    t1 = nt1.getTable(t)
-    with nt2.expect_changes(8):
-        t1.putBoolean("bool", True)
-        t1.putNumber("number1", 1)
-        t1.putNumber("number2", 1.5)
-        t1.putString("string", "string")
-        t1.putString("unicode", "\xa9")  # copyright symbol
-        t1.putBooleanArray("ba", (True, False))
-        t1.putNumberArray("na", (1, 2))
-        t1.putStringArray("sa", ("s", "t"))
+def do(nt_1, nt_2, t):
+    t1 = nt_1.get_table(t)
+    with nt_2.expect_changes(8):
+        t1.put_boolean("bool", True)
+        t1.put_number("number1", 1)
+        t1.put_number("number2", 1.5)
+        t1.put_string("string", "string")
+        t1.put_string("unicode", "\xa9")  # copyright symbol
+        t1.put_boolean_array("ba", (True, False))
+        t1.put_number_array("na", (1, 2))
+        t1.put_string_array("sa", ("s", "t"))
         logger.info("put is done")
 
-    t2 = nt2.getTable(t)
-    assert t2.getBoolean("bool", None) is True
-    assert t2.getNumber("number1", None) == 1
-    assert t2.getNumber("number2", None) == 1.5
-    assert t2.getString("string", None) == "string"
-    assert t2.getString("unicode", None) == "\xa9"  # copyright symbol
-    assert t2.getBooleanArray("ba", None) == [True, False]
-    assert t2.getNumberArray("na", None) == [1, 2]
-    assert t2.getStringArray("sa", None) == ["s", "t"]
+    t2 = nt_2.get_table(t)
+    assert t2.get_boolean("bool", None) is True
+    assert t2.get_number("number1", None) == 1
+    assert t2.get_number("number2", None) == 1.5
+    assert t2.get_string("string", None) == "string"
+    assert t2.get_string("unicode", None) == "\xa9"  # copyright symbol
+    assert t2.get_boolean_array("ba", None) == [True, False]
+    assert t2.get_number_array("na", None) == [1, 2]
+    assert t2.get_string_array("sa", None) == ["s", "t"]
 
     # Value testing
-    with nt2.expect_changes(6):
-        t1.putValue("v_b", False)
-        t1.putValue("v_n1", 2)
-        t1.putValue("v_n2", 2.5)
-        t1.putValue("v_s", "ssss")
-        t1.putValue("v_s2", "\xa9")
+    with nt_2.expect_changes(6):
+        t1.put_value("v_b", False)
+        t1.put_value("v_n1", 2)
+        t1.put_value("v_n2", 2.5)
+        t1.put_value("v_s", "ssss")
+        t1.put_value("v_s2", "\xa9")
 
-        t1.putValue("v_v", 0)
+        t1.put_value("v_v", 0)
 
-    print(t2.getKeys())
-    assert t2.getBoolean("v_b", None) is False
-    assert t2.getNumber("v_n1", None) == 2
-    assert t2.getNumber("v_n2", None) == 2.5
-    assert t2.getString("v_s", None) == "ssss"
-    assert t2.getString("v_s2", None) == "\xa9"
-    assert t2.getValue("v_v", None) == 0
+    print(t2.get_keys())
+    assert t2.get_boolean("v_b", None) is False
+    assert t2.get_number("v_n1", None) == 2
+    assert t2.get_number("v_n2", None) == 2.5
+    assert t2.get_string("v_s", None) == "ssss"
+    assert t2.get_string("v_s2", None) == "\xa9"
+    assert t2.get_value("v_v", None) == 0
 
     # Ensure that updating values work!
-    with nt2.expect_changes(8):
-        t1.putBoolean("bool", False)
-        t1.putNumber("number1", 2)
-        t1.putNumber("number2", 2.5)
-        t1.putString("string", "sss")
-        t1.putString("unicode", "\u2122")  # (tm)
-        t1.putBooleanArray("ba", (False, True, False))
-        t1.putNumberArray("na", (2, 1))
-        t1.putStringArray("sa", ("t", "s"))
+    with nt_2.expect_changes(8):
+        t1.put_boolean("bool", False)
+        t1.put_number("number1", 2)
+        t1.put_number("number2", 2.5)
+        t1.put_string("string", "sss")
+        t1.put_string("unicode", "\u2122")  # (tm)
+        t1.put_boolean_array("ba", (False, True, False))
+        t1.put_number_array("na", (2, 1))
+        t1.put_string_array("sa", ("t", "s"))
 
-    t2 = nt2.getTable(t)
-    assert t2.getBoolean("bool", None) is False
-    assert t2.getNumber("number1", None) == 2
-    assert t2.getNumber("number2", None) == 2.5
-    assert t2.getString("string", None) == "sss"
-    assert t2.getString("unicode", None) == "\u2122"
-    assert t2.getBooleanArray("ba", None) == [False, True, False]
-    assert t2.getNumberArray("na", None) == [2, 1]
-    assert t2.getStringArray("sa", None) == ["t", "s"]
+    t2 = nt_2.get_table(t)
+    assert t2.get_boolean("bool", None) is False
+    assert t2.get_number("number1", None) == 2
+    assert t2.get_number("number2", None) == 2.5
+    assert t2.get_string("string", None) == "sss"
+    assert t2.get_string("unicode", None) == "\u2122"
+    assert t2.get_boolean_array("ba", None) == [False, True, False]
+    assert t2.get_number_array("na", None) == [2, 1]
+    assert t2.get_string_array("sa", None) == ["t", "s"]
 
 
 @pytest.mark.xfail(reason="ntcore is broken")
@@ -111,8 +111,8 @@ def test_basic(nt_live):
     # client -> server
     do(nt_client, nt_server, "client2server")
 
-    assert nt_client.isConnected()
-    assert nt_server.isConnected()
+    assert nt_client.is_connected()
+    assert nt_server.is_connected()
 
 
 # def test_reconnect(nt_live):

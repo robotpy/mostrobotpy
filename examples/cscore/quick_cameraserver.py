@@ -12,10 +12,10 @@ from cscore import CameraServer as CS
 
 
 def main():
-    CS.enableLogging()
+    CS.enable_logging()
 
-    CS.startAutomaticCapture()
-    CS.waitForever()
+    CS.start_automatic_capture()
+    CS.wait_forever()
 
 
 if __name__ == "__main__":
@@ -26,8 +26,8 @@ if __name__ == "__main__":
 
     # You should uncomment these to connect to the RoboRIO
     # import ntcore
-    # nt = ntcore.NetworkTableInstance.getDefault()
-    # nt.setServerTeam(XXXX)
-    # nt.startClient4(__file__)
+    # nt = ntcore.NetworkTableInstance.get_default()
+    # nt.set_server_team(XXXX)
+    # nt.start_client_4(__file__)
 
     main()

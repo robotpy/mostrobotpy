@@ -147,31 +147,31 @@ wpi::nt::Value py2ntvalue(py::handle h) {
   }
 }
 
-py::function valueFactoryByType(wpi::nt::NetworkTableType type) {
-  py::object PyNtValue = py::module::import("ntcore").attr("Value");
+py::function value_factory_by_type(wpi::nt::NetworkTableType type) {
+  py::object py_nt_value = py::module::import("ntcore").attr("Value");
   switch (type) {
     case wpi::nt::NetworkTableType::BOOLEAN:
-      return PyNtValue.attr("makeBoolean");
+      return py_nt_value.attr("make_boolean");
     case wpi::nt::NetworkTableType::DOUBLE:
-      return PyNtValue.attr("makeDouble");
+      return py_nt_value.attr("make_double");
     case wpi::nt::NetworkTableType::STRING:
-      return PyNtValue.attr("makeString");
+      return py_nt_value.attr("make_string");
     case wpi::nt::NetworkTableType::RAW:
-      return PyNtValue.attr("makeRaw");
+      return py_nt_value.attr("make_raw");
     case wpi::nt::NetworkTableType::BOOLEAN_ARRAY:
-      return PyNtValue.attr("makeBooleanArray");
+      return py_nt_value.attr("make_boolean_array");
     case wpi::nt::NetworkTableType::DOUBLE_ARRAY:
-      return PyNtValue.attr("makeDoubleArray");
+      return py_nt_value.attr("make_double_array");
     case wpi::nt::NetworkTableType::STRING_ARRAY:
-      return PyNtValue.attr("makeStringArray");
+      return py_nt_value.attr("make_string_array");
     case wpi::nt::NetworkTableType::INTEGER:
-      return PyNtValue.attr("makeInteger");
+      return py_nt_value.attr("make_integer");
     case wpi::nt::NetworkTableType::FLOAT:
-      return PyNtValue.attr("makeFloat");
+      return py_nt_value.attr("make_float");
     case wpi::nt::NetworkTableType::INTEGER_ARRAY:
-      return PyNtValue.attr("makeIntegerArray");
+      return py_nt_value.attr("make_integer_array");
     case wpi::nt::NetworkTableType::FLOAT_ARRAY:
-      return PyNtValue.attr("makeFloatArray");
+      return py_nt_value.attr("make_float_array");
     default:
       throw py::type_error("empty nt value");
   }

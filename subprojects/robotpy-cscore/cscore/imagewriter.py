@@ -37,7 +37,7 @@ class ImageWriter:
             img = ..
 
             if self.logging_enabled:
-                self.image_writer.setImage(img)
+                self.image_writer.set_image(img)
 
     """
 
@@ -70,7 +70,7 @@ class ImageWriter:
         self._thread = threading.Thread(target=self._run, daemon=True)
         self._thread.start()
 
-    def setImage(self, img):
+    def set_image(self, img):
         """
         Call this function when you wish to write the image to disk. Not
         every image is written to disk. Makes a copy of the image.

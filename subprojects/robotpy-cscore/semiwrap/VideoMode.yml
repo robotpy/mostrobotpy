@@ -20,7 +20,7 @@ classes:
       operator!=:
       CompareWithoutFps:
     inline_code: |
-      .def_readwrite("pixelFormat", &VideoMode::pixelFormat)
+      .def_readwrite("pixel_format", &VideoMode::pixelFormat)
       .def_readwrite("width", &VideoMode::width)
       .def_readwrite("height", &VideoMode::height)
       .def_readwrite("fps", &VideoMode::fps)

@@ -4,34 +4,34 @@ from driverstation.joystick_test_macros import button_test, axis_test
 
 
 def test_buttons():
-    def ps5_button_test(btn_name):
+    def ps_5_button_test(btn_name):
         button_test(NiDsPS5Controller, NiDsPS5ControllerSim, btn_name)
 
-    def ps5_axis_test(axis_name):
+    def ps_5_axis_test(axis_name):
         axis_test(NiDsPS5Controller, NiDsPS5ControllerSim, axis_name)
 
-    ps5_button_test("SquareButton")
-    ps5_button_test("CrossButton")
-    ps5_button_test("CircleButton")
-    ps5_button_test("TriangleButton")
+    ps_5_button_test("square_button")
+    ps_5_button_test("cross_button")
+    ps_5_button_test("circle_button")
+    ps_5_button_test("triangle_button")
 
-    ps5_button_test("L1Button")
-    ps5_button_test("R1Button")
-    ps5_button_test("L2Button")
-    ps5_button_test("R2Button")
+    ps_5_button_test("l1_button")
+    ps_5_button_test("r1_button")
+    ps_5_button_test("l2_button")
+    ps_5_button_test("r2_button")
 
-    ps5_button_test("CreateButton")
-    ps5_button_test("OptionsButton")
+    ps_5_button_test("create_button")
+    ps_5_button_test("options_button")
 
-    ps5_button_test("L3Button")
-    ps5_button_test("R3Button")
+    ps_5_button_test("l3_button")
+    ps_5_button_test("r3_button")
 
-    ps5_button_test("PSButton")
-    ps5_button_test("TouchpadButton")
+    ps_5_button_test("ps_button")
+    ps_5_button_test("touchpad_button")
 
-    ps5_axis_test("LeftX")
-    ps5_axis_test("RightX")
-    ps5_axis_test("LeftY")
-    ps5_axis_test("RightY")
-    ps5_axis_test("L2Axis")
-    ps5_axis_test("R2Axis")
+    ps_5_axis_test("left_x")
+    ps_5_axis_test("right_x")
+    ps_5_axis_test("left_y")
+    ps_5_axis_test("right_y")
+    ps_5_axis_test("l2_axis")
+    ps_5_axis_test("r2_axis")

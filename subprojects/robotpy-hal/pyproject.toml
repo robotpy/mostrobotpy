@@ -56,13 +56,16 @@ scan_headers_ignore = [
     "sim_cb.h",
     "sim_value_cb.h",
 ]
+name_transform.default = "snake_case"
+name_transform.enum_value = "CAPS_CASE"
+name_transform.acronyms = ["mDNS", "L1", "L2", "L3", "R1", "R2", "R3", "DS", "CAN", "PWM", "I2C", "SPI", "NT", "JSON", "PID", "IMU", "HAL", "JNI", "USB", "HTTP", "URI", "URL", "CPU", "FPGA", "FMS", "PCM", "PDP", "PDH", "RIO", "OpMode"]
 
-[tool.semiwrap.extension_modules."hal._wpiHal"]
+[tool.semiwrap.extension_modules."hal._wpi_hal"]
 name = "wpihal"
 wraps = ["robotpy-native-wpihal"]
 depends = ["wpiutil", "ntcore"]
 
-[tool.semiwrap.extension_modules."hal._wpiHal".headers]
+[tool.semiwrap.extension_modules."hal._wpi_hal".headers]
 # hal
 CANAPITypes = "wpi/hal/CANAPITypes.h"
 DriverStation_c = "wpi/hal/DriverStation.h"

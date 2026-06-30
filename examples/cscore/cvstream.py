@@ -8,12 +8,12 @@ import cscore as cs
 
 if hasattr(cs, "UsbCamera"):
     camera = cs.UsbCamera("usbcam", 0)
-    camera.setVideoMode(cs.VideoMode.PixelFormat.kMJPEG, 320, 240, 30)
+    camera.set_video_mode(cs.VideoMode.PixelFormat.K_MJPEG, 320, 240, 30)
 else:
     import cv2
     import threading
 
-    camera = cs.CvSource("cvsource", cs.VideoMode.PixelFormat.kMJPEG, 320, 240, 30)
+    camera = cs.CvSource("cvsource", cs.VideoMode.PixelFormat.K_MJPEG, 320, 240, 30)
 
     # tell OpenCV to capture video for us
     cap = cv2.VideoCapture(0)
@@ -26,14 +26,14 @@ else:
         while True:
             retval, img = cap.read(img)
             if retval:
-                camera.putFrame(img)
+                camera.put_frame(img)
 
     th = threading.Thread(target=_thread, daemon=True)
     th.start()
 
 
-mjpegServer = cs.MjpegServer("httpserver", 8081)
-mjpegServer.setSource(camera)
+mjpeg_server = cs.MjpegServer("httpserver", 8081)
+mjpeg_server.set_source(camera)
 
 print("mjpg server listening at http://0.0.0.0:8081")
 input("Press enter to exit...")

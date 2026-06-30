@@ -3,24 +3,24 @@
 
 #include "wpystruct.h"
 
-void forEachNested(
+void for_each_nested(
     const py::type& t,
     const std::function<void(std::string_view, std::string_view)>& fn) {
   WPyStructInfo info(t);
   wpi::util::ForEachStructSchema<WPyStruct, WPyStructInfo>(fn, info);
 }
 
-py::str getTypeName(const py::type& t) {
+py::str get_type_name(const py::type& t) {
   WPyStructInfo info(t);
   return wpi::util::GetStructTypeName<WPyStruct, WPyStructInfo>(info);
 }
 
-py::str getSchema(const py::type& t) {
+py::str get_schema(const py::type& t) {
   WPyStructInfo info(t);
   return wpi::util::GetStructSchema<WPyStruct, WPyStructInfo>(info);
 }
 
-size_t getSize(const py::type& t) {
+size_t get_size(const py::type& t) {
   WPyStructInfo info(t);
   return wpi::util::GetStructSize<WPyStruct>(info);
 }
@@ -47,7 +47,7 @@ py::bytes pack(const WPyStruct& v) {
   return py::reinterpret_steal<py::bytes>(b);
 }
 
-py::bytes packArray(const py::sequence& seq) {
+py::bytes pack_array(const py::sequence& seq) {
   auto len = seq.size();
   if (len == 0) {
     return {};
@@ -81,7 +81,7 @@ py::bytes packArray(const py::sequence& seq) {
   return bytes_obj;
 }
 
-void packInto(const WPyStruct& v, py::buffer& b) {
+void pack_into(const WPyStruct& v, py::buffer& b) {
   WPyStructInfo info(v);
   py::ssize_t sz = wpi::util::GetStructSize<WPyStruct>(info);
 
@@ -119,7 +119,7 @@ WPyStruct unpack(const py::type& t, const py::buffer& b) {
   return wpi::util::UnpackStruct<WPyStruct, WPyStructInfo>(s, info);
 }
 
-py::typing::List<WPyStruct> unpackArray(const py::type& t,
+py::typing::List<WPyStruct> unpack_array(const py::type& t,
                                         const py::buffer& b) {
   WPyStructInfo info(t);
   py::ssize_t sz = wpi::util::GetStructSize<WPyStruct>(info);
@@ -150,7 +150,7 @@ py::typing::List<WPyStruct> unpackArray(const py::type& t,
   return a;
 }
 
-// void unpackInto(const py::buffer &b, WPyStruct *v) {
+// void unpack_into(const py::buffer &b, WPyStruct *v) {
 //   WPyStructInfo info(*v);
 //   py::ssize_t sz = wpi::util::GetStructSize<WPyStruct>(info);
 

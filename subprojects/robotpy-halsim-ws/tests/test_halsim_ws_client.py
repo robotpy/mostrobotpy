@@ -2,6 +2,18 @@ import ctypes
 import pathlib
 
 
+def test_halsim_ws_client_plugin_hook_name():
+    import halsim_ws.client as base
+    import halsim_ws.client.main as main
+
+    snake_case_hook = "load" + "_" + "extension"
+
+    assert hasattr(base, "loadExtension")
+    assert hasattr(main, "loadExtension")
+    assert not hasattr(base, snake_case_hook)
+    assert not hasattr(main, snake_case_hook)
+
+
 def test_halsim_ws_client():
     # dependencies
     import native.wpihal._init_robotpy_native_wpihal

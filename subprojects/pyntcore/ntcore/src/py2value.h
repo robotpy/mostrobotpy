@@ -14,7 +14,7 @@ py::object ntvalue2py(const wpi::nt::Value& ntvalue);
 
 wpi::nt::Value py2ntvalue(py::handle h);
 
-py::function valueFactoryByType(wpi::nt::NetworkTableType type);
+py::function value_factory_by_type(wpi::nt::NetworkTableType type);
 
 inline void ensure_value_is(NT_Type expected, wpi::nt::Value* v) {
   if (v->type() != expected) {

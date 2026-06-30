@@ -9,42 +9,42 @@ if TYPE_CHECKING:
 import pytest
 
 
-def test_waitCommand(scheduler: commands2.CommandScheduler):
+def test_wait_command(scheduler: commands2.CommandScheduler):
     with ManualSimTime() as sim:
-        waitCommand = commands2.WaitCommand(2)
+        wait_command = commands2.WaitCommand(2)
 
-        scheduler.schedule(waitCommand)
+        scheduler.schedule(wait_command)
         scheduler.run()
         sim.step(1)
         scheduler.run()
 
-        assert scheduler.isScheduled(waitCommand)
+        assert scheduler.is_scheduled(wait_command)
 
         sim.step(2)
 
         scheduler.run()
 
-        assert not scheduler.isScheduled(waitCommand)
+        assert not scheduler.is_scheduled(wait_command)
 
 
-def test_withTimeout(scheduler: commands2.CommandScheduler):
+def test_with_timeout(scheduler: commands2.CommandScheduler):
     with ManualSimTime() as sim:
-        command1 = commands2.Command()
-        start_spying_on(command1)
+        command_1 = commands2.Command()
+        start_spying_on(command_1)
 
-        timeout = command1.withTimeout(2)
+        timeout = command_1.with_timeout(2)
 
         scheduler.schedule(timeout)
         scheduler.run()
 
-        verify(command1).initialize()
-        verify(command1).execute()
-        assert not scheduler.isScheduled(command1)
-        assert scheduler.isScheduled(timeout)
+        verify(command_1).initialize()
+        verify(command_1).execute()
+        assert not scheduler.is_scheduled(command_1)
+        assert scheduler.is_scheduled(timeout)
 
         sim.step(3)
         scheduler.run()
 
-        verify(command1).end(True)
-        verify(command1, never()).end(False)
-        assert not scheduler.isScheduled(timeout)
+        verify(command_1).end(True)
+        verify(command_1, never()).end(False)
+        assert not scheduler.is_scheduled(timeout)

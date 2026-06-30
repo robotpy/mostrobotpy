@@ -13,39 +13,39 @@ import math
 import wpilib
 
 # Motors
-kLeftMotor1Port = 0
-kLeftMotor2Port = 1
-kRightMotor1Port = 2
-kRightMotor2Port = 3
+K_LEFT_MOTOR_1_PORT = 0
+K_LEFT_MOTOR_2_PORT = 1
+K_RIGHT_MOTOR_1_PORT = 2
+K_RIGHT_MOTOR_2_PORT = 3
 
 # Encoders
-kLeftEncoderPorts = (0, 1)
-kRightEncoderPorts = (2, 3)
-kLeftEncoderReversed = False
-kRightEncoderReversed = True
+K_LEFT_ENCODER_PORTS = (0, 1)
+K_RIGHT_ENCODER_PORTS = (2, 3)
+K_LEFT_ENCODER_REVERSED = False
+K_RIGHT_ENCODER_REVERSED = True
 
-kEncoderCPR = 1024
-kWheelDiameterInches = 6
+K_ENCODER_CPR = 1024
+K_WHEEL_DIAMETER_INCHES = 6
 # Assumes the encoders are directly mounted on the wheel shafts
-kEncoderDistancePerPulse = (kWheelDiameterInches * math.pi) / kEncoderCPR
+K_ENCODER_DISTANCE_PER_PULSE = (K_WHEEL_DIAMETER_INCHES * math.pi) / K_ENCODER_CPR
 
 # Hatch
-kHatchSolenoidModuleType = wpilib.PneumaticsModuleType.CTRE_PCM
-kHatchSolenoidModule = 0
-kHatchSolenoidPorts = (0, 1)
+K_HATCH_SOLENOID_MODULE_TYPE = wpilib.PneumaticsModuleType.CTRE_PCM
+K_HATCH_SOLENOID_MODULE = 0
+K_HATCH_SOLENOID_PORTS = (0, 1)
 
 # Autonomous
-kAutoDriveDistanceInches = 60
-kAutoBackupDistanceInches = 20
-kAutoDriveVelocity = 0.5
+K_AUTO_DRIVE_DISTANCE_INCHES = 60
+K_AUTO_BACKUP_DISTANCE_INCHES = 20
+K_AUTO_DRIVE_VELOCITY = 0.5
 
 # Operator Interface
-kDriverControllerPort = 0
+K_DRIVER_CONTROLLER_PORT = 0
 
 # Physical parameters
-kDriveTrainMotorCount = 2
-kTrackWidth = 0.381 * 2
-kGearingRatio = 8
-kWheelRadius = 0.0508
+K_DRIVE_TRAIN_MOTOR_COUNT = 2
+K_TRACK_WIDTH = 0.381 * 2
+K_GEARING_RATIO = 8
+K_WHEEL_RADIUS = 0.0508
 
 # kEncoderResolution = -

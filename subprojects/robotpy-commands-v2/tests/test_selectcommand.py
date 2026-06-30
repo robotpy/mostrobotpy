@@ -16,79 +16,79 @@ class TestSelectCommandComposition(MultiCompositionTestBase):
         return commands2.SelectCommand(dict(enumerate(members)), lambda: 0)
 
 
-def test_selectCommand(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
-    command3 = commands2.Command()
+def test_select_command(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
+    command_3 = commands2.Command()
 
-    start_spying_on(command1)
-    start_spying_on(command2)
-    start_spying_on(command3)
+    start_spying_on(command_1)
+    start_spying_on(command_2)
+    start_spying_on(command_3)
 
-    command1.isFinished = lambda: True
+    command_1.is_finished = lambda: True
 
-    selectCommand = commands2.SelectCommand(
-        {"one": command1, "two": command2, "three": command3}, lambda: "one"
+    select_command = commands2.SelectCommand(
+        {"one": command_1, "two": command_2, "three": command_3}, lambda: "one"
     )
 
-    scheduler.schedule(selectCommand)
+    scheduler.schedule(select_command)
     scheduler.run()
 
-    verify(command1).initialize()
-    verify(command1).execute()
-    verify(command1).end(False)
+    verify(command_1).initialize()
+    verify(command_1).execute()
+    verify(command_1).end(False)
 
-    verify(command2, never()).initialize()
-    verify(command2, never()).execute()
-    verify(command2, never()).end(False)
+    verify(command_2, never()).initialize()
+    verify(command_2, never()).execute()
+    verify(command_2, never()).end(False)
 
-    verify(command3, never()).initialize()
-    verify(command3, never()).execute()
-    verify(command3, never()).end(False)
+    verify(command_3, never()).initialize()
+    verify(command_3, never()).execute()
+    verify(command_3, never()).end(False)
 
 
-def test_selectCommandInvalidKey(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
-    command3 = commands2.Command()
+def test_select_command_invalid_key(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
+    command_3 = commands2.Command()
 
-    start_spying_on(command1)
-    start_spying_on(command2)
-    start_spying_on(command3)
+    start_spying_on(command_1)
+    start_spying_on(command_2)
+    start_spying_on(command_3)
 
-    command1.isFinished = lambda: True
+    command_1.is_finished = lambda: True
 
-    selectCommand = commands2.SelectCommand(
-        {"one": command1, "two": command2, "three": command3}, lambda: "four"
+    select_command = commands2.SelectCommand(
+        {"one": command_1, "two": command_2, "three": command_3}, lambda: "four"
     )
 
-    scheduler.schedule(selectCommand)
+    scheduler.schedule(select_command)
 
 
-def test_selectCommandRequirement(scheduler: commands2.CommandScheduler):
+def test_select_command_requirement(scheduler: commands2.CommandScheduler):
     system1 = commands2.Subsystem()
     system2 = commands2.Subsystem()
     system3 = commands2.Subsystem()
     system4 = commands2.Subsystem()
 
-    command1 = commands2.Command()
-    command1.addRequirements(system1, system2)
-    command2 = commands2.Command()
-    command2.addRequirements(system3)
-    command3 = commands2.Command()
-    command3.addRequirements(system3, system4)
+    command_1 = commands2.Command()
+    command_1.add_requirements(system1, system2)
+    command_2 = commands2.Command()
+    command_2.add_requirements(system3)
+    command_3 = commands2.Command()
+    command_3.add_requirements(system3, system4)
 
-    start_spying_on(command1)
-    start_spying_on(command2)
-    start_spying_on(command3)
+    start_spying_on(command_1)
+    start_spying_on(command_2)
+    start_spying_on(command_3)
 
-    selectCommand = commands2.SelectCommand(
-        {"one": command1, "two": command2, "three": command3}, lambda: "one"
+    select_command = commands2.SelectCommand(
+        {"one": command_1, "two": command_2, "three": command_3}, lambda: "one"
     )
 
-    scheduler.schedule(selectCommand)
+    scheduler.schedule(select_command)
     scheduler.schedule(commands2.InstantCommand(lambda: None, system3))
 
-    verify(command1).end(interrupted=True)
-    verify(command2, never()).end(interrupted=True)
-    verify(command3, never()).end(interrupted=True)
+    verify(command_1).end(interrupted=True)
+    verify(command_2, never()).end(interrupted=True)
+    verify(command_3, never()).end(interrupted=True)

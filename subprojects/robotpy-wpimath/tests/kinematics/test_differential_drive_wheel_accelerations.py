@@ -1,6 +1,6 @@
 import pytest
 from wpimath import DifferentialDriveWheelAccelerations
-from wpimath.units import feetToMeters
+from wpimath.units import feet_to_meters
 
 K_EPSILON = 1e-9
 
@@ -67,10 +67,10 @@ def test_division():
 
 
 def test_feet_constructor():
-    accel = DifferentialDriveWheelAccelerations.fromFps(10, 11)
+    accel = DifferentialDriveWheelAccelerations.from_fps(10, 11)
 
-    assert accel.left == pytest.approx(feetToMeters(10), abs=K_EPSILON)
-    assert accel.right == pytest.approx(feetToMeters(11), abs=K_EPSILON)
+    assert accel.left == pytest.approx(feet_to_meters(10), abs=K_EPSILON)
+    assert accel.right == pytest.approx(feet_to_meters(11), abs=K_EPSILON)
 
     assert accel.left_fpss == pytest.approx(10, abs=K_EPSILON)
     assert accel.right_fpss == pytest.approx(11, abs=K_EPSILON)

@@ -13,7 +13,7 @@ from wpimath import (
 
 
 @pytest.fixture()
-def s4():
+def s_4():
     fl = Translation2d(12, 12)
     fr = Translation2d(12, -12)
     bl = Translation2d(-12, 12)
@@ -21,10 +21,10 @@ def s4():
     return SwerveDrive4Kinematics(fl, fr, bl, br)
 
 
-def test_swerve4_straightline(s4: SwerveDrive4Kinematics):
-    chassisVelocities = ChassisVelocities(5, 0, 0)
+def test_swerve_4_straightline(s_4: SwerveDrive4Kinematics):
+    chassis_velocities = ChassisVelocities(5, 0, 0)
 
-    fl, fr, bl, br = s4.toSwerveModuleVelocities(chassisVelocities)
+    fl, fr, bl, br = s_4.to_swerve_module_velocities(chassis_velocities)
     assert fl.velocity == pytest.approx(5.0)
     assert fr.velocity == pytest.approx(5.0)
     assert bl.velocity == pytest.approx(5.0)
@@ -36,26 +36,26 @@ def test_swerve4_straightline(s4: SwerveDrive4Kinematics):
     assert br.angle.radians() == pytest.approx(0.0)
 
 
-def test_swerve4_normalize():
+def test_swerve_4_normalize():
     s1 = SwerveModuleVelocity(5)
     s2 = SwerveModuleVelocity(6)
     s3 = SwerveModuleVelocity(4)
-    s4 = SwerveModuleVelocity(7)
+    s_4 = SwerveModuleVelocity(7)
 
-    states = SwerveDrive4Kinematics.desaturateWheelVelocities((s1, s2, s3, s4), 5.5)
+    states = SwerveDrive4Kinematics.desaturate_wheel_velocities((s1, s2, s3, s_4), 5.5)
 
-    kFactor = 5.5 / 7.0
+    k_factor = 5.5 / 7.0
 
-    assert states[0].velocity == pytest.approx(5.0 * kFactor)
-    assert states[1].velocity == pytest.approx(6.0 * kFactor)
-    assert states[2].velocity == pytest.approx(4.0 * kFactor)
-    assert states[3].velocity == pytest.approx(7.0 * kFactor)
+    assert states[0].velocity == pytest.approx(5.0 * k_factor)
+    assert states[1].velocity == pytest.approx(6.0 * k_factor)
+    assert states[2].velocity == pytest.approx(4.0 * k_factor)
+    assert states[3].velocity == pytest.approx(7.0 * k_factor)
 
 
-def test_swerve4_odometry(s4: SwerveDrive4Kinematics):
+def test_swerve_4_odometry(s_4: SwerveDrive4Kinematics):
     zero = SwerveModulePosition()
-    odometry = SwerveDrive4Odometry(s4, Rotation2d(0), (zero, zero, zero, zero))
-    odometry.resetPosition(Rotation2d(0), (zero, zero, zero, zero), Pose2d())
+    odometry = SwerveDrive4Odometry(s_4, Rotation2d(0), (zero, zero, zero, zero))
+    odometry.reset_position(Rotation2d(0), (zero, zero, zero, zero), Pose2d())
 
     position = SwerveModulePosition(0.5)
 

@@ -30,22 +30,22 @@ if __name__ == "__main__":
     parser.add_argument("ip", type=str, help="IP address to connect to")
     args = parser.parse_args()
 
-    inst = ntcore.NetworkTableInstance.getDefault()
+    inst = ntcore.NetworkTableInstance.get_default()
 
     identity = basename(__file__)
     if args.protocol == 3:
-        inst.startClient3(identity)
+        inst.start_client_3(identity)
     else:
-        inst.startClient4(identity)
+        inst.start_client_4(identity)
 
-    inst.setServer(args.ip)
+    inst.set_server(args.ip)
 
-    sd = inst.getTable("SmartDashboard")
+    sd = inst.get_table("SmartDashboard")
 
     i = 0
     while True:
-        print("robotTime:", sd.getNumber("robotTime", -1))
+        print("robotTime:", sd.get_number("robotTime", -1))
 
-        sd.putNumber("dsTime", i)
+        sd.put_number("dsTime", i)
         time.sleep(1)
         i += 1

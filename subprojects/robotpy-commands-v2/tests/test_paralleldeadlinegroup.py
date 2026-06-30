@@ -18,53 +18,53 @@ class TestParallelDeadlineGroupComposition(MultiCompositionTestBase):
         return commands2.ParallelDeadlineGroup(members[0], *members[1:])
 
 
-def test_parallelDeadlineSchedule(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
-    command2.isFinished = lambda: True
-    command3 = commands2.Command()
+def test_parallel_deadline_schedule(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
+    command_2.is_finished = lambda: True
+    command_3 = commands2.Command()
 
-    start_spying_on(command1)
-    start_spying_on(command2)
-    start_spying_on(command3)
+    start_spying_on(command_1)
+    start_spying_on(command_2)
+    start_spying_on(command_3)
 
-    group = commands2.ParallelDeadlineGroup(command1, command2, command3)
+    group = commands2.ParallelDeadlineGroup(command_1, command_2, command_3)
 
     scheduler.schedule(group)
     scheduler.run()
 
-    assert scheduler.isScheduled(group)
+    assert scheduler.is_scheduled(group)
 
-    command1.isFinished = lambda: True
+    command_1.is_finished = lambda: True
     scheduler.run()
 
-    assert not scheduler.isScheduled(group)
+    assert not scheduler.is_scheduled(group)
 
-    verify(command2).initialize()
-    verify(command2).execute()
-    verify(command2).end(False)
-    verify(command2, never()).end(True)
+    verify(command_2).initialize()
+    verify(command_2).execute()
+    verify(command_2).end(False)
+    verify(command_2, never()).end(True)
 
-    verify(command1).initialize()
-    verify(command1, times(2)).execute()
-    verify(command1).end(False)
-    verify(command1, never()).end(True)
+    verify(command_1).initialize()
+    verify(command_1, times(2)).execute()
+    verify(command_1).end(False)
+    verify(command_1, never()).end(True)
 
-    verify(command3).initialize()
-    verify(command3, times(2)).execute()
-    verify(command3, never()).end(False)
-    verify(command3).end(True)
+    verify(command_3).initialize()
+    verify(command_3, times(2)).execute()
+    verify(command_3, never()).end(False)
+    verify(command_3).end(True)
 
 
-def test_parallelDeadlineInterrupt(scheduler: commands2.CommandScheduler):
-    command1 = commands2.Command()
-    command2 = commands2.Command()
-    command2.isFinished = lambda: True
+def test_parallel_deadline_interrupt(scheduler: commands2.CommandScheduler):
+    command_1 = commands2.Command()
+    command_2 = commands2.Command()
+    command_2.is_finished = lambda: True
 
-    start_spying_on(command1)
-    start_spying_on(command2)
+    start_spying_on(command_1)
+    start_spying_on(command_2)
 
-    group = commands2.ParallelDeadlineGroup(command1, command2)
+    group = commands2.ParallelDeadlineGroup(command_1, command_2)
 
     scheduler.schedule(group)
 
@@ -72,48 +72,48 @@ def test_parallelDeadlineInterrupt(scheduler: commands2.CommandScheduler):
     scheduler.run()
     scheduler.cancel(group)
 
-    verify(command1, times(2)).execute()
-    verify(command1, never()).end(False)
-    verify(command1).end(True)
+    verify(command_1, times(2)).execute()
+    verify(command_1, never()).end(False)
+    verify(command_1).end(True)
 
-    verify(command2).execute()
-    verify(command2).end(False)
-    verify(command2, never()).end(True)
+    verify(command_2).execute()
+    verify(command_2).end(False)
+    verify(command_2, never()).end(True)
 
-    assert not scheduler.isScheduled(group)
+    assert not scheduler.is_scheduled(group)
 
 
-def test_parallelDeadlineRequirement(scheduler: commands2.CommandScheduler):
+def test_parallel_deadline_requirement(scheduler: commands2.CommandScheduler):
     system1 = commands2.Subsystem()
     system2 = commands2.Subsystem()
     system3 = commands2.Subsystem()
     system4 = commands2.Subsystem()
 
-    command1 = commands2.Command()
-    command1.addRequirements(system1, system2)
-    command2 = commands2.Command()
-    command2.addRequirements(system3)
-    command3 = commands2.Command()
-    command3.addRequirements(system3, system4)
+    command_1 = commands2.Command()
+    command_1.add_requirements(system1, system2)
+    command_2 = commands2.Command()
+    command_2.add_requirements(system3)
+    command_3 = commands2.Command()
+    command_3.add_requirements(system3, system4)
 
-    group = commands2.ParallelDeadlineGroup(command1, command2)
+    group = commands2.ParallelDeadlineGroup(command_1, command_2)
 
     scheduler.schedule(group)
-    scheduler.schedule(command3)
+    scheduler.schedule(command_3)
 
-    assert not scheduler.isScheduled(group)
-    assert scheduler.isScheduled(command3)
+    assert not scheduler.is_scheduled(group)
+    assert scheduler.is_scheduled(command_3)
 
 
-def test_parallelDeadlineRequirementError(scheduler: commands2.CommandScheduler):
+def test_parallel_deadline_requirement_error(scheduler: commands2.CommandScheduler):
     system1 = commands2.Subsystem()
     system2 = commands2.Subsystem()
     system3 = commands2.Subsystem()
 
-    command1 = commands2.Command()
-    command1.addRequirements(system1, system2)
-    command2 = commands2.Command()
-    command2.addRequirements(system2, system3)
+    command_1 = commands2.Command()
+    command_1.add_requirements(system1, system2)
+    command_2 = commands2.Command()
+    command_2.add_requirements(system2, system3)
 
     with pytest.raises(commands2.IllegalCommandUse):
-        commands2.ParallelDeadlineGroup(command1, command2)
+        commands2.ParallelDeadlineGroup(command_1, command_2)
