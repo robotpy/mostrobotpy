@@ -55,7 +55,7 @@ packages = ["halsim_gui"]
 [tool.semiwrap]
 name_transform.default = "snake_case"
 name_transform.enum_value = "CAPS_CASE"
-name_transform.acronyms = ["mDNS", "DS", "CAN", "PWM", "I2C", "SPI", "NT", "JSON", "PID", "IMU", "HAL", "JNI", "USB", "HTTP", "URI", "URL", "CPU", "FPGA", "FMS", "PCM", "PDP", "PDH", "RIO", "OpMode"]
+name_transform.acronyms = ["mDNS", "L1", "L2", "L3", "R1", "R2", "R3", "DS", "CAN", "PWM", "I2C", "SPI", "NT", "JSON", "PID", "IMU", "HAL", "JNI", "USB", "HTTP", "URI", "URL", "CPU", "FPGA", "FMS", "PCM", "PDP", "PDH", "RIO", "OpMode"]
 
 [tool.semiwrap.extension_modules."halsim_gui._ext._halsim_gui_ext"]
 name = "halsim_gui_ext"

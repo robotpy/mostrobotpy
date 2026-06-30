@@ -87,7 +87,7 @@ class RobotContainer:
         self.driver_controller.square().on_true(self.hatch_subsystem.release_hatch())
 
         # While holding R1, drive at half velocity
-        self.driver_controller.r_1().on_true(
+        self.driver_controller.r1().on_true(
             commands2.cmd.run_once(lambda: self.drive_subsystem.set_max_output(0.5))
         ).on_false(commands2.cmd.run_once(lambda: self.drive_subsystem.set_max_output(1)))
 

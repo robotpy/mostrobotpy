@@ -15,16 +15,16 @@ def test_buttons():
     ps_4_button_test("circle_button")
     ps_4_button_test("triangle_button")
 
-    ps_4_button_test("l_1_button")
-    ps_4_button_test("r_1_button")
-    ps_4_button_test("l_2_button")
-    ps_4_button_test("r_2_button")
+    ps_4_button_test("l1_button")
+    ps_4_button_test("r1_button")
+    ps_4_button_test("l2_button")
+    ps_4_button_test("r2_button")
 
     ps_4_button_test("share_button")
     ps_4_button_test("options_button")
 
-    ps_4_button_test("l_3_button")
-    ps_4_button_test("r_3_button")
+    ps_4_button_test("l3_button")
+    ps_4_button_test("r3_button")
 
     ps_4_button_test("ps_button")
     ps_4_button_test("touchpad_button")
@@ -33,5 +33,5 @@ def test_buttons():
     ps_4_axis_test("right_x")
     ps_4_axis_test("left_y")
     ps_4_axis_test("right_y")
-    ps_4_axis_test("l_2_axis")
-    ps_4_axis_test("r_2_axis")
+    ps_4_axis_test("l2_axis")
+    ps_4_axis_test("r2_axis")

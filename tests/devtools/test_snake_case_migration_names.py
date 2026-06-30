@@ -21,6 +21,14 @@ def test_snake_case_uses_wpilib_acronyms():
     assert to_snake_case("PublishOpModes") == "publish_opmodes"
 
 
+def test_controller_button_acronyms_keep_letters_and_numbers_together():
+    assert to_snake_case("GetL1Button") == "get_l1_button"
+    assert to_snake_case("L2Axis") == "l2_axis"
+    assert to_snake_case("getR3") == "get_r3"
+    assert to_caps_case("L1") == "L1"
+    assert to_caps_case("R2") == "R2"
+
+
 def test_caps_case_uses_wpilib_acronyms():
     assert to_caps_case("kHTTPServer") == "K_HTTP_SERVER"
     assert to_caps_case("valueOne") == "VALUE_ONE"

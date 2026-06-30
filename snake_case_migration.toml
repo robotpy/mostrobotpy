@@ -1,5 +1,5 @@
 [config]
-acronyms = ["CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "PWM", "RIO", "SPI", "URI", "URL", "USB"]
+acronyms = ["CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "L1", "L2", "L3", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "PWM", "R1", "R2", "R3", "RIO", "SPI", "URI", "URL", "USB"]
 
 [[mapping]]
 scope = "global"
@@ -1709,7 +1709,7 @@ reason = "Task 11 examples/docs migration"
 scope = "global"
 kind = "attribute"
 old = "getL1Button"
-new = "get_l_1_button"
+new = "get_l1_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
 
@@ -1717,7 +1717,7 @@ reason = "Task 9 pure-Python migration"
 scope = "global"
 kind = "attribute"
 old = "getL2Button"
-new = "get_l_2_button"
+new = "get_l2_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
 
@@ -1725,7 +1725,7 @@ reason = "Task 9 pure-Python migration"
 scope = "global"
 kind = "attribute"
 old = "getL3Button"
-new = "get_l_3_button"
+new = "get_l3_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
 
@@ -1909,7 +1909,7 @@ reason = "Task 11 examples/docs migration"
 scope = "global"
 kind = "attribute"
 old = "getR1Button"
-new = "get_r_1_button"
+new = "get_r1_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
 
@@ -1917,7 +1917,7 @@ reason = "Task 9 pure-Python migration"
 scope = "global"
 kind = "attribute"
 old = "getR2Button"
-new = "get_r_2_button"
+new = "get_r2_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
 
@@ -1925,7 +1925,7 @@ reason = "Task 9 pure-Python migration"
 scope = "global"
 kind = "attribute"
 old = "getR3Button"
-new = "get_r_3_button"
+new = "get_r3_button"
 source = "manual"
 reason = "Task 9 pure-Python migration"
 
@@ -5416,43 +5416,43 @@ reason = "robotpy-apriltag generated AprilTagDetection API"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
-old = "L1"
-new = "l_1"
+old = "l_1"
+new = "l1"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
-old = "L2"
-new = "l_2"
+old = "l_2"
+new = "l2"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
-old = "L3"
-new = "l_3"
+old = "l_3"
+new = "l3"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
-old = "R1"
-new = "r_1"
+old = "r_1"
+new = "r1"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
-old = "R2"
-new = "r_2"
+old = "r_2"
+new = "r2"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
-old = "R3"
-new = "r_3"
+old = "r_3"
+new = "r3"
 source = "scan-py"
 
 [[mapping]]
@@ -5529,7 +5529,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
 old = "getL2"
-new = "get_l_2"
+new = "get_l2"
 source = "scan-py"
 
 [[mapping]]
@@ -5550,7 +5550,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
 old = "getR2"
-new = "get_r_2"
+new = "get_r2"
 source = "scan-py"
 
 [[mapping]]
@@ -5570,43 +5570,43 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
-old = "L1"
-new = "l_1"
+old = "l_1"
+new = "l1"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
-old = "L2"
-new = "l_2"
+old = "l_2"
+new = "l2"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
-old = "L3"
-new = "l_3"
+old = "l_3"
+new = "l3"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
-old = "R1"
-new = "r_1"
+old = "r_1"
+new = "r1"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
-old = "R2"
-new = "r_2"
+old = "r_2"
+new = "r2"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
-old = "R3"
-new = "r_3"
+old = "r_3"
+new = "r3"
 source = "scan-py"
 
 [[mapping]]
@@ -5683,7 +5683,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
 old = "getL2"
-new = "get_l_2"
+new = "get_l2"
 source = "scan-py"
 
 [[mapping]]
@@ -5704,7 +5704,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
 old = "getR2"
-new = "get_r_2"
+new = "get_r2"
 source = "scan-py"
 
 [[mapping]]
@@ -5752,43 +5752,43 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
-old = "L1"
-new = "l_1"
+old = "l_1"
+new = "l1"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
-old = "L2"
-new = "l_2"
+old = "l_2"
+new = "l2"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
-old = "L3"
-new = "l_3"
+old = "l_3"
+new = "l3"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
-old = "R1"
-new = "r_1"
+old = "r_1"
+new = "r1"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
-old = "R2"
-new = "r_2"
+old = "r_2"
+new = "r2"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
-old = "R3"
-new = "r_3"
+old = "r_3"
+new = "r3"
 source = "scan-py"
 
 [[mapping]]
@@ -5865,7 +5865,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
 old = "getL2"
-new = "get_l_2"
+new = "get_l2"
 source = "scan-py"
 
 [[mapping]]
@@ -5886,7 +5886,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
 kind = "method"
 old = "getR2"
-new = "get_r_2"
+new = "get_r2"
 source = "scan-py"
 
 [[mapping]]
@@ -6706,43 +6706,43 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
-old = "L1"
-new = "l_1"
+old = "l_1"
+new = "l1"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
-old = "L2"
-new = "l_2"
+old = "l_2"
+new = "l2"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
-old = "L3"
-new = "l_3"
+old = "l_3"
+new = "l3"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
-old = "R1"
-new = "r_1"
+old = "r_1"
+new = "r1"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
-old = "R2"
-new = "r_2"
+old = "r_2"
+new = "r2"
 source = "scan-py"
 
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
-old = "R3"
-new = "r_3"
+old = "r_3"
+new = "r3"
 source = "scan-py"
 
 [[mapping]]
@@ -6756,7 +6756,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
 old = "getL2Axis"
-new = "get_l_2_axis"
+new = "get_l2_axis"
 source = "scan-py"
 
 [[mapping]]
@@ -6784,7 +6784,7 @@ source = "scan-py"
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
 old = "getR2Axis"
-new = "get_r_2_axis"
+new = "get_r2_axis"
 source = "scan-py"
 
 [[mapping]]
@@ -12091,6 +12091,48 @@ new = "load_one_extension"
 source = "manual"
 reason = "robotpy-hal generated API"
 
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "L_1"
+new = "L1"
+source = "manual"
+reason = "Controller button acronym migration"
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "L_2"
+new = "L2"
+source = "manual"
+reason = "Controller button acronym migration"
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "L_3"
+new = "L3"
+source = "manual"
+reason = "Controller button acronym migration"
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "R_1"
+new = "R1"
+source = "manual"
+reason = "Controller button acronym migration"
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "R_2"
+new = "R2"
+source = "manual"
+reason = "Controller button acronym migration"
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "R_3"
+new = "R3"
+source = "manual"
+reason = "Controller button acronym migration"
 [[ignored]]
 scope = "global"
 name = "ControlAffinePlantInversionFeedforward_1_1"

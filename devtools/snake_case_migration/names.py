@@ -8,6 +8,12 @@ NameKind = Literal["function", "method", "attribute", "enum_value", "parameter"]
 
 DEFAULT_ACRONYMS: tuple[str, ...] = (
     "mDNS",
+    "L1",
+    "L2",
+    "L3",
+    "R1",
+    "R2",
+    "R3",
     "DS",
     "CAN",
     "PWM",

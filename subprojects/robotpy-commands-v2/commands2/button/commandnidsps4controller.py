@@ -44,7 +44,7 @@ class CommandNiDsPS4Controller:
         """
         return self._hid
 
-    def l_2(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l2(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the L2 button's digital signal.
 
@@ -56,9 +56,9 @@ class CommandNiDsPS4Controller:
         """
         if loop is None:
             loop = CommandScheduler.get_instance().get_default_button_loop()
-        return Trigger(loop, lambda: self._hid.get_l_2_button())
+        return Trigger(loop, lambda: self._hid.get_l2_button())
 
-    def r_2(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r2(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the R2 button's digital signal.
 
@@ -70,9 +70,9 @@ class CommandNiDsPS4Controller:
         """
         if loop is None:
             loop = CommandScheduler.get_instance().get_default_button_loop()
-        return Trigger(loop, lambda: self._hid.get_r_2_button())
+        return Trigger(loop, lambda: self._hid.get_r2_button())
 
-    def l_1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the L1 button's digital signal.
 
@@ -84,9 +84,9 @@ class CommandNiDsPS4Controller:
         """
         if loop is None:
             loop = CommandScheduler.get_instance().get_default_button_loop()
-        return Trigger(loop, lambda: self._hid.get_l_1_button())
+        return Trigger(loop, lambda: self._hid.get_l1_button())
 
-    def r_1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the R1 button's digital signal.
 
@@ -98,9 +98,9 @@ class CommandNiDsPS4Controller:
         """
         if loop is None:
             loop = CommandScheduler.get_instance().get_default_button_loop()
-        return Trigger(loop, lambda: self._hid.get_r_1_button())
+        return Trigger(loop, lambda: self._hid.get_r1_button())
 
-    def l_3(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the L3 button's digital signal.
 
@@ -112,9 +112,9 @@ class CommandNiDsPS4Controller:
         """
         if loop is None:
             loop = CommandScheduler.get_instance().get_default_button_loop()
-        return Trigger(loop, lambda: self._hid.get_l_3_button())
+        return Trigger(loop, lambda: self._hid.get_l3_button())
 
-    def r_3(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs an event instance around the R3 button's digital signal.
 
@@ -126,7 +126,7 @@ class CommandNiDsPS4Controller:
         """
         if loop is None:
             loop = CommandScheduler.get_instance().get_default_button_loop()
-        return Trigger(loop, lambda: self._hid.get_r_3_button())
+        return Trigger(loop, lambda: self._hid.get_r3_button())
 
     def square(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -272,20 +272,20 @@ class CommandNiDsPS4Controller:
         """
         return self._hid.get_right_y()
 
-    def get_l_2_axis(self) -> float:
+    def get_l2_axis(self) -> float:
         """
         Get the L2 axis value of the controller. Note that this axis is bound to the range of [0, 1] as
         opposed to the usual [-1, 1].
 
         :returns: the axis value.
         """
-        return self._hid.get_l_2_axis()
+        return self._hid.get_l2_axis()
 
-    def get_r_2_axis(self) -> float:
+    def get_r2_axis(self) -> float:
         """
         Get the R2 axis value of the controller. Note that this axis is bound to the range of [0, 1] as
         opposed to the usual [-1, 1].
 
         :returns: the axis value.
         """
-        return self._hid.get_r_2_axis()
+        return self._hid.get_r2_axis()

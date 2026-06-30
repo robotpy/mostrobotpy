@@ -143,7 +143,7 @@ class CommandDualShock4Controller:
         """
         return self.button(DualShock4Controller.Button.OPTIONS, loop)
 
-    def l_3(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the L 3 button's digital signal.
 
@@ -153,9 +153,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the L 3 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.L_3, loop)
+        return self.button(DualShock4Controller.Button.L3, loop)
 
-    def r_3(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R 3 button's digital signal.
 
@@ -165,9 +165,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the R 3 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.R_3, loop)
+        return self.button(DualShock4Controller.Button.R3, loop)
 
-    def l_1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def l1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the L 1 button's digital signal.
 
@@ -177,9 +177,9 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the L 1 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.L_1, loop)
+        return self.button(DualShock4Controller.Button.L1, loop)
 
-    def r_1(self, loop: Optional[EventLoop] = None) -> Trigger:
+    def r1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
         Constructs a Trigger instance around the R 1 button's digital signal.
 
@@ -189,7 +189,7 @@ class CommandDualShock4Controller:
         :returns: a Trigger instance representing the R 1 button's digital signal
                   attached to the given loop.
         """
-        return self.button(DualShock4Controller.Button.R_1, loop)
+        return self.button(DualShock4Controller.Button.R1, loop)
 
     def dpad_up(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
@@ -251,7 +251,7 @@ class CommandDualShock4Controller:
         """
         return self.button(DualShock4Controller.Button.TOUCHPAD, loop)
 
-    def l_2(
+    def l2(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -269,12 +269,12 @@ class CommandDualShock4Controller:
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
-            DualShock4Controller.Axis.L_2,
+            DualShock4Controller.Axis.L2,
             threshold,
             loop,
         )
 
-    def r_2(
+    def r2(
         self,
         threshold: float = 0.5,
         loop: Optional[EventLoop] = None,
@@ -292,7 +292,7 @@ class CommandDualShock4Controller:
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
-            DualShock4Controller.Axis.R_2,
+            DualShock4Controller.Axis.R2,
             threshold,
             loop,
         )
@@ -394,18 +394,18 @@ class CommandDualShock4Controller:
         """
         return self._controller.get_right_y()
 
-    def get_l_2(self) -> float:
+    def get_l2(self) -> float:
         """
         Get the L 2 value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.get_l_2()
+        return self._controller.get_l2()
 
-    def get_r_2(self) -> float:
+    def get_r2(self) -> float:
         """
         Get the R 2 value of the controller.
 
         :returns: the axis value.
         """
-        return self._controller.get_r_2()
+        return self._controller.get_r2()
