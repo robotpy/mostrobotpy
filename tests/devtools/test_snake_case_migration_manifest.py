@@ -15,6 +15,12 @@ from devtools.snake_case_migration.manifest import (
 
 REQUIRED_ACRONYMS = [
     "mDNS",
+    "L1",
+    "L2",
+    "L3",
+    "R1",
+    "R2",
+    "R3",
     "DS",
     "CAN",
     "PWM",
@@ -39,6 +45,31 @@ REQUIRED_ACRONYMS = [
     "RIO",
     "OpMode",
 ]
+
+CONTROLLER_ACRONYM_CLEANUP_MAPPINGS = {
+    ("global", "method", "l_1"): "l1",
+    ("global", "method", "l_2"): "l2",
+    ("global", "method", "l_3"): "l3",
+    ("global", "method", "r_1"): "r1",
+    ("global", "method", "r_2"): "r2",
+    ("global", "method", "r_3"): "r3",
+    ("global", "method", "get_l_1_button"): "get_l1_button",
+    ("global", "method", "get_l_2_button"): "get_l2_button",
+    ("global", "method", "get_l_3_button"): "get_l3_button",
+    ("global", "method", "get_r_1_button"): "get_r1_button",
+    ("global", "method", "get_r_2_button"): "get_r2_button",
+    ("global", "method", "get_r_3_button"): "get_r3_button",
+    ("global", "method", "get_l_2_axis"): "get_l2_axis",
+    ("global", "method", "get_r_2_axis"): "get_r2_axis",
+    ("global", "method", "get_l_2"): "get_l2",
+    ("global", "method", "get_r_2"): "get_r2",
+    ("global", "enum_value", "L_1"): "L1",
+    ("global", "enum_value", "L_2"): "L2",
+    ("global", "enum_value", "L_3"): "L3",
+    ("global", "enum_value", "R_1"): "R1",
+    ("global", "enum_value", "R_2"): "R2",
+    ("global", "enum_value", "R_3"): "R3",
+}
 
 
 def test_manifest_init_cli_writes_manifest(tmp_path):
@@ -81,6 +112,33 @@ def test_pyproject_cli_writes_required_name_transform_settings(tmp_path: Path):
         tomlkit.parse(output)["tool"]["semiwrap"]["name_transform"]["acronyms"]
         == REQUIRED_ACRONYMS
     )
+
+
+def test_root_manifest_documents_controller_acronym_cleanup():
+    manifest = load_manifest(Path(__file__).parents[2] / "snake_case_migration.toml")
+    mappings = {
+        (mapping.scope, mapping.kind, mapping.old): mapping.new
+        for mapping in manifest.mappings
+    }
+    reasons = {
+        (mapping.scope, mapping.kind, mapping.old): mapping.reason
+        for mapping in manifest.mappings
+    }
+
+    for key, expected_new in CONTROLLER_ACRONYM_CLEANUP_MAPPINGS.items():
+        assert mappings.get(key) == expected_new
+        assert "Controller acronym cleanup" in reasons[key]
+
+
+def test_root_manifest_is_deterministic(tmp_path: Path):
+    source = Path(__file__).parents[2] / "snake_case_migration.toml"
+    path = tmp_path / "snake_case_migration.toml"
+    path.write_text(source.read_text())
+
+    manifest = load_manifest(path)
+    save_manifest(path, manifest)
+
+    assert path.read_text() == source.read_text()
 
 
 def test_manifest_round_trip_is_deterministic(tmp_path: Path):

@@ -4020,6 +4020,54 @@ reason = "Task 11 examples/docs migration"
 [[mapping]]
 scope = "global"
 kind = "enum_value"
+old = "L_1"
+new = "L1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "L_2"
+new = "L2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "L_3"
+new = "L3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "R_1"
+new = "R1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "R_2"
+new = "R2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
+old = "R_3"
+new = "R3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "enum_value"
 old = "X4"
 new = "X_4"
 source = "manual"
@@ -5218,6 +5266,134 @@ source = "manual"
 reason = "Task 11 examples/docs migration"
 
 [[mapping]]
+scope = "global"
+kind = "method"
+old = "get_l_1_button"
+new = "get_l1_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_l_2"
+new = "get_l2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_l_2_axis"
+new = "get_l2_axis"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_l_2_button"
+new = "get_l2_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_l_3_button"
+new = "get_l3_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_r_1_button"
+new = "get_r1_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_r_2"
+new = "get_r2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_r_2_axis"
+new = "get_r2_axis"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_r_2_button"
+new = "get_r2_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "get_r_3_button"
+new = "get_r3_button"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "l_1"
+new = "l1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "l_2"
+new = "l2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "l_3"
+new = "l3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "r_1"
+new = "r1"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "r_2"
+new = "r2"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
+scope = "global"
+kind = "method"
+old = "r_3"
+new = "r3"
+source = "manual"
+reason = "Controller acronym cleanup: maps prior generated bad spelling to final acronym spelling; no runtime compatibility alias"
+
+[[mapping]]
 scope = "subprojects/pyntcore/ntcore/_logutil.py"
 kind = "method"
 old = "onInstanceDestroy"
@@ -5416,48 +5592,6 @@ reason = "robotpy-apriltag generated AprilTagDetection API"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
-old = "l_1"
-new = "l1"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
-kind = "method"
-old = "l_2"
-new = "l2"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
-kind = "method"
-old = "l_3"
-new = "l3"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
-kind = "method"
-old = "r_1"
-new = "r1"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
-kind = "method"
-old = "r_2"
-new = "r2"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
-kind = "method"
-old = "r_3"
-new = "r3"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
-kind = "method"
 old = "axisGreaterThan"
 new = "axis_greater_than"
 source = "scan-py"
@@ -5568,42 +5702,42 @@ new = "get_right_y"
 source = "scan-py"
 
 [[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
 old = "l_1"
 new = "l1"
 source = "scan-py"
 
 [[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
 old = "l_2"
 new = "l2"
 source = "scan-py"
 
 [[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
 old = "l_3"
 new = "l3"
 source = "scan-py"
 
 [[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
 old = "r_1"
 new = "r1"
 source = "scan-py"
 
 [[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
 old = "r_2"
 new = "r2"
 source = "scan-py"
 
 [[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsensecontroller.py"
 kind = "method"
 old = "r_3"
 new = "r3"
@@ -5719,6 +5853,27 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgeco
 kind = "method"
 old = "getRightY"
 new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "l_1"
+new = "l1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "l_2"
+new = "l2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "l_3"
+new = "l3"
 source = "scan-py"
 
 [[mapping]]
@@ -5738,6 +5893,27 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
 kind = "method"
+old = "r_1"
+new = "r1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "r_2"
+new = "r2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
+old = "r_3"
+new = "r3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgecontroller.py"
+kind = "method"
 old = "rightFunction"
 new = "right_function"
 source = "scan-py"
@@ -5747,48 +5923,6 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualsenseedgeco
 kind = "method"
 old = "rightPaddle1"
 new = "right_paddle_1"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
-kind = "method"
-old = "l_1"
-new = "l1"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
-kind = "method"
-old = "l_2"
-new = "l2"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
-kind = "method"
-old = "l_3"
-new = "l3"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
-kind = "method"
-old = "r_1"
-new = "r1"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
-kind = "method"
-old = "r_2"
-new = "r2"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
-kind = "method"
-old = "r_3"
-new = "r3"
 source = "scan-py"
 
 [[mapping]]
@@ -5901,6 +6035,48 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4contr
 kind = "method"
 old = "getRightY"
 new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "l_1"
+new = "l1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "l_2"
+new = "l2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "l_3"
+new = "l3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "r_1"
+new = "r1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "r_2"
+new = "r2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commanddualshock4controller.py"
+kind = "method"
+old = "r_3"
+new = "r3"
 source = "scan-py"
 
 [[mapping]]
@@ -6706,48 +6882,6 @@ source = "scan-py"
 [[mapping]]
 scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
 kind = "method"
-old = "l_1"
-new = "l1"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
-kind = "method"
-old = "l_2"
-new = "l2"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
-kind = "method"
-old = "l_3"
-new = "l3"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
-kind = "method"
-old = "r_1"
-new = "r1"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
-kind = "method"
-old = "r_2"
-new = "r2"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
-kind = "method"
-old = "r_3"
-new = "r3"
-source = "scan-py"
-
-[[mapping]]
-scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
-kind = "method"
 old = "getHID"
 new = "get_hid"
 source = "scan-py"
@@ -6799,6 +6933,48 @@ scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controll
 kind = "method"
 old = "getRightY"
 new = "get_right_y"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "l_1"
+new = "l1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "l_2"
+new = "l2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "l_3"
+new = "l3"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "r_1"
+new = "r1"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "r_2"
+new = "r2"
+source = "scan-py"
+
+[[mapping]]
+scope = "subprojects/robotpy-commands-v2/commands2/button/commandnidsps4controller.py"
+kind = "method"
+old = "r_3"
+new = "r3"
 source = "scan-py"
 
 [[mapping]]
@@ -12091,48 +12267,6 @@ new = "load_one_extension"
 source = "manual"
 reason = "robotpy-hal generated API"
 
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "L_1"
-new = "L1"
-source = "manual"
-reason = "Controller button acronym migration"
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "L_2"
-new = "L2"
-source = "manual"
-reason = "Controller button acronym migration"
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "L_3"
-new = "L3"
-source = "manual"
-reason = "Controller button acronym migration"
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "R_1"
-new = "R1"
-source = "manual"
-reason = "Controller button acronym migration"
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "R_2"
-new = "R2"
-source = "manual"
-reason = "Controller button acronym migration"
-[[mapping]]
-scope = "global"
-kind = "enum_value"
-old = "R_3"
-new = "R3"
-source = "manual"
-reason = "Controller button acronym migration"
 [[ignored]]
 scope = "global"
 name = "ControlAffinePlantInversionFeedforward_1_1"

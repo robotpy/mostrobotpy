@@ -145,48 +145,48 @@ class CommandDualShock4Controller:
 
     def l3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
-        Constructs a Trigger instance around the L 3 button's digital signal.
+        Constructs a Trigger instance around the L3 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
                      to :func:`commands2.CommandScheduler.get_default_button_loop`
 
-        :returns: a Trigger instance representing the L 3 button's digital signal
+        :returns: a Trigger instance representing the L3 button's digital signal
                   attached to the given loop.
         """
         return self.button(DualShock4Controller.Button.L3, loop)
 
     def r3(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
-        Constructs a Trigger instance around the R 3 button's digital signal.
+        Constructs a Trigger instance around the R3 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
                      to :func:`commands2.CommandScheduler.get_default_button_loop`
 
-        :returns: a Trigger instance representing the R 3 button's digital signal
+        :returns: a Trigger instance representing the R3 button's digital signal
                   attached to the given loop.
         """
         return self.button(DualShock4Controller.Button.R3, loop)
 
     def l1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
-        Constructs a Trigger instance around the L 1 button's digital signal.
+        Constructs a Trigger instance around the L1 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
                      to :func:`commands2.CommandScheduler.get_default_button_loop`
 
-        :returns: a Trigger instance representing the L 1 button's digital signal
+        :returns: a Trigger instance representing the L1 button's digital signal
                   attached to the given loop.
         """
         return self.button(DualShock4Controller.Button.L1, loop)
 
     def r1(self, loop: Optional[EventLoop] = None) -> Trigger:
         """
-        Constructs a Trigger instance around the R 1 button's digital signal.
+        Constructs a Trigger instance around the R1 button's digital signal.
 
         :param loop: the event loop instance to attach the Trigger to, defaults
                      to :func:`commands2.CommandScheduler.get_default_button_loop`
 
-        :returns: a Trigger instance representing the R 1 button's digital signal
+        :returns: a Trigger instance representing the R1 button's digital signal
                   attached to the given loop.
         """
         return self.button(DualShock4Controller.Button.R1, loop)
@@ -257,7 +257,7 @@ class CommandDualShock4Controller:
         loop: Optional[EventLoop] = None,
     ) -> Trigger:
         """
-        Constructs a Trigger instance around the L 2 axis value. The returned
+        Constructs a Trigger instance around the L2 axis value. The returned
         Trigger will be true when the axis value is greater than ``threshold``.
 
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
@@ -265,7 +265,7 @@ class CommandDualShock4Controller:
         :param loop: the event loop instance to attach the Trigger to, defaults
                      to :func:`commands2.CommandScheduler.get_default_button_loop`
 
-        :returns: a Trigger instance that is true when the L 2 axis exceeds the
+        :returns: a Trigger instance that is true when the L2 axis exceeds the
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
@@ -280,7 +280,7 @@ class CommandDualShock4Controller:
         loop: Optional[EventLoop] = None,
     ) -> Trigger:
         """
-        Constructs a Trigger instance around the R 2 axis value. The returned
+        Constructs a Trigger instance around the R2 axis value. The returned
         Trigger will be true when the axis value is greater than ``threshold``.
 
         :param threshold: the minimum axis value for the returned Trigger to be true. This value
@@ -288,7 +288,7 @@ class CommandDualShock4Controller:
         :param loop: the event loop instance to attach the Trigger to, defaults
                      to :func:`commands2.CommandScheduler.get_default_button_loop`
 
-        :returns: a Trigger instance that is true when the R 2 axis exceeds the
+        :returns: a Trigger instance that is true when the R2 axis exceeds the
                   provided threshold, attached to the given event loop.
         """
         return self.axis_greater_than(
@@ -396,7 +396,7 @@ class CommandDualShock4Controller:
 
     def get_l2(self) -> float:
         """
-        Get the L 2 value of the controller.
+        Get the L2 value of the controller.
 
         :returns: the axis value.
         """
@@ -404,7 +404,7 @@ class CommandDualShock4Controller:
 
     def get_r2(self) -> float:
         """
-        Get the R 2 value of the controller.
+        Get the R2 value of the controller.
 
         :returns: the axis value.
         """
