@@ -4,14 +4,14 @@ requires = [
     "semiwrap~=0.3.0",
     "hatch-meson~=0.1.2",
     "hatchling",
-    "pyntcore==2027.0.0a6.post1",
-    "robotpy-native-wpihal==2027.0.0a6",
-    "robotpy-wpiutil==2027.0.0a6.post1",
+    "pyntcore==0.0.0",
+    "robotpy-native-wpihal==0.0.0",
+    "robotpy-wpiutil==0.0.0",
 ]
 
 [project]
 name = "robotpy-hal"
-version = "2027.0.0a6.post1"
+version = "0.0.0"
 description = "Binary wrapper for WPILib HAL"
 requires-python = ">=3.11"
 authors = [
@@ -19,9 +19,9 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "pyntcore==2027.0.0a6.post1",
-    "robotpy-native-wpihal==2027.0.0a6",
-    "robotpy-wpiutil==2027.0.0a6.post1",
+    "pyntcore==0.0.0",
+    "robotpy-native-wpihal==0.0.0",
+    "robotpy-wpiutil==0.0.0",
 ]
 
 [project.urls]
