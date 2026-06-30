@@ -20,6 +20,18 @@ def _candidate_roots(root_path: str | Path | None) -> list[Path]:
     return roots
 
 
+def _normalize_absolute_manifest_path(
+    path: Path, root_path: str | Path | None = None
+) -> str | None:
+    resolved_path = path.resolve()
+    for root in _candidate_roots(root_path):
+        try:
+            return _normalize_scope_path(resolved_path.relative_to(root.resolve()))
+        except ValueError:
+            pass
+    return None
+
+
 def normalize_manifest_path(
     path: str | Path | None, root_path: str | Path | None = None
 ) -> str | None:
@@ -28,13 +40,12 @@ def normalize_manifest_path(
 
     path_obj = Path(path)
     if path_obj.is_absolute():
-        resolved_path = path_obj.resolve()
-        for root in _candidate_roots(root_path):
-            try:
-                return _normalize_scope_path(resolved_path.relative_to(root.resolve()))
-            except ValueError:
-                pass
-        return _normalize_scope_path(resolved_path)
+        normalized_absolute = _normalize_absolute_manifest_path(path_obj, root_path)
+        return normalized_absolute or _normalize_scope_path(path_obj.resolve())
+
+    cwd_relative = _normalize_absolute_manifest_path(Path.cwd() / path_obj, root_path)
+    if cwd_relative is not None:
+        return cwd_relative
 
     return _normalize_scope_path(path_obj)
 
