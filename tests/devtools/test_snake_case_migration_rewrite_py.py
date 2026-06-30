@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -83,6 +84,103 @@ def test_rewrite_py_cli_applies_scoped_mappings_relative_to_manifest_dir(
 
     assert in_scope_path.read_text() == "def robot_init():\n    r1()\n"
     assert out_of_scope_path.read_text() == "def robot_init():\n    r_1()\n"
+
+
+def test_rewrite_py_cli_applies_scoped_mapping_to_relative_path_from_outside_root(
+    tmp_path: Path,
+):
+    repo_root = Path(__file__).parents[2]
+    project_root = tmp_path / "project"
+    manifest_path = project_root / "manifest.toml"
+    source_path = project_root / "pkg" / "button" / "robot.py"
+    outside_root = tmp_path / "outside"
+    source_path.parent.mkdir(parents=True)
+    outside_root.mkdir()
+    save_manifest(
+        manifest_path,
+        Manifest(
+            mappings=[
+                Mapping(
+                    scope="pkg/button",
+                    kind="method",
+                    old="r_1",
+                    new="r1",
+                    source="test",
+                ),
+            ]
+        ),
+    )
+    source_path.write_text("def use():\n    r_1()\n")
+    env = os.environ.copy()
+    env["PYTHONPATH"] = os.pathsep.join(
+        filter(None, [str(repo_root), env.get("PYTHONPATH", "")])
+    )
+
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "devtools.snake_case_migration",
+            "--manifest",
+            str(manifest_path),
+            "rewrite-py",
+            "--write",
+            str(Path(os.path.relpath(source_path, outside_root))),
+        ],
+        cwd=outside_root,
+        env=env,
+        check=True,
+    )
+
+    assert source_path.read_text() == "def use():\n    r1()\n"
+
+
+def test_rewrite_py_cli_applies_manifest_relative_scope_from_subdirectory(
+    tmp_path: Path,
+):
+    repo_root = Path(__file__).parents[2]
+    project_root = tmp_path / "project"
+    manifest_path = project_root / "manifest.toml"
+    cwd = project_root / "pkg"
+    source_path = cwd / "button" / "robot.py"
+    source_path.parent.mkdir(parents=True)
+    save_manifest(
+        manifest_path,
+        Manifest(
+            mappings=[
+                Mapping(
+                    scope="pkg/button",
+                    kind="method",
+                    old="r_1",
+                    new="r1",
+                    source="test",
+                ),
+            ]
+        ),
+    )
+    source_path.write_text("def use():\n    r_1()\n")
+    env = os.environ.copy()
+    env["PYTHONPATH"] = os.pathsep.join(
+        filter(None, [str(repo_root), env.get("PYTHONPATH", "")])
+    )
+
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "devtools.snake_case_migration",
+            "--manifest",
+            "../manifest.toml",
+            "rewrite-py",
+            "--write",
+            "button/robot.py",
+        ],
+        cwd=cwd,
+        env=env,
+        check=True,
+    )
+
+    assert source_path.read_text() == "def use():\n    r1()\n"
 
 
 def test_rewrite_scopes_mappings_by_path_and_keeps_no_path_global_only():

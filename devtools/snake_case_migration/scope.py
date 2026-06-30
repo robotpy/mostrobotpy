@@ -32,7 +32,7 @@ def _normalize_absolute_manifest_path(
     return None
 
 
-def normalize_manifest_path(
+def normalize_input_path(
     path: str | Path | None, root_path: str | Path | None = None
 ) -> str | None:
     if path is None:
@@ -50,17 +50,37 @@ def normalize_manifest_path(
     return _normalize_scope_path(path_obj)
 
 
+def normalize_manifest_scope(
+    scope: str | Path | None, root_path: str | Path | None = None
+) -> str | None:
+    if scope is None:
+        return None
+
+    scope_obj = Path(scope)
+    if scope_obj.is_absolute():
+        normalized_absolute = _normalize_absolute_manifest_path(scope_obj, root_path)
+        return normalized_absolute or _normalize_scope_path(scope_obj.resolve())
+
+    return _normalize_scope_path(scope_obj)
+
+
+def normalize_manifest_path(
+    path: str | Path | None, root_path: str | Path | None = None
+) -> str | None:
+    return normalize_input_path(path, root_path)
+
+
 def scope_matches_path(
     scope: str, path: str | Path | None, root_path: str | Path | None = None
 ) -> bool:
     if scope == "global":
         return True
 
-    normalized_path = normalize_manifest_path(path, root_path)
+    normalized_path = normalize_input_path(path, root_path)
     if normalized_path is None:
         return False
 
-    normalized_scope = normalize_manifest_path(scope, root_path)
+    normalized_scope = normalize_manifest_scope(scope, root_path)
     if normalized_scope is None:
         return False
     normalized_scope = normalized_scope.rstrip("/")

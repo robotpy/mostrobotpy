@@ -317,6 +317,56 @@ def test_cli_audit_applies_scoped_mapping_to_relative_path_from_outside_root(
     assert "mapped old name 'r_1' remains; expected 'r1'" in result.stdout
 
 
+def test_cli_audit_applies_manifest_relative_scope_from_subdirectory(
+    tmp_path: Path,
+):
+    repo_root = Path(__file__).parents[2]
+    project_root = tmp_path / "project"
+    manifest_path = project_root / "manifest.toml"
+    cwd = project_root / "pkg"
+    source_path = cwd / "button" / "robot.py"
+    source_path.parent.mkdir(parents=True)
+    save_manifest(
+        manifest_path,
+        Manifest(
+            mappings=[
+                Mapping(
+                    scope="pkg/button",
+                    kind="method",
+                    old="r_1",
+                    new="r1",
+                    source="test",
+                ),
+            ]
+        ),
+    )
+    source_path.write_text("def use():\n    r_1()\n")
+    env = os.environ.copy()
+    env["PYTHONPATH"] = os.pathsep.join(
+        filter(None, [str(repo_root), env.get("PYTHONPATH", "")])
+    )
+
+    result = subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "devtools.snake_case_migration",
+            "--manifest",
+            "../manifest.toml",
+            "audit",
+            "button/robot.py",
+        ],
+        cwd=cwd,
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+    )
+
+    assert result.returncode == 1
+    assert "mapped old name 'r_1' remains; expected 'r1'" in result.stdout
+
+
 def test_audit_reports_semiwrap_yaml_public_def_and_rename_names():
     messages = audit_semiwrap_yaml_source(
         '''\
