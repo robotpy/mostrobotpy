@@ -34,6 +34,97 @@ def test_rewrite_py_cli_rewrites_file(tmp_path: Path):
     assert source_path.read_text() == "def robot_init():\n    pass\n"
 
 
+def test_rewrite_py_cli_applies_scoped_mappings_relative_to_manifest_dir(
+    tmp_path: Path,
+):
+    manifest_path = tmp_path / "manifest.toml"
+    in_scope_path = tmp_path / "pkg" / "button" / "robot.py"
+    out_of_scope_path = tmp_path / "pkg" / "math" / "robot.py"
+    in_scope_path.parent.mkdir(parents=True)
+    out_of_scope_path.parent.mkdir(parents=True)
+    save_manifest(
+        manifest_path,
+        Manifest(
+            mappings=[
+                Mapping(
+                    scope="pkg/button",
+                    kind="method",
+                    old="r_1",
+                    new="r1",
+                    source="test",
+                ),
+                Mapping(
+                    scope="global",
+                    kind="method",
+                    old="robotInit",
+                    new="robot_init",
+                    source="test",
+                ),
+            ]
+        ),
+    )
+    source = "def robotInit():\n    r_1()\n"
+    in_scope_path.write_text(source)
+    out_of_scope_path.write_text(source)
+
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "devtools.snake_case_migration",
+            "--manifest",
+            str(manifest_path),
+            "rewrite-py",
+            "--write",
+            str(tmp_path / "pkg"),
+        ],
+        check=True,
+    )
+
+    assert in_scope_path.read_text() == "def robot_init():\n    r1()\n"
+    assert out_of_scope_path.read_text() == "def robot_init():\n    r_1()\n"
+
+
+def test_rewrite_scopes_mappings_by_path_and_keeps_no_path_global_only():
+    manifest = Manifest(
+        mappings=[
+            Mapping(
+                scope="subprojects/robotpy-commands-v2/commands2/button",
+                kind="method",
+                old="r_1",
+                new="r1",
+                source="test",
+            ),
+            Mapping(
+                scope="global",
+                kind="method",
+                old="robotInit",
+                new="robot_init",
+                source="test",
+            ),
+        ]
+    )
+    source = "def robotInit():\n    r_1()\n"
+
+    assert (
+        rewrite_python_source(
+            source,
+            manifest,
+            path="subprojects/robotpy-commands-v2/commands2/button/foo.py",
+        )
+        == "def robot_init():\n    r1()\n"
+    )
+    assert (
+        rewrite_python_source(
+            source,
+            manifest,
+            path="subprojects/robotpy-wpimath/tests/geometry/test_rotation3d.py",
+        )
+        == "def robot_init():\n    r_1()\n"
+    )
+    assert rewrite_python_source(source, manifest) == "def robot_init():\n    r_1()\n"
+
+
 def test_rewrite_definitions_calls_attrs_and_keywords():
     manifest = Manifest(
         mappings=[

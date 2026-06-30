@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import posixpath
 import re
 from pathlib import Path
 
@@ -9,6 +8,7 @@ from libcst.metadata import MetadataWrapper, ParentNodeProvider
 
 from .manifest import Manifest
 from .names import is_dunder, is_probably_type_name
+from .scope import scoped_ignored_names, scoped_mapping_name_map
 
 _CAMEL_RE = re.compile(r"[a-z][A-Za-z0-9]*[A-Z][A-Za-z0-9]*")
 _SEMIWRAP_DEF_RE = re.compile(
@@ -35,61 +35,17 @@ def iter_audit_files(paths: list[Path]) -> list[Path]:
     return sorted(files)
 
 
-def _normalize_scope_path(path: str | Path) -> str:
-    return posixpath.normpath(str(path).replace("\\", "/"))
-
-
-def _normalize_audit_path(path: str | Path | None) -> str | None:
-    if path is None:
-        return None
-
-    path_obj = Path(path)
-    if path_obj.is_absolute():
-        try:
-            path_obj = path_obj.resolve().relative_to(Path.cwd().resolve())
-        except ValueError:
-            pass
-    return _normalize_scope_path(path_obj)
-
-
-def _scope_matches_path(scope: str, audit_path: str | None) -> bool:
-    if scope == "global":
-        return True
-    if audit_path is None:
-        return False
-
-    normalized_scope = _normalize_scope_path(scope).rstrip("/")
-    return audit_path == normalized_scope or audit_path.startswith(
-        f"{normalized_scope}/"
-    )
-
-
-def _scoped_ignored_names(manifest: Manifest, path: str | Path | None) -> set[str]:
-    audit_path = _normalize_audit_path(path)
-    return {
-        ignored.name
-        for ignored in manifest.ignored
-        if _scope_matches_path(ignored.scope, audit_path)
-    }
-
-
-def _scoped_mapped_old_names(
-    manifest: Manifest, path: str | Path | None
-) -> dict[str, str]:
-    audit_path = _normalize_audit_path(path)
-    return {
-        mapping.old: mapping.new
-        for mapping in manifest.mappings
-        if mapping.old != mapping.new and _scope_matches_path(mapping.scope, audit_path)
-    }
-
-
 class _AuditVisitor(cst.CSTVisitor):
     METADATA_DEPENDENCIES = (ParentNodeProvider,)
 
-    def __init__(self, manifest: Manifest, path: str | Path | None = None):
-        self.allowed = _scoped_ignored_names(manifest, path)
-        self.mapped_old_names = _scoped_mapped_old_names(manifest, path)
+    def __init__(
+        self,
+        manifest: Manifest,
+        path: str | Path | None = None,
+        root_path: str | Path | None = None,
+    ):
+        self.allowed = scoped_ignored_names(manifest, path, root_path)
+        self.mapped_old_names = scoped_mapping_name_map(manifest, path, root_path)
         self.messages: list[str] = []
 
     def _check(self, name: str, context: str) -> None:
@@ -134,9 +90,12 @@ class _AuditVisitor(cst.CSTVisitor):
 
 
 def audit_python_source(
-    source: str, manifest: Manifest, path: str | Path | None = None
+    source: str,
+    manifest: Manifest,
+    path: str | Path | None = None,
+    root_path: str | Path | None = None,
 ) -> list[str]:
-    visitor = _AuditVisitor(manifest, path)
+    visitor = _AuditVisitor(manifest, path, root_path)
     MetadataWrapper(cst.parse_module(source)).visit(visitor)
     return visitor.messages
 
@@ -168,10 +127,13 @@ def _check_public_output_name(
 
 
 def audit_semiwrap_yaml_source(
-    source: str, manifest: Manifest, path: str | Path | None = None
+    source: str,
+    manifest: Manifest,
+    path: str | Path | None = None,
+    root_path: str | Path | None = None,
 ) -> list[str]:
-    allowed = _scoped_ignored_names(manifest, path)
-    mapped_old_names = _scoped_mapped_old_names(manifest, path)
+    allowed = scoped_ignored_names(manifest, path, root_path)
+    mapped_old_names = scoped_mapping_name_map(manifest, path, root_path)
     messages: list[str] = []
     for lineno, line in enumerate(source.splitlines(), 1):
         def_match = _SEMIWRAP_DEF_RE.search(line)

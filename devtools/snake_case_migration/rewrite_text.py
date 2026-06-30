@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 from .manifest import Manifest
+from .scope import scoped_mappings
 
 TEXT_SUFFIXES = {".md", ".rst", ".py", ".toml", ".yml", ".yaml"}
 
@@ -24,9 +25,17 @@ def iter_text_files(paths: list[Path]) -> list[Path]:
     return sorted(files)
 
 
-def rewrite_text_source(source: str, manifest: Manifest) -> str:
+def rewrite_text_source(
+    source: str,
+    manifest: Manifest,
+    path: str | Path | None = None,
+    root_path: str | Path | None = None,
+) -> str:
     result = source
-    for mapping in sorted(manifest.mappings, key=lambda m: len(m.old), reverse=True):
-        if mapping.old != mapping.new:
-            result = result.replace(mapping.old, mapping.new)
+    for mapping in sorted(
+        scoped_mappings(manifest, path, root_path),
+        key=lambda m: len(m.old),
+        reverse=True,
+    ):
+        result = result.replace(mapping.old, mapping.new)
     return result

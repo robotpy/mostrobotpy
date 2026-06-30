@@ -76,6 +76,52 @@ def test_audit_skips_scoped_mapping_for_unrelated_path():
     assert messages == []
 
 
+def test_audit_applies_directory_scoped_mapping_under_directory():
+    manifest = Manifest(
+        mappings=[
+            Mapping(
+                scope="subprojects/robotpy-commands-v2/commands2/button",
+                kind="method",
+                old="r_1",
+                new="r1",
+                source="test",
+            ),
+        ]
+    )
+
+    messages = audit_python_source(
+        "def use():\n    r_1()\n",
+        manifest,
+        path="subprojects/robotpy-commands-v2/commands2/button/foo.py",
+    )
+
+    assert messages == ["name: mapped old name 'r_1' remains; expected 'r1'"]
+
+
+def test_audit_matches_absolute_paths_relative_to_root(tmp_path: Path):
+    manifest = Manifest(
+        mappings=[
+            Mapping(
+                scope="pkg/button",
+                kind="method",
+                old="r_1",
+                new="r1",
+                source="test",
+            ),
+        ]
+    )
+    path = tmp_path / "pkg" / "button" / "foo.py"
+
+    messages = audit_python_source(
+        "def use():\n    r_1()\n",
+        manifest,
+        path=path,
+        root_path=tmp_path,
+    )
+
+    assert messages == ["name: mapped old name 'r_1' remains; expected 'r1'"]
+
+
 def test_audit_applies_global_mapping_to_any_path():
     manifest = Manifest(
         mappings=[
@@ -271,3 +317,39 @@ classes:
     assert not any("CxxInputIdentifier" in message for message in messages)
     assert not any("'TypeName'" in message for message in messages)
     assert not any("OPMode" in message for message in messages)
+
+
+def test_audit_semiwrap_yaml_applies_scoped_mapping_only_to_matching_path():
+    manifest = Manifest(
+        mappings=[
+            Mapping(
+                scope="subprojects/robotpy-wpilib/semiwrap",
+                kind="method",
+                old="get_r_1_button",
+                new="get_r1_button",
+                source="test",
+            ),
+        ]
+    )
+    source = '''\
+classes:
+  frc::PS4Controller:
+    inline_code: |
+      .def("get_r_1_button", [] {})
+'''
+
+    matching_messages = audit_semiwrap_yaml_source(
+        source,
+        manifest,
+        path="subprojects/robotpy-wpilib/semiwrap/PS4Controller.yml",
+    )
+    unrelated_messages = audit_semiwrap_yaml_source(
+        source,
+        manifest,
+        path="subprojects/robotpy-wpimath/semiwrap/Rotation3d.yml",
+    )
+
+    assert matching_messages == [
+        "semiwrap .def line 4: mapped old name 'get_r_1_button' remains; expected 'get_r1_button'"
+    ]
+    assert unrelated_messages == []

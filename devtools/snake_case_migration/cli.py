@@ -124,7 +124,9 @@ def _run_rewrite_py(paths: list[Path], manifest_path: Path, write: bool) -> int:
     changed: list[Path] = []
     for path in iter_python_files(paths):
         source = path.read_text()
-        updated = rewrite_python_source(source, manifest)
+        updated = rewrite_python_source(
+            source, manifest, path=path, root_path=manifest_path.parent
+        )
         if updated != source:
             changed.append(path)
             if write:
@@ -140,7 +142,9 @@ def _run_rewrite_text(paths: list[Path], manifest_path: Path, write: bool) -> in
     changed: list[Path] = []
     for path in iter_text_files(paths):
         source = path.read_text()
-        updated = rewrite_text_source(source, manifest)
+        updated = rewrite_text_source(
+            source, manifest, path=path, root_path=manifest_path.parent
+        )
         if updated != source:
             changed.append(path)
             if write:
@@ -157,9 +161,13 @@ def _run_audit(paths: list[Path], manifest_path: Path) -> int:
     for path in iter_audit_files(paths):
         source = path.read_text()
         if path.suffix in {".yml", ".yaml"}:
-            messages = audit_semiwrap_yaml_source(source, manifest, path=path)
+            messages = audit_semiwrap_yaml_source(
+                source, manifest, path=path, root_path=manifest_path.parent
+            )
         else:
-            messages = audit_python_source(source, manifest, path=path)
+            messages = audit_python_source(
+                source, manifest, path=path, root_path=manifest_path.parent
+            )
         for message in messages:
             print(f"{path}: {message}")
             found = True

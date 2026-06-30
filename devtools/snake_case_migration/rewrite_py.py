@@ -1,22 +1,27 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 import libcst as cst
 
 from .manifest import Manifest
 from .names import is_dunder, is_probably_type_name
+from .scope import scoped_mappings
 
 
 class _RenameTransformer(cst.CSTTransformer):
-    def __init__(self, manifest: Manifest):
+    def __init__(
+        self,
+        manifest: Manifest,
+        path: str | Path | None = None,
+        root_path: str | Path | None = None,
+    ):
+        mappings = scoped_mappings(manifest, path, root_path)
         self.name_map: dict[str, str] = {
-            mapping.old: mapping.new
-            for mapping in manifest.mappings
-            if mapping.old != mapping.new
+            mapping.old: mapping.new for mapping in mappings
         }
         self.kind_map: dict[str, str] = {
-            mapping.old: mapping.kind
-            for mapping in manifest.mappings
-            if mapping.old != mapping.new
+            mapping.old: mapping.kind for mapping in mappings
         }
 
     def _rename(self, value: str) -> str:
@@ -68,6 +73,11 @@ class _RenameTransformer(cst.CSTTransformer):
         )
 
 
-def rewrite_python_source(source: str, manifest: Manifest) -> str:
+def rewrite_python_source(
+    source: str,
+    manifest: Manifest,
+    path: str | Path | None = None,
+    root_path: str | Path | None = None,
+) -> str:
     module = cst.parse_module(source)
-    return module.visit(_RenameTransformer(manifest)).code
+    return module.visit(_RenameTransformer(manifest, path, root_path)).code
