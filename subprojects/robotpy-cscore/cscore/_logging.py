@@ -1,12 +1,12 @@
 import logging
 import typing
 
-from ._cscore import _setLogger
+from ._cscore import _set_logger
 
 
-def enableLogging(level: typing.Optional[int] = None):
+def enable_logging(level: typing.Optional[int] = None):
     """Enable logging for cscore"""
     if level is None:
         level = logging.DEBUG
     logger = logging.getLogger("cscore")
-    _setLogger(lambda lvl, file, line, msg: logger.log(lvl, msg), level)
+    _set_logger(lambda lvl, file, line, msg: logger.log(lvl, msg), level)
