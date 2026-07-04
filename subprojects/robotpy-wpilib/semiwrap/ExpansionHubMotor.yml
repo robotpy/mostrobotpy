@@ -8,6 +8,7 @@ classes:
       SetVelocitySetpoint:
       SetEnabled:
       SetFloatOn0:
+        rename: set_float_on_0
       GetCurrent:
       SetDistancePerCount:
       GetEncoderVelocity:
