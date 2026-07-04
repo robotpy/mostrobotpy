@@ -1,5 +1,6 @@
 import os
 import pathlib
+import subprocess
 import sys
 
 import click
@@ -44,6 +45,30 @@ def info(ctx: Context):
     """Display information"""
     for project in ctx.subprojects.values():
         print(project.name, project.build_requires)
+
+
+@main.command("regen-generated")
+@click.pass_obj
+def regen_generated(ctx: Context):
+    """Regenerate checked-in generated files"""
+    root = ctx.root_path
+    hids_dir = root / "subprojects" / "robotpy-commands-v2" / "tools" / "hids"
+
+    subprocess.run(
+        [
+            sys.executable,
+            str(hids_dir / "generate_hids.py"),
+            "--skip_hids",
+            "--skip_first_ds_non_python",
+            "--template_root",
+            str(hids_dir / "templates"),
+            "--first_ds_schema_file",
+            str(hids_dir / "first_ds_hids.json"),
+            "--python_output_directory",
+            str(root / "subprojects" / "robotpy-commands-v2"),
+        ],
+        check=True,
+    )
 
 
 @main.command()
