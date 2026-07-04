@@ -33,9 +33,9 @@ General:
 Naming:
 
 * Filenames should always be all lowercase
-* Function names are camelCase
-* Class names start with a capital letter
-* Class method names are camelCase
+* Function names should be snake_case
+* Class names should use PascalCase
+* Class method names should be snake_case
 * Class member variables such as `m_name` should be `self.name` in Python
 * Protected/private methods/members can optionally be prefixed with `_`
 
@@ -140,7 +140,7 @@ class SomeClass:
         This describes what the constructor does
         """ 
 
-    def myFunction(self, a: int) -> int:
+    def my_function(self, a: int) -> int:
         """
         This function is great.
 
@@ -153,8 +153,8 @@ Command-based robot specific things
 -----------------------------------
 
 We use `commands2.TimedCommandRobot` instead of TimedRobot. It provides a 
-`robotPeriodic` method for you, so it doesn't need to be included from
-the java code unless robotPeriodic function does something other than
+`robot_periodic` method for you, so it doesn't need to be included from
+the java code unless robot_periodic function does something other than
 run the command scheduler.
 
 Java examples will often have a `Constants.java` file with a bunch of constants
