@@ -46,6 +46,11 @@ packages = ["romi"]
 [tool.semiwrap]
 update_init = ["romi"]
 
+[tool.semiwrap.name_transform]
+default = "snake_case"
+enum_value = "CAPS_CASE"
+known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "POVs", "PWM", "RIO", "SPI", "URI", "URL", "USB", "VIn"]
+
 [tool.semiwrap.extension_modules."romi._romi"]
 name = "romi"
 wraps = ["robotpy-native-romi"]
