@@ -1,6 +1,7 @@
 black
 build
 click
+jinja2
 packaging
 pytest
 tomlkit

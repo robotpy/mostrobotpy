@@ -18,7 +18,12 @@ def write_controller_file(output_dir: Path, controller_name: str, contents: str)
     output_file.write_text(contents, encoding="utf-8", newline="\n")
 
 
-def generate_hids(output_directory: Path, template_directory: Path, schema_file: Path):
+def generate_hids(
+    output_directory: Path | None, template_directory: Path, schema_file: Path
+):
+    if output_directory is None:
+        return
+
     with schema_file.open(encoding="utf-8") as f:
         controllers = json.load(f)
 
@@ -137,7 +142,7 @@ def _normalize_first_ds_command_controller(controller: dict):
 
 
 def generate_first_ds_hids(
-    output_directory: Path,
+    output_directory: Path | None,
     template_directory: Path,
     schema_file: Path,
     python_output_directory: Path | None = None,
@@ -148,47 +153,48 @@ def generate_first_ds_hids(
             for controller in json.load(f)
         ]
 
-    # Java files
-    java_subdirectory = "main/java/org/wpilib/command2/button"
-    env = Environment(
-        loader=FileSystemLoader(template_directory / "main/java"),
-        autoescape=False,
-        keep_trailing_newline=True,
-    )
-    root_path = output_directory / java_subdirectory
-    template = env.get_template("first_ds_commandhid.java.jinja")
-    for controller in controllers:
-        controller_name = f"Command{controller['ClassName']}Controller.java"
-        output = template.render(controller)
-        write_controller_file(root_path, controller_name, output)
+    if output_directory is not None:
+        # Java files
+        java_subdirectory = "main/java/org/wpilib/command2/button"
+        env = Environment(
+            loader=FileSystemLoader(template_directory / "main/java"),
+            autoescape=False,
+            keep_trailing_newline=True,
+        )
+        root_path = output_directory / java_subdirectory
+        template = env.get_template("first_ds_commandhid.java.jinja")
+        for controller in controllers:
+            controller_name = f"Command{controller['ClassName']}Controller.java"
+            output = template.render(controller)
+            write_controller_file(root_path, controller_name, output)
 
-    # C++ headers
-    hdr_subdirectory = "main/native/include/wpi/commands2/button"
-    env = Environment(
-        loader=FileSystemLoader(template_directory / hdr_subdirectory),
-        autoescape=False,
-        keep_trailing_newline=True,
-    )
-    root_path = output_directory / hdr_subdirectory
-    template = env.get_template("first_ds_commandhid.hpp.jinja")
-    for controller in controllers:
-        controller_name = f"Command{controller['ClassName']}Controller.hpp"
-        output = template.render(controller)
-        write_controller_file(root_path, controller_name, output)
+        # C++ headers
+        hdr_subdirectory = "main/native/include/wpi/commands2/button"
+        env = Environment(
+            loader=FileSystemLoader(template_directory / hdr_subdirectory),
+            autoescape=False,
+            keep_trailing_newline=True,
+        )
+        root_path = output_directory / hdr_subdirectory
+        template = env.get_template("first_ds_commandhid.hpp.jinja")
+        for controller in controllers:
+            controller_name = f"Command{controller['ClassName']}Controller.hpp"
+            output = template.render(controller)
+            write_controller_file(root_path, controller_name, output)
 
-    # C++ files
-    cpp_subdirectory = "main/native/cpp/wpi/commands2/button"
-    env = Environment(
-        loader=FileSystemLoader(template_directory / cpp_subdirectory),
-        autoescape=False,
-        keep_trailing_newline=True,
-    )
-    root_path = output_directory / cpp_subdirectory
-    template = env.get_template("first_ds_commandhid.cpp.jinja")
-    for controller in controllers:
-        controller_name = f"Command{controller['ClassName']}Controller.cpp"
-        output = template.render(controller)
-        write_controller_file(root_path, controller_name, output)
+        # C++ files
+        cpp_subdirectory = "main/native/cpp/wpi/commands2/button"
+        env = Environment(
+            loader=FileSystemLoader(template_directory / cpp_subdirectory),
+            autoescape=False,
+            keep_trailing_newline=True,
+        )
+        root_path = output_directory / cpp_subdirectory
+        template = env.get_template("first_ds_commandhid.cpp.jinja")
+        for controller in controllers:
+            controller_name = f"Command{controller['ClassName']}Controller.cpp"
+            output = template.render(controller)
+            write_controller_file(root_path, controller_name, output)
 
     if python_output_directory is not None:
         python_subdirectory = "commands2/button"
@@ -240,16 +246,30 @@ def main():
         default=dirname / "src/main/python",
         type=Path,
     )
+    parser.add_argument(
+        "--skip_hids",
+        help="Optional. If set, will skip legacy CommandHID generation",
+        action="store_true",
+    )
+    parser.add_argument(
+        "--skip_first_ds_non_python",
+        help="Optional. If set, will skip Java/C++ FIRST Driver Station HID generation",
+        action="store_true",
+    )
     args = parser.parse_args()
 
-    generate_hids(args.output_directory, args.template_root, args.schema_file)
+    if not args.skip_hids:
+        generate_hids(args.output_directory, args.template_root, args.schema_file)
     python_output_directory = (
         None
         if args.python_output_directory.name == "__none__"
         else args.python_output_directory
     )
+    first_ds_output_directory = (
+        None if args.skip_first_ds_non_python else args.output_directory
+    )
     generate_first_ds_hids(
-        args.output_directory,
+        first_ds_output_directory,
         args.template_root,
         args.first_ds_schema_file,
         python_output_directory,
