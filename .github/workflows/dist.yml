@@ -59,6 +59,12 @@ jobs:
       run: |
         python -m pip --disable-pip-version-check install -r rdev_requirements.txt
 
+    - name: Check generated files are up to date
+      shell: bash
+      run: |
+        ./rdev.sh regen-generated
+        git diff --exit-code
+
     - name: Check pyproject / rdev synchronization
       shell: bash
       run: |
