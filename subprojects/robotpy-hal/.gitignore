@@ -9,7 +9,7 @@
 
 __pycache__
 /hal/trampolines
-/hal/_init__wpiHal.py
+/hal/_init__wpi_hal.py
 /hal/version.py
 /hal/wpihal.pc
 /hal/simulation/_init__simulation.py
