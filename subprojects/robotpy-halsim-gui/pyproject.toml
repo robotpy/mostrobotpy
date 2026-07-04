@@ -52,7 +52,11 @@ extract_to = "halsim_gui"
 packages = ["halsim_gui"]
 
 
-[tool.semiwrap]
+[tool.semiwrap.name_transform]
+default = "snake_case"
+enum_value = "CAPS_CASE"
+known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "POVs", "PWM", "RIO", "SPI", "URI", "URL", "USB", "VIn"]
+
 [tool.semiwrap.extension_modules."halsim_gui._ext._halsim_gui_ext"]
 name = "halsim_gui_ext"
 depends = ["wpihal", "wpimath", "ntcore"]
