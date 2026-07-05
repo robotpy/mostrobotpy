@@ -39,6 +39,37 @@ exclude_artifacts = [
 
 robot_wheel_platform = "linux-systemcore"
 
+known_words = [
+    "3V3",
+    "5V",
+    "CAN",
+    "CPU",
+    "DS",
+    "FMS",
+    "FPGA",
+    "HAL",
+    "HTTP",
+    "I2C",
+    "IMU",
+    "JNI",
+    "JSON",
+    "mDNS",
+    "NT",
+    "OpMode",
+    "PCM",
+    "PDH",
+    "PDP",
+    "PID",
+    "POVs",
+    "PWM",
+    "RIO",
+    "SPI",
+    "URI",
+    "URL",
+    "USB",
+    "VIn",
+]
+
 [params.entrypoints]
 # prefix = "actual"
 # - ensures that [project.entry-points.prefix*] are renamed to "actual", which

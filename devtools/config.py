@@ -28,6 +28,9 @@ class Parameters:
     mrclib_bin_url: str
     mrclib_artifacts: T.Set[str]
 
+    #: semiwrap name_transform known_words shared by all wrapper projects
+    known_words: T.List[str]
+
     #: renames [project.entry-points.KEY*] to [project.entry-points.VALUE]
     entrypoints: T.Dict[str, str]
 

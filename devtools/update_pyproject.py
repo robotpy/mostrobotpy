@@ -229,9 +229,34 @@ class ProjectUpdater:
             self.commit_changes.add(f"{name} updated to {version}")
             info.changed = True
 
+    def update_semiwrap(self):
+        known_words = list(self.cfg.params.known_words)
+        known_words_set = set(known_words)
+
+        for info in self.subprojects.values():
+            swdata = info.data.get("tool", {}).get("semiwrap", None)
+            if swdata is None:
+                continue
+
+            name_transform = swdata.get("name_transform", None)
+            if name_transform is None:
+                name_transform = tomlkit.table()
+                swdata["name_transform"] = name_transform
+
+            if set(name_transform.get("known_words", [])) != known_words_set:
+                name = info.data["project"]["name"]
+
+                name_transform["default"] = "snake_case"
+                name_transform["enum_value"] = "CAPS_CASE"
+                name_transform["known_words"] = known_words
+                print(f"* {name}: semiwrap name_transform updated")
+                self.commit_changes.add(f"{name}: semiwrap name_transform updated")
+                info.changed = True
+
     def update(self):
         self.update_maven()
         self.update_requirements()
+        self.update_semiwrap()
 
     def commit(self):
         files = []
