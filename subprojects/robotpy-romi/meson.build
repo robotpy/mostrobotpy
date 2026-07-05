@@ -1,5 +1,5 @@
 project('robotpy-romi', ['cpp'],
-        default_options: ['warning_level=1', 'cpp_std=c++20',
+        default_options: ['warning_level=1', 'cpp_std=c++23',
                           'b_colorout=auto', 'optimization=2', 'b_pie=true'])
 
 subdir('semiwrap')
