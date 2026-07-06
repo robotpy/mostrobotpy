@@ -55,14 +55,27 @@ class Subproject:
     # Tasks
     #
 
+    def _config_settings(self, config_settings: T.List[str]) -> T.List[str]:
+        if sys.platform == "win32" and self.is_meson_project():
+            config_settings = config_settings + [
+                "setup-args=-Dcpp_std=none",
+                "setup-args=-Dcpp_args=['/std:c++23preview', '/permissive-']",
+            ]
+
+        return config_settings
+
     def develop(self, buildtype: str):
+
+        config_settings = self._config_settings([f"setup-args=-Dbuildtype={buildtype}"])
+        config_args = [f"--config-settings={setting}" for setting in config_settings]
+
         self.ctx.run_pip(
             "install",
             "-v",
             "-e",
             ".",
             "--no-build-isolation",
-            f"--config-settings=setup-args=-Dbuildtype={buildtype}",
+            *config_args,
             cwd=self.path,
         )
 
@@ -136,6 +149,7 @@ class Subproject:
     ):
         wheel_path.mkdir(parents=True, exist_ok=True)
 
+        config_settings = self._config_settings(config_settings)
         config_args = [f"--config-setting={setting}" for setting in config_settings]
 
         # TODO: eventually it would be nice to use build isolation

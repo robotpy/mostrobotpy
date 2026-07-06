@@ -9,6 +9,14 @@ if __name__ == "__main__":
     root = abspath(dirname(__file__))
     os.chdir(root)
 
+    args = []
+    if sys.platform == "win32":
+        # MSVC doesn't directly support c++23 yet
+        args = [
+            "--config-settings=setup-args=-Dcpp_std=none",
+            "--config-settings=setup-args=-Dcpp_args=['/std:c++23preview', '/permissive-']",
+        ]
+
     subprocess.check_call(
         [
             sys.executable,
@@ -21,6 +29,7 @@ if __name__ == "__main__":
             "--no-build-isolation",
             "./cpp",
         ]
+        + args,
     )
 
     subprocess.check_call([sys.executable, "-m", "pytest", "--ignore=cpp"])
