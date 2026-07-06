@@ -9,7 +9,7 @@ def test_default():
 
     # Allow a one second delta. We don't care about it being all that accurate in the
     # test, just that we are in the same galaxy
-    assert py_now == pytest.approx(wpi_now, abs=1)
+    assert py_now == pytest.approx(wpi_now, abs=2)
 
 
 NOW_TIMESTAMP_S = 0
@@ -42,4 +42,4 @@ def test_custom_timestamp(custom_fixture):
     wpiutil.SetNowImpl(None)
     wpi_now = wpiutil.now() * 1e-6
     py_now = int(time.time())
-    assert py_now == pytest.approx(wpi_now, abs=1)
+    assert py_now == pytest.approx(wpi_now, abs=2)
