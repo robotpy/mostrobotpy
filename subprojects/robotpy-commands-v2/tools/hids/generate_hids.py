@@ -87,6 +87,16 @@ def _constant_name(name: str) -> str:
     return name.upper()
 
 
+def _snake_case(name: str) -> str:
+    name = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", name)
+    name = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", name)
+    return name.lower()
+
+
+def _python_display_name(name: str) -> str:
+    return re.sub(r"\b([A-Z]) ([0-9])\b", r"\1\2", _display_name(name))
+
+
 def _is_trigger_axis(name: str) -> bool:
     return name.endswith("Trigger") or name in {
         "L2",
@@ -103,6 +113,8 @@ def _normalize_command_mapping(mapping: dict[str, int]):
             "MethodName": _capitalize_first(name),
             "ConstantName": _constant_name(name),
             "DocName": _display_name(name),
+            "PythonName": _snake_case(name),
+            "PythonDocName": _python_display_name(name),
             "value": value,
         }
         for name, value in mapping.items()
@@ -126,10 +138,14 @@ def _normalize_first_ds_command_controller(controller: dict):
                 "Name": trigger_name,
                 "MethodName": _capitalize_first(trigger_name),
                 "DocName": _display_name(trigger_name),
+                "PythonName": _snake_case(trigger_name),
+                "PythonDocName": _python_display_name(trigger_name),
                 "AxisName": axis["Name"],
                 "AxisMethodName": axis["MethodName"],
                 "AxisConstantName": axis["ConstantName"],
                 "AxisDocName": axis["DocName"],
+                "AxisPythonName": axis["PythonName"],
+                "AxisPythonDocName": axis["PythonDocName"],
                 "HasDefaultThresholdMethod": trigger_name not in button_names,
             }
         )

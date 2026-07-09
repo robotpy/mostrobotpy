@@ -17,7 +17,7 @@ logger = logging.getLogger("cscore")
 
 def _parent_poll_thread() -> None:
     """Kills process if input disappears"""
-    from ._cscore import stopMainRunLoop
+    from ._cscore import stop_main_run_loop
 
     try:
         while True:
@@ -26,7 +26,7 @@ def _parent_poll_thread() -> None:
     except Exception:
         pass
 
-    stopMainRunLoop()
+    stop_main_run_loop()
 
 
 def _run_user_thread(vision_py: str, vision_fn: str) -> None:
@@ -60,9 +60,9 @@ def _run_user_thread(vision_py: str, vision_fn: str) -> None:
     finally:
         logger.warning("%s exited", vision_py)
 
-        from ._cscore import stopMainRunLoop
+        from ._cscore import stop_main_run_loop
 
-        stopMainRunLoop()
+        stop_main_run_loop()
 
 
 def main():
@@ -100,18 +100,18 @@ def main():
     logging.basicConfig(datefmt=log_datefmt, format=log_format, level=log_level)
 
     # Enable cscore python logging
-    from ._logging import enableLogging
+    from ._logging import enable_logging
 
-    enableLogging(level=log_level)
+    enable_logging(level=log_level)
 
     # Initialize NetworkTables next
-    ntinst = NetworkTableInstance.getDefault()
+    ntinst = NetworkTableInstance.get_default()
     if args.team:
-        ntinst.setServerTeam(args.team)
+        ntinst.set_server_team(args.team)
     else:
-        ntinst.setServer(args.robot)
+        ntinst.set_server(args.robot)
 
-    ntinst.startClient(args.nt_identity)
+    ntinst.start_client(args.nt_identity)
 
     # If stdin is a pipe, then die when the pipe goes away
     # -> this allows us to detect if a parent process exits
@@ -123,7 +123,7 @@ def main():
     if args.vision_py is None:
         from ._cscore import CameraServer
 
-        CameraServer.startAutomaticCapture()
+        CameraServer.start_automatic_capture()
     else:
         s = args.vision_py.split(":", 1)
         vision_py = abspath(s[0])
@@ -138,10 +138,10 @@ def main():
         thread.start()
 
     try:
-        from ._cscore import runMainRunLoopTimeout
+        from ._cscore import run_main_run_loop_timeout
 
         SIGNALED = 2
-        while runMainRunLoopTimeout(1) != SIGNALED:
+        while run_main_run_loop_timeout(1) != SIGNALED:
             pass
 
     finally:

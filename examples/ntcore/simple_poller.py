@@ -30,29 +30,29 @@ if __name__ == "__main__":
     parser.add_argument("ip", type=str, help="IP address to connect to")
     args = parser.parse_args()
 
-    inst = ntcore.NetworkTableInstance.getDefault()
+    inst = ntcore.NetworkTableInstance.get_default()
 
     identity = basename(__file__)
     if args.protocol == 3:
-        inst.startClient3(identity)
+        inst.start_client3(identity)
     else:
-        inst.startClient4(identity)
+        inst.start_client4(identity)
 
-    inst.setServer(args.ip)
+    inst.set_server(args.ip)
 
     # Create a poller
     poller = ntcore.NetworkTableListenerPoller(inst)
 
     # Listen for all connection events
-    poller.addConnectionListener(True)
+    poller.add_connection_listener(True)
 
     # Listen to all changes
     msub = ntcore.MultiSubscriber(inst, [""])
-    poller.addListener(msub, ntcore.EventFlags.kValueRemote)
+    poller.add_listener(msub, ntcore.EventFlags.VALUE_REMOTE)
 
     while True:
         # periodically read from the queue
-        for event in poller.readQueue():
+        for event in poller.read_queue():
             print(event)
 
         time.sleep(1)

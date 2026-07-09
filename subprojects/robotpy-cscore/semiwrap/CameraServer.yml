@@ -42,13 +42,13 @@ classes:
       RemoveCamera:
       SetSize:
     inline_code: |-
-      .def_static("waitForever", []() {
+      .def_static("wait_forever", []() {
         auto time_module = py::module::import("time");
         while (true) {
           time_module.attr("sleep")(1);
         }
       }, py::doc("Infinitely loops until the process dies"))
-      .def_static("enableLogging", [](std::optional<int> level) {
+      .def_static("enable_logging", [](std::optional<int> level) {
         auto lm = py::module::import("cscore._logging");
-        lm.attr("enableLogging")(level);
+        lm.attr("enable_logging")(level);
       }, py::arg("level") = py::none(), py::doc("Enable cscore logging"))

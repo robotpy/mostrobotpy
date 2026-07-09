@@ -31,69 +31,69 @@ def main():
 
     # Set prior to connect
     argc = 2
-    propName = None
+    prop_name = None
 
     for arg in sys.argv[argc:]:
         argc += 1
         if arg == "--":
             break
 
-        if propName is None:
-            propName = arg
+        if prop_name is None:
+            prop_name = arg
         else:
             try:
-                propVal = int(arg)
+                prop_val = int(arg)
             except ValueError:
-                camera.getProperty(propName).setString(arg)
+                camera.get_property(prop_name).set_string(arg)
             else:
-                camera.getProperty(propName).set(propVal)
+                camera.get_property(prop_name).set(prop_val)
 
-            propName = None
+            prop_name = None
 
     # Wait to connect
-    while not camera.isConnected():
+    while not camera.is_connected():
         time.sleep(0.010)
 
     # Set rest
     for arg in sys.argv[argc:]:
-        if propName is None:
-            propName = arg
+        if prop_name is None:
+            prop_name = arg
         else:
             try:
-                propVal = int(arg)
+                prop_val = int(arg)
             except ValueError:
-                camera.getProperty(propName).setString(arg)
+                camera.get_property(prop_name).set_string(arg)
             else:
-                camera.getProperty(propName).set(propVal)
+                camera.get_property(prop_name).set(prop_val)
 
-            propName = None
+            prop_name = None
 
     # Print settings
     print("Properties:")
-    for prop in camera.enumerateProperties():
-        kind = prop.getKind()
-        if kind == cs.VideoProperty.Kind.kBoolean:
+    for prop in camera.enumerate_properties():
+        kind = prop.get_kind()
+        if kind == cs.VideoProperty.Kind.BOOLEAN:
             print(
-                prop.getName(),
-                "(bool) value=%s default=%s" % (prop.get(), prop.getDefault()),
+                prop.get_name(),
+                "(bool) value=%s default=%s" % (prop.get(), prop.get_default()),
             )
-        elif kind == cs.VideoProperty.Kind.kInteger:
+        elif kind == cs.VideoProperty.Kind.INTEGER:
             print(
-                prop.getName(),
+                prop.get_name(),
                 "(int): value=%s min=%s max=%s step=%s default=%s"
                 % (
                     prop.get(),
-                    prop.getMin(),
-                    prop.getMax(),
-                    prop.getStep(),
-                    prop.getDefault(),
+                    prop.get_min(),
+                    prop.get_max(),
+                    prop.get_step(),
+                    prop.get_default(),
                 ),
             )
-        elif kind == cs.VideoProperty.Kind.kString:
-            print(prop.getName(), "(string):", prop.getString())
-        elif kind == cs.VideoProperty.Kind.kEnum:
-            print(prop.getName(), "(enum): value=%s" % prop.get())
-            for i, choice in enumerate(prop.getChoices()):
+        elif kind == cs.VideoProperty.Kind.STRING:
+            print(prop.get_name(), "(string):", prop.get_string())
+        elif kind == cs.VideoProperty.Kind.ENUM:
+            print(prop.get_name(), "(enum): value=%s" % prop.get())
+            for i, choice in enumerate(prop.get_choices()):
                 if choice:
                     print("    %s: %s" % (i, choice))
 
