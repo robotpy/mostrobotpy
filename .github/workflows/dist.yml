@@ -277,7 +277,7 @@ jobs:
       with:
         name: "pypi-meson-${{ runner.os }}-${{ runner.arch }}-${{ matrix.python_version }}"
         path: dist
-        if: matrix.publish
+      if: matrix.publish
 
   #
   # Build robot/raspbian wheels
