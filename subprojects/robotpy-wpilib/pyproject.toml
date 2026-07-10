@@ -5,16 +5,16 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-wpilib==2027.0.0a6.post4",
-    "robotpy-wpiutil==2027.0.0a6.post4",
-    "robotpy-wpimath==2027.0.0a6.post4",
-    "robotpy-hal==2027.0.0a6.post4",
-    "pyntcore==2027.0.0a6.post4",
+    "robotpy-native-wpilib==0.0.0",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
+    "robotpy-hal==0.0.0",
+    "pyntcore==0.0.0",
 ]
 
 [project]
 name = "wpilib"
-version = "2027.0.0a6.post4"
+version = "0.0.0"
 description = "Binary wrapper for WPILib"
 requires-python = ">=3.11"
 authors = [
@@ -22,11 +22,11 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpilib==2027.0.0a6.post4",
-    "robotpy-wpiutil==2027.0.0a6.post4",
-    "robotpy-wpimath==2027.0.0a6.post4",
-    "robotpy-hal==2027.0.0a6.post4",
-    "pyntcore==2027.0.0a6.post4",
+    "robotpy-native-wpilib==0.0.0",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
+    "robotpy-hal==0.0.0",
+    "pyntcore==0.0.0",
     "robotpy-cli~=2027.0.0a1",
 
     # For running robot tests
@@ -124,6 +124,7 @@ POVDirection = "wpi/driverstation/POVDirection.hpp"
 RobotState = "wpi/driverstation/RobotState.hpp"
 TouchpadFinger = "wpi/driverstation/TouchpadFinger.hpp"
 Gamepad = "wpi/driverstation/Gamepad.hpp"
+DSGamepadChooser = "wpi/driverstation/DSGamepadChooser.hpp"
 GenericHID = "wpi/driverstation/GenericHID.hpp"
 HIDDevice = "wpi/driverstation/HIDDevice.hpp"
 Joystick = "wpi/driverstation/Joystick.hpp"

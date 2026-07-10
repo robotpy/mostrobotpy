@@ -4,20 +4,20 @@ requires = [
     "hatchling",
     "hatch-nativelib~=0.2.0",
     "hatch-robotpy~=0.2.1",
-    "robotpy-native-wpiutil==2027.0.0a6.post4",
-    "robotpy-native-ntcore==2027.0.0a6.post4",
+    "robotpy-native-wpiutil==0.0.0",
+    "robotpy-native-ntcore==0.0.0",
 ]
 
 [project]
 name = "robotpy-native-wpihal"
-version = "2027.0.0a6.post4"
+version = "0.0.0"
 description = "WPILib HAL implementation"
 requires-python = ">=3.11"
 license = "BSD-3-Clause"
 
 dependencies = [
-    "robotpy-native-wpiutil==2027.0.0a6.post4",
-    "robotpy-native-ntcore==2027.0.0a6.post4",
+    "robotpy-native-wpiutil==0.0.0",
+    "robotpy-native-ntcore==0.0.0",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -26,8 +26,8 @@ packages = ["src/native"]
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "hal-cpp"
 group_id = "org.wpilib.hal"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-6-139-g34fee9a73"
+repo_url = ""
+version = "0.0.0"
 
 extract_to = "src/native/wpihal"
 libs = ["wpiHal"]
@@ -35,8 +35,8 @@ libs = ["wpiHal"]
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
 artifact_id = "mrclib-cpp"
 group_id = "org.wpilib.mrclib"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.1.0-alpha-1-69-gc4dd18d"
+repo_url = ""
+version = "0.0.0"
 
 extract_to = "src/native/wpihal"
 libs = ["MrcLib"]

@@ -5,12 +5,12 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-wpiutil==2027.0.0a6.post4",
+    "robotpy-native-wpiutil==0.0.0",
 ]
 
 [project]
 name = "robotpy-wpiutil"
-version = "2027.0.0a6.post4"
+version = "0.0.0"
 description = "Binary wrapper for WPILib utilities library"
 requires-python = ">=3.11"
 authors = [
@@ -18,7 +18,7 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpiutil==2027.0.0a6.post4",
+    "robotpy-native-wpiutil==0.0.0",
 ]
 
 [project.urls]
@@ -46,7 +46,6 @@ update_init = [
 scan_headers_ignore = [
     "debugging.hpp",
     "debugging/*",
-    "fmt/*",
     "google/*",
     "wpi/*",
     "wpystruct_fns.h",
