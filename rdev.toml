@@ -125,6 +125,10 @@ robot = false
 py_version = "native"
 robot = false
 
+[subprojects."robotpy-native-halsim-gui"]
+py_version = "halsim_native"
+robot = false
+
 [subprojects."robotpy-wpiutil"]
 py_version = "wrapper"
 robot = true

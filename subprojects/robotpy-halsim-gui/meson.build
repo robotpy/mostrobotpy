@@ -7,10 +7,5 @@ subdir('semiwrap')
 halsim_gui_ext_sources += files(
     'halsim_gui/_ext/main.cpp',
 )
-halsim_gui_ext_deps += [
-    declare_dependency(
-        include_directories: ['halsim_gui/include']
-    )
-]
 
 subdir('semiwrap/modules')

@@ -9,6 +9,7 @@ requires = [
     "robotpy-wpimath==2027.0.0a6.post2",
     "robotpy-hal==2027.0.0a6.post2",
     "pyntcore==2027.0.0a6.post2",
+    "robotpy-native-halsim-gui==2027.0.0a6",
 ]
 
 [project]
@@ -25,6 +26,7 @@ dependencies = [
     "robotpy-wpimath==2027.0.0a6.post2",
     "robotpy-hal==2027.0.0a6.post2",
     "pyntcore==2027.0.0a6.post2",
+    "robotpy-native-halsim-gui==2027.0.0a6",
 ]
 
 [project.urls]
@@ -34,16 +36,6 @@ dependencies = [
 [tool.hatch.build.hooks.robotpy]
 version_file = "halsim_gui/version.py"
 
-[[tool.hatch.build.hooks.robotpy.maven_lib_download]]
-artifact_id = "halsim_gui"
-group_id = "org.wpilib.halsim"
-repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-6-139-g34fee9a73"
-use_headers = true
-
-libs = ["halsim_gui"]
-extract_to = "halsim_gui"
-
 [tool.hatch.build.hooks.semiwrap]
 
 [tool.hatch.build.hooks.meson]
@@ -51,6 +43,10 @@ extract_to = "halsim_gui"
 [tool.hatch.build.targets.wheel]
 packages = ["halsim_gui"]
 
+[tool.semiwrap]
+scan_headers_ignore = [
+    "wpi/halsim/gui/*",
+]
 
 [tool.semiwrap.name_transform]
 default = "snake_case"
@@ -59,4 +55,5 @@ known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I
 
 [tool.semiwrap.extension_modules."halsim_gui._ext._halsim_gui_ext"]
 name = "halsim_gui_ext"
+wraps = ["robotpy-native-halsim-gui"]
 depends = ["wpihal", "wpimath", "ntcore"]
