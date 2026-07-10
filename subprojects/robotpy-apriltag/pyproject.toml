@@ -6,13 +6,13 @@ requires = [
     "hatch-robotpy~=0.2.1",
     "hatchling",
     "robotpy-native-apriltag==2027.0.0a6",
-    "robotpy-wpiutil==2027.0.0a6.post2",
-    "robotpy-wpimath==2027.0.0a6.post2",
+    "robotpy-wpiutil==2027.0.0a6.post3",
+    "robotpy-wpimath==2027.0.0a6.post3",
 ]
 
 [project]
 name = "robotpy-apriltag"
-version = "2027.0.0a6.post2"
+version = "2027.0.0a6.post3"
 description = "RobotPy bindings for WPILib's AprilTag library"
 requires-python = ">=3.11"
 authors = [
@@ -21,8 +21,8 @@ authors = [
 license = "BSD-3-Clause"
 dependencies = [
     "robotpy-native-apriltag==2027.0.0a6",
-    "robotpy-wpiutil==2027.0.0a6.post2",
-    "robotpy-wpimath==2027.0.0a6.post2",
+    "robotpy-wpiutil==2027.0.0a6.post3",
+    "robotpy-wpimath==2027.0.0a6.post3",
 ]
 
 [project.urls]

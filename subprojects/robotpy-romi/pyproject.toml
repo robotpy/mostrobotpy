@@ -6,13 +6,13 @@ requires = [
     "hatch-robotpy~=0.2.1",
     "hatchling",
     "robotpy-native-romi==2027.0.0a6",
-    "wpilib==2027.0.0a6.post2",
+    "wpilib==2027.0.0a6.post3",
 ]
 
 
 [project]
 name = "robotpy-romi"
-version = "2027.0.0a6.post2"
+version = "2027.0.0a6.post3"
 description = "Binary wrapper for WPILib Romi Vendor library"
 requires-python = ">=3.11"
 authors = [
@@ -21,7 +21,7 @@ authors = [
 license = "BSD-3-Clause"
 dependencies = [
     "robotpy-native-romi==2027.0.0a6",
-    "wpilib==2027.0.0a6.post2",
+    "wpilib==2027.0.0a6.post3",
     "robotpy-halsim-ws==2027.0.0a6",
 ]
 

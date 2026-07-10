@@ -10,7 +10,7 @@ requires = [
 
 [project]
 name = "robotpy-wpiutil"
-version = "2027.0.0a6.post2"
+version = "2027.0.0a6.post3"
 description = "Binary wrapper for WPILib utilities library"
 requires-python = ">=3.11"
 authors = [
