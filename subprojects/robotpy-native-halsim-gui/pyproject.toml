@@ -4,22 +4,22 @@ requires = [
     "hatchling",
     "hatch-nativelib~=0.2.0",
     "hatch-robotpy~=0.2.1",
-    "robotpy-native-wpihal==2027.0.0a6",
-    "robotpy-native-wpimath==2027.0.0a6",
-    "robotpy-native-ntcore==2027.0.0a6",
+    "robotpy-native-wpihal==2027.0.0a6.post4",
+    "robotpy-native-wpimath==2027.0.0a6.post4",
+    "robotpy-native-ntcore==2027.0.0a6.post4",
 ]
 
 [project]
 name = "robotpy-native-halsim-gui"
-version = "2027.0.0a6"
+version = "2027.0.0a6.post4"
 description = "WPILib HALSim GUI native library"
 requires-python = ">=3.11"
 license = "BSD-3-Clause"
 
 dependencies = [
-    "robotpy-native-wpihal==2027.0.0a6",
-    "robotpy-native-wpimath==2027.0.0a6",
-    "robotpy-native-ntcore==2027.0.0a6",
+    "robotpy-native-wpihal==2027.0.0a6.post4",
+    "robotpy-native-wpimath==2027.0.0a6.post4",
+    "robotpy-native-ntcore==2027.0.0a6.post4",
 ]
 
 [tool.hatch.build.targets.wheel]

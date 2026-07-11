@@ -7,7 +7,7 @@ requires = [
 
 [project]
 name = "robotpy-halsim-ds-socket"
-version = "2027.0.0a6"
+version = "2027.0.0a6.post4"
 description = "WPILib simulator DS Socket Extension"
 requires-python = ">=3.11"
 authors = [
@@ -15,8 +15,8 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpihal==2027.0.0a6",
-    "robotpy-native-wpinet==2027.0.0a6",
+    "robotpy-native-wpihal==2027.0.0a6.post4",
+    "robotpy-native-wpinet==2027.0.0a6.post4",
 ]
 
 [project.entry-points."robotpy_sim.2027"]

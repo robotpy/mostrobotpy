@@ -5,14 +5,14 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-xrp==2027.0.0a6",
-    "wpilib==2027.0.0a6.post3",
+    "robotpy-native-xrp==2027.0.0a6.post4",
+    "wpilib==2027.0.0a6.post4",
 ]
 
 
 [project]
 name = "robotpy-xrp"
-version = "2027.0.0a6.post3"
+version = "2027.0.0a6.post4"
 description = "Binary wrapper for WPILib XRP Vendor library"
 requires-python = ">=3.11"
 authors = [
@@ -20,8 +20,8 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-xrp==2027.0.0a6",
-    "wpilib==2027.0.0a6.post3"
+    "robotpy-native-xrp==2027.0.0a6.post4",
+    "wpilib==2027.0.0a6.post4"
 ]
 
 [project.entry-points."robotpy_cli.2027"]
