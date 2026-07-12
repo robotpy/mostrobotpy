@@ -5,16 +5,16 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-wpiutil==0.0.0",
-    "robotpy-wpimath==0.0.0",
-    "robotpy-hal==0.0.0",
-    "pyntcore==0.0.0",
-    "robotpy-native-halsim-gui==0.0.0",
+    "robotpy-wpiutil==2027.0.0a6.post4",
+    "robotpy-wpimath==2027.0.0a6.post4",
+    "robotpy-hal==2027.0.0a6.post4",
+    "pyntcore==2027.0.0a6.post4",
+    "robotpy-native-halsim-gui==2027.0.0a6.post4",
 ]
 
 [project]
 name = "robotpy-halsim-gui"
-version = "0.0.0"
+version = "2027.0.0a6.post4"
 description = "WPILib simulation GUI"
 requires-python = ">=3.11"
 authors = [
@@ -22,11 +22,11 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-wpiutil==0.0.0",
-    "robotpy-wpimath==0.0.0",
-    "robotpy-hal==0.0.0",
-    "pyntcore==0.0.0",
-    "robotpy-native-halsim-gui==0.0.0",
+    "robotpy-wpiutil==2027.0.0a6.post4",
+    "robotpy-wpimath==2027.0.0a6.post4",
+    "robotpy-hal==2027.0.0a6.post4",
+    "pyntcore==2027.0.0a6.post4",
+    "robotpy-native-halsim-gui==2027.0.0a6.post4",
 ]
 
 [project.urls]
