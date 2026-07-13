@@ -35,7 +35,7 @@ version_file = "halsim_ws/version.py"
 artifact_id = "halsim_ws_server"
 group_id = "org.wpilib.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-6-139-g34fee9a73"
+version = "2027.0.0-alpha-6-167-gdb3a9c428"
 use_headers = false
 
 extract_to = "halsim_ws/server"
@@ -45,7 +45,7 @@ libs = ["halsim_ws_server"]
 artifact_id = "halsim_ws_client"
 group_id = "org.wpilib.halsim"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-version = "2027.0.0-alpha-6-139-g34fee9a73"
+version = "2027.0.0-alpha-6-167-gdb3a9c428"
 use_headers = false
 
 extract_to = "halsim_ws/client"
