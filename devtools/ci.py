@@ -2,7 +2,6 @@
 # CI commands
 #
 
-import pathlib
 import subprocess
 import sys
 import typing as T
@@ -12,6 +11,7 @@ from packaging.requirements import Requirement
 from packaging.version import Version
 
 from .ctx import Context
+from .ci_check_wpistructs import check_wpistructs
 from .update_pyproject import ProjectUpdater
 
 
@@ -37,6 +37,9 @@ def check_pyproject(ctx: Context):
         exit(1)
     else:
         print("OK")
+
+
+ci.add_command(check_wpistructs)
 
 
 @ci.command
