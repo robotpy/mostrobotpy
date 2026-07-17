@@ -138,7 +138,7 @@ class SomeClass:
     def __init__(self):
         """
         This describes what the constructor does
-        """ 
+        """
 
     def my_function(self, a: int) -> int:
         """
@@ -152,7 +152,7 @@ class SomeClass:
 Command-based robot specific things
 -----------------------------------
 
-We use `commands2.TimedCommandRobot` instead of TimedRobot. It provides a 
+We use `commands2.TimedCommandRobot` instead of TimedRobot. It provides a
 `robot_periodic` method for you, so it doesn't need to be included from
 the java code unless robot_periodic function does something other than
 run the command scheduler.
