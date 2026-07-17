@@ -32,7 +32,7 @@ CSCore API
 
 .. toctree::
   :maxdepth: 1
-    
+
   cscore
   cscore.imagewriter
 
@@ -52,7 +52,7 @@ WPIMath API
 -----------
 
 WPIMath provides a comprehensive set of mathematical functions and utilities
-tailored to the needs of robotics applications. 
+tailored to the needs of robotics applications.
 
 .. toctree::
   :maxdepth: 1
@@ -84,7 +84,7 @@ WPIUtil API
 -----------
 
 The C++ version of the WPIUtil library contains various utilities that
-user code and WPILib can use to accomplish common tasks that aren't 
+user code and WPILib can use to accomplish common tasks that aren't
 necessarily provided by the C++ standard library.
 
 Much of the content in WPIUtil is not useful for Python teams, so we
@@ -102,7 +102,7 @@ of things in it.
 
 .. _hal_api:
 
-HAL API 
+HAL API
 -------
 
 The WPILib Hardware Abstraction Layer (HAL) is used by WPILib to interact
@@ -141,7 +141,7 @@ These are special devices for use with the XRP product.
 Commands V2 API
 ---------------
 
-Objects in this package allow you to implement a robot using the 
+Objects in this package allow you to implement a robot using the
 latest version of WPILib's Command-based programming.  Command
 based programming is a design pattern to help you organize your
 robot programs, by organizing your robot program into components
