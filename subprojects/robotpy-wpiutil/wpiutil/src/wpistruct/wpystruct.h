@@ -227,6 +227,18 @@ struct WPyStructPyConverter : WPyStructConverter {
 // passed as I... to the wpi::util::Struct methods
 struct WPyStructInfo {
   WPyStructInfo() = default;
+  WPyStructInfo(const WPyStructInfo&) = default;
+  WPyStructInfo& operator=(const WPyStructInfo&) = default;
+
+  // Some upstream APIs keep using an info argument after moving it into
+  // storage, so moves must preserve the shared converter in the source.
+  WPyStructInfo(WPyStructInfo&& other) noexcept : cvt{other.cvt} {}
+
+  WPyStructInfo& operator=(WPyStructInfo&& other) noexcept {
+    cvt = other.cvt;
+    return *this;
+  }
+
   explicit WPyStructInfo(const py::type& t) {
     if (!py::hasattr(t, "WPIStruct")) {
       throw py::type_error(
