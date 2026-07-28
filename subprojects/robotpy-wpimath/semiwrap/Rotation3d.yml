@@ -9,6 +9,9 @@ functions:
     ignore: true
 classes:
   wpi::math::Rotation3d:
+    force_type_casters:
+    - wpi::units::radians_per_second
+    - wpi::units::second_t
     methods:
       Rotation3d:
         overloads:
@@ -32,6 +35,7 @@ classes:
       operator==:
       RotateBy:
       Interpolate:
+      Integrate:
       GetQuaternion:
       X:
       Y:
