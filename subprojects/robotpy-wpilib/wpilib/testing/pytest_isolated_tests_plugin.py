@@ -149,7 +149,24 @@ def _run_test(
     worker_plugin = WorkerPlugin(pipe)
 
     ec = pytest.main(
-        [item_nodeid, "--no-header", "-p", "no:terminalreporter", *config_args],
+        [
+            item_nodeid,
+            "--no-header",
+            "-p",
+            "no:terminalreporter",
+            # "-p", "no:order" tells pytest in the isolated subprocess to not run pytest-order or look at
+            # the @pytest.mark.order decorators. This is fine because the isolated subprocess runs just one
+            # test at a time, so order does not matter at this level. The purpose of not running
+            # pytest-order is so that it doesn't give misleading warnings like:
+            #   WARNING: cannot execute 'test_step2_reads_sentinel' relative to others:
+            #   'test_step1_writes_sentinel' - ignoring the marker.
+            # The warning would be accurate from the isolated subprocess point of view,
+            # it can't see the other test, but it is misleading because the main process
+            # successfully ordered the tests.
+            "-p",
+            "no:order",
+            *config_args,
+        ],
         plugins=[plugin, worker_plugin],
     )
 
@@ -237,28 +254,57 @@ class IsolatedTestsPlugin:
             return True
 
         running: list[IsolatedTestJob] = []
-        deferred: list[pytest.Function] = []
         try:
-            # Start any tests that use the robot fixture first. Tests that don't
-            # use the robot fixture will be ran later
-            for item in session.items:
+            # Run tests in the order that they are given to us, running robot fixture tests in a
+            # subprocess, while preserving order marker boundaries.
+            #
+            # pytest-order has already sorted session.items during collection, so all this has to
+            # do is stop tests from overtaking each other across an ordering boundary.
+            #
+            # An order marker applied to a class or module is inherited by every test underneath
+            # it, and get_closest_marker returns the *same* Mark object for each of them. Comparing
+            # order group markers by identity therefore treats those tests as one group: the group
+            # is serialized against everything outside it, while its members -- whose relative
+            # order pytest-order explicitly does not constrain -- still run in parallel. Identity
+            # is required rather than ==, because two independent @pytest.mark.order(5) decorators
+            # compare equal but are separate constraints that must not be merged into one group.
+            prev_order_group_marker = None
+            for idx, item in enumerate(session.items):
                 assert isinstance(item, pytest.Function)
-                if "robot" not in item.fixturenames:
-                    deferred.append(item)
-                    continue
 
-                while len(running) >= self._parallelism:
-                    self._wait_for_jobs(running, session)
+                order_group_marker = item.get_closest_marker("order")
 
-                running.append(self._start_isolated_test(item))
-                self._maybe_raise(session)
+                if order_group_marker is not prev_order_group_marker:
+                    # Crossing an ordering boundary: everything started so far has to finish before
+                    # anything on the far side of the boundary begins. One drain covers both leaving a
+                    # group -- so @pytest.mark.order(before="NAME") completes first -- and entering one,
+                    # so @pytest.mark.order(<ORDINAL>) and @pytest.mark.order(after="NAME") see the
+                    # tests they were sorted behind already finished. Two unmarked tests in a row are
+                    # both None, so they do not trigger a drain.
+                    while running:
+                        self._wait_for_jobs(running, session)
+                prev_order_group_marker = order_group_marker
 
-            # Run the in-process tests now while the robot tests are finishing
-            for idx, item in enumerate(deferred):
-                nextitem = deferred[idx + 1] if idx + 1 < len(deferred) else None
-                session.config.hook.pytest_runtest_protocol(
-                    item=item, nextitem=nextitem
-                )
+                if "robot" in item.fixturenames:
+                    # This test uses the "robot" fixture, run it in an available, isolated subprocess.
+                    while len(running) >= self._parallelism:
+                        self._wait_for_jobs(running, session)
+
+                    running.append(self._start_isolated_test(item))
+                else:
+                    # This test runs in this process. Only pass nextitem as a teardown-optimization
+                    # hint when the next test also runs in this process -- otherwise the next item is
+                    # handled by a subprocess and this one must tear down fully.
+                    nextitem = (
+                        session.items[idx + 1] if idx + 1 < len(session.items) else None
+                    )
+                    if nextitem is not None and "robot" in nextitem.fixturenames:
+                        nextitem = None
+
+                    session.config.hook.pytest_runtest_protocol(
+                        item=item, nextitem=nextitem
+                    )
+
                 self._maybe_raise(session)
 
             while running:
