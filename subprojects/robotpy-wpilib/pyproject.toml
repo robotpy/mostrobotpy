@@ -5,16 +5,16 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-wpilib==2027.0.0a6.post4",
-    "robotpy-wpiutil==2027.0.0a6.post4",
-    "robotpy-wpimath==2027.0.0a6.post4",
-    "robotpy-hal==2027.0.0a6.post4",
-    "pyntcore==2027.0.0a6.post4",
+    "robotpy-native-wpilib==0.0.0",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
+    "robotpy-hal==0.0.0",
+    "pyntcore==0.0.0",
 ]
 
 [project]
 name = "wpilib"
-version = "2027.0.0a6.post4"
+version = "0.0.0"
 description = "Binary wrapper for WPILib"
 requires-python = ">=3.11"
 authors = [
@@ -22,11 +22,11 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-wpilib==2027.0.0a6.post4",
-    "robotpy-wpiutil==2027.0.0a6.post4",
-    "robotpy-wpimath==2027.0.0a6.post4",
-    "robotpy-hal==2027.0.0a6.post4",
-    "pyntcore==2027.0.0a6.post4",
+    "robotpy-native-wpilib==0.0.0",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
+    "robotpy-hal==0.0.0",
+    "pyntcore==0.0.0",
     "robotpy-cli~=2027.0.0a1",
 
     # For running robot tests
@@ -91,9 +91,6 @@ depends = [
 ]
 includes = ["wpilib/src"]
 
-[tool.semiwrap.extension_modules."wpilib._wpilib".defines]
-DYNAMIC_CAMERA_SERVER = 1
-
 [tool.semiwrap.extension_modules."wpilib._wpilib".headers]
 # rpy
 Filesystem = "rpy/Filesystem.h"
@@ -115,7 +112,6 @@ RobotDriveBase = "wpi/drive/RobotDriveBase.hpp"
 # wpi/driverstation
 DriverStationBackend = "wpi/driverstation/internal/DriverStationBackend.hpp"
 Alliance = "wpi/driverstation/Alliance.hpp"
-Alert = "wpi/driverstation/Alert.hpp"
 DriverStation = "wpi/driverstation/DriverStation.hpp"
 DriverStationDisplay = "wpi/driverstation/DriverStationDisplay.hpp"
 MatchState = "wpi/driverstation/MatchState.hpp"

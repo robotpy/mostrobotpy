@@ -5,22 +5,22 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
-    "robotpy-native-apriltag==0.0.0",
+    "robotpy-native-fields==0.0.0",
     "robotpy-wpiutil==0.0.0",
     "robotpy-wpimath==0.0.0",
 ]
 
 [project]
-name = "robotpy-apriltag"
+name = "robotpy-fields"
 version = "0.0.0"
-description = "RobotPy bindings for WPILib's AprilTag library"
+description = "RobotPy bindings for WPILib's fields library"
 requires-python = ">=3.11"
 authors = [
     {name = "RobotPy Development Team", email = "robotpy@googlegroups.com"},
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-apriltag==0.0.0",
+    "robotpy-native-fields==0.0.0",
     "robotpy-wpiutil==0.0.0",
     "robotpy-wpimath==0.0.0",
 ]
@@ -30,33 +30,24 @@ dependencies = [
 
 
 [tool.hatch.build.hooks.robotpy]
-version_file = "robotpy_apriltag/version.py"
+version_file = "robotpy_fields/version.py"
 
 [tool.hatch.build.hooks.semiwrap]
 
 [tool.hatch.build.hooks.meson]
 
 [tool.hatch.build.targets.wheel]
-packages = ["robotpy_apriltag"]
+packages = ["robotpy_fields"]
 
 
 [tool.semiwrap]
 update_init = [
-  "robotpy_apriltag robotpy_apriltag._apriltag"
+  "robotpy_fields robotpy_fields._fields"
 ]
 scan_headers_ignore = [
-  "common/*",
-  "test/*",
-
-  "apriltag.h",
-  "apriltag_math.h",
-  "apriltag_pose.h",
-
-  "wpi/apriltag/AprilTagDetector_cv.hpp",
-  "wpi/apriltag/AprilTagImageGenerator.hpp",
-
-  "tag16h5.h",
-  "tag36h11.h",
+  "wpi/fields/field_images.hpp",
+  "wpi/fields/frc/*",
+  "wpi/fields/ftc/*",
 ]
 
 [tool.semiwrap.name_transform]
@@ -64,15 +55,14 @@ default = "snake_case"
 enum_value = "CAPS_CASE"
 known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "POVs", "PWM", "RIO", "SPI", "URI", "URL", "USB", "VIn"]
 
-[tool.semiwrap.extension_modules."robotpy_apriltag._apriltag"]
-name = "apriltag"
-wraps = ["robotpy-native-apriltag"]
+[tool.semiwrap.extension_modules."robotpy_fields._fields"]
+name = "fields"
+wraps = ["robotpy-native-fields"]
 depends = ["wpiutil", "wpimath"]
 
-[tool.semiwrap.extension_modules."robotpy_apriltag._apriltag".headers]
-# wpi/apriltag
-AprilTagDetection = "wpi/apriltag/AprilTagDetection.hpp"
-AprilTagDetector = "wpi/apriltag/AprilTagDetector.hpp"
-# AprilTagDetector_cv = "wpi/apriltag/AprilTagDetector_cv.hpp"
-AprilTagPoseEstimate = "wpi/apriltag/AprilTagPoseEstimate.hpp"
-AprilTagPoseEstimator = "wpi/apriltag/AprilTagPoseEstimator.hpp"
+[tool.semiwrap.extension_modules."robotpy_fields._fields".headers]
+# wpi/fields
+Field = "wpi/fields/Field.hpp"
+FieldImage = "wpi/fields/FieldImage.hpp"
+FieldTag = "wpi/fields/FieldTag.hpp"
+fields = "wpi/fields/fields.hpp"
