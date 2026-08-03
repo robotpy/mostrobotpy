@@ -82,6 +82,24 @@ class WorkerPlugin:
     def sendevent(self, name: str, **kwargs: object):
         self.channel.send((name, kwargs))
 
+    @pytest.hookimpl
+    def pytest_configure(self, config: pytest.Config):
+        # The worker runs with "-p", "no:order" (see _run_test), which unloads
+        # pytest-order entirely -- including its registration of the "order"
+        # marker. The @pytest.mark.order decorators are still on the tests we
+        # collect here, so without re-registering the marker they are "unknown"
+        # to this process: --strict-markers turns that into a collection error,
+        # and filterwarnings=error promotes the PytestUnknownMarkWarning into
+        # one. Both settings reach the worker, because it inherits the parent's
+        # command line and chdirs to the project root before reading the ini.
+        #
+        # Registering the marker restores those configurations without
+        # reactivating the reordering we deliberately turned off.
+        config.addinivalue_line(
+            "markers",
+            "order(*args, **kwargs): ordering is resolved by the parent process",
+        )
+
     @pytest.hookimpl(wrapper=True)
     def pytest_sessionstart(self, session: pytest.Session):
         self.config = session.config
@@ -163,6 +181,9 @@ def _run_test(
             # The warning would be accurate from the isolated subprocess point of view,
             # it can't see the other test, but it is misleading because the main process
             # successfully ordered the tests.
+            #
+            # Unloading the plugin also drops its registration of the "order" marker, so
+            # WorkerPlugin.pytest_configure re-registers it.
             "-p",
             "no:order",
             *config_args,

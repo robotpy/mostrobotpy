@@ -565,6 +565,81 @@ import pytest
 
 
 @pytest.mark.parametrize(
+    "ini_body, first_mark, second_mark",
+    [
+        (
+            "addopts = --strict-markers",
+            "@pytest.mark.order(1)",
+            "@pytest.mark.order(2)",
+        ),
+        (
+            "filterwarnings = error",
+            "@pytest.mark.order(1)",
+            "@pytest.mark.order(2)",
+        ),
+        (
+            "filterwarnings = error",
+            "",
+            '@pytest.mark.order(after="test_first")',
+        ),
+    ],
+    ids=["strict_markers", "warnings_as_errors", "relative_marker_stays_quiet"],
+)
+def test_order_marker_is_registered_in_isolated_subprocess(
+    pytester, ini_body, first_mark, second_mark
+):
+    """
+    Ordered robot tests must still run when the project treats unknown markers
+    as a hard failure.
+
+    The isolated subprocess runs with "-p no:order", which unloads pytest-order
+    along with its registration of the "order" marker -- but the decorators are
+    still on the tests the subprocess collects.  Both settings below reach the
+    subprocess (it inherits the parent's command line and chdirs to the project
+    root before reading the ini), so without WorkerPlugin re-registering the
+    marker each case errors during collection *inside the worker*:
+
+      --strict-markers    -> Failed: 'order' not found in `markers` configuration option
+      filterwarnings=error -> pytest.PytestUnknownMarkWarning: Unknown pytest.mark.order
+
+    Both are exercised because they fail through different mechanisms: the
+    first is pytest's own strict-marker check, the second is warning promotion.
+
+    The third case guards the opposite edge.  Re-registering the marker must not
+    drag pytest-order back into the worker: a relative marker there would emit
+    "cannot execute 'test_second' relative to others: 'test_first' - ignoring
+    the marker", because the worker only ever collects one test and cannot see
+    the other.  Under filterwarnings=error that warning is an error, so this
+    case fails if the marker registration ever turns into a plugin reload.
+
+    Note this guard only bites on the robot tests -- the parent process keeps
+    pytest-order loaded, so the marker is registered there either way.
+    """
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester, parallelism=2)
+    pytester.makeini(f"[pytest]\n{ini_body}\n")
+
+    pytester.makepyfile(test_strict_order=f"""\
+import pathlib
+
+import pytest
+
+
+{second_mark}
+def test_second(robot):
+    assert pathlib.Path("strict_sentinel.txt").exists()
+
+
+{first_mark}
+def test_first(robot):
+    pathlib.Path("strict_sentinel.txt").write_text("done")
+""")
+
+    result = pytester.runpytest_subprocess("-vv")
+    result.assert_outcomes(passed=2, errors=0)
+
+
+@pytest.mark.parametrize(
     "a_fixture, b_fixture",
     [("robot", "robot"), ("robot", "")],
     ids=["RR", "RN"],
