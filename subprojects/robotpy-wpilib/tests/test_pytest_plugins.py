@@ -641,18 +641,23 @@ def test_first(robot):
 
 @pytest.mark.parametrize(
     "a_fixture, b_fixture",
-    [("robot", "robot"), ("robot", "")],
-    ids=["RR", "RN"],
+    [("robot", "robot"), ("robot", ""), ("", "robot")],
+    ids=["RR", "RN", "NR"],
 )
 def test_unordered_tests_still_run_in_parallel(pytester, a_fixture, b_fixture):
     """
     Tests WITHOUT @pytest.mark.order must not be serialised by order-marker
     support.  With parallelism=2, two 1.5 s tests must overlap in wall-clock
-    time when the first test uses the robot fixture (starts async subprocess,
-    allowing the second test to run concurrently).
+    time.
 
-    NR is omitted: a non-robot test runs in-process synchronously, so it
-    completes before the subsequent robot subprocess starts -- serial by design.
+    NR is the case collection order alone cannot deliver: the plain test is
+    collected first, so following the given order would run it to completion
+    before the subprocess was even spawned.  Within a group the run loop is free
+    to schedule for throughput, so it starts the isolated test before running any
+    in-process test and the two overlap regardless of which was collected first.
+
+    NN is omitted: two in-process tests both run here, and this process runs one
+    test at a time -- serial by design, and no scheduling can change it.
     """
     _make_robot_module(pytester)
     _configure_isolated_plugin(pytester, parallelism=2)
