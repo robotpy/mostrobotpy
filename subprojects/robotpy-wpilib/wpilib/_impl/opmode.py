@@ -137,7 +137,11 @@ def _import_candidates(package_dir: Path, package_name: str) -> None:
         try:
             importlib.import_module(module_name)
         except Exception as exc:
-            del _decorated_opmodes[registry_length:]
+            _decorated_opmodes[registry_length:] = [
+                cls
+                for cls in _decorated_opmodes[registry_length:]
+                if cls.__module__ != module_name
+            ]
             report_error(
                 f"Could not import OpMode module {module_name}: {exc}",
                 print_trace=True,

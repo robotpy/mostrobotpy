@@ -254,6 +254,47 @@ def test_opmode_robot_continues_after_candidate_import_failure(
     assert "expected candidate import failure" in caplog.text
 
 
+def test_opmode_robot_retains_transitively_imported_candidate_after_failure(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/bad_mode.py": """
+                from samplebot.opmodes import good_mode
+                from wpilib import PeriodicOpMode, teleop
+
+                @teleop
+                class BadMode(PeriodicOpMode):
+                    pass
+
+                raise RuntimeError("expected candidate import failure")
+            """,
+            "opmodes/good_mode.py": """
+                from wpilib import PeriodicOpMode, utility
+
+                @utility
+                class GoodMode(PeriodicOpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert {option.name for option in options} == {"GoodMode"}
+    assert "bad_mode" in caplog.text
+    assert "expected candidate import failure" in caplog.text
+
+
 def test_opmode_robot_continues_after_candidate_parse_failure(
     monkeypatch, tmp_path, caplog
 ):
