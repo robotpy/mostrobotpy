@@ -418,6 +418,54 @@ def test_rejected_scanned_origin_does_not_invalidate_explicit_class(
     ]
 
 
+def test_rejected_scanned_child_origin_does_not_invalidate_explicit_class(
+    monkeypatch, tmp_path
+):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+        import samplebot.external_base
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "external_base.py": """
+                import wpilib
+
+                @wpilib.autonomous(name="External Base")
+                class ExternalBaseMode(wpilib.OpMode):
+                    pass
+            """,
+            "opmodes/subclass_only.py": """
+                from pathlib import Path
+                from samplebot.external_base import ExternalBaseMode
+
+                Path(__file__).with_name("colliding-child-imported").touch()
+
+                class ExternalChildMode(ExternalBaseMode):
+                    pass
+            """,
+        },
+    )
+    foreign_path = tmp_path / "foreign_subclass_only.py"
+    foreign_path.write_text("")
+    module_name = "samplebot.opmodes.subclass_only"
+    spec = importlib.util.spec_from_file_location(module_name, foreign_path)
+    foreign_module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = foreign_module
+    spec.loader.exec_module(foreign_module)
+
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "External Base"
+    ]
+    assert not (package_dir / "opmodes" / "colliding-child-imported").exists()
+
+
 def test_automatic_publication_bypasses_python_override():
     @autonomous
     class AutomaticMode(OpMode):
@@ -732,6 +780,47 @@ def test_opmode_robot_continues_after_per_class_registration_failure(
     ]
     assert "samplebot.opmodes.modes.BadMode" in caplog.text
     assert "expected registration failure" in caplog.text
+
+
+def test_opmode_robot_rejects_explicit_base_with_unimported_scanned_subclass(
+    monkeypatch, tmp_path, caplog
+):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+        import samplebot.external_base
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "external_base.py": """
+                import wpilib
+
+                @wpilib.autonomous
+                class ExternalBaseMode(wpilib.OpMode):
+                    pass
+            """,
+            "opmodes/subclass_only.py": """
+                from pathlib import Path
+                from samplebot.external_base import ExternalBaseMode
+
+                Path(__file__).with_name("external-subclass-imported").touch()
+
+                class ExternalChildMode(ExternalBaseMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert not (package_dir / "opmodes" / "external-subclass-imported").exists()
+    assert "samplebot.external_base.ExternalBaseMode" in caplog.text
+    assert "samplebot.opmodes.subclass_only.ExternalChildMode" in caplog.text
 
 
 def test_opmode_robot_rejects_subclasses_in_unimported_modules(

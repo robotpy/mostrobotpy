@@ -374,8 +374,10 @@ def _class_qualnames(
     return qualnames
 
 
-def _ast_subclasses(modules: list[_ScannedModule]) -> dict[str, list[str]]:
-    subclasses: dict[str, list[str]] = {}
+def _ast_subclasses(
+    modules: list[_ScannedModule],
+) -> dict[str, list[tuple[str, str]]]:
+    subclasses: dict[str, list[tuple[str, str]]] = {}
     for module in modules:
         parents = _ast_parents(module.tree)
         qualnames = _class_qualnames(module.tree, parents)
@@ -455,13 +457,13 @@ def _ast_subclasses(modules: list[_ScannedModule]) -> dict[str, list[str]]:
                     path[0],
                 )
                 parent = ".".join((target, *path[1:]))
-                subclasses.setdefault(parent, []).append(child)
+                subclasses.setdefault(parent, []).append((child, module.name))
     return subclasses
 
 
 def _find_subclass(
     cls: type[OpMode],
-    ast_subclasses: dict[str, list[str]],
+    ast_subclasses: dict[str, list[tuple[str, str]]],
     scanned_origins: dict[str, Path],
 ) -> str | None:
     subclasses = cls.__subclasses__()
@@ -469,11 +471,21 @@ def _find_subclass(
         subclass = subclasses[0]
         return f"{subclass.__module__}.{subclass.__qualname__}"
     expected_origin = scanned_origins.get(cls.__module__)
-    if expected_origin is None or _loaded_origin(cls.__module__) != expected_origin:
+    if (
+        expected_origin is not None
+        and _loaded_origin(cls.__module__) != expected_origin
+    ):
         return None
     identity = f"{cls.__module__}.{cls.__qualname__}"
-    children = ast_subclasses.get(identity, [])
-    return children[0] if children else None
+    for child, child_module in ast_subclasses.get(identity, []):
+        child_origin = (
+            _loaded_origin(child_module)
+            if child_module in sys.modules
+            else _resolved_origin(child_module)
+        )
+        if child_origin == scanned_origins[child_module]:
+            return child
+    return None
 
 
 def _invalid_metadata(metadata: OpModeMetadata) -> str | None:
