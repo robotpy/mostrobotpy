@@ -10,6 +10,8 @@ from typing import Any
 from hal import RobotMode
 from wpilib._wpilib import OpMode, RobotState
 
+from .report_error import report_error
+
 
 @dataclass(frozen=True)
 class OpModeMetadata:
@@ -110,7 +112,14 @@ def _has_opmode_decorator(source: str, filename: str) -> bool:
 def _candidate_modules(package_dir: Path, package_name: str) -> list[str]:
     candidates: list[str] = []
     for source_path in sorted(package_dir.rglob("*.py")):
-        if not _has_opmode_decorator(source_path.read_text(), str(source_path)):
+        try:
+            has_opmode_decorator = _has_opmode_decorator(
+                source_path.read_text(), str(source_path)
+            )
+        except SyntaxError as exc:
+            report_error(f"Could not parse OpMode module {source_path}: {exc}")
+            continue
+        if not has_opmode_decorator:
             continue
 
         relative_path = source_path.relative_to(package_dir)
@@ -124,19 +133,20 @@ def _candidate_modules(package_dir: Path, package_name: str) -> list[str]:
 
 def _import_candidates(package_dir: Path, package_name: str) -> None:
     for module_name in _candidate_modules(package_dir, package_name):
-        importlib.import_module(module_name)
+        registry_length = len(_decorated_opmodes)
+        try:
+            importlib.import_module(module_name)
+        except Exception as exc:
+            del _decorated_opmodes[registry_length:]
+            report_error(
+                f"Could not import OpMode module {module_name}: {exc}",
+                print_trace=True,
+            )
 
 
-def _descendants(cls: type[OpMode]) -> list[type[OpMode]]:
-    descendants: set[type[OpMode]] = set()
-    pending = list(cls.__subclasses__())
-    while pending:
-        subclass = pending.pop()
-        if subclass in descendants:
-            continue
-        descendants.add(subclass)
-        pending.extend(subclass.__subclasses__())
-    return sorted(descendants, key=lambda subclass: subclass.__qualname__)
+def _find_subclass(cls: type[OpMode]) -> type[OpMode] | None:
+    subclasses = cls.__subclasses__()
+    return subclasses[0] if subclasses else None
 
 
 def discover_and_register(robot: Any) -> None:
@@ -157,16 +167,13 @@ def discover_and_register(robot: Any) -> None:
         if key in registered:
             continue
         registered.add(key)
-        descendants = _descendants(cls)
-        if descendants:
-            subclass_names = ", ".join(
-                f"{subclass.__module__}.{subclass.__qualname__}"
-                for subclass in descendants
+        subclass = _find_subclass(cls)
+        if subclass is not None:
+            report_error(
+                f"Decorated OpMode {cls.__qualname__} must not be subclassed; "
+                f"found subclass {subclass.__qualname__}"
             )
-            raise ValueError(
-                f"decorated OpMode {cls.__module__}.{cls.__qualname__} must be a "
-                f"leaf class; found subclasses: {subclass_names}"
-            )
+            continue
         registrations.append((cls, metadata))
 
     for cls, metadata in registrations:

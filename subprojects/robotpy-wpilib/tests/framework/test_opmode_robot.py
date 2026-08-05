@@ -181,45 +181,41 @@ def test_opmode_robot_registers_explicitly_imported_decorated_opmode(
     assert [option.name for option in options] == ["ImportedMode"]
 
 
-def test_opmode_robot_rejects_decorated_non_leaf_class(monkeypatch, tmp_path):
-    _, robot_module = import_robot_package(
-        monkeypatch,
-        tmp_path,
-        """
-        import wpilib as wpi
+def test_opmode_robot_rejects_decorated_non_leaf(caplog):
+    @autonomous
+    class BaseMode(OpMode):
+        pass
 
-        class Robot(wpi.OpModeRobot):
-            pass
-        """,
-        {
-            "opmodes/non_leaf.py": """
-                from wpilib import PeriodicOpMode, teleop
+    class MiddleMode(BaseMode):
+        pass
 
-                @teleop
-                class DecoratedBase(PeriodicOpMode):
-                    pass
+    class LeafMode(MiddleMode):
+        pass
 
-                class IntermediateMode(DecoratedBase):
-                    pass
+    class MinimalRobot(OpModeRobot):
+        pass
 
-                class IndirectLeaf(IntermediateMode):
-                    pass
-            """,
-        },
-    )
+    MinimalRobot()
 
-    with pytest.raises(ValueError) as exc_info:
-        robot_module.Robot()
-
-    message = str(exc_info.value)
-    assert "DecoratedBase" in message
-    assert "IndirectLeaf" in message
-    assert "leaf" in message
     assert not wsim.DriverStationSim.get_opmode_options()
+    assert "BaseMode" in caplog.text
+    assert "MiddleMode" in caplog.text
+
+    class CommonMode(OpMode):
+        pass
+
+    @utility
+    class LeafUtilityMode(CommonMode):
+        pass
+
+    MinimalRobot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert [option.name for option in options] == ["LeafUtilityMode"]
 
 
-def test_opmode_robot_registers_decorated_leaf_from_undecorated_base(
-    monkeypatch, tmp_path
+def test_opmode_robot_continues_after_candidate_import_failure(
+    monkeypatch, tmp_path, caplog
 ):
     _, robot_module = import_robot_package(
         monkeypatch,
@@ -231,14 +227,20 @@ def test_opmode_robot_registers_decorated_leaf_from_undecorated_base(
             pass
         """,
         {
-            "opmodes/leaf.py": """
+            "opmodes/bad_mode.py": """
                 from wpilib import PeriodicOpMode, teleop
 
-                class SharedBase(PeriodicOpMode):
+                @teleop
+                class BadMode(PeriodicOpMode):
                     pass
 
-                @teleop
-                class DecoratedLeaf(SharedBase):
+                raise RuntimeError("expected candidate import failure")
+            """,
+            "opmodes/good_mode.py": """
+                from wpilib import PeriodicOpMode, utility
+
+                @utility
+                class GoodMode(PeriodicOpMode):
                     pass
             """,
         },
@@ -247,7 +249,47 @@ def test_opmode_robot_registers_decorated_leaf_from_undecorated_base(
     robot_module.Robot()
 
     options = wsim.DriverStationSim.get_opmode_options()
-    assert [option.name for option in options] == ["DecoratedLeaf"]
+    assert {option.name for option in options} == {"GoodMode"}
+    assert "bad_mode" in caplog.text
+    assert "expected candidate import failure" in caplog.text
+
+
+def test_opmode_robot_continues_after_candidate_parse_failure(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/bad_syntax.py": """
+                from wpilib import PeriodicOpMode, teleop
+
+                @teleop
+                class BrokenMode(PeriodicOpMode)
+                    pass
+            """,
+            "opmodes/good_mode.py": """
+                from wpilib import PeriodicOpMode, utility
+
+                @utility
+                class GoodMode(PeriodicOpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert {option.name for option in options} == {"GoodMode"}
+    assert "bad_syntax.py" in caplog.text
+    assert "expected ':'" in caplog.text
 
 
 class MockOpMode(OpMode):
