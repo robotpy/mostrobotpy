@@ -5,6 +5,7 @@ requires = [
     "hatch-meson~=0.1.2",
     "hatch-robotpy~=0.2.1",
     "hatchling",
+    "wpilib==2027.0.0a6.post4",
     "robotpy-wpiutil==2027.0.0a6.post4",
     "robotpy-wpinet==2027.0.0a6.post4",
     "pyntcore==2027.0.0a6.post4",
@@ -102,7 +103,7 @@ known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I
 [tool.semiwrap.extension_modules."cscore._cscore"]
 name = "cscore"
 
-depends = ["wpiutil", "wpinet", "ntcore", "cscore-casters"]
+depends = ["wpiutil", "wpinet", "ntcore", "wpilib", "cscore-casters"]
 includes = [
     "lib/include"
 ]

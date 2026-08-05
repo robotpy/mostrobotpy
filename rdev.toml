@@ -125,6 +125,10 @@ robot = false
 py_version = "native"
 robot = false
 
+[subprojects."robotpy-native-fields"]
+py_version = "native"
+robot = true
+
 [subprojects."robotpy-native-halsim-gui"]
 py_version = "halsim_native"
 robot = false
@@ -150,6 +154,10 @@ py_version = "wrapper"
 robot = true
 
 [subprojects."robotpy-wpimath"]
+py_version = "wrapper"
+robot = true
+
+[subprojects."robotpy-fields"]
 py_version = "wrapper"
 robot = true
 
