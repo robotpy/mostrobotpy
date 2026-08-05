@@ -1,11 +1,50 @@
-import pytest
+import importlib
+import sys
+import textwrap
 import threading
+
+import pytest
 import wpilib
+import wpilib._impl.opmode as opmode_impl
+from wpilib import OpMode
 from wpilib import simulation as wsim
+from wpilib._wpilib import RobotState
 from wpilib.opmoderobot import OpModeRobot, autonomous, teleop, utility
-from wpilib import OpMode, RobotState
 from hal import RobotMode
 from wpiutil import Color
+
+
+@pytest.fixture(autouse=True)
+def reset_decorated_opmodes(monkeypatch):
+    monkeypatch.setattr(opmode_impl, "_decorated_opmodes", [])
+    RobotState.clear_opmodes()
+    yield
+    for module_name in tuple(sys.modules):
+        if module_name == "samplebot" or module_name.startswith("samplebot."):
+            sys.modules.pop(module_name)
+
+
+def import_robot_package(monkeypatch, tmp_path, robot_source, module_contents):
+    package_name = "samplebot"
+    package_dir = tmp_path / package_name
+    opmodes_dir = package_dir / "opmodes"
+    opmodes_dir.mkdir(parents=True)
+    (package_dir / "__init__.py").write_text("")
+    (package_dir / "robot.py").write_text(textwrap.dedent(robot_source))
+    (opmodes_dir / "__init__.py").write_text("")
+
+    for relative_path, source in module_contents.items():
+        module_path = package_dir / relative_path
+        module_path.parent.mkdir(parents=True, exist_ok=True)
+        module_path.write_text(textwrap.dedent(source))
+
+    for module_name in tuple(sys.modules):
+        if module_name == package_name or module_name.startswith(f"{package_name}."):
+            sys.modules.pop(module_name)
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    importlib.invalidate_caches()
+    return package_dir, importlib.import_module(f"{package_name}.robot")
 
 
 def test_opmode_decorators_attach_metadata():
@@ -50,6 +89,96 @@ def test_opmode_decorator_rejects_invalid_class_and_duplicate_mode():
 
     with pytest.raises(ValueError, match="multiple opmode decorators"):
         autonomous(DriveMode)
+
+
+def test_opmode_detector_recognizes_imported_module_alias():
+    source = """
+        from wpilib import PeriodicOpMode
+        from wpilib import opmoderobot as modes
+
+        @modes.utility
+        class UtilityMode(PeriodicOpMode):
+            pass
+    """
+
+    assert opmode_impl._has_opmode_decorator(textwrap.dedent(source), "utility.py")
+
+
+def test_opmode_robot_auto_discovers_bounded_opmodes(monkeypatch, tmp_path):
+    pkg, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            def __init__(self):
+                super().__init__()
+        """,
+        {
+            "opmodes/auto_mode.py": """
+                import wpilib as wpi
+
+                @wpi.autonomous(name="Auto")
+                class AutoMode(wpi.PeriodicOpMode):
+                    pass
+            """,
+            "opmodes/nested/__init__.py": "",
+            "opmodes/nested/tele_mode.py": """
+                from wpilib import PeriodicOpMode
+                from wpilib.opmoderobot import teleop as tele
+
+                @tele(group="Drive")
+                class TeleMode(PeriodicOpMode):
+                    pass
+            """,
+            "opmodes/ignored.py": """
+                from pathlib import Path
+                Path(__file__).with_name("ignored-imported").touch()
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = {
+        option.name: option for option in wsim.DriverStationSim.get_opmode_options()
+    }
+    assert set(options) == {"Auto", "TeleMode"}
+    assert options["TeleMode"].group == "Drive"
+    assert not (pkg / "opmodes" / "ignored-imported").exists()
+
+
+def test_opmode_robot_registers_explicitly_imported_decorated_opmode(
+    monkeypatch, tmp_path
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+        import samplebot.external_mode
+
+        class Robot(wpi.OpModeRobot):
+            def __init__(self):
+                super().__init__()
+        """,
+        {
+            "external_mode.py": """
+                from wpilib import PeriodicOpMode
+                from wpilib.opmoderobot import teleop
+
+                @teleop
+                class ImportedMode(PeriodicOpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert [option.name for option in options] == ["ImportedMode"]
 
 
 class MockOpMode(OpMode):

@@ -91,6 +91,7 @@ class OpModeRobot(OpModeRobotBase):
 
     def __init__(self):
         super().__init__()
+        _opmode.discover_and_register(self)
 
     def add_opmode(
         self,
