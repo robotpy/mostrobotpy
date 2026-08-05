@@ -2,9 +2,77 @@ from hal import RobotMode
 from typing import Optional
 from wpiutil import Color
 
-__all__ = ["OpModeRobot"]
+__all__ = ["OpModeRobot", "autonomous", "teleop", "utility"]
 
+from ._impl import opmode as _opmode
 from ._wpilib import OpModeRobotBase, OpMode
+
+
+def _apply_opmode_decorator(cls, *, mode, **metadata):
+    def apply(opmode_cls):
+        return _opmode.attach_metadata(opmode_cls, mode=mode, **metadata)
+
+    return apply if cls is None else apply(cls)
+
+
+def autonomous(
+    cls=None,
+    *,
+    name="",
+    group="",
+    description="",
+    text_color=None,
+    background_color=None,
+):
+    return _apply_opmode_decorator(
+        cls,
+        mode=RobotMode.AUTONOMOUS,
+        name=name,
+        group=group,
+        description=description,
+        text_color=text_color,
+        background_color=background_color,
+    )
+
+
+def teleop(
+    cls=None,
+    *,
+    name="",
+    group="",
+    description="",
+    text_color=None,
+    background_color=None,
+):
+    return _apply_opmode_decorator(
+        cls,
+        mode=RobotMode.TELEOPERATED,
+        name=name,
+        group=group,
+        description=description,
+        text_color=text_color,
+        background_color=background_color,
+    )
+
+
+def utility(
+    cls=None,
+    *,
+    name="",
+    group="",
+    description="",
+    text_color=None,
+    background_color=None,
+):
+    return _apply_opmode_decorator(
+        cls,
+        mode=RobotMode.UTILITY,
+        name=name,
+        group=group,
+        description=description,
+        text_color=text_color,
+        background_color=background_color,
+    )
 
 
 class OpModeRobot(OpModeRobotBase):

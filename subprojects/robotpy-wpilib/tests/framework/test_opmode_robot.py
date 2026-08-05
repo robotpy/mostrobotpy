@@ -1,10 +1,55 @@
 import pytest
 import threading
+import wpilib
 from wpilib import simulation as wsim
-from wpilib.opmoderobot import OpModeRobot
+from wpilib.opmoderobot import OpModeRobot, autonomous, teleop, utility
 from wpilib import OpMode, RobotState
 from hal import RobotMode
 from wpiutil import Color
+
+
+def test_opmode_decorators_attach_metadata():
+    @autonomous(group="Drive", description="Auto desc")
+    class AutoMode(OpMode):
+        pass
+
+    @teleop
+    class TeleMode(OpMode):
+        pass
+
+    @utility(
+        name="Arm Test",
+        text_color=Color.WHITE,
+        background_color=Color.BLACK,
+    )
+    class UtilityMode(OpMode):
+        pass
+
+    assert AutoMode._wpilib_opmode_metadata.mode == RobotMode.AUTONOMOUS
+    assert AutoMode._wpilib_opmode_metadata.name == "AutoMode"
+    assert AutoMode._wpilib_opmode_metadata.group == "Drive"
+    assert AutoMode._wpilib_opmode_metadata.description == "Auto desc"
+    assert TeleMode._wpilib_opmode_metadata.mode == RobotMode.TELEOPERATED
+    assert TeleMode._wpilib_opmode_metadata.name == "TeleMode"
+    assert UtilityMode._wpilib_opmode_metadata.mode == RobotMode.UTILITY
+    assert UtilityMode._wpilib_opmode_metadata.name == "Arm Test"
+    assert UtilityMode._wpilib_opmode_metadata.text_color == Color.WHITE
+    assert UtilityMode._wpilib_opmode_metadata.background_color == Color.BLACK
+    assert wpilib.autonomous is autonomous
+    assert wpilib.teleop is teleop
+    assert wpilib.utility is utility
+
+
+def test_opmode_decorator_rejects_invalid_class_and_duplicate_mode():
+    with pytest.raises(TypeError, match="OpMode subclass"):
+        autonomous(type("NotAnOpMode", (), {}))
+
+    @teleop
+    class DriveMode(OpMode):
+        pass
+
+    with pytest.raises(ValueError, match="multiple opmode decorators"):
+        autonomous(DriveMode)
 
 
 class MockOpMode(OpMode):
