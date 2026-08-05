@@ -295,6 +295,47 @@ def test_opmode_robot_retains_transitively_imported_candidate_after_failure(
     assert "expected candidate import failure" in caplog.text
 
 
+def test_opmode_robot_rolls_back_nested_failed_candidates(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/bad_a.py": """
+                from samplebot.opmodes import bad_b
+                from wpilib import PeriodicOpMode, teleop
+
+                @teleop
+                class BadAMode(PeriodicOpMode):
+                    pass
+            """,
+            "opmodes/bad_b.py": """
+                from wpilib import PeriodicOpMode, utility
+
+                @utility
+                class BadBMode(PeriodicOpMode):
+                    pass
+
+                raise RuntimeError("expected nested candidate import failure")
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert "bad_a" in caplog.text
+    assert "Could not import OpMode module samplebot.opmodes.bad_b" in caplog.text
+    assert "expected nested candidate import failure" in caplog.text
+
+
 def test_opmode_robot_continues_after_candidate_parse_failure(
     monkeypatch, tmp_path, caplog
 ):

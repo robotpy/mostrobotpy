@@ -5,6 +5,7 @@ from dataclasses import dataclass
 import importlib
 import inspect
 from pathlib import Path
+import sys
 from typing import Any
 
 from hal import RobotMode
@@ -140,7 +141,7 @@ def _import_candidates(package_dir: Path, package_name: str) -> None:
             _decorated_opmodes[registry_length:] = [
                 cls
                 for cls in _decorated_opmodes[registry_length:]
-                if cls.__module__ != module_name
+                if cls.__module__ in sys.modules
             ]
             report_error(
                 f"Could not import OpMode module {module_name}: {exc}",
