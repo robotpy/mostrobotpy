@@ -127,6 +127,18 @@ def _import_candidates(package_dir: Path, package_name: str) -> None:
         importlib.import_module(module_name)
 
 
+def _descendants(cls: type[OpMode]) -> list[type[OpMode]]:
+    descendants: set[type[OpMode]] = set()
+    pending = list(cls.__subclasses__())
+    while pending:
+        subclass = pending.pop()
+        if subclass in descendants:
+            continue
+        descendants.add(subclass)
+        pending.extend(subclass.__subclasses__())
+    return sorted(descendants, key=lambda subclass: subclass.__qualname__)
+
+
 def discover_and_register(robot: Any) -> None:
     package_dir = Path(inspect.getfile(type(robot))).parent / "opmodes"
     if package_dir.is_dir() and (package_dir / "__init__.py").is_file():
@@ -136,6 +148,7 @@ def discover_and_register(robot: Any) -> None:
         _import_candidates(package_dir, package_name)
 
     registered: set[tuple[type[OpMode], RobotMode]] = set()
+    registrations: list[tuple[type[OpMode], OpModeMetadata]] = []
     for cls in decorated_opmodes():
         metadata = cls.__dict__.get("_wpilib_opmode_metadata")
         if metadata is None or not issubclass(cls, OpMode):
@@ -144,6 +157,19 @@ def discover_and_register(robot: Any) -> None:
         if key in registered:
             continue
         registered.add(key)
+        descendants = _descendants(cls)
+        if descendants:
+            subclass_names = ", ".join(
+                f"{subclass.__module__}.{subclass.__qualname__}"
+                for subclass in descendants
+            )
+            raise ValueError(
+                f"decorated OpMode {cls.__module__}.{cls.__qualname__} must be a "
+                f"leaf class; found subclasses: {subclass_names}"
+            )
+        registrations.append((cls, metadata))
+
+    for cls, metadata in registrations:
         robot.add_opmode(
             cls,
             metadata.mode,

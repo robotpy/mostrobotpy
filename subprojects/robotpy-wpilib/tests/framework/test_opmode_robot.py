@@ -181,6 +181,75 @@ def test_opmode_robot_registers_explicitly_imported_decorated_opmode(
     assert [option.name for option in options] == ["ImportedMode"]
 
 
+def test_opmode_robot_rejects_decorated_non_leaf_class(monkeypatch, tmp_path):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/non_leaf.py": """
+                from wpilib import PeriodicOpMode, teleop
+
+                @teleop
+                class DecoratedBase(PeriodicOpMode):
+                    pass
+
+                class IntermediateMode(DecoratedBase):
+                    pass
+
+                class IndirectLeaf(IntermediateMode):
+                    pass
+            """,
+        },
+    )
+
+    with pytest.raises(ValueError) as exc_info:
+        robot_module.Robot()
+
+    message = str(exc_info.value)
+    assert "DecoratedBase" in message
+    assert "IndirectLeaf" in message
+    assert "leaf" in message
+    assert not wsim.DriverStationSim.get_opmode_options()
+
+
+def test_opmode_robot_registers_decorated_leaf_from_undecorated_base(
+    monkeypatch, tmp_path
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/leaf.py": """
+                from wpilib import PeriodicOpMode, teleop
+
+                class SharedBase(PeriodicOpMode):
+                    pass
+
+                @teleop
+                class DecoratedLeaf(SharedBase):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert [option.name for option in options] == ["DecoratedLeaf"]
+
+
 class MockOpMode(OpMode):
     def __init__(self):
         super().__init__()
