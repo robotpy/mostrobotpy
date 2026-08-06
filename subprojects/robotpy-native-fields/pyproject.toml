@@ -5,36 +5,38 @@ requires = [
     "hatch-nativelib~=0.2.0",
     "hatch-robotpy~=0.2.1",
     "robotpy-native-wpiutil==2027.0.0a6.post4",
+    "robotpy-native-wpimath==2027.0.0a6.post4",
 ]
 
 [project]
-name = "robotpy-native-wpinet"
+name = "robotpy-native-fields"
 version = "2027.0.0a6.post4"
-description = "WPILib Networking Library"
+description = "WPILib Fields Library"
 requires-python = ">=3.11"
 license = "BSD-3-Clause"
 
 dependencies = [
     "robotpy-native-wpiutil==2027.0.0a6.post4",
+    "robotpy-native-wpimath==2027.0.0a6.post4",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/native"]
 
 [[tool.hatch.build.hooks.robotpy.maven_lib_download]]
-artifact_id = "wpinet-cpp"
-group_id = "org.wpilib.wpinet"
+artifact_id = "fields-cpp"
+group_id = "org.wpilib.fields"
 repo_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 version = "2027.0.0-alpha-6-270-g038c581f4"
 
-extract_to = "src/native/wpinet"
-libs = ["wpinet"]
+extract_to = "src/native/fields"
+libs = ["fields"]
 
 [[tool.hatch.build.hooks.nativelib.pcfile]]
-pcfile = "src/native/wpinet/robotpy-native-wpinet.pc"
-name = "wpinet"
+pcfile = "src/native/fields/robotpy-native-fields.pc"
+name = "fields"
 
-includedir = "src/native/wpinet/include"
-libdir = "src/native/wpinet/lib"
-shared_libraries = ["wpinet"]
-requires = ["robotpy-native-wpiutil"]
+includedir = "src/native/fields/include"
+libdir = "src/native/fields/lib"
+shared_libraries = ["fields"]
+requires = ["robotpy-native-wpiutil", "robotpy-native-wpimath"]
