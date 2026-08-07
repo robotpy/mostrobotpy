@@ -10,6 +10,8 @@ import sys
 import time
 import typing as T
 
+from collections import deque
+
 import pytest
 
 import robotpy.main
@@ -82,6 +84,24 @@ class WorkerPlugin:
     def sendevent(self, name: str, **kwargs: object):
         self.channel.send((name, kwargs))
 
+    @pytest.hookimpl
+    def pytest_configure(self, config: pytest.Config):
+        # The worker runs with "-p", "no:order" (see _run_test), which unloads
+        # pytest-order entirely -- including its registration of the "order"
+        # marker. The @pytest.mark.order decorators are still on the tests we
+        # collect here, so without re-registering the marker they are "unknown"
+        # to this process: --strict-markers turns that into a collection error,
+        # and filterwarnings=error promotes the PytestUnknownMarkWarning into
+        # one. Both settings reach the worker, because it inherits the parent's
+        # command line and chdirs to the project root before reading the ini.
+        #
+        # Registering the marker restores those configurations without
+        # reactivating the reordering we deliberately turned off.
+        config.addinivalue_line(
+            "markers",
+            "order(*args, **kwargs): ordering is resolved by the parent process",
+        )
+
     @pytest.hookimpl(wrapper=True)
     def pytest_sessionstart(self, session: pytest.Session):
         self.config = session.config
@@ -149,7 +169,27 @@ def _run_test(
     worker_plugin = WorkerPlugin(pipe)
 
     ec = pytest.main(
-        [item_nodeid, "--no-header", "-p", "no:terminalreporter", *config_args],
+        [
+            item_nodeid,
+            "--no-header",
+            "-p",
+            "no:terminalreporter",
+            # "-p", "no:order" tells pytest in the isolated subprocess to not run pytest-order or look at
+            # the @pytest.mark.order decorators. This is fine because the isolated subprocess runs just one
+            # test at a time, so order does not matter at this level. The purpose of not running
+            # pytest-order is so that it doesn't give misleading warnings like:
+            #   WARNING: cannot execute 'test_step2_reads_sentinel' relative to others:
+            #   'test_step1_writes_sentinel' - ignoring the marker.
+            # The warning would be accurate from the isolated subprocess point of view,
+            # it can't see the other test, but it is misleading because the main process
+            # successfully ordered the tests.
+            #
+            # Unloading the plugin also drops its registration of the "order" marker, so
+            # WorkerPlugin.pytest_configure re-registers it.
+            "-p",
+            "no:order",
+            *config_args,
+        ],
         plugins=[plugin, worker_plugin],
     )
 
@@ -182,6 +222,40 @@ class IsolatedTestJob:
     def set_exit_code(self, ec: int):
         if self.exit_code is None:
             self.exit_code = ec
+
+
+def _order_marker_groups(
+    items: list[pytest.Item],
+) -> T.Iterator[list[pytest.Function]]:
+    """
+    Split collected items into consecutive runs that share one order marker.
+
+    An order marker applied to a class or module is inherited by every test underneath it,
+    and get_closest_marker returns the *same* Mark object for each of them. Grouping by
+    identity therefore treats those tests as one group: the group is serialized against
+    everything outside it, while its members -- whose relative order pytest-order explicitly
+    does not constrain -- can be scheduled freely. Identity is required rather than ==,
+    because two independent @pytest.mark.order(5) decorators compare equal but are separate
+    constraints that must not be merged into one group.
+
+    Unmarked tests all return None, so a run of them forms a single group.
+    """
+    group: list[pytest.Function] = []
+    prev_marker = None
+
+    for item in items:
+        assert isinstance(item, pytest.Function)
+
+        marker = item.get_closest_marker("order")
+        if group and marker is not prev_marker:
+            yield group
+            group = []
+
+        group.append(item)
+        prev_marker = marker
+
+    if group:
+        yield group
 
 
 class IsolatedTestsPlugin:
@@ -237,29 +311,59 @@ class IsolatedTestsPlugin:
             return True
 
         running: list[IsolatedTestJob] = []
-        deferred: list[pytest.Function] = []
         try:
-            # Start any tests that use the robot fixture first. Tests that don't
-            # use the robot fixture will be ran later
-            for item in session.items:
-                assert isinstance(item, pytest.Function)
-                if "robot" not in item.fixturenames:
-                    deferred.append(item)
-                    continue
-
-                while len(running) >= self._parallelism:
+            # Run tests one order marker group at a time, preserving the boundaries between
+            # groups while scheduling freely inside them.
+            #
+            # pytest-order has already sorted session.items during collection, so all this has
+            # to do is stop tests from overtaking each other across an ordering boundary.
+            #
+            # Within a group pytest-order has explicitly not constrained anything, so the order
+            # inside one carries no meaning and this loop is free to schedule for throughput.
+            # It does that by never leaving this process idle while it still has work: fill
+            # every subprocess slot first, then run in-process tests in the time those
+            # subprocesses take, and only block once there is nothing left to overlap with.
+            for group in _order_marker_groups(session.items):
+                # Crossing an ordering boundary: everything started so far has to finish before
+                # anything on the far side of the boundary begins. One drain covers both leaving
+                # a group -- so @pytest.mark.order(before="NAME") completes first -- and entering
+                # one, so @pytest.mark.order(<ORDINAL>) and @pytest.mark.order(after="NAME") see
+                # the tests they were sorted behind already finished.
+                while running:
                     self._wait_for_jobs(running, session)
 
-                running.append(self._start_isolated_test(item))
-                self._maybe_raise(session)
+                # Tests using the "robot" fixture go to isolated subprocesses, everything else
+                # runs here. Both are queues the loop below drains against each other.
+                isolated = deque(i for i in group if "robot" in i.fixturenames)
+                in_process = deque(i for i in group if "robot" not in i.fixturenames)
 
-            # Run the in-process tests now while the robot tests are finishing
-            for idx, item in enumerate(deferred):
-                nextitem = deferred[idx + 1] if idx + 1 < len(deferred) else None
-                session.config.hook.pytest_runtest_protocol(
-                    item=item, nextitem=nextitem
-                )
-                self._maybe_raise(session)
+                while isolated or in_process:
+                    # Reap whatever has already finished so its slot can be reused. This has to
+                    # be a poll rather than a wait: slots only free up inside _wait_for_jobs, so
+                    # without this a long run of in-process tests would hold the subprocess count
+                    # at its high-water mark and refuse to start anything new.
+                    self._wait_for_jobs(running, session, timeout=0)
+
+                    while isolated and len(running) < self._parallelism:
+                        running.append(self._start_isolated_test(isolated.popleft()))
+                        self._maybe_raise(session)
+
+                    if in_process:
+                        item = in_process.popleft()
+
+                        # nextitem is pytest's teardown-optimization hint. These run back to
+                        # back, so whatever is left at the front always qualifies; the last
+                        # test hands over None because the group is drained after it.
+                        nextitem = in_process[0] if in_process else None
+
+                        session.config.hook.pytest_runtest_protocol(
+                            item=item, nextitem=nextitem
+                        )
+                        self._maybe_raise(session)
+                    elif running:
+                        # Every slot is busy and there is no in-process work left to fill the
+                        # wait with, so there is nothing to do but block.
+                        self._wait_for_jobs(running, session)
 
             while running:
                 self._wait_for_jobs(running, session)
@@ -301,11 +405,26 @@ class IsolatedTestsPlugin:
             start_time=time.time(),
         )
 
-    def _wait_for_jobs(self, running: list[IsolatedTestJob], session: pytest.Session):
+    def _wait_for_jobs(
+        self,
+        running: list[IsolatedTestJob],
+        session: pytest.Session,
+        timeout: float | None = None,
+    ):
+        """
+        Collect results from finished jobs, removing them from `running`.
+
+        Blocks until at least one job has something to say. Pass timeout=0 to
+        poll instead, which reaps whatever has already finished and returns
+        immediately -- used to free subprocess slots without stalling this
+        process while it still has in-process tests to run.
+        """
         if not running:
             return
 
-        ready = multiprocessing.connection.wait([job.conn for job in running])
+        ready = multiprocessing.connection.wait(
+            [job.conn for job in running], timeout=timeout
+        )
 
         for conn in ready:
             job = next(job for job in running if job.conn == conn)
