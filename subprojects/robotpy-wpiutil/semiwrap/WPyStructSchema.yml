@@ -1,6 +1,12 @@
 defaults:
   subpackage: _schema
 
+functions:
+  PackSchema:
+    no_release_gil: true
+  UnpackSchema:
+    no_release_gil: true
+
 classes:
   wpy::structs::SchemaFieldDescriptor:
     attributes:
@@ -40,6 +46,7 @@ classes:
         no_release_gil: true
   wpy::structs::SchemaDatabase:
     methods:
+      SchemaDatabase:
       Add:
         no_release_gil: true
       Find:

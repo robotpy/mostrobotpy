@@ -1,8 +1,10 @@
 import gc
+import subprocess
+import sys
 
 import pytest
 
-from wpiutil._wpiutil._schema import SchemaDatabase
+from wpiutil._wpiutil._schema import SchemaDatabase, pack_schema, unpack_schema
 
 
 def test_schema_descriptor_metadata():
@@ -163,3 +165,155 @@ def test_failed_placeholder_completion_is_transactional():
     assert inner.size == 4
     assert outer.is_valid
     assert outer.size == 4
+
+
+@pytest.mark.parametrize(
+    ("schema", "value", "encoded"),
+    [
+        ("bool value", True, b"\x01"),
+        ("int8 value", -2, b"\xfe"),
+        ("uint16 value", 0x1234, b"\x34\x12"),
+        ("int32 value", -3, b"\xfd\xff\xff\xff"),
+        ("float value", 1.5, b"\x00\x00\xc0?"),
+        ("double value", 1.5, b"\x00\x00\x00\x00\x00\x00\xf8?"),
+    ],
+)
+def test_schema_primitive_round_trip(schema, value, encoded):
+    desc = SchemaDatabase().add("Value", schema)
+    assert pack_schema(desc, (value,)) == encoded
+    assert unpack_schema(desc, encoded) == (value,)
+
+
+def test_schema_array_and_nested_round_trip():
+    db = SchemaDatabase()
+    db.add("Inner", "int16 value")
+    outer = db.add("Outer", "uint8 samples[2]; Inner inner")
+    encoded = pack_schema(outer, ((1, 2), b"\xfe\xff"))
+    assert encoded == b"\x01\x02\xfe\xff"
+    assert unpack_schema(outer, encoded) == ((1, 2), b"\xfe\xff")
+
+
+def test_schema_non_char_array_accepts_byte_sequences():
+    desc = SchemaDatabase().add("Samples", "uint8 samples[2]")
+
+    assert pack_schema(desc, (b"\x01\x02",)) == b"\x01\x02"
+    assert pack_schema(desc, (bytearray(b"\x03\x04"),)) == b"\x03\x04"
+
+
+def test_schema_nested_array_unpacks_exact_size_bytes():
+    db = SchemaDatabase()
+    db.add("Inner", "uint16 value")
+    outer = db.add("Outer", "Inner nested[2]")
+
+    assert unpack_schema(outer, b"\x01\x00\x02\x00") == ((b"\x01\x00", b"\x02\x00"),)
+
+
+def test_schema_bitfield_layout_and_sign_extension():
+    desc = SchemaDatabase().add("Bits", "int16 signed:3; bool ready:1; uint16 count:4")
+    encoded = pack_schema(desc, (-1, True, 9))
+    assert encoded == b"\x9f\x00"
+    assert unpack_schema(desc, encoded) == (-1, True, 9)
+
+
+def test_schema_enum_is_an_integer_at_native_boundary():
+    desc = SchemaDatabase().add("Mode", "enum {OFF=0,AUTO=1} uint8 mode")
+    assert pack_schema(desc, (1,)) == b"\x01"
+    assert unpack_schema(desc, b"\x07") == (7,)
+    assert desc.fields[0].enum_values == [("OFF", 0), ("AUTO", 1)]
+
+
+def test_schema_char_array_preserves_embedded_nul():
+    desc = SchemaDatabase().add("Text", "char text[5]")
+    assert pack_schema(desc, ("ab\0c",)) == b"ab\0c\0"
+    assert unpack_schema(desc, b"ab\0c\0") == ("ab\0c",)
+
+
+def test_schema_char_array_rejects_utf8_truncation():
+    desc = SchemaDatabase().add("Text", "char text[2]")
+    with pytest.raises(ValueError, match="text.*2 bytes"):
+        pack_schema(desc, ("a\u1234",))
+
+
+def test_schema_pack_pins_descriptor_during_sequence_reentrancy():
+    script = """
+from wpiutil._wpiutil._schema import SchemaDatabase, pack_schema
+
+
+class MutatingValues:
+    def __init__(self, db):
+        self.db = db
+        self.mutated = False
+
+    def __len__(self):
+        if not self.mutated:
+            self.mutated = True
+            self.db.add("Other", "uint64 a; uint64 b; uint64 c; uint64 d")
+        return 1
+
+    def __getitem__(self, index):
+        if index == 0:
+            return 7
+        raise IndexError
+
+
+db = SchemaDatabase()
+desc = db.add("Value", "uint8 value")
+assert pack_schema(desc, MutatingValues(db)) == b"\\x07"
+assert db.find("Other").is_valid
+"""
+    result = subprocess.run(
+        [sys.executable, "-c", script], capture_output=True, text=True
+    )
+
+    assert result.returncode == 0, result.stderr
+
+
+def test_schema_codec_validation():
+    desc = SchemaDatabase().add("Value", "uint8 value; int8 nibble:4")
+
+    with pytest.raises(ValueError, match="expected 2 fields"):
+        pack_schema(desc, (1,))
+    with pytest.raises(ValueError, match="value.*0.*255"):
+        pack_schema(desc, (256, 0))
+    with pytest.raises(ValueError, match="nibble.*-8.*7"):
+        pack_schema(desc, (1, 8))
+    with pytest.raises(ValueError, match="buffer must be 2 bytes"):
+        unpack_schema(desc, b"\x00")
+
+
+@pytest.mark.parametrize(
+    ("schema", "minimum", "maximum"),
+    [
+        ("int8 value", -(2**7), 2**7 - 1),
+        ("int16 value", -(2**15), 2**15 - 1),
+        ("int32 value", -(2**31), 2**31 - 1),
+        ("int64 value", -(2**63), 2**63 - 1),
+        ("uint8 value", 0, 2**8 - 1),
+        ("uint16 value", 0, 2**16 - 1),
+        ("uint32 value", 0, 2**32 - 1),
+        ("uint64 value", 0, 2**64 - 1),
+    ],
+)
+def test_schema_integer_limits(schema, minimum, maximum):
+    desc = SchemaDatabase().add("Value", schema)
+    for value in (minimum, maximum):
+        assert unpack_schema(desc, pack_schema(desc, (value,))) == (value,)
+
+
+@pytest.mark.parametrize(
+    ("schema", "values", "size"),
+    [
+        ("int32 a:2; uint32 b:30", (-1, 100), 4),
+        ("int32 a:2; int16 b:2", (-1, -2), 6),
+        ("int8 a:4; int8 b:5", (-1, -2), 2),
+        (
+            "int16 a:2; bool b:1; bool c:1; uint16 d:5",
+            (-1, True, False, 17),
+            2,
+        ),
+    ],
+)
+def test_schema_bitfield_placement(schema, values, size):
+    desc = SchemaDatabase().add("Bits", schema)
+    assert desc.size == size
+    assert unpack_schema(desc, pack_schema(desc, values)) == values

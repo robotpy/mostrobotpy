@@ -9,6 +9,10 @@
 #include <utility>
 #include <vector>
 
+#include <pybind11/pybind11.h>
+
+namespace py = pybind11;
+
 namespace wpy::structs {
 
 class SchemaDatabaseImpl;
@@ -36,6 +40,10 @@ class SchemaDescriptor {
 
  private:
   friend class SchemaDatabase;
+  friend py::bytes PackSchema(const SchemaDescriptor& desc,
+                              const py::sequence& values);
+  friend py::tuple UnpackSchema(const SchemaDescriptor& desc,
+                                const py::buffer& buffer);
   SchemaDescriptor(std::shared_ptr<SchemaDatabaseImpl> impl, std::string name);
   std::shared_ptr<SchemaDatabaseImpl> m_impl;
   std::string m_name;
@@ -50,5 +58,8 @@ class SchemaDatabase {
  private:
   std::shared_ptr<SchemaDatabaseImpl> m_impl;
 };
+
+py::bytes PackSchema(const SchemaDescriptor& desc, const py::sequence& values);
+py::tuple UnpackSchema(const SchemaDescriptor& desc, const py::buffer& buffer);
 
 }  // namespace wpy::structs
