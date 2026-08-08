@@ -1,4 +1,5 @@
 import gc
+import math
 import subprocess
 import sys
 
@@ -200,6 +201,22 @@ def test_schema_non_char_array_accepts_byte_sequences():
     assert pack_schema(desc, (bytearray(b"\x03\x04"),)) == b"\x03\x04"
 
 
+def test_schema_singleton_array_uses_wpilib_scalar_semantics():
+    db = SchemaDatabase()
+    desc = db.add("Packet", "uint8 samples[1]")
+
+    assert desc.schema == "uint8 samples[1]"
+    assert desc.fields[0].array_size == 1
+    assert pack_schema(desc, (7,)) == b"\x07"
+    assert unpack_schema(desc, b"\x08") == (8,)
+
+    with pytest.raises(TypeError, match="samples.*must be an integer"):
+        pack_schema(desc, ((7,),))
+
+    equivalent = db.add("Packet", "uint8 samples")
+    assert equivalent.schema == "uint8 samples[1]"
+
+
 def test_schema_nested_array_unpacks_exact_size_bytes():
     db = SchemaDatabase()
     db.add("Inner", "uint16 value")
@@ -282,6 +299,66 @@ def test_schema_codec_validation():
 
 
 @pytest.mark.parametrize(
+    ("schema", "value", "bounds"),
+    [
+        ("int8 value", 128, r"-128.*127"),
+        ("uint8 value", 256, r"0.*255"),
+    ],
+)
+def test_schema_integer_subclass_cannot_bypass_range_validation(schema, value, bounds):
+    class LyingInt(int):
+        def __lt__(self, other):
+            return False
+
+        def __gt__(self, other):
+            return False
+
+    desc = SchemaDatabase().add("Value", schema)
+
+    with pytest.raises(ValueError, match=rf"value.*{bounds}"):
+        pack_schema(desc, (LyingInt(value),))
+
+
+@pytest.mark.parametrize(
+    ("schema", "below_minimum", "above_maximum"),
+    [
+        ("int8 value", -(2**7) - 1, 2**7),
+        ("int16 value", -(2**15) - 1, 2**15),
+        ("int32 value", -(2**31) - 1, 2**31),
+        ("int64 value", -(2**63) - 1, 2**63),
+        ("uint8 value", -1, 2**8),
+        ("uint16 value", -1, 2**16),
+        ("uint32 value", -1, 2**32),
+        ("uint64 value", -1, 2**64),
+    ],
+)
+def test_schema_integer_rejects_one_past_limits(schema, below_minimum, above_maximum):
+    desc = SchemaDatabase().add("Value", schema)
+
+    with pytest.raises(ValueError, match="value.*must be between"):
+        pack_schema(desc, (below_minimum,))
+    with pytest.raises(ValueError, match="value.*must be between"):
+        pack_schema(desc, (above_maximum,))
+
+
+@pytest.mark.parametrize(
+    ("schema", "minimum", "maximum"),
+    [
+        ("int8 value:4", -8, 7),
+        ("uint64 value:63", 0, 2**63 - 1),
+    ],
+)
+def test_schema_bitfield_enforces_exact_integer_limits(schema, minimum, maximum):
+    desc = SchemaDatabase().add("Value", schema)
+
+    for value in (minimum, maximum):
+        assert unpack_schema(desc, pack_schema(desc, (value,))) == (value,)
+    for value in (minimum - 1, maximum + 1):
+        with pytest.raises(ValueError, match="value.*must be between"):
+            pack_schema(desc, (value,))
+
+
+@pytest.mark.parametrize(
     ("schema", "minimum", "maximum"),
     [
         ("int8 value", -(2**7), 2**7 - 1),
@@ -298,6 +375,40 @@ def test_schema_integer_limits(schema, minimum, maximum):
     desc = SchemaDatabase().add("Value", schema)
     for value in (minimum, maximum):
         assert unpack_schema(desc, pack_schema(desc, (value,))) == (value,)
+
+
+def test_schema_float_rejects_finite_float32_overflow():
+    desc = SchemaDatabase().add("Value", "float value")
+
+    float32_max = float.fromhex("0x1.fffffep+127")
+    assert pack_schema(desc, (float32_max,)) == b"\xff\xff\x7f\x7f"
+    assert pack_schema(desc, (-float32_max,)) == b"\xff\xff\x7f\xff"
+
+    outside = math.nextafter(float32_max, math.inf)
+    for value in (outside, -outside, 1e300, -1e300):
+        with pytest.raises(ValueError, match="value.*float32 range"):
+            pack_schema(desc, (value,))
+
+
+@pytest.mark.parametrize(
+    ("value", "encoded"),
+    [
+        (math.inf, b"\x00\x00\x80\x7f"),
+        (-math.inf, b"\x00\x00\x80\xff"),
+    ],
+)
+def test_schema_float_preserves_infinities(value, encoded):
+    desc = SchemaDatabase().add("Value", "float value")
+
+    assert pack_schema(desc, (value,)) == encoded
+    assert unpack_schema(desc, encoded) == (value,)
+
+
+def test_schema_float_preserves_nan():
+    desc = SchemaDatabase().add("Value", "float value")
+
+    (unpacked,) = unpack_schema(desc, pack_schema(desc, (math.nan,)))
+    assert math.isnan(unpacked)
 
 
 @pytest.mark.parametrize(

@@ -1,5 +1,7 @@
 #include "wpystruct_schema.h"
 
+#include <cmath>
+#include <limits>
 #include <map>
 #include <span>
 #include <string>
@@ -139,24 +141,59 @@ void RequireIntegerType(const wpi::util::StructFieldDescriptor& field,
 }
 
 template <typename T>
-void RequireIntegerRange(const wpi::util::StructFieldDescriptor& field,
-                         py::handle value, T minimum, T maximum) {
+[[noreturn]] void ThrowIntegerRangeError(
+    const wpi::util::StructFieldDescriptor& field, T minimum, T maximum) {
+  throw py::value_error(FieldError(
+      field, "must be between " + std::to_string(minimum) + " and " +
+                 std::to_string(maximum)));
+}
+
+int64_t RequireSignedInteger(const wpi::util::StructFieldDescriptor& field,
+                             py::handle value, int64_t minimum,
+                             int64_t maximum) {
   RequireIntegerType(field, value);
-  py::int_ pyMinimum{minimum};
-  py::int_ pyMaximum{maximum};
-  int below = PyObject_RichCompareBool(value.ptr(), pyMinimum.ptr(), Py_LT);
-  if (below < 0) {
+  int overflow = 0;
+  int64_t converted = PyLong_AsLongLongAndOverflow(value.ptr(), &overflow);
+  if (converted == -1 && PyErr_Occurred()) {
     throw py::error_already_set();
   }
-  int above = PyObject_RichCompareBool(value.ptr(), pyMaximum.ptr(), Py_GT);
-  if (above < 0) {
+  if (overflow != 0 || converted < minimum || converted > maximum) {
+    ThrowIntegerRangeError(field, minimum, maximum);
+  }
+  return converted;
+}
+
+uint64_t RequireUnsignedInteger(const wpi::util::StructFieldDescriptor& field,
+                                py::handle value, uint64_t minimum,
+                                uint64_t maximum) {
+  RequireIntegerType(field, value);
+  uint64_t converted = PyLong_AsUnsignedLongLong(value.ptr());
+  if (PyErr_Occurred()) {
+    if (!PyErr_ExceptionMatches(PyExc_OverflowError)) {
+      throw py::error_already_set();
+    }
+    PyErr_Clear();
+    ThrowIntegerRangeError(field, minimum, maximum);
+  }
+  if (converted < minimum || converted > maximum) {
+    ThrowIntegerRangeError(field, minimum, maximum);
+  }
+  return converted;
+}
+
+float RequireFloat32(const wpi::util::StructFieldDescriptor& field,
+                     py::handle value) {
+  RequireFloat(field, value);
+  double converted = PyFloat_AsDouble(value.ptr());
+  if (converted == -1.0 && PyErr_Occurred()) {
     throw py::error_already_set();
   }
-  if (below || above) {
-    throw py::value_error(FieldError(
-        field, "must be between " + std::to_string(minimum) + " and " +
-                   std::to_string(maximum)));
+  constexpr double kMax = std::numeric_limits<float>::max();
+  if (std::isfinite(converted) &&
+      (converted < -kMax || converted > kMax)) {
+    throw py::value_error(FieldError(field, "must be within float32 range"));
   }
+  return static_cast<float>(converted);
 }
 
 py::sequence RequireArray(const wpi::util::StructFieldDescriptor& field,
@@ -206,20 +243,24 @@ void PackElement(wpi::util::MutableDynamicStruct& output,
     case StructFieldType::INT16:
     case StructFieldType::INT32:
     case StructFieldType::INT64:
-      RequireIntegerRange(field, value, field.GetIntMin(), field.GetIntMax());
-      output.SetIntField(&field, py::cast<int64_t>(value), index);
+      output.SetIntField(
+          &field,
+          RequireSignedInteger(field, value, field.GetIntMin(),
+                               field.GetIntMax()),
+          index);
       return;
     case StructFieldType::UINT8:
     case StructFieldType::UINT16:
     case StructFieldType::UINT32:
     case StructFieldType::UINT64:
-      RequireIntegerRange(field, value, field.GetUintMin(),
-                          field.GetUintMax());
-      output.SetUintField(&field, py::cast<uint64_t>(value), index);
+      output.SetUintField(
+          &field,
+          RequireUnsignedInteger(field, value, field.GetUintMin(),
+                                 field.GetUintMax()),
+          index);
       return;
     case StructFieldType::FLOAT:
-      RequireFloat(field, value);
-      output.SetFloatField(&field, py::cast<float>(value), index);
+      output.SetFloatField(&field, RequireFloat32(field, value), index);
       return;
     case StructFieldType::DOUBLE:
       RequireFloat(field, value);
