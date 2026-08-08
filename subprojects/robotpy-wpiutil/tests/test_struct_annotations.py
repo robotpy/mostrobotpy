@@ -140,6 +140,20 @@ class Mode(enum.IntEnum):
     DEFAULT = 1
 
 
+_hostile_missing_calls = []
+
+
+class HostileMissingMode(enum.IntEnum):
+    OFF = 0
+    AUTO = 1
+
+    @classmethod
+    def _missing_(cls, value):
+        _hostile_missing_calls.append(value)
+        cls._member_map_["INJECTED"] = cls.AUTO
+        return cls.AUTO
+
+
 @wpistruct.make_wpistruct(name="Packet")
 @dataclasses.dataclass
 class Packet:
@@ -183,6 +197,30 @@ def test_unknown_enum_pseudo_members_are_cached_per_field():
     assert first.first is second.first
     assert first.second is second.second
     assert first.first is not first.second
+
+
+@wpistruct.make_wpistruct
+@dataclasses.dataclass
+class HostileMissingPacket:
+    mode: Annotated[HostileMissingMode, wpistruct.uint8]
+
+
+def test_enum_unpack_does_not_call_missing_or_mutate_class_maps():
+    _hostile_missing_calls.clear()
+    before_members = dict(HostileMissingMode.__members__)
+    before_values = dict(HostileMissingMode._value2member_map_)
+
+    known = wpistruct.unpack(HostileMissingPacket, b"\x01")
+    first_unknown = wpistruct.unpack(HostileMissingPacket, b"\x07")
+    second_unknown = wpistruct.unpack(HostileMissingPacket, b"\x07")
+
+    assert known.mode is HostileMissingMode.AUTO
+    assert first_unknown.mode is second_unknown.mode
+    assert first_unknown.mode.name == "UNKNOWN_7"
+    assert first_unknown.mode.value == 7
+    assert _hostile_missing_calls == []
+    assert HostileMissingMode.__members__ == before_members
+    assert HostileMissingMode._value2member_map_ == before_values
 
 
 @wpistruct.make_wpistruct

@@ -351,10 +351,9 @@ def _make_layout(native_descriptor, plans, python_names) -> StructLayout:
 def _enum_from_int(
     enum_type: type[enum.IntEnum], value: int, cache: dict[int, enum.IntEnum]
 ) -> enum.IntEnum:
-    try:
-        return enum_type(value)
-    except ValueError:
-        pass
+    member = enum_type._value2member_map_.get(value)
+    if member is not None:
+        return member
 
     member = cache.get(value)
     if member is None:
