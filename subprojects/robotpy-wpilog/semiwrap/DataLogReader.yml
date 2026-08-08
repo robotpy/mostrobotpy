@@ -329,4 +329,7 @@ inline_code: |
       py::keep_alive<1, 2>())
     .def("__iter__", [](wpi::log::DataLogReader * that) {
       return py::make_iterator(that->begin(), that->end());
+    }, py::keep_alive<0,1>())
+    .def("iter_auto", [](wpi::log::DataLogReader *self, py::args structTypes) {
+      return py::module_::import("wpilog._datalog").attr("_iter_auto")(self, structTypes);
     }, py::keep_alive<0,1>());
