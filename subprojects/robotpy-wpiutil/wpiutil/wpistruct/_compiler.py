@@ -497,14 +497,14 @@ def compile_wpistruct(
     schema = (
         schema_override if schema_override is not None else _schema_for_plans(plans)
     )
+    if descriptor is None:
+        descriptor = _make_native_descriptor(struct_name, schema, plans)
 
     use_descriptor_codec = any(
         plan.is_char or plan.enum_type is not None or plan.bit_width is not None
         for plan in plans
     )
     if use_descriptor_codec:
-        if descriptor is None:
-            descriptor = _make_native_descriptor(struct_name, schema, plans)
         serializer_descriptor = _make_descriptor_serializer(
             cls, struct_name, schema, err_name, plans, descriptor
         )
@@ -520,7 +520,13 @@ def compile_wpistruct(
     packs = []
     unpacks = []
     for_each_nested = []
-    ctx: dict[str, typing.Any] = {"cls": cls}
+    # Pack/unpack functions retain this globals dictionary, keeping the native
+    # descriptor database alive with the generated class.
+    ctx: dict[str, typing.Any] = {
+        "cls": cls,
+        "descriptor": descriptor,
+        "_err_name": err_name,
+    }
 
     for plan in plans:
         name = plan.python_name
@@ -591,9 +597,7 @@ def compile_wpistruct(
         for_each_nested_statement += padding.join(for_each_nested)
         for_each_nested_statement += "\n" + " " * 12
         for_each_nested_statement += "except Exception as e:"
-        for_each_nested_statement += (
-            f"{padding}raise ValueError(f'{err_name}: error in for_each_nested') from e"
-        )
+        for_each_nested_statement += f"{padding}raise ValueError(f'{{_err_name}}: error in for_each_nested') from e"
 
     ctx["_s"] = codec
     function_source = inspect.cleandoc(f"""
@@ -604,14 +608,14 @@ def compile_wpistruct(
                 {pack_statements}
                 return _s.pack({values})
             except Exception as e:
-                raise ValueError(f"{err_name}: error packing data") from e
+                raise ValueError(f"{{_err_name}}: error packing data") from e
 
         def _pack_into(v, b):
             try:
                 {pack_statements}
                 return _s.pack_into(b, 0, {values})
             except Exception as e:
-                raise ValueError(f"{err_name}: error packing data") from e
+                raise ValueError(f"{{_err_name}}: error packing data") from e
 
         def _unpack(b):
             try:
@@ -619,7 +623,7 @@ def compile_wpistruct(
                 {unpack_statements}
                 return cls({constructor_values})
             except Exception as e:
-                raise ValueError(f"{err_name}: error unpacking data") from e
+                raise ValueError(f"{{_err_name}}: error unpacking data") from e
 
         {for_each_nested_statement}
     """)
@@ -635,8 +639,6 @@ def compile_wpistruct(
         for_each_nested=ctx["_for_each_nested"],
     )
 
-    if descriptor is None:
-        descriptor = _make_native_descriptor(struct_name, schema, plans)
     layout = _make_layout(descriptor, plans, python_names)
 
     cls.WPIStruct = serializer_descriptor
