@@ -12,7 +12,8 @@ namespace wpy::structs {
 
 class SchemaDatabaseImpl {
  public:
-  wpi::util::StructDescriptorDatabase database;
+  std::unique_ptr<wpi::util::StructDescriptorDatabase> database =
+      std::make_unique<wpi::util::StructDescriptorDatabase>();
   std::map<std::string, std::string, std::less<>> definitions;
 };
 
@@ -20,7 +21,7 @@ namespace {
 
 const wpi::util::StructDescriptor& ResolveDescriptor(
     const std::shared_ptr<SchemaDatabaseImpl>& impl, std::string_view name) {
-  const auto* descriptor = impl->database.Find(name);
+  const auto* descriptor = impl->database->Find(name);
   if (!descriptor) {
     throw pybind11::value_error("descriptor " + std::string{name} +
                                " does not exist");
@@ -161,18 +162,30 @@ SchemaDescriptor SchemaDatabase::Add(std::string_view name,
     return SchemaDescriptor{m_impl, std::string{name}};
   }
 
+  auto stagedDatabase =
+      std::make_unique<wpi::util::StructDescriptorDatabase>();
   std::string error;
-  const auto* descriptor = m_impl->database.Add(name, schema, &error);
+  for (const auto& [definedName, definedSchema] : m_impl->definitions) {
+    if (!stagedDatabase->Add(definedName, definedSchema, &error)) {
+      throw pybind11::value_error("failed to reconstruct schema database: " +
+                                  error);
+    }
+  }
+
+  const auto* descriptor = stagedDatabase->Add(name, schema, &error);
   if (!descriptor) {
     throw pybind11::value_error(error);
   }
-  m_impl->definitions.emplace(descriptor->GetName(), descriptor->GetSchema());
-  return SchemaDescriptor{m_impl, descriptor->GetName()};
+  std::string descriptorName = descriptor->GetName();
+  std::string descriptorSchema = descriptor->GetSchema();
+  m_impl->definitions.emplace(descriptorName, std::move(descriptorSchema));
+  m_impl->database = std::move(stagedDatabase);
+  return SchemaDescriptor{m_impl, std::move(descriptorName)};
 }
 
 std::optional<SchemaDescriptor> SchemaDatabase::Find(
     std::string_view name) const {
-  const auto* descriptor = m_impl->database.Find(name);
+  const auto* descriptor = m_impl->database->Find(name);
   if (!descriptor) {
     return std::nullopt;
   }
