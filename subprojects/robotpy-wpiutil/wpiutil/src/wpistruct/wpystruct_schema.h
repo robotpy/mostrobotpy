@@ -1,0 +1,54 @@
+#pragma once
+
+#include <cstddef>
+#include <cstdint>
+#include <memory>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
+
+namespace wpy::structs {
+
+class SchemaDatabaseImpl;
+
+struct SchemaFieldDescriptor {
+  std::string name;
+  std::string type;
+  size_t size;
+  size_t offset;
+  size_t arraySize;
+  unsigned int bitWidth;
+  unsigned int bitShift;
+  uint64_t bitMask;
+  std::vector<std::pair<std::string, int64_t>> enumValues;
+  std::optional<std::string> structName;
+};
+
+class SchemaDescriptor {
+ public:
+  std::string GetName() const;
+  std::string GetSchema() const;
+  bool IsValid() const;
+  size_t GetSize() const;
+  std::vector<SchemaFieldDescriptor> GetFields() const;
+
+ private:
+  friend class SchemaDatabase;
+  SchemaDescriptor(std::shared_ptr<SchemaDatabaseImpl> impl, std::string name);
+  std::shared_ptr<SchemaDatabaseImpl> m_impl;
+  std::string m_name;
+};
+
+class SchemaDatabase {
+ public:
+  SchemaDatabase();
+  SchemaDescriptor Add(std::string_view name, std::string_view schema);
+  std::optional<SchemaDescriptor> Find(std::string_view name) const;
+
+ private:
+  std::shared_ptr<SchemaDatabaseImpl> m_impl;
+};
+
+}  // namespace wpy::structs

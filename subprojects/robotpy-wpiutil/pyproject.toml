@@ -88,6 +88,7 @@ SendableBuilder = "wpi/util/sendable/SendableBuilder.hpp"
 SendableRegistry = "wpi/util/sendable/SendableRegistry.hpp"
 
 WPyStruct = "src/wpistruct/wpystruct_fns.h"
+WPyStructSchema = "src/wpistruct/wpystruct_schema.h"
 
 [tool.semiwrap.export_type_casters.wpiutil-casters]
 pypackage = "wpiutil"
