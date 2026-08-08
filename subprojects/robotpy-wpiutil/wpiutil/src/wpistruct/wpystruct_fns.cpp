@@ -131,6 +131,10 @@ py::typing::List<WPyStruct> unpackArray(const py::type& t,
     throw py::value_error("buffer must only have a single dimension");
   }
 
+  if (sz == 0) {
+    throw py::value_error("cannot unpack an array of zero-size structs");
+  }
+
   if (req.size % sz != 0) {
     throw py::value_error("buffer must be multiple of " + std::to_string(sz) +
                           " bytes");

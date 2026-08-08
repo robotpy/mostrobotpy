@@ -179,6 +179,24 @@ def test_user_unpack():
     assert wpistruct.unpack(MyStruct, b"\x02\x00\x00\x00\x01\x00\x00\x60\x40") == v
 
 
+@wpistruct.make_wpistruct
+@dataclasses.dataclass
+class Empty:
+    pass
+
+
+def test_user_empty_struct_scalar_round_trip():
+    value = Empty()
+
+    assert wpistruct.pack(value) == b""
+    assert wpistruct.unpack(Empty, b"") == value
+
+
+def test_user_empty_struct_array_unpack_is_rejected():
+    with pytest.raises(ValueError, match="cannot unpack an array of zero-size structs"):
+        wpistruct.unpack_array(Empty, b"")
+
+
 @wpistruct.make_wpistruct(name="SingleFieldStruct")
 @dataclasses.dataclass
 class SingleFieldStruct:

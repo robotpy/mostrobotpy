@@ -29,8 +29,12 @@ __all__ = [
 ]
 
 from .desc import StructDescriptor
+from .layout import StructFieldLayout, StructLayout
 
 from .dataclass import (
+    BitField,
+    CharArray,
+    char,
     make_wpistruct,
     int8,
     uint8,
@@ -45,6 +49,11 @@ from .dataclass import (
 
 __all__ += [
     "StructDescriptor",
+    "StructFieldLayout",
+    "StructLayout",
+    "BitField",
+    "CharArray",
+    "char",
     "make_wpistruct",
     "int8",
     "uint8",
