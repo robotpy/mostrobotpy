@@ -38,6 +38,14 @@ def test_generated_struct_name_is_not_executed_as_source():
     assert wpistruct.unpack(generated, b"\x07") == generated(7)
 
 
+def test_generated_struct_name_is_always_a_valid_identifier():
+    generated = make_wpistruct_from_schema("¼", "uint8 value", nested={})
+    assert generated.__name__ == "_"
+    assert generated.__name__.isidentifier()
+    assert wpistruct.get_type_name(generated) == "¼"
+    assert wpistruct.unpack(generated, b"\x07") == generated(7)
+
+
 def test_generated_nested_struct_and_sanitized_field():
     inner = make_wpistruct_from_schema("Inner", "float32 value", nested={})
     outer = make_wpistruct_from_schema(
@@ -119,6 +127,41 @@ def test_generated_special_attribute_names_are_sanitized():
         "__repr___",
     ]
     value = generated(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+    assert wpistruct.unpack(generated, wpistruct.pack(value)) == value
+
+
+def test_generated_metadata_reservation_does_not_change_other_identifiers():
+    generated = make_wpistruct_from_schema(
+        "WPIStruct", "enum {WPIStruct=1} uint8 mode", nested={}
+    )
+    assert generated.__name__ == "WPIStruct"
+    mode_type = generated.__dataclass_fields__["mode"].type
+    assert list(mode_type.__members__) == ["WPIStruct"]
+    assert wpistruct.get_type_name(generated) == "WPIStruct"
+
+
+def test_generated_serializer_metadata_names_are_sanitized():
+    generated = make_wpistruct_from_schema(
+        "MetadataFields",
+        "uint8 WPIStruct; uint8 WPIStruct_; "
+        "uint8 __wpistruct_descriptor__; uint8 __wpistruct_descriptor___",
+        nested={},
+    )
+    assert [field.name for field in dataclasses.fields(generated)] == [
+        "WPIStruct_",
+        "WPIStruct_2",
+        "__wpistruct_descriptor___",
+        "__wpistruct_descriptor___2",
+    ]
+    assert [
+        field.schema_name for field in generated.__wpistruct_descriptor__.fields
+    ] == [
+        "WPIStruct",
+        "WPIStruct_",
+        "__wpistruct_descriptor__",
+        "__wpistruct_descriptor___",
+    ]
+    value = generated(1, 2, 3, 4)
     assert wpistruct.unpack(generated, wpistruct.pack(value)) == value
 
 
@@ -208,6 +251,26 @@ def test_registry_duplicate_and_conflict_behavior():
 def test_registry_malformed_schema_is_distinct_error():
     with pytest.raises(InvalidStructSchema, match="expected identifier"):
         StructTypeRegistry(()).add_schema("Bad", "int32 [2]")
+
+
+def test_direct_generation_preserves_schema_error_taxonomy():
+    with pytest.raises(InvalidStructSchema, match="expected identifier"):
+        make_wpistruct_from_schema("Bad", "int32 [2]", nested={})
+
+    for schema, match in (
+        ("Missing value", "Missing.*not registered"),
+        ("uint8 value; uint8 value", "duplicate field value"),
+    ):
+        with pytest.raises(ValueError, match=match) as exc_info:
+            make_wpistruct_from_schema("Semantic", schema, nested={})
+        assert type(exc_info.value) is ValueError
+
+
+def test_non_ascii_parser_failures_preserve_schema_error_taxonomy():
+    with pytest.raises(InvalidStructSchema):
+        make_wpistruct_from_schema("Bad", "uint8 é", nested={})
+    with pytest.raises(InvalidStructSchema):
+        StructTypeRegistry(()).add_schema("Bad", "uint8 é")
 
 
 @wpistruct.make_wpistruct(name="Supplied")

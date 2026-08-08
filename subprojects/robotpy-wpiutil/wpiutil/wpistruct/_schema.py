@@ -36,6 +36,11 @@ _SPECIAL_ATTRIBUTE_NAMES = {
     "__match_args__",
 }
 
+_GENERATED_ATTRIBUTE_NAMES = {
+    "WPIStruct",
+    "__wpistruct_descriptor__",
+}
+
 _PRIMITIVE_TYPES = {
     "bool": bool,
     "char": char,
@@ -59,7 +64,11 @@ def _sanitize_identifier(value: str) -> str:
     if value[0].isdigit():
         value = f"_{value}"
     if not value.isidentifier():
-        value = f"{value}_"
+        identifier = ""
+        for character in value:
+            candidate = f"{identifier}{character}"
+            identifier += character if candidate.isidentifier() else "_"
+        value = identifier
     if (
         keyword.iskeyword(value)
         or value in _SPECIAL_ATTRIBUTE_NAMES
@@ -187,6 +196,17 @@ def _field_annotation(
     return annotation
 
 
+def _add_schema(database: SchemaDatabase, type_name: str, schema: str):
+    try:
+        return database.add(type_name, schema)
+    except UnicodeDecodeError as exc:
+        raise InvalidStructSchema(f"parse error: {exc}") from exc
+    except ValueError as exc:
+        if str(exc).startswith("parse error:"):
+            raise InvalidStructSchema(str(exc)) from exc
+        raise
+
+
 def _seed_nested_database(database: SchemaDatabase, nested) -> None:
     def add_nested(type_string: str, schema: str):
         database.add(type_string.removeprefix("struct:"), schema)
@@ -205,7 +225,7 @@ def make_wpistruct_from_schema(
     if descriptor is None:
         database = SchemaDatabase()
         _seed_nested_database(database, nested)
-        descriptor = database.add(name, schema)
+        descriptor = _add_schema(database, name, schema)
 
     if not descriptor.is_valid:
         missing = next(
@@ -226,7 +246,10 @@ def make_wpistruct_from_schema(
     python_names = []
     used_enum_names: set[str] = set()
     for field in descriptor.fields:
-        python_name = _unique_identifier(field.name, used_names)
+        field_name = field.name
+        if field_name in _GENERATED_ATTRIBUTE_NAMES:
+            field_name = f"{field_name}_"
+        python_name = _unique_identifier(field_name, used_names)
         annotation = _field_annotation(
             name, schema, field, python_name, nested, used_enum_names
         )
@@ -282,12 +305,7 @@ class StructTypeRegistry:
         if type_name in self._supplied_names:
             return self._types[type_name]
 
-        try:
-            descriptor = self._database.add(type_name, schema)
-        except ValueError as exc:
-            if str(exc).startswith("parse error:"):
-                raise InvalidStructSchema(str(exc)) from exc
-            raise
+        descriptor = _add_schema(self._database, type_name, schema)
 
         existing = self._types.get(type_name)
         if existing is not None:
