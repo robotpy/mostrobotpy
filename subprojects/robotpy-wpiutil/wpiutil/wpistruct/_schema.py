@@ -56,6 +56,14 @@ _PRIMITIVE_TYPES = {
     "double": double,
 }
 
+# Generated fixed arrays are represented as Python tuples and as fixed tuple
+# annotations containing one type reference per element. A cumulative 65,536
+# elements caps each class's annotation pointer payload at 512 KiB on 64-bit
+# CPython while leaving ample room for ordinary robotics sample arrays. Larger
+# schemas remain valid WPILib grammar, but are not safely representable as
+# generated Python classes.
+_MAX_GENERATED_TUPLE_ELEMENTS = 65_536
+
 
 def _sanitize_identifier(value: str) -> str:
     value = re.sub(r"\W", "_", value)
@@ -215,6 +223,24 @@ def _seed_nested_database(database: SchemaDatabase, nested) -> None:
         wpistruct.for_each_nested(nested_type, add_nested)
 
 
+def _native_seed_schema(struct_type: type) -> str:
+    layout = struct_type.__wpistruct_descriptor__
+    declarations = []
+    for index, field in enumerate(layout.fields):
+        if field.enum_values:
+            values = ",".join(f"{name}={value}" for name, value in field.enum_values)
+            type_name = f"enum {{{values}}} {field.type_name}"
+        else:
+            type_name = field.type_name
+        array_suffix = f"[{field.array_size}]" if field.array_size > 1 else ""
+        is_bitfield = field.nested_type is None and (
+            field.bit_shift != 0 or field.bit_width != field.size * 8
+        )
+        bitfield_suffix = f":{field.bit_width}" if is_bitfield else ""
+        declarations.append(f"{type_name} field{index}{array_suffix}{bitfield_suffix}")
+    return "; ".join(declarations)
+
+
 def make_wpistruct_from_schema(
     name: str,
     schema: str,
@@ -245,7 +271,18 @@ def make_wpistruct_from_schema(
     fields = []
     python_names = []
     used_enum_names: set[str] = set()
+    generated_tuple_elements = 0
     for field in descriptor.fields:
+        has_array_declaration, _ = _field_declaration_shape(schema, field.name)
+        if field.type != "char" and (has_array_declaration or field.array_size != 1):
+            generated_tuple_elements += field.array_size
+            if generated_tuple_elements > _MAX_GENERATED_TUPLE_ELEMENTS:
+                raise ValueError(
+                    "generated wpistruct arrays contain "
+                    f"{generated_tuple_elements} total elements; support at most "
+                    f"{_MAX_GENERATED_TUPLE_ELEMENTS}"
+                )
+
         field_name = field.name
         if field_name in _GENERATED_ATTRIBUTE_NAMES:
             field_name = f"{field_name}_"
@@ -291,9 +328,42 @@ class StructTypeRegistry:
             self._types[type_name] = struct_type
             self._supplied_names.add(type_name)
 
+        seed_types: dict[str, type] = {}
+
+        def collect_seed_types(struct_type: type) -> None:
+            type_name = wpistruct.get_type_name(struct_type)
+            if type_name in seed_types:
+                return
+            seed_types[type_name] = struct_type
+            layout = getattr(struct_type, "__wpistruct_descriptor__", None)
+            if layout is not None:
+                for field in layout.fields:
+                    if field.nested_type is not None:
+                        collect_seed_types(field.nested_type)
+
+        for struct_type in supplied_types:
+            collect_seed_types(struct_type)
+
         def add_nested(type_string: str, schema: str):
             type_name = type_string.removeprefix("struct:")
-            self._descriptors[type_name] = self._database.add(type_name, schema)
+            try:
+                descriptor = self._database.add(type_name, schema)
+            except UnicodeDecodeError:
+                struct_type = seed_types.get(type_name)
+                if struct_type is None or not hasattr(
+                    struct_type, "__wpistruct_descriptor__"
+                ):
+                    raise
+                try:
+                    descriptor = self._database.add(
+                        type_name, _native_seed_schema(struct_type)
+                    )
+                except UnicodeDecodeError:
+                    # A Unicode type name cannot be referenced by raw native
+                    # schema grammar. Supplied-type lookup still preserves the
+                    # authored type's exact public schema and serialization.
+                    return
+            self._descriptors[type_name] = descriptor
 
         for struct_type in supplied_types:
             wpistruct.for_each_nested(struct_type, add_nested)
@@ -305,18 +375,26 @@ class StructTypeRegistry:
         if type_name in self._supplied_names:
             return self._types[type_name]
 
-        descriptor = _add_schema(self._database, type_name, schema)
-
         existing = self._types.get(type_name)
         if existing is not None:
+            _add_schema(self._database, type_name, schema)
             return existing
 
+        staged_database = SchemaDatabase()
+        for registered_descriptor in self._descriptors.values():
+            staged_database.add(
+                registered_descriptor.name,
+                registered_descriptor.schema,
+            )
+        staged_descriptor = _add_schema(staged_database, type_name, schema)
         generated = make_wpistruct_from_schema(
             type_name,
             schema,
             nested=self._types,
-            descriptor=descriptor,
+            descriptor=staged_descriptor,
         )
+
+        descriptor = _add_schema(self._database, type_name, schema)
         self._types[type_name] = generated
         self._descriptors[type_name] = descriptor
         return generated

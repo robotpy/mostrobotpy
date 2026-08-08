@@ -1,5 +1,6 @@
 #include "wpystruct_schema.h"
 
+#include <charconv>
 #include <cmath>
 #include <limits>
 #include <map>
@@ -78,6 +79,84 @@ bool SchemasEqual(std::string_view lhs, std::string_view rhs) {
     }
   }
   return true;
+}
+
+void ValidateArrayExtentsForPlatform(std::string_view descriptorName,
+                                     std::string_view schema) {
+  wpi::util::structparser::Lexer lexer{schema};
+  wpi::util::structparser::Token previous;
+  for (auto token = lexer.Scan();
+       !token.Is(wpi::util::structparser::Token::END_OF_INPUT);
+       token = lexer.Scan()) {
+    if (token.Is(wpi::util::structparser::Token::LEFT_BRACKET)) {
+      auto extentToken = lexer.Scan();
+      uint64_t extent = 0;
+      auto result = std::from_chars(extentToken.text.data(),
+                                    extentToken.text.data() + extentToken.text.size(),
+                                    extent);
+      if (extentToken.Is(wpi::util::structparser::Token::INTEGER) &&
+          result.ec == std::errc{} &&
+          extent > std::numeric_limits<size_t>::max()) {
+        std::string fieldName = previous.Is(
+                                    wpi::util::structparser::Token::IDENTIFIER)
+                                    ? std::string{previous.text}
+                                    : "<unknown>";
+        throw pybind11::value_error(
+            "unsafe schema layout for " + std::string{descriptorName} +
+            ": field " + fieldName +
+            " storage extent exceeds platform limits");
+      }
+      previous = extentToken;
+    } else {
+      previous = token;
+    }
+  }
+}
+
+void ValidateDescriptorLayout(const wpi::util::StructDescriptor& descriptor) {
+  if (!descriptor.IsValid()) {
+    return;
+  }
+
+  const size_t descriptorSize = descriptor.GetSize();
+  for (const auto& field : descriptor.GetFields()) {
+    const size_t fieldSize = field.GetSize();
+    const size_t arraySize = field.GetArraySize();
+    if (fieldSize != 0 &&
+        arraySize > std::numeric_limits<size_t>::max() / fieldSize) {
+      throw pybind11::value_error(
+          "unsafe schema layout for " + descriptor.GetName() + ": field " +
+          field.GetName() + " storage extent exceeds platform limits");
+    }
+
+    const size_t storageExtent = fieldSize * arraySize;
+    const size_t offset = field.GetOffset();
+    if (offset > descriptorSize ||
+        storageExtent > descriptorSize - offset) {
+      throw pybind11::value_error(
+          "unsafe schema layout for " + descriptor.GetName() + ": field " +
+          field.GetName() + " storage extent exceeds descriptor size");
+    }
+  }
+}
+
+void ValidateDatabaseLayouts(
+    const wpi::util::StructDescriptorDatabase& database,
+    const std::map<std::string, std::string, std::less<>>& definitions,
+    std::string_view candidateName) {
+  for (const auto& definition : definitions) {
+    const auto* descriptor = database.Find(definition.first);
+    if (!descriptor) {
+      throw pybind11::value_error("failed to reconstruct schema database");
+    }
+    ValidateDescriptorLayout(*descriptor);
+  }
+
+  const auto* candidate = database.Find(candidateName);
+  if (!candidate) {
+    throw pybind11::value_error("failed to reconstruct schema database");
+  }
+  ValidateDescriptorLayout(*candidate);
 }
 
 std::string FieldTypeName(const wpi::util::StructFieldDescriptor& field) {
@@ -425,6 +504,9 @@ SchemaDatabase::SchemaDatabase() : m_impl{std::make_shared<SchemaDatabaseImpl>()
 
 SchemaDescriptor SchemaDatabase::Add(std::string_view name,
                                      std::string_view schema) {
+  ParseSchema(schema);
+  ValidateArrayExtentsForPlatform(name, schema);
+
   if (auto existing = m_impl->definitions.find(name);
       existing != m_impl->definitions.end()) {
     if (!SchemasEqual(existing->second, schema)) {
@@ -449,6 +531,7 @@ SchemaDescriptor SchemaDatabase::Add(std::string_view name,
     throw pybind11::value_error(error);
   }
   std::string descriptorName = descriptor->GetName();
+  ValidateDatabaseLayouts(*stagedDatabase, m_impl->definitions, descriptorName);
   std::string descriptorSchema = descriptor->GetSchema();
   m_impl->definitions.emplace(descriptorName, std::move(descriptorSchema));
   m_impl->database = std::move(stagedDatabase);

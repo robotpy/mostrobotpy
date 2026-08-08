@@ -1,3 +1,4 @@
+import array
 import dataclasses
 import re
 
@@ -60,6 +61,40 @@ def test_pack_into_err():
     buf = bytearray(2)
     with pytest.raises(ValueError, match=re.escape("buffer must be 1 bytes")):
         wpistruct.pack_into(module.ThingA(1), buf)
+
+
+def test_pack_into_rejects_readonly_buffer():
+    destination = b"\x00"
+
+    with pytest.raises(BufferError, match="writable"):
+        wpistruct.pack_into(module.ThingA(1), destination)
+
+    assert destination == b"\x00"
+
+
+def test_pack_into_rejects_noncontiguous_buffer_without_mutation():
+    backing = bytearray(b"\xaa\xbb")
+    destination = memoryview(backing)[::2]
+
+    with pytest.raises(ValueError, match="buffer must be contiguous"):
+        wpistruct.pack_into(module.ThingA(1), destination)
+
+    assert backing == b"\xaa\xbb"
+
+
+@pytest.mark.parametrize(
+    "destination",
+    [
+        bytearray(1),
+        memoryview(bytearray(1)),
+        array.array("b", [0]),
+        array.array("B", [0]),
+    ],
+)
+def test_pack_into_accepts_contiguous_writable_byte_buffers(destination):
+    wpistruct.pack_into(module.ThingA(7), destination)
+
+    assert bytes(destination) == b"\x07"
 
 
 def test_unpack():

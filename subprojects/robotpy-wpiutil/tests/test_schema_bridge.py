@@ -168,6 +168,52 @@ def test_failed_placeholder_completion_is_transactional():
     assert outer.size == 4
 
 
+def test_schema_layout_overflow_is_rejected_before_publication():
+    db = SchemaDatabase()
+
+    with pytest.raises(
+        ValueError,
+        match=(
+            r"unsafe schema layout for Overflow: field values storage extent "
+            r"exceeds platform limits"
+        ),
+    ):
+        db.add("Overflow", "uint64 values[2305843009213693952]")
+
+    assert db.find("Overflow") is None
+    recovered = db.add("Overflow", "uint8 value")
+    assert recovered.is_valid
+    assert recovered.size == 1
+
+
+def test_nested_schema_layout_overflow_is_rejected_transactionally():
+    db = SchemaDatabase()
+    outer = db.add("Outer", "Inner values[2305843009213693952]")
+    inner_placeholder = db.find("Inner")
+    assert inner_placeholder is not None
+    assert not outer.is_valid
+    assert not inner_placeholder.is_valid
+
+    with pytest.raises(
+        ValueError,
+        match=(
+            r"unsafe schema layout for Outer: field values storage extent "
+            r"exceeds platform limits"
+        ),
+    ):
+        db.add("Inner", "uint64 value")
+
+    assert not outer.is_valid
+    assert not inner_placeholder.is_valid
+    assert inner_placeholder.schema == ""
+
+    inner = db.add("Inner", "")
+    assert inner.is_valid
+    assert inner.size == 0
+    assert outer.is_valid
+    assert outer.size == 0
+
+
 @pytest.mark.parametrize(
     ("schema", "value", "encoded"),
     [

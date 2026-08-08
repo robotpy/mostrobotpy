@@ -1,6 +1,7 @@
 import dataclasses
 import enum
 import gc
+import typing
 
 import pytest
 
@@ -75,6 +76,62 @@ def test_generated_fixed_arrays():
     )
     value = outer((1, 2), (inner(3), inner(4)))
     assert wpistruct.unpack(outer, wpistruct.pack(value)) == value
+
+
+def test_generated_explicit_singleton_arrays_preserve_tuple_values_and_bytes():
+    inner = make_wpistruct_from_schema("SingletonInner", "uint16 value", nested={})
+    generated = make_wpistruct_from_schema(
+        "GeneratedSingletonArrays",
+        "uint8 samples[1]; enum {OFF=0,AUTO=1} uint8 modes[1]; "
+        "SingletonInner children[1]",
+        nested={"SingletonInner": inner},
+    )
+    mode_type = typing.get_args(generated.__dataclass_fields__["modes"].type)[0]
+    value = generated((7,), (mode_type.AUTO,), (inner(0x1234),))
+    encoded = b"\x07\x01\x34\x12"
+
+    assert wpistruct.get_schema(generated) == (
+        "uint8 samples[1]; enum {OFF=0,AUTO=1} uint8 modes[1]; "
+        "SingletonInner children[1]"
+    )
+    assert wpistruct.pack(value) == encoded
+    assert wpistruct.unpack(generated, encoded) == value
+    assert isinstance(value.samples, tuple)
+    assert isinstance(value.modes, tuple)
+    assert isinstance(value.children, tuple)
+
+
+def test_generated_array_representability_limit():
+    largest = make_wpistruct_from_schema(
+        "LargestGeneratedArray", "uint8 values[65536]", nested={}
+    )
+    assert wpistruct.get_size(largest) == 65536
+
+    with pytest.raises(
+        ValueError,
+        match=(
+            r"generated wpistruct arrays contain 65537 total elements; "
+            r"support at most 65536"
+        ),
+    ):
+        make_wpistruct_from_schema(
+            "OversizedGeneratedArray", "uint8 values[65537]", nested={}
+        )
+
+
+def test_generated_array_representability_budget_is_cumulative():
+    with pytest.raises(
+        ValueError,
+        match=(
+            r"generated wpistruct arrays contain 65538 total elements; "
+            r"support at most 65536"
+        ),
+    ):
+        make_wpistruct_from_schema(
+            "CumulativelyOversizedGeneratedArrays",
+            "uint8 first[32769]; uint8 second[32769]",
+            nested={},
+        )
 
 
 def test_generated_empty_schema_and_float_aliases():
@@ -240,6 +297,29 @@ def test_registry_requires_nested_type_first():
         registry.add_schema("Outer", "Inner value")
 
 
+def test_failed_unresolved_registry_schema_does_not_reserve_name():
+    registry = StructTypeRegistry(())
+
+    with pytest.raises(ValueError, match="Inner.*not registered"):
+        registry.add_schema("Outer", "Inner value")
+
+    recovered = registry.add_schema("Outer", "uint8 value")
+    assert wpistruct.get_schema(recovered) == "uint8 value"
+    assert wpistruct.unpack(recovered, b"\x07") == recovered(7)
+
+
+def test_failed_unresolved_registry_schema_can_retry_after_nested_registration():
+    registry = StructTypeRegistry(())
+
+    with pytest.raises(ValueError, match="Inner.*not registered"):
+        registry.add_schema("Outer", "Inner value")
+
+    inner = registry.add_schema("Inner", "uint8 value")
+    outer = registry.add_schema("Outer", "Inner value")
+    value = outer(inner(7))
+    assert wpistruct.unpack(outer, wpistruct.pack(value)) == value
+
+
 def test_registry_duplicate_and_conflict_behavior():
     registry = StructTypeRegistry(())
     first = registry.add_schema("Value", "int32 value;")
@@ -271,6 +351,23 @@ def test_non_ascii_parser_failures_preserve_schema_error_taxonomy():
         make_wpistruct_from_schema("Bad", "uint8 é", nested={})
     with pytest.raises(InvalidStructSchema):
         StructTypeRegistry(()).add_schema("Bad", "uint8 é")
+
+
+def test_registry_accepts_supplied_nested_unicode_authored_structs():
+    inner = dataclasses.make_dataclass(
+        "SuppliedUnicodeInner", [("变量", wpistruct.uint16)]
+    )
+    inner = wpistruct.make_wpistruct(name="SuppliedUnicodeInner")(inner)
+    outer = dataclasses.make_dataclass(
+        "SuppliedUnicodeOuter", [("π", inner), ("aé", wpistruct.int8)]
+    )
+    outer = wpistruct.make_wpistruct(name="SuppliedUnicodeOuter")(outer)
+
+    registry = StructTypeRegistry((outer,))
+
+    assert registry.get("SuppliedUnicodeOuter") is outer
+    value = outer(inner(0x1234), -2)
+    assert wpistruct.unpack(outer, wpistruct.pack(value)) == value
 
 
 @wpistruct.make_wpistruct(name="Supplied")

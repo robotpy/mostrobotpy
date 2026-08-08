@@ -348,6 +348,44 @@ def _make_layout(native_descriptor, plans, python_names) -> StructLayout:
     )
 
 
+def _make_legacy_layout(
+    struct_name: str, schema: str, plans: list[FieldPlan]
+) -> StructLayout:
+    offset = 0
+    fields = []
+    for plan in plans:
+        if plan.nested_type is not None:
+            field_size = wpistruct.get_size(plan.nested_type)
+            bit_width = 0
+            bit_mask = 0
+        else:
+            field_size = struct.calcsize(typing.cast(str, plan.format))
+            bit_width = field_size * 8
+            bit_mask = (1 << bit_width) - 1
+        fields.append(
+            StructFieldLayout(
+                schema_name=plan.schema_name,
+                python_name=plan.python_name,
+                type_name=plan.type_name,
+                offset=offset,
+                size=field_size,
+                array_size=plan.array_size,
+                bit_width=bit_width,
+                bit_shift=0,
+                bit_mask=bit_mask,
+                enum_values=(),
+                nested_type=plan.nested_type,
+            )
+        )
+        offset += field_size * plan.array_size
+    return StructLayout(
+        type_name=struct_name,
+        schema=schema,
+        size=offset,
+        fields=tuple(fields),
+    )
+
+
 def _enum_from_int(
     enum_type: type[enum.IntEnum], value: int, cache: dict[int, enum.IntEnum]
 ) -> enum.IntEnum:
@@ -497,13 +535,24 @@ def compile_wpistruct(
     schema = (
         schema_override if schema_override is not None else _schema_for_plans(plans)
     )
-    if descriptor is None:
-        descriptor = _make_native_descriptor(struct_name, schema, plans)
-
     use_descriptor_codec = any(
         plan.is_char or plan.enum_type is not None or plan.bit_width is not None
         for plan in plans
     )
+    legacy_layout = None
+    if descriptor is None:
+        try:
+            descriptor = _make_native_descriptor(struct_name, schema, plans)
+        except UnicodeDecodeError:
+            if schema_override is not None or use_descriptor_codec:
+                raise
+            # The native parser accepts only ASCII identifiers, while legacy
+            # authored dataclasses have always accepted Python's Unicode
+            # identifiers. Their packed layout is the legacy struct.Struct
+            # layout, so construct equivalent immutable metadata without
+            # changing the public schema or serialization path.
+            legacy_layout = _make_legacy_layout(struct_name, schema, plans)
+
     if use_descriptor_codec:
         serializer_descriptor = _make_descriptor_serializer(
             cls, struct_name, schema, err_name, plans, descriptor
@@ -639,7 +688,11 @@ def compile_wpistruct(
         for_each_nested=ctx["_for_each_nested"],
     )
 
-    layout = _make_layout(descriptor, plans, python_names)
+    layout = (
+        legacy_layout
+        if legacy_layout is not None
+        else _make_layout(descriptor, plans, python_names)
+    )
 
     cls.WPIStruct = serializer_descriptor
     cls.__wpistruct_descriptor__ = layout

@@ -134,6 +134,65 @@ def test_compiler_attaches_parsed_layout_metadata():
     )
 
 
+def test_legacy_unicode_field_names_preserve_schema_bytes_and_layout():
+    unicode_struct = dataclasses.make_dataclass(
+        "LegacyUnicode",
+        [
+            ("é", wpistruct.int32),
+            ("π", wpistruct.uint16),
+            ("变量", bool),
+            ("aé", wpistruct.int8),
+        ],
+    )
+    unicode_struct = wpistruct.make_wpistruct(name="LegacyUnicode")(unicode_struct)
+    value = unicode_struct(-2, 0x1234, True, -3)
+    encoded = b"\xfe\xff\xff\xff\x34\x12\x01\xfd"
+
+    assert wpistruct.get_schema(unicode_struct) == (
+        "int32 é; uint16 π; bool 变量; int8 aé"
+    )
+    assert wpistruct.pack(value) == encoded
+    assert wpistruct.unpack(unicode_struct, encoded) == value
+    assert unicode_struct.__wpistruct_descriptor__.schema == (
+        "int32 é; uint16 π; bool 变量; int8 aé"
+    )
+    assert [
+        (field.schema_name, field.python_name)
+        for field in unicode_struct.__wpistruct_descriptor__.fields
+    ] == [("é", "é"), ("π", "π"), ("变量", "变量"), ("aé", "aé")]
+
+
+def test_nested_legacy_unicode_fields_preserve_public_behavior():
+    inner = dataclasses.make_dataclass("UnicodeInner", [("变量", wpistruct.uint16)])
+    inner = wpistruct.make_wpistruct(name="UnicodeInner")(inner)
+    outer = dataclasses.make_dataclass(
+        "UnicodeOuter", [("π", inner), ("aé", wpistruct.int8)]
+    )
+    outer = wpistruct.make_wpistruct(name="UnicodeOuter")(outer)
+    value = outer(inner(0x1234), -2)
+    encoded = b"\x34\x12\xfe"
+
+    assert wpistruct.get_schema(inner) == "uint16 变量"
+    assert wpistruct.get_schema(outer) == "UnicodeInner π; int8 aé"
+    assert wpistruct.pack(value) == encoded
+    assert wpistruct.unpack(outer, encoded) == value
+    assert outer.__wpistruct_descriptor__.schema == "UnicodeInner π; int8 aé"
+    assert [
+        (field.schema_name, field.python_name)
+        for field in outer.__wpistruct_descriptor__.fields
+    ] == [("π", "π"), ("aé", "aé")]
+
+    nested_schemas = []
+    wpistruct.for_each_nested(
+        outer,
+        lambda type_name, schema: nested_schemas.append((type_name, schema)),
+    )
+    assert nested_schemas == [
+        ("struct:UnicodeInner", "uint16 变量"),
+        ("struct:UnicodeOuter", "UnicodeInner π; int8 aé"),
+    ]
+
+
 class Mode(enum.IntEnum):
     OFF = 0
     AUTO = 1
@@ -247,6 +306,34 @@ def test_descriptor_codec_preserves_authored_singleton_tuple_semantics():
 
 @wpistruct.make_wpistruct
 @dataclasses.dataclass
+class AuthoredDescriptorArrays:
+    samples: tuple[wpistruct.uint16, wpistruct.uint16]
+    modes: Annotated[tuple[Mode, Mode], wpistruct.uint8]
+    nested: tuple[Legacy, Legacy]
+
+
+def test_descriptor_codec_authored_arrays_larger_than_one_have_literal_layout():
+    value = AuthoredDescriptorArrays(
+        (0x1234, 0xABCD),
+        (Mode.OFF, Mode.AUTO),
+        (Legacy(1, (2, 3)), Legacy(-1, (4, 5))),
+    )
+    encoded = (
+        b"\x34\x12\xcd\xab\x00\x01"
+        b"\x01\x00\x00\x00\x02\x00\x03\x00"
+        b"\xff\xff\xff\xff\x04\x00\x05\x00"
+    )
+
+    assert wpistruct.get_schema(AuthoredDescriptorArrays) == (
+        "uint16 samples[2]; "
+        "enum {OFF=0,AUTO=1,DEFAULT=1} uint8 modes[2]; Legacy nested[2]"
+    )
+    assert wpistruct.pack(value) == encoded
+    assert wpistruct.unpack(AuthoredDescriptorArrays, encoded) == value
+
+
+@wpistruct.make_wpistruct
+@dataclasses.dataclass
 class SharedBits:
     a: Annotated[wpistruct.int16, wpistruct.BitField(2)]
     b: Annotated[bool, wpistruct.BitField(1)]
@@ -300,18 +387,52 @@ class BoolAfterFullUnit:
 
 
 @pytest.mark.parametrize(
-    ("struct_type", "value", "size"),
+    ("struct_type", "value", "size", "schema", "encoded"),
     [
-        (DifferentWidthBits, DifferentWidthBits(-1, -2), 6),
-        (OverflowBits, OverflowBits(-1, -2), 2),
-        (BoolFirst8, BoolFirst8(True, -2), 1),
-        (BoolFirst16, BoolFirst16(True, -2), 3),
-        (BoolAfterFullUnit, BoolAfterFullUnit(-1, True), 3),
+        (
+            DifferentWidthBits,
+            DifferentWidthBits(-1, -2),
+            6,
+            "int32 a:2; int16 b:2",
+            b"\x03\x00\x00\x00\x02\x00",
+        ),
+        (
+            OverflowBits,
+            OverflowBits(-1, -2),
+            2,
+            "int8 a:4; int8 b:5",
+            b"\x0f\x1e",
+        ),
+        (
+            BoolFirst8,
+            BoolFirst8(True, -2),
+            1,
+            "bool a:1; int8 b:5",
+            b"\x3d",
+        ),
+        (
+            BoolFirst16,
+            BoolFirst16(True, -2),
+            3,
+            "bool a:1; int16 b:5",
+            b"\x01\x1e\x00",
+        ),
+        (
+            BoolAfterFullUnit,
+            BoolAfterFullUnit(-1, True),
+            3,
+            "int16 a:16; bool b:1",
+            b"\xff\xff\x01",
+        ),
     ],
 )
-def test_authored_bitfield_storage_transitions(struct_type, value, size):
+def test_authored_bitfield_storage_transitions(
+    struct_type, value, size, schema, encoded
+):
+    assert wpistruct.get_schema(struct_type) == schema
     assert wpistruct.get_size(struct_type) == size
-    assert wpistruct.unpack(struct_type, wpistruct.pack(value)) == value
+    assert wpistruct.pack(value) == encoded
+    assert wpistruct.unpack(struct_type, encoded) == value
 
 
 class SignedMode(enum.IntEnum):
