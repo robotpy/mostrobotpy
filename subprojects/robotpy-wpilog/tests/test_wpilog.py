@@ -1,4 +1,6 @@
 import dataclasses
+import gc
+import weakref
 from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
@@ -40,6 +42,108 @@ def test_datalog_writer_context_manager_stops_writer(tmp_path: Path):
         assert path.stat().st_size == 0
 
     assert path.stat().st_size == 54
+
+
+def _collect_and_churn_allocator():
+    gc.collect()
+    allocations = [bytearray([index % 251]) * 4096 for index in range(1024)]
+    assert sum(allocation[0] for allocation in allocations) > 0
+    del allocations
+    gc.collect()
+
+
+def test_reader_private_stable_iterator_copies_records(tmp_path: Path):
+    path = tmp_path / "stable-records.wpilog"
+    with wpilog.DataLogWriter(str(path)) as log:
+        entry = log.start("/value", "raw", "metadata", 1)
+        log.append_raw(entry, b"first", 2)
+        log.append_raw(entry, b"second", 3)
+
+    reader = wpilog.DataLogReader(str(path))
+    reader_ref = weakref.ref(reader)
+    records = iter(reader._iter_stable())
+    iterator_ref = weakref.ref(records)
+    start_record = next(records)
+    start_data = start_record.get_start_data()
+    start_record_ref = weakref.ref(start_record)
+    first = next(records)
+    first_state = (first.get_entry(), first.get_timestamp(), first.get_raw())
+    second = next(records)
+    with pytest.raises(StopIteration):
+        next(records)
+
+    del reader, records, start_record
+    _collect_and_churn_allocator()
+
+    assert reader_ref() is not None
+    assert iterator_ref() is not None
+    assert start_record_ref() is not None
+    assert start_data.entry == entry
+    assert (start_data.name, start_data.type, start_data.metadata) == (
+        "/value",
+        "raw",
+        "metadata",
+    )
+    assert first is not second
+    assert first_state == (entry, 2, b"first")
+    assert (first.get_entry(), first.get_timestamp(), first.get_raw()) == first_state
+    assert (second.get_entry(), second.get_timestamp(), second.get_raw()) == (
+        entry,
+        3,
+        b"second",
+    )
+
+
+def test_temporary_reader_stable_results_outlive_exhausted_iterator(tmp_path: Path):
+    path = tmp_path / "temporary-stable-records.wpilog"
+    with wpilog.DataLogWriter(str(path)) as log:
+        entry = log.start("/temporary", "raw", "temporary-metadata", 11)
+        log.append_raw(entry, b"temporary-payload", 12)
+
+    def read_temporary():
+        reader = wpilog.DataLogReader(str(path))
+        reader_ref = weakref.ref(reader)
+        return list(reader._iter_stable()), reader_ref
+
+    records, reader_ref = read_temporary()
+    start_data = records[0].get_start_data()
+    data_record = records[1]
+    del records
+    _collect_and_churn_allocator()
+
+    assert reader_ref() is not None
+    assert data_record.get_timestamp() == 12
+    assert data_record.get_raw() == b"temporary-payload"
+    assert start_data.entry == entry
+    assert (start_data.name, start_data.type, start_data.metadata) == (
+        "/temporary",
+        "raw",
+        "temporary-metadata",
+    )
+
+
+def test_metadata_record_data_keeps_source_record_alive(tmp_path: Path):
+    path = tmp_path / "stable-metadata-record.wpilog"
+    with wpilog.DataLogWriter(str(path)) as log:
+        entry = log.start("/value", "raw", "initial", 1)
+        log.set_metadata(entry, "updated", 2)
+
+    reader = wpilog.DataLogReader(str(path))
+    reader_ref = weakref.ref(reader)
+    records = iter(reader._iter_stable())
+    iterator_ref = weakref.ref(records)
+    next(records)
+    metadata_record = next(records)
+    metadata = metadata_record.get_set_metadata_data()
+    metadata_record_ref = weakref.ref(metadata_record)
+    del reader, records, metadata_record
+    _collect_and_churn_allocator()
+
+    assert reader_ref() is not None
+    assert iterator_ref() is not None
+    assert metadata_record_ref() is not None
+    assert metadata.entry == entry
+    assert metadata.metadata == "updated"
 
 
 def test_simple_int(tmp_path: Path):
