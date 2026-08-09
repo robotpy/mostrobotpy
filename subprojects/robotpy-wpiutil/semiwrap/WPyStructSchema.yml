@@ -1,0 +1,69 @@
+defaults:
+  subpackage: _schema
+
+functions:
+  PackSchema:
+    no_release_gil: true
+  UnpackSchema:
+    no_release_gil: true
+
+classes:
+  wpy::structs::SchemaFieldDescriptor:
+    attributes:
+      name:
+        access: readonly
+      type:
+        access: readonly
+      size:
+        access: readonly
+      offset:
+        access: readonly
+      arraySize:
+        access: readonly
+      bitWidth:
+        access: readonly
+      bitShift:
+        access: readonly
+      bitMask:
+        access: readonly
+      enumValues:
+        access: readonly
+      structName:
+        access: readonly
+      isArray:
+        access: readonly
+      isBitField:
+        access: readonly
+      isEnum:
+        access: readonly
+  wpy::structs::SchemaDescriptor:
+    methods:
+      SchemaDescriptor:
+        ignore: true
+      GetName:
+        no_release_gil: true
+      GetSchema:
+        no_release_gil: true
+      IsValid:
+        no_release_gil: true
+      GetSize:
+        no_release_gil: true
+      GetFields:
+        no_release_gil: true
+  wpy::structs::SchemaDatabase:
+    methods:
+      SchemaDatabase:
+      Add:
+        no_release_gil: true
+      Stage:
+        no_release_gil: true
+      Find:
+        no_release_gil: true
+
+inline_code: |
+  cls_SchemaDescriptor
+    .def_property_readonly("name", &wpy::structs::SchemaDescriptor::GetName)
+    .def_property_readonly("schema", &wpy::structs::SchemaDescriptor::GetSchema)
+    .def_property_readonly("is_valid", &wpy::structs::SchemaDescriptor::IsValid)
+    .def_property_readonly("size", &wpy::structs::SchemaDescriptor::GetSize)
+    .def_property_readonly("fields", &wpy::structs::SchemaDescriptor::GetFields);

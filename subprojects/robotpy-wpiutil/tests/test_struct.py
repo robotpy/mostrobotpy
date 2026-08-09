@@ -1,3 +1,4 @@
+import array
 import dataclasses
 import re
 
@@ -60,6 +61,40 @@ def test_pack_into_err():
     buf = bytearray(2)
     with pytest.raises(ValueError, match=re.escape("buffer must be 1 bytes")):
         wpistruct.pack_into(module.ThingA(1), buf)
+
+
+def test_pack_into_rejects_readonly_buffer():
+    destination = b"\x00"
+
+    with pytest.raises(BufferError, match="writable"):
+        wpistruct.pack_into(module.ThingA(1), destination)
+
+    assert destination == b"\x00"
+
+
+def test_pack_into_rejects_noncontiguous_buffer_without_mutation():
+    backing = bytearray(b"\xaa\xbb")
+    destination = memoryview(backing)[::2]
+
+    with pytest.raises(ValueError, match="buffer must be contiguous"):
+        wpistruct.pack_into(module.ThingA(1), destination)
+
+    assert backing == b"\xaa\xbb"
+
+
+@pytest.mark.parametrize(
+    "destination",
+    [
+        bytearray(1),
+        memoryview(bytearray(1)),
+        array.array("b", [0]),
+        array.array("B", [0]),
+    ],
+)
+def test_pack_into_accepts_contiguous_writable_byte_buffers(destination):
+    wpistruct.pack_into(module.ThingA(7), destination)
+
+    assert bytes(destination) == b"\x07"
 
 
 def test_unpack():
@@ -177,6 +212,24 @@ def test_user_pack_into():
 def test_user_unpack():
     v = MyStruct(2, True, 3.5)
     assert wpistruct.unpack(MyStruct, b"\x02\x00\x00\x00\x01\x00\x00\x60\x40") == v
+
+
+@wpistruct.make_wpistruct
+@dataclasses.dataclass
+class Empty:
+    pass
+
+
+def test_user_empty_struct_scalar_round_trip():
+    value = Empty()
+
+    assert wpistruct.pack(value) == b""
+    assert wpistruct.unpack(Empty, b"") == value
+
+
+def test_user_empty_struct_array_unpack_is_rejected():
+    with pytest.raises(ValueError, match="cannot unpack an array of zero-size structs"):
+        wpistruct.unpack_array(Empty, b"")
 
 
 @wpistruct.make_wpistruct(name="SingleFieldStruct")

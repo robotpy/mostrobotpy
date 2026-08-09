@@ -85,11 +85,13 @@ void packInto(const WPyStruct& v, py::buffer& b) {
   WPyStructInfo info(v);
   py::ssize_t sz = wpi::util::GetStructSize<WPyStruct>(info);
 
-  auto req = b.request();
+  auto req = b.request(true);
   if (req.itemsize != 1) {
     throw py::value_error("buffer must only contain bytes");
   } else if (req.ndim != 1) {
     throw py::value_error("buffer must only have a single dimension");
+  } else if (req.strides[0] != 1) {
+    throw py::value_error("buffer must be contiguous");
   }
 
   if (req.size != sz) {
@@ -129,6 +131,10 @@ py::typing::List<WPyStruct> unpackArray(const py::type& t,
     throw py::value_error("buffer must only contain bytes");
   } else if (req.ndim != 1) {
     throw py::value_error("buffer must only have a single dimension");
+  }
+
+  if (sz == 0) {
+    throw py::value_error("cannot unpack an array of zero-size structs");
   }
 
   if (req.size % sz != 0) {
