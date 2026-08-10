@@ -117,6 +117,10 @@ robot = true
 py_version = "native"
 robot = true
 
+[subprojects."robotpy-native-wpilib-drivers"]
+py_version = "native"
+robot = true
+
 [subprojects."robotpy-native-romi"]
 py_version = "native"
 robot = false
@@ -175,6 +179,10 @@ py_version = "wrapper"
 robot = true
 
 [subprojects."robotpy-wpilib"]
+py_version = "wrapper"
+robot = true
+
+[subprojects."robotpy-wpilib-drivers"]
 py_version = "wrapper"
 robot = true
 
