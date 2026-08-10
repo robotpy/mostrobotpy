@@ -1,18 +1,18 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "semiwrap~=0.6.0",
-    "hatch-meson~=0.1.2",
-    "hatch-robotpy~=0.2.1",
+    "semiwrap==0.0.0",
+    "hatch-meson==0.0.0",
+    "hatch-robotpy==0.0.0",
     "hatchling",
-    "robotpy-native-romi==2027.0.0a6.post4",
-    "wpilib==2027.0.0a6.post4",
+    "robotpy-native-romi==0.0.0",
+    "wpilib==0.0.0",
 ]
 
 
 [project]
 name = "robotpy-romi"
-version = "2027.0.0a6.post4"
+version = "0.0.0"
 description = "Binary wrapper for WPILib Romi Vendor library"
 requires-python = ">=3.11"
 authors = [
@@ -20,15 +20,15 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-romi==2027.0.0a6.post4",
-    "wpilib==2027.0.0a6.post4",
-    "robotpy-halsim-ws==2027.0.0a6.post4",
+    "robotpy-native-romi==0.0.0",
+    "wpilib==0.0.0",
+    "robotpy-halsim-ws==0.0.0",
 ]
 
 [project.urls]
 "Source code" = "https://github.com/robotpy/mostrobotpy"
 
-[project.entry-points."robotpy_cli.2027"]
+[project.entry-points.robotpy_cli]
 run-romi = "romi.cli:RunRomi"
 
 
@@ -49,7 +49,7 @@ update_init = ["romi"]
 [tool.semiwrap.name_transform]
 default = "snake_case"
 enum_value = "CAPS_CASE"
-known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "POVs", "PWM", "RIO", "SPI", "URI", "URL", "USB", "VIn"]
+known_words = []
 
 [tool.semiwrap.extension_modules."romi._romi"]
 name = "romi"

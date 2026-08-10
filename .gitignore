@@ -6,3 +6,4 @@
 
 rpy-include
 .venv/
+/subprojects/*/pyproject.toml

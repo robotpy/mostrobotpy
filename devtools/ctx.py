@@ -8,6 +8,7 @@ import typing as T
 import toposort
 
 from . import config
+from .pyproject import PyprojectRenderer
 from .subproject import Subproject
 from .util import run_cmd
 
@@ -21,6 +22,8 @@ class Context:
         self.subprojects_path = self.root_path / "subprojects"
         self.cfgpath = self.root_path / "rdev.toml"
         self.cfg, self.rawcfg = config.load(self.cfgpath)
+        self.pyproject_renderer = PyprojectRenderer(self.cfg, self.subprojects_path)
+        self.rendered_pyprojects = self.pyproject_renderer.render_all()
 
         self.is_robot = sysconfig.get_platform() == self.cfg.params.robot_wheel_platform
 
@@ -33,7 +36,14 @@ class Context:
             if self.is_robot and not cfg.robot:
                 continue
 
-            subprojects.append(Subproject(self, cfg, self.subprojects_path / project))
+            subprojects.append(
+                Subproject(
+                    self,
+                    cfg,
+                    self.subprojects_path / project,
+                    self.rendered_pyprojects[project],
+                )
+            )
 
         # Create a sorted dictionary of subprojects ordered by build order
         si = {p.pyproject_name: i for i, p in enumerate(subprojects)}
