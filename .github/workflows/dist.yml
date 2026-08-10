@@ -65,6 +65,11 @@ jobs:
       run: |
         python -m pip --disable-pip-version-check install -r rdev_requirements.txt
 
+    - name: Test devtools
+      shell: bash
+      run: |
+        ./rdev.sh ci test-devtools
+
     - name: Check generated files are up to date
       shell: bash
       run: |

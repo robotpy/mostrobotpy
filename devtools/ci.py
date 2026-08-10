@@ -12,6 +12,7 @@ from packaging.version import Version
 
 from .ctx import Context
 from .ci_check_wpistructs import check_wpistructs
+from .util import run_cmd
 
 
 @click.group()
@@ -34,6 +35,19 @@ def check_pyproject(ctx: Context):
 
 
 ci.add_command(check_wpistructs)
+
+
+@ci.command()
+@click.pass_obj
+def test_devtools(ctx: Context):
+    """Run the devtools unit tests."""
+    run_cmd(
+        ctx.python,
+        "-m",
+        "pytest",
+        "devtools/tests",
+        cwd=ctx.root_path,
+    )
 
 
 @ci.command
