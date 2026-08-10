@@ -64,9 +64,13 @@ class Subproject:
 
         return config_settings
 
-    def develop(self, buildtype: str):
+    def develop(self, buildtype: str, jobs: T.Optional[int] = None):
 
-        config_settings = self._config_settings([f"setup-args=-Dbuildtype={buildtype}"])
+        config_settings = [f"setup-args=-Dbuildtype={buildtype}"]
+        if jobs is not None:
+            config_settings.append(f"compile-args=-j{jobs}")
+
+        config_settings = self._config_settings(config_settings)
         config_args = [f"--config-settings={setting}" for setting in config_settings]
 
         self.ctx.run_pip(

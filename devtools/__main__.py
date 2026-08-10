@@ -78,12 +78,25 @@ def regen_generated(ctx: Context):
     "--buildtype", default="debug", help="meson build type (debug, release, etc)"
 )
 @click.option(
+    "-j",
+    "--jobs",
+    type=click.IntRange(min=1),
+    help="Limit the number of parallel Ninja jobs",
+)
+@click.option(
     "--stop-at",
     metavar="PACKAGE",
     help="Build projects in normal order through PACKAGE, then stop",
 )
 @click.pass_obj
-def develop(ctx: Context, package: str, test: bool, buildtype: str, stop_at: str):
+def develop(
+    ctx: Context,
+    package: str,
+    test: bool,
+    buildtype: str,
+    jobs: int | None,
+    stop_at: str,
+):
     """Install robotpy packages in editable mode"""
     if stop_at and stop_at not in ctx.subprojects:
         raise click.BadParameter(f"invalid package {stop_at}", param_hint="--stop-at")
@@ -94,7 +107,7 @@ def develop(ctx: Context, package: str, test: bool, buildtype: str, stop_at: str
 
         for project in ctx.subprojects.values():
             if project.name == package:
-                project.develop(buildtype)
+                project.develop(buildtype, jobs)
                 if test:
                     project.test()
                 break
@@ -102,7 +115,7 @@ def develop(ctx: Context, package: str, test: bool, buildtype: str, stop_at: str
             raise click.BadParameter(f"invalid package {package}")
     else:
         for project in ctx.subprojects.values():
-            project.develop(buildtype)
+            project.develop(buildtype, jobs)
             if test:
                 project.test()
             if project.name == stop_at:
