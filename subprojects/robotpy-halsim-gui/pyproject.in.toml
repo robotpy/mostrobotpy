@@ -1,20 +1,20 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "semiwrap~=0.6.0",
-    "hatch-meson~=0.1.2",
-    "hatch-robotpy~=0.2.1",
+    "semiwrap==0.0.0",
+    "hatch-meson==0.0.0",
+    "hatch-robotpy==0.0.0",
     "hatchling",
-    "robotpy-wpiutil==2027.0.0a6.post4",
-    "robotpy-wpimath==2027.0.0a6.post4",
-    "robotpy-hal==2027.0.0a6.post4",
-    "pyntcore==2027.0.0a6.post4",
-    "robotpy-native-halsim-gui==2027.0.0a6.post4",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
+    "robotpy-hal==0.0.0",
+    "pyntcore==0.0.0",
+    "robotpy-native-halsim-gui==0.0.0",
 ]
 
 [project]
 name = "robotpy-halsim-gui"
-version = "2027.0.0a6.post4"
+version = "0.0.0"
 description = "WPILib simulation GUI"
 requires-python = ">=3.11"
 authors = [
@@ -22,11 +22,11 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-wpiutil==2027.0.0a6.post4",
-    "robotpy-wpimath==2027.0.0a6.post4",
-    "robotpy-hal==2027.0.0a6.post4",
-    "pyntcore==2027.0.0a6.post4",
-    "robotpy-native-halsim-gui==2027.0.0a6.post4",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
+    "robotpy-hal==0.0.0",
+    "pyntcore==0.0.0",
+    "robotpy-native-halsim-gui==0.0.0",
 ]
 
 [project.urls]
@@ -51,7 +51,7 @@ scan_headers_ignore = [
 [tool.semiwrap.name_transform]
 default = "snake_case"
 enum_value = "CAPS_CASE"
-known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "POVs", "PWM", "RIO", "SPI", "URI", "URL", "USB", "VIn"]
+known_words = []
 
 [tool.semiwrap.extension_modules."halsim_gui._ext._halsim_gui_ext"]
 name = "halsim_gui_ext"

@@ -1,18 +1,18 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "semiwrap~=0.6.0",
-    "hatch-meson~=0.1.2",
-    "hatch-robotpy~=0.2.1",
+    "semiwrap==0.0.0",
+    "hatch-meson==0.0.0",
+    "hatch-robotpy==0.0.0",
     "hatchling",
-    "robotpy-native-fields==2027.0.0a6.post4",
-    "robotpy-wpiutil==2027.0.0a6.post4",
-    "robotpy-wpimath==2027.0.0a6.post4",
+    "robotpy-native-fields==0.0.0",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
 ]
 
 [project]
 name = "robotpy-fields"
-version = "2027.0.0a6.post4"
+version = "0.0.0"
 description = "RobotPy bindings for WPILib's fields library"
 requires-python = ">=3.11"
 authors = [
@@ -20,9 +20,9 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-fields==2027.0.0a6.post4",
-    "robotpy-wpiutil==2027.0.0a6.post4",
-    "robotpy-wpimath==2027.0.0a6.post4",
+    "robotpy-native-fields==0.0.0",
+    "robotpy-wpiutil==0.0.0",
+    "robotpy-wpimath==0.0.0",
 ]
 
 [project.urls]
@@ -53,7 +53,7 @@ scan_headers_ignore = [
 [tool.semiwrap.name_transform]
 default = "snake_case"
 enum_value = "CAPS_CASE"
-known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "POVs", "PWM", "RIO", "SPI", "URI", "URL", "USB", "VIn"]
+known_words = []
 
 [tool.semiwrap.extension_modules."robotpy_fields._fields"]
 name = "fields"

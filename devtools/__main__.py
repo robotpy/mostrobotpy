@@ -8,7 +8,6 @@ import click
 from .ctx import Context
 from . import ci
 from . import examples
-from . import update_pyproject
 
 #
 # Environment variables for configuring the builds
@@ -36,7 +35,15 @@ def main(ctx: click.Context, verbose: bool):
 
 main.add_command(ci.ci)
 main.add_command(examples.test_examples)
-main.add_command(update_pyproject.update_pyproject)
+
+
+@main.command("update-pyproject")
+@click.pass_obj
+def update_pyproject(ctx: Context):
+    """Generate pyproject.toml for all managed projects."""
+    written = sum(project.write() for project in ctx.rendered_pyprojects.values())
+    noun = "file" if written == 1 else "files"
+    print(f"{written} pyproject.toml {noun} written")
 
 
 @main.command()

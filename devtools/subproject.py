@@ -2,12 +2,12 @@ import pathlib
 import shutil
 import sys
 import tempfile
-import tomllib
 import typing as T
 
 from packaging.requirements import Requirement
 
 from .config import SubprojectConfig
+from .pyproject import RenderedProject
 from .util import run_cmd
 
 if T.TYPE_CHECKING:
@@ -16,27 +16,31 @@ if T.TYPE_CHECKING:
 
 class Subproject:
     def __init__(
-        self, ctx: "Context", cfg: SubprojectConfig, path: pathlib.Path
+        self,
+        ctx: "Context",
+        cfg: SubprojectConfig,
+        path: pathlib.Path,
+        pyproject: RenderedProject,
     ) -> None:
         self.ctx = ctx
         self.cfg = cfg
         self.path = path
-        self.pyproject_path = self.path / "pyproject.toml"
+        self.pyproject = pyproject
+        self.pyproject_path = pyproject.output_path
+        self.pyproject_template_path = pyproject.template_path
+        self.pyproject_data = pyproject.data
         self.name = path.name
-
-        # Use tomllib here because it's faster and we just need the data
-        with open(self.pyproject_path, "rb") as fp:
-            self.pyproject_data = tomllib.load(fp)
 
         self.build_requires = [
             Requirement(req) for req in self.pyproject_data["build-system"]["requires"]
         ]
-
         self.dependencies = [
             Requirement(req) for req in self.pyproject_data["project"]["dependencies"]
         ]
-
         self.pyproject_name: str = self.pyproject_data["project"]["name"]
+
+    def write_pyproject(self) -> bool:
+        return self.pyproject.write()
 
     def is_semiwrap_project(self) -> bool:
         return self.pyproject_data.get("tool", {}).get("semiwrap", None) is not None
@@ -73,6 +77,7 @@ class Subproject:
         config_settings = self._config_settings(config_settings)
         config_args = [f"--config-settings={setting}" for setting in config_settings]
 
+        self.write_pyproject()
         self.ctx.run_pip(
             "install",
             "-v",
@@ -160,6 +165,7 @@ class Subproject:
 
         with tempfile.TemporaryDirectory() as td:
             # I wonder if we should use hatch build instead?
+            self.write_pyproject()
             run_cmd(
                 self.ctx.python,
                 "-m",

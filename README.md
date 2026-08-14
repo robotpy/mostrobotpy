@@ -23,6 +23,13 @@ found in the `subprojects` directory. Each subproject can be built like
 any other python project, but it is recommended that you use our `rdev.sh`
 tool instead.
 
+The managed subprojects track `pyproject.in.toml` templates. The `develop` and
+wheel-building commands generate each project's ignored `pyproject.toml` when
+that project is reached. To generate all project files for use with other
+Python tooling, run:
+
+    ./rdev.sh update-pyproject
+
 You must have a working C++ build system and python development headers
 installed for your system.
 

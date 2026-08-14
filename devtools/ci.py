@@ -12,7 +12,7 @@ from packaging.version import Version
 
 from .ctx import Context
 from .ci_check_wpistructs import check_wpistructs
-from .update_pyproject import ProjectUpdater
+from .util import run_cmd
 
 
 @click.group()
@@ -23,23 +23,31 @@ def ci():
 @ci.command()
 @click.pass_obj
 def check_pyproject(ctx: Context):
-    """
-    Ensures that all pyproject.toml files are in sync with rdev.toml
-    """
-    print("Checking for changes..")
-    updater = ProjectUpdater(ctx)
-    updater.update()
-    if updater.changed:
-        print(
-            "ERROR: please use ./rdev.sh update-pyproject to synchronize pyproject.toml and rdev.toml",
-            file=sys.stderr,
+    """Ensure all pyproject.in.toml templates use neutral managed values."""
+    errors = ctx.pyproject_renderer.validate_templates()
+    if errors:
+        for error in errors:
+            click.echo(f"ERROR: {error}", err=True)
+        raise click.ClickException(
+            f"{len(errors)} invalid pyproject.in.toml template(s)"
         )
-        exit(1)
-    else:
-        print("OK")
+    print("OK")
 
 
 ci.add_command(check_wpistructs)
+
+
+@ci.command()
+@click.pass_obj
+def test_devtools(ctx: Context):
+    """Run the devtools unit tests."""
+    run_cmd(
+        ctx.python,
+        "-m",
+        "pytest",
+        "devtools/tests",
+        cwd=ctx.root_path,
+    )
 
 
 @ci.command

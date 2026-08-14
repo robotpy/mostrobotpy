@@ -1,16 +1,16 @@
 [build-system]
 build-backend = "hatchling.build"
 requires = [
-    "semiwrap~=0.6.0",
-    "hatch-meson~=0.1.2",
+    "semiwrap==0.0.0",
+    "hatch-meson==0.0.0",
     "hatchling",
-    "robotpy-native-datalog==2027.0.0a6.post4",
-    "robotpy-wpiutil==2027.0.0a6.post4"
+    "robotpy-native-datalog==0.0.0",
+    "robotpy-wpiutil==0.0.0"
 ]
 
 [project]
 name = "robotpy-wpilog"
-version = "2027.0.0a6.post4"
+version = "0.0.0"
 description = "Binary wrapper for WPILib logging library"
 requires-python = ">=3.11"
 authors = [
@@ -18,8 +18,8 @@ authors = [
 ]
 license = "BSD-3-Clause"
 dependencies = [
-    "robotpy-native-datalog==2027.0.0a6.post4",
-    "robotpy-wpiutil==2027.0.0a6.post4"
+    "robotpy-native-datalog==0.0.0",
+    "robotpy-wpiutil==0.0.0"
 ]
 
 [project.urls]
@@ -51,7 +51,7 @@ scan_headers_ignore = [
 [tool.semiwrap.name_transform]
 default = "snake_case"
 enum_value = "CAPS_CASE"
-known_words = ["3V3", "5V", "CAN", "CPU", "DS", "FMS", "FPGA", "HAL", "HTTP", "I2C", "IMU", "JNI", "JSON", "mDNS", "NT", "OpMode", "PCM", "PDH", "PDP", "PID", "POVs", "PWM", "RIO", "SPI", "URI", "URL", "USB", "VIn"]
+known_words = []
 
 [tool.semiwrap.extension_modules."wpilog._wpilog"]
 name = "wpilog"
