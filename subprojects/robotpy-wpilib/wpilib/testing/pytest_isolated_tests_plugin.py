@@ -82,6 +82,19 @@ class WorkerPlugin:
     def sendevent(self, name: str, **kwargs: object):
         self.channel.send((name, kwargs))
 
+    @pytest.hookimpl(trylast=True)
+    def pytest_configure(self, config: pytest.Config):
+        # Keep pytest-order loaded for option parsing and test generation, but
+        # disable its ordering hook because each worker runs only one test.
+        ordering_plugin = config.pluginmanager.get_plugin("orderingplugin")
+        if ordering_plugin is not None:
+            config.pluginmanager.unregister(ordering_plugin)
+
+        # Also support strict-marker configurations when pytest-order is absent.
+        config.addinivalue_line(
+            "markers", "order(*args, **kwargs): resolved by the parent process"
+        )
+
     @pytest.hookimpl(wrapper=True)
     def pytest_sessionstart(self, session: pytest.Session):
         self.config = session.config
@@ -149,7 +162,13 @@ def _run_test(
     worker_plugin = WorkerPlugin(pipe)
 
     ec = pytest.main(
-        [item_nodeid, "--no-header", "-p", "no:terminalreporter", *config_args],
+        [
+            item_nodeid,
+            "--no-header",
+            "-p",
+            "no:terminalreporter",
+            *config_args,
+        ],
         plugins=[plugin, worker_plugin],
     )
 
@@ -182,6 +201,28 @@ class IsolatedTestJob:
     def set_exit_code(self, ec: int):
         if self.exit_code is None:
             self.exit_code = ec
+
+
+def _order_marker_groups(
+    items: list[pytest.Item],
+) -> T.Iterator[list[pytest.Function]]:
+    """Group consecutive items that share the same order marker object."""
+    group: list[pytest.Function] = []
+    previous_marker: object = object()
+
+    for item in items:
+        assert isinstance(item, pytest.Function)
+        marker = item.get_closest_marker("order")
+
+        if group and marker is not previous_marker:
+            yield group
+            group = []
+
+        group.append(item)
+        previous_marker = marker
+
+    if group:
+        yield group
 
 
 class IsolatedTestsPlugin:
@@ -237,32 +278,41 @@ class IsolatedTestsPlugin:
             return True
 
         running: list[IsolatedTestJob] = []
-        deferred: list[pytest.Function] = []
         try:
-            # Start any tests that use the robot fixture first. Tests that don't
-            # use the robot fixture will be ran later
-            for item in session.items:
-                assert isinstance(item, pytest.Function)
-                if "robot" not in item.fixturenames:
-                    deferred.append(item)
-                    continue
+            # pytest-order has already sorted session.items. Preserve boundaries
+            # between order-marker groups while retaining the existing parallel
+            # scheduling within each group.
+            for group in _order_marker_groups(session.items):
+                deferred: list[pytest.Function] = []
 
-                while len(running) >= self._parallelism:
+                # Start this group's robot tests first, then overlap its plain
+                # tests with the isolated jobs just as the original loop did.
+                for item in group:
+                    if "robot" not in item.fixturenames:
+                        deferred.append(item)
+                        continue
+
+                    while len(running) >= self._parallelism:
+                        self._wait_for_jobs(running, session)
+
+                    running.append(self._start_isolated_test(item))
+                    self._maybe_raise(session)
+
+                for idx, item in enumerate(deferred):
+                    # Observe completed isolated failures before starting more
+                    # in-process work, so --maxfail can stop the group promptly.
+                    if any(job.conn.poll() for job in running):
+                        self._wait_for_jobs(running, session)
+
+                    nextitem = deferred[idx + 1] if idx + 1 < len(deferred) else None
+                    session.config.hook.pytest_runtest_protocol(
+                        item=item, nextitem=nextitem
+                    )
+                    self._maybe_raise(session)
+
+                # No work from one marker group may cross into the next.
+                while running:
                     self._wait_for_jobs(running, session)
-
-                running.append(self._start_isolated_test(item))
-                self._maybe_raise(session)
-
-            # Run the in-process tests now while the robot tests are finishing
-            for idx, item in enumerate(deferred):
-                nextitem = deferred[idx + 1] if idx + 1 < len(deferred) else None
-                session.config.hook.pytest_runtest_protocol(
-                    item=item, nextitem=nextitem
-                )
-                self._maybe_raise(session)
-
-            while running:
-                self._wait_for_jobs(running, session)
         finally:
             for job in running:
                 self._cleanup_job(job)
@@ -399,10 +449,10 @@ class IsolatedTestsPlugin:
         job.process.close()
 
     def _maybe_raise(self, session: pytest.Session):
-        if self._shouldstop:
-            raise session.Interrupted(self._shouldstop)
         if session.shouldfail:
             raise session.Failed(session.shouldfail)
+        if self._shouldstop:
+            raise session.Interrupted(self._shouldstop)
         if session.shouldstop:
             raise session.Interrupted(session.shouldstop)
 
@@ -455,7 +505,12 @@ class IsolatedTestsPlugin:
         if exit_code is not None:
             job.exit_code = int(exit_code)
 
-        job.worker_completed = True
+        # Normal test failures have already produced reports. Other exit codes
+        # need a synthetic failure report from _finalize_job.
+        job.worker_completed = job.exit_code in (
+            pytest.ExitCode.OK,
+            pytest.ExitCode.TESTS_FAILED,
+        )
         job.finished = True
 
     def _handlefailures(self, rep: pytest.TestReport):
