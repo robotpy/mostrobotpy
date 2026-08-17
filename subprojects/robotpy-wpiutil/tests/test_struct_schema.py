@@ -35,6 +35,64 @@ def test_generate_struct_from_schema():
     assert wpistruct.pack(value) == b"\x02\0\0\0abc\0\x01"
 
 
+@pytest.mark.parametrize(("value", "encoded"), [("A", b"A"), ("\0", b"\0")])
+def test_generated_scalar_char_exact_bytes_and_round_trip(value, encoded):
+    generated = make_wpistruct_from_schema(
+        "GeneratedScalarChar", "char value", nested={}
+    )
+
+    unpacked = wpistruct.unpack(generated, encoded)
+
+    assert wpistruct.pack(generated(value)) == encoded
+    assert unpacked == generated(value)
+    assert type(unpacked.value) is wpistruct.char
+
+
+def test_generated_char_arrays_retain_utf8_nul_and_padding_behavior():
+    generated = make_wpistruct_from_schema(
+        "GeneratedCharArrays", "char singleton[1]; char text[4]", nested={}
+    )
+
+    utf8_value = generated("", "é")
+    nul_value = generated("\0", "a\0b")
+
+    assert wpistruct.pack(utf8_value) == b"\0\xc3\xa9\0\0"
+    assert wpistruct.unpack(generated, b"\0\xc3\xa9\0\0") == utf8_value
+    assert wpistruct.pack(nul_value) == b"\0a\0b\0"
+    assert wpistruct.unpack(generated, b"\0a\0b\0") == generated("", "a\0b")
+
+
+@pytest.mark.parametrize(
+    ("value", "cause_type"),
+    [
+        ("", ValueError),
+        ("é", ValueError),
+        ("变量", ValueError),
+        (7, TypeError),
+        (None, TypeError),
+    ],
+)
+def test_generated_scalar_char_rejects_invalid_values_atomically(value, cause_type):
+    generated = make_wpistruct_from_schema(
+        "GeneratedInvalidChar", "char value", nested={}
+    )
+    destination = bytearray(b"\xa5")
+    instance = generated(value)
+
+    with pytest.raises(
+        ValueError, match="GeneratedInvalidChar.*error packing data"
+    ) as exc:
+        wpistruct.pack(instance)
+    assert isinstance(exc.value.__cause__, cause_type)
+
+    with pytest.raises(
+        ValueError, match="GeneratedInvalidChar.*error packing data"
+    ) as exc:
+        generated.WPIStruct.pack_into(instance, destination)
+    assert isinstance(exc.value.__cause__, cause_type)
+    assert destination == b"\xa5"
+
+
 def test_generated_struct_name_is_not_executed_as_source():
     generated = make_wpistruct_from_schema('Bad"Name', "uint8 value", nested={})
     assert wpistruct.get_type_name(generated) == 'Bad"Name'
