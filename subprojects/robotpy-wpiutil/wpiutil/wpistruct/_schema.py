@@ -184,9 +184,9 @@ def _field_annotation(
     return annotation
 
 
-def _schema_operation(operation, type_name: str, schema: str):
+def _schema_operation(operation, *args):
     try:
-        return operation(type_name, schema)
+        return operation(*args)
     except UnicodeDecodeError as exc:
         raise InvalidStructSchema(f"parse error: {exc}") from exc
     except ValueError as exc:
@@ -199,26 +199,12 @@ def _add_schema(database: SchemaDatabase, type_name: str, schema: str):
     return _schema_operation(database.add, type_name, schema)
 
 
+def _add_schemas(database: SchemaDatabase, definitions):
+    return _schema_operation(database.add_all, definitions)
+
+
 def _stage_schema(database: SchemaDatabase, type_name: str, schema: str):
     return _schema_operation(database.stage, type_name, schema)
-
-
-def _native_seed_schema(struct_type: type) -> str:
-    layout = struct_type.__wpistruct_descriptor__
-    declarations = []
-    for index, field in enumerate(layout.fields):
-        if field.enum_values:
-            values = ",".join(f"{name}={value}" for name, value in field.enum_values)
-            type_name = f"enum {{{values}}} {field.type_name}"
-        else:
-            type_name = field.type_name
-        array_suffix = f"[{field.array_size}]" if field.array_size > 1 else ""
-        is_bitfield = field.nested_type is None and (
-            field.bit_shift != 0 or field.bit_width != field.size * 8
-        )
-        bitfield_suffix = f":{field.bit_width}" if is_bitfield else ""
-        declarations.append(f"{type_name} field{index}{array_suffix}{bitfield_suffix}")
-    return "; ".join(declarations)
 
 
 def _add_nested_dependency_schemas(
@@ -226,41 +212,38 @@ def _add_nested_dependency_schemas(
     descriptor,
     nested: typing.Mapping[str, type],
 ) -> None:
-    definitions = {}
+    definitions = []
+    seen_definitions = set()
 
-    def add_nested(type_string: str, schema: str):
-        type_name = type_string.removeprefix("struct:")
-        previous = definitions.get(type_name)
-        if previous == schema:
-            return
+    def collect_nested(type_string: str, schema: str):
+        definition = (type_string.removeprefix("struct:"), schema)
+        if definition not in seen_definitions:
+            seen_definitions.add(definition)
+            definitions.append(definition)
 
-        try:
-            database.add(type_name, schema)
-            effective_schema = schema
-        except UnicodeDecodeError:
-            struct_type = nested.get(type_name)
-            if struct_type is None or not hasattr(
-                struct_type, "__wpistruct_descriptor__"
-            ):
-                raise
-            effective_schema = _native_seed_schema(struct_type)
-            try:
-                database.add(type_name, effective_schema)
-            except UnicodeDecodeError:
-                # A Unicode type name cannot be referenced by raw native schema
-                # grammar. The unresolved candidate reports the type name below.
-                return
-        definitions[type_name] = effective_schema
-
-    required_names = {
+    required_names = dict.fromkeys(
         field.struct_name
         for field in descriptor.fields
         if field.struct_name is not None
-    }
+    )
+    missing = None
     for type_name in required_names:
         nested_type = nested.get(type_name)
-        if nested_type is not None:
-            wpistruct.for_each_nested(nested_type, add_nested)
+        if nested_type is None:
+            if missing is None:
+                missing = type_name
+        else:
+            wpistruct.for_each_nested(nested_type, collect_nested)
+
+    if definitions:
+        try:
+            _add_schemas(database, definitions)
+        except ValueError as exc:
+            if missing is not None and str(exc).startswith(
+                "unresolved schema definition for "
+            ):
+                raise _UnresolvedStructSchema(missing) from exc
+            raise
 
 
 def _make_candidate_descriptor(
@@ -371,47 +354,21 @@ class StructTypeRegistry:
             self._types[type_name] = struct_type
             self._supplied_names.add(type_name)
 
-        seed_types: dict[str, type] = {}
+        seed_definitions = []
+        seen_seed_definitions = set()
 
-        def collect_seed_types(struct_type: type) -> None:
-            type_name = wpistruct.get_type_name(struct_type)
-            if type_name in seed_types:
-                return
-            seed_types[type_name] = struct_type
-            layout = getattr(struct_type, "__wpistruct_descriptor__", None)
-            if layout is not None:
-                for field in layout.fields:
-                    if field.nested_type is not None:
-                        collect_seed_types(field.nested_type)
+        def collect_nested(type_string: str, schema: str):
+            definition = (type_string.removeprefix("struct:"), schema)
+            if definition not in seen_seed_definitions:
+                seen_seed_definitions.add(definition)
+                seed_definitions.append(definition)
 
         for struct_type in supplied_types:
-            collect_seed_types(struct_type)
+            wpistruct.for_each_nested(struct_type, collect_nested)
 
-        seed_database = SchemaDatabase()
-
-        def add_nested(type_string: str, schema: str):
-            type_name = type_string.removeprefix("struct:")
-            try:
-                seed_database.add(type_name, schema)
-                effective_schema = schema
-            except UnicodeDecodeError:
-                struct_type = seed_types.get(type_name)
-                if struct_type is None or not hasattr(
-                    struct_type, "__wpistruct_descriptor__"
-                ):
-                    raise
-                effective_schema = _native_seed_schema(struct_type)
-                try:
-                    seed_database.add(type_name, effective_schema)
-                except UnicodeDecodeError:
-                    # A Unicode type name cannot be referenced by raw native
-                    # schema grammar. Supplied-type lookup still preserves the
-                    # authored type's exact public schema and serialization.
-                    return
-            self._definitions.setdefault(type_name, effective_schema)
-
-        for struct_type in supplied_types:
-            wpistruct.for_each_nested(struct_type, add_nested)
+        if seed_definitions:
+            _add_schemas(SchemaDatabase(), seed_definitions)
+            self._definitions.update(seed_definitions)
 
     def get(self, type_name: str) -> type | None:
         return self._types.get(type_name)

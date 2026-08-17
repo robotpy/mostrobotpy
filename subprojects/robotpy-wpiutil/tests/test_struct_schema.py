@@ -448,6 +448,7 @@ def test_registry_independent_schemas_use_one_native_add_each(monkeypatch):
     class CountingSchemaDatabase:
         instances = []
         add_calls = []
+        add_all_calls = []
         stage_calls = []
 
         def __init__(self, wrapped=None):
@@ -459,6 +460,11 @@ def test_registry_independent_schemas_use_one_native_add_each(monkeypatch):
             self.instance_adds.append(type_name)
             type(self).add_calls.append(type_name)
             return self._wrapped.add(type_name, schema)
+
+        def add_all(self, definitions):
+            definitions = tuple(definitions)
+            type(self).add_all_calls.append(definitions)
+            return self._wrapped.add_all(definitions)
 
         def find(self, type_name):
             return self._wrapped.find(type_name)
@@ -476,12 +482,60 @@ def test_registry_independent_schemas_use_one_native_add_each(monkeypatch):
         registry.add_schema(type_name, "uint8 value")
 
     assert CountingSchemaDatabase.stage_calls == []
+    assert CountingSchemaDatabase.add_all_calls == []
     assert CountingSchemaDatabase.add_calls == expected_names
     assert [
         database.instance_adds
         for database in CountingSchemaDatabase.instances
         if database.instance_adds
     ] == [[type_name] for type_name in expected_names]
+
+
+def test_registry_dependency_chain_uses_one_linear_batch_per_parent(monkeypatch):
+    native_database = schema_module.SchemaDatabase
+
+    class CountingSchemaDatabase:
+        add_calls = []
+        add_all_calls = []
+
+        def __init__(self):
+            self._wrapped = native_database()
+
+        def add(self, type_name, schema):
+            type(self).add_calls.append(type_name)
+            return self._wrapped.add(type_name, schema)
+
+        def add_all(self, definitions):
+            definitions = tuple(definitions)
+            type(self).add_all_calls.append(definitions)
+            return self._wrapped.add_all(definitions)
+
+        def find(self, type_name):
+            return self._wrapped.find(type_name)
+
+        def stage(self, type_name, schema):
+            return self._wrapped.stage(type_name, schema)
+
+    monkeypatch.setattr(schema_module, "SchemaDatabase", CountingSchemaDatabase)
+    registry = StructTypeRegistry(())
+    chain_types = [registry.add_schema("Chain0", "uint8 value")]
+    for index in range(1, 32):
+        chain_types.append(
+            registry.add_schema(f"Chain{index}", f"Chain{index - 1} value")
+        )
+
+    assert CountingSchemaDatabase.add_calls == [f"Chain{index}" for index in range(32)]
+    assert len(CountingSchemaDatabase.add_all_calls) == 31
+    for index, definitions in enumerate(CountingSchemaDatabase.add_all_calls, start=1):
+        names = [type_name for type_name, _ in definitions]
+        assert len(definitions) == index
+        assert names == [f"Chain{dependency}" for dependency in range(index)]
+        assert len(names) == len(set(names))
+
+    value = chain_types[0](7)
+    for chain_type in chain_types[1:]:
+        value = chain_type(value)
+    assert wpistruct.unpack(chain_types[-1], wpistruct.pack(value)) == value
 
 
 def test_failed_generated_class_construction_does_not_mutate_registry(monkeypatch):
@@ -521,6 +575,21 @@ def test_failed_unresolved_registry_schema_can_retry_after_nested_registration()
     inner = registry.add_schema("Inner", "uint8 value")
     outer = registry.add_schema("Outer", "Inner value")
     value = outer(inner(7))
+    assert wpistruct.unpack(outer, wpistruct.pack(value)) == value
+
+
+def test_mixed_available_and_unresolved_registry_schema_preserves_retry_taxonomy():
+    registry = StructTypeRegistry(())
+    known = registry.add_schema("Known", "uint8 value")
+
+    with pytest.raises(
+        schema_module._UnresolvedStructSchema, match="Missing.*not registered"
+    ):
+        registry.add_schema("Outer", "Known known; Missing missing")
+
+    missing = registry.add_schema("Missing", "uint16 value")
+    outer = registry.add_schema("Outer", "Known known; Missing missing")
+    value = outer(known(7), missing(0x1234))
     assert wpistruct.unpack(outer, wpistruct.pack(value)) == value
 
 

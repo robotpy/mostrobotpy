@@ -56,6 +56,8 @@ class SchemaDatabase {
  public:
   SchemaDatabase();
   SchemaDescriptor Add(std::string_view name, std::string_view schema);
+  void AddAll(
+      const std::vector<std::pair<std::string, std::string>>& definitions);
   SchemaDatabase Stage(std::string_view name, std::string_view schema) const;
   std::optional<SchemaDescriptor> Find(std::string_view name) const;
 
