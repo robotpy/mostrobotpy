@@ -41,6 +41,10 @@ _type_to_fmt = {
 _sized_integer_types = (int8, uint8, int16, uint16, int32, uint32, int64, uint64)
 _signed_integer_types = (int8, int16, int32, int64)
 
+# A zero-size nested array has no payload-based bound on its semantic element
+# count. Prevent the descriptor codec from materializing unbounded containers.
+_MAX_DESCRIPTOR_ZERO_SIZE_ARRAY_ELEMENTS = 65_536
+
 
 @dataclasses.dataclass(slots=True)
 class FieldPlan:
@@ -404,7 +408,12 @@ def _descriptor_pack_value(plan: FieldPlan, value):
     if plan.is_char:
         return value
     if plan.is_array:
-        values = tuple(_descriptor_pack_element(plan, item) for item in value)
+        if plan.enum_type is not None or plan.nested_type is not None:
+            values = tuple(_descriptor_pack_element(plan, item) for item in value)
+        elif isinstance(value, collections.abc.Sequence):
+            values = value
+        else:
+            values = tuple(value)
         if len(values) != plan.array_size:
             raise ValueError(
                 f"field {plan.python_name} must contain {plan.array_size} values"
@@ -430,6 +439,8 @@ def _descriptor_unpack_value(plan: FieldPlan, value):
         return char(value or "\0")
     if plan.is_array:
         values = (value,) if plan.array_size == 1 else value
+        if plan.enum_type is None and plan.nested_type is None:
+            return values
         return tuple(_descriptor_unpack_element(plan, item) for item in values)
     return _descriptor_unpack_element(plan, value)
 
@@ -442,6 +453,23 @@ def _make_descriptor_serializer(
     plans: list[FieldPlan],
     descriptor,
 ) -> StructDescriptor:
+    zero_size_nested_arrays = tuple(
+        plan
+        for plan in plans
+        if plan.is_array
+        and plan.nested_type is not None
+        and wpistruct.get_size(plan.nested_type) == 0
+    )
+
+    def check_materialization_limit():
+        for plan in zero_size_nested_arrays:
+            if plan.array_size > _MAX_DESCRIPTOR_ZERO_SIZE_ARRAY_ELEMENTS:
+                raise ValueError(
+                    f"{err_name}: field {plan.python_name} has {plan.array_size} elements "
+                    "in a zero-size nested array; descriptor codec materialization "
+                    f"limit is {_MAX_DESCRIPTOR_ZERO_SIZE_ARRAY_ELEMENTS}"
+                )
+
     def pack_data(value):
         values = tuple(
             _descriptor_pack_value(plan, getattr(value, plan.python_name))
@@ -450,12 +478,14 @@ def _make_descriptor_serializer(
         return pack_schema(descriptor, values)
 
     def pack(value):
+        check_materialization_limit()
         try:
             return pack_data(value)
         except Exception as exc:
             raise ValueError(f"{err_name}: error packing data") from exc
 
     def pack_into(value, buffer):
+        check_materialization_limit()
         try:
             encoded = pack_data(value)
             destination = memoryview(buffer).cast("B")
@@ -468,6 +498,7 @@ def _make_descriptor_serializer(
             raise ValueError(f"{err_name}: error packing data") from exc
 
     def unpack(buffer):
+        check_materialization_limit()
         try:
             values = unpack_schema(descriptor, buffer)
             converted = (
