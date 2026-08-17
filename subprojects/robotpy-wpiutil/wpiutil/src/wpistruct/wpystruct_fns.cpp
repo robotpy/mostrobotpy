@@ -1,6 +1,8 @@
 
 #include "wpystruct_fns.h"
 
+#include <limits>
+
 #include "wpystruct.h"
 
 void forEachNested(
@@ -55,7 +57,16 @@ py::bytes packArray(const py::sequence& seq) {
 
   WPyStructInfo info(py::type::of(seq[0]));
   auto sz = wpi::util::GetStructSize<WPyStruct>(info);
+  if (sz != 0 && len > std::numeric_limits<size_t>::max() / sz) {
+    PyErr_SetString(PyExc_OverflowError, "packed array is too large");
+    throw py::error_already_set();
+  }
+
   auto total = sz * len;
+  if (total > static_cast<size_t>(PY_SSIZE_T_MAX)) {
+    PyErr_SetString(PyExc_OverflowError, "packed array is too large");
+    throw py::error_already_set();
+  }
 
   PyObject* b = PyBytes_FromStringAndSize(NULL, total);
   if (b == NULL) {
@@ -70,12 +81,12 @@ py::bytes packArray(const py::sequence& seq) {
   }
 
   auto bytes_obj = py::reinterpret_steal<py::bytes>(b);
+  auto output =
+      std::span(reinterpret_cast<uint8_t*>(pybuf), static_cast<size_t>(pysz));
 
-  for (const auto& v : seq) {
-    WPyStruct wv(v);
-    auto s = std::span(reinterpret_cast<uint8_t*>(pybuf), sz);
-    wpi::util::PackStruct(s, wv, info);
-    pybuf += sz;
+  for (size_t i = 0; i < len; ++i) {
+    WPyStruct wv(seq[i]);
+    wpi::util::PackStruct(output.subspan(i * sz, sz), wv, info);
   }
 
   return bytes_obj;
@@ -111,6 +122,8 @@ WPyStruct unpack(const py::type& t, const py::buffer& b) {
     throw py::value_error("buffer must only contain bytes");
   } else if (req.ndim != 1) {
     throw py::value_error("buffer must only have a single dimension");
+  } else if (req.strides[0] != 1) {
+    throw py::value_error("buffer must be contiguous");
   }
 
   if (req.size != sz) {
@@ -131,6 +144,8 @@ py::typing::List<WPyStruct> unpackArray(const py::type& t,
     throw py::value_error("buffer must only contain bytes");
   } else if (req.ndim != 1) {
     throw py::value_error("buffer must only have a single dimension");
+  } else if (req.strides[0] != 1) {
+    throw py::value_error("buffer must be contiguous");
   }
 
   if (sz == 0) {
