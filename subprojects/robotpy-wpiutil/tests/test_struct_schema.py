@@ -6,6 +6,7 @@ import typing
 import pytest
 
 from wpiutil import wpistruct
+import wpiutil.wpistruct._compiler as compiler_module
 import wpiutil.wpistruct._schema as schema_module
 from wpiutil.wpistruct._schema import (
     InvalidStructSchema,
@@ -196,6 +197,77 @@ def test_generated_compact_arrays_preserve_descriptor_behavior(monkeypatch):
     for invalid_buffer in (encoded[:-1], encoded + b"\x00"):
         with pytest.raises(ValueError, match="buffer must be 7 bytes"):
             wpistruct.unpack(generated, invalid_buffer)
+
+
+@pytest.mark.parametrize("operation", ["pack", "unpack"])
+def test_zero_size_nested_array_codec_materialization_limit(monkeypatch, operation):
+    monkeypatch.setattr(schema_module, "_MAX_GENERATED_TUPLE_ELEMENTS", 0)
+    monkeypatch.setattr(compiler_module, "_MAX_DESCRIPTOR_ZERO_SIZE_ARRAY_ELEMENTS", 2)
+    empty = make_wpistruct_from_schema("Empty", "", nested={})
+    generated = make_wpistruct_from_schema(
+        "ZeroSizeNestedArray", "Empty values[3]", nested={"Empty": empty}
+    )
+
+    field = dataclasses.fields(generated)[0]
+    assert typing.get_args(field.type) == (empty, Ellipsis)
+    assert wpistruct.get_size(generated) == 0
+
+    native_calls = 0
+
+    def fail_native(*args, **kwargs):
+        nonlocal native_calls
+        native_calls += 1
+        raise RuntimeError("native descriptor codec was called")
+
+    monkeypatch.setattr(compiler_module, f"{operation}_schema", fail_native)
+    with pytest.raises(ValueError) as exc_info:
+        if operation == "pack":
+            wpistruct.pack(generated((empty(), empty(), empty())))
+        else:
+            wpistruct.unpack(generated, b"")
+
+    assert native_calls == 0
+    error = str(exc_info.value)
+    assert "field values" in error
+    assert "3" in error
+    assert "zero-size nested array" in error
+    assert "limit is 2" in error
+
+
+def test_compact_primitive_descriptor_arrays_avoid_redundant_tuple_copies(
+    monkeypatch,
+):
+    monkeypatch.setattr(schema_module, "_MAX_GENERATED_TUPLE_ELEMENTS", 0)
+    generated = make_wpistruct_from_schema(
+        "CompactPrimitiveArray", "uint8 values[2]", nested={}
+    )
+    original_pack_schema = compiler_module.pack_schema
+    original_unpack_schema = compiler_module.unpack_schema
+    packed_field_values = []
+    unpacked_field_values = []
+
+    def capture_pack_values(descriptor, values):
+        packed_field_values.append(values[0])
+        return original_pack_schema(descriptor, values)
+
+    def capture_unpack_values(descriptor, buffer):
+        values = original_unpack_schema(descriptor, buffer)
+        unpacked_field_values.append(values[0])
+        return values
+
+    monkeypatch.setattr(compiler_module, "pack_schema", capture_pack_values)
+    monkeypatch.setattr(compiler_module, "unpack_schema", capture_unpack_values)
+
+    sequence = [1, 2]
+    assert wpistruct.pack(generated(sequence)) == b"\x01\x02"
+    assert packed_field_values[-1] is sequence
+
+    assert wpistruct.pack(generated(iter((3, 4)))) == b"\x03\x04"
+    assert packed_field_values[-1] == (3, 4)
+
+    decoded = wpistruct.unpack(generated, b"\x05\x06")
+    assert decoded.values is unpacked_field_values[-1]
+    assert decoded.values == (5, 6)
 
 
 def test_authored_variadic_tuple_remains_rejected():
