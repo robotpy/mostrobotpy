@@ -132,6 +132,12 @@ std::vector<DeclarationShape> ParseDeclarationShapes(std::string_view schema) {
   }
 }
 
+struct PreparedDefinition {
+  std::string name;
+  std::string schema;
+  std::vector<DeclarationShape> shapes;
+};
+
 bool SchemasEqual(std::string_view lhs, std::string_view rhs) {
   auto parsedLhs = ParseSchema(lhs);
   auto parsedRhs = ParseSchema(rhs);
@@ -176,6 +182,17 @@ void ValidateArrayExtentsForPlatform(std::string_view descriptorName,
       previous = token;
     }
   }
+}
+
+PreparedDefinition PrepareDefinition(std::string_view name,
+                                     std::string_view schema) {
+  auto parsed = ParseSchema(schema);
+  auto shapes = ParseDeclarationShapes(schema);
+  if (shapes.size() != parsed.declarations.size()) {
+    throw pybind11::value_error("failed to analyze schema declarations");
+  }
+  ValidateArrayExtentsForPlatform(name, schema);
+  return {std::string{name}, std::string{schema}, std::move(shapes)};
 }
 
 void ValidateDescriptorLayout(const wpi::util::StructDescriptor& descriptor) {
@@ -223,15 +240,26 @@ void ValidateDatabaseLayouts(
   ValidateDescriptorLayout(*candidate);
 }
 
+void ValidateCompleteDatabaseLayouts(
+    const wpi::util::StructDescriptorDatabase& database,
+    const std::map<std::string, std::string, std::less<>>& definitions) {
+  for (const auto& definition : definitions) {
+    const auto* descriptor = database.Find(definition.first);
+    if (!descriptor) {
+      throw pybind11::value_error("failed to reconstruct schema database");
+    }
+    if (!descriptor->IsValid()) {
+      throw pybind11::value_error("unresolved schema definition for " +
+                                  definition.first);
+    }
+    ValidateDescriptorLayout(*descriptor);
+  }
+}
+
 std::shared_ptr<SchemaDatabaseImpl> BuildStagedDatabase(
     const std::shared_ptr<SchemaDatabaseImpl>& source, std::string_view name,
     std::string_view schema) {
-  auto parsed = ParseSchema(schema);
-  auto shapes = ParseDeclarationShapes(schema);
-  if (shapes.size() != parsed.declarations.size()) {
-    throw pybind11::value_error("failed to analyze schema declarations");
-  }
-  ValidateArrayExtentsForPlatform(name, schema);
+  auto prepared = PrepareDefinition(name, schema);
 
   bool duplicate = false;
   if (auto existing = source->definitions.find(name);
@@ -254,8 +282,8 @@ std::shared_ptr<SchemaDatabaseImpl> BuildStagedDatabase(
     }
   }
   if (duplicate) {
-    staged->definitions[std::string{name}] = std::string{schema};
-    staged->shapes[std::string{name}] = std::move(shapes);
+    staged->definitions[prepared.name] = prepared.schema;
+    staged->shapes[prepared.name] = std::move(prepared.shapes);
     return staged;
   }
 
@@ -266,8 +294,8 @@ std::shared_ptr<SchemaDatabaseImpl> BuildStagedDatabase(
   std::string descriptorName = descriptor->GetName();
   ValidateDatabaseLayouts(*staged->database, source->definitions,
                           descriptorName);
-  staged->definitions.emplace(descriptorName, schema);
-  staged->shapes.emplace(std::move(descriptorName), std::move(shapes));
+  staged->definitions.emplace(descriptorName, std::move(prepared.schema));
+  staged->shapes.emplace(std::move(descriptorName), std::move(prepared.shapes));
   return staged;
 }
 
@@ -652,6 +680,56 @@ SchemaDescriptor SchemaDatabase::Add(std::string_view name,
     m_impl->shapes = std::move(staged->shapes);
   }
   return SchemaDescriptor{m_impl, std::string{name}};
+}
+
+void SchemaDatabase::AddAll(
+    const std::vector<std::pair<std::string, std::string>>& definitions) {
+  if (definitions.empty()) {
+    return;
+  }
+
+  std::vector<PreparedDefinition> prepared;
+  prepared.reserve(definitions.size());
+  for (const auto& [name, schema] : definitions) {
+    prepared.emplace_back(PrepareDefinition(name, schema));
+  }
+
+  auto staged = std::make_shared<SchemaDatabaseImpl>();
+  staged->definitions = m_impl->definitions;
+  staged->shapes = m_impl->shapes;
+  std::string error;
+  for (const auto& [name, schema] : m_impl->definitions) {
+    if (!staged->database->Add(name, schema, &error)) {
+      throw pybind11::value_error("failed to reconstruct schema database: " +
+                                  error);
+    }
+  }
+
+  for (auto& definition : prepared) {
+    if (auto existing = staged->definitions.find(definition.name);
+        existing != staged->definitions.end()) {
+      if (!SchemasEqual(existing->second, definition.schema)) {
+        throw pybind11::value_error("conflicting schema for " +
+                                    definition.name);
+      }
+      continue;
+    }
+
+    const auto* descriptor =
+        staged->database->Add(definition.name, definition.schema, &error);
+    if (!descriptor) {
+      throw pybind11::value_error(error);
+    }
+    std::string descriptorName = descriptor->GetName();
+    staged->definitions.emplace(descriptorName, std::move(definition.schema));
+    staged->shapes.emplace(std::move(descriptorName),
+                           std::move(definition.shapes));
+  }
+
+  ValidateCompleteDatabaseLayouts(*staged->database, staged->definitions);
+  m_impl->database = std::move(staged->database);
+  m_impl->definitions = std::move(staged->definitions);
+  m_impl->shapes = std::move(staged->shapes);
 }
 
 SchemaDatabase SchemaDatabase::Stage(std::string_view name,

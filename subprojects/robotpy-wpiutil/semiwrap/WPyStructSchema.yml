@@ -55,6 +55,8 @@ classes:
       SchemaDatabase:
       Add:
         no_release_gil: true
+      AddAll:
+        no_release_gil: true
       Stage:
         no_release_gil: true
       Find:

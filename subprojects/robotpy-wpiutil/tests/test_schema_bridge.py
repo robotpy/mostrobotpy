@@ -100,6 +100,103 @@ def test_schema_descriptor_preserves_declaration_shape_metadata():
     assert empty_mode.is_enum
 
 
+def test_schema_database_add_all_completes_retained_dependency_chain():
+    database = SchemaDatabase()
+    candidate = database.add("Outer", "Middle value")
+
+    assert not candidate.is_valid
+
+    database.add_all(
+        [
+            ("Inner", "uint8 value"),
+            ("Middle", "Inner value"),
+        ]
+    )
+
+    assert candidate.is_valid
+    assert candidate.size == 1
+    assert candidate.fields[0].struct_name == "Middle"
+
+
+def test_schema_database_add_all_preserves_explicit_declaration_shapes():
+    database = SchemaDatabase()
+
+    database.add_all([("Samples", "uint8 samples[1]")])
+
+    descriptor = database.find("Samples")
+    assert descriptor is not None
+    assert descriptor.schema == "uint8 samples[1]"
+    assert descriptor.fields[0].is_array is True
+    assert descriptor.fields[0].array_size == 1
+
+
+def test_schema_database_add_all_rolls_back_malformed_batch():
+    database = SchemaDatabase()
+    retained = database.add("Outer", "Inner value")
+    existing = database.add("Existing", "uint8 value")
+
+    with pytest.raises(ValueError, match="expected identifier"):
+        database.add_all(
+            [
+                ("Inner", "uint16 value"),
+                ("Malformed", "int32 [2]"),
+            ]
+        )
+
+    assert not retained.is_valid
+    assert database.find("Inner").schema == ""
+    assert database.find("Malformed") is None
+    assert database.find("Existing").schema == existing.schema
+    assert database.find("Existing").size == existing.size
+
+    database.add_all([("Inner", "uint16 value")])
+    assert retained.is_valid
+    assert retained.size == 2
+
+
+def test_schema_database_add_all_rolls_back_conflicting_batch():
+    database = SchemaDatabase()
+    retained = database.add("Outer", "Parent value")
+    existing = database.add("Existing", "uint8 value")
+
+    with pytest.raises(ValueError, match="conflicting schema for Existing"):
+        database.add_all(
+            [
+                ("Inner", "uint16 value"),
+                ("Existing", "uint32 value"),
+                ("Parent", "Inner value"),
+            ]
+        )
+
+    assert not retained.is_valid
+    assert database.find("Inner") is None
+    assert database.find("Parent").schema == ""
+    assert database.find("Existing").schema == existing.schema
+    assert database.find("Existing").size == existing.size
+
+    database.add_all(
+        [
+            ("Inner", "uint16 value"),
+            ("Parent", "Inner value"),
+        ]
+    )
+    assert retained.is_valid
+    assert retained.size == 2
+
+
+def test_schema_database_add_all_candidate_outlives_database():
+    database = SchemaDatabase()
+    candidate = database.add("Outer", "Inner value")
+    database.add_all([("Inner", "uint8 value")])
+
+    del database
+    gc.collect()
+
+    assert candidate.is_valid
+    assert candidate.size == 1
+    assert candidate.fields[0].struct_name == "Inner"
+
+
 def test_schema_database_stages_without_mutating_source():
     source = SchemaDatabase()
     source.add("First", "uint8 value")
