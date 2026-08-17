@@ -323,20 +323,26 @@ def _schema_for_plans(plans: list[FieldPlan]) -> str:
 
 def _make_native_descriptor(struct_name: str, schema: str, plans: list[FieldPlan]):
     database = SchemaDatabase()
-    schemas: dict[str, str] = {}
+    descriptor = database.add(struct_name, schema)
+    if descriptor.is_valid:
+        return descriptor
 
-    def add_nested(type_string: str, nested_schema: str):
-        nested_name = type_string.removeprefix("struct:")
-        if schemas.get(nested_name) == nested_schema:
-            return
-        database.add(nested_name, nested_schema)
-        schemas[nested_name] = nested_schema
+    definitions = []
+    seen_definitions = set()
+
+    def collect_nested(type_string: str, nested_schema: str):
+        definition = (type_string.removeprefix("struct:"), nested_schema)
+        if definition not in seen_definitions:
+            seen_definitions.add(definition)
+            definitions.append(definition)
 
     for plan in plans:
         if plan.nested_type is not None:
-            wpistruct.for_each_nested(plan.nested_type, add_nested)
+            wpistruct.for_each_nested(plan.nested_type, collect_nested)
 
-    return database.add(struct_name, schema)
+    if definitions:
+        database.add_all(definitions)
+    return descriptor
 
 
 def _layout_python_names(native_fields, plans, python_names):
@@ -406,7 +412,7 @@ def _descriptor_pack_element(plan: FieldPlan, value):
 
 def _descriptor_pack_value(plan: FieldPlan, value):
     if plan.is_char:
-        return value
+        return value if plan.is_array else char(value)
     if plan.is_array:
         if plan.enum_type is not None or plan.nested_type is not None:
             values = tuple(_descriptor_pack_element(plan, item) for item in value)

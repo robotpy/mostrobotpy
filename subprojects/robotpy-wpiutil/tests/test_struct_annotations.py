@@ -5,6 +5,7 @@ from typing import Annotated
 import pytest
 
 from wpiutil import wpistruct
+import wpiutil.wpistruct._compiler as compiler_module
 
 
 def test_char_marker():
@@ -36,6 +37,19 @@ def test_authored_schema_and_bytes_remain_exact():
     assert wpistruct.unpack(
         AuthoredStruct, b"\x01\0\0\0\x02\0\x03\0"
     ) == AuthoredStruct(1, (2, 3))
+
+
+def test_ordinary_authored_struct_keeps_fast_codec(monkeypatch):
+    def fail_native_codec(*args, **kwargs):
+        raise AssertionError("native descriptor codec was called")
+
+    monkeypatch.setattr(compiler_module, "pack_schema", fail_native_codec)
+    monkeypatch.setattr(compiler_module, "unpack_schema", fail_native_codec)
+    value = AuthoredStruct(1, (2, 3))
+    encoded = b"\x01\0\0\0\x02\0\x03\0"
+
+    assert wpistruct.pack(value) == encoded
+    assert wpistruct.unpack(AuthoredStruct, encoded) == value
 
 
 def test_authored_singleton_tuple_remains_an_array():
@@ -230,6 +244,49 @@ def test_char_and_enum_schema_round_trip():
     )
     assert wpistruct.pack(value) == b"Aab\0c\0\x01"
     assert wpistruct.unpack(Packet, wpistruct.pack(value)) == value
+
+
+@wpistruct.make_wpistruct
+@dataclasses.dataclass
+class AuthoredScalarChar:
+    value: wpistruct.char
+
+
+@pytest.mark.parametrize(("value", "encoded"), [("A", b"A"), ("\0", b"\0")])
+def test_authored_scalar_char_exact_bytes_and_round_trip(value, encoded):
+    packed = wpistruct.pack(AuthoredScalarChar(value))
+    unpacked = wpistruct.unpack(AuthoredScalarChar, encoded)
+
+    assert packed == encoded
+    assert unpacked == AuthoredScalarChar(value)
+    assert type(unpacked.value) is wpistruct.char
+
+
+@pytest.mark.parametrize(
+    ("value", "cause_type"),
+    [
+        ("", ValueError),
+        ("é", ValueError),
+        ("变量", ValueError),
+        (7, TypeError),
+        (None, TypeError),
+    ],
+)
+def test_authored_scalar_char_rejects_invalid_values_atomically(value, cause_type):
+    destination = bytearray(b"\xa5")
+
+    with pytest.raises(
+        ValueError, match="AuthoredScalarChar: error packing data"
+    ) as exc:
+        wpistruct.pack(AuthoredScalarChar(value))
+    assert isinstance(exc.value.__cause__, cause_type)
+
+    with pytest.raises(
+        ValueError, match="AuthoredScalarChar: error packing data"
+    ) as exc:
+        AuthoredScalarChar.WPIStruct.pack_into(AuthoredScalarChar(value), destination)
+    assert isinstance(exc.value.__cause__, cause_type)
+    assert destination == b"\xa5"
 
 
 def test_unknown_enum_value_is_typed_without_mutating_enum():
@@ -644,3 +701,60 @@ def test_descriptor_codec_preserves_unpack_error_wrapper():
         Packet.WPIStruct.unpack(b"\0")
 
     assert "buffer must be 7 bytes" in str(exc.value.__cause__)
+
+
+def test_authored_dependency_chain_uses_one_batch_per_nested_candidate(monkeypatch):
+    native_database = compiler_module.SchemaDatabase
+
+    class CountingSchemaDatabase:
+        add_calls = []
+        add_all_calls = []
+        operations = []
+
+        def __init__(self):
+            self._wrapped = native_database()
+
+        def add(self, type_name, schema):
+            type(self).add_calls.append(type_name)
+            type(self).operations.append(("add", type_name))
+            return self._wrapped.add(type_name, schema)
+
+        def add_all(self, definitions):
+            definitions = tuple(definitions)
+            type(self).add_all_calls.append(definitions)
+            type(self).operations.append(
+                ("add_all", tuple(type_name for type_name, _ in definitions))
+            )
+            return self._wrapped.add_all(definitions)
+
+    monkeypatch.setattr(compiler_module, "SchemaDatabase", CountingSchemaDatabase)
+    chain_types = []
+    for index in range(32):
+        annotation = wpistruct.uint8 if index == 0 else chain_types[-1]
+        chain_type = dataclasses.make_dataclass(
+            f"AuthoredChain{index}", [("value", annotation)]
+        )
+        chain_types.append(
+            wpistruct.make_wpistruct(name=f"AuthoredChain{index}")(chain_type)
+        )
+
+    expected_names = [f"AuthoredChain{index}" for index in range(32)]
+    assert CountingSchemaDatabase.add_calls == expected_names
+    assert len(CountingSchemaDatabase.add_all_calls) == 31
+
+    expected_operations = [("add", "AuthoredChain0")]
+    for index, definitions in enumerate(CountingSchemaDatabase.add_all_calls, start=1):
+        names = tuple(type_name for type_name, _ in definitions)
+        expected_dependencies = tuple(expected_names[:index])
+        assert len(definitions) == index
+        assert names == expected_dependencies
+        assert len(definitions) == len(set(definitions))
+        expected_operations.extend(
+            [("add", f"AuthoredChain{index}"), ("add_all", names)]
+        )
+    assert CountingSchemaDatabase.operations == expected_operations
+
+    value = chain_types[0](7)
+    for chain_type in chain_types[1:]:
+        value = chain_type(value)
+    assert wpistruct.unpack(chain_types[-1], wpistruct.pack(value)) == value
