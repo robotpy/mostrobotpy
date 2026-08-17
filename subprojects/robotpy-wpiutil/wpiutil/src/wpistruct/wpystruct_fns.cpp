@@ -68,7 +68,8 @@ py::bytes packArray(const py::sequence& seq) {
     throw py::error_already_set();
   }
 
-  PyObject* b = PyBytes_FromStringAndSize(NULL, total);
+  PyObject* b =
+      PyBytes_FromStringAndSize(NULL, static_cast<py::ssize_t>(total));
   if (b == NULL) {
     throw py::error_already_set();
   }

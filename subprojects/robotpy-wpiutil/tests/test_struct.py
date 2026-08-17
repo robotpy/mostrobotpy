@@ -39,6 +39,7 @@ def _make_pack_probe_type(size):
     return PackProbe
 
 
+_PackProbe0 = _make_pack_probe_type(0)
 _PackProbe2 = _make_pack_probe_type(2)
 _PackProbe3 = _make_pack_probe_type(3)
 
@@ -121,7 +122,7 @@ def test_pack_array():
     [
         (
             _PackProbe3,
-            ((1 << (ctypes.sizeof(ctypes.c_size_t) * 8)) - 1) // 3 + 1,
+            ((1 << (ctypes.sizeof(ctypes.c_size_t) * 8)) - 1) // 3 + 2,
         ),
         (_PackProbe2, sys.maxsize // 2 + 1),
     ],
@@ -394,6 +395,10 @@ def test_user_empty_struct_array_unpack_is_rejected():
 def test_pack_array_preserves_empty_and_zero_size_structs():
     assert wpistruct.pack_array([]) == b""
     assert wpistruct.pack_array([Empty(), Empty()]) == b""
+
+    item = _PackProbe0(fail_on_call=3)
+    assert wpistruct.pack_array([item, item]) == b""
+    assert item.pack_calls == 2
 
 
 @wpistruct.make_wpistruct(name="SingleFieldStruct")
