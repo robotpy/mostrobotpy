@@ -122,6 +122,35 @@ def test_temporary_reader_stable_results_outlive_exhausted_iterator(tmp_path: Pa
     )
 
 
+def test_copied_data_record_keeps_temporary_reader_alive(tmp_path: Path):
+    path = tmp_path / "copied-data-record.wpilog"
+    with wpilog.DataLogWriter(str(path)) as log:
+        entry = log.start("/record-only", "raw", "", 11)
+        log.append_raw(entry, b"record-only-payload", 12)
+
+    def read_temporary():
+        reader = wpilog.DataLogReader(str(path))
+        reader_ref = weakref.ref(reader)
+        records = iter(reader._iter_stable())
+        iterator_ref = weakref.ref(records)
+        start_record = next(records)
+        start_record_ref = weakref.ref(start_record)
+        data_record = next(records)
+        with pytest.raises(StopIteration):
+            next(records)
+        return data_record, reader_ref, iterator_ref, start_record_ref
+
+    data_record, reader_ref, iterator_ref, start_record_ref = read_temporary()
+    _collect_and_churn_allocator()
+
+    assert start_record_ref() is None
+    assert iterator_ref() is not None
+    assert reader_ref() is not None
+    assert data_record.get_entry() == entry
+    assert data_record.get_timestamp() == 12
+    assert data_record.get_raw() == b"record-only-payload"
+
+
 def test_metadata_record_data_keeps_source_record_alive(tmp_path: Path):
     path = tmp_path / "stable-metadata-record.wpilog"
     with wpilog.DataLogWriter(str(path)) as log:
