@@ -62,12 +62,10 @@ _PRIMITIVE_TYPES = {
     "double": double,
 }
 
-# Generated fixed arrays are represented as Python tuples and as fixed tuple
-# annotations containing one type reference per element. A cumulative 65,536
-# elements caps each class's annotation pointer payload at 512 KiB on 64-bit
-# CPython while leaving ample room for ordinary robotics sample arrays. Larger
-# schemas remain valid WPILib grammar, but are not safely representable as
-# generated Python classes.
+# Fixed tuple annotations contain one type reference per array element. Limit
+# that cumulative annotation expansion to 65,536 references (512 KiB of
+# pointers on 64-bit CPython); arrays beyond the budget use compact variadic
+# annotations while their exact extents remain in the native descriptor.
 _MAX_GENERATED_TUPLE_ELEMENTS = 65_536
 
 
@@ -151,6 +149,7 @@ def _field_annotation(
     python_name: str,
     nested,
     used_enum_names: set[str],
+    compact_array: bool = False,
 ):
     is_array = field.is_array
 
@@ -173,7 +172,11 @@ def _field_annotation(
         return typing.Annotated[str, CharArray(field.array_size)]
 
     if is_array:
-        annotation = _fixed_tuple(annotation, field.array_size)
+        annotation = (
+            tuple[annotation, ...]
+            if compact_array
+            else _fixed_tuple(annotation, field.array_size)
+        )
     if field.is_bit_field:
         metadata.append(BitField(field.bit_width))
     if metadata:
@@ -307,22 +310,29 @@ def make_wpistruct_from_schema(
     python_names = []
     used_enum_names: set[str] = set()
     generated_tuple_elements = 0
+    compact_array_sizes: dict[str, int] = {}
     for field in descriptor.fields:
-        if field.type != "char" and field.is_array:
-            generated_tuple_elements += field.array_size
-            if generated_tuple_elements > _MAX_GENERATED_TUPLE_ELEMENTS:
-                raise ValueError(
-                    "generated wpistruct arrays contain "
-                    f"{generated_tuple_elements} total elements; support at most "
-                    f"{_MAX_GENERATED_TUPLE_ELEMENTS}"
-                )
-
         field_name = field.name
         if field_name in _GENERATED_ATTRIBUTE_NAMES:
             field_name = f"{field_name}_"
         python_name = _unique_identifier(field_name, used_names)
+
+        compact_array = False
+        if field.type != "char" and field.is_array:
+            expanded_elements = generated_tuple_elements + field.array_size
+            if expanded_elements <= _MAX_GENERATED_TUPLE_ELEMENTS:
+                generated_tuple_elements = expanded_elements
+            else:
+                compact_array = True
+                compact_array_sizes[python_name] = field.array_size
+
         annotation = _field_annotation(
-            name, field, python_name, nested, used_enum_names
+            name,
+            field,
+            python_name,
+            nested,
+            used_enum_names,
+            compact_array=compact_array,
         )
         fields.append((python_name, annotation))
         python_names.append(python_name)
@@ -337,6 +347,7 @@ def make_wpistruct_from_schema(
         schema_override=schema,
         descriptor=descriptor,
         python_names=python_names,
+        generated_array_sizes=compact_array_sizes or None,
     )
     for field in dataclasses.fields(generated):
         annotation = field.type

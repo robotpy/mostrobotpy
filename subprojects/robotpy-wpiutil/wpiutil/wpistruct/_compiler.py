@@ -65,17 +65,29 @@ def _get_supported_type_names():
     return f"{supported_names}, or fixed-length homogeneous tuple of a supported type"
 
 
-def _get_fixed_tuple_array_info(cls_name: str, field_name: str, field_type: type):
+def _get_fixed_tuple_array_info(
+    cls_name: str,
+    field_name: str,
+    field_type: type,
+    generated_array_size: int | None = None,
+):
     origin = typing.get_origin(field_type)
     if origin is not tuple:
         return None
 
     args = typing.get_args(field_type)
-    if not args or args[-1] is Ellipsis:
+    if not args:
         raise TypeError(
             f"{cls_name}.{field_name} has unsupported tuple type hint: "
             "tuple fields must be fixed-length and homogeneous"
         ) from None
+    if args[-1] is Ellipsis:
+        if generated_array_size is None:
+            raise TypeError(
+                f"{cls_name}.{field_name} has unsupported tuple type hint: "
+                "tuple fields must be fixed-length and homogeneous"
+            ) from None
+        return args[0], generated_array_size
 
     element_type = args[0]
     if not all(arg == element_type for arg in args):
@@ -128,6 +140,7 @@ def _resolve_field_plan(
     field_name: str,
     annotation: type,
     base_type: type,
+    generated_array_size: int | None = None,
 ) -> FieldPlan:
     _, metadata = _split_annotated(annotation)
     field_type = base_type
@@ -174,7 +187,9 @@ def _resolve_field_plan(
             is_char=True,
         )
 
-    array_info = _get_fixed_tuple_array_info(cls_name, field_name, field_type)
+    array_info = _get_fixed_tuple_array_info(
+        cls_name, field_name, field_type, generated_array_size
+    )
     if array_info:
         element_type, array_size = array_info
         is_array = True
@@ -267,7 +282,11 @@ def _resolve_field_plan(
     )
 
 
-def _resolve_field_plans(cls: type, cls_name: str) -> list[FieldPlan]:
+def _resolve_field_plans(
+    cls: type,
+    cls_name: str,
+    generated_array_sizes: typing.Mapping[str, int] | None = None,
+) -> list[FieldPlan]:
     resolved_hints = typing.get_type_hints(cls, include_extras=True)
     base_hints = typing.get_type_hints(cls)
     return [
@@ -277,6 +296,11 @@ def _resolve_field_plans(cls: type, cls_name: str) -> list[FieldPlan]:
             field.name,
             resolved_hints[field.name],
             base_hints[field.name],
+            (
+                generated_array_sizes.get(field.name)
+                if generated_array_sizes is not None
+                else None
+            ),
         )
         for field_idx, field in enumerate(dataclasses.fields(cls))
     ]
@@ -485,6 +509,7 @@ def compile_wpistruct(
     schema_override=None,
     descriptor=None,
     python_names=None,
+    generated_array_sizes: typing.Mapping[str, int] | None = None,
 ) -> type:
     cls_name = _class_name(cls)
     if struct_name is None:
@@ -493,11 +518,11 @@ def compile_wpistruct(
     else:
         err_name = f"{struct_name} ({cls_name})"
 
-    plans = _resolve_field_plans(cls, cls_name)
+    plans = _resolve_field_plans(cls, cls_name, generated_array_sizes)
     schema = (
         schema_override if schema_override is not None else _schema_for_plans(plans)
     )
-    use_descriptor_codec = any(
+    use_descriptor_codec = bool(generated_array_sizes) or any(
         plan.is_char or plan.enum_type is not None or plan.bit_width is not None
         for plan in plans
     )
