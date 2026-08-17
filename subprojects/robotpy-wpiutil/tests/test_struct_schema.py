@@ -131,36 +131,80 @@ def test_many_scalar_fields_do_not_trigger_per_field_schema_scans(monkeypatch):
 
 
 def test_generated_array_representability_limit():
-    largest = make_wpistruct_from_schema(
-        "LargestGeneratedArray", "uint8 values[65536]", nested={}
+    generated = make_wpistruct_from_schema(
+        "OversizedGeneratedArray", "uint8 values[65537]", nested={}
     )
-    assert wpistruct.get_size(largest) == 65536
 
-    with pytest.raises(
-        ValueError,
-        match=(
-            r"generated wpistruct arrays contain 65537 total elements; "
-            r"support at most 65536"
-        ),
-    ):
-        make_wpistruct_from_schema(
-            "OversizedGeneratedArray", "uint8 values[65537]", nested={}
-        )
+    field = dataclasses.fields(generated)[0]
+    assert typing.get_args(field.type) == (wpistruct.uint8, Ellipsis)
+    assert wpistruct.get_size(generated) == 65537
+    values = tuple(index & 0xFF for index in range(65537))
+    value = generated(values)
+    assert wpistruct.unpack(generated, wpistruct.pack(value)) == value
 
 
 def test_generated_array_representability_budget_is_cumulative():
-    with pytest.raises(
-        ValueError,
-        match=(
-            r"generated wpistruct arrays contain 65538 total elements; "
-            r"support at most 65536"
-        ),
-    ):
-        make_wpistruct_from_schema(
-            "CumulativelyOversizedGeneratedArrays",
-            "uint8 first[32769]; uint8 second[32769]",
-            nested={},
-        )
+    generated = make_wpistruct_from_schema(
+        "CumulativelyOversizedGeneratedArrays",
+        "uint8 first[32769]; uint8 second[32769]",
+        nested={},
+    )
+
+    first, second = dataclasses.fields(generated)
+    first_args = typing.get_args(first.type)
+    assert len(first_args) == 32769
+    assert set(first_args) == {wpistruct.uint8}
+    assert typing.get_args(second.type) == (wpistruct.uint8, Ellipsis)
+    assert wpistruct.get_size(generated) == 65538
+    value = generated((0,) * 32769, (1,) * 32769)
+    assert wpistruct.unpack(generated, wpistruct.pack(value)) == value
+
+
+def test_generated_compact_arrays_preserve_descriptor_behavior(monkeypatch):
+    monkeypatch.setattr(schema_module, "_MAX_GENERATED_TUPLE_ELEMENTS", 0)
+    inner = make_wpistruct_from_schema("Inner", "uint8 value", nested={})
+    generated = make_wpistruct_from_schema(
+        "CompactArrays",
+        "uint8 samples[2]; enum {OFF=0,AUTO=1} uint8 modes[2]; "
+        "Inner children[2]; uint8 singleton[1]",
+        nested={"Inner": inner},
+    )
+
+    samples, modes, children, singleton = dataclasses.fields(generated)
+    mode_type = typing.get_args(modes.type)[0]
+    assert typing.get_args(samples.type) == (wpistruct.uint8, Ellipsis)
+    assert typing.get_args(modes.type) == (mode_type, Ellipsis)
+    assert typing.get_args(children.type) == (inner, Ellipsis)
+    assert typing.get_args(singleton.type) == (wpistruct.uint8, Ellipsis)
+
+    value = generated(
+        (1, 2),
+        (mode_type.OFF, mode_type.AUTO),
+        (inner(3), inner(4)),
+        (5,),
+    )
+    encoded = wpistruct.pack(value)
+    decoded = wpistruct.unpack(generated, encoded)
+    assert decoded == value
+    assert decoded.singleton == (5,)
+    assert isinstance(decoded.singleton, tuple)
+
+    for invalid_samples in ((1,), (1, 2, 3)):
+        with pytest.raises(ValueError, match="error packing data"):
+            wpistruct.pack(dataclasses.replace(value, samples=invalid_samples))
+
+    for invalid_buffer in (encoded[:-1], encoded + b"\x00"):
+        with pytest.raises(ValueError, match="buffer must be 7 bytes"):
+            wpistruct.unpack(generated, invalid_buffer)
+
+
+def test_authored_variadic_tuple_remains_rejected():
+    with pytest.raises(TypeError, match="tuple fields must be fixed-length"):
+
+        @wpistruct.make_wpistruct
+        @dataclasses.dataclass
+        class AuthoredVariadic:
+            values: tuple[wpistruct.uint8, ...]
 
 
 def test_generated_empty_schema_and_float_aliases():
@@ -368,11 +412,18 @@ def test_registry_independent_schemas_use_one_native_add_each(monkeypatch):
     ] == [[type_name] for type_name in expected_names]
 
 
-def test_failed_generated_class_construction_does_not_mutate_registry():
+def test_failed_generated_class_construction_does_not_mutate_registry(monkeypatch):
     registry = StructTypeRegistry(())
+    sentinel = RuntimeError("sentinel class construction failure")
 
-    with pytest.raises(ValueError, match="support at most 65536"):
-        registry.add_schema("Value", "uint8 samples[65537]")
+    def fail_make_dataclass(*args, **kwargs):
+        raise sentinel
+
+    with monkeypatch.context() as patch:
+        patch.setattr(schema_module.dataclasses, "make_dataclass", fail_make_dataclass)
+        with pytest.raises(RuntimeError) as exc_info:
+            registry.add_schema("Value", "uint8 samples[2]")
+        assert exc_info.value is sentinel
 
     recovered = registry.add_schema("Value", "uint8 value")
     assert wpistruct.unpack(recovered, b"\x07") == recovered(7)

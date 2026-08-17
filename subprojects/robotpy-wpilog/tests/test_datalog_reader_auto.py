@@ -122,6 +122,27 @@ def test_iter_auto_decodes_generated_struct(tmp_path):
     assert dataclasses.asdict(instance) == {"i": 3, "j": 4}
 
 
+def test_iter_auto_decodes_generated_struct_with_large_array(tmp_path):
+    path = tmp_path / "generated-struct-large-array.wpilog"
+    payload = bytes(index & 0xFF for index in range(65537))
+    with wpilog.DataLogWriter(str(path)) as log:
+        schema_entry = log.start("/.schema/struct:LargeArray", "structschema", "", 1)
+        log.append_string(schema_entry, "uint8 values[65537]", 2)
+        data_entry = log.start("/value", "struct:LargeArray", "", 3)
+        log.append_raw(data_entry, payload, 4)
+
+    values = _read_auto(path)
+    [generated] = [value for _, entry, value in values if entry.type == "structschema"]
+    [instance] = [
+        value for _, entry, value in values if entry.type == "struct:LargeArray"
+    ]
+
+    assert dataclasses.is_dataclass(generated)
+    assert dataclasses.fields(generated)[0].type == tuple[wpistruct.uint8, ...]
+    assert type(instance) is generated
+    assert bytes(instance.values) == payload
+
+
 def test_iter_auto_decodes_registered_struct_array(tmp_path):
     path = tmp_path / "registered-struct-array.wpilog"
     with wpilog.DataLogWriter(str(path)) as log:
