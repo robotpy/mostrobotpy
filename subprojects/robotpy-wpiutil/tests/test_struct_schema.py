@@ -431,11 +431,17 @@ def test_direct_generation_preserves_schema_error_taxonomy():
         assert type(exc_info.value) is exception_type
 
 
-def test_non_ascii_parser_failures_preserve_schema_error_taxonomy():
-    with pytest.raises(InvalidStructSchema):
-        make_wpistruct_from_schema("Bad", "uint8 é", nested={})
-    with pytest.raises(InvalidStructSchema):
-        StructTypeRegistry(()).add_schema("Bad", "uint8 é")
+def test_generated_and_registry_schemas_accept_authored_unicode_identifier():
+    schema = "uint8 é"
+    generated = make_wpistruct_from_schema("DirectAuthoredUnicode", schema, nested={})
+    registered = StructTypeRegistry(()).add_schema("RegistryAuthoredUnicode", schema)
+
+    for struct_type in (generated, registered):
+        assert [field.name for field in dataclasses.fields(struct_type)] == ["é"]
+        assert wpistruct.get_schema(struct_type) == schema
+        value = struct_type(7)
+        assert wpistruct.pack(value) == b"\x07"
+        assert wpistruct.unpack(struct_type, b"\x07") == value
 
 
 def test_registry_accepts_supplied_nested_unicode_authored_structs():
