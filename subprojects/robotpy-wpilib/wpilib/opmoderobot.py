@@ -1,10 +1,189 @@
+from collections.abc import Callable
+from typing import Optional, TypeVar, overload
+
 from hal import RobotMode
-from typing import Optional
 from wpiutil import Color
 
-__all__ = ["OpModeRobot"]
+__all__ = ["OpModeRobot", "autonomous", "teleop", "utility"]
 
+from ._impl import opmode as _opmode
 from ._wpilib import OpModeRobotBase, OpMode
+
+_OpModeT = TypeVar("_OpModeT", bound=OpMode)
+
+
+def _apply_opmode_decorator(
+    cls: type[_OpModeT] | None,
+    *,
+    mode: RobotMode,
+    name: str,
+    group: str,
+    description: str,
+    text_color: Color | None,
+    background_color: Color | None,
+) -> type[_OpModeT] | Callable[[type[_OpModeT]], type[_OpModeT]]:
+    def apply(opmode_cls: type[_OpModeT]) -> type[_OpModeT]:
+        return _opmode.attach_metadata(
+            opmode_cls,
+            mode=mode,
+            name=name,
+            group=group,
+            description=description,
+            text_color=text_color,
+            background_color=background_color,
+        )
+
+    return apply if cls is None else apply(cls)
+
+
+@overload
+def autonomous(
+    cls: type[_OpModeT],
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> type[_OpModeT]: ...
+
+
+@overload
+def autonomous(
+    cls: None = None,
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> Callable[[type[_OpModeT]], type[_OpModeT]]: ...
+
+
+def autonomous(
+    cls: type[_OpModeT] | None = None,
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> type[_OpModeT] | Callable[[type[_OpModeT]], type[_OpModeT]]:
+    """Mark an OpMode subclass for autonomous automatic registration.
+
+    Use this decorator bare (``@autonomous``) or configured
+    (``@autonomous(name=..., group=...)``). The optional description and colors
+    are published with the Driver Station option.
+    """
+    return _apply_opmode_decorator(
+        cls,
+        mode=RobotMode.AUTONOMOUS,
+        name=name,
+        group=group,
+        description=description,
+        text_color=text_color,
+        background_color=background_color,
+    )
+
+
+@overload
+def teleop(
+    cls: type[_OpModeT],
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> type[_OpModeT]: ...
+
+
+@overload
+def teleop(
+    cls: None = None,
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> Callable[[type[_OpModeT]], type[_OpModeT]]: ...
+
+
+def teleop(
+    cls: type[_OpModeT] | None = None,
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> type[_OpModeT] | Callable[[type[_OpModeT]], type[_OpModeT]]:
+    """Mark an OpMode subclass for teleoperated automatic registration.
+
+    Use this decorator bare (``@teleop``) or configured
+    (``@teleop(name=..., group=...)``). The optional description and colors are
+    published with the Driver Station option.
+    """
+    return _apply_opmode_decorator(
+        cls,
+        mode=RobotMode.TELEOPERATED,
+        name=name,
+        group=group,
+        description=description,
+        text_color=text_color,
+        background_color=background_color,
+    )
+
+
+@overload
+def utility(
+    cls: type[_OpModeT],
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> type[_OpModeT]: ...
+
+
+@overload
+def utility(
+    cls: None = None,
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> Callable[[type[_OpModeT]], type[_OpModeT]]: ...
+
+
+def utility(
+    cls: type[_OpModeT] | None = None,
+    *,
+    name: str = "",
+    group: str = "",
+    description: str = "",
+    text_color: Color | None = None,
+    background_color: Color | None = None,
+) -> type[_OpModeT] | Callable[[type[_OpModeT]], type[_OpModeT]]:
+    """Mark an OpMode subclass for utility automatic registration.
+
+    Use this decorator bare (``@utility``) or configured
+    (``@utility(name=..., group=...)``). The optional description and colors are
+    published with the Driver Station option.
+    """
+    return _apply_opmode_decorator(
+        cls,
+        mode=RobotMode.UTILITY,
+        name=name,
+        group=group,
+        description=description,
+        text_color=text_color,
+        background_color=background_color,
+    )
 
 
 class OpModeRobot(OpModeRobotBase):
@@ -23,6 +202,7 @@ class OpModeRobot(OpModeRobotBase):
 
     def __init__(self):
         super().__init__()
+        _opmode.discover_and_register(self)
 
     def add_opmode(
         self,

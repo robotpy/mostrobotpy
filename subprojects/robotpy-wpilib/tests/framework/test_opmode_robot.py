@@ -1,10 +1,1187 @@
-import pytest
+import importlib
+from pathlib import Path
+import sys
+import textwrap
 import threading
+from typing import get_args, get_origin, get_overloads, get_type_hints
+
+import pytest
+import wpilib
+import wpilib._impl.opmode as opmode_impl
+from wpilib import OpMode
 from wpilib import simulation as wsim
-from wpilib.opmoderobot import OpModeRobot
-from wpilib import OpMode, RobotState
+from wpilib._wpilib import RobotState
+from wpilib.opmoderobot import OpModeRobot, autonomous, teleop, utility
 from hal import RobotMode
 from wpiutil import Color
+
+
+@pytest.fixture(autouse=True)
+def reset_decorated_opmodes(monkeypatch):
+    monkeypatch.setattr(opmode_impl, "_decorated_opmodes", [])
+    RobotState.clear_opmodes()
+    yield
+    for module_name in tuple(sys.modules):
+        if (
+            module_name == "samplebot"
+            or module_name.startswith("samplebot.")
+            or module_name == "robot"
+            or module_name == "opmodes"
+            or module_name.startswith("opmodes.")
+        ):
+            sys.modules.pop(module_name)
+
+
+def import_robot_package(monkeypatch, tmp_path, robot_source, module_contents):
+    package_name = "samplebot"
+    package_dir = tmp_path / package_name
+    opmodes_dir = package_dir / "opmodes"
+    opmodes_dir.mkdir(parents=True)
+    (package_dir / "__init__.py").write_text("")
+    (package_dir / "robot.py").write_text(textwrap.dedent(robot_source))
+    (opmodes_dir / "__init__.py").write_text("")
+
+    for relative_path, source in module_contents.items():
+        module_path = package_dir / relative_path
+        module_path.parent.mkdir(parents=True, exist_ok=True)
+        module_path.write_text(textwrap.dedent(source))
+
+    for module_name in tuple(sys.modules):
+        if module_name == package_name or module_name.startswith(f"{package_name}."):
+            sys.modules.pop(module_name)
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    importlib.invalidate_caches()
+    return package_dir, importlib.import_module(f"{package_name}.robot")
+
+
+def test_opmode_decorators_attach_metadata():
+    @autonomous(group="Drive", description="Auto desc")
+    class AutoMode(OpMode):
+        pass
+
+    @teleop
+    class TeleMode(OpMode):
+        pass
+
+    @utility(
+        name="Arm Test",
+        text_color=Color.WHITE,
+        background_color=Color.BLACK,
+    )
+    class UtilityMode(OpMode):
+        pass
+
+    assert AutoMode._wpilib_opmode_metadata.mode == RobotMode.AUTONOMOUS
+    assert AutoMode._wpilib_opmode_metadata.name == "AutoMode"
+    assert AutoMode._wpilib_opmode_metadata.group == "Drive"
+    assert AutoMode._wpilib_opmode_metadata.description == "Auto desc"
+    assert TeleMode._wpilib_opmode_metadata.mode == RobotMode.TELEOPERATED
+    assert TeleMode._wpilib_opmode_metadata.name == "TeleMode"
+    assert UtilityMode._wpilib_opmode_metadata.mode == RobotMode.UTILITY
+    assert UtilityMode._wpilib_opmode_metadata.name == "Arm Test"
+    assert UtilityMode._wpilib_opmode_metadata.text_color == Color.WHITE
+    assert UtilityMode._wpilib_opmode_metadata.background_color == Color.BLACK
+    assert wpilib.autonomous is autonomous
+    assert wpilib.teleop is teleop
+    assert wpilib.utility is utility
+
+
+def test_opmode_decorators_expose_typed_overloads_and_docstrings():
+    for decorator in (autonomous, teleop, utility):
+        overloads = get_overloads(decorator)
+        assert len(overloads) == 2
+        for overload in overloads:
+            hints = get_type_hints(overload)
+            assert hints["name"] is str
+            assert hints["group"] is str
+            assert hints["description"] is str
+            assert hints["text_color"] == Color | None
+            assert hints["background_color"] == Color | None
+
+        bare_return = get_type_hints(overloads[0])["return"]
+        configured_return = get_type_hints(overloads[1])["return"]
+        subtype = get_args(bare_return)[0]
+        configured_parameters, configured_result = get_args(configured_return)
+        assert get_origin(bare_return) is type
+        assert subtype.__bound__ is OpMode
+        assert get_args(configured_parameters[0])[0] is subtype
+        assert get_args(configured_result)[0] is subtype
+        assert decorator.__doc__
+        assert "bare" in decorator.__doc__
+        assert "configured" in decorator.__doc__
+
+
+def test_opmode_decorators_preserve_distinct_function_local_classes():
+    def make_mode(name):
+        @utility(name=name)
+        class LocalMode(OpMode):
+            pass
+
+        return LocalMode
+
+    first_mode = make_mode("First Local")
+    second_mode = make_mode("Second Local")
+
+    class MinimalRobot(OpModeRobot):
+        pass
+
+    MinimalRobot()
+
+    assert opmode_impl.decorated_opmodes() == (first_mode, second_mode)
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "First Local",
+        "Second Local",
+    ]
+
+
+def test_opmode_decorator_rejects_invalid_class_and_duplicate_mode():
+    with pytest.raises(TypeError, match="OpMode subclass"):
+        autonomous(type("NotAnOpMode", (), {}))
+
+    @teleop
+    class DriveMode(OpMode):
+        pass
+
+    with pytest.raises(ValueError, match="multiple opmode decorators"):
+        autonomous(DriveMode)
+
+
+def test_opmode_detector_recognizes_imported_module_alias():
+    source = """
+        from wpilib import PeriodicOpMode
+        from wpilib import opmoderobot as modes
+
+        @modes.utility
+        class UtilityMode(PeriodicOpMode):
+            pass
+    """
+
+    assert opmode_impl._has_opmode_decorator(textwrap.dedent(source), "utility.py")
+
+
+def test_opmode_robot_auto_discovers_bounded_opmodes(monkeypatch, tmp_path):
+    pkg, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            def __init__(self):
+                super().__init__()
+        """,
+        {
+            "opmodes/auto_mode.py": """
+                import wpilib as wpi
+
+                @wpi.autonomous(name="Auto")
+                class AutoMode(wpi.PeriodicOpMode):
+                    pass
+            """,
+            "opmodes/nested/__init__.py": "",
+            "opmodes/nested/tele_mode.py": """
+                from wpilib import PeriodicOpMode
+                from wpilib.opmoderobot import teleop as tele
+
+                @tele(group="Drive")
+                class TeleMode(PeriodicOpMode):
+                    pass
+            """,
+            "opmodes/ignored.py": """
+                from pathlib import Path
+                Path(__file__).with_name("ignored-imported").touch()
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = {
+        option.name: option for option in wsim.DriverStationSim.get_opmode_options()
+    }
+    assert set(options) == {"Auto", "TeleMode"}
+    assert options["TeleMode"].group == "Drive"
+    assert not (pkg / "opmodes" / "ignored-imported").exists()
+
+
+def test_opmode_robot_discovers_multiple_implicit_namespace_modules(
+    monkeypatch, tmp_path
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/namespace/first.py": """
+                import wpilib
+
+                @wpilib.autonomous
+                class FirstMode(wpilib.OpMode):
+                    pass
+            """,
+            "opmodes/namespace/second.py": """
+                import wpilib
+
+                @wpilib.teleop
+                class SecondMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert {option.name for option in wsim.DriverStationSim.get_opmode_options()} == {
+        "FirstMode",
+        "SecondMode",
+    }
+
+
+@pytest.mark.parametrize(
+    ("robot_path", "robot_module_name", "opmodes_path", "expected_name"),
+    [
+        ("samplebot/__init__.py", "samplebot", "samplebot/opmodes", "PackageMode"),
+        (
+            "samplebot/robot/__init__.py",
+            "samplebot.robot",
+            "samplebot/robot/opmodes",
+            "NestedPackageMode",
+        ),
+        ("robot.py", "robot", "opmodes", "TopLevelMode"),
+    ],
+)
+def test_opmode_robot_derives_opmodes_package_from_robot_source(
+    monkeypatch,
+    tmp_path,
+    robot_path,
+    robot_module_name,
+    opmodes_path,
+    expected_name,
+):
+    robot_file = tmp_path / robot_path
+    robot_file.parent.mkdir(parents=True, exist_ok=True)
+    if robot_path == "samplebot/robot/__init__.py":
+        (tmp_path / "samplebot" / "__init__.py").write_text("")
+    robot_file.write_text(
+        "import wpilib\n\nclass Robot(wpilib.OpModeRobot):\n    pass\n"
+    )
+    opmodes_dir = tmp_path / opmodes_path
+    opmodes_dir.mkdir(parents=True)
+    (opmodes_dir / "__init__.py").write_text("")
+    (opmodes_dir / "mode.py").write_text(
+        "import wpilib\n\n"
+        f"@wpilib.autonomous(name={expected_name!r})\n"
+        "class Mode(wpilib.OpMode):\n    pass\n"
+    )
+
+    monkeypatch.syspath_prepend(str(tmp_path))
+    importlib.invalidate_caches()
+    robot_module = importlib.import_module(robot_module_name)
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        expected_name
+    ]
+
+
+def test_opmode_robot_rejects_preloaded_package_origin_collision(
+    monkeypatch, tmp_path, caplog
+):
+    conflict_dir = tmp_path / "conflict"
+    conflict_opmodes = conflict_dir / "opmodes"
+    conflict_opmodes.mkdir(parents=True)
+    (conflict_opmodes / "__init__.py").write_text("")
+    (conflict_opmodes / "mode.py").write_text(
+        "from pathlib import Path\n"
+        'Path(__file__).with_name("conflicting-mode-imported").touch()\n'
+    )
+    monkeypatch.syspath_prepend(str(conflict_dir))
+    importlib.import_module("opmodes")
+
+    robot_dir = tmp_path / "robot_project"
+    robot_dir.mkdir()
+    (robot_dir / "robot.py").write_text(
+        "import wpilib\n\nclass Robot(wpilib.OpModeRobot):\n    pass\n"
+    )
+    expected_opmodes = robot_dir / "opmodes"
+    expected_opmodes.mkdir()
+    (expected_opmodes / "__init__.py").write_text("")
+    (expected_opmodes / "mode.py").write_text(
+        "import wpilib\n\n"
+        "@wpilib.autonomous\n"
+        "class ExpectedMode(wpilib.OpMode):\n    pass\n"
+    )
+    monkeypatch.syspath_prepend(str(robot_dir))
+    importlib.invalidate_caches()
+
+    importlib.import_module("robot").Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert not (conflict_opmodes / "conflicting-mode-imported").exists()
+    assert "opmodes.mode" in caplog.text
+    assert str(expected_opmodes / "mode.py") in caplog.text
+
+
+def test_post_resolution_origin_mismatch_does_not_register_foreign_class(
+    monkeypatch, tmp_path, caplog
+):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/raced_mode.py": """
+                import wpilib
+
+                @wpilib.autonomous(name="Expected")
+                class ExpectedMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+    foreign_path = tmp_path / "foreign_raced_mode.py"
+    foreign_path.write_text(
+        "import wpilib\n\n"
+        "@wpilib.teleop(name='Foreign')\n"
+        "class ForeignMode(wpilib.OpMode):\n    pass\n"
+    )
+    real_import_module = opmode_impl.importlib.import_module
+
+    def raced_import(module_name):
+        if module_name != "samplebot.opmodes.raced_mode":
+            return real_import_module(module_name)
+        spec = importlib.util.spec_from_file_location(module_name, foreign_path)
+        module = importlib.util.module_from_spec(spec)
+        sys.modules[module_name] = module
+        spec.loader.exec_module(module)
+        return module
+
+    monkeypatch.setattr(opmode_impl, "_has_origin_collision", lambda *args: False)
+    monkeypatch.setattr(opmode_impl.importlib, "import_module", raced_import)
+
+    robot_module.Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert "samplebot.opmodes.raced_mode" in caplog.text
+    assert str(package_dir / "opmodes" / "raced_mode.py") in caplog.text
+
+
+def test_rejected_scanned_origin_does_not_invalidate_explicit_class(
+    monkeypatch, tmp_path
+):
+    conflict_dir = tmp_path / "conflict"
+    conflict_opmodes = conflict_dir / "opmodes"
+    conflict_opmodes.mkdir(parents=True)
+    (conflict_opmodes / "__init__.py").write_text("")
+    (conflict_opmodes / "base.py").write_text(
+        "import wpilib\n\n"
+        "@wpilib.autonomous(name='External Base')\n"
+        "class BaseMode(wpilib.OpMode):\n    pass\n"
+    )
+    monkeypatch.syspath_prepend(str(conflict_dir))
+    importlib.import_module("opmodes.base")
+
+    robot_dir = tmp_path / "robot_project"
+    robot_dir.mkdir()
+    (robot_dir / "robot.py").write_text(
+        "import wpilib\n\nclass Robot(wpilib.OpModeRobot):\n    pass\n"
+    )
+    expected_opmodes = robot_dir / "opmodes"
+    expected_opmodes.mkdir()
+    (expected_opmodes / "__init__.py").write_text("")
+    (expected_opmodes / "base.py").write_text(
+        "import wpilib\n\n"
+        "@wpilib.autonomous(name='Scanned Base')\n"
+        "class BaseMode(wpilib.OpMode):\n    pass\n"
+    )
+    (expected_opmodes / "child.py").write_text(
+        "from opmodes.base import BaseMode\n\n" "class ChildMode(BaseMode):\n    pass\n"
+    )
+    monkeypatch.syspath_prepend(str(robot_dir))
+    importlib.invalidate_caches()
+
+    importlib.import_module("robot").Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "External Base"
+    ]
+
+
+def test_rejected_scanned_child_origin_does_not_invalidate_explicit_class(
+    monkeypatch, tmp_path
+):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+        import samplebot.external_base
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "external_base.py": """
+                import wpilib
+
+                @wpilib.autonomous(name="External Base")
+                class ExternalBaseMode(wpilib.OpMode):
+                    pass
+            """,
+            "opmodes/subclass_only.py": """
+                from pathlib import Path
+                from samplebot.external_base import ExternalBaseMode
+
+                Path(__file__).with_name("colliding-child-imported").touch()
+
+                class ExternalChildMode(ExternalBaseMode):
+                    pass
+            """,
+        },
+    )
+    foreign_path = tmp_path / "foreign_subclass_only.py"
+    foreign_path.write_text("")
+    module_name = "samplebot.opmodes.subclass_only"
+    spec = importlib.util.spec_from_file_location(module_name, foreign_path)
+    foreign_module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = foreign_module
+    spec.loader.exec_module(foreign_module)
+
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "External Base"
+    ]
+    assert not (package_dir / "opmodes" / "colliding-child-imported").exists()
+
+
+def test_automatic_publication_bypasses_python_override():
+    @autonomous
+    class AutomaticMode(OpMode):
+        pass
+
+    class OverrideRobot(OpModeRobot):
+        def publish_opmodes(self):
+            raise AssertionError("automatic publication called Python override")
+
+    OverrideRobot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "AutomaticMode"
+    ]
+
+
+def test_opmode_robot_registers_explicitly_imported_decorated_opmode(
+    monkeypatch, tmp_path
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+        import samplebot.external_mode
+
+        class Robot(wpi.OpModeRobot):
+            def __init__(self):
+                super().__init__()
+        """,
+        {
+            "external_mode.py": """
+                from wpilib import PeriodicOpMode
+                from wpilib.opmoderobot import teleop
+
+                @teleop
+                class ImportedMode(PeriodicOpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert [option.name for option in options] == ["ImportedMode"]
+
+
+def test_opmode_robot_deduplicates_explicit_and_discovered_opmode(
+    monkeypatch, tmp_path
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+        import samplebot.opmodes.overlap_mode
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/overlap_mode.py": """
+                import wpilib
+
+                @wpilib.teleop
+                class OverlapMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "OverlapMode"
+    ]
+
+
+def test_opmode_robot_prunes_failed_explicit_import(monkeypatch, tmp_path):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        try:
+            import samplebot.failed_mode
+        except RuntimeError:
+            pass
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "failed_mode.py": """
+                import wpilib
+
+                @wpilib.autonomous
+                class FailedMode(wpilib.OpMode):
+                    pass
+
+                raise RuntimeError("expected explicit import failure")
+            """,
+        },
+    )
+
+    assert "samplebot.failed_mode" not in sys.modules
+    robot_module.Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+
+
+def test_opmode_robot_replaces_reloaded_class_generation(monkeypatch, tmp_path):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+        import samplebot.external_mode
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "external_mode.py": """
+                import wpilib
+
+                @wpilib.utility
+                class ReloadedMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+    mode_module = sys.modules["samplebot.external_mode"]
+    old_class = mode_module.ReloadedMode
+    importlib.reload(mode_module)
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert [option.name for option in options] == ["ReloadedMode"]
+    assert opmode_impl.decorated_opmodes() == (mode_module.ReloadedMode,)
+    assert mode_module.ReloadedMode is not old_class
+
+
+def test_opmode_robot_prunes_failed_reload_generation(monkeypatch, tmp_path):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+        import samplebot.external_mode
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "external_mode.py": """
+                import wpilib
+
+                @wpilib.utility
+                class ReloadedMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+    mode_path = package_dir / "external_mode.py"
+    mode_path.write_text(
+        "import wpilib\n\n"
+        "class ReloadedMode(wpilib.OpMode):\n    pass\n\n"
+        'raise RuntimeError("expected reload failure")\n'
+    )
+    for bytecode_path in (package_dir / "__pycache__").glob("external_mode.*.pyc"):
+        bytecode_path.unlink()
+    importlib.invalidate_caches()
+    mode_module = sys.modules["samplebot.external_mode"]
+    with pytest.raises(RuntimeError, match="expected reload failure"):
+        importlib.reload(mode_module)
+
+    robot_module.Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert opmode_impl.decorated_opmodes() == ()
+    assert "_wpilib_opmode_metadata" not in mode_module.ReloadedMode.__dict__
+
+
+def test_opmode_robot_rejects_decorated_non_leaf(caplog):
+    @autonomous
+    class BaseMode(OpMode):
+        pass
+
+    class MiddleMode(BaseMode):
+        pass
+
+    class LeafMode(MiddleMode):
+        pass
+
+    class MinimalRobot(OpModeRobot):
+        pass
+
+    MinimalRobot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert "BaseMode" in caplog.text
+    assert "MiddleMode" in caplog.text
+
+    class CommonMode(OpMode):
+        pass
+
+    @utility
+    class LeafUtilityMode(CommonMode):
+        pass
+
+    MinimalRobot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert [option.name for option in options] == ["LeafUtilityMode"]
+
+
+def test_opmode_robot_reports_invalid_metadata_per_class(monkeypatch, tmp_path, caplog):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/metadata_modes.py": """
+                import wpilib
+
+                @wpilib.autonomous(name=1)
+                class BadName(wpilib.OpMode):
+                    pass
+
+                @wpilib.teleop(group=None)
+                class BadGroup(wpilib.OpMode):
+                    pass
+
+                @wpilib.utility(description=[])
+                class BadDescription(wpilib.OpMode):
+                    pass
+
+                @wpilib.autonomous(text_color="white")
+                class BadTextColor(wpilib.OpMode):
+                    pass
+
+                @wpilib.teleop(background_color=object())
+                class BadBackgroundColor(wpilib.OpMode):
+                    pass
+
+                @wpilib.utility(name="Good")
+                class GoodMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "Good"
+    ]
+    for class_name, field_name in (
+        ("BadName", "name"),
+        ("BadGroup", "group"),
+        ("BadDescription", "description"),
+        ("BadTextColor", "text_color"),
+        ("BadBackgroundColor", "background_color"),
+    ):
+        assert f"samplebot.opmodes.metadata_modes.{class_name}" in caplog.text
+        assert field_name in caplog.text
+
+
+def test_opmode_robot_continues_after_per_class_registration_failure(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        class Robot(wpilib.OpModeRobot):
+            def add_opmode(self, opmode_cls, *args, **kwargs):
+                if opmode_cls.__name__ == "BadMode":
+                    raise RuntimeError("expected registration failure")
+                return super().add_opmode(opmode_cls, *args, **kwargs)
+        """,
+        {
+            "opmodes/modes.py": """
+                import wpilib
+
+                @wpilib.autonomous
+                class BadMode(wpilib.OpMode):
+                    pass
+
+                @wpilib.teleop
+                class GoodMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "GoodMode"
+    ]
+    assert "samplebot.opmodes.modes.BadMode" in caplog.text
+    assert "expected registration failure" in caplog.text
+
+
+def test_opmode_robot_rejects_explicit_base_with_unimported_scanned_subclass(
+    monkeypatch, tmp_path, caplog
+):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+        import samplebot.external_base
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "external_base.py": """
+                import wpilib
+
+                @wpilib.autonomous
+                class ExternalBaseMode(wpilib.OpMode):
+                    pass
+            """,
+            "opmodes/subclass_only.py": """
+                from pathlib import Path
+                from samplebot.external_base import ExternalBaseMode
+
+                Path(__file__).with_name("external-subclass-imported").touch()
+
+                class ExternalChildMode(ExternalBaseMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert not (package_dir / "opmodes" / "external-subclass-imported").exists()
+    assert "samplebot.external_base.ExternalBaseMode" in caplog.text
+    assert "samplebot.opmodes.subclass_only.ExternalChildMode" in caplog.text
+
+
+def test_opmode_robot_rejects_subclasses_in_unimported_modules(
+    monkeypatch, tmp_path, caplog
+):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/base_mode.py": """
+                import wpilib
+
+                @wpilib.autonomous
+                class ConditionalBaseMode(wpilib.OpMode):
+                    pass
+
+                @wpilib.utility
+                class NestedBaseMode(wpilib.OpMode):
+                    pass
+
+                @wpilib.teleop
+                class LexicalBaseMode(wpilib.OpMode):
+                    pass
+
+                @wpilib.autonomous
+                class FunctionBaseMode(wpilib.OpMode):
+                    pass
+
+                @wpilib.utility
+                class DeepBaseMode(wpilib.OpMode):
+                    pass
+            """,
+            "opmodes/subclass_only.py": """
+                from pathlib import Path
+                from samplebot.opmodes.base_mode import (
+                    ConditionalBaseMode,
+                    DeepBaseMode,
+                    FunctionBaseMode,
+                    LexicalBaseMode,
+                    NestedBaseMode,
+                )
+
+                Path(__file__).with_name("subclass-imported").touch()
+
+                if True:
+                    class MiddleMode(ConditionalBaseMode):
+                        pass
+
+                    class LeafMode(MiddleMode):
+                        pass
+
+                class Container:
+                    class NestedMode(NestedBaseMode):
+                        pass
+
+                class LexicalChildMode(LexicalBaseMode):
+                    pass
+
+                def unrelated_scope():
+                    from pathlib import Path as LexicalBaseMode
+
+                class FunctionContainer:
+                    class FunctionBaseMode:
+                        pass
+
+                    def make_mode():
+                        class FunctionChildMode(FunctionBaseMode):
+                            pass
+
+                class OuterContainer:
+                    class DeepBaseMode:
+                        pass
+
+                    class InnerContainer:
+                        class DeepChildMode(DeepBaseMode):
+                            pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert not (package_dir / "opmodes" / "subclass-imported").exists()
+    assert "samplebot.opmodes.base_mode.ConditionalBaseMode" in caplog.text
+    assert "samplebot.opmodes.subclass_only.MiddleMode" in caplog.text
+    assert "samplebot.opmodes.base_mode.NestedBaseMode" in caplog.text
+    assert "samplebot.opmodes.subclass_only.Container.NestedMode" in caplog.text
+    assert "samplebot.opmodes.base_mode.LexicalBaseMode" in caplog.text
+    assert "samplebot.opmodes.subclass_only.LexicalChildMode" in caplog.text
+    assert "samplebot.opmodes.base_mode.FunctionBaseMode" in caplog.text
+    assert "FunctionContainer.make_mode.<locals>.FunctionChildMode" in caplog.text
+    assert "samplebot.opmodes.base_mode.DeepBaseMode" in caplog.text
+    assert "OuterContainer.InnerContainer.DeepChildMode" in caplog.text
+
+
+def test_opmode_robot_continues_after_candidate_import_failure(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/bad_mode.py": """
+                from wpilib import PeriodicOpMode, teleop
+
+                @teleop
+                class BadMode(PeriodicOpMode):
+                    pass
+
+                raise RuntimeError("expected candidate import failure")
+            """,
+            "opmodes/good_mode.py": """
+                from wpilib import PeriodicOpMode, utility
+
+                @utility
+                class GoodMode(PeriodicOpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert {option.name for option in options} == {"GoodMode"}
+    assert "bad_mode" in caplog.text
+    assert "expected candidate import failure" in caplog.text
+
+
+def test_opmode_robot_retains_transitively_imported_candidate_after_failure(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/bad_mode.py": """
+                from samplebot.opmodes import good_mode
+                from wpilib import PeriodicOpMode, teleop
+
+                @teleop
+                class BadMode(PeriodicOpMode):
+                    pass
+
+                raise RuntimeError("expected candidate import failure")
+            """,
+            "opmodes/good_mode.py": """
+                from wpilib import PeriodicOpMode, utility
+
+                @utility
+                class GoodMode(PeriodicOpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert {option.name for option in options} == {"GoodMode"}
+    assert "bad_mode" in caplog.text
+    assert "expected candidate import failure" in caplog.text
+
+
+def test_opmode_robot_rolls_back_nested_failed_candidates(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/bad_a.py": """
+                from samplebot.opmodes import bad_b
+                from wpilib import PeriodicOpMode, teleop
+
+                @teleop
+                class BadAMode(PeriodicOpMode):
+                    pass
+            """,
+            "opmodes/bad_b.py": """
+                from wpilib import PeriodicOpMode, utility
+
+                @utility
+                class BadBMode(PeriodicOpMode):
+                    pass
+
+                raise RuntimeError("expected nested candidate import failure")
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    assert not wsim.DriverStationSim.get_opmode_options()
+    assert "bad_a" in caplog.text
+    assert "Could not import OpMode module samplebot.opmodes.bad_b" in caplog.text
+    assert "expected nested candidate import failure" in caplog.text
+
+
+def test_opmode_robot_discovers_encoded_python_source(monkeypatch, tmp_path):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {"opmodes/encoded_mode.py": ""},
+    )
+    (package_dir / "opmodes" / "encoded_mode.py").write_bytes(
+        b"# -*- coding: latin-1 -*-\n"
+        b"import wpilib\n\n"
+        b"@wpilib.autonomous(name='Caf\xe9')\n"
+        b"class EncodedMode(wpilib.OpMode):\n    pass\n"
+    )
+
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "Caf\N{LATIN SMALL LETTER E WITH ACUTE}"
+    ]
+
+
+def test_opmode_robot_continues_after_source_decode_failure(
+    monkeypatch, tmp_path, caplog
+):
+    package_dir, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/bad_encoding.py": "",
+            "opmodes/good_mode.py": """
+                import wpilib
+
+                @wpilib.utility
+                class GoodMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+    (package_dir / "opmodes" / "bad_encoding.py").write_bytes(
+        b"# coding: utf-8\n\xff\n"
+    )
+
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "GoodMode"
+    ]
+    assert "bad_encoding.py" in caplog.text
+
+
+def test_opmode_robot_continues_after_source_read_failure(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib
+
+        class Robot(wpilib.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/unreadable.py": "",
+            "opmodes/good_mode.py": """
+                import wpilib
+
+                @wpilib.utility
+                class GoodMode(wpilib.OpMode):
+                    pass
+            """,
+        },
+    )
+    real_open = opmode_impl.tokenize.open
+
+    def open_source(filename):
+        if Path(filename).name == "unreadable.py":
+            raise OSError("expected source read failure")
+        return real_open(filename)
+
+    monkeypatch.setattr(opmode_impl.tokenize, "open", open_source)
+    robot_module.Robot()
+
+    assert [option.name for option in wsim.DriverStationSim.get_opmode_options()] == [
+        "GoodMode"
+    ]
+    assert "unreadable.py" in caplog.text
+    assert "expected source read failure" in caplog.text
+
+
+def test_opmode_robot_continues_after_candidate_parse_failure(
+    monkeypatch, tmp_path, caplog
+):
+    _, robot_module = import_robot_package(
+        monkeypatch,
+        tmp_path,
+        """
+        import wpilib as wpi
+
+        class Robot(wpi.OpModeRobot):
+            pass
+        """,
+        {
+            "opmodes/bad_syntax.py": """
+                from wpilib import PeriodicOpMode, teleop
+
+                @teleop
+                class BrokenMode(PeriodicOpMode)
+                    pass
+            """,
+            "opmodes/good_mode.py": """
+                from wpilib import PeriodicOpMode, utility
+
+                @utility
+                class GoodMode(PeriodicOpMode):
+                    pass
+            """,
+        },
+    )
+
+    robot_module.Robot()
+
+    options = wsim.DriverStationSim.get_opmode_options()
+    assert {option.name for option in options} == {"GoodMode"}
+    assert "bad_syntax.py" in caplog.text
+    assert "expected ':'" in caplog.text
 
 
 class MockOpMode(OpMode):
