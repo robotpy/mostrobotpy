@@ -23,20 +23,22 @@ def test_metadata_marker_validation():
         wpistruct.BitField(-1)
 
 
-@wpistruct.make_wpistruct(name="Legacy")
+@wpistruct.make_wpistruct(name="AuthoredStruct")
 @dataclasses.dataclass
-class Legacy:
+class AuthoredStruct:
     count: int
     values: tuple[wpistruct.uint16, wpistruct.uint16]
 
 
-def test_legacy_schema_and_bytes_remain_exact():
-    assert wpistruct.get_schema(Legacy) == "int32 count; uint16 values[2]"
-    assert wpistruct.pack(Legacy(1, (2, 3))) == b"\x01\0\0\0\x02\0\x03\0"
-    assert wpistruct.unpack(Legacy, b"\x01\0\0\0\x02\0\x03\0") == Legacy(1, (2, 3))
+def test_authored_schema_and_bytes_remain_exact():
+    assert wpistruct.get_schema(AuthoredStruct) == "int32 count; uint16 values[2]"
+    assert wpistruct.pack(AuthoredStruct(1, (2, 3))) == b"\x01\0\0\0\x02\0\x03\0"
+    assert wpistruct.unpack(
+        AuthoredStruct, b"\x01\0\0\0\x02\0\x03\0"
+    ) == AuthoredStruct(1, (2, 3))
 
 
-def test_legacy_singleton_tuple_remains_an_array():
+def test_authored_singleton_tuple_remains_an_array():
     @wpistruct.make_wpistruct
     @dataclasses.dataclass
     class SingletonTuple:
@@ -48,7 +50,7 @@ def test_legacy_singleton_tuple_remains_an_array():
     assert wpistruct.unpack(SingletonTuple, b"\x08") == SingletonTuple((8,))
 
 
-def test_legacy_annotated_metadata_uses_base_type():
+def test_authored_annotated_metadata_uses_base_type():
     @wpistruct.make_wpistruct
     @dataclasses.dataclass
     class AnnotatedValue:
@@ -59,7 +61,7 @@ def test_legacy_annotated_metadata_uses_base_type():
     assert wpistruct.unpack(AnnotatedValue, wpistruct.pack(value)) == value
 
 
-def test_legacy_tuple_element_annotated_metadata_uses_base_type():
+def test_authored_tuple_element_annotated_metadata_uses_base_type():
     @wpistruct.make_wpistruct
     @dataclasses.dataclass
     class AnnotatedTuple:
@@ -70,7 +72,7 @@ def test_legacy_tuple_element_annotated_metadata_uses_base_type():
     assert wpistruct.unpack(AnnotatedTuple, wpistruct.pack(value)) == value
 
 
-def test_legacy_metadata_equality_is_not_evaluated():
+def test_authored_metadata_equality_is_not_evaluated():
     class ApplicationMetadata:
         def __eq__(self, other):
             raise AssertionError("application metadata equality was evaluated")
@@ -99,8 +101,8 @@ def test_compile_failure_does_not_partially_decorate_class():
 
 
 def test_compiler_attaches_parsed_layout_metadata():
-    assert Legacy.__wpistruct_descriptor__ == wpistruct.StructLayout(
-        type_name="Legacy",
+    assert AuthoredStruct.__wpistruct_descriptor__ == wpistruct.StructLayout(
+        type_name="AuthoredStruct",
         schema="int32 count; uint16 values[2]",
         size=8,
         fields=(
@@ -134,9 +136,9 @@ def test_compiler_attaches_parsed_layout_metadata():
     )
 
 
-def test_legacy_unicode_field_names_preserve_schema_bytes_and_layout():
+def test_authored_unicode_field_names_preserve_schema_bytes_and_layout():
     unicode_struct = dataclasses.make_dataclass(
-        "LegacyUnicode",
+        "AuthoredUnicode",
         [
             ("é", wpistruct.int32),
             ("π", wpistruct.uint16),
@@ -144,7 +146,7 @@ def test_legacy_unicode_field_names_preserve_schema_bytes_and_layout():
             ("aé", wpistruct.int8),
         ],
     )
-    unicode_struct = wpistruct.make_wpistruct(name="LegacyUnicode")(unicode_struct)
+    unicode_struct = wpistruct.make_wpistruct(name="AuthoredUnicode")(unicode_struct)
     value = unicode_struct(-2, 0x1234, True, -3)
     encoded = b"\xfe\xff\xff\xff\x34\x12\x01\xfd"
 
@@ -162,7 +164,7 @@ def test_legacy_unicode_field_names_preserve_schema_bytes_and_layout():
     ] == [("é", "é"), ("π", "π"), ("变量", "变量"), ("aé", "aé")]
 
 
-def test_nested_legacy_unicode_fields_preserve_public_behavior():
+def test_nested_authored_unicode_fields_preserve_public_behavior():
     inner = dataclasses.make_dataclass("UnicodeInner", [("变量", wpistruct.uint16)])
     inner = wpistruct.make_wpistruct(name="UnicodeInner")(inner)
     outer = dataclasses.make_dataclass(
@@ -288,17 +290,17 @@ class AuthoredSingletonArrays:
     initial: wpistruct.char
     samples: tuple[wpistruct.uint8]
     modes: Annotated[tuple[Mode], wpistruct.uint8]
-    nested: tuple[Legacy]
+    nested: tuple[AuthoredStruct]
 
 
 def test_descriptor_codec_preserves_authored_singleton_tuple_semantics():
     value = AuthoredSingletonArrays(
-        wpistruct.char("A"), (7,), (Mode.AUTO,), (Legacy(2, (3, 4)),)
+        wpistruct.char("A"), (7,), (Mode.AUTO,), (AuthoredStruct(2, (3, 4)),)
     )
 
     assert wpistruct.get_schema(AuthoredSingletonArrays) == (
         "char initial; uint8 samples[1]; "
-        "enum {OFF=0,AUTO=1,DEFAULT=1} uint8 modes[1]; Legacy nested[1]"
+        "enum {OFF=0,AUTO=1,DEFAULT=1} uint8 modes[1]; AuthoredStruct nested[1]"
     )
     assert wpistruct.pack(value) == b"A\x07\x01\x02\0\0\0\x03\0\x04\0"
     assert wpistruct.unpack(AuthoredSingletonArrays, wpistruct.pack(value)) == value
@@ -309,14 +311,14 @@ def test_descriptor_codec_preserves_authored_singleton_tuple_semantics():
 class AuthoredDescriptorArrays:
     samples: tuple[wpistruct.uint16, wpistruct.uint16]
     modes: Annotated[tuple[Mode, Mode], wpistruct.uint8]
-    nested: tuple[Legacy, Legacy]
+    nested: tuple[AuthoredStruct, AuthoredStruct]
 
 
 def test_descriptor_codec_authored_arrays_larger_than_one_have_literal_layout():
     value = AuthoredDescriptorArrays(
         (0x1234, 0xABCD),
         (Mode.OFF, Mode.AUTO),
-        (Legacy(1, (2, 3)), Legacy(-1, (4, 5))),
+        (AuthoredStruct(1, (2, 3)), AuthoredStruct(-1, (4, 5))),
     )
     encoded = (
         b"\x34\x12\xcd\xab\x00\x01"
@@ -326,7 +328,7 @@ def test_descriptor_codec_authored_arrays_larger_than_one_have_literal_layout():
 
     assert wpistruct.get_schema(AuthoredDescriptorArrays) == (
         "uint16 samples[2]; "
-        "enum {OFF=0,AUTO=1,DEFAULT=1} uint8 modes[2]; Legacy nested[2]"
+        "enum {OFF=0,AUTO=1,DEFAULT=1} uint8 modes[2]; AuthoredStruct nested[2]"
     )
     assert wpistruct.pack(value) == encoded
     assert wpistruct.unpack(AuthoredDescriptorArrays, encoded) == value
@@ -473,7 +475,7 @@ class TooWideForSignedBitfield(enum.IntEnum):
     [
         (Annotated[float, wpistruct.BitField(1)], "cannot be bitfield"),
         (Annotated[wpistruct.char, wpistruct.BitField(1)], "cannot be bitfield"),
-        (Annotated[Legacy, wpistruct.BitField(1)], "cannot be bitfield"),
+        (Annotated[AuthoredStruct, wpistruct.BitField(1)], "cannot be bitfield"),
         (Annotated[bool, wpistruct.BitField(2)], "width must be 1"),
         (
             Annotated[wpistruct.int16, wpistruct.BitField(17)],

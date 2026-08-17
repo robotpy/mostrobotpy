@@ -25,6 +25,20 @@ def test_schema_descriptor_metadata():
     assert desc.fields[1].bit_mask == 0x7
 
 
+def test_schema_database_accepts_utf8_identifiers():
+    database = SchemaDatabase()
+    nested = database.add("温度类型", "uint16 变量")
+    descriptor = database.add("UnicodePacket", "int32 é; 温度类型 π")
+
+    assert nested.name == "温度类型"
+    assert nested.schema == "uint16 变量"
+    assert nested.fields[0].name == "变量"
+    assert descriptor.schema == "int32 é; 温度类型 π"
+    assert [field.name for field in descriptor.fields] == ["é", "π"]
+    assert descriptor.fields[1].struct_name == "温度类型"
+    assert descriptor.size == 6
+
+
 def test_schema_descriptor_nested_delayed_validity():
     db = SchemaDatabase()
     outer = db.add("Outer", "Inner value")

@@ -127,10 +127,10 @@ def _resolve_field_plan(
     field_idx: int,
     field_name: str,
     annotation: type,
-    legacy_type: type,
+    base_type: type,
 ) -> FieldPlan:
     _, metadata = _split_annotated(annotation)
-    field_type = legacy_type
+    field_type = base_type
     char_arrays = [item for item in metadata if isinstance(item, CharArray)]
     bitfields = [item for item in metadata if isinstance(item, BitField)]
     storage_types = [
@@ -269,14 +269,14 @@ def _resolve_field_plan(
 
 def _resolve_field_plans(cls: type, cls_name: str) -> list[FieldPlan]:
     resolved_hints = typing.get_type_hints(cls, include_extras=True)
-    legacy_hints = typing.get_type_hints(cls)
+    base_hints = typing.get_type_hints(cls)
     return [
         _resolve_field_plan(
             cls_name,
             field_idx,
             field.name,
             resolved_hints[field.name],
-            legacy_hints[field.name],
+            base_hints[field.name],
         )
         for field_idx, field in enumerate(dataclasses.fields(cls))
     ]
@@ -345,44 +345,6 @@ def _make_layout(native_descriptor, plans, python_names) -> StructLayout:
         schema=native_descriptor.schema,
         size=native_descriptor.size,
         fields=fields,
-    )
-
-
-def _make_legacy_layout(
-    struct_name: str, schema: str, plans: list[FieldPlan]
-) -> StructLayout:
-    offset = 0
-    fields = []
-    for plan in plans:
-        if plan.nested_type is not None:
-            field_size = wpistruct.get_size(plan.nested_type)
-            bit_width = 0
-            bit_mask = 0
-        else:
-            field_size = struct.calcsize(typing.cast(str, plan.format))
-            bit_width = field_size * 8
-            bit_mask = (1 << bit_width) - 1
-        fields.append(
-            StructFieldLayout(
-                schema_name=plan.schema_name,
-                python_name=plan.python_name,
-                type_name=plan.type_name,
-                offset=offset,
-                size=field_size,
-                array_size=plan.array_size,
-                bit_width=bit_width,
-                bit_shift=0,
-                bit_mask=bit_mask,
-                enum_values=(),
-                nested_type=plan.nested_type,
-            )
-        )
-        offset += field_size * plan.array_size
-    return StructLayout(
-        type_name=struct_name,
-        schema=schema,
-        size=offset,
-        fields=tuple(fields),
     )
 
 
@@ -539,19 +501,8 @@ def compile_wpistruct(
         plan.is_char or plan.enum_type is not None or plan.bit_width is not None
         for plan in plans
     )
-    legacy_layout = None
     if descriptor is None:
-        try:
-            descriptor = _make_native_descriptor(struct_name, schema, plans)
-        except UnicodeDecodeError:
-            if schema_override is not None or use_descriptor_codec:
-                raise
-            # The native parser accepts only ASCII identifiers, while legacy
-            # authored dataclasses have always accepted Python's Unicode
-            # identifiers. Their packed layout is the legacy struct.Struct
-            # layout, so construct equivalent immutable metadata without
-            # changing the public schema or serialization path.
-            legacy_layout = _make_legacy_layout(struct_name, schema, plans)
+        descriptor = _make_native_descriptor(struct_name, schema, plans)
 
     if use_descriptor_codec:
         serializer_descriptor = _make_descriptor_serializer(
@@ -688,11 +639,7 @@ def compile_wpistruct(
         for_each_nested=ctx["_for_each_nested"],
     )
 
-    layout = (
-        legacy_layout
-        if legacy_layout is not None
-        else _make_layout(descriptor, plans, python_names)
-    )
+    layout = _make_layout(descriptor, plans, python_names)
 
     cls.WPIStruct = serializer_descriptor
     cls.__wpistruct_descriptor__ = layout
