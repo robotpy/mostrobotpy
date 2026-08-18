@@ -402,6 +402,59 @@ def test_generated_metadata_reservation_does_not_change_other_identifiers():
     assert wpistruct.get_type_name(generated) == "WPIStruct"
 
 
+def test_generated_annotations_field_aliases_are_safe_and_deterministic():
+    fullwidth_annotations = "＿＿ａｎｎｏｔａｔｉｏｎｓ＿＿"
+    schema = (
+        f"uint8 __annotations__; uint16 {fullwidth_annotations}; "
+        "uint32 __annotations___"
+    )
+    generated = make_wpistruct_from_schema("AnnotationsFields", schema, nested={})
+    aliases = ["__annotations___", "__annotations___2", "__annotations___3"]
+
+    assert [field.name for field in dataclasses.fields(generated)] == aliases
+    assert list(inspect.signature(generated).parameters) == aliases
+    positional = generated(1, 0x0302, 0x07060504)
+    keyword_value = generated(
+        **{
+            "__annotations___": 1,
+            "__annotations___2": 0x0302,
+            "__annotations___3": 0x07060504,
+        }
+    )
+    encoded = b"\x01\x02\x03\x04\x05\x06\x07"
+
+    assert positional == keyword_value
+    assert dataclasses.asdict(positional) == {
+        "__annotations___": 1,
+        "__annotations___2": 0x0302,
+        "__annotations___3": 0x07060504,
+    }
+    assert wpistruct.pack(positional) == encoded
+    assert wpistruct.unpack(generated, encoded) == positional
+    assert wpistruct.get_type_name(generated) == "AnnotationsFields"
+    assert wpistruct.get_schema(generated) == schema
+
+    layout = generated.__wpistruct_descriptor__
+    assert layout.type_name == "AnnotationsFields"
+    assert layout.schema == schema
+    assert [(field.schema_name, field.python_name) for field in layout.fields] == [
+        ("__annotations__", "__annotations___"),
+        (fullwidth_annotations, "__annotations___2"),
+        ("__annotations___", "__annotations___3"),
+    ]
+
+
+def test_generated_annotations_reservation_is_field_only():
+    generated = make_wpistruct_from_schema(
+        "__annotations__", "enum {VALUE=1} uint8 mode", nested={}
+    )
+    mode_type = generated.__dataclass_fields__["mode"].type
+
+    assert generated.__name__ == "__annotations__"
+    assert mode_type.__name__ == "__annotations__Mode"
+    assert wpistruct.get_type_name(generated) == "__annotations__"
+
+
 def test_generated_serializer_metadata_names_are_sanitized():
     generated = make_wpistruct_from_schema(
         "MetadataFields",
