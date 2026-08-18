@@ -1,5 +1,7 @@
 import pathlib
 import sys
+from types import SimpleNamespace
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -378,57 +380,6 @@ def test_plain_must_not_run():
     assert not (pytester.path / "plain-ran").exists()
 
 
-def test_isolated_plugin_runs_ordered_robot_tests_sequentially(pytester):
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=2)
-    pytester.makepyfile(test_ordered="""
-import pathlib
-import time
-
-import pytest
-
-
-@pytest.mark.order(2)
-def test_second(robot):
-    assert pathlib.Path("first-finished").exists()
-
-
-@pytest.mark.order(1)
-def test_first(robot):
-    time.sleep(1)
-    pathlib.Path("first-finished").touch()
-""")
-
-    result = pytester.runpytest_subprocess("-v")
-
-    result.assert_outcomes(passed=2)
-
-
-def test_isolated_plugin_finishes_ordered_robot_test_before_unordered_test(pytester):
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=2)
-    pytester.makepyfile(test_ordered="""
-import pathlib
-import time
-
-import pytest
-
-
-@pytest.mark.order("first")
-def test_ordered(robot):
-    time.sleep(1)
-    pathlib.Path("ordered-finished").touch()
-
-
-def test_unordered(robot):
-    assert pathlib.Path("ordered-finished").exists()
-""")
-
-    result = pytester.runpytest_subprocess("-v")
-
-    result.assert_outcomes(passed=2)
-
-
 @pytest.mark.parametrize("isolated", [False, True])
 def test_builtin_tests_module(pytester, isolated):
     _make_robot_module(pytester)
@@ -534,134 +485,214 @@ def test_state_transitions(robot, control):
     result.assert_outcomes(passed=1)
 
 
-# Seconds a chain's sentinel writer sleeps before writing, when the test that reads that
-# sentinel runs in an isolated subprocess.
-#
-# Why this is needed at all: a plain in-process test writes its sentinel within milliseconds,
-# while a robot test needs a few hundred ms to spawn its subprocess and reach its first
-# assertion. Without ordering support the robot test is merely *started* early, so by the time
-# it actually looks, a fast writer has already written -- the case passes and proves nothing.
-# Delaying the writer removes that race so the case fails without the fix, which is the only
-# thing that makes it a guard.
-#
-# Choosing the value: sweeping the delay against the unfixed plugin put the cutoff between
-# 150ms and 200ms on an M-series Mac (0/5 runs caught the bug at 150ms, 5/5 at 200ms). 1s
-# leaves roughly 5x margin.
-#
-# The risk this carries: on a machine slow enough that a robot subprocess takes over a second
-# to reach its assertion, these cases quietly stop catching regressions. They never fail
-# wrongly -- with ordering support present they pass regardless of timing -- so the degradation
-# is silent, which is the dangerous direction. If this suite starts running on much slower
-# hardware, re-measure the cutoff rather than assuming this value still has margin.
-ORDER_HANDOFF_DELAY = 1.0
+def test_order_marker_groups_use_real_pytest_marker_inheritance(pytester):
+    from wpilib.testing.pytest_isolated_tests_plugin import _order_marker_groups
 
-
-def _handoff_sleep(reader_is_robot: bool) -> str:
-    """Sleep line for a sentinel writer, or nothing when the reader is in-process."""
-    return f"    time.sleep({ORDER_HANDOFF_DELAY})\n" if reader_is_robot else ""
-
-
-@pytest.mark.parametrize("marker_style", ["numeric", "after", "before"])
-@pytest.mark.parametrize(
-    "first_type, middle_type, last_type",
-    [
-        ("ROBOT", "ROBOT", None),
-        ("ROBOT", "PLAIN", None),
-        ("PLAIN", "ROBOT", None),
-        ("PLAIN", "PLAIN", None),
-        ("ROBOT", "ROBOT", "PLAIN"),
-        ("ROBOT", "PLAIN", "ROBOT"),
-        ("PLAIN", "ROBOT", "ROBOT"),
-        ("ROBOT", "PLAIN", "PLAIN"),
-        ("PLAIN", "ROBOT", "PLAIN"),
-        ("PLAIN", "PLAIN", "ROBOT"),
-    ],
-)
-def test_order_marker_enforces_sequencing(
-    pytester, first_type, middle_type, last_type, marker_style
-):
-    """
-    Order markers enforce a first->middle->last chain across all mixed
-    robot/non-robot permutations.
-
-    test_first writes sentinel_1; test_middle reads sentinel_1 and writes
-    sentinel_2; test_last reads sentinel_2.  The file lists them in reverse
-    (last, middle, first) so collection order would fail -- passing proves the
-    full chain was enforced.
-
-    ROBOT = robot fixture (isolated subprocess)  PLAIN = plain test (in-process)
-
-    numeric: first=order(1), middle=order(2), last=order(3)
-    after:   middle=order(after="test_first"), last=order(after="test_middle")
-    before:  first=order(before="test_middle"), middle=order(before="test_last")
-
-    Not every permutation can detect a broken run loop, and that is expected:
-
-    - PLAIN-PLAIN-None has no robot test at all, so there is nothing for the plugin to
-      mis-order -- the old loop deferred non-robot tests but preserved their order among
-      themselves. These three cases assert the chain still works; they are not regression
-      guards and cannot be made into any.
-    - Where the sentinel *reader* is a robot test, the writer sleeps ORDER_HANDOFF_DELAY so the
-      reader cannot win the spawn race and pass by luck. See that constant for the measurement
-      and the slow-machine caveat.
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    # Only a robot reader needs the writer slowed down; a plain reader runs in-process and
-    # already observes the violation directly.
-    first_sleep = _handoff_sleep(middle_type == "ROBOT")
-    middle_sleep = _handoff_sleep(last_type == "ROBOT")
-
-    def params(t):
-        return "(robot)" if t == "ROBOT" else "()"
-
-    if marker_style == "numeric":
-        first_mark = "@pytest.mark.order(1)\n"
-        middle_mark = "@pytest.mark.order(2)\n"
-        last_mark = "@pytest.mark.order(3)\n"
-    elif marker_style == "before":
-        first_mark = '@pytest.mark.order(before="test_middle")\n'
-        middle_mark = '@pytest.mark.order(before="test_last")\n'
-        last_mark = ""
-    else:
-        first_mark = ""
-        middle_mark = '@pytest.mark.order(after="test_first")\n'
-        last_mark = '@pytest.mark.order(after="test_middle")\n'
-
-    pytester.makepyfile(
-        test_order_sequence=(
-            """\
-import pathlib
-import time
-
+    items = pytester.getitems("""
 import pytest
 
 
-"""
-            + (
-                f"""{last_mark}def test_last{params(last_type)}:
-    assert pathlib.Path("sentinel_2.txt").exists(), "test_middle must run before test_last"
+@pytest.mark.order(1)
+class TestInherited:
+    def test_inherited_one(self):
+        pass
+
+    def test_inherited_two(self):
+        pass
 
 
-"""
-                if last_type is not None
-                else ""
-            )
-            + f"""{middle_mark}def test_middle{params(middle_type)}:
-    assert pathlib.Path("sentinel_1.txt").exists(), "test_first must run before test_middle"
-{middle_sleep}    pathlib.Path("sentinel_2.txt").write_text("done")
+@pytest.mark.order(1)
+def test_independent_one():
+    pass
 
 
-{first_mark}def test_first{params(first_type)}:
-{first_sleep}    pathlib.Path("sentinel_1.txt").write_text("done")
-"""
+@pytest.mark.order(1)
+def test_independent_two():
+    pass
+
+
+@pytest.mark.order(1)
+class TestOverride:
+    def test_class_marker(self):
+        pass
+
+    @pytest.mark.order(2)
+    def test_function_override(self):
+        pass
+""")
+    items_by_name = {item.name: item for item in items}
+    ordered_items = [
+        items_by_name[name]
+        for name in (
+            "test_inherited_one",
+            "test_inherited_two",
+            "test_independent_one",
+            "test_independent_two",
+            "test_class_marker",
+            "test_function_override",
         )
+    ]
+
+    groups = _order_marker_groups(ordered_items)
+
+    assert [[item.name for item in group] for group in groups] == [
+        ["test_inherited_one", "test_inherited_two"],
+        ["test_independent_one"],
+        ["test_independent_two"],
+        ["test_class_marker"],
+        ["test_function_override"],
+    ]
+    assert items_by_name["test_class_marker"].get_closest_marker("order").args == (1,)
+    assert items_by_name["test_function_override"].get_closest_marker("order").args == (
+        2,
     )
 
-    result = pytester.runpytest_subprocess("-vv")
-    count_of_tests = sum(x is not None for x in [first_type, middle_type, last_type])
-    result.assert_outcomes(passed=count_of_tests)
+
+class _SchedulerHook:
+    def __init__(self, events):
+        self.events = events
+
+    def pytest_runtest_protocol(self, item, nextitem):
+        self.events.append(("plain", item.name))
+
+
+class _SchedulerSession:
+    Interrupted = pytest.Session.Interrupted
+    Failed = pytest.Session.Failed
+
+    def __init__(self, items, events):
+        self.items = items
+        self.testsfailed = 0
+        self.shouldfail = False
+        self.shouldstop = False
+        self.config = SimpleNamespace(
+            option=SimpleNamespace(
+                continue_on_collection_errors=False,
+                collectonly=False,
+            ),
+            hook=_SchedulerHook(events),
+        )
+
+
+def _scheduler_item(name, marker, uses_robot):
+    item = MagicMock(spec=pytest.Function)
+    item.name = name
+    item.fixturenames = ["robot"] if uses_robot else []
+    item.get_closest_marker.return_value = marker
+    return item
+
+
+def _scheduler_events(monkeypatch, items):
+    from wpilib.testing.pytest_isolated_tests_plugin import IsolatedTestsPlugin
+
+    events = []
+    session = _SchedulerSession(items, events)
+    plugin = IsolatedTestsPlugin(object, pathlib.Path("robot.py"), False, False, 4)
+
+    def start(item):
+        events.append(("start", item.name))
+        conn = SimpleNamespace(poll=lambda: False)
+        return SimpleNamespace(item=item, conn=conn)
+
+    def wait(running, session):
+        events.extend(("finish", job.item.name) for job in running)
+        running.clear()
+
+    monkeypatch.setattr(plugin, "_start_isolated_test", start)
+    monkeypatch.setattr(plugin, "_wait_for_jobs", wait)
+
+    assert plugin.pytest_runtestloop(session) is True
+    return events
+
+
+_ORDERED_TYPE_CHAINS = [
+    ("ROBOT", "ROBOT", None),
+    ("ROBOT", "PLAIN", None),
+    ("PLAIN", "ROBOT", None),
+    ("PLAIN", "PLAIN", None),
+    ("ROBOT", "ROBOT", "PLAIN"),
+    ("ROBOT", "PLAIN", "ROBOT"),
+    ("PLAIN", "ROBOT", "ROBOT"),
+    ("ROBOT", "PLAIN", "PLAIN"),
+    ("PLAIN", "ROBOT", "PLAIN"),
+    ("PLAIN", "PLAIN", "ROBOT"),
+]
+
+
+@pytest.mark.parametrize("marker_style", ["numeric", "after", "before"])
+@pytest.mark.parametrize("test_types", _ORDERED_TYPE_CHAINS)
+def test_order_groups_do_not_cross_scheduler_boundaries(
+    monkeypatch, marker_style, test_types
+):
+    # pytest-order has already sorted these items. The three patterns model
+    # which tests carry markers for ordinal, after=, and before= ordering.
+    first_marker = object()
+    middle_marker = object()
+    last_marker = object()
+    markers = {
+        "numeric": (first_marker, middle_marker, last_marker),
+        "after": (None, middle_marker, last_marker),
+        "before": (first_marker, middle_marker, None),
+    }[marker_style]
+
+    items = []
+    expected = []
+    for name, test_type, marker in zip(
+        ("first", "middle", "last"), test_types, markers
+    ):
+        if test_type is None:
+            continue
+
+        uses_robot = test_type == "ROBOT"
+        items.append(_scheduler_item(name, marker, uses_robot))
+        if uses_robot:
+            expected.extend((("start", name), ("finish", name)))
+        else:
+            expected.append(("plain", name))
+
+    assert _scheduler_events(monkeypatch, items) == expected
+
+
+def test_inherited_order_marker_group_runs_in_parallel(monkeypatch):
+    inherited_marker = object()
+    next_marker = object()
+    items = [
+        _scheduler_item("plain", inherited_marker, False),
+        _scheduler_item("robot_one", inherited_marker, True),
+        _scheduler_item("robot_two", inherited_marker, True),
+        _scheduler_item("next_robot", next_marker, True),
+    ]
+
+    assert _scheduler_events(monkeypatch, items) == [
+        ("start", "robot_one"),
+        ("start", "robot_two"),
+        ("plain", "plain"),
+        ("finish", "robot_one"),
+        ("finish", "robot_two"),
+        ("start", "next_robot"),
+        ("finish", "next_robot"),
+    ]
+
+
+class _EqualMarker:
+    def __eq__(self, other):
+        return isinstance(other, _EqualMarker)
+
+
+def test_equal_but_distinct_order_markers_form_boundaries(monkeypatch):
+    first_marker = _EqualMarker()
+    second_marker = _EqualMarker()
+    items = [
+        _scheduler_item("first", first_marker, True),
+        _scheduler_item("second", second_marker, True),
+    ]
+
+    assert _scheduler_events(monkeypatch, items) == [
+        ("start", "first"),
+        ("finish", "first"),
+        ("start", "second"),
+        ("finish", "second"),
+    ]
 
 
 @pytest.mark.parametrize(
@@ -807,357 +838,3 @@ def test_b{params(b_fixture)}:
     assert (
         b_start < a_end
     ), f"Expected parallel: b_start={b_start:.3f} a_end={a_end:.3f}"
-
-
-def _read_times(pytester, *names):
-    root = pathlib.Path(pytester.path)
-    return {n: float((root / f"{n}.txt").read_text()) for n in names}
-
-
-_TIMED_ROBOT_TEST = """\
-def {name}(robot):
-    pathlib.Path("{name}_start.txt").write_text(str(time.monotonic()))
-    time.sleep(1.0)
-    pathlib.Path("{name}_end.txt").write_text(str(time.monotonic()))
-"""
-
-
-def test_module_level_order_marker_parallel_within_group(pytester):
-    """
-    A module-level order marker positions the module as a whole; pytest-order
-    explicitly does not constrain the order of the tests *inside* it ("the tests
-    inside each module will be run in the same order as without any ordering").
-
-    So the two modules must be serialised against each other, but the robot tests
-    within a module must still overlap.  test_group_a is collected first but marked
-    order(2), so passing also proves the modules were actually reordered.
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    def module_src(order, names):
-        return (
-            "import pathlib\nimport time\nimport pytest\n\n"
-            f"pytestmark = pytest.mark.order({order})\n\n\n"
-            + "\n\n".join(_TIMED_ROBOT_TEST.format(name=n) for n in names)
-        )
-
-    pytester.makepyfile(
-        test_group_a=module_src(2, ["test_a1", "test_a2"]),
-        test_group_b=module_src(1, ["test_b1", "test_b2"]),
-    )
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=4)
-
-    t = _read_times(
-        pytester,
-        "test_a1_start",
-        "test_a1_end",
-        "test_a2_start",
-        "test_a2_end",
-        "test_b1_start",
-        "test_b1_end",
-        "test_b2_start",
-        "test_b2_end",
-    )
-
-    # the order(1) module must fully complete before the order(2) module starts
-    assert max(t["test_b1_end"], t["test_b2_end"]) <= min(
-        t["test_a1_start"], t["test_a2_start"]
-    ), f"module boundary not enforced: {t}"
-
-    # ...but within each module the tests must have overlapped
-    assert t["test_b2_start"] < t["test_b1_end"], f"module b serialised: {t}"
-    assert t["test_a2_start"] < t["test_a1_end"], f"module a serialised: {t}"
-
-
-def test_class_level_order_marker_parallel_within_group(pytester):
-    """
-    Same as the module-level case, for a class-level marker: "the class as a whole
-    will be reordered without changing the test order inside the test class".
-    TestAlpha is collected first but marked order(2).
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    def class_src(cls, order, names):
-        body = "\n".join(
-            "    " + line if line else ""
-            for n in names
-            for line in _TIMED_ROBOT_TEST.format(name=n)
-            .replace("(robot)", "(self, robot)")
-            .split("\n")
-        )
-        return f"@pytest.mark.order({order})\nclass {cls}:\n{body}\n"
-
-    pytester.makepyfile(
-        test_classes="import pathlib\nimport time\nimport pytest\n\n\n"
-        + class_src("TestAlpha", 2, ["test_x1", "test_x2"])
-        + "\n"
-        + class_src("TestBeta", 1, ["test_y1", "test_y2"])
-    )
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=4)
-
-    t = _read_times(
-        pytester,
-        "test_x1_start",
-        "test_x1_end",
-        "test_x2_start",
-        "test_x2_end",
-        "test_y1_start",
-        "test_y1_end",
-        "test_y2_start",
-        "test_y2_end",
-    )
-
-    assert max(t["test_y1_end"], t["test_y2_end"]) <= min(
-        t["test_x1_start"], t["test_x2_start"]
-    ), f"class boundary not enforced: {t}"
-
-    assert t["test_y2_start"] < t["test_y1_end"], f"TestBeta serialised: {t}"
-    assert t["test_x2_start"] < t["test_x1_end"], f"TestAlpha serialised: {t}"
-
-
-def test_separate_markers_with_equal_value_are_not_grouped(pytester):
-    """
-    Grouping is by marker *identity*, not equality.  Inheritance hands every test in
-    a class/module the same Mark object, but two independent @pytest.mark.order(5)
-    decorators are distinct objects that merely compare equal.  Those stay
-    serialised -- the conservative choice, since only the inherited case has
-    documented "order inside is unconstrained" semantics.
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    pytester.makepyfile(
-        test_equal_markers="import pathlib\nimport time\nimport pytest\n\n\n"
-        + "@pytest.mark.order(5)\n"
-        + _TIMED_ROBOT_TEST.format(name="test_p")
-        + "\n\n@pytest.mark.order(5)\n"
-        + _TIMED_ROBOT_TEST.format(name="test_q")
-    )
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=2)
-
-    t = _read_times(pytester, "test_p_end", "test_q_start")
-    assert (
-        t["test_p_end"] <= t["test_q_start"]
-    ), f"equal-valued markers were merged into one group: {t}"
-
-
-def test_robot_tests_ordered_relative_to_each_other(pytester):
-    """
-    Two robot-fixture tests carrying order markers must run one after the other.
-
-    Both run in isolated subprocesses, so without order support they are started together
-    and overlap. They are written to the file in reverse, so collection order alone fails.
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    pytester.makepyfile(test_robot_chain=f"""\
-import pathlib
-import time
-
-import pytest
-
-
-@pytest.mark.order(2)
-def test_robot_second(robot):
-    assert pathlib.Path("robot_first.txt").exists(), "test_robot_first must run first"
-
-
-@pytest.mark.order(1)
-def test_robot_first(robot):
-    time.sleep({ORDER_HANDOFF_DELAY})
-    pathlib.Path("robot_first.txt").write_text("done")
-""")
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=2)
-
-
-def test_module_level_order_vs_robot_tests(pytester):
-    """
-    A module-level order marker must sequence a robot test against another module's tests.
-
-    test_group_a is collected first but marked order(2), so passing also proves the modules
-    were reordered. The robot test is the reader, since that is the direction the old run
-    loop broke: robot tests were hoisted ahead of every non-robot test.
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    pytester.makepyfile(
-        test_group_a="""\
-import pathlib
-
-import pytest
-
-pytestmark = pytest.mark.order(2)
-
-
-def test_robot_reads(robot):
-    assert pathlib.Path("early.txt").exists(), "the order(1) module must run first"
-""",
-        test_group_b=f"""\
-import pathlib
-import time
-
-import pytest
-
-pytestmark = pytest.mark.order(1)
-
-
-def test_plain_writes():
-    time.sleep({ORDER_HANDOFF_DELAY})
-    pathlib.Path("early.txt").write_text("done")
-""",
-    )
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=2)
-
-
-def test_class_level_order_vs_robot_tests(pytester):
-    """
-    A class-level order marker must sequence a robot test against another class's tests.
-
-    TestLate is written first but marked order(2), so passing also proves the classes were
-    reordered.
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    pytester.makepyfile(test_class_chain=f"""\
-import pathlib
-import time
-
-import pytest
-
-
-@pytest.mark.order(2)
-class TestLate:
-    def test_robot_reads(self, robot):
-        assert pathlib.Path("early.txt").exists(), "TestEarly must run first"
-
-
-@pytest.mark.order(1)
-class TestEarly:
-    def test_plain_writes(self):
-        time.sleep({ORDER_HANDOFF_DELAY})
-        pathlib.Path("early.txt").write_text("done")
-""")
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=2)
-
-
-def test_class_level_relative_order_vs_robot_tests(pytester):
-    """
-    A class-level RELATIVE marker (`after=`) must sequence a robot test against another class.
-
-    pytest-order documents referencing a test class by name from `before=`/`after=`, which is a
-    different code path from the ordinal markers covered above.
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    pytester.makepyfile(test_class_relative=f"""\
-import pathlib
-import time
-
-import pytest
-
-
-@pytest.mark.order(after="TestEarly")
-class TestLate:
-    def test_robot_reads(self, robot):
-        assert pathlib.Path("early.txt").exists(), "TestEarly must run first"
-
-
-class TestEarly:
-    def test_plain_writes(self):
-        time.sleep({ORDER_HANDOFF_DELAY})
-        pathlib.Path("early.txt").write_text("done")
-""")
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=2)
-
-
-def test_module_level_relative_order_vs_robot_tests(pytester):
-    """
-    A module-level RELATIVE marker must sequence a robot test against another module's test.
-
-    Note this form -- `pytestmark = pytest.mark.order(after="path::test")` -- is not documented
-    upstream; pytest-order shows `before=`/`after=` only at function and class scope. It works
-    because pytestmark is ordinary pytest marker inheritance, but it is de facto rather than
-    de jure, so this test also serves to detect it changing.
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    pytester.makepyfile(
-        test_rel_a="""\
-import pathlib
-
-import pytest
-
-pytestmark = pytest.mark.order(after="test_rel_b.py::test_plain_writes")
-
-
-def test_robot_reads(robot):
-    assert pathlib.Path("early.txt").exists(), "test_rel_b must run first"
-""",
-        test_rel_b=f"""\
-import pathlib
-import time
-
-
-def test_plain_writes():
-    time.sleep({ORDER_HANDOFF_DELAY})
-    pathlib.Path("early.txt").write_text("done")
-""",
-    )
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=2)
-
-
-def test_function_marker_inside_marked_class(pytester):
-    """
-    A function-level marker inside an already-marked class wins, and forms its own group.
-
-    get_closest_marker returns the function's own Mark rather than the class's inherited one,
-    so the marked method is a group of one: it is serialised against its own siblings, not
-    merged with them. Here the method marked order(1) must overtake its class-mates even though
-    the class as a whole is marked order(2).
-    """
-    _make_robot_module(pytester)
-    _configure_isolated_plugin(pytester, parallelism=4)
-
-    pytester.makepyfile(test_nested_marker=f"""\
-import pathlib
-import time
-
-import pytest
-
-
-@pytest.mark.order(2)
-class TestGroup:
-    def test_robot_reads(self, robot):
-        assert pathlib.Path("early.txt").exists(), "the order(1) method must run first"
-
-    @pytest.mark.order(1)
-    def test_plain_writes_first(self):
-        time.sleep({ORDER_HANDOFF_DELAY})
-        pathlib.Path("early.txt").write_text("done")
-""")
-
-    result = pytester.runpytest_subprocess("-vv")
-    result.assert_outcomes(passed=2)
