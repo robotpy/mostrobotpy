@@ -2,6 +2,7 @@ import dataclasses
 import enum
 import gc
 import inspect
+import re
 import typing
 
 import pytest
@@ -164,8 +165,8 @@ def test_generated_explicit_singleton_arrays_preserve_tuple_values_and_bytes():
 
 def test_many_scalar_fields_do_not_trigger_per_field_schema_scans(monkeypatch):
     scan_calls = 0
-    original_compile = schema_module.re.compile
-    original_search = schema_module.re.search
+    original_compile = re.compile
+    original_search = re.search
 
     def counting_compile(pattern, *args, **kwargs):
         nonlocal scan_calls
@@ -179,8 +180,8 @@ def test_many_scalar_fields_do_not_trigger_per_field_schema_scans(monkeypatch):
             scan_calls += 1
         return original_search(pattern, *args, **kwargs)
 
-    monkeypatch.setattr(schema_module.re, "compile", counting_compile)
-    monkeypatch.setattr(schema_module.re, "search", counting_search)
+    monkeypatch.setattr(re, "compile", counting_compile)
+    monkeypatch.setattr(re, "search", counting_search)
     field_count = 256
     schema = "; ".join(f"uint8 value{i}" for i in range(field_count))
 
@@ -680,6 +681,55 @@ def test_direct_generation_preserves_schema_error_taxonomy():
         with pytest.raises(ValueError, match=match) as exc_info:
             make_wpistruct_from_schema("Semantic", schema, nested={})
         assert type(exc_info.value) is exception_type
+
+
+def test_generated_nfkc_combining_mark_class_and_field_aliases_remain_exact():
+    schema = "uint16 हिन्दी"
+    generated = make_wpistruct_from_schema("pkg::हिन्दी", schema, nested={})
+    value = generated(0x1234)
+    encoded = b"\x34\x12"
+
+    assert generated.__name__ == "हिन्दी"
+    assert [field.name for field in dataclasses.fields(generated)] == ["हिन्दी"]
+    assert wpistruct.get_type_name(generated) == "pkg::हिन्दी"
+    assert wpistruct.get_schema(generated) == schema
+    assert wpistruct.pack(value) == encoded
+    assert wpistruct.unpack(generated, encoded) == value
+
+    layout = generated.__wpistruct_descriptor__
+    assert layout.type_name == "pkg::हिन्दी"
+    assert layout.schema == schema
+    assert [(field.schema_name, field.python_name) for field in layout.fields] == [
+        ("हिन्दी", "हिन्दी")
+    ]
+
+
+def test_generated_identifier_repair_preserves_combining_marks_near_punctuation():
+    wire_name = "pkg::हिन्दी-value"
+    generated = make_wpistruct_from_schema(wire_name, "uint8 value", nested={})
+    value = generated(7)
+
+    assert generated.__name__ == "हिन्दी_value"
+    assert wpistruct.get_type_name(generated) == wire_name
+    assert wpistruct.pack(value) == b"\x07"
+    assert wpistruct.unpack(generated, b"\x07") == value
+
+
+def test_generated_nfkc_combining_mark_enum_alias_remains_exact():
+    schema = "enum {हिन्दी=1} uint8 mode"
+    generated = make_wpistruct_from_schema("CombiningEnum", schema, nested={})
+    mode_type = generated.__dataclass_fields__["mode"].type
+    value = generated(mode_type.__members__["हिन्दी"])
+    encoded = b"\x01"
+
+    assert list(mode_type.__members__) == ["हिन्दी"]
+    assert wpistruct.get_schema(generated) == schema
+    assert wpistruct.pack(value) == encoded
+    assert wpistruct.unpack(generated, encoded) == value
+
+    field = generated.__wpistruct_descriptor__.fields[0]
+    assert (field.schema_name, field.python_name) == ("mode", "mode")
+    assert field.enum_values == (("हिन्दी", 1),)
 
 
 def test_generated_nfkc_field_aliases_preserve_wire_names_and_round_trip():
