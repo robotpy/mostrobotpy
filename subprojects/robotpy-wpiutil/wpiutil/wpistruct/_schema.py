@@ -3,6 +3,7 @@ import enum
 import keyword
 import re
 import typing
+import unicodedata
 
 from .._wpiutil import wpistruct
 from .._wpiutil._schema import SchemaDatabase
@@ -70,6 +71,7 @@ _MAX_GENERATED_TUPLE_ELEMENTS = 65_536
 
 
 def _sanitize_identifier(value: str) -> str:
+    value = unicodedata.normalize("NFKC", value)
     value = re.sub(r"\W", "_", value)
     if not value:
         value = "_"
@@ -295,7 +297,7 @@ def make_wpistruct_from_schema(
     generated_tuple_elements = 0
     compact_array_sizes: dict[str, int] = {}
     for field in descriptor.fields:
-        field_name = field.name
+        field_name = _sanitize_identifier(field.name)
         if field_name in _GENERATED_ATTRIBUTE_NAMES:
             field_name = f"{field_name}_"
         python_name = _unique_identifier(field_name, used_names)
