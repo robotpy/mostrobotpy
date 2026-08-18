@@ -1,6 +1,7 @@
 import dataclasses
 import enum
 import gc
+import inspect
 import typing
 
 import pytest
@@ -101,7 +102,7 @@ def test_generated_struct_name_is_not_executed_as_source():
 
 def test_generated_struct_name_is_always_a_valid_identifier():
     generated = make_wpistruct_from_schema("¼", "uint8 value", nested={})
-    assert generated.__name__ == "_"
+    assert generated.__name__ == "_1_4"
     assert generated.__name__.isidentifier()
     assert wpistruct.get_type_name(generated) == "¼"
     assert wpistruct.unpack(generated, b"\x07") == generated(7)
@@ -679,6 +680,155 @@ def test_direct_generation_preserves_schema_error_taxonomy():
         with pytest.raises(ValueError, match=match) as exc_info:
             make_wpistruct_from_schema("Semantic", schema, nested={})
         assert type(exc_info.value) is exception_type
+
+
+def test_generated_nfkc_field_aliases_preserve_wire_names_and_round_trip():
+    schema = "uint8 K; uint16 ｆｏｏ; int8 e\u0301; bool 变量"
+    generated = make_wpistruct_from_schema("NFKCFields", schema, nested={})
+
+    assert [field.name for field in dataclasses.fields(generated)] == [
+        "K",
+        "foo",
+        "é",
+        "变量",
+    ]
+    assert list(inspect.signature(generated).parameters) == ["K", "foo", "é", "变量"]
+    positional = generated(1, 0x0302, -2, True)
+    keyword_value = generated(**{"K": 1, "foo": 0x0302, "é": -2, "变量": True})
+    encoded = b"\x01\x02\x03\xfe\x01"
+
+    assert positional == keyword_value
+    assert repr(positional) == "NFKCFields(K=1, foo=770, é=-2, 变量=True)"
+    assert dataclasses.asdict(positional) == {
+        "K": 1,
+        "foo": 0x0302,
+        "é": -2,
+        "变量": True,
+    }
+    assert wpistruct.pack(positional) == encoded
+    assert wpistruct.unpack(generated, encoded) == positional
+    assert wpistruct.get_schema(generated) == schema
+    assert generated.__wpistruct_descriptor__.schema == schema
+    assert [
+        (field.schema_name, field.python_name)
+        for field in generated.__wpistruct_descriptor__.fields
+    ] == [("K", "K"), ("ｆｏｏ", "foo"), ("e\u0301", "é"), ("变量", "变量")]
+
+
+def test_generated_nfkc_field_collisions_and_keyword_are_deterministic():
+    schema = "uint8 K; uint8 K; uint8 foo; uint8 ｆｏｏ; uint8 ｃｌａｓｓ"
+    generated = make_wpistruct_from_schema("NFKCCollisions", schema, nested={})
+    aliases = ["K", "K_2", "foo", "foo_2", "class_"]
+
+    assert [field.name for field in dataclasses.fields(generated)] == aliases
+    assert list(inspect.signature(generated).parameters) == aliases
+    positional = generated(1, 2, 3, 4, 5)
+    keyword_value = generated(**{"K": 1, "K_2": 2, "foo": 3, "foo_2": 4, "class_": 5})
+
+    assert positional == keyword_value
+    assert dataclasses.asdict(positional) == {
+        "K": 1,
+        "K_2": 2,
+        "foo": 3,
+        "foo_2": 4,
+        "class_": 5,
+    }
+    assert wpistruct.pack(positional) == b"\x01\x02\x03\x04\x05"
+    assert wpistruct.unpack(generated, b"\x01\x02\x03\x04\x05") == positional
+    assert wpistruct.get_schema(generated) == schema
+    assert [
+        (field.schema_name, field.python_name)
+        for field in generated.__wpistruct_descriptor__.fields
+    ] == [
+        ("K", "K"),
+        ("K", "K_2"),
+        ("foo", "foo"),
+        ("ｆｏｏ", "foo_2"),
+        ("ｃｌａｓｓ", "class_"),
+    ]
+
+
+@pytest.mark.parametrize(
+    ("wire_name", "python_name"),
+    [
+        ("pkg::K", "K"),
+        ("pkg::ｆｏｏ", "foo"),
+        ("pkg::e\u0301", "é"),
+        ("pkg::ｃｌａｓｓ", "class_"),
+        ("pkg::变量", "变量"),
+        ("pkg::WPIStruct", "WPIStruct"),
+    ],
+)
+def test_generated_nfkc_class_alias_preserves_exact_wire_name(wire_name, python_name):
+    generated = make_wpistruct_from_schema(wire_name, "uint8 value", nested={})
+    value = generated(7)
+
+    assert generated.__name__ == python_name
+    assert wpistruct.get_type_name(generated) == wire_name
+    assert generated.__wpistruct_descriptor__.type_name == wire_name
+    assert wpistruct.get_schema(generated) == "uint8 value"
+    assert wpistruct.pack(value) == b"\x07"
+    assert wpistruct.unpack(generated, b"\x07") == value
+
+
+def test_generated_nfkc_enum_aliases_preserve_wire_metadata_and_round_trip():
+    schema = "enum {K=1,K=2,ｃｌａｓｓ=3,变量=4} uint8 ｍｏｄｅ"
+    generated = make_wpistruct_from_schema("pkg::K", schema, nested={})
+    mode_type = generated.__dataclass_fields__["mode"].type
+
+    assert generated.__name__ == "K"
+    assert mode_type.__name__ == "KMode"
+    assert list(mode_type.__members__) == ["K", "K_2", "class_", "变量"]
+    assert [member.value for member in mode_type] == [1, 2, 3, 4]
+    for member in mode_type:
+        value = generated(member)
+        encoded = bytes([member.value])
+        assert wpistruct.pack(value) == encoded
+        assert wpistruct.unpack(generated, encoded) == value
+
+    layout = generated.__wpistruct_descriptor__
+    assert wpistruct.get_type_name(generated) == "pkg::K"
+    assert wpistruct.get_schema(generated) == schema
+    assert layout.schema == schema
+    assert layout.fields[0].schema_name == "ｍｏｄｅ"
+    assert layout.fields[0].python_name == "mode"
+    assert layout.fields[0].enum_values == (
+        ("K", 1),
+        ("K", 2),
+        ("ｃｌａｓｓ", 3),
+        ("变量", 4),
+    )
+
+
+def test_generated_nfkc_metadata_reservations_and_collisions():
+    fullwidth_descriptor = "＿＿ｗｐｉｓｔｒｕｃｔ＿ｄｅｓｃｒｉｐｔｏｒ＿＿"
+    schema = (
+        "uint8 ＷＰＩＳｔｒｕｃｔ; uint8 WPIStruct; "
+        f"uint8 {fullwidth_descriptor}; uint8 __wpistruct_descriptor__"
+    )
+    generated = make_wpistruct_from_schema("NFKCMetadata", schema, nested={})
+    aliases = [
+        "WPIStruct_",
+        "WPIStruct_2",
+        "__wpistruct_descriptor___",
+        "__wpistruct_descriptor___2",
+    ]
+    value = generated(1, 2, 3, 4)
+
+    assert [field.name for field in dataclasses.fields(generated)] == aliases
+    assert list(inspect.signature(generated).parameters) == aliases
+    assert wpistruct.pack(value) == b"\x01\x02\x03\x04"
+    assert wpistruct.unpack(generated, b"\x01\x02\x03\x04") == value
+    assert wpistruct.get_schema(generated) == schema
+    assert [
+        (field.schema_name, field.python_name)
+        for field in generated.__wpistruct_descriptor__.fields
+    ] == [
+        ("ＷＰＩＳｔｒｕｃｔ", "WPIStruct_"),
+        ("WPIStruct", "WPIStruct_2"),
+        (fullwidth_descriptor, "__wpistruct_descriptor___"),
+        ("__wpistruct_descriptor__", "__wpistruct_descriptor___2"),
+    ]
 
 
 def test_generated_and_registry_schemas_accept_authored_unicode_identifier():
