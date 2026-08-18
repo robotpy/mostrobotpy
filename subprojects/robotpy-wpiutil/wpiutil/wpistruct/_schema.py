@@ -44,6 +44,7 @@ _SPECIAL_ATTRIBUTE_NAMES = {
 
 _GENERATED_ATTRIBUTE_NAMES = {
     "WPIStruct",
+    "__annotations__",
     "__wpistruct_descriptor__",
 }
 
