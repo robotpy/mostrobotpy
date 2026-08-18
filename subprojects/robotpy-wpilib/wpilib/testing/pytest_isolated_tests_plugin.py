@@ -84,16 +84,12 @@ class WorkerPlugin:
 
     @pytest.hookimpl(trylast=True)
     def pytest_configure(self, config: pytest.Config):
-        # Keep pytest-order loaded for option parsing and test generation, but
-        # disable its ordering hook because each worker runs only one test.
+        # Keep pytest-order loaded for option parsing, test generation, and
+        # marker registration, but disable its ordering hook because each
+        # worker runs only one test.
         ordering_plugin = config.pluginmanager.get_plugin("orderingplugin")
         if ordering_plugin is not None:
             config.pluginmanager.unregister(ordering_plugin)
-
-        # Also support strict-marker configurations when pytest-order is absent.
-        config.addinivalue_line(
-            "markers", "order(*args, **kwargs): resolved by the parent process"
-        )
 
     @pytest.hookimpl(wrapper=True)
     def pytest_sessionstart(self, session: pytest.Session):
@@ -252,6 +248,17 @@ class IsolatedTestsPlugin:
 
         self._parallelism = max(1, parallelism)
         self._shouldstop = False
+
+    @pytest.hookimpl(trylast=True)
+    def pytest_collection_modifyitems(
+        self, config: pytest.Config, items: list[pytest.Item]
+    ):
+        if config.pluginmanager.get_plugin("orderingplugin") is None and any(
+            item.get_closest_marker("order") is not None for item in items
+        ):
+            raise pytest.UsageError(
+                "pytest-order is required to use order markers with isolated tests"
+            )
 
     @pytest.hookimpl(wrapper=True)
     def pytest_sessionstart(self, session: pytest.Session):

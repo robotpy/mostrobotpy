@@ -696,6 +696,45 @@ def test_equal_but_distinct_order_markers_form_boundaries(monkeypatch):
 
 
 @pytest.mark.parametrize(
+    "disabled_plugin", ["pytest_order", "orderingplugin"], ids=["absent", "disabled"]
+)
+def test_order_marker_requires_pytest_order(pytester, disabled_plugin):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    pytester.makepyfile(test_ordered="""
+import pytest
+
+
+@pytest.mark.order(2)
+def test_second(robot):
+    pass
+
+
+@pytest.mark.order(1)
+def test_first(robot):
+    pass
+""")
+
+    result = pytester.runpytest_subprocess("-p", f"no:{disabled_plugin}")
+
+    assert result.ret == pytest.ExitCode.USAGE_ERROR
+    result.stderr.fnmatch_lines(["*pytest-order is required to use order markers*"])
+
+
+def test_pytest_order_is_optional_without_order_markers(pytester):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    pytester.makepyfile(test_unordered="""
+def test_robot(robot):
+    pass
+""")
+
+    result = pytester.runpytest_subprocess("-p", "no:pytest_order")
+
+    result.assert_outcomes(passed=1)
+
+
+@pytest.mark.parametrize(
     "ini_body, first_mark, second_mark",
     [
         (
