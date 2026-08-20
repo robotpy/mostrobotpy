@@ -38,8 +38,6 @@ classes:
         access: readonly
   wpy::structs::SchemaDescriptor:
     methods:
-      SchemaDescriptor:
-        ignore: true
       GetName:
         no_release_gil: true
       GetSchema:
