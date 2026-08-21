@@ -22,7 +22,7 @@ wrapper = "2027.0.0a6.post4"
 
 [params]
 
-wpilib_bin_version = "2027.0.0-alpha-6-336-g92efd74d9"
+wpilib_bin_version = "2027.0.0-alpha-6-358-gf90dfe8f4"
 wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 # wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
 
@@ -101,6 +101,14 @@ robot = true
 py_version = "native"
 robot = true
 
+[subprojects."robotpy-native-telemetry"]
+py_version = "native"
+robot = true
+
+[subprojects."robotpy-native-tunables"]
+py_version = "native"
+robot = true
+
 [subprojects."robotpy-native-wpihal"]
 py_version = "native"
 robot = true
@@ -138,6 +146,15 @@ py_version = "halsim_native"
 robot = false
 
 [subprojects."robotpy-wpiutil"]
+py_version = "wrapper"
+robot = true
+
+
+[subprojects."robotpy-telemetry"]
+py_version = "wrapper"
+robot = true
+
+[subprojects."robotpy-tunables"]
 py_version = "wrapper"
 robot = true
 
