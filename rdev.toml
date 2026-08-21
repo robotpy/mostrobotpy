@@ -101,6 +101,14 @@ robot = true
 py_version = "native"
 robot = true
 
+[subprojects."robotpy-native-telemetry"]
+py_version = "native"
+robot = true
+
+[subprojects."robotpy-native-tunables"]
+py_version = "native"
+robot = true
+
 [subprojects."robotpy-native-wpihal"]
 py_version = "native"
 robot = true
@@ -138,6 +146,15 @@ py_version = "halsim_native"
 robot = false
 
 [subprojects."robotpy-wpiutil"]
+py_version = "wrapper"
+robot = true
+
+
+[subprojects."robotpy-telemetry"]
+py_version = "wrapper"
+robot = true
+
+[subprojects."robotpy-tunables"]
 py_version = "wrapper"
 robot = true
 

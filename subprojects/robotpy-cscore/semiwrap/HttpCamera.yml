@@ -2,7 +2,7 @@ classes:
   wpi::cs::HttpCamera:
     force_no_trampoline: true
     constants:
-    - wpi::cs::HttpCamera::HttpCameraKind::kUnknown
+    - wpi::cs::HttpCamera::HttpCameraKind::UNKNOWN
     enums:
       HttpCameraKind:
     methods:

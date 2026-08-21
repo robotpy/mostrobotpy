@@ -9,6 +9,7 @@ wpiutil_sources += files(
     'wpiutil/src/safethread_gil.cpp',
     'wpiutil/src/stacktracehook.cpp',
     'wpiutil/src/timestamp.cpp',
+    'wpiutil/src/usagereporting.cpp',
     'wpiutil/src/wpistruct/wpystruct_fns.cpp',
 )
 
