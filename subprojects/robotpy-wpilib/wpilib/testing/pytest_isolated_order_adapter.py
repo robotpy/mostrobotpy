@@ -3,6 +3,8 @@ import typing as T
 
 import pytest
 
+_FAILED_ORDER_FIXTURE = "fail_after_cannot_order"
+
 
 @dataclasses.dataclass(frozen=True)
 class PytestOrderWorkerState:
@@ -82,7 +84,12 @@ class PytestOrderAdapter:
             yield group
 
     def worker_state(self, item: pytest.Function) -> PytestOrderWorkerState:
-        return PytestOrderWorkerState()
+        fixtures = (
+            (_FAILED_ORDER_FIXTURE,)
+            if _FAILED_ORDER_FIXTURE in item.fixturenames
+            else ()
+        )
+        return PytestOrderWorkerState(fixtures)
 
     @staticmethod
     def _effective_group_scope(config: pytest.Config) -> str | None:

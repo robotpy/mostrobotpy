@@ -689,6 +689,38 @@ def test_first(robot):
     assert not any("cannot execute" in line for line in result.outlines)
 
 
+def test_error_on_failed_ordering_reaches_isolated_worker(pytester):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    pytester.makepyfile(test_failed_order="""
+import pytest
+
+@pytest.mark.order(after="missing_test")
+def test_robot(robot):
+    pass
+""")
+
+    result = pytester.runpytest_subprocess("-vv", "--error-on-failed-ordering")
+
+    result.assert_outcomes(errors=1)
+
+
+def test_fail_all_on_failed_ordering_stops_before_worker(pytester):
+    _make_robot_module(pytester)
+    _configure_recording_isolated_plugin(pytester)
+    pytester.makepyfile(test_failed_order="""
+import pytest
+
+@pytest.mark.order(after="missing_test")
+def test_robot(robot): pass
+""")
+
+    result = pytester.runpytest_subprocess("-vv", "--fail-all-on-failed-ordering")
+
+    assert result.ret == pytest.ExitCode.USAGE_ERROR
+    assert not (pytester.path / "isolated-started").exists()
+
+
 def test_order_options_are_available_in_isolated_subprocess(pytester):
     _make_robot_module(pytester)
     _configure_isolated_plugin(pytester)
