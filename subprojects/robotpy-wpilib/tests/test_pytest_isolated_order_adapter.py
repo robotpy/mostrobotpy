@@ -10,6 +10,32 @@ from pytest_plugin_test_helpers import (
 )
 
 
+def _configure_recording_isolated_plugin(pytester):
+    pytester.makeconftest("""
+import pathlib
+
+from wpilib.testing.pytest_isolated_tests_plugin import IsolatedTestsPlugin
+
+from robot_module import DummyRobot
+
+
+class RecordingIsolatedTestsPlugin(IsolatedTestsPlugin):
+    def _start_isolated_test(self, item):
+        pathlib.Path("isolated-started").touch()
+        return super()._start_isolated_test(item)
+
+
+def pytest_configure(config):
+    if "--no-header" in config.invocation_params.args:
+        return
+    config.pluginmanager.register(
+        RecordingIsolatedTestsPlugin(
+            DummyRobot, pathlib.Path(__file__).resolve(), False, False, 2
+        )
+    )
+""")
+
+
 def test_isolated_plugin_worker_interruption_stops_session(pytester):
     _make_robot_module(pytester)
     _configure_isolated_plugin(pytester)
@@ -283,6 +309,35 @@ def test_order_groups_do_not_cross_scheduler_boundaries(
     assert _scheduler_events(monkeypatch, items) == expected
 
 
+def test_order_marker_implies_dependency_boundaries(pytester):
+    _make_robot_module(pytester)
+    pytester.makeini(
+        "[pytest]\nmarkers = dependency(*args, **kwargs): test dependency\n"
+    )
+    _configure_recording_isolated_plugin(pytester)
+    pytester.makepyfile(test_dependency_order="""
+import pathlib
+
+import pytest
+
+
+@pytest.mark.order(1)
+class TestChain:
+    @pytest.mark.dependency(depends=["prerequisite"])
+    def test_isolated_dependent(self, robot):
+        assert pathlib.Path("prerequisite-finished").exists()
+
+    @pytest.mark.dependency(name="prerequisite")
+    def test_plain_prerequisite(self):
+        assert not pathlib.Path("isolated-started").exists()
+        pathlib.Path("prerequisite-finished").touch()
+""")
+
+    result = pytester.runpytest_subprocess("-vv")
+
+    result.assert_outcomes(passed=2)
+
+
 def test_dependency_ordering_does_not_cross_scheduler_boundaries(pytester):
     _make_robot_module(pytester)
     pytester.makeini(
@@ -426,6 +481,37 @@ def test_equal_but_distinct_order_markers_form_boundaries(monkeypatch):
         ("start", "second"),
         ("finish", "second"),
     ]
+
+
+@pytest.mark.parametrize(
+    "source,args",
+    [
+        (
+            "@pytest.mark.sequence1\ndef test_robot(robot): pass",
+            ("--order-marker-prefix=sequence",),
+        ),
+        (
+            "@pytest.mark.dependency(name='x')\ndef test_robot(robot): pass",
+            ("--order-dependencies",),
+        ),
+    ],
+    ids=["prefix", "dependency"],
+)
+def test_nonstandard_ordering_requires_active_sorter(pytester, source, args):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    pytester.makeini(
+        "[pytest]\nmarkers =\n"
+        "    sequence1: first\n"
+        "    dependency(*args, **kwargs): dependency\n"
+    )
+    pytester.makepyfile(test_ordered="import pytest\n\n" + source)
+
+    result = pytester.runpytest_subprocess(
+        "-p", "no:orderingplugin", *args
+    )
+
+    assert result.ret == pytest.ExitCode.USAGE_ERROR
 
 
 @pytest.mark.parametrize(

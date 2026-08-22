@@ -37,7 +37,7 @@ class PytestOrderAdapter:
 
     def validate(self, items: list[pytest.Item]) -> None:
         if self._config.pluginmanager.get_plugin("orderingplugin") is None and any(
-            item.get_closest_marker("order") is not None for item in items
+            self._requests_ordering(item) for item in items
         ):
             raise pytest.UsageError(
                 "pytest-order is required to use order markers with isolated tests"
@@ -58,7 +58,7 @@ class PytestOrderAdapter:
             )
             dependency = (
                 item.get_closest_marker("dependency")
-                if self._dependency_ordering
+                if self._dependency_ordering or literal_order is not None
                 else None
             )
 
@@ -77,6 +77,15 @@ class PytestOrderAdapter:
 
     def worker_state(self, item: pytest.Function) -> PytestOrderWorkerState:
         return PytestOrderWorkerState()
+
+    def _requests_ordering(self, item: pytest.Item) -> bool:
+        if item.get_closest_marker("order") is not None:
+            return True
+        if self._prefixed_marker(item) is not None:
+            return True
+        return self._dependency_ordering and (
+            item.get_closest_marker("dependency") is not None
+        )
 
     def _prefixed_marker(self, item: pytest.Item):
         if not self._marker_prefix:
