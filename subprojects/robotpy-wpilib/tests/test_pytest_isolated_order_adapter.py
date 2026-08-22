@@ -66,6 +66,91 @@ def test_effective_group_scope(order_scope, group_scope, want):
     assert PytestOrderAdapter(config)._group_scope == want
 
 
+@pytest.mark.parametrize(
+    "first_mark,second_mark",
+    [
+        ("@pytest.mark.order(1)", "@pytest.mark.order(2)"),
+        ("@pytest.mark.order(-2)", "@pytest.mark.order(-1)"),
+        ("@pytest.mark.order('first')", "@pytest.mark.order('second')"),
+        ("@pytest.mark.order(index=1)", "@pytest.mark.order(index=2)"),
+        ("@pytest.mark.order(before='test_second')", ""),
+        ("", "@pytest.mark.order(after='test_first')"),
+    ],
+    ids=["numeric", "negative", "named", "index", "before", "after"],
+)
+def test_documented_marker_forms_preserve_boundaries(
+    pytester, first_mark, second_mark
+):
+    _make_robot_module(pytester)
+    _configure_recording_isolated_plugin(pytester)
+    pytester.makepyfile(test_marker_forms=f"""
+import pathlib
+import pytest
+
+{second_mark}
+def test_second(robot):
+    assert pathlib.Path("first-finished").exists()
+
+{first_mark}
+def test_first():
+    assert not pathlib.Path("isolated-started").exists()
+    pathlib.Path("first-finished").touch()
+""")
+
+    result = pytester.runpytest_subprocess("-vv")
+
+    result.assert_outcomes(passed=2)
+
+
+@pytest.mark.parametrize("container", ["list", "tuple"])
+@pytest.mark.parametrize("direction", ["before", "after"])
+def test_relative_marker_sequences(pytester, container, direction):
+    _make_robot_module(pytester)
+    _configure_recording_isolated_plugin(pytester)
+    if direction == "after":
+        refs = (
+            '["test_first", "test_middle"]'
+            if container == "list"
+            else '("test_first", "test_middle")'
+        )
+        first_mark = ""
+        middle_mark = '@pytest.mark.order(after="test_first")'
+        last_mark = f"@pytest.mark.order(after={refs})"
+    else:
+        refs = (
+            '["test_middle", "test_last"]'
+            if container == "list"
+            else '("test_middle", "test_last")'
+        )
+        first_mark = f"@pytest.mark.order(before={refs})"
+        middle_mark = '@pytest.mark.order(before="test_last")'
+        last_mark = ""
+
+    pytester.makepyfile(test_relative_sequences=f"""
+import pathlib
+import pytest
+
+{last_mark}
+def test_last(robot):
+    assert pathlib.Path("first-finished").exists()
+    assert pathlib.Path("middle-finished").exists()
+
+{middle_mark}
+def test_middle():
+    assert pathlib.Path("first-finished").exists()
+    pathlib.Path("middle-finished").touch()
+
+{first_mark}
+def test_first():
+    assert not pathlib.Path("isolated-started").exists()
+    pathlib.Path("first-finished").touch()
+""")
+
+    result = pytester.runpytest_subprocess("-vv")
+
+    result.assert_outcomes(passed=3)
+
+
 def test_isolated_plugin_worker_interruption_stops_session(pytester):
     _make_robot_module(pytester)
     _configure_isolated_plugin(pytester)
@@ -213,6 +298,29 @@ class TestLate:
     )
 
     result.assert_outcomes(passed=4)
+
+
+def test_module_order_marker_forms_one_parallel_group(pytester):
+    items = pytester.getitems("""
+import pytest
+
+pytestmark = pytest.mark.order(1)
+
+
+def test_one(): pass
+
+def test_two(): pass
+""")
+    adapter = PytestOrderAdapter(_AdapterConfig())
+
+    groups = list(adapter.groups(items))
+
+    assert [[item.name for item in group] for group in groups] == [
+        ["test_one", "test_two"]
+    ]
+    assert items[0].get_closest_marker("order") is items[1].get_closest_marker(
+        "order"
+    )
 
 
 def test_order_marker_groups_use_real_pytest_marker_inheritance(pytester):
@@ -468,13 +576,23 @@ def test_plain_prerequisite():
     result.assert_outcomes(passed=2)
 
 
-def test_prefixed_order_markers_preserve_scheduler_boundaries(pytester):
+@pytest.mark.parametrize(
+    "first_marker,second_marker",
+    [
+        ("sequence1", "sequence2"),
+        ("sequence1_setup", "sequence2_robot"),
+    ],
+    ids=["documented", "pytest_order_1_5_compatibility"],
+)
+def test_prefixed_order_markers_preserve_scheduler_boundaries(
+    pytester, first_marker, second_marker
+):
     _make_robot_module(pytester)
     pytester.makeini(
         "[pytest]\n"
         "markers =\n"
-        "    sequence1_setup: first test\n"
-        "    sequence2_robot: second test\n"
+        f"    {first_marker}: first test\n"
+        f"    {second_marker}: second test\n"
     )
     pytester.makeconftest("""
 import pathlib
@@ -499,18 +617,18 @@ def pytest_configure(config):
         )
     )
 """)
-    pytester.makepyfile(test_prefixed_order="""
+    pytester.makepyfile(test_prefixed_order=f"""
 import pathlib
 
 import pytest
 
 
-@pytest.mark.sequence2_robot
+@pytest.mark.{second_marker}
 def test_isolated_dependent(robot):
     assert pathlib.Path("prerequisite-finished").exists()
 
 
-@pytest.mark.sequence1_setup
+@pytest.mark.{first_marker}
 def test_plain_prerequisite():
     assert not pathlib.Path("isolated-started").exists()
     pathlib.Path("prerequisite-finished").touch()
@@ -721,7 +839,107 @@ def test_robot(robot): pass
     assert not (pytester.path / "isolated-started").exists()
 
 
-def test_order_options_are_available_in_isolated_subprocess(pytester):
+@pytest.mark.parametrize(
+    "args,want",
+    [
+        ((), ["first", "second"]),
+        (("--indulgent-ordering",), ["second", "first"]),
+    ],
+    ids=["default", "indulgent"],
+)
+def test_indulgent_ordering_consumes_final_collection_order(pytester, args, want):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    with (pytester.path / "conftest.py").open("a") as fp:
+        fp.write("""
+
+import pytest
+
+@pytest.hookimpl(trylast=True)
+def pytest_collection_modifyitems(items):
+    items.reverse()
+""")
+    pytester.makepyfile(test_hook_order="""
+import pathlib
+import pytest
+
+EVENTS = pathlib.Path("events.txt")
+
+def record(event):
+    with EVENTS.open("a") as fp:
+        fp.write(event + "\\n")
+
+@pytest.mark.order(2)
+def test_second(robot):
+    record("second")
+
+@pytest.mark.order(1)
+def test_first():
+    record("first")
+""")
+
+    result = pytester.runpytest_subprocess("-vv", *args)
+
+    result.assert_outcomes(passed=2)
+    assert (pytester.path / "events.txt").read_text().splitlines() == want
+
+
+@pytest.mark.parametrize(
+    "order_after_ff,want",
+    [
+        (False, ["failed", "ordered"]),
+        (True, ["ordered", "failed"]),
+    ],
+)
+def test_order_after_failed_first(pytester, order_after_ff, want):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    pytester.makepyfile(test_failed_first="""
+import pathlib
+import pytest
+
+EVENTS = pathlib.Path("events.txt")
+SEEN = pathlib.Path("seen-failure.txt")
+
+def record(event):
+    with EVENTS.open("a") as fp:
+        fp.write(event + "\\n")
+
+@pytest.mark.order("first")
+def test_ordered(robot):
+    record("ordered")
+
+def test_cached_failure():
+    record("failed")
+    if not SEEN.exists():
+        SEEN.touch()
+        assert False
+""")
+
+    first = pytester.runpytest_subprocess("-q")
+    first.assert_outcomes(passed=1, failed=1)
+    (pytester.path / "events.txt").unlink()
+
+    args = ["-q", "--ff"]
+    if order_after_ff:
+        args.append("--order-after-ff")
+    second = pytester.runpytest_subprocess(*args)
+
+    second.assert_outcomes(passed=2)
+    assert (pytester.path / "events.txt").read_text().splitlines() == want
+
+
+@pytest.mark.parametrize(
+    "option",
+    [
+        "--order-scope=module",
+        "--order-scope-level=1",
+        "--sparse-ordering",
+        "--indulgent-ordering",
+        "--order-after-ff",
+    ],
+)
+def test_parent_sort_options_are_available_in_worker(pytester, option):
     _make_robot_module(pytester)
     _configure_isolated_plugin(pytester)
     pytester.makepyfile(test_ordered="""
@@ -733,7 +951,7 @@ def test_robot(robot):
     assert robot is not None
 """)
 
-    result = pytester.runpytest_subprocess("-v", "--order-scope=module")
+    result = pytester.runpytest_subprocess("-v", option)
 
     result.assert_outcomes(passed=1)
 
