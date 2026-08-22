@@ -335,6 +335,30 @@ def test_robot(robot):
     result.stdout.fnmatch_lines(["*subprocess exited with exit code 5*"])
 
 
+def test_isolated_plugin_worker_interruption_stops_session(pytester):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    pytester.makepyfile(test_isolated="""
+import pathlib
+import pytest
+
+
+@pytest.mark.order(1)
+def test_robot_exit(robot):
+    pytest.exit("worker requested exit")
+
+
+@pytest.mark.order(2)
+def test_later_group_must_not_run():
+    pathlib.Path("later-group-ran").touch()
+""")
+
+    result = pytester.runpytest_subprocess("-v")
+
+    assert result.ret == pytest.ExitCode.INTERRUPTED
+    assert not (pytester.path / "later-group-ran").exists()
+
+
 def test_isolated_plugin_maxfail_stops_early(pytester):
     _make_robot_module(pytester)
     _configure_isolated_plugin(pytester)

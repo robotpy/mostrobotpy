@@ -512,11 +512,16 @@ class IsolatedTestsPlugin:
         if exit_code is not None:
             job.exit_code = int(exit_code)
 
-        # Normal test failures have already produced reports. Other exit codes
-        # need a synthetic failure report from _finalize_job.
+        if job.exit_code == pytest.ExitCode.INTERRUPTED and not self._shouldstop:
+            self._shouldstop = "interrupted in worker"
+
+        # Normal test failures have already produced reports, and interruptions
+        # stop the parent session. Other exit codes need a synthetic failure
+        # report from _finalize_job.
         job.worker_completed = job.exit_code in (
             pytest.ExitCode.OK,
             pytest.ExitCode.TESTS_FAILED,
+            pytest.ExitCode.INTERRUPTED,
         )
         job.finished = True
 
