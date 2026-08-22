@@ -8,6 +8,7 @@ from pytest_plugin_test_helpers import (
     _configure_isolated_plugin,
     _make_robot_module,
 )
+from wpilib.testing.pytest_isolated_order_adapter import PytestOrderAdapter
 
 
 def _configure_recording_isolated_plugin(pytester):
@@ -34,6 +35,35 @@ def pytest_configure(config):
         )
     )
 """)
+
+
+class _AdapterConfig:
+    def __init__(self, **options):
+        self._options = options
+        self.pluginmanager = SimpleNamespace(get_plugin=lambda name: object())
+
+    def getoption(self, name, default=None):
+        return self._options.get(name, default)
+
+
+@pytest.mark.parametrize(
+    "order_scope,group_scope,want",
+    [
+        (None, None, None),
+        ("session", "module", "module"),
+        ("session", "class", "class"),
+        ("module", "class", "class"),
+        ("module", "session", None),
+        ("class", "module", None),
+        ("invalid", "module", "module"),
+    ],
+)
+def test_effective_group_scope(order_scope, group_scope, want):
+    config = _AdapterConfig(
+        order_scope=order_scope,
+        order_group_scope=group_scope,
+    )
+    assert PytestOrderAdapter(config)._group_scope == want
 
 
 def test_isolated_plugin_worker_interruption_stops_session(pytester):
@@ -133,9 +163,59 @@ def test_between_plain_groups(robot):
     ]
 
 
-def test_order_marker_groups_use_real_pytest_marker_inheritance(pytester):
-    from wpilib.testing.pytest_isolated_order_adapter import PytestOrderAdapter
+@pytest.mark.parametrize("scope", ["module", "class"])
+def test_order_group_scope_preserves_structural_boundaries(pytester, scope):
+    _make_robot_module(pytester)
+    _configure_recording_isolated_plugin(pytester)
 
+    if scope == "module":
+        pytester.makepyfile(
+            test_early="""
+import pathlib
+import pytest
+
+@pytest.mark.order(1)
+def test_order_anchor(): pass
+
+def test_plain_tail():
+    assert not pathlib.Path("isolated-started").exists()
+""",
+            test_late="""
+import pytest
+
+def test_robot_head(robot): pass
+
+@pytest.mark.order(-1)
+def test_order_anchor(): pass
+""",
+        )
+    else:
+        pytester.makepyfile(test_groups="""
+import pathlib
+import pytest
+
+class TestEarly:
+    @pytest.mark.order(1)
+    def test_order_anchor(self): pass
+
+    def test_plain_tail(self):
+        assert not pathlib.Path("isolated-started").exists()
+
+class TestLate:
+    def test_robot_head(self, robot): pass
+
+    @pytest.mark.order(-1)
+    def test_order_anchor(self): pass
+""")
+
+    result = pytester.runpytest_subprocess(
+        "-vv", f"--order-group-scope={scope}"
+    )
+
+    result.assert_outcomes(passed=4)
+
+
+def test_order_marker_groups_use_real_pytest_marker_inheritance(pytester):
     items = pytester.getitems("""
 import pytest
 

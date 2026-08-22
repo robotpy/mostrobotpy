@@ -34,6 +34,7 @@ class PytestOrderAdapter:
             "order_dependencies", default=False
         )
         self._marker_prefix = config.getoption("order_marker_prefix", default=None)
+        self._group_scope = self._effective_group_scope(config)
 
     def validate(self, items: list[pytest.Item]) -> None:
         if self._config.pluginmanager.get_plugin("orderingplugin") is None and any(
@@ -47,6 +48,7 @@ class PytestOrderAdapter:
         group: list[pytest.Function] = []
         previous_order: object = object()
         previous_dependency: object = object()
+        previous_structure: object = object()
 
         for item in items:
             assert isinstance(item, pytest.Function)
@@ -61,9 +63,12 @@ class PytestOrderAdapter:
                 if self._dependency_ordering or literal_order is not None
                 else None
             )
+            structure = self._structural_group(item)
 
             if group and (
-                order is not previous_order or dependency is not previous_dependency
+                order is not previous_order
+                or dependency is not previous_dependency
+                or structure != previous_structure
             ):
                 yield group
                 group = []
@@ -71,12 +76,34 @@ class PytestOrderAdapter:
             group.append(item)
             previous_order = order
             previous_dependency = dependency
+            previous_structure = structure
 
         if group:
             yield group
 
     def worker_state(self, item: pytest.Function) -> PytestOrderWorkerState:
         return PytestOrderWorkerState()
+
+    @staticmethod
+    def _effective_group_scope(config: pytest.Config) -> str | None:
+        ranks = {"class": 1, "module": 2, "session": 3}
+        order_scope = config.getoption("order_scope", default=None)
+        if order_scope not in ranks:
+            order_scope = "session"
+        group_scope = config.getoption("order_group_scope", default=None)
+        if group_scope not in ranks:
+            group_scope = order_scope
+        if ranks[group_scope] >= ranks[order_scope]:
+            return None
+        return group_scope
+
+    def _structural_group(self, item: pytest.Item) -> str | None:
+        if self._group_scope == "module":
+            return item.nodeid.split("::", 1)[0]
+        if self._group_scope == "class":
+            parts = item.nodeid.split("::")
+            return "::".join(parts[:2]) if len(parts) > 2 else parts[0]
+        return None
 
     def _requests_ordering(self, item: pytest.Item) -> bool:
         if item.get_closest_marker("order") is not None:
