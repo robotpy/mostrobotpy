@@ -520,6 +520,38 @@ class TestChain:
     result.assert_outcomes(passed=2)
 
 
+def test_prefixed_order_marker_implies_dependency_boundaries(pytester):
+    _make_robot_module(pytester)
+    pytester.makeini(
+        "[pytest]\n"
+        "markers =\n"
+        "    sequence1: first test\n"
+        "    dependency(*args, **kwargs): test dependency\n"
+    )
+    _configure_recording_isolated_plugin(pytester)
+    pytester.makepyfile(test_dependency_order="""
+import pathlib
+
+import pytest
+
+
+@pytest.mark.sequence1
+class TestChain:
+    @pytest.mark.dependency(name="prerequisite")
+    def test_plain_prerequisite(self):
+        assert not pathlib.Path("isolated-started").exists()
+        pathlib.Path("prerequisite-finished").touch()
+
+    @pytest.mark.dependency(depends=["prerequisite"])
+    def test_isolated_dependent(self, robot):
+        assert pathlib.Path("prerequisite-finished").exists()
+""")
+
+    result = pytester.runpytest_subprocess("-vv", "--order-marker-prefix=sequence")
+
+    result.assert_outcomes(passed=2)
+
+
 def test_dependency_ordering_does_not_cross_scheduler_boundaries(pytester):
     _make_robot_module(pytester)
     pytester.makeini(

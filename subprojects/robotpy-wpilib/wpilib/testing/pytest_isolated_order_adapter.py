@@ -62,7 +62,7 @@ class PytestOrderAdapter:
             )
             dependency = (
                 item.get_closest_marker("dependency")
-                if self._dependency_ordering or literal_order is not None
+                if self._dependency_ordering or order is not None
                 else None
             )
             structure = self._structural_group(item)
