@@ -1,0 +1,91 @@
+import dataclasses
+import typing as T
+
+import pytest
+
+
+@dataclasses.dataclass(frozen=True)
+class PytestOrderWorkerState:
+    extra_fixtures: tuple[str, ...] = ()
+
+
+class PytestOrderWorkerPlugin:
+    def __init__(self, state: PytestOrderWorkerState):
+        self._state = state
+
+    @pytest.hookimpl(trylast=True)
+    def pytest_configure(self, config: pytest.Config):
+        ordering_plugin = config.pluginmanager.get_plugin("orderingplugin")
+        if ordering_plugin is not None:
+            config.pluginmanager.unregister(ordering_plugin)
+
+    @pytest.hookimpl
+    def pytest_collection_modifyitems(self, items: list[pytest.Item]):
+        for item in items:
+            for fixture in reversed(self._state.extra_fixtures):
+                if fixture not in item.fixturenames:
+                    item.fixturenames.insert(0, fixture)
+
+
+class PytestOrderAdapter:
+    def __init__(self, config: pytest.Config):
+        self._config = config
+        self._dependency_ordering = config.getoption(
+            "order_dependencies", default=False
+        )
+        self._marker_prefix = config.getoption("order_marker_prefix", default=None)
+
+    def validate(self, items: list[pytest.Item]) -> None:
+        if self._config.pluginmanager.get_plugin("orderingplugin") is None and any(
+            item.get_closest_marker("order") is not None for item in items
+        ):
+            raise pytest.UsageError(
+                "pytest-order is required to use order markers with isolated tests"
+            )
+
+    def groups(self, items: list[pytest.Item]) -> T.Iterator[list[pytest.Function]]:
+        group: list[pytest.Function] = []
+        previous_order: object = object()
+        previous_dependency: object = object()
+
+        for item in items:
+            assert isinstance(item, pytest.Function)
+            literal_order = item.get_closest_marker("order")
+            order = (
+                literal_order
+                if literal_order is not None
+                else self._prefixed_marker(item)
+            )
+            dependency = (
+                item.get_closest_marker("dependency")
+                if self._dependency_ordering
+                else None
+            )
+
+            if group and (
+                order is not previous_order or dependency is not previous_dependency
+            ):
+                yield group
+                group = []
+
+            group.append(item)
+            previous_order = order
+            previous_dependency = dependency
+
+        if group:
+            yield group
+
+    def worker_state(self, item: pytest.Function) -> PytestOrderWorkerState:
+        return PytestOrderWorkerState()
+
+    def _prefixed_marker(self, item: pytest.Item):
+        if not self._marker_prefix:
+            return None
+        for marker in item.iter_markers():
+            if marker.name.startswith(self._marker_prefix):
+                try:
+                    int(marker.name[len(self._marker_prefix)])
+                except (IndexError, ValueError):
+                    continue
+                return marker
+        return None

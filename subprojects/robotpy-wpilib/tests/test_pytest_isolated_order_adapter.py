@@ -108,7 +108,7 @@ def test_between_plain_groups(robot):
 
 
 def test_order_marker_groups_use_real_pytest_marker_inheritance(pytester):
-    from wpilib.testing.pytest_isolated_tests_plugin import _order_marker_groups
+    from wpilib.testing.pytest_isolated_order_adapter import PytestOrderAdapter
 
     items = pytester.getitems("""
 import pytest
@@ -155,7 +155,12 @@ class TestOverride:
         )
     ]
 
-    groups = _order_marker_groups(ordered_items)
+    config = SimpleNamespace(
+        getoption=lambda name, default=None: default,
+        pluginmanager=SimpleNamespace(get_plugin=lambda name: object()),
+    )
+    adapter = PytestOrderAdapter(config)
+    groups = adapter.groups(ordered_items)
 
     assert [[item.name for item in group] for group in groups] == [
         ["test_inherited_one", "test_inherited_two"],
@@ -206,11 +211,13 @@ def _scheduler_item(name, marker, uses_robot):
 
 
 def _scheduler_events(monkeypatch, items):
+    from wpilib.testing.pytest_isolated_order_adapter import PytestOrderAdapter
     from wpilib.testing.pytest_isolated_tests_plugin import IsolatedTestsPlugin
 
     events = []
     session = _SchedulerSession(items, events)
     plugin = IsolatedTestsPlugin(object, pathlib.Path("robot.py"), False, False, 4)
+    plugin._ordering = PytestOrderAdapter(session.config)
 
     def start(item):
         events.append(("start", item.name))

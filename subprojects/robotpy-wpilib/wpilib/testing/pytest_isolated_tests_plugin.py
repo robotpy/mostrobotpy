@@ -16,6 +16,11 @@ import robotpy.main
 import wpilib
 
 
+from .pytest_isolated_order_adapter import (
+    PytestOrderAdapter,
+    PytestOrderWorkerPlugin,
+    PytestOrderWorkerState,
+)
 from .pytest_plugin import RobotTestingPlugin
 
 
@@ -82,15 +87,6 @@ class WorkerPlugin:
     def sendevent(self, name: str, **kwargs: object):
         self.channel.send((name, kwargs))
 
-    @pytest.hookimpl(trylast=True)
-    def pytest_configure(self, config: pytest.Config):
-        # Keep pytest-order loaded for option parsing, test generation, and
-        # marker registration, but disable its ordering hook because each
-        # worker runs only one test.
-        ordering_plugin = config.pluginmanager.get_plugin("orderingplugin")
-        if ordering_plugin is not None:
-            config.pluginmanager.unregister(ordering_plugin)
-
     @pytest.hookimpl(wrapper=True)
     def pytest_sessionstart(self, session: pytest.Session):
         self.config = session.config
@@ -137,7 +133,14 @@ class WorkerPlugin:
 
 
 def _run_test(
-    item_nodeid, config_args, robot_class_data, robot_file, verbose, pipe, root_path
+    item_nodeid,
+    config_args,
+    robot_class_data,
+    robot_file,
+    verbose,
+    order_state: PytestOrderWorkerState,
+    pipe,
+    root_path,
 ):
     """This function runs in a subprocess"""
     logging.root.addHandler(logging.NullHandler())
@@ -156,6 +159,7 @@ def _run_test(
     # and we don't want it to die and deadlock
     plugin = RobotTestingPlugin(robot_class, robot_file, True)
     worker_plugin = WorkerPlugin(pipe)
+    order_plugin = PytestOrderWorkerPlugin(order_state)
 
     ec = pytest.main(
         [
@@ -165,7 +169,7 @@ def _run_test(
             "no:terminalreporter",
             *config_args,
         ],
-        plugins=[plugin, worker_plugin],
+        plugins=[plugin, worker_plugin, order_plugin],
     )
 
     # ensure output is printed out
@@ -197,47 +201,6 @@ class IsolatedTestJob:
     def set_exit_code(self, ec: int):
         if self.exit_code is None:
             self.exit_code = ec
-
-
-def _order_marker_groups(
-    items: list[pytest.Item],
-    dependency_ordering: bool = False,
-    order_marker_prefix: str | None = None,
-) -> T.Iterator[list[pytest.Function]]:
-    """Group consecutive items that share the same ordering marker objects."""
-    group: list[pytest.Function] = []
-    previous_order_marker: object = object()
-    previous_dependency_marker: object = object()
-
-    for item in items:
-        assert isinstance(item, pytest.Function)
-        order_marker = item.get_closest_marker("order")
-        if order_marker is None and order_marker_prefix:
-            for marker in item.iter_markers():
-                if marker.name.startswith(order_marker_prefix):
-                    try:
-                        int(marker.name[len(order_marker_prefix)])
-                    except (IndexError, ValueError):
-                        continue
-                    order_marker = marker
-                    break
-        dependency_marker = (
-            item.get_closest_marker("dependency") if dependency_ordering else None
-        )
-
-        if group and (
-            order_marker is not previous_order_marker
-            or dependency_marker is not previous_dependency_marker
-        ):
-            yield group
-            group = []
-
-        group.append(item)
-        previous_order_marker = order_marker
-        previous_dependency_marker = dependency_marker
-
-    if group:
-        yield group
 
 
 class IsolatedTestsPlugin:
@@ -272,12 +235,8 @@ class IsolatedTestsPlugin:
     def pytest_collection_modifyitems(
         self, config: pytest.Config, items: list[pytest.Item]
     ):
-        if config.pluginmanager.get_plugin("orderingplugin") is None and any(
-            item.get_closest_marker("order") is not None for item in items
-        ):
-            raise pytest.UsageError(
-                "pytest-order is required to use order markers with isolated tests"
-            )
+        self._ordering = PytestOrderAdapter(config)
+        self._ordering.validate(items)
 
     @pytest.hookimpl(wrapper=True)
     def pytest_sessionstart(self, session: pytest.Session):
@@ -312,15 +271,7 @@ class IsolatedTestsPlugin:
             # pytest-order has already sorted session.items. Preserve boundaries
             # between ordering-marker groups while retaining the existing parallel
             # scheduling within each group.
-            dependency_ordering = session.config.getoption(
-                "order_dependencies", default=False
-            )
-            order_marker_prefix = session.config.getoption(
-                "order_marker_prefix", default=None
-            )
-            for group in _order_marker_groups(
-                session.items, dependency_ordering, order_marker_prefix
-            ):
+            for group in self._ordering.groups(session.items):
                 deferred: list[pytest.Function] = []
 
                 # Start this group's robot tests first, then overlap its plain
@@ -380,6 +331,7 @@ class IsolatedTestsPlugin:
                 pickle.dumps(self._robot_class),
                 self._robot_file,
                 self._verbose,
+                self._ordering.worker_state(item),
                 cconn,
                 self._config.rootpath,
             ),
