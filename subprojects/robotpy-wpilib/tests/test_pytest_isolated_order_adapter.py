@@ -296,6 +296,33 @@ class TestLate:
     result.assert_outcomes(passed=4)
 
 
+def test_class_order_group_scope_preserves_nested_class_boundaries(pytester):
+    _make_robot_module(pytester)
+    _configure_recording_isolated_plugin(pytester)
+    pytester.makepyfile(test_nested_groups="""
+import pathlib
+import pytest
+
+class TestOuter:
+    class TestEarly:
+        @pytest.mark.order(1)
+        def test_order_anchor(self): pass
+
+        def test_plain_tail(self):
+            assert not pathlib.Path("isolated-started").exists()
+
+    class TestLate:
+        def test_robot_head(self, robot): pass
+
+        @pytest.mark.order(-1)
+        def test_order_anchor(self): pass
+""")
+
+    result = pytester.runpytest_subprocess("-vv", "--order-group-scope=class")
+
+    result.assert_outcomes(passed=4)
+
+
 def test_module_order_marker_forms_one_parallel_group(pytester):
     items = pytester.getitems("""
 import pytest

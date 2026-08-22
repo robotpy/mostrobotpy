@@ -108,8 +108,10 @@ class PytestOrderAdapter:
         if self._group_scope == "module":
             return item.nodeid.split("::", 1)[0]
         if self._group_scope == "class":
-            parts = item.nodeid.split("::")
-            return "::".join(parts[:2]) if len(parts) > 2 else parts[0]
+            class_collector = item.getparent(pytest.Class)
+            if class_collector is not None:
+                return class_collector.nodeid
+            return item.nodeid.split("::", 1)[0]
         return None
 
     def _requests_ordering(self, item: pytest.Item) -> bool:
