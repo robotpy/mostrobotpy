@@ -78,9 +78,7 @@ def test_effective_group_scope(order_scope, group_scope, want):
     ],
     ids=["numeric", "negative", "named", "index", "before", "after"],
 )
-def test_documented_marker_forms_preserve_boundaries(
-    pytester, first_mark, second_mark
-):
+def test_documented_marker_forms_preserve_boundaries(pytester, first_mark, second_mark):
     _make_robot_module(pytester)
     _configure_recording_isolated_plugin(pytester)
     pytester.makepyfile(test_marker_forms=f"""
@@ -293,9 +291,7 @@ class TestLate:
     def test_order_anchor(self): pass
 """)
 
-    result = pytester.runpytest_subprocess(
-        "-vv", f"--order-group-scope={scope}"
-    )
+    result = pytester.runpytest_subprocess("-vv", f"--order-group-scope={scope}")
 
     result.assert_outcomes(passed=4)
 
@@ -318,9 +314,7 @@ def test_two(): pass
     assert [[item.name for item in group] for group in groups] == [
         ["test_one", "test_two"]
     ]
-    assert items[0].get_closest_marker("order") is items[1].get_closest_marker(
-        "order"
-    )
+    assert items[0].get_closest_marker("order") is items[1].get_closest_marker("order")
 
 
 def test_order_marker_groups_use_real_pytest_marker_inheritance(pytester):
@@ -705,9 +699,7 @@ def test_nonstandard_ordering_requires_active_sorter(pytester, source, args):
     )
     pytester.makepyfile(test_ordered="import pytest\n\n" + source)
 
-    result = pytester.runpytest_subprocess(
-        "-p", "no:orderingplugin", *args
-    )
+    result = pytester.runpytest_subprocess("-p", "no:orderingplugin", *args)
 
     assert result.ret == pytest.ExitCode.USAGE_ERROR
 
