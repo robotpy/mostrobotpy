@@ -200,7 +200,9 @@ class IsolatedTestJob:
 
 
 def _order_marker_groups(
-    items: list[pytest.Item], dependency_ordering: bool = False
+    items: list[pytest.Item],
+    dependency_ordering: bool = False,
+    order_marker_prefix: str | None = None,
 ) -> T.Iterator[list[pytest.Function]]:
     """Group consecutive items that share the same ordering marker objects."""
     group: list[pytest.Function] = []
@@ -210,6 +212,15 @@ def _order_marker_groups(
     for item in items:
         assert isinstance(item, pytest.Function)
         order_marker = item.get_closest_marker("order")
+        if order_marker is None and order_marker_prefix:
+            for marker in item.iter_markers():
+                if marker.name.startswith(order_marker_prefix):
+                    try:
+                        int(marker.name[len(order_marker_prefix)])
+                    except (IndexError, ValueError):
+                        continue
+                    order_marker = marker
+                    break
         dependency_marker = (
             item.get_closest_marker("dependency") if dependency_ordering else None
         )
@@ -304,7 +315,12 @@ class IsolatedTestsPlugin:
             dependency_ordering = session.config.getoption(
                 "order_dependencies", default=False
             )
-            for group in _order_marker_groups(session.items, dependency_ordering):
+            order_marker_prefix = session.config.getoption(
+                "order_marker_prefix", default=None
+            )
+            for group in _order_marker_groups(
+                session.items, dependency_ordering, order_marker_prefix
+            ):
                 deferred: list[pytest.Function] = []
 
                 # Start this group's robot tests first, then overlap its plain

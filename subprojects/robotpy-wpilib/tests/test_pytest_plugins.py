@@ -801,6 +801,59 @@ def test_plain_prerequisite():
     result.assert_outcomes(passed=2)
 
 
+def test_prefixed_order_markers_preserve_scheduler_boundaries(pytester):
+    _make_robot_module(pytester)
+    pytester.makeini(
+        "[pytest]\n"
+        "markers =\n"
+        "    sequence1_setup: first test\n"
+        "    sequence2_robot: second test\n"
+    )
+    pytester.makeconftest("""
+import pathlib
+
+from wpilib.testing.pytest_isolated_tests_plugin import IsolatedTestsPlugin
+
+from robot_module import DummyRobot
+
+
+class RecordingIsolatedTestsPlugin(IsolatedTestsPlugin):
+    def _start_isolated_test(self, item):
+        pathlib.Path("isolated-started").touch()
+        return super()._start_isolated_test(item)
+
+
+def pytest_configure(config):
+    if "--no-header" in config.invocation_params.args:
+        return
+    config.pluginmanager.register(
+        RecordingIsolatedTestsPlugin(
+            DummyRobot, pathlib.Path(__file__).resolve(), False, False, 2
+        )
+    )
+""")
+    pytester.makepyfile(test_prefixed_order="""
+import pathlib
+
+import pytest
+
+
+@pytest.mark.sequence2_robot
+def test_isolated_dependent(robot):
+    assert pathlib.Path("prerequisite-finished").exists()
+
+
+@pytest.mark.sequence1_setup
+def test_plain_prerequisite():
+    assert not pathlib.Path("isolated-started").exists()
+    pathlib.Path("prerequisite-finished").touch()
+""")
+
+    result = pytester.runpytest_subprocess("-vv", "--order-marker-prefix=sequence")
+
+    result.assert_outcomes(passed=2)
+
+
 def test_inherited_order_marker_group_runs_in_parallel(monkeypatch):
     inherited_marker = object()
     next_marker = object()
