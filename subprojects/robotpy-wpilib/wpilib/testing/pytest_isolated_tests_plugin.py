@@ -200,22 +200,30 @@ class IsolatedTestJob:
 
 
 def _order_marker_groups(
-    items: list[pytest.Item],
+    items: list[pytest.Item], dependency_ordering: bool = False
 ) -> T.Iterator[list[pytest.Function]]:
-    """Group consecutive items that share the same order marker object."""
+    """Group consecutive items that share the same ordering marker objects."""
     group: list[pytest.Function] = []
-    previous_marker: object = object()
+    previous_order_marker: object = object()
+    previous_dependency_marker: object = object()
 
     for item in items:
         assert isinstance(item, pytest.Function)
-        marker = item.get_closest_marker("order")
+        order_marker = item.get_closest_marker("order")
+        dependency_marker = (
+            item.get_closest_marker("dependency") if dependency_ordering else None
+        )
 
-        if group and marker is not previous_marker:
+        if group and (
+            order_marker is not previous_order_marker
+            or dependency_marker is not previous_dependency_marker
+        ):
             yield group
             group = []
 
         group.append(item)
-        previous_marker = marker
+        previous_order_marker = order_marker
+        previous_dependency_marker = dependency_marker
 
     if group:
         yield group
@@ -291,9 +299,12 @@ class IsolatedTestsPlugin:
         running: list[IsolatedTestJob] = []
         try:
             # pytest-order has already sorted session.items. Preserve boundaries
-            # between order-marker groups while retaining the existing parallel
+            # between ordering-marker groups while retaining the existing parallel
             # scheduling within each group.
-            for group in _order_marker_groups(session.items):
+            dependency_ordering = session.config.getoption(
+                "order_dependencies", default=False
+            )
+            for group in _order_marker_groups(session.items, dependency_ordering):
                 deferred: list[pytest.Function] = []
 
                 # Start this group's robot tests first, then overlap its plain

@@ -668,6 +668,7 @@ class _SchedulerSession:
                 collectonly=False,
             ),
             hook=_SchedulerHook(events),
+            getoption=lambda name, default=None: default,
         )
 
 
@@ -748,6 +749,56 @@ def test_order_groups_do_not_cross_scheduler_boundaries(
             expected.append(("plain", name))
 
     assert _scheduler_events(monkeypatch, items) == expected
+
+
+def test_dependency_ordering_does_not_cross_scheduler_boundaries(pytester):
+    _make_robot_module(pytester)
+    pytester.makeini(
+        "[pytest]\nmarkers = dependency(*args, **kwargs): test dependency\n"
+    )
+    pytester.makeconftest("""
+import pathlib
+
+from wpilib.testing.pytest_isolated_tests_plugin import IsolatedTestsPlugin
+
+from robot_module import DummyRobot
+
+
+class RecordingIsolatedTestsPlugin(IsolatedTestsPlugin):
+    def _start_isolated_test(self, item):
+        pathlib.Path("isolated-started").touch()
+        return super()._start_isolated_test(item)
+
+
+def pytest_configure(config):
+    if "--no-header" in config.invocation_params.args:
+        return
+    config.pluginmanager.register(
+        RecordingIsolatedTestsPlugin(
+            DummyRobot, pathlib.Path(__file__).resolve(), False, False, 2
+        )
+    )
+""")
+    pytester.makepyfile(test_dependency_order="""
+import pathlib
+
+import pytest
+
+
+@pytest.mark.dependency(depends=["prerequisite"])
+def test_isolated_dependent(robot):
+    assert pathlib.Path("prerequisite-finished").exists()
+
+
+@pytest.mark.dependency(name="prerequisite")
+def test_plain_prerequisite():
+    assert not pathlib.Path("isolated-started").exists()
+    pathlib.Path("prerequisite-finished").touch()
+""")
+
+    result = pytester.runpytest_subprocess("-vv", "--order-dependencies")
+
+    result.assert_outcomes(passed=2)
 
 
 def test_inherited_order_marker_group_runs_in_parallel(monkeypatch):
