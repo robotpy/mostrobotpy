@@ -509,6 +509,79 @@ def test_state_transitions(robot, control):
     result.assert_outcomes(passed=1)
 
 
+def test_plain_order_groups_preserve_shared_fixture_scopes(pytester):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    pytester.makepyfile(
+        test_plain="""
+import pathlib
+
+import pytest
+
+
+EVENTS = pathlib.Path("fixture-events.txt")
+
+
+def record(event):
+    with EVENTS.open("a") as fp:
+        fp.write(event + "\\n")
+
+
+@pytest.fixture(scope="session")
+def session_fixture():
+    record("session setup")
+    yield
+    record("session teardown")
+
+
+@pytest.fixture(scope="module")
+def module_fixture():
+    record("module setup")
+    yield
+    record("module teardown")
+
+
+@pytest.fixture(scope="class")
+def class_fixture():
+    record("class setup")
+    yield
+    record("class teardown")
+
+
+class TestPlain:
+    @pytest.mark.order(1)
+    def test_first(self, session_fixture, module_fixture, class_fixture):
+        record("first")
+
+    @pytest.mark.order(3)
+    def test_second(self, session_fixture, module_fixture, class_fixture):
+        record("second")
+""",
+        test_robot="""
+import pytest
+
+
+@pytest.mark.order(2)
+def test_between_plain_groups(robot):
+    pass
+""",
+    )
+
+    result = pytester.runpytest_subprocess("-q")
+
+    result.assert_outcomes(passed=3)
+    assert (pytester.path / "fixture-events.txt").read_text().splitlines() == [
+        "session setup",
+        "module setup",
+        "class setup",
+        "first",
+        "second",
+        "class teardown",
+        "module teardown",
+        "session teardown",
+    ]
+
+
 def test_order_marker_groups_use_real_pytest_marker_inheritance(pytester):
     from wpilib.testing.pytest_isolated_tests_plugin import _order_marker_groups
 

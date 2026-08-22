@@ -284,6 +284,10 @@ class IsolatedTestsPlugin:
         if session.config.option.collectonly:
             return True
 
+        inprocess_items = [
+            item for item in session.items if "robot" not in item.fixturenames
+        ]
+        inprocess_index = 0
         running: list[IsolatedTestJob] = []
         try:
             # pytest-order has already sorted session.items. Preserve boundaries
@@ -305,13 +309,18 @@ class IsolatedTestsPlugin:
                     running.append(self._start_isolated_test(item))
                     self._maybe_raise(session)
 
-                for idx, item in enumerate(deferred):
+                for item in deferred:
                     # Observe completed isolated failures before starting more
                     # in-process work, so --maxfail can stop the group promptly.
                     if any(job.conn.poll() for job in running):
                         self._wait_for_jobs(running, session)
 
-                    nextitem = deferred[idx + 1] if idx + 1 < len(deferred) else None
+                    nextitem = (
+                        inprocess_items[inprocess_index + 1]
+                        if inprocess_index + 1 < len(inprocess_items)
+                        else None
+                    )
+                    inprocess_index += 1
                     session.config.hook.pytest_runtest_protocol(
                         item=item, nextitem=nextitem
                     )
