@@ -1,0 +1,60 @@
+functions:
+  MakeMutationList:
+    ignore: true
+
+classes:
+  wpi::tunables::python::PyMutationList:
+    rename: _MutationList
+    force_no_default_constructor: true
+    methods:
+      PyMutationList:
+        ignore: true
+      Size:
+        rename: __len__
+        no_release_gil: true
+      Iter:
+        rename: __iter__
+        no_release_gil: true
+        keepalive:
+        - [0, 1]
+      GetItem:
+        rename: __getitem__
+        no_release_gil: true
+      SetItem:
+        rename: __setitem__
+        no_release_gil: true
+      DelItem:
+        rename: __delitem__
+        no_release_gil: true
+      Contains:
+        rename: __contains__
+        no_release_gil: true
+      Equal:
+        rename: __eq__
+        no_release_gil: true
+      Repr:
+        rename: __repr__
+        no_release_gil: true
+      Copy:
+        no_release_gil: true
+      Append:
+        no_release_gil: true
+      Extend:
+        no_release_gil: true
+      Insert:
+        no_release_gil: true
+      Pop:
+        no_release_gil: true
+      Remove:
+        no_release_gil: true
+      Clear:
+        no_release_gil: true
+      Reverse:
+        no_release_gil: true
+      Sort:
+        default_args_as_kw_only: true
+        no_release_gil: true
+      IAdd:
+        rename: __iadd__
+        no_release_gil: true
+        return_value_policy: reference_internal

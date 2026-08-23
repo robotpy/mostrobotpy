@@ -3,18 +3,22 @@
 #include <stdint.h>
 
 #include <memory>
-#include <optional>
 #include <span>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include <wpi/telemetry/TelemetryLoggable.hpp>
-#include <wpi/telemetry/TelemetryRegistry.hpp>
+#include "pybind11/stl.h"
+#include "wpi/telemetry/TelemetryBackend.hpp"
+#include "wpi/telemetry/TelemetryEntry.hpp"
+#include "wpi/telemetry/TelemetryLoggable.hpp"
+#include "wpi/telemetry/TelemetryRegistry.hpp"
 
 namespace py = pybind11;
 
 namespace {
+
+using ElementType = py::typing::Type<py::object>;
 
 bool IsWpiStruct(py::handle value) {
   return py::hasattr(py::type::of(value), "WPIStruct");
@@ -24,12 +28,8 @@ bool IsWpiStructType(py::handle value) {
   return PyType_Check(value.ptr()) && py::hasattr(value, "WPIStruct");
 }
 
-bool IsBuiltinType(py::handle value, const char* name) {
-  return value.is(py::module_::import("builtins").attr(name));
-}
-
-bool IsNoElementType(py::handle elementType) {
-  return elementType.is_none();
+bool IsNoElementType(const std::optional<ElementType>& elementType) {
+  return !elementType;
 }
 
 std::optional<py::object> GetOptionalAttr(py::handle value, const char* name) {
@@ -109,8 +109,8 @@ void PyTelemetryTable::SetProperty(std::string_view name, std::string_view key,
   m_table->SetProperty(name, key, value);
 }
 
-void PyTelemetryTable::Log(std::string_view name, py::handle value,
-                           py::object elementType,
+void PyTelemetryTable::Log(std::string_view name, py::object value,
+                           std::optional<ElementType> elementType,
                            std::string_view typeString) const {
   if (py::isinstance<py::bool_>(value)) {
     ValidateNoExplicitTelemetryType(elementType, typeString);
@@ -146,25 +146,6 @@ void PyTelemetryTable::Log(std::string_view name, py::handle value,
           reinterpret_cast<const uint8_t*>(raw.data()), raw.size()};
       entry->LogRaw(data, typeString.empty() ? "raw" : typeString, 0);
     }
-  } else if (py::isinstance<wpi::telemetry::TelemetryLoggable>(value)) {
-    ValidateNoExplicitTelemetryType(elementType, typeString);
-    if (!m_table->ShouldLogTableValue(name)) {
-      return;
-    }
-    auto& child = m_table->GetTable(name);
-    auto& loggable = value.cast<wpi::telemetry::TelemetryLoggable&>();
-    std::string type;
-    {
-      py::gil_scoped_release release;
-      type = loggable.GetTelemetryType();
-    }
-    if (!type.empty() && !child.SetType(type)) {
-      return;
-    }
-    {
-      py::gil_scoped_release release;
-      loggable.LogTo(child);
-    }
   } else if (auto logTo = GetOptionalAttr(value, "log_to")) {
     ValidateNoExplicitTelemetryType(elementType, typeString);
     LogObject(name, value, *logTo);
@@ -177,11 +158,11 @@ void PyTelemetryTable::Log(std::string_view name, py::handle value,
       throw py::type_error("sequence element type must be specified");
     }
     auto sequence = py::reinterpret_borrow<py::sequence>(value);
-    if (IsWpiStructType(elementType)) {
+    if (IsWpiStructType(*elementType)) {
       LogStructSequence(name, sequence,
-                        py::reinterpret_borrow<py::type>(elementType));
+                        py::reinterpret_borrow<py::type>(*elementType));
     } else {
-      LogSequence(name, sequence, elementType);
+      LogSequence(name, sequence, *elementType);
     }
   } else {
     ValidateNoExplicitTelemetryType(elementType, typeString);
@@ -226,7 +207,8 @@ wpi::telemetry::TelemetryTable::EntryHandle PyTelemetryTable::GetEntry(
   return m_table->GetEntry(name);
 }
 
-void PyTelemetryTable::ValidateNoElementType(py::handle elementType) {
+void PyTelemetryTable::ValidateNoElementType(
+    const std::optional<ElementType>& elementType) {
   if (!IsNoElementType(elementType)) {
     throw py::type_error(
         "element_type is only supported for telemetry sequences");
@@ -242,7 +224,8 @@ void PyTelemetryTable::ValidateNoTypeString(std::string_view typeString) {
 }
 
 void PyTelemetryTable::ValidateNoExplicitTelemetryType(
-    py::handle elementType, std::string_view typeString) {
+    const std::optional<ElementType>& elementType,
+    std::string_view typeString) {
   ValidateNoElementType(elementType);
   ValidateNoTypeString(typeString);
 }
@@ -252,19 +235,21 @@ PyTelemetryTable::SequenceKind PyTelemetryTable::KindFromElementType(
   if (py::isinstance<py::str>(elementType)) {
     throw py::type_error("telemetry element_type must be a Python type");
   }
-  if (IsBuiltinType(elementType, "bool")) {
+  if (elementType.is(py::handle{reinterpret_cast<PyObject*>(&PyBool_Type)})) {
     return SequenceKind::BOOLEAN;
   }
-  if (IsBuiltinType(elementType, "int")) {
+  if (elementType.is(py::handle{reinterpret_cast<PyObject*>(&PyLong_Type)})) {
     return SequenceKind::INTEGER;
   }
-  if (IsBuiltinType(elementType, "float")) {
+  if (elementType.is(py::handle{reinterpret_cast<PyObject*>(&PyFloat_Type)})) {
     return SequenceKind::DOUBLE;
   }
-  if (IsBuiltinType(elementType, "str")) {
+  if (elementType.is(
+          py::handle{reinterpret_cast<PyObject*>(&PyUnicode_Type)})) {
     return SequenceKind::STRING;
   }
-  if (IsBuiltinType(elementType, "object")) {
+  if (elementType.is(
+          py::handle{reinterpret_cast<PyObject*>(&PyBaseObject_Type)})) {
     return SequenceKind::FALLBACK_STRING;
   }
   throw py::type_error("unsupported telemetry element_type");
@@ -287,7 +272,11 @@ void PyTelemetryTable::LogObject(std::string_view name, py::handle value,
     }
   }
 
-  logTo(PyTelemetryTable{child});
+  if (py::isinstance<wpi::telemetry::TelemetryLoggable>(value)) {
+    logTo(py::cast(&child, py::return_value_policy::reference));
+  } else {
+    logTo(PyTelemetryTable{child});
+  }
 }
 
 void PyTelemetryTable::LogSequence(std::string_view name,
