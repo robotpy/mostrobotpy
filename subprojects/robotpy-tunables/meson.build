@@ -6,7 +6,14 @@ subdir('semiwrap')
 
 tunables_sources += files(
     'tunables/src/main.cpp',
-    'tunables/src/TunablePython.cpp',
+    'tunables/src/rpy/MockTunableBackendFunctions.cpp',
+    'tunables/src/rpy/PyTunable.cpp',
+    'tunables/src/rpy/TunableTablePython.cpp',
+    'tunables/src/rpy/PyComplexTunableAdapter.cpp',
+    'tunables/src/rpy/PyMutationList.cpp',
+    'tunables/src/rpy/TunableFunctions.cpp',
+    'tunables/src/rpy/TunableRegistryFunctions.cpp',
+    'tunables/src/rpy/TunableStorage.cpp',
 )
 
 subdir('semiwrap/modules')

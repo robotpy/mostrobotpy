@@ -9,11 +9,11 @@ from ._wpiutil import (
     TimestampSource,
     get_program_start_time,
     get_stack_trace,
-    set_now_impl,
     get_stack_trace_default,
     get_system_time,
     now,
     now_default,
+    set_now_impl,
 )
 
 __all__ = [
@@ -24,11 +24,11 @@ __all__ = [
     "TimestampSource",
     "get_program_start_time",
     "get_stack_trace",
-    "set_now_impl",
     "get_stack_trace_default",
     "get_system_time",
     "now",
     "now_default",
+    "set_now_impl",
 ]
 
 # Imported for side effects only

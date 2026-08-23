@@ -1,12 +1,32 @@
+extra_includes:
+- wpi/tunables/ComplexTunable.hpp
+
 classes:
   wpi::backend::NetworkTablesTunableBackend:
-    force_no_trampoline: true
+    typealias:
+    - wpi::tunables::TunableBackend::PublishedTunable
     methods:
       NetworkTablesTunableBackend:
       Publish:
-        ignore: true
+        ignore_py: true
+        virtual_xform: |
+          [&](py::function fn) {
+            py::object pyConfig = py::none();
+            if (config) {
+              pyConfig = py::cast(*config, py::return_value_policy::copy);
+              if (config->parent) {
+                py::detail::keep_alive_impl(
+                    pyConfig,
+                    py::cast(config->parent,
+                             py::return_value_policy::reference));
+              }
+            }
+            return fn(path, uid,
+                      py::cast(&tunable, py::return_value_policy::reference),
+                      pyConfig, type)
+                .cast<bool>();
+          }
       MarkDirty:
-        ignore: true
       Remove:
       RemovePrefix:
       UnregisterTunable:

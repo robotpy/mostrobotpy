@@ -8,6 +8,15 @@ functions:
     ignore: true
 classes:
   wpi::telemetry::TelemetryLoggable:
+    force_depends:
+    - wpi::telemetry::TelemetryTable
+    force_no_default_constructor: true
     methods:
       LogTo:
+        no_release_gil: true
       GetTelemetryType:
+        no_release_gil: true
+    inline_code: |
+      .def(py::init([]() {
+        return std::make_unique<TelemetryLoggable_Trampoline>();
+      }))

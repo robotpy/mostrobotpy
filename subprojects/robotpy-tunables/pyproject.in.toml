@@ -41,21 +41,14 @@ update_init = [
     "tunables"
 ]
 scan_headers_ignore = [
-    "src/TunablePython.h",
     "wpi/tunables/CustomTunable.hpp",
-    "wpi/tunables/MockTunableBackend.hpp",
     "wpi/tunables/Selectable.hpp",
     "wpi/tunables/Tunable.hpp",
-    "wpi/tunables/TunableConfig.hpp",
-    "wpi/tunables/TunableRegistry.hpp",
-    "wpi/tunables/TunableTable.hpp",
     "wpi/tunables/Tunables.hpp",
     "wpi/tunables/detail/PathUtil.hpp",
-    "wpi/tunables/detail/TunableBase.hpp",
     "wpi/tunables/detail/TunableDetail.hpp",
     "wpi/tunables/detail/TunableMember.hpp",
     "wpi/tunables/detail/TunableTypeTraits.hpp",
-    "wpi/tunables/detail/TunableTypeValue.hpp",
 ]
 
 [tool.semiwrap.name_transform]
@@ -67,7 +60,17 @@ known_words = []
 name = "tunables"
 wraps = ["robotpy-native-tunables"]
 depends = ["wpiutil"]
+includes = ["tunables/src"]
 
 [tool.semiwrap.extension_modules."tunables._tunables".headers]
+TunableBase = "wpi/tunables/detail/TunableBase.hpp"
+TunableTable = "wpi/tunables/TunableTable.hpp"
+PyTunable = "rpy/PyTunable.h"
+PyMutationList = "rpy/PyMutationList.h"
 ComplexTunable = "wpi/tunables/ComplexTunable.hpp"
+TunableTypeValue = "wpi/tunables/detail/TunableTypeValue.hpp"
+TunableConfig = "wpi/tunables/TunableConfig.hpp"
 TunableBackend = "wpi/tunables/TunableBackend.hpp"
+MockTunableBackend = "wpi/tunables/MockTunableBackend.hpp"
+TunableRegistry = "wpi/tunables/TunableRegistry.hpp"
+TunableFunctions = "rpy/TunableFunctions.h"
