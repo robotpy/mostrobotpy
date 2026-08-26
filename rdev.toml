@@ -22,12 +22,12 @@ wrapper = "2027.0.0a6.post4"
 
 [params]
 
-wpilib_bin_version = "2027.0.0-alpha-6-336-g92efd74d9"
-wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
-# wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+wpilib_bin_version = "2027.0.0-alpha-7"
+wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
+# wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
 
-mrclib_bin_version = "2027.1.0-alpha-1-112-g3f8f56e"
-mrclib_bin_url = "https://frcmaven.wpi.edu/artifactory/development-2027"
+mrclib_bin_version = "2027.1.0-alpha-1-116-g5288562"
+mrclib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
 mrclib_artifacts = [
     "mrclib-cpp",
 ]
