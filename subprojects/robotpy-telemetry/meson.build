@@ -7,6 +7,8 @@ subdir('semiwrap')
 telemetry_sources += files(
     'telemetry/src/main.cpp',
     'telemetry/src/TelemetryPython.cpp',
+    'telemetry/src/rpy/MockTelemetryBackendFunctions.cpp',
+    'telemetry/src/rpy/PyTelemetryTable.cpp',
 )
 
 subdir('semiwrap/modules')
