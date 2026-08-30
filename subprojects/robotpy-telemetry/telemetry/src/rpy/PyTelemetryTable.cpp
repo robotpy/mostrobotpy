@@ -146,6 +146,25 @@ void PyTelemetryTable::Log(std::string_view name, py::handle value,
           reinterpret_cast<const uint8_t*>(raw.data()), raw.size()};
       entry->LogRaw(data, typeString.empty() ? "raw" : typeString, 0);
     }
+  } else if (py::isinstance<wpi::telemetry::TelemetryLoggable>(value)) {
+    ValidateNoExplicitTelemetryType(elementType, typeString);
+    if (!m_table->ShouldLogTableValue(name)) {
+      return;
+    }
+    auto& child = m_table->GetTable(name);
+    auto& loggable = value.cast<wpi::telemetry::TelemetryLoggable&>();
+    std::string type;
+    {
+      py::gil_scoped_release release;
+      type = loggable.GetTelemetryType();
+    }
+    if (!type.empty() && !child.SetType(type)) {
+      return;
+    }
+    {
+      py::gil_scoped_release release;
+      loggable.LogTo(child);
+    }
   } else if (auto logTo = GetOptionalAttr(value, "log_to")) {
     ValidateNoExplicitTelemetryType(elementType, typeString);
     LogObject(name, value, *logTo);
@@ -268,11 +287,7 @@ void PyTelemetryTable::LogObject(std::string_view name, py::handle value,
     }
   }
 
-  if (py::isinstance<wpi::telemetry::TelemetryLoggable>(value)) {
-    logTo(py::cast(&child, py::return_value_policy::reference));
-  } else {
-    logTo(PyTelemetryTable{child});
-  }
+  logTo(PyTelemetryTable{child});
 }
 
 void PyTelemetryTable::LogSequence(std::string_view name,

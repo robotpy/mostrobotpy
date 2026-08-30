@@ -381,7 +381,8 @@ void wpi::InitTunablePython(py::module_& m) {
                       wpi::tunables::TunableRegistry::SetReportWarning(nullptr);
                     } else {
                       auto callback = std::shared_ptr<py::object>{
-                          new py::object{std::move(func)}, [](auto object) {
+                          new py::object{std::move(func)},
+                          [](py::object* object) {
                             py::gil_scoped_acquire gil;
                             delete object;
                           }};
