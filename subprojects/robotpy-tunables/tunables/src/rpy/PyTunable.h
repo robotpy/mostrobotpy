@@ -19,15 +19,13 @@ namespace wpi::tunables::python {
 
 using TunableVariant =
     std::variant<wpi::tunables::TunableBool, wpi::tunables::TunableInt64,
-                 wpi::tunables::TunableDouble,
-                 wpi::tunables::TunableString, wpi::tunables::TunableRaw,
-                 wpi::tunables::TunableBoolVector,
+                 wpi::tunables::TunableDouble, wpi::tunables::TunableString,
+                 wpi::tunables::TunableRaw, wpi::tunables::TunableBoolVector,
                  wpi::tunables::TunableInt64Vector,
                  wpi::tunables::TunableDoubleVector,
                  wpi::tunables::TunableStringVector,
                  wpi::tunables::Tunable<WPyStruct, WPyStructInfo>,
-                 wpi::tunables::Tunable<std::vector<WPyStruct>,
-                                         WPyStructInfo>>;
+                 wpi::tunables::Tunable<std::vector<WPyStruct>, WPyStructInfo>>;
 
 class PyTunable : public std::enable_shared_from_this<PyTunable> {
  public:
@@ -52,8 +50,7 @@ class PyTunable : public std::enable_shared_from_this<PyTunable> {
 
   template <typename T>
   static constexpr bool IsStructCachedValue =
-      std::same_as<T, WPyStruct> ||
-      std::same_as<T, std::vector<WPyStruct>>;
+      std::same_as<T, WPyStruct> || std::same_as<T, std::vector<WPyStruct>>;
 
   static std::vector<uint8_t> PackStructValue(const WPyStruct& value,
                                               const WPyStructInfo& info);
@@ -71,14 +68,15 @@ class PyTunable : public std::enable_shared_from_this<PyTunable> {
   void SetCached(pybind11::handle value);
   void SetCachedIfChanged(pybind11::handle value);
   std::optional<std::vector<uint8_t>> PackCachedStructData() const;
-  wpi::tunables::TunableConfig MakeConfig(
-      bool robust, bool isMutable, pybind11::handle properties,
-      std::string typeString, bool alwaysGet);
-  TunableVariant MakeValue(pybind11::handle value, bool robust,
-                           bool isMutable, pybind11::object valueType,
+  wpi::tunables::TunableConfig MakeConfig(bool robust, bool isMutable,
+                                          pybind11::handle properties,
+                                          std::string typeString,
+                                          bool alwaysGet);
+  TunableVariant MakeValue(pybind11::handle value, bool robust, bool isMutable,
+                           pybind11::object valueType,
                            pybind11::object elementType,
-                           pybind11::object properties,
-                           std::string typeString, bool alwaysGet);
+                           pybind11::object properties, std::string typeString,
+                           bool alwaysGet);
 
   pybind11::object m_getter;
   pybind11::object m_setter;

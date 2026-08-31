@@ -36,16 +36,15 @@ class PyTelemetryTable {
       std::string_view name) const;
   static void ValidateNoElementType(pybind11::handle elementType);
   static void ValidateNoTypeString(std::string_view typeString);
-  static void ValidateNoExplicitTelemetryType(
-      pybind11::handle elementType, std::string_view typeString);
+  static void ValidateNoExplicitTelemetryType(pybind11::handle elementType,
+                                              std::string_view typeString);
   static SequenceKind KindFromElementType(pybind11::handle elementType);
   void LogObject(std::string_view name, pybind11::handle value,
                  pybind11::handle logTo) const;
   void LogSequence(std::string_view name, const pybind11::sequence& value,
                    pybind11::handle valueType) const;
   void LogStruct(std::string_view name, pybind11::handle value) const;
-  void LogStructSequence(std::string_view name,
-                         const pybind11::sequence& value,
+  void LogStructSequence(std::string_view name, const pybind11::sequence& value,
                          const pybind11::type& type) const;
   void LogStructSequenceImpl(
       const wpi::telemetry::TelemetryTable::EntryHandle& entry,

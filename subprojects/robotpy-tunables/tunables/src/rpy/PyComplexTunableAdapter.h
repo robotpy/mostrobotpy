@@ -37,8 +37,7 @@ class PyComplexTunableAdapter : public wpi::tunables::ComplexTunable {
   std::string m_type;
   mutable std::vector<std::pair<std::string, std::shared_ptr<PyTunable>>>
       m_values;
-  std::vector<
-      std::pair<std::string, std::shared_ptr<PyComplexTunableAdapter>>>
+  std::vector<std::pair<std::string, std::shared_ptr<PyComplexTunableAdapter>>>
       m_complex;
   std::vector<std::pair<std::string, pybind11::object>> m_nativeComplex;
 };
