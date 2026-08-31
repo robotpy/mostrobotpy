@@ -1,0 +1,24 @@
+extra_includes:
+- wpi/tunables/TunableTable.hpp
+
+classes:
+  wpi::tunables::ComplexTunable:
+    ignored_bases:
+    - detail::TunableBase  # TODO(telemetry PR)
+    methods:
+      GetTunableType:
+      PublishTunable:
+        ignore_py: true
+      UpdateTunable:
+      ComplexTunable:
+        overloads:
+          "":
+          const ForceTunableRegister&:
+            ignore: true
+      PublishChildTunable:
+        ignore_py: true
+        overloads:
+          std::string_view, detail::TunableBase&:
+          std::string_view, ComplexTunable&:
+      RemoveChildTunable:
+      SetChildTunableChanged:
