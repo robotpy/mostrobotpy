@@ -43,6 +43,10 @@ update_init = [
 scan_headers_ignore = [
     "wpi/telemetry/Telemetry.hpp",
     "wpi/telemetry/detail/PathUtil.hpp",
+
+    # rpy
+    "rpy/MockTelemetryBackendFunctions.h",
+    "rpy/MockTelemetryBackendValueCasters.h",
 ]
 
 [tool.semiwrap.name_transform]

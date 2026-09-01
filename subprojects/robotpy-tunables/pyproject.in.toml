@@ -49,6 +49,15 @@ scan_headers_ignore = [
     "wpi/tunables/detail/TunableDetail.hpp",
     "wpi/tunables/detail/TunableMember.hpp",
     "wpi/tunables/detail/TunableTypeTraits.hpp",
+
+    # rpy
+    "rpy/BindingAnnotationTypes.h",
+    "rpy/MockTunableBackendFunctions.h",
+    "rpy/PyComplexTunableAdapter.h",
+    "rpy/PyTunableTable.h",
+    "rpy/TunableRegistryFunctions.h",
+    "rpy/TunableStorage.h",
+    "rpy/TunableValuePython.h"
 ]
 
 [tool.semiwrap.name_transform]
