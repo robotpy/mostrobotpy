@@ -14,8 +14,6 @@ classes:
   wpi::tunables::TunableRegistry:
     force_no_default_constructor: true
     methods:
-      TunableRegistry:
-        ignore: true
       SetReportWarning:
         no_release_gil: true
         param_override:

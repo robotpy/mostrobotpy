@@ -8,7 +8,6 @@ classes:
     typealias:
     - wpi::tunables::TunableBackend::PublishedTunable
     methods:
-      MockTunableBackend:
       GetValue:
         no_release_gil: true
         cpp_code: |

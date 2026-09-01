@@ -4,7 +4,6 @@ extra_includes:
 classes:
   wpi::telemetry::DiscardTelemetryBackend:
     methods:
-      DiscardTelemetryBackend:
       GetEntry:
       HasSchema:
       AddSchema:

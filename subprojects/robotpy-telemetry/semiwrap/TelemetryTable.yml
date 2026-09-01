@@ -7,12 +7,6 @@ extra_includes:
 classes:
   wpi::telemetry::impl::always_false:
     ignore: true
-  wpi::telemetry::TelemetryTable::private_init:
-    ignore: true
-  wpi::telemetry::TelemetryTable::EntryHandle:
-    ignore: true
-  wpi::telemetry::TelemetryTable::EntryHandle::CachedEntry:
-    ignore: true
   wpi::telemetry::TelemetryTable:
     rename: _NativeTelemetryTable
     force_no_default_constructor: true
