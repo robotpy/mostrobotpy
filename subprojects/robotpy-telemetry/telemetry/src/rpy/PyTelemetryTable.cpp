@@ -28,10 +28,6 @@ bool IsWpiStructType(py::handle value) {
   return PyType_Check(value.ptr()) && py::hasattr(value, "WPIStruct");
 }
 
-bool IsNoElementType(const std::optional<ElementType>& elementType) {
-  return !elementType;
-}
-
 std::optional<py::object> GetOptionalAttr(py::handle value, const char* name) {
 #if PY_VERSION_HEX >= 0x030D0000
   PyObject* attr = nullptr;
@@ -154,7 +150,7 @@ void PyTelemetryTable::Log(std::string_view name, py::object value,
     LogStruct(name, value);
   } else if (PySequence_Check(value.ptr())) {
     ValidateNoTypeString(typeString);
-    if (IsNoElementType(elementType)) {
+    if (!elementType) {
       throw py::type_error("sequence element type must be specified");
     }
     auto sequence = py::reinterpret_borrow<py::sequence>(value);
@@ -209,7 +205,7 @@ wpi::telemetry::TelemetryTable::EntryHandle PyTelemetryTable::GetEntry(
 
 void PyTelemetryTable::ValidateNoElementType(
     const std::optional<ElementType>& elementType) {
-  if (!IsNoElementType(elementType)) {
+  if (elementType) {
     throw py::type_error(
         "element_type is only supported for telemetry sequences");
   }
