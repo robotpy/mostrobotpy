@@ -42,6 +42,12 @@ namespace wpi::tunables::python {
 
 class PyMutationList;
 
+/**
+ * A Python-backed tunable value.
+ *
+ * Tunables can be published with publish() or added and published in one step
+ * with one of the add() functions.
+ */
 class PyTunable : public std::enable_shared_from_this<PyTunable> {
  public:
   using Getter = pybind11::typing::Callable<pybind11::object()>;
@@ -53,6 +59,22 @@ class PyTunable : public std::enable_shared_from_this<PyTunable> {
   using Properties =
       pybind11::typing::Dict<pybind11::str, pybind11::object>;
 
+  /**
+   * Creates an unpublished tunable. The tunable type is inferred from value
+   * unless an explicit type selector is provided.
+   *
+   * @param value initial value
+   * @param getter optional function that supplies the current local value
+   * @param setter optional function that receives values set locally or remotely
+   * @param onTune callback that receives the value after a remote update
+   * @param robust whether to separately echo a remotely set value
+   * @param isMutable whether remote updates may change the tunable
+   * @param valueType explicit value type, or None to infer it from value
+   * @param elementType explicit sequence element type, or None to infer it
+   * @param properties additional tunable properties
+   * @param typeString custom tunable type string
+   * @param alwaysGet whether to call getter on every backend update
+   */
   PyTunable(pybind11::object value,
             std::optional<Getter> getter = std::nullopt,
             std::optional<Setter> setter = std::nullopt,
@@ -66,8 +88,30 @@ class PyTunable : public std::enable_shared_from_this<PyTunable> {
 
   wpi::tunables::detail::TunableBase& GetBase();
 
+  /**
+   * Gets the current local value. If a getter was provided, this calls it;
+   * otherwise, it returns the stored value.
+   *
+   * @return current value
+   */
   pybind11::object Get() const;
+
+  /**
+   * Sets the local value and marks the tunable as changed. If a setter was
+   * provided, it is called with value. If a getter was also provided, its
+   * result becomes the stored value.
+   *
+   * @param value new value
+   */
   void Set(pybind11::object value);
+
+  /**
+   * Gets the current value for in-place mutation and marks the tunable as
+   * changed. Mutable sequence values return a list-like object that updates the
+   * stored value as it is modified.
+   *
+   * @return value to mutate
+   */
   pybind11::object Mutate();
 
   void Refresh();
