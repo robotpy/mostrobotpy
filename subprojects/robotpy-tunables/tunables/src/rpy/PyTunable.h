@@ -2,7 +2,6 @@
 
 #include <stdint.h>
 
-#include <atomic>
 #include <concepts>
 #include <memory>
 #include <optional>
@@ -77,6 +76,8 @@ class PyTunable : public std::enable_shared_from_this<PyTunable> {
  private:
   friend class PyMutationList;
 
+  class CallbackOwner;
+
   using TunableVariant =
       std::variant<wpi::tunables::TunableBool,
                    wpi::tunables::TunableInt32,
@@ -135,7 +136,7 @@ class PyTunable : public std::enable_shared_from_this<PyTunable> {
   std::optional<Getter> m_getter;
   std::optional<Setter> m_setter;
   std::optional<TuneCallback> m_onTune;
-  std::shared_ptr<std::atomic<std::weak_ptr<PyTunable>>> m_callbackOwner;
+  std::shared_ptr<CallbackOwner> m_callbackOwner;
   TunableVariant m_value;
   std::optional<std::vector<uint8_t>> m_lastStructData;
 };

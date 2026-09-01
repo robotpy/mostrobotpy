@@ -1,8 +1,8 @@
 #include "PyTunable.h"
 
 #include <algorithm>
-#include <atomic>
 #include <memory>
+#include <mutex>
 #include <span>
 #include <string>
 #include <string_view>
@@ -19,6 +19,24 @@
 namespace py = pybind11;
 
 namespace wpi::tunables::python {
+
+class PyTunable::CallbackOwner {
+ public:
+  void Store(std::weak_ptr<PyTunable> owner) {
+    std::scoped_lock lock{m_mutex};
+    m_owner = std::move(owner);
+  }
+
+  std::shared_ptr<PyTunable> Lock() {
+    std::scoped_lock lock{m_mutex};
+    return m_owner.lock();
+  }
+
+ private:
+  std::mutex m_mutex;
+  std::weak_ptr<PyTunable> m_owner;
+};
+
 namespace {
 
 enum class ValueKind {
@@ -246,8 +264,7 @@ PyTunable::PyTunable(py::object value, std::optional<Getter> getter,
     : m_getter{std::move(getter)},
       m_setter{std::move(setter)},
       m_onTune{std::move(onTune)},
-      m_callbackOwner{
-          std::make_shared<std::atomic<std::weak_ptr<PyTunable>>>()},
+      m_callbackOwner{std::make_shared<CallbackOwner>()},
       m_value{MakeValue(value, robust, isMutable, valueType, elementType,
                         properties, std::move(typeString), alwaysGet,
                         narrowScalar)} {
@@ -256,7 +273,7 @@ PyTunable::PyTunable(py::object value, std::optional<Getter> getter,
 }
 
 wpi::tunables::detail::TunableBase& PyTunable::GetBase() {
-  m_callbackOwner->store(shared_from_this(), std::memory_order_release);
+  m_callbackOwner->Store(shared_from_this());
   return std::visit(
       [](auto& value) -> wpi::tunables::detail::TunableBase& { return value; },
       m_value);
@@ -442,7 +459,7 @@ wpi::tunables::TunableConfig PyTunable::MakeConfig(
                         wpi::tunables::detail::TunableBase&,
                         wpi::tunables::ComplexTunable*) {
       py::gil_scoped_acquire gil;
-      auto owner = callbackOwner->load(std::memory_order_acquire).lock();
+      auto owner = callbackOwner->Lock();
       if (owner) {
         (*owner->m_onTune)(owner->GetCached());
       }
@@ -453,7 +470,7 @@ wpi::tunables::TunableConfig PyTunable::MakeConfig(
                              wpi::tunables::detail::TunableBase&,
                              wpi::tunables::ComplexTunable*) {
       py::gil_scoped_acquire gil;
-      auto owner = callbackOwner->load(std::memory_order_acquire).lock();
+      auto owner = callbackOwner->Lock();
       if (!owner) {
         return;
       }
