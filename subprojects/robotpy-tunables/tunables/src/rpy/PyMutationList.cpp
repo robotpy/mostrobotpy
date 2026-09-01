@@ -3,8 +3,6 @@
 #include <string>
 #include <utility>
 
-#include "PyTunable.h"
-
 namespace py = pybind11;
 
 namespace wpi::tunables::python {
@@ -16,8 +14,8 @@ size_t PyMutationList::Size() const {
   return py::len(m_data);
 }
 
-py::iterator PyMutationList::Iter() const {
-  return py::iter(m_data);
+PyMutationList::ObjectIterator PyMutationList::Iter() const {
+  return py::reinterpret_steal<ObjectIterator>(PyObject_GetIter(m_data.ptr()));
 }
 
 py::object PyMutationList::GetItem(py::object key) const {
@@ -63,7 +61,7 @@ void PyMutationList::Append(py::object value) {
   Sync();
 }
 
-void PyMutationList::Extend(py::object value) {
+void PyMutationList::Extend(ObjectIterable value) {
   m_data.attr("extend")(value);
   Sync();
 }
@@ -73,8 +71,8 @@ void PyMutationList::Insert(py::ssize_t index, py::object value) {
   Sync();
 }
 
-py::object PyMutationList::Pop(py::args args) {
-  py::object value = m_data.attr("pop")(*args);
+py::object PyMutationList::Pop(std::optional<py::ssize_t> index) {
+  py::object value = index ? m_data.attr("pop")(*index) : m_data.attr("pop")();
   Sync();
   return value;
 }
@@ -94,13 +92,18 @@ void PyMutationList::Reverse() {
   Sync();
 }
 
-void PyMutationList::Sort(py::args args, py::kwargs kwargs) {
-  m_data.attr("sort")(*args, **kwargs);
+void PyMutationList::Sort(std::optional<SortKey> key, bool reverse) {
+  if (key) {
+    m_data.attr("sort")(py::arg("key") = *key, py::arg("reverse") = reverse);
+  } else {
+    m_data.attr("sort")(py::arg("reverse") = reverse);
+  }
   Sync();
 }
 
-PyMutationList& PyMutationList::IAdd(py::object value) {
-  Extend(value);
+PyMutationList& PyMutationList::IAdd(ObjectIterable value) {
+  m_data.attr("__iadd__")(value);
+  Sync();
   return *this;
 }
 

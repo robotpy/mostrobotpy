@@ -1,0 +1,161 @@
+extra_includes:
+- pybind11/functional.h
+- pybind11/typing.h
+- rpy/BindingAnnotationTypes.h
+- wpi/tunables/ComplexTunable.hpp
+
+classes:
+  wpi::tunables::TunableConfig:
+    enums:
+      Polling:
+    methods:
+      GetOnChange:
+      AlwaysGet:
+    attributes:
+      properties:
+      robust:
+      typeString:
+      isMutable:
+      onTune:
+        ignore: true
+      onRemoteSet:
+        ignore: true
+      parent:
+        ignore: true
+      polling:
+    inline_code: |
+      .def_property(
+          "on_tune",
+          [](const wpi::tunables::TunableConfig& self)
+              -> std::optional<py::typing::Callable<void(
+                  wpi::tunables::detail::TunableBase&,
+                  py::typing::Optional<wpi::tunables::python::annotations::
+                                           ComplexTunableObject>)>> {
+            if (self.onTune) {
+              auto callback = py::cast(self.onTune);
+              return py::reinterpret_steal<py::typing::Callable<void(
+                  wpi::tunables::detail::TunableBase&,
+                  py::typing::Optional<wpi::tunables::python::annotations::
+                                           ComplexTunableObject>)>>(
+                  callback.release());
+            }
+            return std::nullopt;
+          },
+          [](wpi::tunables::TunableConfig& self,
+             std::optional<py::typing::Callable<void(
+                 wpi::tunables::detail::TunableBase&,
+                 py::typing::Optional<wpi::tunables::python::annotations::
+                                          ComplexTunableObject>)>> callback) {
+            self.onTune = callback ? callback->cast<decltype(self.onTune)>()
+                                   : decltype(self.onTune){};
+          },
+          py::doc(
+              "Callback to call when the tunable is tuned. This is called "
+              "immediately\n"
+              "after the tunable's Tune() function is called. The callback will "
+              "be called\n"
+              "by TunableRegistry::Update().\n\n"
+              "Note that it is not safe to this-capture the tunable itself in "
+              "the\n"
+              "callback, as the tunable may be moved. Instead, use the callback "
+              "parameter\n"
+              "to access the tunable.\n\n"
+              "Similarly, if the tunable is a member of a ComplexTunable, the\n"
+              "ComplexTunable this pointer should not be captured by the\n"
+              "callback--instead, set the parent value and it will be "
+              "move-tracked and\n"
+              "passed to the callback via the parent parameter.\n\n"
+              "This callback must not throw. If an exception escapes, registry "
+              "and\n"
+              "backend state is not guaranteed to be restored. Callback copies "
+              "created\n"
+              "for a Python Tunable are safe no-ops after that Tunable expires."))
+      .def_property(
+          "on_remote_set",
+          [](const wpi::tunables::TunableConfig& self)
+              -> std::optional<py::typing::Callable<void(
+                  wpi::tunables::detail::TunableBase&,
+                  py::typing::Optional<wpi::tunables::python::annotations::
+                                           ComplexTunableObject>)>> {
+            if (self.onRemoteSet) {
+              auto callback = py::cast(self.onRemoteSet);
+              return py::reinterpret_steal<py::typing::Callable<void(
+                  wpi::tunables::detail::TunableBase&,
+                  py::typing::Optional<wpi::tunables::python::annotations::
+                                           ComplexTunableObject>)>>(
+                  callback.release());
+            }
+            return std::nullopt;
+          },
+          [](wpi::tunables::TunableConfig& self,
+             std::optional<py::typing::Callable<void(
+                 wpi::tunables::detail::TunableBase&,
+                 py::typing::Optional<wpi::tunables::python::annotations::
+                                          ComplexTunableObject>)>> callback) {
+            self.onRemoteSet =
+                callback ? callback->cast<decltype(self.onRemoteSet)>()
+                         : decltype(self.onRemoteSet){};
+          },
+          py::doc(
+              "Callback to call after a backend applies a remote value, but "
+              "before the\n"
+              "backend publishes the resulting value. This is intended for "
+              "language\n"
+              "bindings that need to reconcile getter/setter-backed values "
+              "before a robust\n"
+              "backend echoes the tune. User code should prefer onTune. This "
+              "callback\n"
+              "must not throw. Callback copies created for a Python Tunable are "
+              "safe\n"
+              "no-ops after that Tunable expires."))
+      .def_property(
+          "parent",
+          [](const wpi::tunables::TunableConfig& self)
+              -> py::typing::Optional<wpi::tunables::python::annotations::
+                                          ComplexTunableObject> {
+            if (self.parent) {
+              auto parent = py::cast(self.parent,
+                                     py::return_value_policy::reference);
+              return py::reinterpret_steal<py::typing::Optional<
+                  wpi::tunables::python::annotations::ComplexTunableObject>>(
+                  parent.release());
+            }
+            return py::reinterpret_borrow<py::typing::Optional<
+                wpi::tunables::python::annotations::ComplexTunableObject>>(
+                py::none());
+          },
+          [](wpi::tunables::TunableConfig& self,
+             py::typing::Optional<wpi::tunables::python::annotations::
+                                      ComplexTunableObject> parent) {
+            self.parent = parent.is_none()
+                              ? nullptr
+                              : parent.cast<wpi::tunables::ComplexTunable*>();
+          },
+          py::return_value_policy::reference_internal,
+          py::doc(
+              "Parent object to pass to callback functions. This property is a "
+              "raw,\n"
+              "borrowed pointer: assigning it does not retain the parent. The "
+              "caller is\n"
+              "responsible for keeping the parent alive and native-valid while "
+              "the\n"
+              "config is in use. The framework move-tracks the parent, so the "
+              "pointer\n"
+              "passed to a callback might not equal the pointer assigned here.\n\n"
+              "Native backends receive TunableConfig only as a borrowed pointer "
+              "for the\n"
+              "synchronous Publish call. A Python backend receives a copy and "
+              "may keep\n"
+              "it while the publication is registered, but must discard it on "
+              "remove,\n"
+              "remove_prefix, or unregister_tunable and must not dereference "
+              "parent\n"
+              "after removal. Registry/Python retention keeps registered "
+              "complex roots\n"
+              "and their embedded parents alive; the binding also makes a "
+              "best-effort\n"
+              "keep-alive for Python-owned native parents. Arbitrary externally "
+              "or\n"
+              "embedded-owned child pointers receive no additional ownership "
+              "beyond\n"
+              "native semantics."))

@@ -1,17 +1,65 @@
+extra_includes:
+- rpy/BindingAnnotationTypes.h
+- wpi/tunables/ComplexTunable.hpp
+- wpi/tunables/TunableConfig.hpp
+- wpi/tunables/detail/TunableBase.hpp
+
 classes:
   wpi::tunables::TunableBackend:
-    force_no_default_constructor: true
-    force_no_trampoline: true
     methods:
       Publish:
-        ignore: true
+        ignore_py: true
+        virtual_xform: |
+          [&](py::function fn) {
+            py::object pyConfig = py::none();
+            if (config) {
+              pyConfig = py::cast(*config, py::return_value_policy::copy);
+              if (config->parent) {
+                py::detail::keep_alive_impl(
+                    pyConfig,
+                    py::cast(config->parent,
+                             py::return_value_policy::reference));
+              }
+            }
+            return fn(path, uid,
+                      py::cast(&tunable, py::return_value_policy::reference),
+                      pyConfig, type)
+                .cast<bool>();
+          }
       MarkDirty:
-        ignore: true
       Remove:
       RemovePrefix:
       UnregisterTunable:
       Update:
       Retire:
+    inline_code: |
+      .def(
+          "publish",
+          [](wpi::tunables::TunableBackend& self, std::string_view path,
+             uint32_t uid, wpi::tunables::detail::TunableBase& tunable,
+             py::typing::Optional<wpi::tunables::python::annotations::
+                                      TunableConfigObject> config,
+             wpi::tunables::detail::TunableTypeValue type) {
+            const auto* nativeConfig =
+                config.is_none()
+                    ? nullptr
+                    : &config.cast<const wpi::tunables::TunableConfig&>();
+            return self.Publish(path, uid, tunable, nativeConfig, type);
+          },
+          py::arg("path"), py::arg("uid"), py::arg("tunable"),
+          py::arg("config"), py::arg("type"),
+          py::doc(
+              "Publishes a tunable.\n\n"
+              "Backend implementations must not throw from this method. "
+              "Recoverable\n"
+              "publication failures should be reported through\n"
+              "TunableRegistry::ReportWarning() and skipped.\n\n"
+              ":param path:    normalized path\n"
+              ":param uid:     the tunable uid\n"
+              ":param tunable: the tunable\n"
+              ":param config:  the optional tunable config\n"
+              ":param type:    the tunable type\n\n"
+              ":returns: true if the tunable was published, false otherwise"))
   wpi::tunables::TunableBackend::PublishedTunable:
     attributes:
       path:

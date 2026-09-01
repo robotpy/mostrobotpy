@@ -28,8 +28,8 @@ std::string BytesLikeToString(py::handle value) {
 
 }  // namespace
 
-py::object BuiltinType(const char* name) {
-  return py::module_::import("builtins").attr(name);
+PythonType BuiltinType(PyTypeObject* type) {
+  return py::reinterpret_borrow<PythonType>(reinterpret_cast<PyObject*>(type));
 }
 
 std::optional<py::object> GetOptionalAttr(py::handle value, const char* name) {
@@ -129,42 +129,6 @@ std::vector<WPyStruct> ToStructVector(const py::sequence& value,
         py::reinterpret_borrow<py::object>(value[static_cast<py::ssize_t>(i)]));
   }
   return data;
-}
-
-wpi::util::json ToJson(py::handle value) {
-  if (value.is_none()) {
-    return nullptr;
-  }
-  if (py::isinstance<py::bool_>(value)) {
-    return value.cast<bool>();
-  }
-  if (py::isinstance<py::int_>(value)) {
-    return value.cast<int64_t>();
-  }
-  if (py::isinstance<py::float_>(value)) {
-    return value.cast<double>();
-  }
-  if (py::isinstance<py::str>(value)) {
-    return value.cast<std::string>();
-  }
-  if (py::isinstance<py::dict>(value)) {
-    wpi::util::json obj = wpi::util::json::object();
-    auto dict = py::reinterpret_borrow<py::dict>(value);
-    for (auto&& item : dict) {
-      obj[item.first.cast<std::string>()] = ToJson(item.second);
-    }
-    return obj;
-  }
-  if (PySequence_Check(value.ptr()) && !IsBytesLike(value)) {
-    wpi::util::json arr = wpi::util::json::array();
-    auto sequence = py::reinterpret_borrow<py::sequence>(value);
-    const size_t size = py::len(sequence);
-    for (size_t i = 0; i < size; ++i) {
-      arr.emplace_back(ToJson(sequence[static_cast<py::ssize_t>(i)]));
-    }
-    return arr;
-  }
-  return py::str(value).cast<std::string>();
 }
 
 }  // namespace wpi::tunables::python
