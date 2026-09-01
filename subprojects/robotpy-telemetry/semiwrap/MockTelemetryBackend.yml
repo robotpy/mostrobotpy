@@ -5,7 +5,6 @@ extra_includes:
 
 classes:
   wpi::telemetry::MockTelemetryBackend:
-    force_no_trampoline: true
     methods:
       MockTelemetryBackend:
       GetActions:

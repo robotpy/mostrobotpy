@@ -3,7 +3,6 @@ extra_includes:
 
 classes:
   wpi::telemetry::DiscardTelemetryBackend:
-    force_no_trampoline: true
     methods:
       DiscardTelemetryBackend:
       GetEntry:

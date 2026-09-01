@@ -32,6 +32,7 @@ __all__ = [
     "set_property",
 ]
 
+
 class TelemetryLoggable(ABC):
     """An object that can log its state to a telemetry table."""
 
