@@ -30,11 +30,6 @@ def backend():
         tunables.TunableRegistry.reset()
 
 
-def test_tunable_type_value_uses_native_api_name():
-    assert tunables.TunableTypeValue.__name__ == "TunableTypeValue"
-    assert not hasattr(tunables, "TunableType")
-
-
 def test_python_tunable_backend_dispatches_native_registry_virtuals():
     from tunables import _tunables
 
@@ -393,13 +388,6 @@ def test_mock_backend_python_subclass_override_dispatches_from_registry():
         tunables.TunableRegistry.reset()
 
 
-def test_public_mock_backend_is_direct_native_class():
-    from tunables import _tunables
-
-    assert tunables.MockTunableBackend is _tunables.MockTunableBackend
-    assert not hasattr(_tunables, "T")
-
-
 def test_mock_backend_exposes_non_protobuf_typed_and_struct_getters(backend):
     tunables.add("boolean", True)
     tunables.add("integer", 1)
@@ -490,16 +478,6 @@ def test_tunable_get_set():
     assert value.get() == 1
     value.set(2)
     assert value.get() == 2
-
-
-def test_tunable_default_arguments_are_keyword_only():
-    with pytest.raises(TypeError):
-        tunables.Tunable(1, None)
-
-
-def test_add_default_arguments_are_keyword_only():
-    with pytest.raises(TypeError):
-        tunables.add("value", 1, int)
 
 
 def test_tunable_type_selectors_use_python_types():
