@@ -1,3 +1,13 @@
+cHeaderFileInclude {
+  _c\.h$
+}
+
+cppHeaderFileInclude {
+  (?<!_c)\.h$
+  \.inc$
+  \.inl$
+}
+
 generatedFileExclude {
   .*/type_casters/
   .*\.py$
