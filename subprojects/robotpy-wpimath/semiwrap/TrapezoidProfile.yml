@@ -100,13 +100,14 @@ classes:
       t_3:
     methods:
       operator==:
+
 templates:
-  _TrapezoidProfileConstraints:
+  TrapezoidProfileConstraints:
     qualname: wpi::math::detail::TrapezoidProfileConstraints
     params:
     - wpi::units::dimensionless::scalar
 
-  _TrapezoidProfileRadiansConstraints:
+  TrapezoidProfileRadiansConstraints:
     qualname: wpi::math::detail::TrapezoidProfileConstraints
     params:
     - wpi::units::radian
