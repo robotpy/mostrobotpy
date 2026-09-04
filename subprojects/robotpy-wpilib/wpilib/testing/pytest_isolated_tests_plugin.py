@@ -237,13 +237,16 @@ class IsolatedTestsPlugin:
             return True
 
         running: list[IsolatedTestJob] = []
-        deferred: list[pytest.Function] = []
+        deferred: list[pytest.Item] = []
         try:
             # Start any tests that use the robot fixture first. Tests that don't
             # use the robot fixture will be ran later
             for item in session.items:
-                assert isinstance(item, pytest.Function)
-                if "robot" not in item.fixturenames:
+                if not (
+                    # pytest plugins may generate their own items.
+                    isinstance(item, pytest.Function)
+                    and "robot" in item.fixturenames
+                ):
                     deferred.append(item)
                     continue
 
