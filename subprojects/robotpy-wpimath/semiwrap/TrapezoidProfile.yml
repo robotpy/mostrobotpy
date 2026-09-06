@@ -79,9 +79,11 @@ classes:
               maxAcceleration:
                 default: '0'
     template_inline_code: |
+      std::string clsNameCopy = clsName;
+
       cls_TrapezoidProfileConstraints
-        .def("__repr__", [](const wpi::math::detail::TrapezoidProfileConstraints<Distance>& self) {
-          return "TrapezoidProfile.Constraints("
+        .def("__repr__", [clsNameCopy](const wpi::math::detail::TrapezoidProfileConstraints<Distance>& self) {
+          return clsNameCopy + "("
             "max_velocity=" + std::to_string(self.maxVelocity()) + ", "
             "max_acceleration=" + std::to_string(self.maxAcceleration()) + ")";
         });
