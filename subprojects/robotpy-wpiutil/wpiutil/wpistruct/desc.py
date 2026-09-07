@@ -13,6 +13,12 @@ class StructDescriptor(typing.NamedTuple):
     have an attribute `WPIStruct` that contains this class (but C++ classes
     do not have this).
 
+    ``WPIStruct`` remains the serializer descriptor used by the native
+    serialization functions. Classes created by
+    :func:`wpiutil.wpistruct.make_wpistruct` also have a
+    ``__wpistruct_descriptor__`` attribute containing parsed field and layout
+    metadata.
+
     It is not intended that you should create this class directly, something
     else should generate it for you.
 

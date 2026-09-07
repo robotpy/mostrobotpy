@@ -11,6 +11,7 @@ wpiutil_sources += files(
     'wpiutil/src/timestamp.cpp',
     'wpiutil/src/usagereporting.cpp',
     'wpiutil/src/wpistruct/wpystruct_fns.cpp',
+    'wpiutil/src/wpistruct/wpystruct_schema.cpp',
 )
 
 subdir('semiwrap/modules')
