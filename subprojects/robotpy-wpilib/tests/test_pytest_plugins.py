@@ -224,6 +224,28 @@ def test_robot_two(robot):
     )
 
 
+def test_isolated_plugin_reports_worker_collection_exit(pytester):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    with pytester.path.joinpath("conftest.py").open("a") as fp:
+        fp.write("""
+
+
+def pytest_collection_modifyitems(config, items):
+    if "--no-header" in config.invocation_params.args:
+        items.clear()
+""")
+    pytester.makepyfile(test_isolated="""
+def test_robot(robot):
+    assert robot is not None
+""")
+
+    result = pytester.runpytest_subprocess("-v")
+
+    result.assert_outcomes(failed=1)
+    result.stdout.fnmatch_lines(["*subprocess exited with exit code 5*"])
+
+
 def test_isolated_plugin_maxfail_stops_early(pytester):
     _make_robot_module(pytester)
     _configure_isolated_plugin(pytester)
@@ -240,6 +262,33 @@ def test_robot_second(robot):
 
     result.assert_outcomes(failed=1)
     assert not any("test_robot_second" in line for line in result.outlines)
+
+
+def test_isolated_plugin_maxfail_stops_deferred_tests(pytester):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester, parallelism=2)
+    pytester.makepyfile(test_isolated="""
+import pathlib
+import time
+
+
+def test_robot_failure(robot):
+    assert False
+
+
+def test_plain_waits_for_failure():
+    time.sleep(1)
+
+
+def test_plain_must_not_run():
+    pathlib.Path("plain-ran").touch()
+""")
+
+    result = pytester.runpytest_subprocess("-v", "-x")
+
+    assert result.parseoutcomes()["failed"] == 1
+    assert result.ret == pytest.ExitCode.TESTS_FAILED
+    assert not (pytester.path / "plain-ran").exists()
 
 
 @pytest.mark.parametrize("isolated", [False, True])

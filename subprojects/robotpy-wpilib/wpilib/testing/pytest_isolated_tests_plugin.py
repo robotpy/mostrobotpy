@@ -258,6 +258,11 @@ class IsolatedTestsPlugin:
 
             # Run the in-process tests now while the robot tests are finishing
             for idx, item in enumerate(deferred):
+                # Observe completed isolated failures before starting more
+                # in-process work, so --maxfail can stop the group promptly.
+                if any(job.conn.poll() for job in running):
+                    self._wait_for_jobs(running, session)
+
                 nextitem = deferred[idx + 1] if idx + 1 < len(deferred) else None
                 session.config.hook.pytest_runtest_protocol(
                     item=item, nextitem=nextitem
@@ -402,10 +407,10 @@ class IsolatedTestsPlugin:
         job.process.close()
 
     def _maybe_raise(self, session: pytest.Session):
-        if self._shouldstop:
-            raise session.Interrupted(self._shouldstop)
         if session.shouldfail:
             raise session.Failed(session.shouldfail)
+        if self._shouldstop:
+            raise session.Interrupted(self._shouldstop)
         if session.shouldstop:
             raise session.Interrupted(session.shouldstop)
 
@@ -458,7 +463,17 @@ class IsolatedTestsPlugin:
         if exit_code is not None:
             job.exit_code = int(exit_code)
 
-        job.worker_completed = True
+        if job.exit_code == pytest.ExitCode.INTERRUPTED and not self._shouldstop:
+            self._shouldstop = "interrupted in worker"
+
+        # Normal test failures have already produced reports, and interruptions
+        # stop the parent session. Other exit codes need a synthetic failure
+        # report from _finalize_job.
+        job.worker_completed = job.exit_code in (
+            pytest.ExitCode.OK,
+            pytest.ExitCode.TESTS_FAILED,
+            pytest.ExitCode.INTERRUPTED,
+        )
         job.finished = True
 
     def _handlefailures(self, rep: pytest.TestReport):
