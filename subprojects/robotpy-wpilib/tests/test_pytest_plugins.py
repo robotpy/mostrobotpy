@@ -394,3 +394,57 @@ def test_state_transitions(robot, control):
     )
 
     result.assert_outcomes(passed=1)
+
+
+@pytest.mark.parametrize(
+    "a_fixture, b_fixture",
+    [("robot", "robot"), ("robot", ""), ("", "robot")],
+    ids=["RR", "RN", "NR"],
+)
+def test_unordered_tests_still_run_in_parallel(pytester, a_fixture, b_fixture):
+    """
+    Tests WITHOUT @pytest.mark.order must not be serialised by order-marker
+    support.  With parallelism=2, two 1.5 s tests must overlap in wall-clock
+    time.
+
+    NR is the case collection order alone cannot deliver: the plain test is
+    collected first, so following the given order would run it to completion
+    before the subprocess was even spawned.  Within a group the run loop is free
+    to schedule for throughput, so it starts the isolated test before running any
+    in-process test and the two overlap regardless of which was collected first.
+
+    NN is omitted: two in-process tests both run here, and this process runs one
+    test at a time -- serial by design, and no scheduling can change it.
+    """
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester, parallelism=2)
+
+    def params(f):
+        return f"({f})" if f else "()"
+
+    pytester.makepyfile(test_parallel_execution=f"""\
+import pathlib
+import time
+
+
+def test_a{params(a_fixture)}:
+    pathlib.Path("a_start.txt").write_text(str(time.monotonic()))
+    time.sleep(1.5)
+    pathlib.Path("a_end.txt").write_text(str(time.monotonic()))
+
+
+def test_b{params(b_fixture)}:
+    pathlib.Path("b_start.txt").write_text(str(time.monotonic()))
+    time.sleep(1.5)
+    pathlib.Path("b_end.txt").write_text(str(time.monotonic()))
+""")
+
+    result = pytester.runpytest_subprocess("-vv")
+    result.assert_outcomes(passed=2)
+
+    root = pathlib.Path(pytester.path)
+    a_end = float((root / "a_end.txt").read_text())
+    b_start = float((root / "b_start.txt").read_text())
+    assert (
+        b_start < a_end
+    ), f"Expected parallel: b_start={b_start:.3f} a_end={a_end:.3f}"
