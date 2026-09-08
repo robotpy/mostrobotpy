@@ -8,6 +8,7 @@ py.extension_module(
   'module',
   sources: files(
     'wpiutil_test/module.cpp',
+    'wpiutil_test/span_safety_test.cpp',
     'wpiutil_test/struct_test.cpp',
   ),
   install: true,
