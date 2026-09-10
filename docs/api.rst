@@ -13,6 +13,16 @@ WPILib API
   wpilib.sysid
   wpilib.testing
 
+.. _wpilib_drivers_api:
+
+WPILib Drivers API
+------------------
+
+.. toctree::
+  :maxdepth: 1
+
+  wpilib_drivers
+
 .. _ntcore_api:
 
 NTCore API
@@ -46,6 +56,16 @@ Apriltag API
 
   robotpy_apriltag
 
+.. _robotpy_fields_api:
+
+RobotPy Fields API
+------------------
+
+.. toctree::
+  :maxdepth: 1
+
+  robotpy_fields
+
 .. _wpimath_api:
 
 WPIMath API
@@ -69,6 +89,26 @@ WPILog API
   :maxdepth: 1
 
   wpilog
+
+.. _telemetry_api:
+
+Telemetry API
+-------------
+
+.. toctree::
+  :maxdepth: 1
+
+  telemetry
+
+.. _tunables_api:
+
+Tunables API
+------------
+
+.. toctree::
+  :maxdepth: 1
+
+  tunables
 
 WPINet API
 ------------
@@ -135,6 +175,7 @@ These are special devices for use with the XRP product.
   :maxdepth: 1
 
   xrp
+  xrp.extension
 
 .. _command_v2_api:
 

@@ -63,6 +63,9 @@ gen_package(root, "wpilib", exclude=["wpi_*"])
 gen_package(root, "wpilib.simulation")
 gen_package(root, "wpilib.sysid")
 
+# WPILib Drivers
+gen_package(root, "wpilib_drivers")
+
 # NTCore
 gen_package(root, "ntcore")
 gen_package(root, "ntcore.meta")
@@ -72,11 +75,18 @@ gen_package(root, "cscore")
 # Apriltag
 gen_package(root, "robotpy_apriltag")
 
+# Fields
+gen_package(root, "robotpy_fields")
+
 # WPIMath
 gen_package(root, "wpimath")
 
 # WPILog
 gen_package(root, "wpilog")
+
+# Telemetry/Tunables
+gen_package(root, "telemetry")
+gen_package(root, "tunables")
 
 # WPINet
 gen_package(root, "wpinet")
@@ -95,6 +105,7 @@ gen_package(root, "romi")
 
 # XRP
 gen_package(root, "xrp")
+gen_package(root, "xrp.extension")
 
 # Commands
 gen_package(root, "commands2")
