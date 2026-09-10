@@ -22,6 +22,7 @@ from .pytest_isolated_order_adapter import (
     PytestOrderWorkerState,
 )
 from .pytest_plugin import RobotTestingPlugin
+from ._opmode import OpModes, OpModeTestingPlugin
 
 
 class _NullTerminalWriter:
@@ -137,6 +138,7 @@ def _run_test(
     config_args,
     robot_class_data,
     robot_file,
+    opmodes: OpModes | None,
     verbose,
     order_state: PytestOrderWorkerState,
     pipe,
@@ -158,6 +160,7 @@ def _run_test(
     # keep the plugins around because it has a reference to the robot
     # and we don't want it to die and deadlock
     plugin = RobotTestingPlugin(robot_class, robot_file, True)
+    plugin._opmodes = opmodes
     worker_plugin = WorkerPlugin(pipe)
     order_plugin = PytestOrderWorkerPlugin(order_state)
 
@@ -203,7 +206,7 @@ class IsolatedTestJob:
             self.exit_code = ec
 
 
-class IsolatedTestsPlugin:
+class IsolatedTestsPlugin(OpModeTestingPlugin):
     """
     This pytest plugin runs any test that uses the 'robot' fixture in an
     isolated subprocess
@@ -336,6 +339,7 @@ class IsolatedTestsPlugin:
                 config_args,
                 pickle.dumps(self._robot_class),
                 self._robot_file,
+                self._opmodes,
                 self._verbose,
                 self._ordering.worker_state(item),
                 cconn,
