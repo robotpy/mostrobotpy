@@ -242,7 +242,7 @@ __all__ += ["report_error", "report_warning"]
 
 del _init__wpilib
 
-from .opmoderobot import OpModeRobot
+from .opmodes import OpModeRobot
 
 __all__ += ["OpModeRobot"]
 

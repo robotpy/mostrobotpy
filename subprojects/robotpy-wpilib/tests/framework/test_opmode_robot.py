@@ -2,7 +2,7 @@ import pytest
 import threading
 import tunables
 from wpilib import simulation as wsim
-from wpilib.opmoderobot import OpModeRobot
+from wpilib.opmodes import OpModeRobot
 from wpilib import OpMode, RobotState
 from hal import RobotMode
 from wpiutil import Color
