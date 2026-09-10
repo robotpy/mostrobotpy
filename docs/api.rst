@@ -95,15 +95,22 @@ WPILog API
 Telemetry API
 -------------
 
+The ``telemetry`` module is WPILib's output-only API for publishing robot-program data to dashboards, debug tools, and log files.
+It organizes values with hierarchical tables.
+
 .. toctree::
   :maxdepth: 1
 
   telemetry
+  telemetry.mock_backend
 
 .. _tunables_api:
 
 Tunables API
 ------------
+
+The ``tunables`` module is WPILib's runtime adjustment API for values that robot programs want to expose to dashboards or debug tools.
+It lets code declare adjustable values, grouped complex objects, and chooser-style selections.
 
 .. toctree::
   :maxdepth: 1
