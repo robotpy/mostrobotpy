@@ -302,7 +302,7 @@ def test_builtin_tests_module(pytester, isolated):
 
     result = pytester.runpytest_subprocess("-q")
 
-    result.assert_outcomes(passed=4)
+    result.assert_outcomes(passed=4, skipped=1)
 
 
 def _run_robot_suite(pytester, isolated, robot_class, test_source, *args):
