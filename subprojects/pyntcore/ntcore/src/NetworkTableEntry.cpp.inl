@@ -13,12 +13,13 @@ cls_NetworkTableEntry
         return pyntcore::ntvalue2py(v);
     })
 
-    // double overload must come before boolean version
-    .def("set_value", [](wpi::nt::NetworkTableEntry *self, double value) {
-        return self->SetValue(wpi::nt::Value::MakeDouble(value));
-    }, py::arg("value"), release_gil())
+    // bool before double: under pybind11 3.1, bool subclasses int and would
+    // otherwise bind the double overload (see robotpy/mostrobotpy#318).
     .def("set_value", [](wpi::nt::NetworkTableEntry *self, bool value) {
         return self->SetValue(wpi::nt::Value::MakeBoolean(value));
+    }, py::arg("value").noconvert(), release_gil())
+    .def("set_value", [](wpi::nt::NetworkTableEntry *self, double value) {
+        return self->SetValue(wpi::nt::Value::MakeDouble(value));
     }, py::arg("value"), release_gil())
     .def("set_value", [](wpi::nt::NetworkTableEntry *self, py::bytes value) {
         auto v = wpi::nt::Value::MakeRaw(value.cast<std::span<const uint8_t>>());
@@ -32,12 +33,13 @@ cls_NetworkTableEntry
         return self->SetValue(pyntcore::py2ntvalue(value));
     }, py::arg("value"))
 
-    // double overload must come before boolean version
-    .def("set_default_value", [](wpi::nt::NetworkTableEntry *self, double value) {
-        return self->SetDefaultValue(wpi::nt::Value::MakeDouble(value));
-    }, py::arg("value"), release_gil())
+    // bool before double: under pybind11 3.1, bool subclasses int and would
+    // otherwise bind the double overload (see robotpy/mostrobotpy#318).
     .def("set_default_value", [](wpi::nt::NetworkTableEntry *self, bool value) {
         return self->SetDefaultValue(wpi::nt::Value::MakeBoolean(value));
+    }, py::arg("value").noconvert(), release_gil())
+    .def("set_default_value", [](wpi::nt::NetworkTableEntry *self, double value) {
+        return self->SetDefaultValue(wpi::nt::Value::MakeDouble(value));
     }, py::arg("value"), release_gil())
     .def("set_default_value", [](wpi::nt::NetworkTableEntry *self, py::bytes value) {
         auto v = wpi::nt::Value::MakeRaw(value.cast<std::span<const uint8_t>>());
