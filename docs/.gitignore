@@ -20,6 +20,9 @@
 /robotpy_apriltag.rst
 /robotpy_apriltag/
 
+/robotpy_fields.rst
+/robotpy_fields/
+
 /wpilib.counter.rst
 /wpilib.counter/
 /wpilib.drive.rst
@@ -35,7 +38,12 @@
 /wpilib.simulation/
 /wpilib.sysid.rst
 /wpilib.sysid/
+/wpilib.testing.rst
+/wpilib.testing/
 /wpilib/
+
+/wpilib_drivers.rst
+/wpilib_drivers/
 
 /wpimath.controller.rst
 /wpimath.controller/
@@ -69,6 +77,12 @@
 /wpilog.rst
 /wpilog/
 
+/telemetry.rst
+/telemetry/
+
+/tunables.rst
+/tunables/
+
 /wpinet.rst
 /wpinet/
 
@@ -92,4 +106,6 @@
 /romi/
 
 /xrp.rst
+/xrp.extension.rst
+/xrp.extension/
 /xrp/

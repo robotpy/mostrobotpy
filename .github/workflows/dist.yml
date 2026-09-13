@@ -285,6 +285,9 @@ jobs:
     # Start the server once here so clients don't race to start it.
     - name: Pre-start sccache server
       run: sccache --start-server
+      env:
+        SCCACHE_WEBDAV_USERNAME: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
+        SCCACHE_WEBDAV_PASSWORD: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
 
     - name: Install deps
       run: |
