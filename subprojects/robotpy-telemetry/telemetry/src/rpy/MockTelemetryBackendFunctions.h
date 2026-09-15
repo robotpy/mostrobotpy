@@ -15,7 +15,8 @@ class ActionValue : public pybind11::object {
  public:
   using pybind11::object::object;
 
-  ActionValue(pybind11::object&& value) : pybind11::object{std::move(value)} {}
+  explicit ActionValue(pybind11::object&& value)
+      : pybind11::object{std::move(value)} {}
 };
 
 using ObjectDict = pybind11::typing::Dict<pybind11::str, pybind11::object>;
