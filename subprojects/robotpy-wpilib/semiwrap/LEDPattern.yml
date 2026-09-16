@@ -1,5 +1,7 @@
 extra_includes:
 - rpy/AddressableLEDBuffer.h
+- memory
+- pybind11/typing.h
 
 classes:
   wpi::LEDPattern:
@@ -49,6 +51,26 @@ classes:
             ignore: true
       Rainbow:
       MapIndex:
+        # Use py::int_ so stubs emit Callable[[int, int], int] (issue #168).
+        # Own the callback like TelemetryRegistry::SetReportWarning so apply_to's
+        # release_gil() path can safely invoke it with gil_scoped_acquire.
+        cpp_code: |
+          [](wpi::LEDPattern& self,
+             py::typing::Callable<py::int_(py::int_, py::int_)> indexMapper) {
+            auto callbackOwner = std::shared_ptr<py::function>{
+                new py::function{std::move(indexMapper)}, [](py::function* callback) {
+                  py::gil_scoped_acquire gil;
+                  delete callback;
+                }};
+            return self.MapIndex(
+                [callbackOwner](size_t length, size_t idx) -> size_t {
+                  py::gil_scoped_acquire gil;
+                  return (*callbackOwner)(length, idx).cast<size_t>();
+                });
+          }
+        param_override:
+          indexMapper:
+            disable_none: true
     inline_code: |
       .def("apply_to", [](const wpi::LEDPattern& self, wpi::AddressableLEDBuffer& data) {
         self.ApplyTo(static_cast<std::span<wpi::AddressableLED::LEDData>>(data));
