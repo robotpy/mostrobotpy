@@ -442,10 +442,10 @@ class IsolatedTestsPlugin(OpModeTestingPlugin):
         if job.process.is_alive():
             job.process.kill()
 
-        try:
-            job.process.join(timeout=1)
-        except TimeoutError:
-            pass
+        # kill() is asynchronous, particularly on Windows. Wait for the OS to
+        # finish termination before close(); a timed join can return while the
+        # process is still running (without raising TimeoutError).
+        job.process.join()
 
         ec = job.process.exitcode
         if ec is not None:
