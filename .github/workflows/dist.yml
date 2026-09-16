@@ -311,8 +311,18 @@ jobs:
         python -m devtools ci install-test-pure-wheels
 
     - name: Test examples
+      if: runner.os != 'Windows'
       run: |
         python -m devtools test-examples
+
+    - name: Test examples (Windows stress test)
+      if: runner.os == 'Windows'
+      shell: bash
+      run: |
+        for iteration in {1..50}; do
+          echo "Example tests: iteration ${iteration}/50"
+          python -m devtools test-examples --exitfirst || exit $?
+        done
 
     - name: Ensure all headers are accounted for
       run: |
