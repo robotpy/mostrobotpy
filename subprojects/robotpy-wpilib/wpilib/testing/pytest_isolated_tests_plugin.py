@@ -110,6 +110,18 @@ class WorkerPlugin:
         self.sendevent("internal_error", formatted_error=formatted_error)
 
     @pytest.hookimpl
+    def pytest_collectreport(self, report: pytest.CollectReport):
+        if report.failed:
+            data = self.config.hook.pytest_report_to_serializable(
+                config=self.config, report=report
+            )
+            self.sendevent("collectreport", data=data)
+
+    @pytest.hookimpl
+    def pytest_keyboard_interrupt(self, excinfo: pytest.ExceptionInfo):
+        self.sendevent("interruption", formatted_error=str(excinfo.getrepr()))
+
+    @pytest.hookimpl
     def pytest_runtest_logstart(
         self,
         nodeid: str,
@@ -200,6 +212,9 @@ class IsolatedTestJob:
 
     # set when the worker indicates it has finished
     worker_completed: bool = False
+
+    collection_failed: bool = False
+    interruption: str | None = None
 
     def set_exit_code(self, ec: int):
         if self.exit_code is None:
@@ -442,10 +457,10 @@ class IsolatedTestsPlugin(OpModeTestingPlugin):
         if job.process.is_alive():
             job.process.kill()
 
-        try:
-            job.process.join(timeout=1)
-        except TimeoutError:
-            pass
+        # kill() is asynchronous, particularly on Windows. Wait for the OS to
+        # finish termination before close(); a timed join can return while the
+        # process is still running (without raising TimeoutError).
+        job.process.join()
 
         ec = job.process.exitcode
         if ec is not None:
@@ -496,6 +511,22 @@ class IsolatedTestsPlugin(OpModeTestingPlugin):
         self._config.hook.pytest_runtest_logreport(report=report)
         self._handlefailures(report)
 
+    def worker_collectreport(self, job: IsolatedTestJob, data: object):
+        report = self._config.hook.pytest_report_from_serializable(
+            config=self._config, data=data
+        )
+        # Include the assigned test in the error itself, not a captured-output
+        # section that --show-capture could hide.
+        report.longrepr = (
+            f"Running {job.item.nodeid} in isolated worker:\n\n{report.longrepr}"
+        )
+        job.collection_failed = True
+        self._config.hook.pytest_collectreport(report=report)
+
+    def worker_interruption(self, job: IsolatedTestJob, formatted_error: str):
+        # Wait for the finished event to preserve the worker's exit status.
+        job.interruption = formatted_error
+
     def worker_internal_error(self, job: IsolatedTestJob, formatted_error: str):
         """Emitted when a node calls the pytest_internalerror hook."""
         for line in formatted_error.split("\n"):
@@ -511,16 +542,19 @@ class IsolatedTestsPlugin(OpModeTestingPlugin):
             job.exit_code = int(exit_code)
 
         if job.exit_code == pytest.ExitCode.INTERRUPTED and not self._shouldstop:
-            self._shouldstop = "interrupted in worker"
+            self._shouldstop = f"interrupted in worker for {job.item.nodeid}"
+            if job.interruption:
+                self._shouldstop += f"\n\n{job.interruption}"
 
         # Normal test failures have already produced reports, and interruptions
-        # stop the parent session. Other exit codes need a synthetic failure
-        # report from _finalize_job.
+        # stop the parent session. A collection error in the selected module
+        # can also produce USAGE_ERROR ("found no collectors"); its report has
+        # already been forwarded. Other exits need a synthetic failure report.
         job.worker_completed = job.exit_code in (
             pytest.ExitCode.OK,
             pytest.ExitCode.TESTS_FAILED,
             pytest.ExitCode.INTERRUPTED,
-        )
+        ) or (job.collection_failed and job.exit_code == pytest.ExitCode.USAGE_ERROR)
         job.finished = True
 
     def _handlefailures(self, rep: pytest.TestReport):
