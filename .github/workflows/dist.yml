@@ -333,11 +333,48 @@ jobs:
             winreg.SetValueEx(key, "DumpCount", 0, winreg.REG_DWORD, 10)
         print(f"Windows crash dumps: {dump_folder}")
 
+    - name: Verify Windows crash dumps
+      if: runner.os == 'Windows'
+      shell: python
+      timeout-minutes: 3
+      run: |
+        import os
+        from pathlib import Path
+        import subprocess
+        import sys
+
+        # Crash only a disposable child, using a native fast-fail that invokes WER.
+        crash_code = (
+            "import ctypes; "
+            "ctypes.windll.kernel32.RaiseFailFastException(None, None, 0)"
+        )
+        process = subprocess.Popen([sys.executable, "-c", crash_code])
+        print(f"Verifying native crash dump for probe PID {process.pid}", flush=True)
+        try:
+            returncode = process.wait(timeout=120)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait(timeout=10)
+            raise RuntimeError("Timed out waiting for the Windows crash-dump probe") from None
+        # RaiseFailFastException(NULL, NULL, 0) uses STATUS_FAIL_FAST_EXCEPTION.
+        if returncode != 0xC0000602:
+            raise RuntimeError(f"Unexpected crash-probe exit code: {returncode:#x}")
+
+        dump_folder = Path(os.environ["RUNNER_TEMP"]) / "robotpy-crash-dumps"
+        dump_path = dump_folder / f"python.exe.{process.pid}.dmp"
+        if not dump_path.is_file():
+            raise RuntimeError(f"Windows did not produce the expected crash dump: {dump_path}")
+        with dump_path.open("rb") as dump:
+            if dump.read(4) != b"MDMP":
+                raise RuntimeError(f"Invalid or empty Windows crash dump: {dump_path}")
+        print(f"Verified crash dump: {dump_path} ({dump_path.stat().st_size} bytes)")
+        # Keep failure artifacts reserved for real crashes, not this intentional one.
+        dump_path.unlink()
+
     - name: Test examples (Windows stress test)
       if: runner.os == 'Windows'
       shell: bash
       env:
-        PYTEST_ADDOPTS: "-s"
         PYTHONFAULTHANDLER: "1"
         PYTHONUNBUFFERED: "1"
       run: |
