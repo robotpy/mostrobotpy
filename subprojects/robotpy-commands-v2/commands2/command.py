@@ -4,10 +4,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from enum import Enum
-from typing import TYPE_CHECKING, Any, Callable, Set, Union
-
-from typing_extensions import Self, TypeAlias
+from typing import TYPE_CHECKING, Any, Self, TypeAlias
 
 if TYPE_CHECKING:
     from .subsystem import Subsystem
@@ -56,7 +55,7 @@ class Command(TelemetryLoggable, ComplexTunable):
         InterruptionBehavior  # type alias for 2023 location
     )
 
-    requirements: Set[Subsystem]
+    requirements: set[Subsystem]
 
     def __new__(cls, *args, **kwargs) -> Self:
         instance = super().__new__(
@@ -97,7 +96,7 @@ class Command(TelemetryLoggable, ComplexTunable):
         """
         return False
 
-    def get_requirements(self) -> Set[Subsystem]:
+    def get_requirements(self) -> set[Subsystem]:
         """
         Specifies the set of subsystems used by this command. Two commands cannot use the same
         subsystem at the same time. If another command is scheduled that shares a requirement, :meth:`.get_interruption_behavior` will be checked and followed. If no subsystems are required, return
@@ -199,7 +198,7 @@ class Command(TelemetryLoggable, ComplexTunable):
         return self.until(lambda: not condition())
 
     def before_starting(
-        self, before: Union[Command, Callable[[], None]]
+        self, before: Command | Callable[[], None]
     ) -> SequentialCommandGroup:
         """
         Decorates this command with a callable or command to run before this command starts.

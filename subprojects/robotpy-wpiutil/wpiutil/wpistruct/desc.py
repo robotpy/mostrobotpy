@@ -1,7 +1,7 @@
 import typing
 
 if typing.TYPE_CHECKING:
-    from typing_extensions import Buffer
+    from collections.abc import Buffer
 else:
     # Avoiding typing_extensions runtime dependency
     Buffer = bytearray
@@ -43,6 +43,4 @@ class StructDescriptor(typing.NamedTuple):
     # unpack_into: typing.Callable[[typing.Any, Buffer], None]
 
     #: If this contains nested structs, calls wpiutil.wpistruct.for_each_nested for each
-    for_each_nested: typing.Optional[
-        typing.Callable[[typing.Callable[[str, str], None]], None]
-    ]
+    for_each_nested: typing.Callable[[typing.Callable[[str, str], None]], None] | None

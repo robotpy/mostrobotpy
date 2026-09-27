@@ -41,4 +41,4 @@ from . import _stacktrace  # noqa: F401
 # Type alias
 import typing
 
-json = typing.Union[None, bool, int, float, str, typing.List, typing.Dict]
+json = typing.Union[None, bool, int, float, str, list, dict]

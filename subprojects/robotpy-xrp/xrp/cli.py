@@ -2,7 +2,6 @@ import argparse
 import importlib.metadata
 import os
 import sys
-import typing
 
 import wpilib
 
@@ -83,7 +82,7 @@ class RunXrp:
         self,
         options: argparse.Namespace,
         project_path: "os.PathLike[str]",
-        robot_class: typing.Type[wpilib.RobotBase],
+        robot_class: type[wpilib.RobotBase],
     ):
         if "xrp" not in self.simexts:
             print(

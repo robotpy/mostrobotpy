@@ -5,8 +5,6 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-import typing
-
 import commands2
 import wpilib
 
@@ -19,7 +17,7 @@ class MyRobot(commands2.TimedCommandRobot):
     has an implementation of robot_periodic which runs the scheduler for you
     """
 
-    autonomous_command: typing.Optional[commands2.Command] = None
+    autonomous_command: commands2.Command | None = None
 
     def __init__(self) -> None:
         """

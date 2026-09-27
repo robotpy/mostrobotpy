@@ -38,8 +38,6 @@
 # you can add the --nogui option.
 #
 
-import typing
-
 import commands2
 
 from robotcontainer import RobotContainer
@@ -51,7 +49,7 @@ class MyRobot(commands2.TimedCommandRobot):
     has an implementation of robot_periodic which runs the scheduler for you
     """
 
-    autonomous_command: typing.Optional[commands2.Command] = None
+    autonomous_command: commands2.Command | None = None
 
     def __init__(self) -> None:
         """

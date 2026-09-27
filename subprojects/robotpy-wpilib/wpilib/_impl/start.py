@@ -6,7 +6,6 @@ import os.path
 import sys
 import threading
 import time
-import typing
 
 import importlib.metadata
 
@@ -23,7 +22,7 @@ else:
 from .report_error import report_error, report_error_internal
 
 
-def _log_versions(robotpy_version: typing.Optional[str]):
+def _log_versions(robotpy_version: str | None):
     import wpilib
     import wpilib.deployinfo
 
@@ -86,7 +85,7 @@ class RobotStarter:
         self._robotpy_version = None
 
     @property
-    def robotpy_version(self) -> typing.Optional[str]:
+    def robotpy_version(self) -> str | None:
         if not self._robotpy_version:
             try:
                 pkg = importlib.metadata.metadata("robotpy")

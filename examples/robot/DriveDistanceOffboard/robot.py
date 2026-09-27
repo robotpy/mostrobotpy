@@ -5,8 +5,6 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
-import typing
-
 import commands2
 import commands2.cmd
 
@@ -32,7 +30,7 @@ class MyRobot(commands2.TimedCommandRobot):
         initialization code.
         """
         super().__init__()
-        self.autonomous_command: typing.Optional[commands2.Command] = None
+        self.autonomous_command: commands2.Command | None = None
 
         # Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         # autonomous chooser on the dashboard.

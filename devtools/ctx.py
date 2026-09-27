@@ -3,7 +3,6 @@ import pathlib
 import subprocess
 import sys
 import sysconfig
-import typing as T
 
 import toposort
 
@@ -30,7 +29,7 @@ class Context:
         self.wheel_path = self.root_path / "dist"
         self.other_wheel_path = self.root_path / "dist-other"
 
-        subprojects: T.List[Subproject] = []
+        subprojects: list[Subproject] = []
         for project, cfg in self.cfg.subprojects.items():
             # Skip projects that aren't compatible with the robot
             if self.is_robot and not cfg.robot:
