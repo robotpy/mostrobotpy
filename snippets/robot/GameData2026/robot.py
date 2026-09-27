@@ -5,6 +5,8 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
+from typing import override
+
 import telemetry
 import wpilib
 
@@ -66,6 +68,7 @@ class MyRobot(wpilib.TimedRobot):
         else:
             return True  # End game, hub always active
 
+    @override
     def teleop_periodic(self):
         telemetry.log("Hub active", self.is_hub_active())
         telemetry.log("Match time", wpilib.MatchState.get_match_time())

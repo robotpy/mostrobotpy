@@ -38,6 +38,8 @@
 # you can add the --nogui option.
 #
 
+from typing import override
+
 import telemetry
 import commands2
 
@@ -63,16 +65,20 @@ class MyRobot(commands2.TimedCommandRobot):
         # autonomous chooser on the dashboard.
         self.container = RobotContainer()
 
+    @override
     def robot_periodic(self) -> None:
         super().robot_periodic()
         telemetry.log("", self.container)
 
+    @override
     def disabled_init(self) -> None:
         """This function is called once each time the robot enters Disabled mode."""
 
+    @override
     def disabled_periodic(self) -> None:
         """This function is called periodically when disabled"""
 
+    @override
     def autonomous_init(self) -> None:
         """This autonomous runs the autonomous command selected by your RobotContainer class."""
         self.autonomous_command = self.container.get_autonomous_command()
@@ -80,9 +86,11 @@ class MyRobot(commands2.TimedCommandRobot):
         if self.autonomous_command:
             self.autonomous_command.schedule()
 
+    @override
     def autonomous_periodic(self) -> None:
         """This function is called periodically during autonomous"""
 
+    @override
     def teleop_init(self) -> None:
         # This makes sure that the autonomous stops running when
         # teleop starts running. If you want the autonomous to
@@ -91,9 +99,11 @@ class MyRobot(commands2.TimedCommandRobot):
         if self.autonomous_command:
             self.autonomous_command.cancel()
 
+    @override
     def teleop_periodic(self) -> None:
         """This function is called periodically during operator control"""
 
+    @override
     def utility_init(self) -> None:
         # Cancels all running commands at the start of utility mode
         commands2.CommandScheduler.get_instance().cancel_all()

@@ -5,6 +5,8 @@
 # the WPILib BSD license file in the root directory of this project.
 #
 
+from typing import override
+
 import commands2
 import wpilib
 
@@ -37,16 +39,20 @@ class MyRobot(commands2.TimedCommandRobot):
         # Change to `false` to not record joystick data.
         wpilib.DriverStation.start_data_log(wpilib.DataLogManager.get_log(), True)
 
+    @override
     def robot_periodic(self) -> None:
         super().robot_periodic()
         self.container.update_telemetry()
 
+    @override
     def disabled_init(self) -> None:
         """This function is called once each time the robot enters Disabled mode."""
 
+    @override
     def disabled_periodic(self) -> None:
         """This function is called periodically when disabled"""
 
+    @override
     def autonomous_init(self) -> None:
         """This autonomous runs the autonomous command selected by your RobotContainer class."""
         self.autonomous_command = self.container.get_autonomous_command()
@@ -54,9 +60,11 @@ class MyRobot(commands2.TimedCommandRobot):
         if self.autonomous_command:
             self.autonomous_command.schedule()
 
+    @override
     def autonomous_periodic(self) -> None:
         """This function is called periodically during autonomous"""
 
+    @override
     def teleop_init(self) -> None:
         # This makes sure that the autonomous stops running when
         # teleop starts running. If you want the autonomous to
@@ -65,9 +73,11 @@ class MyRobot(commands2.TimedCommandRobot):
         if self.autonomous_command:
             self.autonomous_command.cancel()
 
+    @override
     def teleop_periodic(self) -> None:
         """This function is called periodically during operator control"""
 
+    @override
     def utility_init(self) -> None:
         # Cancels all running commands at the start of utility mode
         commands2.CommandScheduler.get_instance().cancel_all()
