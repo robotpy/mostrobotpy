@@ -36,7 +36,7 @@ __all__ = [
 ]
 
 # Imported for side effects only
-from . import _stacktrace
+from . import _stacktrace  # noqa: F401
 
 # Type alias
 import typing
