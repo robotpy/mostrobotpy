@@ -41,7 +41,6 @@
 import typing
 
 import telemetry
-import wpilib
 import commands2
 
 from robotcontainer import RobotContainer

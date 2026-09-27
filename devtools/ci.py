@@ -7,7 +7,6 @@ import sys
 import typing as T
 
 import click
-from packaging.requirements import Requirement
 from packaging.version import Version
 
 from .ctx import Context

@@ -1,6 +1,5 @@
 import shlex
 import subprocess
-import sys
 import typing
 
 from validobj import errors

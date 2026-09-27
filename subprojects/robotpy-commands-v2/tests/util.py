@@ -3,7 +3,7 @@ from typing import Any, Dict, TypeVar, Type
 import inspect
 
 import commands2
-from wpilib.simulation import DriverStationSim, pause_timing, resume_timing, step_timing
+from wpilib.simulation import pause_timing, resume_timing, step_timing
 
 Y = TypeVar("Y")
 

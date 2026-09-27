@@ -10,7 +10,6 @@ from typing import TYPE_CHECKING, Any, Callable, Set, Union
 from typing_extensions import Self, TypeAlias
 
 if TYPE_CHECKING:
-    from .instantcommand import InstantCommand
     from .subsystem import Subsystem
     from .parallelracegroup import ParallelRaceGroup
     from .sequentialcommandgroup import SequentialCommandGroup

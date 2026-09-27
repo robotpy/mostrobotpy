@@ -7,7 +7,6 @@
 
 import typing
 
-import wpilib
 import commands2
 import commands2.cmd
 

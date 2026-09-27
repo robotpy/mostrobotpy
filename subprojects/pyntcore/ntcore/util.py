@@ -110,7 +110,7 @@ def ntproperty(
     doc: str = None,
     persistent: bool = False,
     type: Optional[NetworkTableType] = None,
-    inst: Optional[NetworkTableInstance] = None
+    inst: Optional[NetworkTableInstance] = None,
 ) -> property:
     """
     A property that you can add to your classes to access NetworkTables
@@ -170,7 +170,7 @@ class SelectableControl:
         on_choices: Optional[Callable[[Sequence[str]], None]] = None,
         on_selected: Optional[Callable[[str], None]] = None,
         *,
-        inst: Optional[NetworkTableInstance] = None
+        inst: Optional[NetworkTableInstance] = None,
     ) -> None:
         """
         :param key: NetworkTables key

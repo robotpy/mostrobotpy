@@ -1,5 +1,5 @@
 # validated: 2024-02-20 DV ee15cc172a5e sysid/SysIdRoutine.java
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 
 from wpilib.sysid import SysIdRoutineLog, State

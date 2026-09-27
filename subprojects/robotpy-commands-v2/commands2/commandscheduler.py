@@ -4,10 +4,9 @@ from __future__ import annotations
 import inspect
 import os.path
 import traceback
-from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Union
+from typing import Any, Callable, Dict, Iterable, List, Optional, Set
 
 from telemetry import TelemetryLoggable, TelemetryTable
-from typing_extensions import Self
 from tunables import ComplexTunable, Tunable, TunableRegistry, TunableTable
 import wpiutil
 from wpilib import (
