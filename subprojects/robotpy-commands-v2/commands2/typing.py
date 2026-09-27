@@ -1,6 +1,5 @@
 from collections.abc import Callable
-from typing import TypeAlias
 
 # Type Aliases
-FloatSupplier: TypeAlias = Callable[[], float]
-FloatOrFloatSupplier: TypeAlias = float | Callable[[], float]
+type FloatSupplier = Callable[[], float]
+type FloatOrFloatSupplier = float | FloatSupplier
