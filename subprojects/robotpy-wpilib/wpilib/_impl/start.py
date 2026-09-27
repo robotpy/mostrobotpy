@@ -1,32 +1,23 @@
-import hal
-import wpilib
-import wpiutil
+import importlib.metadata
 import logging
 import os.path
 import sys
 import threading
 import time
+from importlib.metadata import entry_points
 
-import importlib.metadata
+import hal
+import wpiutil
 
-if sys.version_info < (3, 10):
-
-    def entry_points(group):
-        eps = importlib.metadata.entry_points()
-        return eps.get(group, [])
-
-else:
-    entry_points = importlib.metadata.entry_points
-
+import wpilib
 
 from .report_error import report_error, report_error_internal
 
 
 def _log_versions(robotpy_version: str | None):
-    import wpilib
-    import wpilib.deployinfo
-
     import logging
+
+    import wpilib.deployinfo
 
     data = wpilib.deployinfo.get_deploy_data()
     if data:

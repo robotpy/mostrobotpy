@@ -2,17 +2,9 @@ import argparse
 import importlib.metadata
 import os
 import sys
+from importlib.metadata import entry_points
 
 import wpilib
-
-if sys.version_info < (3, 10):
-
-    def entry_points(group):
-        eps = importlib.metadata.entry_points()
-        return eps.get(group, [])
-
-else:
-    entry_points = importlib.metadata.entry_points
 
 
 def _int_env_default(name: str, fallback: int) -> int:
