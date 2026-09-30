@@ -4,10 +4,8 @@
 
 import subprocess
 import sys
-import typing as T
 
 import click
-from packaging.requirements import Requirement
 from packaging.version import Version
 
 from .ctx import Context
@@ -105,7 +103,7 @@ def build_other_wheels(ctx: Context, no_test: bool):
 @click.option("--buildtype", help="meson build type (debug, release, etc)")
 @click.pass_obj
 def build_meson_wheels(
-    ctx: Context, no_test: bool, cross: T.Optional[str], buildtype: T.Optional[str]
+    ctx: Context, no_test: bool, cross: str | None, buildtype: str | None
 ):
     """
     Builds wheels that use meson, runs tests.

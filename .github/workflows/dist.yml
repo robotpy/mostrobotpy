@@ -208,7 +208,6 @@ jobs:
         - "macos-15" # arm64
         - "windows-2025"
         python_version:
-        - '3.11'
         - '3.12'
         - '3.13'
         - '3.14'

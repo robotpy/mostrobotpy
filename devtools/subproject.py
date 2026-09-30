@@ -59,7 +59,7 @@ class Subproject:
     # Tasks
     #
 
-    def _config_settings(self, config_settings: T.List[str]) -> T.List[str]:
+    def _config_settings(self, config_settings: list[str]) -> list[str]:
         if sys.platform == "win32" and self.is_meson_project():
             config_settings = config_settings + [
                 "setup-args=-Dcpp_std=none",
@@ -68,7 +68,7 @@ class Subproject:
 
         return config_settings
 
-    def develop(self, buildtype: str, jobs: T.Optional[int] = None):
+    def develop(self, buildtype: str, jobs: int | None = None):
 
         config_settings = [f"setup-args=-Dbuildtype={buildtype}"]
         if jobs is not None:
@@ -154,7 +154,7 @@ class Subproject:
         wheel_path: pathlib.Path,
         other_wheel_path: pathlib.Path,
         install: bool,
-        config_settings: T.List[str],
+        config_settings: list[str],
     ):
         wheel_path.mkdir(parents=True, exist_ok=True)
 

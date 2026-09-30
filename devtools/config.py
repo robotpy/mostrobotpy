@@ -1,6 +1,5 @@
 import dataclasses
 import tomlkit
-import typing as T
 
 from .util import parse_input
 
@@ -26,29 +25,29 @@ class Parameters:
 
     mrclib_bin_version: str
     mrclib_bin_url: str
-    mrclib_artifacts: T.Set[str]
+    mrclib_artifacts: set[str]
 
     #: semiwrap name_transform known_words shared by all wrapper projects
-    known_words: T.List[str]
+    known_words: list[str]
 
     #: renames [project.entry-points.KEY*] to [project.entry-points.VALUE]
-    entrypoints: T.Dict[str, str]
+    entrypoints: dict[str, str]
 
-    exclude_artifacts: T.Set[str]
+    exclude_artifacts: set[str]
 
-    requirements: T.Dict[str, str]
+    requirements: dict[str, str]
 
     robot_wheel_platform: str
 
 
 @dataclasses.dataclass
 class UpdateConfig:
-    py_versions: T.Dict[str, str]
+    py_versions: dict[str, str]
     params: Parameters
-    subprojects: T.Dict[str, SubprojectConfig]
+    subprojects: dict[str, SubprojectConfig]
 
 
-def load(fname) -> T.Tuple[UpdateConfig, tomlkit.TOMLDocument]:
+def load(fname) -> tuple[UpdateConfig, tomlkit.TOMLDocument]:
     with open(fname) as fp:
         cfgdata = tomlkit.parse(fp.read())
 

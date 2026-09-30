@@ -32,8 +32,8 @@ def _validate_example_list(root: pathlib.Path, expected_dirs: T.Sequence[str]) -
 
 @dataclasses.dataclass
 class ExamplesTests:
-    base: T.List[str]
-    ignored: T.List[str]
+    base: list[str]
+    ignored: list[str]
 
 
 @dataclasses.dataclass
