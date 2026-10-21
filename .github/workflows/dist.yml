@@ -211,11 +211,12 @@ jobs:
         - '3.12'
         - '3.13'
         - '3.14'
+        - '3.15'
         publish:
         - true
         include:
         - os: ubuntu-24.04
-          python_version: '3.14'
+          python_version: '3.15'
           publish: false
           build_arg: '--buildtype=debug'
 
@@ -342,7 +343,7 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/systemcore-cross-debian:2026-trixie-py314
+        - container: wpilib/systemcore-cross-debian:2026-trixie-py315
           name: systemcore
 
     container:
@@ -378,7 +379,7 @@ jobs:
       max-parallel: ${{ fromJSON(needs.setup_concurrency.outputs.max-parallel).v }}
       matrix:
         os:
-        - container: wpilib/systemcore-cross-debian:2026-trixie-py314
+        - container: wpilib/systemcore-cross-debian:2026-trixie-py315
           name: systemcore
           base: systemcore
 
