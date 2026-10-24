@@ -162,10 +162,14 @@ class Context:
             subproject.pyproject_name,
         )
 
-    def run_pip(self, *args: str, cwd=None, installing_build_deps: bool = False):
+    def run_pip(
+        self, *args: str, cwd=None, installing_build_deps: bool = False, env=None
+    ):
         if installing_build_deps:
             python = self.build_python
         else:
             python = self.python
 
-        run_cmd(python, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd)
+        run_cmd(
+            python, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd, env=env
+        )

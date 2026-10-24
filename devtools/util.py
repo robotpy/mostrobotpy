@@ -43,6 +43,6 @@ def parse_input(value: typing.Any, spec: type[T], fname) -> T:
         raise _convert_validation_error(fname, ve) from None
 
 
-def run_cmd(*args: str, cwd=None, check=True):
+def run_cmd(*args: str, cwd=None, check=True, env=None):
     print("+", shlex.join(args))
-    return subprocess.run(args, cwd=cwd, check=check)
+    return subprocess.run(args, cwd=cwd, check=check, env=env)
