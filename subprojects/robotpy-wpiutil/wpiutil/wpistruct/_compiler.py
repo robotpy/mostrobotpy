@@ -44,6 +44,10 @@ _signed_integer_types = (int8, int16, int32, int64)
 # count. Prevent the descriptor codec from materializing unbounded containers.
 _MAX_DESCRIPTOR_ZERO_SIZE_ARRAY_ELEMENTS = 65_536
 
+# Cache only a bounded number of unknown enum values per field. Known members
+# remain owned by the enum class; unknown values must not accumulate forever.
+_MAX_UNKNOWN_ENUM_VALUES = 256
+
 
 @dataclasses.dataclass(slots=True)
 class FieldPlan:
@@ -344,6 +348,8 @@ def _enum_from_int(
         member = int.__new__(enum_type, value)
         member._name_ = f"UNKNOWN_{value}"
         member._value_ = value
+        if len(cache) >= _MAX_UNKNOWN_ENUM_VALUES:
+            del cache[next(iter(cache))]
         cache[value] = member
     return member
 

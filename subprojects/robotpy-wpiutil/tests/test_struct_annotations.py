@@ -5,6 +5,7 @@ from typing import Annotated
 import pytest
 
 from wpiutil import wpistruct
+from wpiutil_test import module
 import wpiutil.wpistruct._compiler as compiler_module
 
 
@@ -259,6 +260,25 @@ class EnumCache:
     second: Annotated[Mode, wpistruct.uint8]
 
 
+def test_unknown_enum_cache_is_bounded_and_evicted_values_remain_valid():
+    cache = {}
+    first = compiler_module._enum_from_int(Mode, 2, cache)
+    for value in range(3, 1027):
+        member = compiler_module._enum_from_int(Mode, value, cache)
+        assert isinstance(member, Mode)
+        assert member.value == value
+
+    assert len(cache) <= 256
+    assert 2 not in cache
+    assert compiler_module._enum_from_int(Mode, 1026, cache) is member
+    restored = compiler_module._enum_from_int(Mode, 2, cache)
+    assert restored is not first
+    assert restored == first
+    assert restored.name == first.name == "UNKNOWN_2"
+    assert compiler_module._enum_from_int(Mode, 1, cache) is Mode.AUTO
+    assert 1 not in cache
+
+
 def test_unknown_enum_pseudo_members_are_cached_per_field():
     first = wpistruct.unpack(EnumCache, b"\x07\x07")
     second = wpistruct.unpack(EnumCache, b"\x07\x07")
@@ -312,6 +332,45 @@ def test_descriptor_codec_preserves_authored_singleton_tuple_semantics():
     )
     assert wpistruct.pack(value) == b"A\x07\x01\x02\0\0\0\x03\0\x04\0"
     assert wpistruct.unpack(AuthoredSingletonArrays, wpistruct.pack(value)) == value
+
+
+@pytest.mark.parametrize("array_size", [1, 2])
+def test_descriptor_codec_with_native_nested_structs(array_size):
+    packet_type = dataclasses.make_dataclass(
+        "NativePacket",
+        [
+            ("tag", wpistruct.char),
+            ("inner", module.Outer),
+            ("samples", tuple[tuple(module.ThingA for _ in range(array_size))]),
+        ],
+    )
+    packet_type = wpistruct.make_wpistruct(packet_type)
+    samples = tuple(module.ThingA(7 + index) for index in range(array_size))
+    value = packet_type("A", module.Outer(module.ThingA(2), -3), samples)
+    encoded = b"A\x02\xfd\xff\xff\xff" + bytes(range(7, 7 + array_size))
+    schema = f"char tag; Outer inner; ThingA samples[{array_size}]"
+
+    assert wpistruct.get_schema(packet_type) == schema
+    assert wpistruct.pack(value) == encoded
+    destination = bytearray(len(encoded))
+    wpistruct.pack_into(value, destination)
+    assert destination == encoded
+    decoded = wpistruct.unpack(packet_type, encoded)
+    assert decoded == value
+    assert isinstance(decoded.inner, module.Outer)
+    assert isinstance(decoded.samples, tuple)
+    assert all(isinstance(item, module.ThingA) for item in decoded.samples)
+
+    schemas = []
+    wpistruct.for_each_nested(
+        packet_type, lambda name, schema: schemas.append((name, schema))
+    )
+    assert schemas == [
+        ("struct:ThingA", "uint8 value"),
+        ("struct:Outer", "ThingA inner; int32 c"),
+        ("struct:ThingA", "uint8 value"),
+        ("struct:NativePacket", schema),
+    ]
 
 
 @wpistruct.make_wpistruct
