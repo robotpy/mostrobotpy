@@ -450,16 +450,30 @@ jobs:
     if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
 
     steps:
+    - uses: actions/checkout@v6
+
+    - uses: actions/setup-python@v6
+      with:
+        python-version: '3.x'
+
     - uses: actions/download-artifact@v8
       with:
         pattern: cross-other-*
-        path: dist/
+        path: dist-other/
         merge-multiple: true
 
+    - name: Stage artifacts not already on Artifactory
+      id: stage
+      run: |
+        python devtools/stage_artifacts.py \
+          --index-url https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2027-local/simple/ \
+          --github-output "$GITHUB_OUTPUT" \
+          dist-other dist
+
     - uses: pypa/gh-action-pypi-publish@release/v1
+      if: steps.stage.outputs.count != '0'
       with:
         verify-metadata: false
-        skip-existing: true     # native packages can be uploaded multiple times
         user: ${{ secrets.WPI_ARTIFACTORY_USERNAME }}
         password: ${{ secrets.WPI_ARTIFACTORY_TOKEN }}
         repository-url: https://wpilib.jfrog.io/artifactory/api/pypi/wpilib-python-release-2027-local
