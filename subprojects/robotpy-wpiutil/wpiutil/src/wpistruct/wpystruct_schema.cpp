@@ -2,6 +2,7 @@
 
 #include <charconv>
 #include <cmath>
+#include <cstdint>
 #include <functional>
 #include <limits>
 #include <map>
@@ -18,18 +19,11 @@
 
 namespace wpy::structs {
 
-struct DeclarationShape {
-  bool isArray = false;
-  bool isBitField = false;
-  bool isEnum = false;
-};
-
 class SchemaDatabaseImpl {
  public:
   std::shared_ptr<wpi::util::StructDescriptorDatabase> database =
       std::make_shared<wpi::util::StructDescriptorDatabase>();
   std::map<std::string, std::string, std::less<>> definitions;
-  std::map<std::string, std::vector<DeclarationShape>, std::less<>> shapes;
 };
 
 namespace {
@@ -99,43 +93,9 @@ wpi::util::structparser::ParsedSchema ParseSchema(std::string_view schema) {
   return parsed;
 }
 
-std::vector<DeclarationShape> ParseDeclarationShapes(std::string_view schema) {
-  wpi::util::structparser::Lexer lexer{schema};
-  std::vector<DeclarationShape> shapes;
-  DeclarationShape shape;
-  bool hasDeclaration = false;
-  while (true) {
-    auto token = lexer.Scan();
-    if (token.Is(wpi::util::structparser::Token::END_OF_INPUT)) {
-      if (hasDeclaration) {
-        shapes.emplace_back(shape);
-      }
-      return shapes;
-    }
-    if (token.Is(wpi::util::structparser::Token::SEMICOLON)) {
-      if (hasDeclaration) {
-        shapes.emplace_back(shape);
-        shape = {};
-        hasDeclaration = false;
-      }
-      continue;
-    }
-
-    hasDeclaration = true;
-    if (token.Is(wpi::util::structparser::Token::LEFT_BRACE)) {
-      shape.isEnum = true;
-    } else if (token.Is(wpi::util::structparser::Token::LEFT_BRACKET)) {
-      shape.isArray = true;
-    } else if (token.Is(wpi::util::structparser::Token::COLON)) {
-      shape.isBitField = true;
-    }
-  }
-}
-
 struct PreparedDefinition {
   std::string name;
   std::string schema;
-  std::vector<DeclarationShape> shapes;
 };
 
 bool SchemasEqual(std::string_view lhs, std::string_view rhs) {
@@ -186,13 +146,9 @@ void ValidateArrayExtentsForPlatform(std::string_view descriptorName,
 
 PreparedDefinition PrepareDefinition(std::string_view name,
                                      std::string_view schema) {
-  auto parsed = ParseSchema(schema);
-  auto shapes = ParseDeclarationShapes(schema);
-  if (shapes.size() != parsed.declarations.size()) {
-    throw pybind11::value_error("failed to analyze schema declarations");
-  }
+  ParseSchema(schema);
   ValidateArrayExtentsForPlatform(name, schema);
-  return {std::string{name}, std::string{schema}, std::move(shapes)};
+  return {std::string{name}, std::string{schema}};
 }
 
 void ValidateDescriptorLayout(const wpi::util::StructDescriptor& descriptor) {
@@ -256,24 +212,13 @@ void ValidateCompleteDatabaseLayouts(
   }
 }
 
-std::shared_ptr<SchemaDatabaseImpl> BuildStagedDatabase(
+std::shared_ptr<SchemaDatabaseImpl> BuildCandidateDatabase(
     const std::shared_ptr<SchemaDatabaseImpl>& source, std::string_view name,
     std::string_view schema) {
   auto prepared = PrepareDefinition(name, schema);
 
-  bool duplicate = false;
-  if (auto existing = source->definitions.find(name);
-      existing != source->definitions.end()) {
-    if (!SchemasEqual(existing->second, schema)) {
-      throw pybind11::value_error("conflicting schema for " +
-                                  std::string{name});
-    }
-    duplicate = true;
-  }
-
   auto staged = std::make_shared<SchemaDatabaseImpl>();
   staged->definitions = source->definitions;
-  staged->shapes = source->shapes;
   std::string error;
   for (const auto& [definedName, definedSchema] : source->definitions) {
     if (!staged->database->Add(definedName, definedSchema, &error)) {
@@ -281,12 +226,6 @@ std::shared_ptr<SchemaDatabaseImpl> BuildStagedDatabase(
                                   error);
     }
   }
-  if (duplicate) {
-    staged->definitions[prepared.name] = prepared.schema;
-    staged->shapes[prepared.name] = std::move(prepared.shapes);
-    return staged;
-  }
-
   const auto* descriptor = staged->database->Add(name, schema, &error);
   if (!descriptor) {
     throw pybind11::value_error(error);
@@ -295,42 +234,7 @@ std::shared_ptr<SchemaDatabaseImpl> BuildStagedDatabase(
   ValidateDatabaseLayouts(*staged->database, source->definitions,
                           descriptorName);
   staged->definitions.emplace(descriptorName, std::move(prepared.schema));
-  staged->shapes.emplace(std::move(descriptorName), std::move(prepared.shapes));
   return staged;
-}
-
-std::string FieldTypeName(const wpi::util::StructFieldDescriptor& field) {
-  using wpi::util::StructFieldType;
-
-  switch (field.GetType()) {
-    case StructFieldType::BOOL:
-      return "bool";
-    case StructFieldType::CHAR:
-      return "char";
-    case StructFieldType::INT8:
-      return "int8";
-    case StructFieldType::INT16:
-      return "int16";
-    case StructFieldType::INT32:
-      return "int32";
-    case StructFieldType::INT64:
-      return "int64";
-    case StructFieldType::UINT8:
-      return "uint8";
-    case StructFieldType::UINT16:
-      return "uint16";
-    case StructFieldType::UINT32:
-      return "uint32";
-    case StructFieldType::UINT64:
-      return "uint64";
-    case StructFieldType::FLOAT:
-      return "float";
-    case StructFieldType::DOUBLE:
-      return "double";
-    case StructFieldType::STRUCT:
-      return field.GetStruct()->GetName();
-  }
-  return {};
 }
 
 std::string FieldError(const wpi::util::StructFieldDescriptor& field,
@@ -598,18 +502,6 @@ SchemaDescriptor::SchemaDescriptor(std::shared_ptr<SchemaDatabaseImpl> impl,
                                    std::string name)
     : m_impl{std::move(impl)}, m_name{std::move(name)} {}
 
-std::string SchemaDescriptor::GetName() const {
-  return ResolveDescriptor(m_impl, m_name).GetName();
-}
-
-std::string SchemaDescriptor::GetSchema() const {
-  if (auto definition = m_impl->definitions.find(m_name);
-      definition != m_impl->definitions.end()) {
-    return definition->second;
-  }
-  return ResolveDescriptor(m_impl, m_name).GetSchema();
-}
-
 bool SchemaDescriptor::IsValid() const {
   return ResolveDescriptor(m_impl, m_name).IsValid();
 }
@@ -620,41 +512,6 @@ size_t SchemaDescriptor::GetSize() const {
     throw pybind11::value_error("descriptor " + m_name + " is not valid");
   }
   return descriptor.GetSize();
-}
-
-std::vector<SchemaFieldDescriptor> SchemaDescriptor::GetFields() const {
-  const auto& descriptor = ResolveDescriptor(m_impl, m_name);
-  const auto& nativeFields = descriptor.GetFields();
-  const auto shapeIt = m_impl->shapes.find(m_name);
-  if (shapeIt == m_impl->shapes.end()) {
-    if (nativeFields.empty()) {
-      return {};
-    }
-    throw pybind11::value_error(
-        "schema declaration metadata is unavailable for " + m_name);
-  }
-  const auto& shapes = shapeIt->second;
-  if (shapes.size() != nativeFields.size()) {
-    throw pybind11::value_error(
-        "schema declaration metadata is inconsistent for " + m_name);
-  }
-
-  std::vector<SchemaFieldDescriptor> fields;
-  fields.reserve(nativeFields.size());
-  for (size_t index = 0; index < nativeFields.size(); ++index) {
-    const auto& field = nativeFields[index];
-    const auto& shape = shapes[index];
-    std::optional<std::string> structName;
-    if (const auto* nested = field.GetStruct()) {
-      structName = nested->GetName();
-    }
-    fields.emplace_back(
-        field.GetName(), FieldTypeName(field), field.GetSize(),
-        field.GetOffset(), field.GetArraySize(), field.GetBitWidth(),
-        field.GetBitShift(), field.GetBitMask(), field.GetEnumValues(),
-        std::move(structName), shape.isArray, shape.isBitField, shape.isEnum);
-  }
-  return fields;
 }
 
 SchemaDatabase::SchemaDatabase()
@@ -673,12 +530,9 @@ SchemaDescriptor SchemaDatabase::Add(std::string_view name,
     return SchemaDescriptor{m_impl, std::string{name}};
   }
 
-  auto staged = BuildStagedDatabase(m_impl, name, schema);
-  if (staged != m_impl) {
-    m_impl->database = std::move(staged->database);
-    m_impl->definitions = std::move(staged->definitions);
-    m_impl->shapes = std::move(staged->shapes);
-  }
+  auto candidate = BuildCandidateDatabase(m_impl, name, schema);
+  m_impl->database = std::move(candidate->database);
+  m_impl->definitions = std::move(candidate->definitions);
   return SchemaDescriptor{m_impl, std::string{name}};
 }
 
@@ -696,7 +550,6 @@ void SchemaDatabase::AddAll(
 
   auto staged = std::make_shared<SchemaDatabaseImpl>();
   staged->definitions = m_impl->definitions;
-  staged->shapes = m_impl->shapes;
   std::string error;
   for (const auto& [name, schema] : m_impl->definitions) {
     if (!staged->database->Add(name, schema, &error)) {
@@ -722,30 +575,11 @@ void SchemaDatabase::AddAll(
     }
     std::string descriptorName = descriptor->GetName();
     staged->definitions.emplace(descriptorName, std::move(definition.schema));
-    staged->shapes.emplace(std::move(descriptorName),
-                           std::move(definition.shapes));
   }
 
   ValidateCompleteDatabaseLayouts(*staged->database, staged->definitions);
   m_impl->database = std::move(staged->database);
   m_impl->definitions = std::move(staged->definitions);
-  m_impl->shapes = std::move(staged->shapes);
-}
-
-SchemaDatabase SchemaDatabase::Stage(std::string_view name,
-                                     std::string_view schema) const {
-  SchemaDatabase staged;
-  staged.m_impl = BuildStagedDatabase(m_impl, name, schema);
-  return staged;
-}
-
-std::optional<SchemaDescriptor> SchemaDatabase::Find(
-    std::string_view name) const {
-  const auto* descriptor = m_impl->database->Find(name);
-  if (!descriptor) {
-    return std::nullopt;
-  }
-  return SchemaDescriptor{m_impl, descriptor->GetName()};
 }
 
 py::bytes PackSchema(const SchemaDescriptor& desc, const py::sequence& values) {
