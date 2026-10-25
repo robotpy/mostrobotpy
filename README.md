@@ -70,6 +70,14 @@ rebuild an individual package:
 
     ./rdev.sh develop NAME
 
+For cross-checkout ccache reuse with GCC/Clang, opt in with
+`./rdev.sh develop --portable-build-paths NAME` or `RDEV_PORTABLE_BUILD_PATHS=1`.
+This sets `CCACHE_BASEDIR` and appends a `CXXFLAGS` prefix map for build subprocesses;
+`CCACHE_DIR` is unchanged. Use matching toolchains, dependencies, and directory
+layouts. Existing Meson builds may need their `build/` directory recreated.
+Debug and `__FILE__` paths become relative. Disabled by default on all platforms;
+`--no-portable-build-paths` overrides the environment variable.
+
 It can be a slow process, see the [semiwrap documentation](https://semiwrap.readthedocs.io/en/stable/tips.html)
 for tips to make it more efficient.
 

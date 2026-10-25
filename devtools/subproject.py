@@ -68,7 +68,13 @@ class Subproject:
 
         return config_settings
 
-    def develop(self, buildtype: str, jobs: int | None = None):
+    def develop(
+        self,
+        buildtype: str,
+        jobs: int | None = None,
+        *,
+        env: dict[str, str] | None = None,
+    ):
 
         config_settings = [f"setup-args=-Dbuildtype={buildtype}"]
         if jobs is not None:
@@ -86,6 +92,7 @@ class Subproject:
             "--no-build-isolation",
             *config_args,
             cwd=self.path,
+            env=env,
         )
 
     def uninstall(self):

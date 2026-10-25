@@ -1,5 +1,6 @@
 import os
 import pathlib
+import shlex
 import subprocess
 import sys
 
@@ -95,6 +96,12 @@ def regen_generated(ctx: Context):
     metavar="PACKAGE",
     help="Build projects in normal order through PACKAGE, then stop",
 )
+@click.option(
+    "--portable-build-paths/--no-portable-build-paths",
+    default=False,
+    envvar="RDEV_PORTABLE_BUILD_PATHS",
+    help="Normalize GCC/Clang paths for cross-checkout ccache reuse (opt-in).",
+)
 @click.pass_obj
 def develop(
     ctx: Context,
@@ -103,8 +110,19 @@ def develop(
     buildtype: str,
     jobs: int | None,
     stop_at: str,
+    portable_build_paths: bool,
 ):
     """Install robotpy packages in editable mode"""
+    env = None
+    if portable_build_paths:
+        # Normalize only the build subprocess environment; retain the user's
+        # cache location and existing compiler flags.
+        env = os.environ.copy()
+        root = str(ctx.root_path.resolve())
+        env["CCACHE_BASEDIR"] = root
+        prefix_map = shlex.quote(f"-ffile-prefix-map={root}=.")
+        env["CXXFLAGS"] = " ".join(filter(None, [env.get("CXXFLAGS"), prefix_map]))
+
     if stop_at and stop_at not in ctx.subprojects:
         raise click.BadParameter(f"invalid package {stop_at}", param_hint="--stop-at")
 
@@ -114,7 +132,7 @@ def develop(
 
         for project in ctx.subprojects.values():
             if project.name == package:
-                project.develop(buildtype, jobs)
+                project.develop(buildtype, jobs, env=env)
                 if test:
                     project.test()
                 break
@@ -122,7 +140,7 @@ def develop(
             raise click.BadParameter(f"invalid package {package}")
     else:
         for project in ctx.subprojects.values():
-            project.develop(buildtype, jobs)
+            project.develop(buildtype, jobs, env=env)
             if test:
                 project.test()
             if project.name == stop_at:
