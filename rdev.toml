@@ -22,7 +22,7 @@ wrapper = "2027.0.0a7"
 
 [params]
 
-wpilib_bin_version = "2027.0.0-alpha-7"
+wpilib_bin_version = "2027.0.0-alpha-8"
 wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
 # wpilib_bin_url = "https://frcmaven.wpi.edu/artifactory/release"
 
