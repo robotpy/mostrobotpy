@@ -6,34 +6,15 @@ classes:
     methods:
       MecanumDriveKinematics:
       ToWheelVelocities:
-        doc: |
-          Performs inverse kinematics to return the wheel velocities from a desired
-          chassis velocity. This method is often used to convert joystick values into
-          wheel velocities.
-
-          This function also supports variable centers of rotation. During normal
-          operations, the center of rotation is usually the same as the physical
-          center of the robot; therefore, the argument is defaulted to that use case.
-          However, if you wish to change the center of rotation for evasive
-          maneuvers, vision alignment, or for any other use case, you can do so.
-
-          :param chassisVelocities:    The desired chassis velocity.
-          :param centerOfRotation: The center of rotation. For example, if you set the
-                                   center of rotation at one corner of the robot and
-                                   provide a chassis velocity that only has a dtheta
-                                   component, the robot will rotate around that
-                                   corner.
-
-          :returns: The wheel velocities. Use caution because they are not normalized.
-                    Sometimes, a user input may cause one of the wheel velocities to go
-                    above the attainable max velocity. Use the
-                    :meth:`MecanumDriveWheelVelocities.normalize` method to rectify
-                    this issue. In addition, you can use Python unpacking syntax
-                    to directly assign the wheel velocities to variables::
-
-                      fl, fr, bl, br = kinematics.toWheelVelocities(chassisVelocities)
         overloads:
           const ChassisVelocities&, const Translation2d& [const]:
+            doc_code_blocks:
+            - |
+              wheel_velocities = kinematics.to_wheel_velocities(chassis_velocities)
+              fl = wheel_velocities.front_left
+              fr = wheel_velocities.front_right
+              bl = wheel_velocities.rear_left
+              br = wheel_velocities.rear_right
           const ChassisVelocities& [const]:
       ToChassisVelocities:
       ToTwist2d:

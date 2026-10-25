@@ -1,5 +1,21 @@
 classes:
   wpi::math::ExponentialProfile:
+    doc_code_blocks:
+    - |
+      from wpimath import ExponentialProfile
+
+      # Example constraints: 12 V maximum input, kV = 2.0 V/(m/s),
+      # and kA = 0.5 V/(m/s²). Use your mechanism's characterized values.
+      constraints = ExponentialProfile.Constraints.from_characteristics(12.0, 2.0, 0.5)
+      previous_profiled_reference = ExponentialProfile.State(0.0, 0.0)
+      profile = ExponentialProfile(constraints)
+    - |
+      # The goal can change on each update; position is in meters.
+      unprofiled_reference = ExponentialProfile.State(5.0, 0.0)
+      time_since_previous_update = 0.02  # seconds
+      previous_profiled_reference = profile.calculate(
+          time_since_previous_update, previous_profiled_reference, unprofiled_reference
+      )
     force_type_casters:
     - wpi::units::meters_per_second_t
     template_params:
