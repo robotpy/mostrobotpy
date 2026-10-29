@@ -30,6 +30,10 @@ classes:
           However, if you wish to change the center of rotation for evasive
           maneuvers, vision alignment, or for any other use case, you can do so.
 
+          In the case that the desired chassis velocities are zero (i.e. the robot
+          will be stationary), the previously calculated module angle will be
+          maintained.
+
           :param chassis_velocities: The desired chassis velocity.
           :param center_of_rotation: The center of rotation. For example, if you set the
            center of rotation at one corner of the robot and provide a chassis velocity
