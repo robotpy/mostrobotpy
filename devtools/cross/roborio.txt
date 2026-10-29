@@ -1,0 +1,17 @@
+[binaries]
+c = ['ccache', 'arm-frc2025-linux-gnueabi-gcc']
+cpp = ['ccache', 'arm-frc2025-linux-gnueabi-g++']
+ar = 'arm-frc2025-linux-gnueabi-ar'
+strip = 'arm-frc2025-linux-gnueabi-strip'
+gfortran = 'arm-frc2025-linux-gnueabi-gfortran'
+
+pkg-config = '/build/venv/cross/bin/pkgconf-pypi'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'arm'
+cpu = 'armv7l'
+endian = 'little'
+
+[properties]
+longdouble_format = 'IEEE_DOUBLE_LE'

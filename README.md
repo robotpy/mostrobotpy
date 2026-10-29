@@ -46,8 +46,7 @@ Then run these commands to build all the wheels for the current operating system
 
 All the resulting wheels are in `dist`, which can be installed using `pip`.
 
-To build wheels for the robot platform, you need to use a crossenv docker image.
-See `.github/workflows/dist.yml` for details.
+To build wheels for the robot platform, see Cross Compilation below.
 
 Development environment
 -----------------------
@@ -84,7 +83,31 @@ for tips to make it more efficient.
 Cross Compilation
 -----------------
 
-We only support cross-compiling for RoboRIO and raspbian via the WPILib
-docker build containers. See `.github/workflows/dist.yml`'s `cross-build`
-job for the name of the containers and the steps that must be run inside
-the container.
+Build SystemCore wheels using the same Docker image and build steps as CI:
+
+    ./rdev.sh cross-build --output wheels
+
+Docker must be running, and the host Python needs `rdev_requirements.txt`.
+The current image is `wpilib/systemcore-cross-debian:2026-trixie-py315`.
+Use `--buildtype=debug` to request a debug Meson build.
+
+The command copies tracked and non-ignored untracked sources, including local
+edits, into an isolated workspace. Build directories, caches, and the local
+`build-actions` checkout are excluded. Existing desktop build artifacts are
+unaffected. Relative output paths are relative to this repository, as with other
+`rdev.sh` commands.
+The repository's `wheels/` directory is ignored by Git; an absolute output path
+can also be used.
+
+Native, pure-Python, and wrapper wheels are copied to the output directory only
+after a successful build. Matching filenames are replaced; other files are left
+alone. Cross-compiled tests are not run, matching CI.
+
+Compiler, pip, and artifact downloads persist in the Docker volume
+`rdev-systemcore-cache`. The cross files use ccache, whose statistics are printed
+at the end of the build. Wheels are exported with the invoking user's ownership.
+The container requires network access to install tools and download dependencies.
+
+CI and local builds share `devtools/cross/setup.sh` and `build.sh`. The setup and
+cross files originate from `robotpy/build-actions/setup-cross-meson@v2027`;
+update them together when changing toolchains.
