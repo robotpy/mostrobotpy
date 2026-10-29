@@ -11,16 +11,10 @@ classes:
     - Distance
     doc_code_blocks:
     - |
-      from wpimath import TrapezoidProfile
-
-      # Example maximum velocity and acceleration; use your mechanism's limits.
-      constraints = TrapezoidProfile.Constraints(3.0, 2.0)
-      previous_profiled_reference = TrapezoidProfile.State(0.0, 0.0)
+      constraints = TrapezoidProfile.Constraints(MAX_V, MAX_A)
+      previous_profiled_reference = TrapezoidProfile.State(initial_reference, 0.0)
       profile = TrapezoidProfile(constraints)
     - |
-      # The goal can change on each update.
-      unprofiled_reference = TrapezoidProfile.State(5.0, 0.0)
-      time_since_previous_update = 0.02  # seconds
       previous_profiled_reference = profile.calculate(
           time_since_previous_update, previous_profiled_reference, unprofiled_reference
       )
