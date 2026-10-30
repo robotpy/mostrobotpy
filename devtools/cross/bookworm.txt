@@ -1,0 +1,17 @@
+[binaries]
+c = ['ccache', 'armv6-bookworm-linux-gnueabihf-gcc']
+cpp = ['ccache', 'armv6-bookworm-linux-gnueabihf-g++']
+ar = 'armv6-bookworm-linux-gnueabihf-ar'
+strip = 'armv6-bookworm-linux-gnueabihf-strip'
+gfortran = 'armv6-bookworm-linux-gnueabihf-gfortran'
+
+pkg-config = '/build/venv/cross/bin/pkgconf-pypi'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'arm'
+cpu = 'armv6'
+endian = 'little'
+
+[properties]
+longdouble_format = 'IEEE_DOUBLE_LE'
