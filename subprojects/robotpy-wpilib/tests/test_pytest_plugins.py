@@ -1,7 +1,13 @@
+import multiprocessing
 import pathlib
 import sys
 
 import pytest
+
+from wpilib.testing.pytest_isolated_tests_plugin import (
+    IsolatedTestJob,
+    IsolatedTestsPlugin,
+)
 
 from pytest_plugin_test_helpers import (
     _configure_isolated_plugin,
@@ -41,6 +47,55 @@ def test_robot_failure(robot):
             "*checked failure output*",
         ]
     )
+
+
+@pytest.mark.parametrize("worker_exit_code", [None, 0, 1])
+def test_isolated_plugin_cleanup_waits_for_termination(worker_exit_code):
+    # Model delayed OS termination, keeping Process.join/close real so closing
+    # a still-running process raises the same ValueError as it does on Windows.
+    class DelayedTerminationPopen:
+        pid = 12345
+        returncode = None
+        killed = False
+
+        def poll(self):
+            return self.returncode
+
+        def kill(self):
+            self.killed = True
+
+        def wait(self, timeout=None):
+            assert self.killed, "cleanup must kill the worker before waiting"
+            if timeout is None:
+                self.returncode = -15
+            # A timed-out join returns without raising TimeoutError.
+            return self.returncode
+
+        def close(self):
+            pass
+
+    process = multiprocessing.Process()
+    process._popen = DelayedTerminationPopen()
+    process._sentinel = object()
+    conn, peer = multiprocessing.Pipe()
+    job = IsolatedTestJob(
+        item=None,
+        conn=conn,
+        process=process,
+        start_time=0,
+        exit_code=worker_exit_code,
+    )
+    plugin = IsolatedTestsPlugin(None, pathlib.Path("robot.py"), False, False, 1)
+
+    try:
+        plugin._cleanup_job(job)
+        assert conn.closed
+        assert process._closed
+        # Cleanup must not replace a reported pytest status with the kill status.
+        assert job.exit_code == (-15 if worker_exit_code is None else worker_exit_code)
+    finally:
+        conn.close()
+        peer.close()
 
 
 def test_isolated_plugin_process_and_output(pytester):
@@ -222,6 +277,91 @@ def test_robot_two(robot):
     assert (
         sum(1 for line in result.outlines if line.startswith("test_isolated.py")) == 1
     )
+
+
+@pytest.mark.parametrize(
+    "interrupt",
+    [
+        "raise KeyboardInterrupt('worker interruption detail')",
+        "pytest.exit('worker interruption detail')",
+    ],
+)
+def test_isolated_plugin_reports_worker_interruption_details(pytester, interrupt):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    pytester.makepyfile(test_isolated=f"""
+import pathlib
+import pytest
+
+
+def interrupt_worker():
+    {interrupt}
+
+
+def test_robot_interrupt(robot):
+    interrupt_worker()
+
+
+def test_later_robot(robot):
+    pathlib.Path("later-robot-ran").touch()
+""")
+
+    result = pytester.runpytest_subprocess("-v")
+
+    assert result.ret == pytest.ExitCode.INTERRUPTED
+    result.stdout.fnmatch_lines(
+        [
+            "*test_isolated.py::test_robot_interrupt*",
+            "*interrupt_worker*",
+            "*worker interruption detail*",
+        ]
+    )
+    assert not (pytester.path / "later-robot-ran").exists()
+
+
+@pytest.mark.parametrize(
+    "error_in_target, args, exit_code, passed",
+    [
+        (True, [], pytest.ExitCode.TESTS_FAILED, 0),
+        (True, ["--show-capture=no"], pytest.ExitCode.TESTS_FAILED, 0),
+        (False, ["."], pytest.ExitCode.INTERRUPTED, 0),
+        (
+            False,
+            [".", "--continue-on-collection-errors"],
+            pytest.ExitCode.TESTS_FAILED,
+            1,
+        ),
+    ],
+)
+def test_isolated_plugin_reports_worker_collection_details(
+    pytester, error_in_target, args, exit_code, passed
+):
+    _make_robot_module(pytester)
+    _configure_isolated_plugin(pytester)
+    collection_error = """
+import multiprocessing
+
+if multiprocessing.parent_process() is not None:
+    raise RuntimeError("worker collection detail")
+"""
+    test_source = """
+def test_robot(robot):
+    assert robot.did_init
+"""
+    if error_in_target:
+        test_source = collection_error + test_source
+    else:
+        pytester.makepyfile(test_collection_error=collection_error)
+    pytester.makepyfile(test_isolated=test_source)
+
+    result = pytester.runpytest_subprocess("-v", *args)
+
+    assert result.ret == exit_code
+    result.assert_outcomes(errors=1, passed=passed)
+    output = result.stdout.str()
+    assert "RuntimeError: worker collection detail" in output
+    assert "Running test_isolated.py::test_robot" in output
+    assert "subprocess exited with exit code" not in output
 
 
 def test_isolated_plugin_reports_worker_collection_exit(pytester):
