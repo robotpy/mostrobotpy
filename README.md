@@ -83,7 +83,7 @@ for tips to make it more efficient.
 Cross Compilation
 -----------------
 
-Build SystemCore wheels using the same Docker image and build steps as CI:
+Build Systemcore wheels using the same Docker image and build steps as CI:
 
     ./rdev.sh cross-build --output wheels
 
