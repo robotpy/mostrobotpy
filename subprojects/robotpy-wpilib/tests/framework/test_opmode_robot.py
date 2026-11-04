@@ -1703,7 +1703,6 @@ def periodic_robot_test_fixture():
     robot_thread.join()
 
 
-@pytest.mark.xfail(reason="wpilib bug")
 def test_none_periodic(periodic_robot_test_fixture):
     robot = periodic_robot_test_fixture
 
