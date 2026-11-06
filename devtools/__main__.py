@@ -9,6 +9,7 @@ import click
 from .ctx import Context
 from . import ci
 from . import examples
+from .cross_build import cross_build
 
 #
 # Environment variables for configuring the builds
@@ -36,6 +37,7 @@ def main(ctx: click.Context, verbose: bool):
 
 main.add_command(ci.ci)
 main.add_command(examples.test_examples)
+main.add_command(cross_build)
 
 
 @main.command("update-pyproject")

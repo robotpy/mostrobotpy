@@ -1,0 +1,18 @@
+[binaries]
+c = ['ccache', 'aarch64-systemcore2027-linux-gnu-gcc']
+cpp = ['ccache', 'aarch64-systemcore2027-linux-gnu-g++']
+ar = 'aarch64-systemcore2027-linux-gnu-ar'
+strip = 'aarch64-systemcore2027-linux-gnu-strip'
+gfortran = 'aarch64-systemcore2027-linux-gnu-gfortran'
+
+pkg-config = '/build/venv/cross/bin/pkgconf-pypi'
+
+[host_machine]
+system = 'linux'
+cpu_family = 'arm'
+cpu = 'aarch64'
+endian = 'little'
+
+[built-in options]
+c_args = ['-Wno-psabi']
+cpp_args = ['-Wno-psabi']

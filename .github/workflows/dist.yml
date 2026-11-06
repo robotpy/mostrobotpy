@@ -355,7 +355,7 @@ jobs:
         fetch-depth: 0
 
     - name: Setup cross environment for meson
-      uses: robotpy/build-actions/setup-cross-meson@v2027
+      run: bash devtools/cross/setup.sh
 
     - name: Install deps
       shell: bash
@@ -365,7 +365,7 @@ jobs:
     - name: Build + test wheels
       shell: bash
       run: |
-        /build/venv/bin/cross-python -m devtools ci build-other-wheels --no-test
+        bash devtools/cross/build.sh other
 
     - uses: actions/upload-artifact@v7
       with:
@@ -397,7 +397,7 @@ jobs:
         path: dist-other
 
     - name: Setup cross environment for meson
-      uses: robotpy/build-actions/setup-cross-meson@v2027
+      run: bash devtools/cross/setup.sh
 
     - run: apt-get update
     - name: Setup ccache
@@ -414,7 +414,7 @@ jobs:
     - name: Build wheels
       shell: bash
       run: |
-        /build/venv/bin/cross-python -m devtools ci build-meson-wheels --no-test --cross=cross.txt
+        bash devtools/cross/build.sh meson
 
 
     - uses: actions/upload-artifact@v7
