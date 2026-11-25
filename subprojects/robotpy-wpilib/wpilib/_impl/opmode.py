@@ -1,20 +1,21 @@
 from __future__ import annotations
 
 import ast
+import importlib
+import inspect
+import sys
+import tokenize
 from collections.abc import Callable
 from dataclasses import dataclass
 from functools import partial
-import importlib
 from importlib.machinery import PathFinder
-import inspect
 from pathlib import Path
-import sys
-import tokenize
 from typing import TypeVar
 
 from hal import RobotMode
 from wpiutil import Color
-from wpilib._wpilib import OpMode, OpModeRobotBase, RobotState
+
+from wpilib._wpilib import OpMode, OpModeRobotBase, RobotBase, RobotState
 
 from .report_error import report_error
 
@@ -313,7 +314,7 @@ def _import_candidates(
 
 
 def register_opmode(
-    robot: OpModeRobotBase,
+    robot: RobotBase,
     opmode_cls: type,
     mode: RobotMode,
     name: str,
@@ -324,11 +325,8 @@ def register_opmode(
     *,
     add_factory: Callable[..., None] | None = None,
 ) -> None:
-    # Discovery runs before the subclass constructor has finished. Use the
-    # native registration method unless an explicit manual call supplies its
-    # own factory registration method.
     if add_factory is None:
-        add_factory = partial(OpModeRobotBase.add_opmode_factory, robot)
+        add_factory = _get_opmode_factory(robot)
 
     def make_opmode_instance() -> OpMode:
         # Try to instantiate with robot argument first.
@@ -370,7 +368,24 @@ def _invalid_metadata(metadata: OpModeMetadata) -> str | None:
     return None
 
 
-def discover_and_register(robot: OpModeRobotBase) -> None:
+def _get_opmode_factory(robot: RobotBase) -> Callable[..., None]:
+    if isinstance(robot, OpModeRobotBase):
+        # Discovery runs before OpModeRobot subclasses finish initialization.
+        return partial(OpModeRobotBase.add_opmode_factory, robot)
+
+    add_factory = getattr(robot, "add_opmode_factory", None)
+    if not callable(add_factory):
+        raise TypeError(
+            "robot must be an OpModeRobotBase or implement add_opmode_factory"
+        )
+    return add_factory
+
+
+def discover_and_register(
+    robot: RobotBase, add_factory: Callable[..., None] | None = None
+) -> None:
+    if not add_factory:
+        add_factory = _get_opmode_factory(robot)
     robot_source = Path(inspect.getfile(type(robot)))
     package_dir = robot_source.parent / "opmodes"
     if package_dir.is_dir():
@@ -419,6 +434,7 @@ def discover_and_register(robot: OpModeRobotBase) -> None:
                 metadata.description,
                 metadata.text_color,
                 metadata.background_color,
+                add_factory=add_factory,
             )
         except Exception as exc:
             report_error(
