@@ -15,6 +15,15 @@ def table2(nt):
     return nt.get_table("/test2")
 
 
+@pytest.mark.parametrize("method", ["put_value", "set_default_value"])
+@pytest.mark.parametrize("value", [True, False, 0, 1, -7, 0.0, 35.5])
+def test_value_scalar_overloads(table1, method, value):
+    assert getattr(table1, method)("scalar", value)
+    result = table1.get_value("scalar", None)
+    assert type(result) is (bool if isinstance(value, bool) else float)
+    assert result == value
+
+
 def test_put_double(table1):
     table1.put_number("double", 42.42)
     assert table1.get_number("double", None) == 42.42
