@@ -192,6 +192,8 @@ classes:
           .format(self.listener, self.flags, self.data);
       })
   wpi::nt::PubSubOptions:
+    # Used as a default argument; field reprs are not valid stub expressions.
+    auto_repr: false
     force_no_default_constructor: true
     attributes:
       DEFAULT_PERIODIC:

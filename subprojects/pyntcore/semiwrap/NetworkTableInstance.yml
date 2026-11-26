@@ -31,6 +31,7 @@ classes:
         inline_code: |
           .value("STARTING", (wpi::nt::NetworkTableInstance::NetworkMode)NT_NET_MODE_STARTING)
       LogLevel:
+        arithmetic: true
         value_prefix: LEVEL_
     methods:
       NetworkTableInstance:
