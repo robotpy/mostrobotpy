@@ -8,7 +8,6 @@ import pickle
 import signal
 import sys
 import time
-import typing as T
 
 import pytest
 
@@ -229,7 +228,7 @@ class IsolatedTestsPlugin(OpModeTestingPlugin):
 
     def __init__(
         self,
-        robot_class: T.Type[wpilib.RobotBase],
+        robot_class: type[wpilib.RobotBase],
         robot_file: pathlib.Path,
         builtin_tests: bool,
         verbose: bool,
@@ -390,7 +389,7 @@ class IsolatedTestsPlugin(OpModeTestingPlugin):
                 if not job.conn.poll():
                     break
                 callname, kwargs = job.conn.recv()
-            except (IOError, EOFError) as e:
+            except (OSError, EOFError) as e:
                 job.finished = True
                 break
 

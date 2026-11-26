@@ -26,7 +26,7 @@ def _normalize_cpp_type(type_name: str) -> str:
     return " ".join(type_name.split())
 
 
-def _find_struct_specializations(text: str) -> T.List[str]:
+def _find_struct_specializations(text: str) -> list[str]:
     """Find concrete wpi::util::Struct<T> specializations in C++ text."""
     types = []
     for match in _STRUCT_SPECIALIZATION_RE.finditer(text):
@@ -43,7 +43,7 @@ def _find_struct_specializations(text: str) -> T.List[str]:
 
 def _struct_header_to_owner_header(
     header: pathlib.Path, include_root: pathlib.Path
-) -> T.Optional[str]:
+) -> str | None:
     """Map wpi/foo/struct/BarStruct.hpp to wpi/foo/Bar.hpp."""
     rel_parts = header.relative_to(include_root).parts
     if len(rel_parts) < 2 or rel_parts[-2] != "struct":
@@ -65,7 +65,7 @@ def _has_setup_wpistruct(yaml_path: pathlib.Path, type_name: str) -> bool:
     return f"SetupWPyStruct<{compact_type}>" in compact
 
 
-def _native_include_roots(project) -> T.List[pathlib.Path]:
+def _native_include_roots(project) -> list[pathlib.Path]:
     native_root = project.path / "src" / "native"
     if not native_root.exists():
         return []
@@ -83,9 +83,9 @@ def _iter_native_headers(include_root: pathlib.Path) -> T.Iterator[pathlib.Path]
 
 def _collect_wpistruct_checks(
     ctx: Context,
-) -> T.List[T.Tuple[str, pathlib.Path, str, pathlib.Path, bool]]:
-    checks: T.List[T.Tuple[str, pathlib.Path, str, pathlib.Path, bool]] = []
-    seen: T.Set[T.Tuple[str, pathlib.Path, str, pathlib.Path]] = set()
+) -> list[tuple[str, pathlib.Path, str, pathlib.Path, bool]]:
+    checks: list[tuple[str, pathlib.Path, str, pathlib.Path, bool]] = []
+    seen: set[tuple[str, pathlib.Path, str, pathlib.Path]] = set()
 
     for project in ctx.subprojects.values():
         if not getattr(project, "is_semiwrap_project", lambda: False)():
@@ -152,7 +152,7 @@ def _collect_wpistruct_checks(
 
 def _collect_missing_wpistructs(
     ctx: Context,
-) -> T.List[T.Tuple[str, pathlib.Path, str, pathlib.Path]]:
+) -> list[tuple[str, pathlib.Path, str, pathlib.Path]]:
     return [
         (project_name, yaml_path, type_name, struct_header)
         for project_name, yaml_path, type_name, struct_header, found in _collect_wpistruct_checks(

@@ -1,6 +1,5 @@
 import shlex
 import subprocess
-import sys
 import typing
 
 from validobj import errors
@@ -37,13 +36,13 @@ def _convert_validation_error(fname, ve: errors.ValidationError) -> ValidationEr
     return ValidationError(vmsg)
 
 
-def parse_input(value: typing.Any, spec: typing.Type[T], fname) -> T:
+def parse_input(value: typing.Any, spec: type[T], fname) -> T:
     try:
         return validobj.validation.parse_input(value, spec)
     except errors.ValidationError as ve:
         raise _convert_validation_error(fname, ve) from None
 
 
-def run_cmd(*args: str, cwd=None, check=True):
+def run_cmd(*args: str, cwd=None, check=True, env=None):
     print("+", shlex.join(args))
-    return subprocess.run(args, cwd=cwd, check=check)
+    return subprocess.run(args, cwd=cwd, check=check, env=env)

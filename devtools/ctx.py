@@ -3,7 +3,6 @@ import pathlib
 import subprocess
 import sys
 import sysconfig
-import typing as T
 
 import toposort
 
@@ -30,7 +29,7 @@ class Context:
         self.wheel_path = self.root_path / "dist"
         self.other_wheel_path = self.root_path / "dist-other"
 
-        subprojects: T.List[Subproject] = []
+        subprojects: list[Subproject] = []
         for project, cfg in self.cfg.subprojects.items():
             # Skip projects that aren't compatible with the robot
             if self.is_robot and not cfg.robot:
@@ -163,10 +162,14 @@ class Context:
             subproject.pyproject_name,
         )
 
-    def run_pip(self, *args: str, cwd=None, installing_build_deps: bool = False):
+    def run_pip(
+        self, *args: str, cwd=None, installing_build_deps: bool = False, env=None
+    ):
         if installing_build_deps:
             python = self.build_python
         else:
             python = self.python
 
-        run_cmd(python, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd)
+        run_cmd(
+            python, "-m", "pip", "--disable-pip-version-check", *args, cwd=cwd, env=env
+        )

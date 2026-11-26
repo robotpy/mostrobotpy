@@ -10,7 +10,7 @@ import inspect
 from pathlib import Path
 import sys
 import tokenize
-from typing import Any, TypeVar
+from typing import TypeVar
 
 from hal import RobotMode
 from wpiutil import Color
@@ -214,7 +214,9 @@ def _resolved_origin(module_name: str) -> Path | None:
         else:
             try:
                 spec = PathFinder.find_spec(current_name, search_path)
-            except KeyError:
+            except (KeyError, ModuleNotFoundError):
+                # Namespace packages require their parent in sys.modules.
+                # Python 3.15 wraps the KeyError in ModuleNotFoundError.
                 namespace_paths = [
                     str(Path(entry) / parts[index])
                     for entry in (search_path or sys.path)

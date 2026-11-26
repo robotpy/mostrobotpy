@@ -9,7 +9,7 @@ from pathlib import Path
 
 
 def check_file_content(file_path):
-    with open(file_path, "r") as file:
+    with open(file_path) as file:
         lines = file.readlines()
 
         if file.name.endswith("robot.py"):

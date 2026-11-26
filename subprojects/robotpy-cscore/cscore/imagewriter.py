@@ -46,7 +46,7 @@ class ImageWriter:
         *,
         location_root="/media/sda1/camera",
         capture_period=0.5,
-        image_format="jpg"
+        image_format="jpg",
     ):
         """
         :param location_root: Directory to write images to. A subdirectory

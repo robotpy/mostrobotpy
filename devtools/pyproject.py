@@ -135,10 +135,10 @@ class PyprojectRenderer:
             text = tomlkit.dumps(data)
             return RenderedProject(path, path.parent / "pyproject.toml", data, text)
 
-    def render_all(self) -> T.Dict[str, RenderedProject]:
+    def render_all(self) -> dict[str, RenderedProject]:
         return {name: self._render(name) for name in self.cfg.subprojects}
 
-    def validate_templates(self) -> T.List[str]:
+    def validate_templates(self) -> list[str]:
         errors = []
 
         def check(path, field, actual, expected):
